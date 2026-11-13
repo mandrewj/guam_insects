@@ -29,6 +29,11 @@ AREA_PATTERNS = [
     ("FM", r"\b(Caroline|Yap|Truk|Chuuk|Ponape|Pohnpei|Kosrae|Kusaie)\b"),
 ]
 HEXAPOD_CLASSES = {"Insecta", "Collembola", "Protura", "Diplura"}
+# GBIF's dataset search is full text: "Yap" alone returns 3,000 datasets, nearly all about
+# somewhere else. Only a title that names the region is fetched (one request per dataset).
+REGION_TITLE = re.compile(r"\b(Guam|Micronesia\w*|Marianas?|Mariana Is\w*|Palau|Belau|Caroline|"
+                          r"Carolines|Marshall Is\w*|Saipan|Tinian|Rota|Pagan|Yap|Truk|Chuuk|"
+                          r"Ponape|Pohnpei|Kosrae|Kusaie|Ulithi|Bonin|Oceania)\b", re.I)
 NAME_RANKS = {"SPECIES", "SUBSPECIES", "VARIETY", "GENUS"}
 
 
@@ -69,6 +74,8 @@ def sweep(conn, client: ApiClient) -> dict[str, int]:
     rows, presence = [], {}
     sources = []
     for ds in datasets.values():
+        if not REGION_TITLE.search(ds["title"]):
+            continue
         names = [u for u in usages(client, ds["key"])
                  if u.get("class") in HEXAPOD_CLASSES and u.get("rank") in NAME_RANKS
                  and u.get("nubKey")]
@@ -88,8 +95,7 @@ def sweep(conn, client: ApiClient) -> dict[str, int]:
     with conn:
         conn.execute("DELETE FROM checklist_sources WHERE source = 'plazi'")
         conn.execute("DELETE FROM checklist_names WHERE source = 'plazi'")
-        conn.execute("DELETE FROM taxon_presence WHERE source = 'literature' "
-                     "AND citation = 'plazi'")
+        conn.execute("DELETE FROM taxon_presence WHERE source = 'plazi'")
         conn.executemany(
             "INSERT INTO checklist_sources (dataset_key, source, title, citation, areas, "
             "license, doi, fetched_at) VALUES (?, 'plazi', ?, ?, ?, ?, ?, ?)",
@@ -100,7 +106,7 @@ def sweep(conn, client: ApiClient) -> dict[str, int]:
         # records = how many digitised papers list the taxon for the area
         conn.executemany(
             "INSERT INTO taxon_presence (taxon_id, area, source, records, citation, fetched_at) "
-            "VALUES (?, ?, 'literature', ?, 'plazi', ?) ON CONFLICT (taxon_id, area, source) "
+            "VALUES (?, ?, 'plazi', ?, 'plazi', ?) ON CONFLICT (taxon_id, area, source) "
             "DO UPDATE SET records = excluded.records",
             [(k, a, n, stamp) for (k, a), n in presence.items()])
     stats["names"] = len(rows)

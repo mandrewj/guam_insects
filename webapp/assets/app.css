@@ -373,6 +373,7 @@ table.presence tr.r-mh th:first-child { color: var(--mh); }
 }
 ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { font-style: normal; }
 .lit-areas { margin-left: 4px; }
+.lit-snip { margin: 6px 0 0; padding: 6px 10px; border-left: 3px solid var(--line); color: var(--muted); font-size: 0.88rem; }
 .hero-title { font: 700 1.7rem/1.2 var(--font); margin: 0 0 10px; }
 .hero-sub { color: var(--muted); font-weight: 500; }
 .curated-note { margin-bottom: 14px; }

@@ -158,6 +158,81 @@ def cmd_serve(args) -> int:
     return server.serve(config.SITE_DIR / args.target, args.port)
 
 
+def cmd_library(args) -> int:
+    """Rebuild sources/library.csv (citations for every PDF; hand-checked rows are kept)."""
+    from . import library
+
+    print(", ".join(f"{k} {v}" for k, v in library.build().items()))
+    return 0
+
+
+def cmd_pdftext(args) -> int:
+    """Extract per-page text from every PDF in literature/ (OCR where a page is a scan)."""
+    from . import pdftext
+
+    n = pdftext.extract_all(args.workers)
+    print(f"{n} PDFs have text in {pdftext.TEXT_DIR}")
+    return 0
+
+
+def cmd_literature(args) -> int:
+    """Find names and island records in the PDF text; GBIF-match literature-only names."""
+    from . import literature
+
+    conn = db.connect()
+    literature.scan(conn)
+    if not args.no_match:
+        stats = literature.match_candidates(conn, gbif_client())
+        print("candidates: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
+    print(f"{literature.presence_rows(conn)} taxon-area rows from the library")
+    return 0
+
+
+def cmd_wikidata(args) -> int:
+    """Wikidata cross-links by GBIF key: Wikipedia, iNat, BugGuide ids, IUCN, common names."""
+    from .enrich import wikidata
+
+    stats = wikidata.sweep(db.connect(), refresh=args.refresh)
+    print(", ".join(f"{k} {v}" for k, v in stats.items()))
+    return 0
+
+
+def cmd_wikipedia(args) -> int:
+    """English Wikipedia text for taxa Wikidata links to an article (CC BY-SA)."""
+    from .enrich import wikitext
+
+    stats = wikitext.fetch(db.connect(), args.limit)
+    print(", ".join(f"{k} {v}" for k, v in stats.items()))
+    return 0
+
+
+def cmd_bugguide(args) -> int:
+    """BugGuide links for our taxa from entobase's database (read-only; BugGuide not fetched)."""
+    from .enrich import entobase
+
+    print(", ".join(f"{k} {v}" for k, v in entobase.sync(db.connect()).items()))
+    return 0
+
+
+def cmd_photos(args) -> int:
+    """Photo candidates (Commons, iNaturalist), selection with borrowing, 200 px thumbnails."""
+    from .enrich import photos
+    from .enrich.http import ApiClient
+
+    conn = db.connect()
+    if "commons" in args.steps:
+        print("commons: " + ", ".join(f"{k} {v}" for k, v in photos.commons_sweep(conn).items()))
+    if "inat" in args.steps:
+        inat = ApiClient(photos.INAT, 1.0)
+        print("inat: " + ", ".join(f"{k} {v}" for k, v in
+                                   photos.inat_taxon_sweep(conn, inat).items()))
+    if "select" in args.steps:
+        print("select: " + ", ".join(f"{k} {v}" for k, v in photos.select(conn).items()))
+    if "thumbs" in args.steps:
+        print("thumbs: " + ", ".join(f"{k} {v}" for k, v in photos.thumbs(conn).items()))
+    return 0
+
+
 def cmd_stats(args) -> int:
     conn = db.connect()
     for r in conn.execute("SELECT rank, COUNT(*) n, SUM(hidden) h FROM taxa GROUP BY rank "
@@ -201,6 +276,26 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("target", nargs="?", default="local", choices=["public", "local"])
     p.add_argument("--port", type=int, default=8765)
     p.set_defaults(func=cmd_serve)
+    p = sub.add_parser("library", help=cmd_library.__doc__)
+    p.set_defaults(func=cmd_library)
+    p = sub.add_parser("pdftext", help=cmd_pdftext.__doc__)
+    p.add_argument("--workers", type=int, default=4)
+    p.set_defaults(func=cmd_pdftext)
+    p = sub.add_parser("literature", help=cmd_literature.__doc__)
+    p.add_argument("--no-match", action="store_true", help="skip GBIF matching of new names")
+    p.set_defaults(func=cmd_literature)
+    p = sub.add_parser("wikidata", help=cmd_wikidata.__doc__)
+    p.add_argument("--refresh", action="store_true")
+    p.set_defaults(func=cmd_wikidata)
+    p = sub.add_parser("wikipedia", help=cmd_wikipedia.__doc__)
+    p.add_argument("--limit", type=int)
+    p.set_defaults(func=cmd_wikipedia)
+    p = sub.add_parser("bugguide", help=cmd_bugguide.__doc__)
+    p.set_defaults(func=cmd_bugguide)
+    p = sub.add_parser("photos", help=cmd_photos.__doc__)
+    p.add_argument("steps", nargs="*", default=["commons", "inat", "select", "thumbs"],
+                   choices=["commons", "inat", "select", "thumbs"])
+    p.set_defaults(func=cmd_photos)
     p = sub.add_parser("stats", help="counts by rank and area")
     p.set_defaults(func=cmd_stats)
     args = ap.parse_args(argv)

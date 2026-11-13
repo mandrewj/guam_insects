@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS gbif_taxa (
 CREATE TABLE IF NOT EXISTS taxon_presence (
   taxon_id   INTEGER NOT NULL,             -- a GBIF key, or a curated id for evidence rows
   area       TEXT NOT NULL,                -- GU, MP, PW, FM, MH (island codes later)
-  source     TEXT NOT NULL,                -- gbif | inat | literature | curated
+  source     TEXT NOT NULL,                -- gbif | inat | plazi | pdf | curated
   records    INTEGER,
   first_year INTEGER,
   last_year  INTEGER,
@@ -87,3 +87,49 @@ CREATE TABLE IF NOT EXISTS checklist_names (
   dataset_key TEXT, source TEXT NOT NULL, usage_key INTEGER, nub_key INTEGER, name TEXT,
   rank TEXT, PRIMARY KEY (dataset_key, usage_key));
 CREATE INDEX IF NOT EXISTS checklist_names_nub ON checklist_names(nub_key);
+
+-- PDF library: what literature.scan finds. Rebuilt on every scan; decisions survive in
+-- curation/pdf_decisions.csv. snippet is for the local build only (never published).
+CREATE TABLE IF NOT EXISTS pdf_mentions (
+  mention_id INTEGER PRIMARY KEY, taxon_id INTEGER, file TEXT, page INTEGER, name_found TEXT,
+  method TEXT,                             -- text | ocr | abbrev
+  kind TEXT,                               -- heading (a species section) | mention
+  areas TEXT, islands TEXT,                -- from the section, regional documents only
+  snippet TEXT, decision TEXT NOT NULL DEFAULT 'pending', created_at TEXT,
+  UNIQUE (taxon_id, file, page, name_found, kind));
+CREATE INDEX IF NOT EXISTS pdf_mentions_taxon ON pdf_mentions(taxon_id);
+CREATE TABLE IF NOT EXISTS pdf_candidates (  -- heading names not in the tree
+  candidate_id INTEGER PRIMARY KEY, name TEXT, file TEXT, page INTEGER, areas TEXT,
+  islands TEXT, snippet TEXT, gbif_key INTEGER, decision TEXT NOT NULL DEFAULT 'pending',
+  created_at TEXT);
+CREATE INDEX IF NOT EXISTS pdf_candidates_name ON pdf_candidates(name);
+
+-- Wikidata (CC0) by GBIF key. A row with qid NULL means "asked, no item".
+CREATE TABLE IF NOT EXISTS wikidata_taxa (
+  gbif_key INTEGER PRIMARY KEY, qid TEXT, name TEXT, inat_id TEXT, bugguide_id TEXT,
+  iucn TEXT, image TEXT, article TEXT, commons TEXT,
+  confidence TEXT,                         -- high (P225 = our name) | review
+  fetched_at TEXT);
+
+CREATE TABLE IF NOT EXISTS wikipedia_articles (
+  taxon_id INTEGER PRIMARY KEY, title TEXT, url TEXT, revid INTEGER, rev_timestamp TEXT,
+  html TEXT, text TEXT, fetched_at TEXT, lead_only INTEGER NOT NULL DEFAULT 0);
+
+-- BugGuide nodes for our GBIF keys, from entobase's database (read-only) or Wikidata P2464.
+CREATE TABLE IF NOT EXISTS bugguide_links (
+  gbif_key INTEGER PRIMARY KEY, bugguide_id INTEGER, name TEXT, rank TEXT, confidence TEXT,
+  source TEXT, fetched_at TEXT);
+
+-- Photos (hotlinked from their hosts; only a small thumbnail is stored, data/media/thumbs).
+CREATE TABLE IF NOT EXISTS photos (
+  photo_id TEXT PRIMARY KEY,               -- 'inat:12345' | 'commons:File name.jpg'
+  source TEXT, page_url TEXT, display_url TEXT, thumb_url TEXT, license_code TEXT,
+  license_url TEXT, attribution TEXT, width INTEGER, height INTEGER,
+  status TEXT,                             -- ok | refused (licence not allowed)
+  fetched_at TEXT);
+CREATE TABLE IF NOT EXISTS photo_candidates (   -- photos that show a taxon; lower hint first
+  taxon_id INTEGER, photo_id TEXT, rank_hint INTEGER, PRIMARY KEY (taxon_id, photo_id));
+CREATE TABLE IF NOT EXISTS taxon_photos (
+  taxon_id INTEGER, position INTEGER, photo_id TEXT, role TEXT, from_taxon_id INTEGER,
+  selected_at TEXT, PRIMARY KEY (taxon_id, position));
+CREATE TABLE IF NOT EXISTS inat_photo_queries (inat_id INTEGER PRIMARY KEY, asked_at TEXT);

@@ -221,6 +221,7 @@
     if (!isHome) html.push(gallery(r));
     html.push(facts(r));
     html.push(presenceBox(r));
+    html.push(iucnBox(r));
     if (!isHome) html.push(classification(r));
     html.push(links(r));
     html.push('</aside><div class="main">');
@@ -642,7 +643,9 @@
   function wikipedia(r) {
     var w = r.wikipedia;
     if (!w) return "";
-    var collapsed = r.sections.length > 0;   // with no other text, show the article in full
+    // Collapsed to a preview: articles on widespread species run to pages about other
+    // continents, and the literature and island records are what this site adds.
+    var collapsed = true;
     return '<section class="wiki" id="s-wikipedia"><h2>From Wikipedia</h2>' +
       (collapsed && w.preview ? '<p class="wiki-preview">' + esc(w.preview) + "</p>" : "") +
       '<details class="wiki-body"' + (collapsed ? "" : " open") + "><summary>" +
@@ -664,12 +667,22 @@
         var where = w.areas.length ? ' <span class="lit-areas">' + w.areas.map(function (a) {
           return '<span class="isle r-' + esc(a.toLowerCase()) + '">' + esc(regionLabel(a.toLowerCase())) + "</span>";
         }).join("") + "</span>" : "";
+        if (w.source === "pdf") {
+          var pages = w.pages && w.pages.length ? (w.pages.length > 1 ? " pp. " : " p. ") + w.pages.join(", ") : "";
+          return "<li>" + (w.treated ? '<span class="badge" title="The document has a section on this taxon">Treated</span> ' : "") +
+            "<cite>" + esc(w.citation) + "</cite>" + esc(pages) + where +
+            ' <span class="ref-links">' + (w.url ? ext(w.url, "publisher's copy") : "") +
+            (w.file ? (w.url ? " · " : "") + '<a href="' + esc(w.file) + '" target="_blank" rel="noopener">local PDF</a>' : "") + "</span>" +
+            (w.snippet ? '<blockquote class="lit-snip">' + esc(w.snippet) + "</blockquote>" : "") + "</li>";
+        }
         return "<li><cite>" + esc(w.citation || w.title) + "</cite>" + where +
           ' <span class="ref-links">' + ext(w.url, "checklist on GBIF") +
           (w.doi ? " · " + ext("https://doi.org/" + w.doi, "doi:" + esc(w.doi)) : "") + "</span></li>";
       }).join("") + "</ul>" +
-      '<p class="section-note">Digitised by Plazi from the original papers and published on GBIF (CC0). ' +
-      "An island group is shown when the paper is about that group.</p></section>";
+      '<p class="section-note">Names found by machine in the literature: digitised checklists from ' +
+      ext("https://plazi.org/", "Plazi") + " (via GBIF, CC0), and the text of the papers and monographs " +
+      "listed. Island groups are those the document names in its account of the taxon. Not yet " +
+      "checked by a person, so a mention can be a comparison or a misreading.</p></section>";
   }
 
   // What a curator attached: iNaturalist observations, GBIF records, own photos.
@@ -720,6 +733,23 @@
     }).join("") + "</dl></div>";
   }
 
+
+  // IUCN Red List category as Wikidata records it (P141, CC0). The assessment itself is on
+  // the IUCN site; we show the category and say where it came from.
+  var IUCN_TONE = { "critically endangered": "t-crit", "endangered": "t-crit", "vulnerable": "t-warn",
+                    "near threatened": "t-warn", "least concern": "t-ok", "extinct": "t-crit",
+                    "extinct in the wild": "t-crit", "data deficient": "t-unranked" };
+  function titleCase(s) { return String(s).replace(/\b[a-z]/g, function (c) { return c.toUpperCase(); }); }
+  function iucnBox(r) {
+    var c = r.conservation;
+    if (!c || !c.iucn) return "";
+    return '<div class="box"><h3>Conservation status</h3>' +
+      '<p class="cs-rank ' + (IUCN_TONE[c.iucn.toLowerCase()] || "t-unranked") + '"><strong>' +
+      esc(titleCase(c.iucn)) + "</strong></p>" +
+      '<p class="cs-src">IUCN Red List category, as recorded on ' +
+      ext("https://www.wikidata.org/wiki/" + c.qid, "Wikidata") + ". " +
+      ext("https://www.iucnredlist.org/search?query=" + encodeURIComponent(r.name), "Search the Red List") + "</p></div>";
+  }
 
   // Where it is recorded, island group by island group, Guam first; each source in its own
   // column because the counts overlap (research-grade iNat observations flow into GBIF).
@@ -803,8 +833,12 @@
         " through its public API.</li>");
     }
     if (r.literature.length) {
-      rows.push("<li><strong>Literature</strong>: checklists digitised by " + ext("https://plazi.org/", "Plazi") +
-        " and published through GBIF under CC0; citations as given above.</li>");
+      rows.push("<li><strong>Literature</strong>: citations as given above. Checklists digitised by " +
+        ext("https://plazi.org/", "Plazi") + " are published through GBIF under CC0. Papers and " +
+        "monographs remain under their publishers' copyright: this page cites them and links to the " +
+        "publisher's copy" + (meta.target === "local"
+          ? "; the short passages shown are for personal reference in this local copy only.</li>"
+          : ", and quotes none of their text.</li>"));
     }
     if (r.photos.length) {
       rows.push("<li><strong>Photos</strong>: " + r.photos.map(function (ph, i) {
@@ -813,6 +847,12 @@
     }
     if (r.map) rows.push("<li><strong>Map</strong>: " + gbifCredit(r.map) + ".</li>");
     if (r.wikipedia) rows.push("<li><strong>Wikipedia</strong>: text from the " + wikiCredit(r.wikipedia) + ".</li>");
+    if (r.conservation) rows.push("<li><strong>Conservation status</strong>: IUCN Red List category from " +
+      ext("https://www.wikidata.org/wiki/" + r.conservation.qid, "Wikidata") + " (CC0).</li>");
+    if (r.links.some(function (l) { return l.system === "wikidata" || l.system === "bugguide"; })) {
+      rows.push("<li><strong>Cross-links</strong>: Wikidata (CC0) matched by GBIF key, with the name checked; " +
+        "BugGuide pages via the author's entobase index of BugGuide. Links below high confidence are labelled.</li>");
+    }
     rows.push("<li><strong>This page</strong>: data built " + fmtDate(r.built_at) + ".</li>");
     return '<section class="attribution" id="s-sources"><h2>Sources &amp; attribution</h2><ul>' + rows.join("") +
       "</ul></section>";
