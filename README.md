@@ -26,5 +26,6 @@ uv run pytest -q
   renames, added taxa). See [curation/README.md](curation/README.md).
 - **Not in this repo:** the data (`data/`, `data.nosync/`), the PDF library (`literature/`,
   copyrighted) and the built site (`site/`). The site is deployed with the Vercel CLI.
+- **Code licence:** MIT (see `LICENSE`). It covers the code only, not the data or content.
 - **Content licences:** everything shown on the site carries its source's own licence and
   credit (photos CC only; no ND, no all-rights-reserved).

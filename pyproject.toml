@@ -3,6 +3,7 @@ name = "guaminsects"
 version = "0.1.0"
 description = "Insects of Guam (and Micronesia): an aggregated reference to the hexapods of Micronesia"
 authors = [{ name = "M. Andrew Johnston", email = "m.andrew.johnston@gmail.com" }]
+license = "MIT"
 requires-python = ">=3.13"
 dependencies = [
     "beautifulsoup4>=4.15.0",
