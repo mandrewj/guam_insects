@@ -431,6 +431,9 @@ h1[tabindex="-1"]:focus { outline: none; }
   .main { order: 0; }
   .side > .box { order: 1; }
   .side > .gallery { order: -1; }
+  /* Where it lives is what this site adds: the island map and table come straight after the
+     photo on a phone, before the literature and the Wikipedia text. */
+  .side > .box.presence-box { order: -1; }
   .classif-box > summary { cursor: pointer; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
   .classif-box > summary::after { content: "▾"; margin-left: auto; color: var(--muted); transition: transform .15s; }
   .classif-box[open] > summary::after { transform: rotate(180deg); }

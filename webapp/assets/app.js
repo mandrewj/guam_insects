@@ -745,7 +745,7 @@
   // Schematic island map: every island a dot; islands named in the records in their group's
   // colour; a group with records but no island named lights its main islands faintly.
   // Drawn here from meta.geo (approximate positions), so no map image is shipped.
-  var GROUP_LABELS = { GU: [13.4, 143.0, "Guam"], MP: [17.6, 147.2, "CNMI"], PW: [9.2, 131.4, "Palau"],
+  var GROUP_LABELS = { GU: [13.4, 143.0, "Guam"], MP: [17.6, 147.2, "CNMI"], PW: [9.4, 133.6, "Palau"],
                        FM: [10.6, 151.0, "FSM"], MH: [13.0, 168.5, "Marshalls"] };
   function islandMap(regions, isles, small) {
     var g = meta.geo;
@@ -796,7 +796,7 @@
     var rows = r.presence || [];
     var higher = r.rank !== "Species" && r.rank !== "Subspecies";
     if (!rows.length) {
-      return r.rank === "Subphylum" ? "" : '<div class="box"><h3>Recorded from</h3><p class="muted">' +
+      return r.rank === "Subphylum" ? "" : '<div class="box presence-box"><h3>Recorded from</h3><p class="muted">' +
         "No dated records from Micronesia in GBIF, iNaturalist or the digitised checklists yet.</p></div>";
     }
     var cell = function (n) { return n ? Number(n).toLocaleString() : '<span class="muted">–</span>'; };
@@ -812,7 +812,7 @@
     var named = isles.length ? '<p class="isle-list">Islands named in the records: ' + isles.map(function (x) {
       return '<span class="r-' + esc(x.area.toLowerCase()) + '"><b>' + esc(x.label) + "</b> " + esc(x.islands.join(", ")) + "</span>";
     }).join("; ") + "</p>" : "";
-    return '<div class="box"><h3>Recorded from</h3>' +
+    return '<div class="box presence-box"><h3>Recorded from</h3>' +
       islandMap((r.regions || []), [].concat.apply([], (r.islands || []).map(function (x) { return x.islands; }))) +
       '<table class="presence">' + head + body + "</table>" + named +
       '<p class="cs-src">Counts are records, not individuals; sources overlap, so they are not added. ' +
