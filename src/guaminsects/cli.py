@@ -51,6 +51,8 @@ def cmd_inat(args) -> int:
         inat = ApiClient(inat_counts.INAT, min_interval=1.0)
         inat_counts.sweep(conn, inat)
         print(f"{inat.requests} iNat requests")
+    if args.sweep_only:
+        return 0
     gbif = gbif_client()
     stats = inat_counts.link_to_gbif(conn, gbif)
     print(f"iNat names: {stats['matched']} matched to GBIF, {stats['unmatched']} not; "
@@ -158,6 +160,7 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_taxa)
     p = sub.add_parser("inat", help=cmd_inat.__doc__)
     p.add_argument("--link-only", action="store_true", help="skip the iNat sweep")
+    p.add_argument("--sweep-only", action="store_true", help="skip matching names to GBIF")
     p.set_defaults(func=cmd_inat)
     p = sub.add_parser("plazi", help=cmd_plazi.__doc__)
     p.set_defaults(func=cmd_plazi)

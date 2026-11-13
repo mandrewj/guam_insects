@@ -5,6 +5,29 @@ GBIF + iNaturalist (backbone, records, photos, ranges), the user's PDF library (
 keys, records, citations), and supplements (Wikipedia, Wikispecies, Wikidata, IUCN, BugGuide via
 entobase's database, Bugwood links). Read `CLAUDE.md` and `docs/LESSONS.md` first.
 
+## Changes since the handoff (2026-11-13; CLAUDE.md "Decisions" rounds 2-3 are the authority)
+
+- Scope is **Hexapoda** under a curated root (`curation/taxa.csv`), not all arthropods: the
+  terrestrial filter, crabs, isopods and mites questions below are moot.
+- **Tree = GBIF + curation.** `taxa` is derived by `guaminsects resolve` from pipeline tables
+  plus `curation/taxa.csv` and `curation/evidence.csv` (morphospecies, renames, added taxa,
+  iNat/GBIF/own-photo evidence). Admin UI (Phase 7b) edits the same CSVs.
+- **New sources found:** Plazi's digitised *Insects of Guam* (1942-46) checklists on GBIF
+  (`guaminsects plazi`, CC0, about 40 papers); the University of Guam Insect Collection (25k
+  records, already in the GBIF sweep); UOG extension fact sheets (in `literature/`, listed in
+  `sources/documents.csv`); Micronesica open-access papers (`scripts/micronesica_index.py`);
+  AntWiki per-island ant lists; Moore's crop pest list (no licence: cross-check only).
+- **Two builds.** `site/public` (deployed): photos hotlinked with attribution, one ~200 px
+  WebP thumbnail per species if it fits, literature as citations + facts, BugGuide as a link.
+  `site/local`: everything, with local photo copies and PDF links.
+- **Deploy (Phase 8):** `vercel deploy site/public --prod` from `ops/deploy.sh`, project
+  `insects-of-guam` (account `mandrewj`, Hobby: 100 MB and 15,000 files per CLI deploy; use
+  `--archive=tgz` past the file count). Org and project ids go in the script as
+  `VERCEL_ORG_ID`/`VERCEL_PROJECT_ID` so the rebuilt folder needs no `.vercel/` link. Check
+  the size budget in the build (fail over 90 MB).
+- **Local launch:** `guaminsects serve` (stdlib HTTP server on site/local, plus the admin
+  endpoints that write `curation/*.csv`); the site also opens from `file://`.
+
 Work in phases; each ends in something that runs, is tested, and is committed. Do not start a
 phase's enrichment at scale before its dry run on ~50 taxa has been looked at by a person.
 
