@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insects of Guam</title>
+<!-- Opens the local build (everything, including PDF snippets). Built by
+     `uv run guaminsects build public local`; site/ is not in git. -->
+<meta http-equiv="refresh" content="0; url=site/local/index.html">
+<script>location.replace("site/local/index.html" + location.hash);</script>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; margin: 3rem auto; max-width: 36rem; padding: 0 16px;
+         color: #12324a; background: #f4f8fb; }
+  a { color: #1565a6; }
+  code { background: #e3edf5; padding: 0 .3em; border-radius: 3px; }
+</style>
+</head>
+<body>
+<h1>Insects of Guam</h1>
+<p>Opening the site&hellip; If nothing happens:</p>
+<ul>
+  <li><a href="site/local/index.html">Local build</a> (everything, including PDF snippets and links to the local PDFs)</li>
+  <li><a href="site/public/index.html">Public build</a> (what would be deployed)</li>
+</ul>
+<p>If these links are broken, build the site first: <code>uv run guaminsects build public local</code>.
+For the curation admin page, run <code>uv run guaminsects serve</code> and open
+<a href="http://localhost:8765/admin.html">localhost:8765/admin.html</a>.</p>
+</body>
+</html>

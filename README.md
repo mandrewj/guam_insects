@@ -19,7 +19,7 @@ everywhere:
 ```sh
 uv sync                              # Python 3.13 (venv in venv.nosync; see CLAUDE.md)
 uv run guaminsects build public local
-open site/local/index.html           # or: uv run guaminsects serve  (http://localhost:8765)
+open index.html                      # redirects to site/local/; or: uv run guaminsects serve (http://localhost:8765)
 ```
 
 `site/public` is what gets deployed (`ops/deploy.sh`, Vercel). `site/local` adds what may not
