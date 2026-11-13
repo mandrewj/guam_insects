@@ -61,7 +61,7 @@ def rows(conn, records: dict[int, dict] | None = None) -> list[dict]:
     if records is None:
         from . import site
 
-        records = site.build_records(conn, "public")
+        records = site.build_records(conn)
     taxa = {r["taxon_id"]: dict(r) for r in conn.execute(
         "SELECT taxon_id, lineage, verified, extra FROM taxa")}
     keys = db.keymap(conn)
@@ -346,7 +346,7 @@ def import_edits(conn, path: Path, editor: str, baseline: dict[str, dict] | None
                        ", ".join(f"{k} {v!r}" for k, v in diffs.items()))
     if errors:
         raise curation.CurationError("\n".join(errors))
-    # A GBIF taxon's row with nothing left to override goes (as the admin page does).
+    # A GBIF taxon's row with nothing left to override goes (as the curation API does).
     kept = [r for r in by_id.values() if ids.kind(ids.to_int(r["taxon_id"])) == "curated" or
             any(r[c] for c in curation.OVERRIDE_FIELDS + ["parent_name"])]
     if (stats["changed"] or stats["new"]) and not dry_run:

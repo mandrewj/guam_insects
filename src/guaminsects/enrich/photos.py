@@ -167,6 +167,162 @@ def inat_taxon_sweep(conn, client: ApiClient) -> dict[str, int]:
     return stats
 
 
+GBIF_OCC = "/occurrence/search"            # on cli.gbif_client (api.gbif.org/v1)
+GBIF_CACHE = "https://api.gbif.org/v1/image/cache"
+INAT_DATASET = "50c9509d-22c7-4a22-a47d-8c48425ef4a7"
+# Specimen media that are not a picture of the animal: sound plots, labels on their own.
+NOT_A_PHOTO = re.compile(r"waveform|spectrogram|sonogram|oscillogram|label", re.I)
+REGION_PAGE = 300
+
+
+def gbif_license(text: str | None) -> str | None:
+    """An allowed licence code from a GBIF media or record licence (URL or words), else None."""
+    s = (text or "").lower().replace("_", "-")
+    if not s or re.search(r"\bnd\b|-nd\b|no-?deriv|noderiv|all rights", s):
+        return None
+    if "zero" in s or "cc0" in s or "publicdomain" in s or "public domain" in s:
+        return "cc0"
+    m = re.search(r"\bby(-nc)?(-sa)?\b", s.replace(" ", "-"))
+    if m and ("creativecommons" in s or "cc" in s):
+        return "cc-by" + (m.group(1) or "") + (m.group(2) or "")
+    return None
+
+
+def _gbif_photos(o: dict, per_occurrence: int) -> list[tuple]:
+    """(photo_id, source, page, display, thumb, licence, licence url, attribution) for the
+    usable images of one GBIF occurrence: a licence from the image, else the record's."""
+    import hashlib
+
+    out = []
+    for m in o.get("media") or []:
+        ident = m.get("identifier") or ""
+        if m.get("type") != "StillImage" or not ident.startswith("http") or \
+                not (m.get("format") or "image/").startswith("image/") or \
+                NOT_A_PHOTO.search(ident + " " + (m.get("title") or "")):
+            continue
+        lic = gbif_license(m.get("license")) if m.get("license") else gbif_license(o.get("license"))
+        if not lic:
+            continue
+        lic_url = m["license"] if (m.get("license") or "").startswith("http") else _cc_url(lic)
+        holder = m.get("rightsHolder") or m.get("creator") or o.get("recordedBy") or \
+            o.get("institutionCode") or "unknown"
+        inat = re.search(r"inaturalist-open-data\.s3\.amazonaws\.com/photos/(\d+)/", ident) or \
+            re.search(r"static\.inaturalist\.org/photos/(\d+)/", ident)
+        if inat:
+            page = o.get("occurrenceID") if str(o.get("occurrenceID", "")).startswith("http") \
+                else m.get("references") or f"https://www.gbif.org/occurrence/{o['key']}"
+            base = re.sub(r"/original\.", "/{}.", ident)
+            out.append((f"inat:{inat.group(1)}", "inaturalist", page, base.format("large"),
+                        base.format("small"), lic, lic_url,
+                        f"© {holder}" if lic != "cc0" else holder))
+        else:
+            h = hashlib.md5(ident.encode()).hexdigest()
+            where = " ".join(x for x in (o.get("institutionCode"), o.get("catalogNumber")) if x)
+            cache = f"occurrence/{o['key']}/media/{h}"
+            out.append((f"gbif:{o['key']}:{h[:10]}", "gbif",
+                        f"https://www.gbif.org/occurrence/{o['key']}",
+                        f"{GBIF_CACHE}/fit-in/{COMMONS_DISPLAY}x/{cache}",
+                        f"{GBIF_CACHE}/{COMMONS_THUMB}x/{cache}", lic, lic_url,
+                        ("© " if lic != "cc0" else "") + holder + (f" · {where}" if where else "")))
+        if len(out) == per_occurrence:
+            break
+    return out
+
+
+def _store_gbif(conn, o: dict, tid: int, hint: int, per_occurrence: int, stamp: str) -> int:
+    n = 0
+    for pid, source, page, display, thumb, lic, lic_url, attribution in \
+            _gbif_photos(o, per_occurrence):
+        # An iNat photo met before (from iNat's own taxon photos) keeps that row.
+        conn.execute(
+            "INSERT OR IGNORE INTO photos (photo_id, source, page_url, display_url, thumb_url, "
+            "license_code, license_url, attribution, status, fetched_at) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ok', ?)",
+            (pid, source, page, display, thumb, lic, lic_url, attribution, stamp))
+        conn.execute("INSERT INTO photo_candidates (taxon_id, photo_id, rank_hint) VALUES "
+                     "(?, ?, ?) ON CONFLICT (taxon_id, photo_id) DO UPDATE SET "
+                     "rank_hint = min(rank_hint, excluded.rank_hint)", (tid, pid, hint))
+        n += 1
+    return n
+
+
+def _occurrence_taxon(o: dict, keys: dict[int, int]) -> int | None:
+    from .. import ids
+    from .gbif_checklist import COL_CHECKLIST as CHECKLIST
+
+    usage = ((o.get("classifications") or {}).get(CHECKLIST) or {}).get("acceptedUsage") or {}
+    # The extended release also has BOLD BINs ('BOLD.ADL3763'), which are not COL ids.
+    col = [ids.from_col(usage["key"])] if ids.valid(usage.get("key") or "") and \
+        ids.kind(ids.to_int(usage["key"])) == "col" else []
+    for k in col + [o.get("acceptedTaxonKey"), o.get("taxonKey")]:
+        if k is not None and k in keys:
+            return keys[k]
+    return None
+
+
+def gbif_sweep(conn, client: ApiClient, per_taxon: int = 6) -> dict[str, int]:
+    """Images on GBIF occurrences (iNaturalist observations, museum specimens, BOLD), with a
+    licence on the image or the record. First every Hexapoda image from the five areas
+    (rank_hint 5: an observation from here; 10: a specimen from here), then, for each species
+    still without a photo of its own, images from anywhere (rank_hint 40)."""
+    from .. import ids
+    from .gbif_checklist import COL_CHECKLIST as CHECKLIST
+    from .gbif_checklist import COL_HEXAPODA as ROOT
+
+    keys = db.keymap(conn)
+    stats = {"region_occurrences": 0, "region_photos": 0, "species_asked": 0,
+             "species_found": 0, "photos": 0}
+    base = {"checklistKey": CHECKLIST, "mediaType": "StillImage"}
+    offset = 0
+    while True:
+        params = [*base.items(), ("taxonKey", ROOT), ("limit", REGION_PAGE),
+                  ("offset", offset)] + [("country", a["gbif"]) for a in config.AREAS]
+        d = client.get(GBIF_OCC, params)
+        stamp = db.now()
+        with conn:
+            for o in d.get("results", []):
+                tid = _occurrence_taxon(o, keys)
+                if tid is None:
+                    continue
+                stats["region_occurrences"] += 1
+                hint = 5 if o.get("datasetKey") == INAT_DATASET else 10
+                stats["region_photos"] += _store_gbif(conn, o, tid, hint, 2, stamp)
+        offset += REGION_PAGE
+        print(f"  GBIF images in Micronesia: {min(offset, d.get('count', 0))}/{d.get('count')}",
+              file=sys.stderr)
+        if d.get("endOfRecords", True) or offset >= 100_000:
+            break
+
+    have = {keys.get(r[0], r[0]) for r in conn.execute(
+        "SELECT c.taxon_id FROM photo_candidates c JOIN photos p ON p.photo_id = c.photo_id "
+        "WHERE p.status = 'ok'")}
+    asked = {r[0] for r in conn.execute("SELECT taxon_id FROM gbif_photo_queries")}
+    todo = [r for r in conn.execute(
+        "SELECT taxon_id FROM taxa WHERE rank IN ('Species', 'Subspecies') AND hidden = 0 "
+        "ORDER BY taxon_id") if r[0] not in have and r[0] not in asked
+        and ids.kind(r[0]) in ("col", "gbif")]
+    for i, (tid,) in enumerate(todo):
+        if ids.kind(tid) == "col":
+            params = {**base, "taxonKey": ids.col_of(tid), "limit": 20}
+        else:                                    # a Backbone species COL lacks
+            params = {"mediaType": "StillImage", "taxonKey": tid, "limit": 20}
+        d = client.get(GBIF_OCC, params)
+        stamp, n = db.now(), 0
+        with conn:
+            for o in d.get("results", []):
+                if n < per_taxon:
+                    n += _store_gbif(conn, o, tid, 40, 1, stamp)
+            conn.execute("INSERT OR REPLACE INTO gbif_photo_queries (taxon_id, images, asked_at)"
+                         " VALUES (?, ?, ?)", (tid, n, stamp))
+        stats["species_asked"] += 1
+        stats["species_found"] += n > 0
+        stats["photos"] += n
+        if (i + 1) % 100 == 0:
+            print(f"  GBIF images by species: {i + 1}/{len(todo)}, found {stats['species_found']}",
+                  file=sys.stderr)
+    return stats
+
+
 def _cc_url(code: str) -> str:
     if code == "cc0":
         return "https://creativecommons.org/publicdomain/zero/1.0/"
@@ -267,18 +423,26 @@ def thumbs(conn, limit: int | None = None) -> dict[str, int]:
     """A THUMB_WIDTH px WebP of each taxon's card photo, kept in data/media/thumbs/."""
     THUMB_DIR.mkdir(parents=True, exist_ok=True)
     rows = conn.execute(
-        "SELECT DISTINCT p.photo_id, p.thumb_url, p.source FROM taxon_photos tp JOIN photos p "
-        "ON p.photo_id = tp.photo_id WHERE tp.position = 0").fetchall()
+        "SELECT DISTINCT p.photo_id, p.thumb_url, p.source, p.width FROM taxon_photos tp "
+        "JOIN photos p ON p.photo_id = tp.photo_id WHERE tp.position = 0"
+        ).fetchall()
     stats = {"wanted": len(rows), "made": 0, "had": 0, "failed": 0}
-    hosts = {"commons": ApiClient("", 1.0), "inaturalist": ApiClient("", 1.0)}
+    hosts = {"commons": ApiClient("", 1.0), "inaturalist": ApiClient("", 1.0),
+             "gbif": ApiClient("", 0.5)}
     for r in rows[:limit]:
         path = THUMB_DIR / thumb_name(r["photo_id"])
-        if path.exists():
+        if path.exists() and r["width"]:
             stats["had"] += 1
             continue
         try:
             raw = hosts[r["source"]].get_bytes(r["thumb_url"])
             img = Image.open(io.BytesIO(raw)).convert("RGB")
+            if not r["width"]:
+                # GBIF gives no size: the thumbnail's shape is the photo's, which is all the
+                # page needs (the browser scales it).
+                with conn:
+                    conn.execute("UPDATE photos SET width = ?, height = ? WHERE photo_id = ?",
+                                 (img.width, img.height, r["photo_id"]))
             h = round(img.height * THUMB_WIDTH / img.width)
             img.resize((THUMB_WIDTH, h), Image.LANCZOS).save(path, "WEBP", quality=72)
             stats["made"] += 1

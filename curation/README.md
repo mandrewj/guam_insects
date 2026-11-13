@@ -3,8 +3,8 @@
 The site's tree is the **Catalogue of Life** (COL eXtended Release, through GBIF), restricted
 to taxa with records in Micronesia, **plus the names COL lacks** that a record has (flagged),
 **plus the edits in this folder**. `uv run guaminsects resolve` applies them on every build,
-so a pipeline re-run never loses them. Edit these files in a spreadsheet, a text editor, the
-local admin page, or through `taxonomy.csv` (below); all of them end up here, and git keeps
+so a pipeline re-run never loses them. Edit these files in a spreadsheet, a text editor, or
+through `taxonomy.csv` (below); all of them end up here, and git keeps
 the history.
 
 ## Ids

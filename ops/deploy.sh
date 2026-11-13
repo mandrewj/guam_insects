@@ -4,7 +4,7 @@
 #   ops/deploy.sh            # preview deployment (a private-ish URL to look at first)
 #   ops/deploy.sh --prod     # production: insects-of-guam.vercel.app
 #
-# The public build only: openly licensed content, no PDF text, no admin page. Vercel Hobby
+# The one build (the local site is the same): openly licensed content, no PDF text. Vercel Hobby
 # accepts 100 MB and 15,000 files per CLI deploy (site.PUBLIC_BUDGET_MB keeps us under the
 # first; --archive=tgz uploads one file, so the 15,000-file
 # limit and the 5,000-uploads-a-day limit never bite). The project link lives in site/public/.vercel,
@@ -13,7 +13,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 PROJECT=insects-of-guam
 
-uv run guaminsects build public
+uv run guaminsects build
 uv run python ops/check_site.py --browsers chrome
 files=$(find site/public -type f -not -path '*/.vercel/*' | wc -l | tr -d ' ')
 size=$(du -sm site/public | cut -f1)

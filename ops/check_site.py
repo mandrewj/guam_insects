@@ -2,7 +2,7 @@
 
     uv run python ops/check_site.py                  # Chrome + WebKit + Firefox, desktop + phone
     uv run python ops/check_site.py --shots /tmp/s   # also save screenshots of key pages
-    uv run python ops/check_site.py --browsers chrome --target local
+    uv run python ops/check_site.py --browsers chrome
 
 Fixtures (Catalogue of Life ids): B6LCL Odonata, BZS Libellulidae, 4CGSL Pantala flavescens
 (photos, Wikipedia, literature). WebKit/Firefox need `uv run playwright install webkit firefox` once; missing
@@ -147,12 +147,11 @@ def check(page, url: str) -> dict[str, bool]:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--browsers", default="chrome,webkit,firefox")
-    ap.add_argument("--target", default="public", choices=["public", "local"])
     ap.add_argument("--shots", type=Path, help="directory for screenshots")
     args = ap.parse_args()
-    site = ROOT / "site" / args.target / "index.html"
+    site = ROOT / "site" / "public" / "index.html"
     if not site.exists():
-        print(f"no build at {site}; run `uv run guaminsects build {args.target}`")
+        print(f"no build at {site}; run `uv run guaminsects build`")
         return 1
     url = site.as_uri()
     failed = False

@@ -5,8 +5,8 @@
 Sections: totals by source; a random sample of species with what each source says; doubtful
 records (one or two GBIF records and nothing else, fossil groups, Wikidata name mismatches);
 taxa that are in the tree only because of the literature; heading names in the PDFs that
-GBIF could not match (old names, OCR errors, undescribed species). Links open the local
-build (site/local), so `uv run guaminsects build local` first.
+GBIF could not match (old names, OCR errors, undescribed species). Links open the built
+site (site/public), so `uv run guaminsects build` first.
 """
 
 import argparse
@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from guaminsects import config, db, ids  # noqa: E402
 
 OUT = config.DATA_DIR / "exports" / "review.html"
-SITE = "../../site/local/index.html"
+SITE = "../../site/public/index.html"
 AREAS = config.AREA_CODES
 FOSSIL_ORDERS = {"Palaeodictyoptera", "Megasecoptera", "Protodonata", "Meganisoptera"}
 
@@ -117,7 +117,7 @@ def main() -> int:
     wiki = {keys.get(r[0], r[0]) for r in conn.execute("SELECT taxon_id FROM wikipedia_articles")}
     out.append(f"<h2>Random sample of {len(sample)} species (seed {args.seed})</h2>"
                "<p class=m>Is each name right, and is each island group right? Note anything odd "
-               "in the curation file or the admin page.</p>")
+               "in curation/taxa.csv or taxonomy.csv.</p>")
     out.append(table(["order", "family", "species", *AREAS, "PDF mentions", "photo", "Wikipedia"],
                      [[e(order(t)), e(family(t)), link(t, names[t]),
                        *[cell(t, a) for a in AREAS], lit.get(t, ""), "yes" if t in photos else "",

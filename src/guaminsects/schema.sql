@@ -175,6 +175,8 @@ CREATE TABLE IF NOT EXISTS photos (
   license_url TEXT, attribution TEXT, width INTEGER, height INTEGER,
   status TEXT,                             -- ok | refused (licence not allowed)
   fetched_at TEXT);
+CREATE TABLE IF NOT EXISTS gbif_photo_queries (  -- species asked for GBIF images anywhere
+  taxon_id INTEGER PRIMARY KEY, images INTEGER, asked_at TEXT);
 CREATE TABLE IF NOT EXISTS photo_candidates (   -- photos that show a taxon; lower hint first
   taxon_id INTEGER, photo_id TEXT, rank_hint INTEGER, PRIMARY KEY (taxon_id, photo_id));
 CREATE TABLE IF NOT EXISTS taxon_photos (

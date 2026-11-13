@@ -3,6 +3,59 @@
 Updated by the build session; newest first. Decisions live in CLAUDE.md; this file is what
 is done, what is waiting, and what needs the user.
 
+## 2026-11-13, evening: one build, GBIF images; development moves to another machine
+
+### Done
+- **One build.** The local site is now the online one: `guaminsects build` writes
+  `site/public`, which `index.html` (top of the folder) opens, `guaminsects serve` serves,
+  and `ops/deploy.sh --prod` deploys. The `local` target, the admin page
+  (`webapp/admin.*`) and the PDF snippets / local-PDF links in the site are gone. The
+  curation API in `server.py` stays for the editing tool (below).
+- **Photos from GBIF occurrences** (`guaminsects photos gbif`, `enrich/photos.py`
+  `gbif_sweep`). Pass 1: every Hexapoda image from the five areas (7,615 occurrences: iNat
+  research grade, then NMNH, NHMUK, AntWeb, BOLD, ANSP...), ranked first on a species' page
+  (rank_hint 5 for an observation from here, 10 for a specimen from here). Pass 2: each
+  species still without a photo, images from anywhere (rank_hint 40; resumable through
+  `gbif_photo_queries`). Licence from the image, else the record's; CC0/BY/BY-SA/BY-NC/
+  BY-NC-SA only; sound plots and label shots skipped. Museum images are shown through GBIF's
+  image cache (`api.gbif.org/v1/image/cache/...`), never as multi-MB originals. Photos found
+  only on GBIF are credited "GBIF" with the rights holder and catalogue number.
+- Photos without a stored size (GBIF gives none) no longer break the gallery; the
+  thumbnail step records the size of each card photo it fetches.
+
+### Image sweep (running when this was written)
+- Pass 1 finished; pass 2 was at 700 of 1,640 species without photos, ~28% of them finding
+  images. Then `photos select thumbs`, `build`, `check_site`, `deploy.sh --prod`. The final
+  numbers are in the commit that follows this one.
+- **Not done:** iNaturalist taxon photos looked up by name, for taxa Wikidata does not link
+  to iNat (`/taxa?q=<name>&rank=...`, then the existing batched `/taxa/<ids>` sweep). iNat
+  answered 429 all evening because entobase's `link --stubs` job shares the IP. GBIF already
+  carries iNat's research-grade observation photos, so this would add only iNat's curated
+  taxon photos for species with no observation on GBIF. Run it when entobase is idle.
+
+### Next: the local editing tool
+- Grow `data/exports/review.html` (`ops/review.py`) into a local tool where the checklist is
+  checked, edited and annotated. It exports an updated `taxonomy.csv` and triggers a rebuild.
+  Local only (it may quote PDFs). Building blocks: the curation API in `server.py`
+  (`/api/taxon`, `/api/decision`, rebuild with `/api/status`), `taxonomy.import_edits`
+  (merges, splits, field edits), and `pdf_mentions` / `pdf_candidates` (pages and snippets).
+
+### Moving to another machine
+- **Synced by iCloud** (the folder is under Documents): code, `curation/`, `sources/`,
+  `taxonomy.csv`, `literature/`, `data/` (thumbnails, API caches, exports), `site/`
+  (including `site/public/.vercel`, the Vercel project link).
+- **Not synced: `data.nosync/`** (`guam.sqlite`, 60 MB, and logs) and `venv.nosync/`. Copy
+  `data.nosync/guam.sqlite` across by hand, or rebuild it with the pipeline in CLAUDE.md
+  (hours, mostly GBIF and Wikipedia). Then `uv sync`.
+- `../entobase/data.nosync/entobase.sqlite` (BugGuide links, read-only) is not synced
+  either; without it `guaminsects bugguide` has nothing to read, and the existing links in
+  guam.sqlite still build.
+- Vercel: `vercel login` as mandrewj on the new machine; `ops/deploy.sh --prod`.
+  GitHub: the repo is mandrewj/guam_insects (public).
+- Wait for iCloud to finish syncing before building (a half-synced `data/media/thumbs` gives
+  a site with missing card pictures). iCloud also makes " 2" copies of files edited on both
+  machines; delete those (they broke pytest once).
+
 ## 2026-11-13, afternoon: the Catalogue of Life backbone
 
 ### Done
@@ -40,8 +93,8 @@ is done, what is waiting, and what needs the user.
   names, island records, introduced-species statements, Wikidata, Wikipedia, BugGuide links
   (entobase, read-only), Commons photos with 200 px thumbnails, and `resolve` (tree = GBIF +
   `curation/*.csv`).
-- **Site**: `guaminsects build public local`; both open from `file://` and from
-  `guaminsects serve`. Taxon pages show presence per island group (GBIF / iNat / literature,
+- **Site**: `guaminsects build` (one build, site/public); it opens from `file://` and from
+  `guaminsects serve`, and is the one deployed. Taxon pages show presence per island group (GBIF / iNat / literature,
   never added together), a schematic island map, photos with credits, literature citations
   with pages, Wikipedia (collapsed), IUCN category, cross-links, crops attacked, and
   machine-read native/introduced statements. The Identify view compares a group with a photo
@@ -49,9 +102,9 @@ is done, what is waiting, and what needs the user.
   WebKit and Firefox at desktop and phone sizes.
 - **Curation**: `curation/taxa.csv` + `curation/evidence.csv`, edited by hand, through
   `taxonomy.csv` (Darwin Core, rewritten by every build after taking in edits made to it;
-  also downloadable from any taxon page for that taxon and everything under it), or the local admin
-  page (`guaminsects serve`, then /admin.html). Every save is checked against the whole tree
-  first.
+  also downloadable from any taxon page for that taxon and everything under it). Every save
+  is checked against the whole tree first. (The admin page was removed on 2026-11-13; a local
+  editing tool grown from the review page comes next.)
 - **Library**: `sources/library.csv` gives a citation for all 207 PDFs (IOM from Bishop
   Museum's index, with public URLs). `sources/documents.csv` lists the 49 UOG documents and
   63 Micronesica papers downloaded tonight, with readable file names under `literature/`.

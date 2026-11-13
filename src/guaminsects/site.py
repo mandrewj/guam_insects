@@ -1,4 +1,4 @@
-"""Export the database into the static web app (site/public or site/local).
+"""Export the database into the static web app (site/public).
 
 The app is one page (index.html) that renders any taxon from a small data file:
 data/t/<id // 1000>/<id>.js, which calls guaminsects.load(<record>). Browsers allow
@@ -9,9 +9,9 @@ and equally from a web server or Vercel.
 are rewritten only when their content changes (a hash per file), so a rebuild after a small
 curation edit touches a handful of files.
 
-Two targets share this code. `public` is what gets deployed: openly licensed content only.
-`local` may add what must not be published (PDF snippets, links to files in literature/);
-until those sources exist the two are the same.
+There is one build: the site opened on this computer (file:// or `guaminsects serve`) is the
+one deployed, so it holds openly licensed content only. PDF snippets and links to files in
+literature/ never go in it.
 """
 
 import hashlib
@@ -25,7 +25,6 @@ from . import config, db, geo, ids
 
 WEBAPP_DIR = config.ROOT / "webapp"
 JS_GLOBAL = "guaminsects"          # webapp/assets/app.js defines window.guaminsects
-TARGETS = ("public", "local")
 PUBLIC_BUDGET_MB = 90              # Vercel Hobby takes 100 MB per CLI deploy
 AREA_KEYS = {a["code"]: a["code"].lower() for a in config.AREAS}   # URL-friendly region keys
 AREA_SHORT = {"GU": "Guam", "MP": "CNMI", "PW": "Palau", "FM": "FSM", "MH": "Marshalls"}
@@ -79,6 +78,9 @@ def license_label(code: str | None) -> str:
     return "CC0" if code == "cc0" else "CC " + code[3:].upper()
 
 
+PHOTO_SOURCES = {"inaturalist": "iNaturalist", "commons": "Wikimedia Commons", "gbif": "GBIF"}
+
+
 def card_thumb(photos: list[dict], look: int = 4, ratio: float = 1.2) -> str | None:
     """Card and identify-tile thumbnail: the first landscape photo among the first few (tiles
     are wider than tall), only among photos of the same standing as the first."""
@@ -108,7 +110,7 @@ def _postorder(children: dict[int, list[int]], roots: list[int]) -> list[int]:
     return order
 
 
-def build_records(conn, target: str = "public") -> dict[int, dict]:
+def build_records(conn) -> dict[int, dict]:
     taxa = {r["taxon_id"]: dict(r) for r in conn.execute("SELECT * FROM taxa")}
     # Source rows carry the key the source used (a COL id, a GBIF Backbone key, a name- id);
     # taxon_keys says which displayed taxon each belongs to (several names can be one taxon).
@@ -239,33 +241,29 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
                 "url": "https://aubreymoore.github.io/crop-pest-list/" if r["source"] == "croppests"
                 else f"https://www.gbif.org/dataset/{r['dataset_key']}",
                 "doi": r["doi"], "source": r["source"]})
-    # The PDF library: one entry per (taxon, document) with the pages. The public build cites
-    # (title, pages, the publisher's URL); only the local build carries a snippet and a link
-    # to the file on this computer (CLAUDE.md rule 4).
+    # The PDF library: one entry per (taxon, document) with the pages. The site cites (title,
+    # pages, the publisher's URL), never a snippet or the file (CLAUDE.md rule 4).
     from . import library as librarylib
 
     lib_rows = {r["file"]: r for r in librarylib.rows()} if librarylib.LIBRARY.exists() else {}
     pdf_hits: dict[tuple[int, str], dict] = {}
     mentions = conn.execute(
-        "SELECT taxon_id, file, page, kind, areas, snippet, decision FROM pdf_mentions "
+        "SELECT taxon_id, file, page, kind, areas, decision FROM pdf_mentions "
         "WHERE decision != 'rejected' UNION ALL "
         # headings of names the tree did not have yet (now under their name- keys)
-        "SELECT gbif_key, file, page, 'heading', areas, snippet, decision FROM pdf_candidates "
+        "SELECT gbif_key, file, page, 'heading', areas, decision FROM pdf_candidates "
         "WHERE gbif_key IS NOT NULL AND decision != 'rejected' ORDER BY 2, 3").fetchall()
     for r in mentions:
         tid = keys.get(r["taxon_id"])
         if tid not in taxa or r["file"] not in lib_rows:
             continue
         e = pdf_hits.setdefault((tid, r["file"]), {
-            "pages": [], "areas": set(), "treated": False, "snippet": None,
-            "reviewed": False})
+            "pages": [], "areas": set(), "treated": False, "reviewed": False})
         if r["page"] not in e["pages"]:
             e["pages"].append(r["page"])
         e["areas"] |= set((r["areas"] or "").split(",")) - {""}
         e["treated"] |= r["kind"] == "heading"
         e["reviewed"] |= r["decision"] == "accepted"
-        if target == "local" and not e["snippet"] and r["snippet"]:
-            e["snippet"] = r["snippet"]
     for (tid, fname), e in pdf_hits.items():
         doc = lib_rows[fname]
         lit[tid].append({
@@ -275,9 +273,7 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "pages": e["pages"][:12], "treated": e["treated"], "year": doc["year"],
             # Found by the name finder in the PDF text; a person has not checked it yet.
             "machine_read": not e["reviewed"],
-            "kind": doc["kind"],
-            **({"snippet": e["snippet"], "file": "literature/" + fname}
-               if target == "local" else {})})
+            "kind": doc["kind"]})
     for entries in lit.values():
         entries.sort(key=lambda w: (not w.get("treated"), w.get("year") or "9999"))
     # Islands named in species accounts (literature headings), and later GBIF's level-1
@@ -365,7 +361,7 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "display": r["display_url"],
             "thumb": f"media/thumbs/{local.name}" if local.exists() else r["thumb_url"],
             "w": r["width"], "h": r["height"],
-            "source": "iNaturalist" if r["source"] == "inaturalist" else "Wikimedia Commons",
+            "source": PHOTO_SOURCES[r["source"]],
             "page": r["page_url"], "license": license_label(r["license_code"]),
             "license_url": r["license_url"], "attribution": r["attribution"],
             "retrieved": r["fetched_at"]})
@@ -522,36 +518,25 @@ def home_cards(records: dict[int, dict], root: int) -> list[dict]:
     return sorted(out, key=lambda c: (c["hidden"], -c["species_count"], c["name"]))
 
 
-def build(conn, target: str = "public", site: Path | None = None) -> dict[str, int]:
+def build(conn, site: Path | None = None) -> dict[str, int]:
     """Copy the app shell and write every changed record, the search index and meta.js;
     also taxonomy.csv at the top of the repository, after taking in any edits made to it."""
     from . import search, taxonomy
 
-    assert target in TARGETS, target
     synced = taxonomy.sync(conn)        # before the tree is read: edits there become curation
     if synced:
         print("taxonomy.csv: " + ", ".join(f"{k} {v}" for k, v in synced.items()
                                            if k != "changes"))
         for c in synced["changes"]:
             print("  " + c)
-    site = site or config.SITE_DIR / target
+    site = site or config.SITE_DIR / "public"
     site.mkdir(parents=True, exist_ok=True)
     for src in WEBAPP_DIR.rglob("*"):
-        # The curation admin exists only in the local build (and needs `guaminsects serve`).
-        if target == "public" and src.name.startswith("admin."):
-            (site / src.relative_to(WEBAPP_DIR)).unlink(missing_ok=True)
-            continue
         if src.is_file() and src.name != ".DS_Store":
             dest = site / src.relative_to(WEBAPP_DIR)
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dest)
 
-    if target == "local":
-        # The local build opens PDFs on this computer: a link, so nothing is copied, and the
-        # public build (deployed) never has one.
-        link = site / "literature"
-        if not link.is_symlink():
-            link.symlink_to(config.LITERATURE_DIR)
     # Thumbnails ship with the site (the one kind of image we host); photos are hotlinked.
     from .enrich.photos import THUMB_DIR
 
@@ -562,7 +547,7 @@ def build(conn, target: str = "public", site: Path | None = None) -> dict[str, i
         for src in THUMB_DIR.glob("*.webp"):
             if src.name not in have:
                 shutil.copy2(src, dest / src.name)
-    records = build_records(conn, target)
+    records = build_records(conn)
     built_at = db.now()
     written = 0
     for tid, rec in records.items():
@@ -593,7 +578,7 @@ def build(conn, target: str = "public", site: Path | None = None) -> dict[str, i
     species = [r for r in records.values() if r["rank"] == "Species" and not r["hidden"]
                and r["status"] != "synonym"]
     meta = {
-        "built_at": built_at, "root": root, "target": target,
+        "built_at": built_at, "root": root,
         "title": config.SITE_TITLE, "subtitle": config.SITE_SUBTITLE,
         "home": home_cards(records, root) if root else [],
         "regions": [{"key": AREA_KEYS[a["code"]], "code": a["code"], "label": AREA_SHORT[a["code"]],
@@ -612,7 +597,7 @@ def build(conn, target: str = "public", site: Path | None = None) -> dict[str, i
     (site / "data").mkdir(exist_ok=True)
     _write_if_changed(site / "data" / "meta.js",
                       f"{JS_GLOBAL}.meta({json.dumps(meta, separators=(',', ':'))});\n")
-    shipped = [p for p in site.rglob("*") if p.is_file() and "literature" not in p.parts]
+    shipped = [p for p in site.rglob("*") if p.is_file() and ".vercel" not in p.parts]
     total = sum(p.stat().st_size for p in shipped)
     files = len(shipped)
     return {"records": len(records), "written": written, "removed": removed,

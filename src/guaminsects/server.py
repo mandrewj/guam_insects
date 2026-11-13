@@ -1,10 +1,10 @@
-"""`guaminsects serve`: the built site on http://localhost, plus the curation admin.
+"""`guaminsects serve`: the built site (site/public) on http://localhost, plus a curation API.
 
-The site itself is static (it also works from file://). The admin page (admin.html, local
-build only) talks to the JSON endpoints below, which write curation/taxa.csv and
-curation/evidence.csv through curation.py, the same code a spreadsheet import uses. Every
-save is validated against the whole tree before the file is replaced, and the local site
-is rebuilt afterwards. The server binds to 127.0.0.1 only; none of this exists on Vercel.
+The site itself is static (it also works from file://) and is the same one deployed. The JSON
+endpoints below write curation/taxa.csv and curation/evidence.csv through curation.py, the
+same code a spreadsheet import uses; no page of the site calls them (the admin page is gone;
+the local review tool will). Every save is validated against the whole tree before the file
+is replaced, and the site is rebuilt afterwards. The server binds to 127.0.0.1 only.
 
     GET  /api/taxa?q=oryct          name search over the tree (for pickers)
     GET  /api/taxon/<id>            the resolved taxon, its curated row and evidence
@@ -42,11 +42,11 @@ def _rebuild_site() -> None:
     try:
         while True:
             _rebuild["pending"] = False
-            stats = site.build(db.connect(), "local")
+            stats = site.build(db.connect())
             _rebuild["last"], _rebuild["error"] = {**stats, "at": db.now()}, None
             if not _rebuild["pending"]:
                 break
-    except Exception as e:                       # shown on the admin page
+    except Exception as e:                       # reported by /api/status
         _rebuild["error"] = str(e)
     finally:
         _rebuild["running"] = False
@@ -76,7 +76,7 @@ def _ensure_known(conn, row: dict) -> None:
 
 
 def _external(t: dict | None) -> dict | None:
-    """A taxa row as the admin page sees it: ids in their external form."""
+    """A taxa row as the API returns it: ids in their external form."""
     if not t:
         return None
     t = dict(t)
@@ -187,13 +187,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 def serve(root: Path, port: int = 8765, editor: str = "curator") -> int:
     if not (root / "index.html").exists():
-        print(f"nothing built at {root}; run `uv run guaminsects build {root.name}` first")
+        print(f"nothing built at {root}; run `uv run guaminsects build` first")
         return 1
     Handler.editor = editor
     handler = functools.partial(Handler, directory=str(root))
     with http.server.ThreadingHTTPServer(("127.0.0.1", port), handler) as httpd:
-        admin = " (admin: /admin.html)" if (root / "admin.html").exists() else ""
-        print(f"serving {root} at http://localhost:{port}/{admin}  (Ctrl-C to stop)")
+        print(f"serving {root} at http://localhost:{port}/  (Ctrl-C to stop)")
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

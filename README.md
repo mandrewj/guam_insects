@@ -18,21 +18,19 @@ everywhere:
 
 ```sh
 uv sync                              # Python 3.13 (venv in venv.nosync; see CLAUDE.md)
-uv run guaminsects build public local
-open index.html                      # redirects to site/local/; or: uv run guaminsects serve (http://localhost:8765)
+uv run guaminsects build
+open index.html                      # redirects to site/public/; or: uv run guaminsects serve (http://localhost:8765)
 ```
 
-`site/public` is what gets deployed (`ops/deploy.sh`, Vercel). `site/local` adds what may not
-be published: short passages from the PDFs, links to the files on this computer, and the
-curation admin.
+There is one build, `site/public`: the site you open here is the one deployed
+(`ops/deploy.sh`, Vercel).
 
 ## Curate
 
 The tree is GBIF's backbone plus the hand edits in `curation/` (add a morphospecies, rename,
 move, hide, set native/introduced, attach iNaturalist observations, GBIF records or your own
-photos). Three ways in, all writing the same files:
+photos). Two ways in, both writing the same files:
 
-- the admin page: `uv run guaminsects serve`, then http://localhost:8765/admin.html;
 - **`taxonomy.csv`** at the top of this folder: the whole taxonomy in Darwin Core columns
   (with family on every row, the island groups, sources and a verification level). Every
   build rewrites it, and edits made to it are taken in first. The site's "Download taxonomy"

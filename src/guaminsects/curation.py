@@ -151,7 +151,7 @@ def resolve(conn, cur: Curation) -> dict[str, int]:
     return tree.build(conn, cur)
 
 
-# ---------------------------------------------------------------- editing (admin page, import)
+# ---------------------------------------------------------------- editing (curation API, import)
 
 def _apply(conn, rows: list[dict], evidence: list[dict]) -> dict[str, int]:
     """Validate a whole new state of both files, resolve it, and only then save it.

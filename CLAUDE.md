@@ -13,7 +13,8 @@ foundation:
 | Regions | NE / SE / SW / NW (US + Canada) | **islands and island groups** (Guam, CNMI, Palau, FSM, Marshalls) |
 | Output | static `file://` web app | **the same app**, reused from `starter/webapp/` |
 
-Status (2026-11-13): the tree is the Catalogue of Life (round 4 below); the pipeline runs end
+Status (2026-11-13): one build (round 5), moving to another machine (see docs/STATUS.md,
+"Moving to another machine"); the tree is the Catalogue of Life (round 4 below); the pipeline runs end
 to end and the site builds and passes `ops/check_site.py` in all three engines. Live at https://insects-of-guam.vercel.app
 (`ops/deploy.sh --prod`). Start with the decisions below (they override
 `BUILD_PLAN.md`), then "Pipeline order".
@@ -40,11 +41,11 @@ uv run guaminsects resolve       # tree = COL + name matches + curation/*.csv   
 uv run guaminsects wikidata      # cross-links by COL id (P10585) / GBIF id        Wikidata
 uv run guaminsects wikipedia     # article text                                    en.wikipedia
 uv run guaminsects bugguide      # links from entobase (read-only)                 local
-uv run guaminsects photos        # Commons + iNat photos, select, thumbs           Commons, iNat
-uv run guaminsects resolve && uv run guaminsects build public local   # also taxonomy.csv
+uv run guaminsects photos        # Commons, iNat, GBIF images; select, thumbs   Commons, iNat, GBIF
+uv run guaminsects resolve && uv run guaminsects build   # site/public; also taxonomy.csv
 uv run python ops/check_site.py  # Chrome/WebKit/Firefox x desktop/phone
 uv run python ops/review.py      # data/exports/review.html for the curator (local only)
-uv run guaminsects serve         # http://localhost:8765 (+ /admin.html)
+uv run guaminsects serve         # http://localhost:8765 (+ the curation /api)
 ops/deploy.sh [--prod]           # Vercel (public build)
 ```
 
@@ -143,6 +144,18 @@ every reader goes through `db.keymap(conn)`. External ids: `KVC9L`, `gbif:<key>`
   "machine-read" on the site and in the CSV.
 - Rhipiceridae (10 UOG specimens from Yap and Kosrae identified only to family) is merged
   into Callirhipidae in curation/taxa.csv, per the user.
+
+## Decisions, round 5 (2026-11-13; these override anything above)
+
+- **One build.** The local site is the same as the online one: `guaminsects build` writes
+  site/public, which opens from `file://`, is served by `guaminsects serve`, and is deployed.
+  The `local` target (PDF snippets, links to local PDFs) and the admin page are gone; that
+  material belongs in the local editing tool, never in the site.
+- **Local editing tool (next):** `data/exports/review.html` grows into a local tool where the
+  checklist is checked, edited and annotated; it exports an updated taxonomy.csv and triggers
+  a rebuild. It is local only (it may quote PDFs).
+- **Photos from GBIF occurrences** too (iNat observations, museum specimens, BOLD), with the
+  image's licence or else the record's; the same five licences only.
 
 ## Hard rules (inherited from entobase; they exist because something went wrong)
 

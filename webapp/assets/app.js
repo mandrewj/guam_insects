@@ -494,7 +494,8 @@
     // the picture should enlarge it rather than navigate away from the page.
     return '<figure class="gallery"><button type="button" class="g-main" data-i="0" ' +
       'title="Click to enlarge"><img src="' + esc(first.display) +
-      '" alt="' + esc(r.name) + '" width="' + first.w + '" height="' + first.h + '"></button>' +
+      '" alt="' + esc(r.name) + '"' + (first.w && first.h ? ' width="' + first.w + '" height="' + first.h + '"' : "") +
+      "></button>" +
       thumbs + '<figcaption class="g-cap">' + photoCaption(first) + "</figcaption></figure>";
   }
 
@@ -577,9 +578,11 @@
     if (!ph) return;
     var fig = b.closest(".gallery"), main = fig.querySelector(".g-main");
     main.setAttribute("data-i", b.getAttribute("data-i"));
-    main.querySelector("img").src = ph.display;
-    main.querySelector("img").width = ph.w;
-    main.querySelector("img").height = ph.h;
+    var img = main.querySelector("img");
+    // GBIF images come without a size until their thumbnail is made: let the browser size them.
+    if (ph.w && ph.h) { img.width = ph.w; img.height = ph.h; }
+    else { img.removeAttribute("width"); img.removeAttribute("height"); }
+    img.src = ph.display;
     fig.querySelector(".g-cap").innerHTML = photoCaption(ph);
     fig.querySelectorAll(".g-thumb").forEach(function (t) { t.classList.toggle("active", t === b); });
   });
@@ -745,9 +748,7 @@
           return "<li>" + (w.treated ? '<span class="badge" title="The document has a section on this taxon">Treated</span> ' : "") +
             (w.machine_read ? '<span class="badge machine" title="Found by the name finder in the PDF text; no person has checked it yet">Machine-read</span> ' : "") +
             "<cite>" + esc(w.citation) + "</cite>" + esc(pages) + where +
-            ' <span class="ref-links">' + (w.url ? ext(w.url, "publisher's copy") : "") +
-            (w.file ? (w.url ? " · " : "") + '<a href="' + esc(w.file) + '" target="_blank" rel="noopener">local PDF</a>' : "") + "</span>" +
-            (w.snippet ? '<blockquote class="lit-snip">' + esc(w.snippet) + "</blockquote>" : "") + "</li>";
+            ' <span class="ref-links">' + (w.url ? ext(w.url, "publisher's copy") : "") + "</span></li>";
         }
         return "<li><cite>" + esc(w.citation || w.title) + "</cite>" + where +
           ' <span class="ref-links">' + ext(w.url, w.source === "croppests" ? "the list online" : "checklist on GBIF") +
@@ -1002,9 +1003,7 @@
       rows.push("<li><strong>Literature</strong>: citations as given above. Checklists digitized by " +
         ext("https://plazi.org/", "Plazi") + " are published through GBIF under CC0. Papers and " +
         "monographs remain under their publishers' copyright: this page cites them and links to the " +
-        "publisher's copy" + (meta.target === "local"
-          ? "; the short passages shown are for personal reference in this local copy only.</li>"
-          : ", and quotes none of their text.</li>"));
+        "publisher's copy, and quotes none of their text.</li>");
     }
     if (r.photos.length) {
       rows.push("<li><strong>Photos</strong>: " + r.photos.map(function (ph, i) {
@@ -1037,7 +1036,6 @@
       '<button type="button" class="dl-btn" data-dl="all">' + (isHome ? "The whole taxonomy" : "Whole taxonomy") +
       "</button></div>" + '<p class="dl-note">CSV with Darwin Core columns: name, authorship, rank, parent, ' +
       "family, island groups, sources and how each taxon is verified." +
-      (meta.target === "local" ? " The same file is <code>taxonomy.csv</code> in the project folder." : "") +
       '</p><p class="dl-status" role="status"></p></div>';
   }
 
@@ -1418,8 +1416,7 @@
     if (el && meta) {
       el.innerHTML = esc(meta.title + " " + meta.subtitle) + " · built " + fmtDate(meta.built_at) +
         " · Every photo, record and text carries its own credit and license; see each page's " +
-        "Sources section. · " + ext("https://github.com/mandrewj/guam_insects", "Source code") + " (MIT)" +
-        (meta.target === "local" ? ' · <a href="admin.html">Curate</a> (needs <code>guaminsects serve</code>)' : "");
+        "Sources section. · " + ext("https://github.com/mandrewj/guam_insects", "Source code") + " (MIT)";
     }
   }
 })();

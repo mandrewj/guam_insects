@@ -36,7 +36,7 @@ main() {
   wait "$wiki"
   if [ "${1:-}" != "--no-inat" ]; then run photos photos; else run photos photos commons select thumbs; fi
   run resolve-2 resolve
-  run build build public local
+  run build build
   uv run python ops/check_site.py --browsers chrome
   uv run python ops/review.py
 }

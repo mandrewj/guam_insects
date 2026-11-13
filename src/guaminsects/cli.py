@@ -188,30 +188,27 @@ def cmd_documents(args) -> int:
 
 
 def cmd_build(args) -> int:
-    """Write the static site: site/public (deployed) or site/local (everything)."""
+    """Write the static site, site/public: opened locally and deployed as it is."""
     from . import site
 
-    conn = db.connect()
-    for target in args.target:
-        try:
-            stats = site.build(conn, target)
-        except curation.CurationError as e:
-            print(f"taxonomy.csv has edits that do not fit the tree; nothing saved or built. "
-                  f"Fix them in taxonomy.csv and build again:\n{e}", file=sys.stderr)
-            return 1
-        print(f"{target}: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
-        if target == "public" and stats["megabytes"] > site.PUBLIC_BUDGET_MB:
-            print(f"public build is over the {site.PUBLIC_BUDGET_MB} MB deploy budget",
-                  file=sys.stderr)
-            return 1
+    try:
+        stats = site.build(db.connect())
+    except curation.CurationError as e:
+        print(f"taxonomy.csv has edits that do not fit the tree; nothing saved or built. "
+              f"Fix them in taxonomy.csv and build again:\n{e}", file=sys.stderr)
+        return 1
+    print("site: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
+    if stats["megabytes"] > site.PUBLIC_BUDGET_MB:
+        print(f"the site is over the {site.PUBLIC_BUDGET_MB} MB deploy budget", file=sys.stderr)
+        return 1
     return 0
 
 
 def cmd_serve(args) -> int:
-    """Serve a built site on localhost (the admin page needs this; file:// works too)."""
+    """Serve the built site on localhost (file:// works too)."""
     from . import server
 
-    return server.serve(config.SITE_DIR / args.target, args.port)
+    return server.serve(config.SITE_DIR / "public", args.port)
 
 
 def cmd_library(args) -> int:
@@ -271,7 +268,7 @@ def cmd_bugguide(args) -> int:
 
 
 def cmd_photos(args) -> int:
-    """Photo candidates (Commons, iNaturalist), selection with borrowing, 200 px thumbnails."""
+    """Photo candidates (Commons, iNaturalist, GBIF occurrence images), selection with borrowing, 200 px thumbnails."""
     from .enrich import photos
     from .enrich.http import ApiClient
 
@@ -282,6 +279,9 @@ def cmd_photos(args) -> int:
         inat = ApiClient(photos.INAT, 1.0)
         print("inat: " + ", ".join(f"{k} {v}" for k, v in
                                    photos.inat_taxon_sweep(conn, inat).items()))
+    if "gbif" in args.steps:
+        print("gbif: " + ", ".join(f"{k} {v}" for k, v in
+                                   photos.gbif_sweep(conn, gbif_client()).items()))
     if "select" in args.steps:
         print("select: " + ", ".join(f"{k} {v}" for k, v in photos.select(conn).items()))
     if "thumbs" in args.steps:
@@ -319,7 +319,7 @@ def cmd_import(args) -> int:
     if args.dry_run:
         print("(dry run: nothing saved)")
     elif stats["changed"] or stats["new"]:
-        print("curation/taxa.csv updated; run `guaminsects build public local` to see it")
+        print("curation/taxa.csv updated; run `guaminsects build` to see it")
     return 0
 
 
@@ -414,10 +414,8 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("documents", help=cmd_documents.__doc__)
     p.set_defaults(func=cmd_documents)
     p = sub.add_parser("build", help=cmd_build.__doc__)
-    p.add_argument("target", nargs="*", default=["public"], choices=["public", "local"])
     p.set_defaults(func=cmd_build)
     p = sub.add_parser("serve", help=cmd_serve.__doc__)
-    p.add_argument("target", nargs="?", default="local", choices=["public", "local"])
     p.add_argument("--port", type=int, default=8765)
     p.set_defaults(func=cmd_serve)
     p = sub.add_parser("library", help=cmd_library.__doc__)
@@ -437,8 +435,8 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("bugguide", help=cmd_bugguide.__doc__)
     p.set_defaults(func=cmd_bugguide)
     p = sub.add_parser("photos", help=cmd_photos.__doc__)
-    p.add_argument("steps", nargs="*", default=["commons", "inat", "select", "thumbs"],
-                   choices=["commons", "inat", "select", "thumbs"])
+    p.add_argument("steps", nargs="*", default=["commons", "inat", "gbif", "select", "thumbs"],
+                   choices=["commons", "inat", "gbif", "select", "thumbs"])
     p.set_defaults(func=cmd_photos)
     p = sub.add_parser("islands", help=cmd_islands.__doc__)
     p.set_defaults(func=cmd_islands)

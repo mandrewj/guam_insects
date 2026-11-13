@@ -68,7 +68,7 @@ bugwood{…}, sources{bugguide{…}}`.
 4. **At a glance**: `iNat obs. (Guam)` and `GBIF records (Micronesia)`; add a **status badge**
    next to the name: *Native*, *Endemic*, *Introduced*, *Invasive*, *Unknown*, with the source.
 5. **Sections**: BugGuide sections become "BugGuide (via entobase)" blocks when present. New
-   sections from sources: **Literature** (PDF citations with page and snippet), Wikipedia,
+   sections from sources: **Literature** (PDF citations with pages; no snippets on the site), Wikipedia,
    Wikispecies (taxonomy/synonymy), IUCN status, "Biology" from any text with citations. Keep the
    "section note" pattern: each block says where its text came from, and attribution lists it.
 6. **Search**: index scientific names, synonyms, and common names (English, Chamorro, Palauan

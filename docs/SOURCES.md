@@ -15,6 +15,8 @@ Everything here was learned running entobase; "verified" means checked against t
 | Species with records in a country | `GET /occurrence/search?country=GU&taxonKey=54&limit=0&facet=speciesKey&facetLimit=1000&facetOffset=0` (see `scripts/gbif_checklist.py`). Facet counts are records. Verified counts: Arthropoda species with records: GU 1,586; MP 829; PW 1,274; FM 1,504; MH 1,085 |
 | Records for one taxon | `GET /occurrence/search?taxonKey=…&country=GU&limit=300&offset=` (hard cap: `offset + limit ≤ 100,000`; use the download API above that, which needs a GBIF account) |
 | Quality | `hasCoordinate=true&hasGeospatialIssue=false`; filter `basisOfRecord` (`PRESERVED_SPECIMEN`, `HUMAN_OBSERVATION`, `MACHINE_OBSERVATION`; exclude `FOSSIL_SPECIMEN`); read `establishmentMeans` (NATIVE/INTRODUCED/INVASIVE…; often empty) and `occurrenceStatus` |
+| Images on occurrences | `GET /occurrence/search?checklistKey=<COL>&taxonKey=L2655&mediaType=StillImage&country=GU&country=MP…&limit=300` (7,615 records in the five areas, 2026-11-13: iNat 5,333, then NMNH, NHMUK, AntWeb, BOLD, ANSP…); per species the same with `taxonKey=<COL id>&limit=20`. Each `media[]` has `identifier`, `format`, `license` (URL or words), `rightsHolder`/`creator`, `references`. **Use the image's licence, else the record's**; skip ND and anything not CC. Some "images" are sound plots or labels (`waveform`, `label` in the URL). COL's extended release also gives BOLD BIN usages (`BOLD.ADL3763`), which are not COL ids. `guaminsects photos gbif` |
+| Image cache (resized copies) | `https://api.gbif.org/v1/image/cache/{200x | 330x | fit-in/960x}/occurrence/{key}/media/{md5(identifier)}`: verified; a 6 KB thumbnail instead of a multi-MB museum original |
 | Density map tiles | `https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=osm-bright` (basemap); `https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?srs=EPSG:3857&taxonKey=KEY&bin=hex&hexPerTile=110&style=classic.poly` (overlay). Ad-hoc map over many keys: `…/v2/map/occurrence/adhoc/{z}/{x}/{y}@1x.png?…&taxonKey=k1&taxonKey=k2` (≤100 keys per request); **it answers 503 for a tile with no records**: read that as empty |
 
 Gotchas: country totals count *records*, so a handful of old specimens in one dataset can dominate;
@@ -132,6 +134,7 @@ curl. `reference/.../enrich/bugwood.py` is the working client.
 | Wikipedia, Wikispecies | CC BY-SA 4.0 | title, revision, date, licence link |
 | iNaturalist photos | per photo (allowed list above) | author, licence, link, retrieval date |
 | GBIF | per dataset; counts/maps | "GBIF.org, accessed <date>" |
+| GBIF occurrence images | per image, else per record (allowed list above) | rights holder, institution + catalogue number, licence, link to the occurrence |
 | Wikidata | CC0 | optional |
 | Commons | per file | author, licence, link |
 | IUCN | see terms | category + citation + link |
