@@ -72,8 +72,24 @@ def parse_volume(page: str) -> list[dict]:
     return out
 
 
+# Words that also turn up in papers about fish, birds and reefs ("feeds on insects", "fish
+# scales"): enough in a title, but an abstract needs other evidence too.
+WEAK = {"insect", "insects", "arthropod", "arthropods", "scale", "scales", "bug", "bugs",
+        "flies", "pollinator", "pollinators", "ant", "ants", "bee", "bees", "lice"}
+
+
+# Names that contain an insect word: an atoll and a fish.
+FALSE_FRIENDS = re.compile(r"\bAnt Atolls?\b|butterflyfish\w*", re.I)
+
+
 def is_insect(a: dict) -> bool:
-    return bool(INSECT_RE.search(f"{a['title']} {a['abstract']}"))
+    """In the title, any insect word; in the abstract alone, three distinct ones, at least
+    one of them specific (an order, a family, a pest)."""
+    title = FALSE_FRIENDS.sub(" ", a["title"])
+    if INSECT_RE.search(title):
+        return True
+    hits = {m.group(0).lower() for m in INSECT_RE.finditer(FALSE_FRIENDS.sub(" ", a["abstract"]))}
+    return len(hits) >= 3 and bool(hits - WEAK)
 
 
 def file_name(a: dict) -> str:

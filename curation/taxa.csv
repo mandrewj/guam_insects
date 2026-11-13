@@ -1,2 +1,2 @@
 taxon_id,rank,name,authorship,parent_id,parent_name,status,accepted_id,common_name,establishment,hidden,note,editor,edited,reason,citation
-900000001,Subphylum,Hexapoda,"Latreille, 1825",,,accepted,,hexapods,,,Root of the site's tree. GBIF's backbone has no Hexapoda node; the four hexapod classes hang from it (config.HEXAPOD_CLASSES).,build,2026-11-13,tree root,
+900000001,Subphylum,Hexapoda,"Latreille, 1825",,,accepted,,hexapods,,,"Hexapods: the insects and their six-legged relatives, the springtails (Collembola), proturans and diplurans.",build,2026-11-13,tree root,

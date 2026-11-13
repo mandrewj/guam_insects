@@ -136,6 +136,28 @@ def cmd_documents(args) -> int:
     return 0
 
 
+def cmd_build(args) -> int:
+    """Write the static site: site/public (deployed) or site/local (everything)."""
+    from . import site
+
+    conn = db.connect()
+    for target in args.target:
+        stats = site.build(conn, target)
+        print(f"{target}: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
+        if target == "public" and stats["megabytes"] > site.PUBLIC_BUDGET_MB:
+            print(f"public build is over the {site.PUBLIC_BUDGET_MB} MB deploy budget",
+                  file=sys.stderr)
+            return 1
+    return 0
+
+
+def cmd_serve(args) -> int:
+    """Serve a built site on localhost (the admin page needs this; file:// works too)."""
+    from . import server
+
+    return server.serve(config.SITE_DIR / args.target, args.port)
+
+
 def cmd_stats(args) -> int:
     conn = db.connect()
     for r in conn.execute("SELECT rank, COUNT(*) n, SUM(hidden) h FROM taxa GROUP BY rank "
@@ -172,6 +194,13 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_export)
     p = sub.add_parser("documents", help=cmd_documents.__doc__)
     p.set_defaults(func=cmd_documents)
+    p = sub.add_parser("build", help=cmd_build.__doc__)
+    p.add_argument("target", nargs="*", default=["public"], choices=["public", "local"])
+    p.set_defaults(func=cmd_build)
+    p = sub.add_parser("serve", help=cmd_serve.__doc__)
+    p.add_argument("target", nargs="?", default="local", choices=["public", "local"])
+    p.add_argument("--port", type=int, default=8765)
+    p.set_defaults(func=cmd_serve)
     p = sub.add_parser("stats", help="counts by rank and area")
     p.set_defaults(func=cmd_stats)
     args = ap.parse_args(argv)

@@ -341,10 +341,41 @@ section[id] { scroll-margin-top: 80px; }
 .ip-filter .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 /* Each region keeps the colour it has on the map, so chip and shading agree. */
 .ip-filter .chip.on { color: #fff; }
-.ip-filter .chip.r-ne.on { background: #2f6b4f; border-color: #2f6b4f; }
-.ip-filter .chip.r-se.on { background: #a8671f; border-color: #a8671f; }
-.ip-filter .chip.r-sw.on { background: #6a4a7c; border-color: #6a4a7c; }
-.ip-filter .chip.r-nw.on { background: #2a5f8f; border-color: #2a5f8f; }
+/* One hue per island group, used by the identify chips, the card chips and the presence
+   table; Guam takes the site accent. */
+:root { --gu: #1d5f8a; --mp: #0f7f7a; --pw: #5b7a1f; --fm: #a8671f; --mh: #7a4a8c; }
+@media (prefers-color-scheme: dark) {
+  :root { --gu: #7fc3e8; --mp: #6fd0c6; --pw: #b5d07a; --fm: #e6b070; --mh: #c9a4dc; }
+}
+.ip-filter .chip.r-gu.on { background: var(--gu); border-color: var(--gu); }
+.ip-filter .chip.r-mp.on { background: var(--mp); border-color: var(--mp); }
+.ip-filter .chip.r-pw.on { background: var(--pw); border-color: var(--pw); }
+.ip-filter .chip.r-fm.on { background: var(--fm); border-color: var(--fm); }
+.ip-filter .chip.r-mh.on { background: var(--mh); border-color: var(--mh); }
+.isle { display: inline-block; font-size: 0.68rem; line-height: 1.5; padding: 0 6px; margin: 0 3px 2px 0; border-radius: 999px; border: 1px solid currentColor; font-weight: 600; letter-spacing: 0.01em; }
+.isle.r-gu { color: var(--gu); } .isle.r-mp { color: var(--mp); } .isle.r-pw { color: var(--pw); }
+.isle.r-fm { color: var(--fm); } .isle.r-mh { color: var(--mh); }
+.card-isles, .ip-where { display: block; margin-top: 4px; }
+table.presence { width: 100%; border-collapse: collapse; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+table.presence th, table.presence td { padding: 3px 4px; border-bottom: 1px solid var(--line); }
+table.presence td { text-align: right; }
+table.presence tr:first-child th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); text-align: right; border-bottom-width: 2px; }
+table.presence tr:first-child th.t-gbif { color: var(--gbif); } table.presence tr:first-child th.t-inat { color: var(--inat); }
+table.presence tr th:first-child { text-align: left; font-weight: 600; }
+table.presence tr.r-gu th:first-child { color: var(--gu); } table.presence tr.r-mp th:first-child { color: var(--mp); }
+table.presence tr.r-pw th:first-child { color: var(--pw); } table.presence tr.r-fm th:first-child { color: var(--fm); }
+table.presence tr.r-mh th:first-child { color: var(--mh); }
+.badge.est-ok { background: #e3f2e6; color: #2e6b3a; } .badge.est-warn { background: var(--warn-soft); color: var(--warn); }
+.badge.est-crit { background: #fbe3e0; color: #9b2c1f; } .badge.est-muted { background: var(--line); color: var(--muted); }
+.badge.morpho { background: var(--fossil-soft); color: var(--fossil); }
+@media (prefers-color-scheme: dark) {
+  .badge.est-ok { background: #1f3324; color: #9fd8a8; } .badge.est-crit { background: #3a201c; color: #f0a196; }
+}
+ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { font-style: normal; }
+.lit-areas { margin-left: 4px; }
+.hero-title { font: 700 1.7rem/1.2 var(--font); margin: 0 0 10px; }
+.hero-sub { color: var(--muted); font-weight: 500; }
+.curated-note { margin-bottom: 14px; }
 .chip-clear { color: var(--muted); }
 .ip-mapkey { margin: 0 0 12px; }
 .ip-mapkey summary { cursor: pointer; font-size: 0.85rem; color: var(--accent); width: fit-content; }
