@@ -131,3 +131,7 @@ Not usable by script (Cloudflare challenge, do not try to get around it): **guam
 (Moore's Scratchpad; its Guam lists are the Plazi datasets above) and **AntWiki** (ant data comes
 through AntWeb in GBIF and Clouse 2007 in the library). iNaturalist answered 429 for hours on
 2026-11-13 while entobase's `link --stubs` ran: `inat_counts.patient_get` waits 5 min a try.
+
+GBIF `establishmentMeans` (native/introduced) is almost never filled for Micronesian insects
+(7 Guam records, 2026-11-14). Introduced status comes from the literature (Schreiner 1991,
+Nafus 1991) and from curation.

@@ -114,8 +114,10 @@ def scan(conn, client=None) -> dict[str, int]:
     return stats
 
 
-GBIF_MEANS = {"NATIVE": "native", "INTRODUCED": "introduced", "INVASIVE": "invasive",
-              "NATURALISED": "introduced", "MANAGED": "introduced", "VAGRANT": "unknown"}
+# GBIF's vocabulary values are lower case. Few Micronesian records carry one at all (seven
+# Guam insect records on 2026-11-14), so this is a minor source; it costs ~30 requests.
+GBIF_MEANS = {"native": "native", "introduced": "introduced", "invasive": "invasive",
+              "naturalised": "introduced", "managed": "introduced", "vagrant": "unknown"}
 
 
 def gbif_sweep(conn, client) -> dict[str, int]:
@@ -134,8 +136,8 @@ def gbif_sweep(conn, client) -> dict[str, int]:
                     ("establishmentMeans", means), ("limit", 0), ("facet", "speciesKey"),
                     ("facetLimit", FACET_PAGE), ("facetOffset", offset)])
                 got = (d.get("facets") or [{}])[0].get("counts", [])
-                rows += [(int(c["name"]), area["code"], status, f"gbif:{means.lower()}",
-                          f"GBIF records marked {means.lower()} ({c['count']})") for c in got]
+                rows += [(int(c["name"]), area["code"], status, f"gbif:{means}",
+                          f"GBIF records marked {means} ({c['count']})") for c in got]
                 if len(got) < FACET_PAGE:
                     break
                 offset += FACET_PAGE

@@ -103,3 +103,9 @@ def test_pdf_decisions_survive_and_apply(tmp_path, monkeypatch):
     assert conn.execute("SELECT COUNT(*) FROM taxon_presence WHERE source = 'pdf'").fetchone()[0] == 0
     literature.decide(conn, "a.pdf", 3, "Oryctes rhinoceros", "pending", "t")
     assert literature.load_decisions() == {}
+
+
+def test_species_section_ends_at_the_next_numbered_species():
+    text = ("12. Aus bus Smith\nMARIANA IS. Guam: Agana.\n13. Aus cus (Jones)\nPALAU: Koror.\n")
+    sec = literature.section_text(text)
+    assert "Guam" in sec and "Koror" not in sec

@@ -97,6 +97,24 @@ GERMAN_ENGLISH = {"typus", "prosternum", "endglied", "kopf", "zwischenraume", "s
                   "figure", "plate", "table", "museum", "island", "islands", "genus", "species"}
 
 
+SECTION_MAX = 3000
+# A species section also ends at the next numbered species line or genus line, even when the
+# full heading pattern missed it (OCR, an unusual author format): otherwise one species
+# takes the next one's islands.
+SECTION_END = re.compile(r"\n\s{0,12}(?:\d{1,3}\.\s+[A-Z][a-z]{2,}\s+[a-z]{3,}|Genus\s+[A-Z][a-z]+\b|"
+                         r"[A-Z][a-z]+\s+[a-z]{3,}\s+(?:n\.\s*sp|new\s+species))")
+
+
+def section_text(chunk: str) -> str:
+    """The account of one species: from its heading to the next species, at most
+    SECTION_MAX characters. The heading's own line is skipped when looking for the end."""
+    first_nl = chunk.find("\n")
+    if first_nl < 0:
+        return chunk[:SECTION_MAX]
+    m = SECTION_END.search(chunk, first_nl)
+    return chunk[:m.start()] if m and m.start() < SECTION_MAX else chunk[:SECTION_MAX]
+
+
 def islands_in(text: str) -> list[tuple[str, str]]:
     """[(area, island)] named in a stretch of text, ambiguous names only in locality lists."""
     out = []
@@ -131,8 +149,12 @@ def lexicon(conn) -> tuple[dict[str, int], dict[str, set[str]]]:
         canon = canonical(r["name"] or "")
         if canon and r["nub_key"] in tree and canon not in names:
             names[canon] = r["nub_key"]
-    for r in conn.execute("SELECT taxon_id, synonym FROM taxon_synonyms"):
-        names.setdefault(r["synonym"], r["taxon_id"])
+    # Synonyms: binomials only (one-word genus synonyms would make every genus a mention),
+    # and never the empty "asked, none" marker rows.
+    known_ids = set(names.values())
+    for r in conn.execute("SELECT taxon_id, synonym FROM taxon_synonyms WHERE synonym LIKE '% %'"):
+        if r["taxon_id"] in known_ids:
+            names.setdefault(r["synonym"], r["taxon_id"])
     genera: dict[str, set[str]] = defaultdict(set)
     for n in names:
         parts = n.split()
@@ -205,7 +227,7 @@ def scan(conn) -> dict[str, int]:
             chunk = pages[pi]["text"][off:] if end_pi > pi else pages[pi]["text"][off:end_off]
             for k in range(pi + 1, end_pi + 1):
                 chunk += "\n" + (pages[k]["text"][:end_off] if k == end_pi else pages[k]["text"])
-            chunk = chunk[:6000]
+            chunk = section_text(chunk)
             isl = sorted(set(islands_in(chunk))) if in_region else []
             tid = names.get(name) or names.get(" ".join(name.split()[:2]))
             stats["headings"] += 1
