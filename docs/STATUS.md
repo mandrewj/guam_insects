@@ -21,10 +21,11 @@ is done, what is waiting, and what needs the user.
 - UI: checklist under the cards on higher taxa, region tooltips, shorter intro, blue
   favicon, US spellings, iNat/GBIF links first, thumbnails carried up to groups with none.
 
+### Deployed
+- https://insects-of-guam.vercel.app is this build (2026-11-13, 22:28 UTC; deploy
+  8rbpc1esb). Re-run `ops/harvest.sh` (it deploys at the end) or `ops/deploy.sh --prod`.
+
 ### Waiting on the user
-- **Deploy**: the live site (https://insects-of-guam.vercel.app) is the interim COL build from
-  11:00. `ops/deploy.sh --prod` publishes this one (the session's permission check stopped
-  the agent from deploying).
 - **Review page** (`data/exports/review.html`): 210 literature or near-spelling names held for
   review, 42 names with records that could not be placed, families with family-level
   records only (candidates for merges like Rhipiceridae).

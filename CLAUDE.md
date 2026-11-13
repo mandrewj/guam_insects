@@ -14,8 +14,8 @@ foundation:
 | Output | static `file://` web app | **the same app**, reused from `starter/webapp/` |
 
 Status (2026-11-13): the tree is the Catalogue of Life (round 4 below); the pipeline runs end
-to end and the site builds and passes `ops/check_site.py` in all three engines. Not yet deployed (ops/deploy.sh is ready;
-the first deploy waits for the user). Start with the decisions below (they override
+to end and the site builds and passes `ops/check_site.py` in all three engines. Live at https://insects-of-guam.vercel.app
+(`ops/deploy.sh --prod`). Start with the decisions below (they override
 `BUILD_PLAN.md`), then "Pipeline order".
 
 ## Pipeline order (each step resumable; one stream per host)
