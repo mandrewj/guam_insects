@@ -68,7 +68,7 @@ ISLANDS = {
 # word boundary, and "Tol", "Lib", "Aur", "Arno", "Ebon", "Mili", "Fais" also need to sit in
 # a locality list (next to another island or after a colon), handled in `islands_in`.
 AMBIGUOUS = {"Tol", "Lib", "Aur", "Arno", "Ebon", "Mili", "Fais", "Namu", "Uman", "Moen",
-             "Rota", "Pagan", "Tobi", "Kili", "Ant", "Lae"}
+             "Pagan", "Tobi", "Kili", "Ant", "Lae"}
 _ISLAND_AREA = {name: (area, isl) for area, d in ISLANDS.items() for name, isl in d.items()}
 ISLAND_RE = re.compile(r"\b(" + "|".join(sorted(map(re.escape, _ISLAND_AREA), key=len,
                                                 reverse=True)) + r")\b")

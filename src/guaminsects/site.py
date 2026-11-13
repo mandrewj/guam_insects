@@ -241,6 +241,19 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
                if target == "local" else {})})
     for entries in lit.values():
         entries.sort(key=lambda w: (not w.get("treated"), w.get("year") or "9999"))
+    # Islands named in species accounts (literature headings), and later GBIF's level-1
+    # areas: {area: {island: [sources]}} shown as "Recorded on" under the presence table.
+    from .literature import ISLANDS
+
+    island_area = {isl: a for a, d in ISLANDS.items() for isl in d.values()}
+    islands: dict[int, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
+    for r in conn.execute("SELECT taxon_id, islands FROM pdf_mentions WHERE kind = 'heading' "
+                          "AND islands IS NOT NULL AND decision != 'rejected'"):
+        for isl in r["islands"].split(","):
+            if isl in island_area:
+                islands[r["taxon_id"]][island_area[isl]].add(isl)
+    for r in conn.execute("SELECT taxon_id, area, island FROM taxon_islands"):
+        islands[r["taxon_id"]][r["area"]].add(r["island"])
     evidence: dict[int, list[dict]] = defaultdict(list)
     for r in conn.execute("SELECT * FROM taxon_evidence ORDER BY taxon_id, kind, ref"):
         evidence[r["taxon_id"]].append({"kind": r["kind"], "ref": r["ref"], "license": r["license"],
@@ -345,6 +358,10 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
                          for k in kids],
             "families": families.get(tid, []),
             "presence": presence_of(tid),
+            "islands": [{"area": a, "label": AREA_SHORT[a],
+                         "islands": sorted(i for i in islands[tid][a]
+                                           if i not in (AREA_SHORT[a], "Palau", "Marshall Is."))}
+                        for a in config.AREA_CODES if a in islands.get(tid, {})],
             "regions": regions_of(tid),
             "literature": lit.get(tid, []),
             "evidence": evidence.get(tid, []),
@@ -393,6 +410,10 @@ def build(conn, target: str = "public", site: Path | None = None) -> dict[str, i
     site = site or config.SITE_DIR / target
     site.mkdir(parents=True, exist_ok=True)
     for src in WEBAPP_DIR.rglob("*"):
+        # The curation admin exists only in the local build (and needs `guaminsects serve`).
+        if target == "public" and src.name.startswith("admin."):
+            (site / src.relative_to(WEBAPP_DIR)).unlink(missing_ok=True)
+            continue
         if src.is_file() and src.name != ".DS_Store":
             dest = site / src.relative_to(WEBAPP_DIR)
             dest.parent.mkdir(parents=True, exist_ok=True)

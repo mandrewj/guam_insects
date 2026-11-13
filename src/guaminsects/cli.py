@@ -96,11 +96,16 @@ def checklist_rows(conn) -> list[dict]:
     for t in conn.execute("SELECT * FROM taxa ORDER BY lineage"):
         anc = [names[int(x)] for x in t["lineage"].strip("/").split("/")]
         by_rank = {a["rank"]: a["name"] for a in anc}
+        # The editable columns come first and are named as in curation/taxa.csv, so an
+        # edited copy can go back in with `guaminsects import`; the rest are for reading.
         row = {"taxon_id": t["taxon_id"], "rank": t["rank"], "name": t["name"],
-               "authorship": t["authorship"] or "", "class": by_rank.get("Class", ""),
-               "order": by_rank.get("Order", ""), "family": by_rank.get("Family", ""),
-               "status": t["status"], "origin": t["origin"], "hidden": t["hidden"],
-               "common_name": t["common_name"] or ""}
+               "authorship": t["authorship"] or "", "parent_id": t["parent_id"] or "",
+               "status": t["status"], "accepted_id": t["accepted_id"] or "",
+               "common_name": t["common_name"] or "", "establishment": t["establishment"] or "",
+               "hidden": t["hidden"], "note": t["note"] or "",
+               "class": by_rank.get("Class", ""), "order": by_rank.get("Order", ""),
+               "family": by_rank.get("Family", ""), "origin": t["origin"],
+               "curated_fields": t["curated_fields"] or ""}
         p = pres.get(t["taxon_id"], {})
         for a in config.AREA_CODES:
             row[f"{a}_gbif"] = p.get((a, "gbif"), "")
@@ -233,6 +238,28 @@ def cmd_photos(args) -> int:
     return 0
 
 
+def cmd_islands(args) -> int:
+    """GBIF island-level presence (GADM level-1 units), one facet sweep per unit."""
+    from .enrich import islands
+
+    print(", ".join(f"{k} {v}" for k, v in islands.sweep(db.connect(), gbif_client()).items()))
+    return 0
+
+
+def cmd_import(args) -> int:
+    """Apply an edited copy of the exported checklist: changed cells become curation rows."""
+    from pathlib import Path
+
+    conn = db.connect()
+    try:
+        stats = curation.import_checklist(conn, Path(args.file), args.editor)
+    except curation.CurationError as e:
+        print(f"nothing saved; problems:\n{e}", file=sys.stderr)
+        return 1
+    print(", ".join(f"{k} {v}" for k, v in stats.items()) + " (curation/taxa.csv updated)")
+    return 0
+
+
 def cmd_stats(args) -> int:
     conn = db.connect()
     for r in conn.execute("SELECT rank, COUNT(*) n, SUM(hidden) h FROM taxa GROUP BY rank "
@@ -296,6 +323,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("steps", nargs="*", default=["commons", "inat", "select", "thumbs"],
                    choices=["commons", "inat", "select", "thumbs"])
     p.set_defaults(func=cmd_photos)
+    p = sub.add_parser("islands", help=cmd_islands.__doc__)
+    p.set_defaults(func=cmd_islands)
+    p = sub.add_parser("import", help=cmd_import.__doc__)
+    p.add_argument("file")
+    p.add_argument("--editor", default="curator")
+    p.set_defaults(func=cmd_import)
     p = sub.add_parser("stats", help="counts by rank and area")
     p.set_defaults(func=cmd_stats)
     args = ap.parse_args(argv)

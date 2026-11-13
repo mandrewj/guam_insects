@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curation · Insects of Guam</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html#/"><img class="logo" src="assets/img/logo.png" alt="" width="44" height="44"><span>Insects of <span>Guam</span></span></a>
+    <span class="tagline">Curation (local only)</span>
+  </div>
+</header>
+<main class="wrap admin" id="admin">
+  <p id="offline" class="notice" hidden>The admin needs the local server: run
+    <code>uv run guaminsects serve</code> and open <code>http://localhost:8765/admin.html</code>.</p>
+  <p id="status" class="muted"></p>
+  <div class="admin-grid">
+    <section class="box">
+      <h3>Find a taxon</h3>
+      <input id="find" type="search" placeholder="Name, e.g. Oryctes" autocomplete="off">
+      <ul id="found" class="pick"></ul>
+      <h3 class="gap">Add a taxon or morphospecies</h3>
+      <form id="add" class="form">
+        <label>Rank <select name="rank"></select></label>
+        <label>Name <input name="name" required placeholder="Oryctes sp. GU-1"></label>
+        <label>Parent <input name="parent_pick" placeholder="search the parent" autocomplete="off">
+          <input type="hidden" name="parent_id"></label>
+        <ul class="pick" data-for="add"></ul>
+        <label>Status <select name="status"><option>morphospecies</option><option>accepted</option><option>doubtful</option></select></label>
+        <label>Authorship <input name="authorship" placeholder="optional"></label>
+        <label>Common name <input name="common_name"></label>
+        <label>Note (shown on the page) <textarea name="note" rows="2"></textarea></label>
+        <label>Reason / source <input name="reason"></label>
+        <button type="submit">Add</button>
+      </form>
+      <p class="muted small">Or add a GBIF taxon by key: find it on gbif.org and enter its key
+        in “Find a taxon” as <code>key:12345</code>.</p>
+    </section>
+    <section class="box" id="edit-box">
+      <h3>Edit</h3>
+      <div id="edit"><p class="muted">Choose a taxon on the left.</p></div>
+    </section>
+  </div>
+  <section class="box">
+    <h3>All hand edits <span class="muted" id="n-curated"></span></h3>
+    <table class="curated"><thead><tr><th>id</th><th>name</th><th>changed</th><th>who, when</th><th>reason</th></tr></thead>
+      <tbody id="curated"></tbody></table>
+    <p class="muted small">Stored in <code>curation/taxa.csv</code> and <code>curation/evidence.csv</code>
+      (commit them to keep the history). The same files can be edited in a spreadsheet, or
+      changed in bulk with <code>guaminsects export</code> then <code>guaminsects import</code>.</p>
+  </section>
+</main>
+<script src="assets/admin.js"></script>
+</body>
+</html>

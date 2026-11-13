@@ -769,7 +769,11 @@
         (higher ? "<td>" + cell(p.species) + "</td>" : "") + "<td>" + cell(p.gbif) + "</td><td>" +
         cell(p.inat) + "</td><td>" + cell(p.literature) + "</td></tr>";
     }).join("");
-    return '<div class="box"><h3>Recorded from</h3><table class="presence">' + head + body + "</table>" +
+    var isles = (r.islands || []).filter(function (x) { return x.islands.length; });
+    var named = isles.length ? '<p class="isle-list">Islands named in the records: ' + isles.map(function (x) {
+      return '<span class="r-' + esc(x.area.toLowerCase()) + '"><b>' + esc(x.label) + "</b> " + esc(x.islands.join(", ")) + "</span>";
+    }).join("; ") + "</p>" : "";
+    return '<div class="box"><h3>Recorded from</h3><table class="presence">' + head + body + "</table>" + named +
       '<p class="cs-src">Counts are records, not individuals; sources overlap, so they are not added.</p></div>';
   }
 
@@ -1184,7 +1188,8 @@
     if (el && meta) {
       el.innerHTML = esc(meta.title + " " + meta.subtitle) + " · built " + fmtDate(meta.built_at) +
         " · Every photo, record and text carries its own credit and licence; see each page's " +
-        "Sources section. · " + ext("https://github.com/mandrewj/guam_insects", "Source code") + " (MIT)";
+        "Sources section. · " + ext("https://github.com/mandrewj/guam_insects", "Source code") + " (MIT)" +
+        (meta.target === "local" ? ' · <a href="admin.html">Curate</a> (needs <code>guaminsects serve</code>)' : "");
     }
   }
 })();

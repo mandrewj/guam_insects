@@ -119,3 +119,58 @@ def test_evidence_needs_a_licence_for_photos(conn, tmp_path):
 def test_lineages_survive_a_cycle():
     lin = db.lineages({1: None, 2: 1, 3: 4, 4: 3})
     assert lin[2] == "/1/2/" and set(lin) == {1, 2, 3, 4}
+
+
+@pytest.fixture
+def files(tmp_path, monkeypatch):
+    taxa_csv, ev_csv = paths(tmp_path)
+    write_taxa(taxa_csv, [ROOT_ROW])
+    curation.write_csv(ev_csv, curation.EVIDENCE_COLUMNS, [])
+    monkeypatch.setattr(curation, "TAXA_CSV", taxa_csv)
+    monkeypatch.setattr(curation, "EVIDENCE_CSV", ev_csv)
+    return taxa_csv, ev_csv
+
+
+def test_upsert_then_clear_drops_the_row(conn, files):
+    taxa_csv, _ = files
+    curation.resolve(conn, curation.load(*files))
+    curation.upsert(conn, {"taxon_id": "4995642", "common_name": "CRB"}, editor="t")
+    assert conn.execute("SELECT common_name FROM taxa WHERE taxon_id = 4995642").fetchone()[0] == "CRB"
+    curation.upsert(conn, {"taxon_id": "4995642", "common_name": ""}, editor="t")
+    assert [r["taxon_id"] for r in curation.load(*files).rows] == [str(H)]
+
+
+def test_bad_edit_changes_nothing(conn, files):
+    taxa_csv, _ = files
+    curation.resolve(conn, curation.load(*files))
+    before = taxa_csv.read_text()
+    with pytest.raises(curation.CurationError):
+        curation.upsert(conn, {"taxon_id": "1470", "parent_id": "1063"}, editor="t")   # a cycle
+    assert taxa_csv.read_text() == before
+    assert conn.execute("SELECT parent_id FROM taxa WHERE taxon_id = 1470").fetchone()[0] == 216
+
+
+def test_new_morphospecies_with_evidence(conn, files):
+    curation.resolve(conn, curation.load(*files))
+    curation.upsert(conn, {"rank": "Species", "name": "Oryctes sp. GU-1", "parent_id": "1063",
+                           "status": "morphospecies"}, editor="t")
+    new_id = H + 1
+    curation.add_evidence(conn, {"taxon_id": str(new_id), "kind": "inat_observation",
+                                 "ref": "123"}, editor="t")
+    assert conn.execute("SELECT status FROM taxa WHERE taxon_id = ?", (new_id,)).fetchone()[0] \
+        == "morphospecies"
+    assert conn.execute("SELECT ref FROM taxon_evidence").fetchone()[0] == "123"
+
+
+def test_import_edited_checklist(conn, files, tmp_path):
+    curation.resolve(conn, curation.load(*files))
+    sheet = tmp_path / "edited.csv"
+    sheet.write_text("taxon_id,rank,name,parent_id,common_name,establishment,hidden\n"
+                     "4995642,Species,Oryctes rhinoceros,1063,,invasive,0\n"
+                     "1063,Genus,Oryctes,7779,,,0\n"
+                     ",Species,Oryctes sp. GU-2,1063,,,0\n")
+    stats = curation.import_checklist(conn, sheet, editor="t")
+    assert stats == {"changed": 1, "new": 1}
+    assert conn.execute("SELECT establishment FROM taxa WHERE taxon_id = 4995642").fetchone()[0] \
+        == "invasive"
+    assert conn.execute("SELECT COUNT(*) FROM taxa WHERE name = 'Oryctes sp. GU-2'").fetchone()[0] == 1

@@ -233,10 +233,23 @@ def resolve(conn, cur: Curation) -> dict[str, int]:
     if len(roots) > 1:
         errors.append("more than one root: " + ", ".join(f"{t['name']} ({t['taxon_id']})"
                                                          for t in roots[:10]))
+    # A cycle: walk up from each lineage top whose parent is in the tree until a node
+    # repeats; report each cycle once, by its members, not every taxon hanging below it.
+    reported: set[int] = set()
     for tid in taxa:
         top = int(lineage[tid].strip("/").split("/")[0])
-        if taxa[top]["parent_id"] is not None and taxa[top]["parent_id"] in taxa:
-            errors.append(f"{taxa[tid]['name']} ({tid}): its parents form a cycle")
+        if taxa[top]["parent_id"] is None or taxa[top]["parent_id"] not in taxa or \
+                top in reported:
+            continue
+        path, node = [], top
+        while node not in path:
+            path.append(node)
+            node = taxa[node]["parent_id"]
+        loop = path[path.index(node):]
+        if not reported & set(loop):
+            errors.append("these would sit under their own descendants (a cycle): " +
+                          " > ".join(f"{taxa[x]['name']} ({x})" for x in loop))
+        reported |= set(path)
     for e in cur.evidence:
         if int(e["taxon_id"]) not in taxa:
             errors.append(f"evidence.csv: taxon_id {e['taxon_id']} is not in the tree")
@@ -270,3 +283,113 @@ def resolve(conn, cur: Curation) -> dict[str, int]:
             "overridden": sum(bool(t["curated_fields"]) and t["origin"] == "gbif"
                               for t in taxa.values()),
             "hidden": sum(t["hidden"] for t in taxa.values())}
+
+
+# ---------------------------------------------------------------- editing (admin page, import)
+
+def _apply(conn, rows: list[dict], evidence: list[dict]) -> dict[str, int]:
+    """Validate a whole new state of both files, resolve it, and only then save it.
+
+    The files are written to temporary copies first; `load` and `resolve` raise before
+    anything is replaced, so a bad edit never reaches curation/*.csv or the tree.
+    """
+    taxa_csv, evidence_csv = TAXA_CSV, EVIDENCE_CSV     # read at call time (tests patch them)
+    tmp_taxa = taxa_csv.with_suffix(".pending.csv")
+    tmp_ev = evidence_csv.with_suffix(".pending.csv")
+    write_csv(tmp_taxa, TAXA_COLUMNS, rows)
+    write_csv(tmp_ev, EVIDENCE_COLUMNS, evidence)
+    try:
+        cur = load(tmp_taxa, tmp_ev)
+        stats = resolve(conn, cur)
+    except CurationError:
+        tmp_taxa.unlink(missing_ok=True)
+        tmp_ev.unlink(missing_ok=True)
+        resolve(conn, load(taxa_csv, evidence_csv))     # put the tree back as it was
+        raise
+    tmp_taxa.replace(taxa_csv)
+    tmp_ev.replace(evidence_csv)
+    stats["assigned"] = cur.assigned
+    return stats
+
+
+def upsert(conn, row: dict, editor: str, reason: str = "") -> dict[str, int]:
+    """Add or change one taxa.csv row (blank taxon_id = a new taxon). Fields not given keep
+    their current curated value; an empty string clears it back to GBIF's."""
+    cur = load(TAXA_CSV, EVIDENCE_CSV, assign_ids=False)
+    rows = [dict(r) for r in cur.rows]
+    tid = str(row.get("taxon_id") or "").strip()
+    target = next((r for r in rows if tid and r["taxon_id"] == tid), None)
+    if target is None:
+        target = {c: "" for c in TAXA_COLUMNS}
+        rows.append(target)
+    for c in TAXA_COLUMNS:
+        if c in row and c not in ("editor", "edited"):
+            target[c] = "" if row[c] is None else str(row[c]).strip()
+    target["editor"], target["edited"] = editor, db.now()[:10]
+    if reason:
+        target["reason"] = reason
+    if not any(target[c] for c in OVERRIDE_FIELDS + ["parent_name"]) and \
+            target["taxon_id"] and int(target["taxon_id"]) < config.CURATED_ID_BASE:
+        rows.remove(target)          # nothing left to override: drop the row
+    return _apply(conn, rows, cur.evidence)
+
+
+def remove(conn, taxon_id: int) -> dict[str, int]:
+    """Drop a curated row. A hand-added taxon with children or evidence cannot go."""
+    cur = load(TAXA_CSV, EVIDENCE_CSV, assign_ids=False)
+    rows = [r for r in cur.rows if r["taxon_id"] != str(taxon_id)]
+    return _apply(conn, rows, cur.evidence)
+
+
+def add_evidence(conn, e: dict, editor: str) -> dict[str, int]:
+    cur = load(TAXA_CSV, EVIDENCE_CSV, assign_ids=False)
+    e = {c: str(e.get(c) or "").strip() for c in EVIDENCE_COLUMNS}
+    e["editor"], e["edited"] = editor, db.now()[:10]
+    ev = [x for x in cur.evidence if not (x["taxon_id"] == e["taxon_id"] and x["kind"] == e["kind"]
+                                         and x["ref"] == e["ref"])] + [e]
+    return _apply(conn, cur.rows, ev)
+
+
+def remove_evidence(conn, taxon_id: int, kind: str, ref: str) -> dict[str, int]:
+    cur = load(TAXA_CSV, EVIDENCE_CSV, assign_ids=False)
+    ev = [x for x in cur.evidence if not (x["taxon_id"] == str(taxon_id) and x["kind"] == kind
+                                         and x["ref"] == ref)]
+    return _apply(conn, cur.rows, ev)
+
+
+IMPORT_FIELDS = ["rank", "name", "authorship", "parent_id", "status", "accepted_id",
+                 "common_name", "establishment", "hidden", "note"]
+
+
+def import_checklist(conn, path: Path, editor: str) -> dict[str, int]:
+    """Turn an edited copy of the exported checklist (guaminsects export) into curation rows:
+    a changed cell becomes an override, a row with no taxon_id a new taxon. Unchanged rows
+    are ignored, so the whole checklist can be opened, edited anywhere, and saved back."""
+    current = {r["taxon_id"]: dict(r) for r in conn.execute("SELECT * FROM taxa")}
+    cur = load(TAXA_CSV, EVIDENCE_CSV, assign_ids=False)
+    rows = {r["taxon_id"]: dict(r) for r in cur.rows if r["taxon_id"]}
+    new_rows = [dict(r) for r in cur.rows if not r["taxon_id"]]
+    stats = {"changed": 0, "new": 0}
+    with path.open(newline="", encoding="utf-8-sig") as f:
+        for r in csv.DictReader(f):
+            r = {k: (v or "").strip() for k, v in r.items() if k}
+            tid = r.get("taxon_id", "")
+            if not tid:
+                if r.get("name") and r.get("rank"):
+                    row = {c: r.get(c, "") for c in TAXA_COLUMNS}
+                    row.update(editor=editor, edited=db.now()[:10])
+                    new_rows.append(row)
+                    stats["new"] += 1
+                continue
+            t = current.get(int(tid)) if tid.isdigit() else None
+            if t is None:
+                continue
+            diffs = {f: r[f] for f in IMPORT_FIELDS if f in r and
+                     r[f] != ("" if t.get(f) is None else str(t[f]))}
+            if not diffs:
+                continue
+            row = rows.setdefault(tid, {c: "" for c in TAXA_COLUMNS} | {"taxon_id": tid})
+            row.update(diffs, editor=editor, edited=db.now()[:10])
+            stats["changed"] += 1
+    _apply(conn, list(rows.values()) + new_rows, cur.evidence)
+    return stats

@@ -133,3 +133,8 @@ CREATE TABLE IF NOT EXISTS taxon_photos (
   taxon_id INTEGER, position INTEGER, photo_id TEXT, role TEXT, from_taxon_id INTEGER,
   selected_at TEXT, PRIMARY KEY (taxon_id, position));
 CREATE TABLE IF NOT EXISTS inat_photo_queries (inat_id INTEGER PRIMARY KEY, asked_at TEXT);
+
+-- Island-level records (GBIF level-1 areas, curated evidence): one row per taxon and island.
+CREATE TABLE IF NOT EXISTS taxon_islands (
+  taxon_id INTEGER, area TEXT, island TEXT, source TEXT, records INTEGER, fetched_at TEXT,
+  PRIMARY KEY (taxon_id, island, source));
