@@ -19,4 +19,6 @@
 .admin .gap { margin-top: 18px; }
 .admin .small { font-size: 0.82rem; }
 .admin .warn-box { background: var(--warn-soft); color: var(--warn); }
+.admin tr.d-rejected td { opacity: 0.5; text-decoration: line-through; }
+.admin tr.d-accepted td:first-child { border-left: 3px solid var(--accent); }
 @media (max-width: 860px) { .admin-grid { grid-template-columns: 1fr; } }

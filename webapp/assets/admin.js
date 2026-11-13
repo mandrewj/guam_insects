@@ -113,6 +113,25 @@
         '<label>Credit <input name="credit" placeholder="© M. A. Johnston"></label>' +
         '<label>Note <input name="note" placeholder="e.g. Guam, Ritidian, 2026"></label>' +
         "<button type=\"submit\">Add evidence</button></form>";
+      $("#edit").insertAdjacentHTML("beforeend", '<h3 class="gap">Found in the literature</h3><div id="mentions" class="small muted">Loading…</div>');
+      api("mentions/" + t.taxon_id).then(function (ms) {
+        $("#mentions").className = "";
+        $("#mentions").innerHTML = ms.length ? '<table class="curated">' + ms.map(function (m) {
+          return '<tr class="d-' + esc(m.decision) + '"><td>' + esc(m.kind) + "<br><span class=\"muted small\">" + esc(m.method) +
+            "</span></td><td><b>" + esc(m.file.split("/").pop().replace(/\.pdf$/, "")) + "</b> p. " + m.page +
+            (m.islands ? " · " + esc(m.islands) : "") + '<br><span class="muted small">' + esc(m.snippet || "") + "</span></td><td>" +
+            ["accepted", "rejected", "pending"].map(function (d) {
+              return '<button type="button" class="link dec" data-d="' + d + '" data-f="' + esc(m.file) + '" data-p="' + m.page +
+                '" data-n="' + esc(m.name_found) + '"' + (m.decision === d ? ' disabled' : "") + ">" + (d === "pending" ? "undo" : d.slice(0, -2)) + "</button>";
+            }).join(" ") + '<br><span class="small">' + esc(m.decision) + "</span></td></tr>";
+        }).join("") + "</table>" : '<p class="muted small">Nothing found in the PDF library.</p>';
+        $("#mentions").querySelectorAll("button.dec").forEach(function (b) {
+          b.onclick = function () {
+            api("decision", { file: b.getAttribute("data-f"), page: b.getAttribute("data-p"), name: b.getAttribute("data-n"),
+              decision: b.getAttribute("data-d") }).then(function (r) { if (report(r, "Decision saved.")) showTaxon(t.taxon_id); });
+          };
+        });
+      });
       var ed = $("#ed");
       picker(ed.parent_pick, $('.pick[data-for="ed"]'), function (pid, label) {
         ed.parent_id.value = pid; ed.parent_pick.value = label.trim();

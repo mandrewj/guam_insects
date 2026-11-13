@@ -87,3 +87,19 @@ def test_establishment_year_prefers_the_area():
             "     Thrips pa/mi Karny was first noted in Guam in 1983.")
     paras = PARAGRAPH.split(text)
     assert len(paras) == 2 and first_year(paras[0], "GU") == 1984
+
+
+def test_pdf_decisions_survive_and_apply(tmp_path, monkeypatch):
+    from guaminsects import db
+
+    monkeypatch.setattr(literature, "DECISIONS_CSV", tmp_path / "pdf_decisions.csv")
+    conn = db.connect(tmp_path / "t.sqlite")
+    conn.execute("INSERT INTO pdf_mentions (taxon_id, file, page, name_found, kind, areas) "
+                 "VALUES (11, 'a.pdf', 3, 'Oryctes rhinoceros', 'heading', 'GU')")
+    literature.presence_rows(conn)
+    assert conn.execute("SELECT COUNT(*) FROM taxon_presence WHERE source = 'pdf'").fetchone()[0] == 1
+    literature.decide(conn, "a.pdf", 3, "Oryctes rhinoceros", "rejected", "t")
+    assert literature.load_decisions()[("a.pdf", 3, "Oryctes rhinoceros")]["decision"] == "rejected"
+    assert conn.execute("SELECT COUNT(*) FROM taxon_presence WHERE source = 'pdf'").fetchone()[0] == 0
+    literature.decide(conn, "a.pdf", 3, "Oryctes rhinoceros", "pending", "t")
+    assert literature.load_decisions() == {}

@@ -13,6 +13,8 @@ is rebuilt afterwards. The server binds to 127.0.0.1 only; none of this exists o
     POST /api/taxon/<id>/delete     drop a curated row
     POST /api/evidence              {taxon_id, kind, ref, license, credit, note}
     POST /api/evidence/delete       {taxon_id, kind, ref}
+    GET  /api/mentions/<id>         what the PDF scan found for a taxon
+    POST /api/decision              {file, page, name, decision}: accepted|rejected|pending
     GET  /api/status                rebuild status
 """
 
@@ -106,6 +108,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self._json({"taxon": dict(t) if t else None, "curated": row, "evidence": ev,
                                "parent": dict(parent) if parent else None,
                                "gbif": dict(g) if g else None})
+        if url.path.startswith("/api/mentions/"):
+            tid = int(url.path.rsplit("/", 1)[-1])
+            rows = conn.execute(
+                "SELECT file, page, name_found, method, kind, areas, islands, snippet, decision "
+                "FROM pdf_mentions WHERE taxon_id = ? ORDER BY kind != 'heading', file, page",
+                (tid,)).fetchall()
+            return self._json([dict(r) for r in rows])
         if url.path == "/api/curated":
             return self._json(curation.load(assign_ids=False).rows)
         if url.path == "/api/status":
@@ -125,6 +134,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 stats = curation.remove(conn, int(url.path.split("/")[3]))
             elif url.path == "/api/evidence":
                 stats = curation.add_evidence(conn, data, editor=self.editor)
+            elif url.path == "/api/decision":
+                from . import literature
+
+                n = literature.decide(conn, data["file"], int(data["page"]), data["name"],
+                                      data["decision"], self.editor, data.get("note", ""))
+                stats = {"mentions": n}
             elif url.path == "/api/evidence/delete":
                 stats = curation.remove_evidence(conn, int(data["taxon_id"]), data["kind"],
                                                  data["ref"])

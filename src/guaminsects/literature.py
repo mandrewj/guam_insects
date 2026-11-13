@@ -308,3 +308,27 @@ def presence_rows(conn) -> int:
             "VALUES (?, ?, 'pdf', ?, 'library', ?)",
             [(t, a, len(files), stamp) for (t, a), files in counts.items()])
     return len(counts)
+
+
+def decide(conn, file: str, page: int, name: str, decision: str, editor: str,
+           note: str = "") -> int:
+    """Record a person's accept/reject of a mention in curation/pdf_decisions.csv (kept
+    across re-scans) and apply it to pdf_mentions now. 'pending' removes the decision."""
+    if decision not in ("accepted", "rejected", "pending"):
+        raise ValueError(f"decision {decision!r}")
+    rows = load_decisions()
+    key = (file, int(page), name)
+    if decision == "pending":
+        rows.pop(key, None)
+    else:
+        rows[key] = {"file": file, "page": str(page), "name": name, "decision": decision,
+                     "taxon_id": "", "editor": editor, "edited": db.now()[:10], "note": note}
+    from .curation import write_csv
+
+    write_csv(DECISIONS_CSV, DECISION_COLUMNS, sorted(rows.values(), key=lambda r: (
+        r["file"], int(r["page"]), r["name"])))
+    with conn:
+        n = conn.execute("UPDATE pdf_mentions SET decision = ? WHERE file = ? AND page = ? "
+                         "AND name_found = ?", (decision, file, int(page), name)).rowcount
+    presence_rows(conn)
+    return n
