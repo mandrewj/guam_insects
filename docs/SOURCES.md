@@ -113,3 +113,21 @@ curl. `reference/.../enrich/bugwood.py` is the working client.
 | BugGuide | © contributors; `ai-train=no` | contributors, dates, link |
 | PDFs | © their authors | citation, page, ≤2-sentence snippet |
 | Bugwood images | per image | link only |
+
+## Added 2026-11-13 (guam_insects build): what each new source gives and how we use it
+
+| Source | Command | What | Licence / rule |
+|---|---|---|---|
+| **Plazi checklists on GBIF** (the 1940s *Insects of Guam* I & II, papers on Micronesian taxa) | `guaminsects plazi` | GBIF CHECKLIST datasets from publisher Plazi (`7ce8aef0-9e92-11dc-8738-b8a03c50a862`); name usages carry `nubKey`. 53 hexapod checklists, ~1,300 Guam taxon rows | CC0. GBIF's dataset search is **full text** ("Yap" returns 3,000 datasets): only fetch datasets whose **title** names the region (`plazi.REGION_TITLE`) |
+| **Bishop Museum IOM index** (hbs.bishopmuseum.org/pubs-online/iom.html) | `guaminsects library` | Every *Insects of Micronesia* part: volume, year, group, authors, pages, PDF URL (the public link) | Cite and link; the page is UTF-8 |
+| **UOG extension fact sheets** | `guaminsects documents` | 45 PDFs (ADAP, Guam Pest Series, Urban Pests UP-01..15, bulletins). Newer sheets (banana lace bug, CRB series...) sit in a JavaScript viewer at publications-press.uog.edu with no PDF link: listed as link-only | Copyright UOG: cite and link only |
+| **Micronesica** (micronesica.org, open access since vol. 31) | `scripts/micronesica_index.py` | 941 articles indexed, 63 about hexapods downloaded | CC BY-NC-ND. robots.txt `Crawl-delay: 10` |
+| **Crop pest list** (Nafus & Schreiner; Moore's CSV on GitHub) | `guaminsects croppests` | ~950 (crop, pest) rows, distribution by B/Y/T/P/K; M = all Marianas (no single area) | No licence stated: facts + citation only |
+| **Wikidata by GBIF key** (P846) | `guaminsects wikidata` | QID, P225 name (checked against ours), P3151 iNat, P2464 BugGuide, P141 IUCN, P18 image, enwiki, P1843 English name. 300 keys a query | CC0 |
+| **Wikimedia Commons** files from P18 | `guaminsects photos commons` | Per-file licence from `extmetadata`. **Only standard thumbnail widths work** (330, 960, ...; https://w.wiki/GHai): others answer 400 | Per file; CC0/PD, BY, BY-SA (BY-NC/BY-NC-SA too); no ND, no GFDL-only |
+| **entobase's database** (read-only) | `guaminsects bugguide` | GBIF key -> BugGuide node for 1,100 of our taxa | Link only; BugGuide never fetched |
+
+Not usable by script (Cloudflare challenge, do not try to get around it): **guaminsects.myspecies.info**
+(Moore's Scratchpad; its Guam lists are the Plazi datasets above) and **AntWiki** (ant data comes
+through AntWeb in GBIF and Clouse 2007 in the library). iNaturalist answered 429 for hours on
+2026-11-13 while entobase's `link --stubs` ran: `inat_counts.patient_get` waits 5 min a try.

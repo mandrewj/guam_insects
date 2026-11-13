@@ -260,6 +260,14 @@ def cmd_import(args) -> int:
     return 0
 
 
+def cmd_croppests(args) -> int:
+    """Nafus & Schreiner's list of insects attacking crops in Micronesia (Moore's CSV)."""
+    from .enrich import croppests
+
+    croppests.sweep(db.connect(), gbif_client())
+    return 0
+
+
 def cmd_stats(args) -> int:
     conn = db.connect()
     for r in conn.execute("SELECT rank, COUNT(*) n, SUM(hidden) h FROM taxa GROUP BY rank "
@@ -329,6 +337,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("file")
     p.add_argument("--editor", default="curator")
     p.set_defaults(func=cmd_import)
+    p = sub.add_parser("croppests", help=cmd_croppests.__doc__)
+    p.set_defaults(func=cmd_croppests)
     p = sub.add_parser("stats", help="counts by rank and area")
     p.set_defaults(func=cmd_stats)
     args = ap.parse_args(argv)

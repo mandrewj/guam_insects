@@ -39,3 +39,14 @@ def test_micronesica_article_parse_and_file_name():
     assert mic.file_name(dict(a, authors="Moore, A.; Jackson, T.; Smith, B.")).startswith(
         "Micronesica/Moore et al. 2019 - ")
     assert not mic.is_insect({"title": "Reef fishes of Palau", "abstract": "Coral reef fish."})
+
+
+def test_crop_pest_list_parsing():
+    from guaminsects.enrich.croppests import canonical, distribution
+
+    assert canonical("Aonidiella orientalis (Newstead)") == "Aonidiella orientalis"
+    assert canonical("Dysmicoccus neobrevipes Beardsley") == "Dysmicoccus neobrevipes"
+    assert distribution("B=xY=xT=xP=xM=x") == [("PW", "Palau"), ("FM", "Yap"), ("FM", "Chuuk"),
+                                              ("FM", "Pohnpei")]      # M: Guam + CNMI, no area
+    assert distribution("K=?Y=n") == [("FM", "Yap")]                 # '?' is unverified
+    assert distribution("YP=x") == [("FM", "Yap"), ("FM", "Pohnpei")]

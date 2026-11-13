@@ -13,10 +13,37 @@ foundation:
 | Regions | NE / SE / SW / NW (US + Canada) | **islands and island groups** (Guam, CNMI, Palau, FSM, Marshalls) |
 | Output | static `file://` web app | **the same app**, reused from `starter/webapp/` |
 
-Status (2026-11-13): Phase 0 done (package `src/guaminsects`, tests, git); Phase 1 checklist
-pipeline running (GBIF sweep, taxa, iNat counts, Plazi literature checklists, curation
-`resolve`). `webapp/` is the entobase app, rebranded and retinted, not yet wired to data.
-Start with `BUILD_PLAN.md`, then the decisions below (they override the plan).
+Status (2026-11-13, end of first night): the pipeline runs end to end and the site builds and
+passes `ops/check_site.py` in all three engines. Not yet deployed (ops/deploy.sh is ready;
+the first deploy waits for the user). Start with the decisions below (they override
+`BUILD_PLAN.md`), then "Pipeline order".
+
+## Pipeline order (each step resumable; one stream per host)
+
+```sh
+uv run guaminsects checklist     # GBIF presence by area (facets)          GBIF
+uv run guaminsects taxa          # GBIF classification, cached              GBIF
+uv run guaminsects plazi         # digitised literature checklists          GBIF
+uv run guaminsects croppests     # Nafus & Schreiner crop pest list         GBIF (matching)
+uv run guaminsects islands       # GBIF presence by island (GADM level 1)  GBIF
+uv run guaminsects inat          # iNat species counts per area + matching  iNat, then GBIF
+uv run guaminsects library       # sources/library.csv (citations)          (Bishop Museum page cached)
+uv run guaminsects pdftext       # text of literature/ (OCR scans)          local
+uv run guaminsects literature    # names + island records from the PDFs     GBIF (matching)
+uv run guaminsects resolve       # tree = GBIF + curation/*.csv             local
+uv run guaminsects wikidata      # cross-links by GBIF key                  Wikidata
+uv run guaminsects wikipedia     # article text                             en.wikipedia
+uv run guaminsects bugguide      # links from entobase (read-only)          local
+uv run guaminsects photos        # Commons + iNat photos, select, thumbs    Commons, iNat
+uv run guaminsects resolve && uv run guaminsects build public local
+uv run python ops/check_site.py  # Chrome/WebKit/Firefox x desktop/phone
+uv run python ops/review.py      # data/exports/review.html for the curator (local only)
+uv run guaminsects serve         # http://localhost:8765 (+ /admin.html)
+ops/deploy.sh [--prod]           # Vercel (public build)
+```
+
+Presence sources in `taxon_presence.source`: gbif, inat, plazi, pdf, checklist. The site
+shows GBIF and iNat separately and the last three as "Lit." (documents that record it).
 
 ## Decisions already made by the user (2026-11-13; do not re-ask)
 
@@ -148,5 +175,6 @@ Start with `BUILD_PLAN.md`, then the decisions below (they override the plan).
 | `reference/entobase/` | read-only snapshot of entobase's code, tests, ops scripts and docs (no data, no BugGuide fixtures). Read it; copy from it; do not edit it. See `reference/README.md` |
 | `data/`, `data.nosync/`, `pdfs/` | git-ignored working directories |
 
-Commands you will use (after setup): `uv run pytest -q`, `uvx ruff@0.14.0 check src tests ops`,
-`uv run python ops/check_site.py`, `sqlite3 data.nosync/guam.sqlite "..."`.
+Commands you will use: `uv run pytest -q`, `uvx ruff@0.14.0 check src tests ops scripts`,
+`uv run python ops/check_site.py`, `sqlite3 data.nosync/guam.sqlite "..."`. Python's
+`urllib` fails TLS on this Mac (no certifi): use httpx or curl.

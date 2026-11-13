@@ -138,3 +138,7 @@ CREATE TABLE IF NOT EXISTS inat_photo_queries (inat_id INTEGER PRIMARY KEY, aske
 CREATE TABLE IF NOT EXISTS taxon_islands (
   taxon_id INTEGER, area TEXT, island TEXT, source TEXT, records INTEGER, fetched_at TEXT,
   PRIMARY KEY (taxon_id, island, source));
+
+-- Host plants (crops) a source records a taxon attacking.
+CREATE TABLE IF NOT EXISTS taxon_hosts (
+  taxon_id INTEGER, host TEXT, source TEXT, PRIMARY KEY (taxon_id, host, source));

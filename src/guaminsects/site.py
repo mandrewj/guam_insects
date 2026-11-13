@@ -116,9 +116,9 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
     own: dict[int, dict[str, dict[str, int]]] = defaultdict(lambda: defaultdict(dict))
     for r in conn.execute("SELECT taxon_id, area, source, records FROM taxon_presence"):
         if r["taxon_id"] in taxa:
-            # Both literature sources (Plazi's digitised checklists, the PDF library) count
+            # The literature sources (Plazi's checklists, the PDF library, other checklists) count
             # as "literature": the number is how many documents record the taxon there.
-            src = "literature" if r["source"] in ("plazi", "pdf") else r["source"]
+            src = "literature" if r["source"] in ("plazi", "pdf", "checklist") else r["source"]
             cell = own[r["taxon_id"]][r["area"]]
             cell[src] = cell.get(src, 0) + (r["records"] or 0)
     # Curated evidence (an iNat observation, a GBIF record) puts a taxon on the list even
@@ -201,15 +201,16 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
     # Literature: digitised checklists naming the taxon (Plazi on GBIF).
     lit: dict[int, list[dict]] = defaultdict(list)
     for r in conn.execute(
-            "SELECT DISTINCT n.nub_key, s.dataset_key, s.title, s.citation, s.areas, s.doi "
+            "SELECT DISTINCT n.nub_key, s.dataset_key, s.source, s.title, s.citation, s.areas, s.doi "
             "FROM checklist_names n JOIN checklist_sources s ON s.dataset_key = n.dataset_key "
             "ORDER BY s.title"):
         if r["nub_key"] in taxa:
             lit[r["nub_key"]].append({
                 "title": r["title"], "citation": r["citation"],
                 "areas": (r["areas"] or "").split(",") if r["areas"] else [],
-                "url": f"https://www.gbif.org/dataset/{r['dataset_key']}",
-                "doi": r["doi"], "source": "plazi"})
+                "url": "https://aubreymoore.github.io/crop-pest-list/" if r["source"] == "croppests"
+                else f"https://www.gbif.org/dataset/{r['dataset_key']}",
+                "doi": r["doi"], "source": r["source"]})
     # The PDF library: one entry per (taxon, document) with the pages. The public build cites
     # (title, pages, the publisher's URL); only the local build carries a snippet and a link
     # to the file on this computer (CLAUDE.md rule 4).
@@ -259,6 +260,9 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
         for c in children[tid]:
             for a, isl in islands.get(c, {}).items():
                 islands[tid][a] |= isl
+    hosts: dict[int, list[str]] = defaultdict(list)
+    for r in conn.execute("SELECT taxon_id, host FROM taxon_hosts ORDER BY host"):
+        hosts[r["taxon_id"]].append(r["host"])
     evidence: dict[int, list[dict]] = defaultdict(list)
     for r in conn.execute("SELECT * FROM taxon_evidence ORDER BY taxon_id, kind, ref"):
         evidence[r["taxon_id"]].append({"kind": r["kind"], "ref": r["ref"], "license": r["license"],
@@ -372,6 +376,7 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "regions": regions_of(tid),
             "literature": lit.get(tid, []),
             "evidence": evidence.get(tid, []),
+            "hosts": hosts.get(tid, []),
             "photos": photos.get(tid, []), "wikipedia": wiki.get(tid), "map": None,
             "sections": [],
             "conservation": {"iucn": w["iucn"], "qid": w["qid"]}

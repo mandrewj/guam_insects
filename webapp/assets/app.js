@@ -230,6 +230,7 @@
     html.push(children(shown));
     html.push(familyIndex(shown));
     html.push(sections(r));
+    html.push(hostCrops(r));
     html.push(literature(r));
     html.push(evidence(r));
     html.push(wikipedia(r));
@@ -364,6 +365,7 @@
     if (r.children.length) items.push(["s-children", "Included taxa"]);
     r.sections.forEach(function (s) { items.push(["s-" + s.key, s.heading]); });
     if (r.map) items.push(["s-map", "Distribution"]);
+    if (r.hosts && r.hosts.length) items.push(["s-hosts", "Crops attacked"]);
     if (r.literature.length) items.push(["s-literature", "Literature"]);
     if (r.evidence.length) items.push(["s-evidence", "Evidence"]);
     if (r.wikipedia) items.push(["s-wikipedia", "Wikipedia"]);
@@ -673,13 +675,22 @@
             (w.snippet ? '<blockquote class="lit-snip">' + esc(w.snippet) + "</blockquote>" : "") + "</li>";
         }
         return "<li><cite>" + esc(w.citation || w.title) + "</cite>" + where +
-          ' <span class="ref-links">' + ext(w.url, "checklist on GBIF") +
+          ' <span class="ref-links">' + ext(w.url, w.source === "croppests" ? "the list online" : "checklist on GBIF") +
           (w.doi ? " · " + ext("https://doi.org/" + w.doi, "doi:" + esc(w.doi)) : "") + "</span></li>";
       }).join("") + "</ul>" +
       '<p class="section-note">Names found by machine in the literature: digitised checklists from ' +
       ext("https://plazi.org/", "Plazi") + " (via GBIF, CC0), and the text of the papers and monographs " +
       "listed. Island groups are those the document names in its account of the taxon. Not yet " +
       "checked by a person, so a mention can be a comparison or a misreading.</p></section>";
+  }
+
+  // Crops it is recorded attacking (Nafus & Schreiner's list; facts, cited).
+  function hostCrops(r) {
+    if (!r.hosts || !r.hosts.length) return "";
+    return '<section class="info" id="s-hosts"><h2>Crops attacked</h2><p>' + r.hosts.map(esc).join(" · ") +
+      '</p><p class="section-note">From the ' + ext("https://aubreymoore.github.io/crop-pest-list/",
+        "List of Insects and Mites Attacking Crops in Micronesia") + " (D. Nafus &amp; I. Schreiner, " +
+      "University of Guam; HTML by A. Moore &amp; A. Tudela). Compiled in the early 1990s.</p></section>";
   }
 
   // What a curator attached: iNaturalist observations, GBIF records, own photos.
