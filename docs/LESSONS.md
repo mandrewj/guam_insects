@@ -88,6 +88,12 @@ Stale rows are deleted per area so a corrected record disappears.
 - Smoke test every UI change in three engines (`ops/check_site.py`). A flaky "region filter
   narrows" check passed on rerun: it reads a count right after the selector appears.
 
+- **Playwright WebKit clicks (guam_insects, 2026-11-13).** On this Mac (Darwin 25) the WebKit
+  driver refuses every pointer click ("<html> intercepts pointer events"), even on a
+  one-button `set_content` page, while `elementFromPoint` finds the right element. It is the
+  driver, not the site: `ops/check_site.py` dispatches click events on WebKit (`click()`),
+  real clicks elsewhere. Contexts use `reduced_motion="reduce"` so no click lands mid scroll.
+
 ## Process
 
 - Verify a data change with a test *and* a look at 20 real rows. Several bugs (relative URLs in
