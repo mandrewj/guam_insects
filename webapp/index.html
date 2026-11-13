@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insects of Guam</title>
+<meta name="theme-color" content="#17476d">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<a class="skip" href="#app">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="#/"><img class="logo" src="assets/img/logo.png" alt="" width="44" height="44"><span>Insects of <span>Guam</span></span></a>
+    <span class="tagline">(and Micronesia)</span>
+    <button type="button" id="identify" class="identify-toggle" aria-pressed="false"
+            title="Compare the taxa in this group side by side">Identify</button>
+    <form class="search" id="search-form" role="search" autocomplete="off">
+      <input id="q" type="search" placeholder="Search names and text  ( / )" aria-label="Search"
+             role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="suggest" spellcheck="false">
+      <ul id="suggest" class="suggest" role="listbox" hidden></ul>
+    </form>
+  </div>
+</header>
+<main id="app" class="wrap" tabindex="-1">
+  <p class="loading">Loading…</p>
+  <noscript><p>This reference needs JavaScript enabled.</p></noscript>
+</main>
+<footer class="site-footer"><div class="wrap" id="site-footer"></div></footer>
+<script src="assets/app.js"></script>
+<script src="data/meta.js"></script>
+</body>
+</html>
