@@ -6,10 +6,11 @@
     "Superfamily", "Family", "Subfamily", "Tribe", "Subtribe", "Genus", "Subgenus", "Species", "Subspecies"];
   var FIELDS = [["name", "Name"], ["rank", "Rank"], ["authorship", "Authorship"], ["parent_id", "Parent id"],
     ["status", "Status"], ["accepted_id", "Accepted id (for a synonym)"], ["common_name", "Common name"],
-    ["establishment", "Establishment"], ["hidden", "Hidden (1 hides it and all below)"], ["note", "Note"]];
+    ["establishment", "Establishment"], ["hidden", "Hidden (1 hides it and all below)"],
+    ["verified", "Editor confirmed (1: you confirm it is in Micronesia)"], ["note", "Note"]];
   var CHOICES = { status: ["", "accepted", "synonym", "doubtful", "morphospecies"],
     establishment: ["", "native", "endemic", "introduced", "invasive", "unknown"],
-    hidden: ["", "0", "1"], rank: [""].concat(RANKS) };
+    hidden: ["", "0", "1"], verified: ["", "0", "1"], rank: [""].concat(RANKS) };
   var KINDS = [["inat_observation", "iNaturalist observation id"], ["gbif_occurrence", "GBIF occurrence key"],
     ["photo_file", "Photo file in data/curated_photos/"], ["photo_url", "Photo URL"]];
   var LICENSES = ["", "cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"];

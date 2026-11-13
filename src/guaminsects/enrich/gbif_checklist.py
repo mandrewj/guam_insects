@@ -16,24 +16,27 @@ FACET_PAGE = 1000
 # Everything but fossils and living collections (zoos, insectaries, quarantine colonies).
 BASIS = ("PRESERVED_SPECIMEN", "HUMAN_OBSERVATION", "MACHINE_OBSERVATION", "OBSERVATION",
          "MATERIAL_SAMPLE", "MATERIAL_CITATION", "OCCURRENCE")
+# Physical specimens in a collection: the "specimen records" level of verification.
+SPECIMEN_BASIS = ("PRESERVED_SPECIMEN", "MATERIAL_SAMPLE")
 
 
-def occurrence_filter(country: str) -> list[tuple[str, str | int]]:
+def occurrence_filter(country: str, basis: tuple[str, ...] = BASIS) -> list[tuple[str, str | int]]:
     """Shared filters; a list because GBIF ORs repeated parameters (taxonKey, basisOfRecord)."""
     params: list[tuple[str, str | int]] = [("country", country),
                                            ("hasGeospatialIssue", "false"),
                                            ("occurrenceStatus", "PRESENT")]
     params += [("taxonKey", k) for k in config.HEXAPOD_CLASSES]
-    params += [("basisOfRecord", b) for b in BASIS]
+    params += [("basisOfRecord", b) for b in basis]
     return params
 
 
-def facet_counts(client: ApiClient, country: str, facet: str) -> dict[int, int]:
+def facet_counts(client: ApiClient, country: str, facet: str,
+                 basis: tuple[str, ...] = BASIS) -> dict[int, int]:
     """{taxon key: records} for one facet, paged."""
     out: dict[int, int] = {}
     offset = 0
     while True:
-        params = occurrence_filter(country) + [("limit", 0), ("facet", facet),
+        params = occurrence_filter(country, basis) + [("limit", 0), ("facet", facet),
                                                ("facetLimit", FACET_PAGE),
                                                ("facetOffset", offset)]
         data = client.get("/occurrence/search", params)
@@ -71,6 +74,25 @@ def sweep(conn, client: ApiClient, areas: list[str] | None = None) -> dict[str, 
         done[area["code"]] = len(counts)
         print(f"GBIF {area['code']}: " + ", ".join(f"{f} {n}" for f, n in per_facet.items()),
               file=sys.stderr)
+    return done
+
+
+def specimen_sweep(conn, client: ApiClient) -> dict[str, int]:
+    """Replace taxon_specimens: GBIF preserved specimens and material samples per area,
+    by the same facets as `sweep` (about 20 requests for all five areas)."""
+    done = {}
+    for area in config.AREAS:
+        counts: dict[int, int] = {}
+        for facet in FACETS:
+            counts.update(facet_counts(client, area["gbif"], facet, SPECIMEN_BASIS))
+        stamp = db.now()
+        with conn:
+            conn.execute("DELETE FROM taxon_specimens WHERE area = ?", (area["code"],))
+            conn.executemany(
+                "INSERT INTO taxon_specimens (taxon_id, area, records, fetched_at) "
+                "VALUES (?, ?, ?, ?)", [(k, area["code"], n, stamp) for k, n in counts.items()])
+        done[area["code"]] = len(counts)
+        print(f"GBIF specimens {area['code']}: {len(counts)} taxa", file=sys.stderr)
     return done
 
 

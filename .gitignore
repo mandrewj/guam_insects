@@ -5,6 +5,9 @@ pdfs/
 literature/
 reference/
 site/
+# Derived on every build; holds machine-read literature records. Not tracked until the user
+# decides (docs/STATUS.md).
+taxonomy.csv
 .vercel/
 .venv
 venv.nosync/

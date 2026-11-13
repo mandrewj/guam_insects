@@ -235,6 +235,14 @@ section[id] { scroll-margin-top: 80px; }
 .c-auth { display: none; }
 .links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .links a { display: inline-block; padding: 2px 0; }
+.dl-row { display: flex; flex-direction: column; gap: 6px; }
+.dl-btn { font: inherit; font-size: 0.9rem; text-align: left; padding: 6px 10px; border-radius: 6px; cursor: pointer;
+          border: 1px solid var(--line); background: var(--surface); color: var(--accent); }
+.dl-btn:hover { border-color: var(--accent); }
+.dl-btn:disabled { opacity: .6; cursor: progress; }
+.dl-note { margin: 8px 0 0; font-size: 0.8rem; color: var(--muted); }
+.dl-status { margin: 4px 0 0; font-size: 0.8rem; color: var(--muted); overflow-wrap: anywhere; }
+.dl-status:empty { display: none; }
 
 /* dark mode: soften the bright basemap */
 @media (prefers-color-scheme: dark) { .map-stack img:first-child { filter: brightness(0.82) contrast(0.95); } }

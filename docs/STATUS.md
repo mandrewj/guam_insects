@@ -20,7 +20,8 @@ is done, what is waiting, and what needs the user.
   and island map per tile, filtered by island group. `ops/check_site.py` passes in Chrome,
   WebKit and Firefox at desktop and phone sizes.
 - **Curation**: `curation/taxa.csv` + `curation/evidence.csv`, edited by hand, through
-  `guaminsects export` / `import` (a spreadsheet of the whole checklist), or the local admin
+  `taxonomy.csv` (Darwin Core, rewritten by every build after taking in edits made to it;
+  also downloadable from any taxon page for that taxon and everything under it), or the local admin
   page (`guaminsects serve`, then /admin.html). Every save is checked against the whole tree
   first.
 - **Library**: `sources/library.csv` gives a citation for all 207 PDFs (IOM from Bishop
@@ -60,6 +61,17 @@ sweeps (GBIF, Wikidata, Wikipedia, Commons) were run for all taxa because they a
 cached and reversible. Nothing has been published. The review page is the check to make
 before the first deploy.
 
+### Taxonomy CSV (2026-11-13, later)
+
+- `taxonomy.csv` at the top of the folder: Darwin Core columns, family on every row, island
+  groups, literature citations with pages, GBIF specimen counts, and `verificationStatus`
+  (editor confirmed > literature records > specimen records > unconfirmed). Species:
+  1,396 literature records, 1,013 specimen records, 259 unconfirmed; none confirmed yet.
+- Edits to it are taken in by the next build; the site's "Download taxonomy" box gives the
+  whole tree or the taxon on screen and everything under it. Format: `curation/README.md`.
+- New: `guaminsects specimens` (GBIF preserved specimens per area), `guaminsects taxonomy`,
+  `export --under ID`, `import FILE [--dry-run]`; `verified` column in `curation/taxa.csv`.
+
 ### Waiting on something
 
 - **iNaturalist observation photos from Micronesia** (rather than iNat's general taxon
@@ -83,3 +95,6 @@ before the first deploy.
 5. **UOG fact sheets behind the JavaScript viewer** (banana lace bug, banana leaf roller,
    pumpkin beetle, mango seed weevil, little fire ant, the coconut rhinoceros beetle series):
    save the PDFs by hand into `literature/UOG fact sheets/`, or leave them as links?
+6. **Track `taxonomy.csv` in git?** It is rewritten by every build and git-ignored for now,
+   because committing it publishes it (the repo is public) and it includes the machine-read
+   literature records of question 3. Tracking it would give a history of every taxonomy change.

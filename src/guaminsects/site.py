@@ -442,10 +442,17 @@ def home_cards(records: dict[int, dict], root: int) -> list[dict]:
 
 
 def build(conn, target: str = "public", site: Path | None = None) -> dict[str, int]:
-    """Copy the app shell and write every changed record, the search index and meta.js."""
-    from . import search
+    """Copy the app shell and write every changed record, the search index and meta.js;
+    also taxonomy.csv at the top of the repository, after taking in any edits made to it."""
+    from . import search, taxonomy
 
     assert target in TARGETS, target
+    synced = taxonomy.sync(conn)        # before the tree is read: edits there become curation
+    if synced:
+        print("taxonomy.csv: " + ", ".join(f"{k} {v}" for k, v in synced.items()
+                                           if k != "changes"))
+        for c in synced["changes"]:
+            print("  " + c)
     site = site or config.SITE_DIR / target
     site.mkdir(parents=True, exist_ok=True)
     for src in WEBAPP_DIR.rglob("*"):
@@ -494,6 +501,11 @@ def build(conn, target: str = "public", site: Path | None = None) -> dict[str, i
         if stale not in keep:
             stale.unlink()
             removed += 1
+
+    table = taxonomy.rows(conn, records)
+    taxonomy.write(table)
+    (site / "data").mkdir(exist_ok=True)
+    _write_if_changed(site / "data" / "taxonomy.js", taxonomy.site_script(table))
 
     idx = search.build(conn, records, site)
     root = config.HEXAPODA_ID if config.HEXAPODA_ID in records else None

@@ -1,7 +1,6 @@
 """Command-line entry point: `uv run guaminsects <command>`."""
 
 import argparse
-import csv
 import sys
 
 from . import config, curation, db
@@ -87,48 +86,42 @@ def cmd_resolve(args) -> int:
     return 0
 
 
-def checklist_rows(conn) -> list[dict]:
-    pres = {}
-    for r in conn.execute("SELECT taxon_id, area, source, records FROM taxon_presence"):
-        pres.setdefault(r["taxon_id"], {})[(r["area"], r["source"])] = r["records"]
-    names = {r["taxon_id"]: r for r in conn.execute("SELECT taxon_id, rank, name FROM taxa")}
-    out = []
-    for t in conn.execute("SELECT * FROM taxa ORDER BY lineage"):
-        anc = [names[int(x)] for x in t["lineage"].strip("/").split("/")]
-        by_rank = {a["rank"]: a["name"] for a in anc}
-        # The editable columns come first and are named as in curation/taxa.csv, so an
-        # edited copy can go back in with `guaminsects import`; the rest are for reading.
-        row = {"taxon_id": t["taxon_id"], "rank": t["rank"], "name": t["name"],
-               "authorship": t["authorship"] or "", "parent_id": t["parent_id"] or "",
-               "status": t["status"], "accepted_id": t["accepted_id"] or "",
-               "common_name": t["common_name"] or "", "establishment": t["establishment"] or "",
-               "hidden": t["hidden"], "note": t["note"] or "",
-               "class": by_rank.get("Class", ""), "order": by_rank.get("Order", ""),
-               "family": by_rank.get("Family", ""), "origin": t["origin"],
-               "curated_fields": t["curated_fields"] or ""}
-        p = pres.get(t["taxon_id"], {})
-        for a in config.AREA_CODES:
-            row[f"{a}_gbif"] = p.get((a, "gbif"), "")
-            row[f"{a}_inat"] = p.get((a, "inat"), "")
-        out.append(row)
-    return out
+def cmd_taxonomy(args) -> int:
+    """Take in edits made to taxonomy.csv, then rewrite it from the tree (a build does too)."""
+    from . import taxonomy
+
+    conn = db.connect()
+    try:
+        synced = taxonomy.sync(conn, args.editor)
+    except curation.CurationError as e:
+        print(f"taxonomy.csv: nothing saved; problems:\n{e}", file=sys.stderr)
+        return 1
+    if synced:
+        _print_import(synced)
+    table = taxonomy.rows(conn)
+    taxonomy.write(table)
+    print(f"{len(table)} taxa -> {taxonomy.REPO_CSV.name}")
+    return 0
+
+
+def _print_import(stats: dict) -> None:
+    print(", ".join(f"{k} {v}" for k, v in stats.items() if k != "changes"))
+    for c in stats["changes"]:
+        print("  " + c)
 
 
 def cmd_export(args) -> int:
-    """Write the resolved checklist to a CSV for reading (edits go in curation/taxa.csv)."""
-    conn = db.connect()
-    rows = checklist_rows(conn)
-    if args.rank:
-        rows = [r for r in rows if r["rank"] in args.rank]
-    out = args.out or str(config.DATA_DIR / "exports" / "checklist.csv")
+    """Write a copy of the taxonomy CSV: everything, or one taxon and all under it."""
     from pathlib import Path
 
-    Path(out).parent.mkdir(parents=True, exist_ok=True)
-    with open(out, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0]))
-        w.writeheader()
-        w.writerows(rows)
-    print(f"{len(rows)} rows -> {out}")
+    from . import taxonomy
+
+    table = taxonomy.rows(db.connect())
+    if args.under:
+        table = taxonomy.subtree(table, args.under)
+    out = Path(args.out or config.DATA_DIR / "exports" / "taxonomy.csv")
+    taxonomy.write(table, out, snapshot=False)
+    print(f"{len(table)} taxa -> {out}")
     return 0
 
 
@@ -147,7 +140,12 @@ def cmd_build(args) -> int:
 
     conn = db.connect()
     for target in args.target:
-        stats = site.build(conn, target)
+        try:
+            stats = site.build(conn, target)
+        except curation.CurationError as e:
+            print(f"taxonomy.csv has edits that do not fit the tree; nothing saved or built. "
+                  f"Fix them in taxonomy.csv and build again:\n{e}", file=sys.stderr)
+            return 1
         print(f"{target}: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
         if target == "public" and stats["megabytes"] > site.PUBLIC_BUDGET_MB:
             print(f"public build is over the {site.PUBLIC_BUDGET_MB} MB deploy budget",
@@ -247,16 +245,37 @@ def cmd_islands(args) -> int:
 
 
 def cmd_import(args) -> int:
-    """Apply an edited copy of the exported checklist: changed cells become curation rows."""
+    """Apply an edited taxonomy CSV (a download from the site, or an export): changed
+    editable cells and rows with a blank taxonID become curation/taxa.csv rows."""
     from pathlib import Path
 
+    from . import taxonomy
+
     conn = db.connect()
+    path = Path(args.file)
     try:
-        stats = curation.import_checklist(conn, Path(args.file), args.editor)
+        if path.resolve() == taxonomy.REPO_CSV.resolve():
+            stats = taxonomy.sync(conn, args.editor) or {"changed": 0, "new": 0, "changes": []}
+        else:
+            stats = taxonomy.import_edits(conn, path, args.editor or taxonomy.default_editor(),
+                                          dry_run=args.dry_run)
     except curation.CurationError as e:
         print(f"nothing saved; problems:\n{e}", file=sys.stderr)
         return 1
-    print(", ".join(f"{k} {v}" for k, v in stats.items()) + " (curation/taxa.csv updated)")
+    _print_import(stats)
+    if args.dry_run:
+        print("(dry run: nothing saved)")
+    elif stats["changed"] or stats["new"]:
+        print("curation/taxa.csv updated; run `guaminsects build public local` to see it")
+    return 0
+
+
+def cmd_specimens(args) -> int:
+    """GBIF preserved specimens per area (the "specimen records" verification level)."""
+    from .enrich import gbif_checklist
+
+    done = gbif_checklist.specimen_sweep(db.connect(), gbif_client())
+    print(", ".join(f"{k} {v}" for k, v in done.items()))
     return 0
 
 
@@ -321,8 +340,13 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_resolve)
     p = sub.add_parser("export", help=cmd_export.__doc__)
     p.add_argument("-o", "--out")
-    p.add_argument("--rank", action="append")
+    p.add_argument("--under", type=int, help="a taxon id: export it and everything under it")
     p.set_defaults(func=cmd_export)
+    p = sub.add_parser("taxonomy", help=cmd_taxonomy.__doc__)
+    p.add_argument("--editor")
+    p.set_defaults(func=cmd_taxonomy)
+    p = sub.add_parser("specimens", help=cmd_specimens.__doc__)
+    p.set_defaults(func=cmd_specimens)
     p = sub.add_parser("documents", help=cmd_documents.__doc__)
     p.set_defaults(func=cmd_documents)
     p = sub.add_parser("build", help=cmd_build.__doc__)
@@ -356,7 +380,8 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_islands)
     p = sub.add_parser("import", help=cmd_import.__doc__)
     p.add_argument("file")
-    p.add_argument("--editor", default="curator")
+    p.add_argument("--editor")
+    p.add_argument("--dry-run", action="store_true")
     p.set_defaults(func=cmd_import)
     p = sub.add_parser("croppests", help=cmd_croppests.__doc__)
     p.set_defaults(func=cmd_croppests)

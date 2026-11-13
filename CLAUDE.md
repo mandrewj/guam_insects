@@ -26,6 +26,7 @@ uv run guaminsects taxa          # GBIF classification, cached              GBIF
 uv run guaminsects plazi         # digitised literature checklists          GBIF
 uv run guaminsects croppests     # Nafus & Schreiner crop pest list         GBIF (matching)
 uv run guaminsects islands       # GBIF presence by island (GADM level 1)  GBIF
+uv run guaminsects specimens     # GBIF preserved specimens per area        GBIF
 uv run guaminsects synonyms      # GBIF synonyms (search, PDF name finder)  GBIF
 uv run guaminsects inat          # iNat species counts per area + matching  iNat, then GBIF
 uv run guaminsects library       # sources/library.csv (citations)          (Bishop Museum page cached)
@@ -37,7 +38,7 @@ uv run guaminsects wikidata      # cross-links by GBIF key                  Wiki
 uv run guaminsects wikipedia     # article text                             en.wikipedia
 uv run guaminsects bugguide      # links from entobase (read-only)          local
 uv run guaminsects photos        # Commons + iNat photos, select, thumbs    Commons, iNat
-uv run guaminsects resolve && uv run guaminsects build public local
+uv run guaminsects resolve && uv run guaminsects build public local   # also taxonomy.csv
 uv run python ops/check_site.py  # Chrome/WebKit/Firefox x desktop/phone
 uv run python ops/review.py      # data/exports/review.html for the curator (local only)
 uv run guaminsects serve         # http://localhost:8765 (+ /admin.html)

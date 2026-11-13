@@ -11,6 +11,8 @@ check needs the network.
 """
 
 import argparse
+import csv
+import io
 import sys
 from pathlib import Path
 
@@ -56,6 +58,17 @@ def check(page, url: str) -> dict[str, bool]:
         "[...document.images].every(i => !i.complete || i.naturalWidth > 0)")
     r["no sideways scroll"] = page.evaluate("document.documentElement.scrollWidth <= innerWidth")
     r["presence table"] = page.locator("table.presence tr.r-gu").count() == 1
+    # Taxonomy download: this family and everything under it, then the whole tree.
+    rows = {}
+    for key in (str(FAMILY), "all"):
+        with page.expect_download() as dl:
+            click(page, f"button[data-dl='{key}']")
+        text = Path(dl.value.path()).read_text(encoding="utf-8-sig")
+        rows[key] = list(csv.DictReader(io.StringIO(text)))
+    r["download this taxon"] = len(rows[str(FAMILY)]) > 10 and \
+        rows[str(FAMILY)][0]["taxonID"] == str(FAMILY) and \
+        all(x["family"] == "Libellulidae" for x in rows[str(FAMILY)])
+    r["download everything"] = len(rows["all"]) > 1000 and rows["all"][0]["taxonRank"] == "Subphylum"
     page.evaluate("window.scrollTo(0, 600)")
     page.wait_for_timeout(150)
     y = page.evaluate("scrollY")

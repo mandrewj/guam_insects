@@ -14,7 +14,9 @@ def now() -> str:
 
 # Columns added after the first release: (table, column, definition). schema.sql already
 # has them for new databases; existing databases get them via ALTER TABLE.
-ADDED_COLUMNS: list[tuple[str, str, str]] = []
+ADDED_COLUMNS: list[tuple[str, str, str]] = [
+    ("taxa", "verified", "INTEGER NOT NULL DEFAULT 0"),
+]
 
 
 def connect(path: Path = config.DB_PATH) -> sqlite3.Connection:

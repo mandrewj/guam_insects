@@ -23,11 +23,13 @@ TAXA_CSV = config.CURATION_DIR / "taxa.csv"
 EVIDENCE_CSV = config.CURATION_DIR / "evidence.csv"
 
 TAXA_COLUMNS = ["taxon_id", "rank", "name", "authorship", "parent_id", "parent_name", "status",
-                "accepted_id", "common_name", "establishment", "hidden", "note", "editor",
-                "edited", "reason", "citation"]
+                "accepted_id", "common_name", "establishment", "hidden", "verified", "note",
+                "editor", "edited", "reason", "citation"]
 # Columns that override a taxon's value; the rest are bookkeeping.
 OVERRIDE_FIELDS = ["rank", "name", "authorship", "parent_id", "status", "accepted_id",
-                   "common_name", "establishment", "hidden", "note"]
+                   "common_name", "establishment", "hidden", "verified", "note"]
+# Columns added after files were first written: a file without them still reads (as blank).
+OPTIONAL_COLUMNS = {"verified"}
 EVIDENCE_COLUMNS = ["taxon_id", "kind", "ref", "license", "credit", "note", "editor", "edited"]
 
 STATUSES = {"accepted", "synonym", "doubtful", "morphospecies"}
@@ -56,7 +58,7 @@ def _read(path: Path, columns: list[str]) -> list[dict]:
         return []
     with path.open(newline="", encoding="utf-8-sig") as f:   # -sig: Excel adds a BOM
         reader = csv.DictReader(f)
-        missing = set(columns) - set(reader.fieldnames or [])
+        missing = set(columns) - set(reader.fieldnames or []) - OPTIONAL_COLUMNS
         if missing:
             raise CurationError(f"{path.name}: missing column(s) {', '.join(sorted(missing))}")
         return [{c: (r.get(c) or "").strip() for c in columns} for r in reader
@@ -112,8 +114,9 @@ def load(taxa_csv: Path = TAXA_CSV, evidence_csv: Path = EVIDENCE_CSV,
         if r["establishment"] and r["establishment"] not in ESTABLISHMENT:
             errors.append(f"{where}: establishment {r['establishment']!r} is not one of "
                           f"{sorted(ESTABLISHMENT)}")
-        if r["hidden"] and r["hidden"] not in ("0", "1"):
-            errors.append(f"{where}: hidden must be 0 or 1")
+        for flag in ("hidden", "verified"):
+            if r[flag] and r[flag] not in ("0", "1"):
+                errors.append(f"{where}: {flag} must be 0 or 1")
         for col in ("parent_id", "accepted_id"):
             if r[col] and not r[col].isdigit():
                 errors.append(f"{where}: {col} {r[col]!r} is not a number")
@@ -181,7 +184,7 @@ def resolve(conn, cur: Curation) -> dict[str, int]:
             "status": GBIF_STATUS.get(t["taxonomic_status"], "synonym"),
             "accepted_id": t["accepted_key"], "origin": "gbif",
             "common_name": t["vernacular_name"], "establishment": None, "hidden": 0,
-            "hidden_reason": None, "note": None, "curated_fields": None,
+            "hidden_reason": None, "note": None, "verified": 0, "curated_fields": None,
         }
 
     # Curated rows: new taxa first (so parent_name can point at them), then overrides.
@@ -192,7 +195,7 @@ def resolve(conn, cur: Curation) -> dict[str, int]:
                          "name": r["name"], "authorship": None, "status": "accepted",
                          "accepted_id": None, "origin": "curated", "common_name": None,
                          "establishment": None, "hidden": 0, "hidden_reason": None,
-                         "note": None, "curated_fields": None}
+                         "note": None, "verified": 0, "curated_fields": None}
     for t in taxa.values():
         by_name.setdefault(t["name"], []).append(t["taxon_id"])
     errors = []
@@ -207,7 +210,7 @@ def resolve(conn, cur: Curation) -> dict[str, int]:
             v = r[f]
             if v == "":
                 continue
-            t[f] = int(v) if f in ("parent_id", "accepted_id", "hidden") else v
+            t[f] = int(v) if f in ("parent_id", "accepted_id", "hidden", "verified") else v
             changed.append(f)
         if r["parent_name"] and not r["parent_id"]:
             hits = by_name.get(r["parent_name"], [])
@@ -264,13 +267,13 @@ def resolve(conn, cur: Curation) -> dict[str, int]:
 
     cols = ["taxon_id", "gbif_key", "parent_id", "rank", "name", "authorship", "status",
             "accepted_id", "origin", "common_name", "establishment", "hidden", "hidden_reason",
-            "note", "curated_fields", "lineage", "depth", "resolved_at"]
+            "note", "verified", "curated_fields", "lineage", "depth", "resolved_at"]
     stamp = db.now()
     with conn:
         conn.execute("DELETE FROM taxa")
         conn.executemany(
             f"INSERT INTO taxa ({', '.join(cols)}) VALUES ({', '.join('?' for _ in cols)})",
-            [[*(t[c] for c in cols[:15]), lineage[tid], lineage[tid].count("/") - 2, stamp]
+            [[*(t[c] for c in cols[:16]), lineage[tid], lineage[tid].count("/") - 2, stamp]
              for tid, t in taxa.items()])
         conn.execute("DELETE FROM taxon_evidence")
         conn.executemany(
@@ -355,41 +358,3 @@ def remove_evidence(conn, taxon_id: int, kind: str, ref: str) -> dict[str, int]:
     ev = [x for x in cur.evidence if not (x["taxon_id"] == str(taxon_id) and x["kind"] == kind
                                          and x["ref"] == ref)]
     return _apply(conn, cur.rows, ev)
-
-
-IMPORT_FIELDS = ["rank", "name", "authorship", "parent_id", "status", "accepted_id",
-                 "common_name", "establishment", "hidden", "note"]
-
-
-def import_checklist(conn, path: Path, editor: str) -> dict[str, int]:
-    """Turn an edited copy of the exported checklist (guaminsects export) into curation rows:
-    a changed cell becomes an override, a row with no taxon_id a new taxon. Unchanged rows
-    are ignored, so the whole checklist can be opened, edited anywhere, and saved back."""
-    current = {r["taxon_id"]: dict(r) for r in conn.execute("SELECT * FROM taxa")}
-    cur = load(TAXA_CSV, EVIDENCE_CSV, assign_ids=False)
-    rows = {r["taxon_id"]: dict(r) for r in cur.rows if r["taxon_id"]}
-    new_rows = [dict(r) for r in cur.rows if not r["taxon_id"]]
-    stats = {"changed": 0, "new": 0}
-    with path.open(newline="", encoding="utf-8-sig") as f:
-        for r in csv.DictReader(f):
-            r = {k: (v or "").strip() for k, v in r.items() if k}
-            tid = r.get("taxon_id", "")
-            if not tid:
-                if r.get("name") and r.get("rank"):
-                    row = {c: r.get(c, "") for c in TAXA_COLUMNS}
-                    row.update(editor=editor, edited=db.now()[:10])
-                    new_rows.append(row)
-                    stats["new"] += 1
-                continue
-            t = current.get(int(tid)) if tid.isdigit() else None
-            if t is None:
-                continue
-            diffs = {f: r[f] for f in IMPORT_FIELDS if f in r and
-                     r[f] != ("" if t.get(f) is None else str(t[f]))}
-            if not diffs:
-                continue
-            row = rows.setdefault(tid, {c: "" for c in TAXA_COLUMNS} | {"taxon_id": tid})
-            row.update(diffs, editor=editor, edited=db.now()[:10])
-            stats["changed"] += 1
-    _apply(conn, list(rows.values()) + new_rows, cur.evidence)
-    return stats

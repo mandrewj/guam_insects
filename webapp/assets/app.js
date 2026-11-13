@@ -224,6 +224,7 @@
     html.push(iucnBox(r));
     if (!isHome) html.push(classification(r));
     html.push(links(r));
+    html.push(downloadBox(r, isHome));
     html.push('</aside><div class="main">');
     if (!isHome) html.push(pageNav(r));
     if (!isHome) html.push(curatedNote(r));
@@ -923,6 +924,71 @@
     return '<section class="attribution" id="s-sources"><h2>Sources &amp; attribution</h2><ul>' + rows.join("") +
       "</ul></section>";
   }
+
+  // ------------------------------------------------------------------ taxonomy download
+  // data/taxonomy.js holds the rows of taxonomy.csv (visible taxa); it loads on the first
+  // click, and the CSV is made here, so the download works from file:// too.
+  var taxonomyData = null;
+  window.guaminsects.taxonomy = function (d) { taxonomyData = d; };
+
+  function downloadBox(r, isHome) {
+    var below = isHome ? "" : '<button type="button" class="dl-btn" data-dl="' + r.id + '">' +
+      sciName(r.rank, r.name) + (r.children.length ? " and everything under it" : "") + "</button>";
+    return '<div class="box dl-box"><h3>Download taxonomy</h3><div class="dl-row">' + below +
+      '<button type="button" class="dl-btn" data-dl="all">' + (isHome ? "The whole taxonomy" : "Whole taxonomy") +
+      "</button></div>" + '<p class="dl-note">CSV with Darwin Core columns: name, authorship, rank, parent, ' +
+      "family, island groups, sources and how each taxon is verified." +
+      (meta.target === "local" ? " The same file is <code>taxonomy.csv</code> in the project folder." : "") +
+      '</p><p class="dl-status" role="status"></p></div>';
+  }
+
+  function csvCell(v) {
+    var s = v === null || v === undefined ? "" : String(v);
+    return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+
+  function taxonomyRows(key) {
+    var cols = taxonomyData.columns, rows = taxonomyData.rows;
+    if (key === "all") return rows;
+    var iId = cols.indexOf("taxonID"), iParent = cols.indexOf("parentNameUsageID");
+    var parent = new Map(), inside = new Map([[+key, true]]);
+    rows.forEach(function (row) { parent.set(row[iId], row[iParent]); });
+    function under(id) {      // walk up to a known answer, then remember it for the path
+      var path = [];
+      while (!inside.has(id) && id !== "" && id !== undefined) { path.push(id); id = parent.get(id); }
+      var ok = inside.get(id) || false;
+      path.forEach(function (p) { inside.set(p, ok); });
+      return ok;
+    }
+    return rows.filter(function (row) { return under(row[iId]); });
+  }
+
+  app.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest("button[data-dl]");
+    if (!b) return;
+    var key = b.getAttribute("data-dl"), status = b.closest(".dl-box").querySelector(".dl-status");
+    b.disabled = true;
+    status.textContent = "Preparing…";
+    loadScript("data/taxonomy.js").then(function () {
+      var rows = taxonomyRows(key);
+      var text = [taxonomyData.columns].concat(rows)
+        .map(function (row) { return row.map(csvCell).join(","); }).join("\n") + "\n";
+      var rec = records.get(+key);
+      var file = "insects-of-guam-taxonomy" + (rec ? "-" + rec.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : "") +
+        "-" + (meta.built_at || "").slice(0, 10) + ".csv";
+      var url = URL.createObjectURL(new Blob(["\ufeff" + text], { type: "text/csv;charset=utf-8" }));
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = file;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+      status.textContent = rows.length + (rows.length === 1 ? " taxon" : " taxa") + " · " + file;
+    }).catch(function () {
+      status.textContent = "The taxonomy file is missing from this build.";
+    }).then(function () { b.disabled = false; });
+  });
 
   // ------------------------------------------------------------------ search
   // Tokenizing must match src/guaminsects/search.py exactly (fold, split, stopwords, stem).

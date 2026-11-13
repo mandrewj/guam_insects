@@ -160,17 +160,3 @@ def test_new_morphospecies_with_evidence(conn, files):
     assert conn.execute("SELECT status FROM taxa WHERE taxon_id = ?", (new_id,)).fetchone()[0] \
         == "morphospecies"
     assert conn.execute("SELECT ref FROM taxon_evidence").fetchone()[0] == "123"
-
-
-def test_import_edited_checklist(conn, files, tmp_path):
-    curation.resolve(conn, curation.load(*files))
-    sheet = tmp_path / "edited.csv"
-    sheet.write_text("taxon_id,rank,name,parent_id,common_name,establishment,hidden\n"
-                     "4995642,Species,Oryctes rhinoceros,1063,,invasive,0\n"
-                     "1063,Genus,Oryctes,7779,,,0\n"
-                     ",Species,Oryctes sp. GU-2,1063,,,0\n")
-    stats = curation.import_checklist(conn, sheet, editor="t")
-    assert stats == {"changed": 1, "new": 1}
-    assert conn.execute("SELECT establishment FROM taxa WHERE taxon_id = 4995642").fetchone()[0] \
-        == "invasive"
-    assert conn.execute("SELECT COUNT(*) FROM taxa WHERE name = 'Oryctes sp. GU-2'").fetchone()[0] == 1

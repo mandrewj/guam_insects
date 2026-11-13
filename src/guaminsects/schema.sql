@@ -36,6 +36,11 @@ CREATE TABLE IF NOT EXISTS taxon_presence (
   fetched_at TEXT,
   PRIMARY KEY (taxon_id, area, source)
 );
+-- GBIF specimen records per area (preserved specimens and material samples only): the
+-- "specimen records" level of the taxonomy export's verificationStatus.
+CREATE TABLE IF NOT EXISTS taxon_specimens (
+  taxon_id INTEGER NOT NULL, area TEXT NOT NULL, records INTEGER, fetched_at TEXT,
+  PRIMARY KEY (taxon_id, area));
 CREATE TABLE IF NOT EXISTS presence_queries (  -- which (area, facet) sweeps are done, for resume
   area TEXT, source TEXT, facet TEXT, taxa INTEGER, answered_at TEXT,
   PRIMARY KEY (area, source, facet));
@@ -61,6 +66,7 @@ CREATE TABLE IF NOT EXISTS taxa (
   hidden         INTEGER NOT NULL DEFAULT 0,
   hidden_reason  TEXT,
   note           TEXT,
+  verified       INTEGER NOT NULL DEFAULT 0,  -- 1: an editor confirmed it (curation/taxa.csv)
   curated_fields TEXT,                     -- comma list of fields set by hand, for the UI
   lineage        TEXT,                     -- '/900000001/216/1470/…/' : LIKE for "under X"
   depth          INTEGER,
