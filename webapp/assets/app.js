@@ -824,7 +824,9 @@
         (higher ? "<td>" + cell(p.species) + "</td>" : "") + "<td>" + cell(p.gbif) + "</td><td>" +
         cell(p.inat) + "</td><td>" + cell(p.literature) + "</td></tr>";
     }).join("");
-    var isles = (r.islands || []).filter(function (x) { return x.islands.length; });
+    // The list of island names under the map: genus and below (higher up the map says it).
+    var low = { Genus: 1, Subgenus: 1, Species: 1, Subspecies: 1 };
+    var isles = low[r.rank] ? (r.islands || []).filter(function (x) { return x.islands.length; }) : [];
     var named = isles.length ? '<p class="isle-list">Islands named in the records: ' + isles.map(function (x) {
       return '<span class="r-' + esc(x.area.toLowerCase()) + '"><b>' + esc(x.label) + "</b> " + esc(x.islands.join(", ")) + "</span>";
     }).join("; ") + "</p>" : "";

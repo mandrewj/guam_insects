@@ -132,6 +132,14 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
     inat_sum: dict[int, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     lit_in: dict[int, dict[str, set[int]]] = defaultdict(lambda: defaultdict(set))
     n_species: dict[int, int] = {}
+    # GBIF: a taxon's own facet count already covers everything under it. One with no count
+    # of its own (the curated Hexapoda root, a hand-added genus) totals its children, which
+    # are disjoint.
+    gbif_n: dict[int, dict[str, int]] = defaultdict(dict)
+    for tid in order:
+        for area in config.AREA_CODES:
+            mine = own[tid].get(area, {}).get("gbif")
+            gbif_n[tid][area] = mine if mine else sum(gbif_n[c].get(area, 0) for c in children[tid])
     for tid in order:
         t = taxa[tid]
         n = int(t["rank"] in SPECIES_RANKS and not t["hidden"] and t["status"] != "synonym")
@@ -157,7 +165,7 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
         for area in config.AREA_CODES:
             srcs = own[tid].get(area, {})
             row = {"area": area, "label": AREA_SHORT[area],
-                   "gbif": srcs.get("gbif") or 0,
+                   "gbif": gbif_n[tid].get(area, 0),
                    "inat": inat_sum[tid].get(area, 0),
                    "literature": len(lit_in[tid].get(area, ())) if t["rank"] not in
                    SPECIES_RANKS else srcs.get("literature", 0),

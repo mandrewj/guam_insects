@@ -67,3 +67,9 @@ def test_counts_and_curated_status(conn):
 def test_home_cards_list_orders(conn):
     recs = site.build_records(conn)
     assert [c["name"] for c in site.home_cards(recs, H)] == ["Coleoptera"]
+
+
+def test_taxa_without_their_own_gbif_count_total_their_children(conn):
+    recs = site.build_records(conn)
+    root = {p["area"]: p for p in recs[H]["presence"]}
+    assert root["GU"]["gbif"] == 95       # Scarabaeidae's facet count, carried up
