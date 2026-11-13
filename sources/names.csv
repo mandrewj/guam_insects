@@ -3461,7 +3461,7 @@ id,name,rank,origin,hints
 3460,Corythucha,GENUS,inat,{}
 3461,Crematogaster,GENUS,inat,{}
 3462,Cryptolaemus,GENUS,inat,{}
-3463,Ctenocephalides,GENUS,inat,{}
+3463,Ctenocephalides,GENUS,inat|literature,{}
 3464,Curinus,GENUS,inat,{}
 3465,Cylas,GENUS,inat,{}
 3466,Daealus,GENUS,inat,{}
@@ -3478,7 +3478,7 @@ id,name,rank,origin,hints
 3477,Ectomyelois,GENUS,inat,{}
 3478,Erionota,GENUS,inat,{}
 3479,Eristalinus,GENUS,inat,{}
-3480,Euborellia,GENUS,inat,{}
+3480,Euborellia,GENUS,inat|literature,{}
 3481,Euconocephalus,GENUS,inat,{}
 3482,Eudocima,GENUS,inat,{}
 3483,Euploea,GENUS,inat,{}
@@ -4338,3 +4338,191 @@ id,name,rank,origin,hints
 4337,Tendipes,GENUS,literature,{}
 4338,Tenebrio,GENUS,literature,{}
 4339,Teratodella,GENUS,literature,{}
+4340,Acanthia membranacea,SPECIES,literature,{}
+4341,Afrika und,SPECIES,literature,{}
+4342,Amblypsilopus pallidicornis,SPECIES,literature,{}
+4343,Anthelephilus imperator,SPECIES,literature,{}
+4344,Aspidtotus glovertt,SPECIES,literature,{}
+4345,Aspidtotus sacchari-caulis,SPECIES,literature,{}
+4346,Attica cyparissiae,SPECIES,literature,{}
+4347,Bactra minima,SPECIES,literature,{}
+4348,Bidis vittatus,SPECIES,literature,{}
+4349,Bostrychus hamatipennis,SPECIES,literature,{}
+4350,Campyloma brunneicollis,SPECIES,literature,{}
+4351,Carpophilus marginellus,SPECIES,literature,{}
+4352,Chrysosoma leucopogon,SPECIES,literature,{}
+4353,Crocidosema lantana,SPECIES,literature,{}
+4354,Crocidosema plebejana,SPECIES,literature,{}
+4355,Cryptaspasma brachyptycha,SPECIES,literature,{}
+4356,Cryptophlebia rhynchias,SPECIES,literature,{}
+4357,Ctenocephalides canis,SPECIES,literature,{}
+4358,Dants cucurbitae,SPECIES,literature,{}
+4359,Diospyros digyna,SPECIES,literature,{}
+4360,Ditoma latiusculus,SPECIES,literature,{}
+4361,Dolichopus leucopogon,SPECIES,literature,{}
+4362,Drepanos ticta,SPECIES,literature,{}
+4363,Drosophila sulfurigaster,SPECIES,literature,{}
+4364,Duplaspidiotus claviger,SPECIES,literature,{}
+4365,Ebenso kurze,SPECIES,literature,{}
+4366,Ebenso wenige,SPECIES,literature,{}
+4367,Echmepteryx madagascariensis,SPECIES,literature,{}
+4368,Ectopsocopsis cryptomeriae,SPECIES,literature,{}
+4369,Elliotia pallipes,SPECIES,literature,{}
+4370,Euborellia stali,SPECIES,literature,{}
+4371,Fauna auf die,SUBSPECIES,literature,{}
+4372,Fauna dieser,SPECIES,literature,{}
+4373,Fauna einer kontinentalen,SUBSPECIES,literature,{}
+4374,Fauna keine besondere,SUBSPECIES,literature,{}
+4375,Forcipomyia adhesipes,SPECIES,literature,{}
+4376,Forcipomyia feminae,SPECIES,literature,{}
+4377,Fulvius variegatus,SPECIES,literature,{}
+4378,Gerris oratoria,SPECIES,literature,{}
+4379,Gnathodus ineisus,SPECIES,literature,{}
+4380,Gnathodus rosea,SPECIES,literature,{}
+4381,Hemipsocus roseus,SPECIES,literature,{}
+4382,Heterobostrychus aequalis,SPECIES,literature,{}
+4383,Holoplagia guamensis,SPECIES,literature,{}
+4384,Homoneura prisca,SPECIES,literature,{}
+4385,Homoneura signatifrons,SPECIES,literature,{}
+4386,Icelita indentata,SPECIES,literature,{}
+4387,Ichneumon agrestorius,SPECIES,literature,{}
+4388,Ichneumon fuscator,SPECIES,literature,{}
+4389,Ichneumon puparum,SPECIES,literature,{}
+4390,Idia obsoleta,SPECIES,literature,{}
+4391,Lepidopsocus marmoratus,SPECIES,literature,{}
+4392,Leptocoris tagalicus,SPECIES,literature,{}
+4393,Limnophora macrophthalma van,SUBSPECIES,literature,{}
+4394,Limnophora plumiseta,SPECIES,literature,{}
+4395,Longipalpus guamensis,SPECIES,literature,{}
+4396,Longipalpus palauensis,SPECIES,literature,{}
+4397,Loreius blairi,SPECIES,literature,{}
+4398,Magellan discovered,SPECIES,literature,{}
+4399,Marava arachidis,SPECIES,literature,{}
+4400,Megaselia scalaris,SPECIES,literature,{}
+4401,Myzomyia rossi indefinita,SUBSPECIES,literature,{}
+4402,Nesodaphne marianensis,SPECIES,literature,{}
+4403,Olfersia spinifera,SPECIES,literature,{}
+4404,Oligosita hilaris,SPECIES,literature,{}
+4405,Oncacephalus pacificus,SPECIES,literature,{}
+4406,Oncocephalus pacificus,SPECIES,literature,{}
+4407,Ornithoica exilis,SPECIES,literature,{}
+4408,Ornithoica pusilla,SPECIES,literature,{}
+4409,Pachycondyla luteipes,SPECIES,literature,{}
+4410,Pacific include,SPECIES,literature,{}
+4411,Pacific islands,SPECIES,literature,{}
+4412,Pacific islands under,SUBSPECIES,literature,{}
+4413,Pacific region,SPECIES,literature,{}
+4414,Parlatoria crotonis,SPECIES,literature,{}
+4415,Pendulinus fuscescens,SPECIES,literature,{}
+4416,Phronia boninensis,SPECIES,literature,{}
+4417,Plagiozopelma flavipodex,SPECIES,literature,{}
+4418,Plant family,SPECIES,literature,{}
+4419,Polypedilum albiceps,SPECIES,literature,{}
+4420,Ponera tenuis,SPECIES,literature,{}
+4421,Pseudocaecilius tahitiensis,SPECIES,literature,{}
+4422,Pseudoscymnus kurohime,SPECIES,literature,{}
+4423,Pseudozaena tricostata opaca,SUBSPECIES,literature,{}
+4424,Psilopus macropus,SPECIES,literature,{}
+4425,Pterophorus niveodactyla,SPECIES,literature,{}
+4426,Puliciphora lucifera,SPECIES,literature,{}
+4427,Reste der,SPECIES,literature,{}
+4428,Reste des uralten,SUBSPECIES,literature,{}
+4429,Saissetia oleae,SPECIES,literature,{}
+4430,Smittia bicinctura,SPECIES,literature,{}
+4431,Smittia brevicornis,SPECIES,literature,{}
+4432,Smittia dupla,SPECIES,literature,{}
+4433,Smittia fusivenosa,SPECIES,literature,{}
+4434,Smittia guamensis,SPECIES,literature,{}
+4435,Smittia kraussi,SPECIES,literature,{}
+4436,Smittia lonata,SPECIES,literature,{}
+4437,Smittia micronesiana,SPECIES,literature,{}
+4438,Smittia palauensis,SPECIES,literature,{}
+4439,Smittia postcinctura,SPECIES,literature,{}
+4440,Smittia setiforceps,SPECIES,literature,{}
+4441,Smittia triangula,SPECIES,literature,{}
+4442,Smittia tuberculifera,SPECIES,literature,{}
+4443,Smittia yapensis,SPECIES,literature,{}
+4444,Sorel tyrilo,SPECIES,literature,{}
+4445,Stylia sororcula,SPECIES,literature,{}
+4446,Sympiesomorpha japonica,SPECIES,literature,{}
+4447,Tachys sexguttatus,SPECIES,literature,{}
+4448,Tagaius brevissimus,SPECIES,literature,{}
+4449,Tagaius brittoni,SPECIES,literature,{}
+4450,Tagaius rugosus,SPECIES,literature,{}
+4451,Tagaius sulcalus,SPECIES,literature,{}
+4452,Takahashi proposed,SPECIES,literature,{}
+4453,Telostylinus longicoxa,SPECIES,literature,{}
+4454,Tetrast ichus palauensis,SUBSPECIES,literature,{}
+4455,Thorictodes heydeni,SPECIES,literature,{}
+4456,Thylax madagascariensis,SPECIES,literature,{}
+4457,Tomosvaryella subvirescens,SPECIES,literature,{}
+4458,Trichochaeta recedens,SPECIES,literature,{}
+4459,Trigonon longicornis,SPECIES,literature,{}
+4460,Verania discolor,SPECIES,literature,{}
+4461,Zoraida pterophoroides nstulator,SUBSPECIES,literature,{}
+4462,Aspidtotus,GENUS,literature,{}
+4463,Dants,GENUS,literature,{}
+4464,Elliotia,GENUS,literature,{}
+4465,Magellan,GENUS,literature,{}
+4466,Nesodaphne,GENUS,literature,{}
+4467,Oncacephalus,GENUS,literature,{}
+4468,Pacific,GENUS,literature,{}
+4469,Psilopus,GENUS,literature,{}
+4470,Tetrast ichus,SPECIES,literature,{}
+4471,Acanthia,GENUS,literature,{}
+4472,Afrika,GENUS,literature,{}
+4473,Anthelephilus,GENUS,literature,{}
+4474,Attica,GENUS,literature,{}
+4475,Bidis,GENUS,literature,{}
+4476,Bostrychus,GENUS,literature,{}
+4477,Campyloma,GENUS,literature,{}
+4478,Cryptaspasma,GENUS,literature,{}
+4479,Diospyros,GENUS,literature,{}
+4480,Ditoma,GENUS,literature,{}
+4481,Dolichopus,GENUS,literature,{}
+4482,Drepanos,GENUS,literature,{}
+4483,Duplaspidiotus,GENUS,literature,{}
+4484,Ebenso,GENUS,literature,{}
+4485,Ectopsocopsis,GENUS,literature,{}
+4486,Fauna auf,SPECIES,literature,{}
+4487,Fauna,GENUS,literature,{}
+4488,Fauna einer,SPECIES,literature,{}
+4489,Fauna keine,SPECIES,literature,{}
+4490,Gerris,GENUS,literature,{}
+4491,Gnathodus,GENUS,literature,{}
+4492,Hemipsocus,GENUS,literature,{}
+4493,Heterobostrychus,GENUS,literature,{}
+4494,Holoplagia,GENUS,literature,{}
+4495,Icelita,GENUS,literature,{}
+4496,Ichneumon,GENUS,literature,{}
+4497,Idia,GENUS,literature,{}
+4498,Lepidopsocus,GENUS,literature,{}
+4499,Limnophora macrophthalma,SPECIES,literature,{}
+4500,Loreius,GENUS,literature,{}
+4501,Marava,GENUS,literature,{}
+4502,Myzomyia rossi,SPECIES,literature,{}
+4503,Oligosita,GENUS,literature,{}
+4504,Oncocephalus,GENUS,literature,{}
+4505,Pachycondyla,GENUS,literature,{}
+4506,Pendulinus,GENUS,literature,{}
+4507,Phronia,GENUS,literature,{}
+4508,Plagiozopelma,GENUS,literature,{}
+4509,Plant,GENUS,literature,{}
+4510,Pseudoscymnus,GENUS,literature,{}
+4511,Pseudozaena tricostata,SPECIES,literature,{}
+4512,Reste,GENUS,literature,{}
+4513,Reste des,SPECIES,literature,{}
+4514,Saissetia,GENUS,literature,{}
+4515,Smittia,GENUS,literature,{}
+4516,Sorel,GENUS,literature,{}
+4517,Stylia,GENUS,literature,{}
+4518,Sympiesomorpha,GENUS,literature,{}
+4519,Tagaius,GENUS,literature,{}
+4520,Takahashi,GENUS,literature,{}
+4521,Thorictodes,GENUS,literature,{}
+4522,Thylax,GENUS,literature,{}
+4523,Tomosvaryella,GENUS,literature,{}
+4524,Trichochaeta,GENUS,literature,{}
+4525,Trigonon,GENUS,literature,{}
+4526,Verania,GENUS,literature,{}
+4527,Zoraida pterophoroides,SPECIES,literature,{}

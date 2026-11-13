@@ -3,6 +3,33 @@
 Updated by the build session; newest first. Decisions live in CLAUDE.md; this file is what
 is done, what is waiting, and what needs the user.
 
+## 2026-11-13, afternoon: the Catalogue of Life backbone
+
+### Done
+- **Tree = Catalogue of Life** (COL XR through GBIF), main ranks only. 5,183 taxa,
+  **3,006 species** (1,518 recorded from Guam); 170 species and 10 genera not in COL, added
+  under their COL parent and flagged. 3 fossil taxa removed (Palaeodictyoptera and the two
+  names under it; COL's extinct list plus a list of fossil-only orders).
+- **Names merged into one taxon**: 1,460 (1,000 COL synonyms, 376 duplicate GBIF Backbone
+  entries with another author, 80 spelling variants, Rhipiceridae merged by hand into
+  Callirhipidae). All are synonym rows in `taxonomy.csv` and listed on each page.
+- **taxonomy.csv tracked in git**; machine-read literature records published and flagged.
+- **Harvest** (`ops/harvest.sh`): literature re-scan, name matching, COL taxa, COL common
+  names, synonyms and extinct list (ChecklistBank), Wikidata by COL id (with Wikispecies
+  links), Wikipedia (2,119 articles), Commons and iNat photos (2,526 taxa with photos),
+  introduced-species statements; both sites rebuilt; check_site passes in all 6 configurations.
+- UI: checklist under the cards on higher taxa, region tooltips, shorter intro, blue
+  favicon, US spellings, iNat/GBIF links first, thumbnails carried up to groups with none.
+
+### Waiting on the user
+- **Deploy**: the live site (https://insects-of-guam.vercel.app) is the interim COL build from
+  11:00. `ops/deploy.sh --prod` publishes this one (the session's permission check stopped
+  the agent from deploying).
+- **Review page** (`data/exports/review.html`): 210 literature or near-spelling names held for
+  review, 42 names with records that could not be placed, families with family-level
+  records only (candidates for merges like Rhipiceridae).
+- iNat observation photos from Micronesia: not built yet.
+
 ## 2026-11-14 (overnight run after the user's go-ahead)
 
 ### Built and working

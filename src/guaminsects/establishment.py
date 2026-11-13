@@ -14,7 +14,7 @@ with their sources, marked as read by machine.
 import re
 import sys
 
-from . import db, library, literature, pdftext
+from . import db, ids, library, literature, pdftext
 
 # (file in literature/, area it speaks for, or None to take the islands in the paragraph)
 LISTS = [
@@ -98,7 +98,8 @@ def scan(conn, client=None) -> dict[str, int]:
     if client is not None:            # taxa matched here may be new to us: fetch them
         from .enrich.gbif_checklist import fetch_taxa
 
-        fetch_taxa(conn, client, {r[0] for r in rows})
+        # Backbone names for Backbone keys only (lexicon hits are already taxa in the tree).
+        fetch_taxa(conn, client, {r[0] for r in rows if ids.kind(r[0]) == "gbif"})
     stats = {"statements": len(rows), "taxa": len({r[0] for r in rows}),
              "unmatched": len(unmatched)}
     print(", ".join(f"{k} {v}" for k, v in stats.items()), file=sys.stderr)
@@ -118,7 +119,7 @@ def gbif_sweep(conn, client) -> dict[str, int]:
     facet request per (area, value), never per taxon. Few records carry it; where they do,
     it is the collector's or dataset's statement, kept as one source among others."""
     from . import config
-    from .enrich.gbif_checklist import FACET_PAGE, occurrence_filter
+    from .enrich.gbif_checklist import FACET_PAGE, facet_key, occurrence_filter
 
     rows = []
     for area in config.AREAS:
@@ -129,7 +130,7 @@ def gbif_sweep(conn, client) -> dict[str, int]:
                     ("establishmentMeans", means), ("limit", 0), ("facet", "speciesKey"),
                     ("facetLimit", FACET_PAGE), ("facetOffset", offset)])
                 got = (d.get("facets") or [{}])[0].get("counts", [])
-                rows += [(int(c["name"]), area["code"], status, f"gbif:{means}",
+                rows += [(facet_key(c["name"], True), area["code"], status, f"gbif:{means}",
                           f"GBIF records marked {means} ({c['count']})") for c in got]
                 if len(got) < FACET_PAGE:
                     break
