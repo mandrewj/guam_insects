@@ -284,6 +284,8 @@ def cmd_photos(args) -> int:
                                    photos.gbif_sweep(conn, gbif_client()).items()))
     if "select" in args.steps:
         print("select: " + ", ".join(f"{k} {v}" for k, v in photos.select(conn).items()))
+    if "verify" in args.steps:
+        print("verify: " + ", ".join(f"{k} {v}" for k, v in photos.verify(conn).items()))
     if "thumbs" in args.steps:
         print("thumbs: " + ", ".join(f"{k} {v}" for k, v in photos.thumbs(conn).items()))
     return 0
@@ -435,8 +437,8 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("bugguide", help=cmd_bugguide.__doc__)
     p.set_defaults(func=cmd_bugguide)
     p = sub.add_parser("photos", help=cmd_photos.__doc__)
-    p.add_argument("steps", nargs="*", default=["commons", "inat", "gbif", "select", "thumbs"],
-                   choices=["commons", "inat", "gbif", "select", "thumbs"])
+    p.add_argument("steps", nargs="*", default=["commons", "inat", "gbif", "select", "verify", "thumbs"],
+                   choices=["commons", "inat", "gbif", "select", "verify", "thumbs"])
     p.set_defaults(func=cmd_photos)
     p = sub.add_parser("islands", help=cmd_islands.__doc__)
     p.set_defaults(func=cmd_islands)

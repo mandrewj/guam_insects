@@ -37,7 +37,7 @@ run bugguide bugguide
 wait "$wiki"; wait "$pics"; wait "$clb"
 # 3. The tree once more (COL's extinct list and new names), photos, and both sites.
 run resolve-2 resolve
-run photos photos select thumbs
+run photos photos select verify thumbs
 run build build
 echo "$(date +%H:%M) check"; uv run python ops/check_site.py 2>&1 | tail -6
 uv run python ops/review.py | tail -1

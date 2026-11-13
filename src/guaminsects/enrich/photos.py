@@ -449,8 +449,46 @@ def thumbs(conn, limit: int | None = None) -> dict[str, int]:
         except (httpx.HTTPError, OSError, TypeError) as e:
             print(f"  thumb {r['photo_id']}: {e}", file=sys.stderr)
             stats["failed"] += 1
+            if isinstance(e, httpx.HTTPStatusError) and 400 <= e.response.status_code < 500:
+                # Gone or refused (some museums refuse GBIF's image cache): the page would
+                # show a broken picture, so the next `select` passes it over.
+                with conn:
+                    conn.execute("UPDATE photos SET status = 'unreachable' WHERE photo_id = ?",
+                                 (r["photo_id"],))
     for c in hosts.values():
         c.close()
+    return stats
+
+
+def verify(conn) -> dict[str, int]:
+    """Fetch the small copy of every shown GBIF-hosted photo not yet seen: record its size, or
+    mark it unreachable (some museums refuse GBIF's image cache, image by image), and pick
+    again so no page shows a broken picture. Repeats until a pass finds nothing new."""
+    client = ApiClient("", 0.34)
+    stats = {"checked": 0, "unreachable": 0}
+    while True:
+        rows = conn.execute(
+            "SELECT DISTINCT p.photo_id, p.thumb_url FROM taxon_photos tp JOIN photos p "
+            "ON p.photo_id = tp.photo_id WHERE p.source = 'gbif' AND p.status = 'ok' "
+            "AND p.width IS NULL").fetchall()
+        if not rows:
+            break
+        for i, r in enumerate(rows):
+            try:
+                img = Image.open(io.BytesIO(client.get_bytes(r["thumb_url"])))
+                size, status = (img.width, img.height), "ok"
+            except (httpx.HTTPError, OSError, TypeError) as e:     # TypeError: a 404
+                size, status = (None, None), "unreachable"
+                print(f"  {r['photo_id']}: {e}".split("\n")[0], file=sys.stderr)
+            with conn:
+                conn.execute("UPDATE photos SET width = ?, height = ?, status = ? "
+                             "WHERE photo_id = ?", (*size, status, r["photo_id"]))
+            stats["checked"] += 1
+            stats["unreachable"] += status != "ok"
+            if (i + 1) % 200 == 0:
+                print(f"  verified {i + 1}/{len(rows)}", file=sys.stderr)
+        select(conn)
+    client.close()
     return stats
 
 

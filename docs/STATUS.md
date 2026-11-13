@@ -23,10 +23,17 @@ is done, what is waiting, and what needs the user.
 - Photos without a stored size (GBIF gives none) no longer break the gallery; the
   thumbnail step records the size of each card photo it fetches.
 
-### Image sweep (running when this was written)
-- Pass 1 finished; pass 2 was at 700 of 1,640 species without photos, ~28% of them finding
-  images. Then `photos select thumbs`, `build`, `check_site`, `deploy.sh --prod`. The final
-  numbers are in the commit that follows this one.
+### Image sweep (finished 2026-11-13, 23:30 UTC)
+- Pass 1: 7,382 occurrences from the five areas, 10,332 photos. Pass 2: 1,640 species asked,
+  452 found images elsewhere (2,073 photos).
+- `photos verify` (new, in `ops/harvest.sh`): fetches the small copy of each shown GBIF photo
+  once, records its size, and marks it `unreachable` when the museum refuses GBIF's image
+  cache (230 of them, mostly CAS/AntWeb, image by image rather than whole hosts); then picks
+  again. Every shown photo loads.
+- **Species with photos of their own: 1,680 of 3,006** (was 893); genera 1,248 own, 1,459 with
+  any; 3,513 taxa with photos in all (was 2,526).
+- Rebuilt, check_site passes in all 6 configurations, deployed to production (deploy
+  le4qnqqg7, built 23:30 UTC). The site is 55 MB (budget 90).
 - **Not done:** iNaturalist taxon photos looked up by name, for taxa Wikidata does not link
   to iNat (`/taxa?q=<name>&rank=...`, then the existing batched `/taxa/<ids>` sweep). iNat
   answered 429 all evening because entobase's `link --stubs` job shares the IP. GBIF already
@@ -75,8 +82,8 @@ is done, what is waiting, and what needs the user.
   favicon, US spellings, iNat/GBIF links first, thumbnails carried up to groups with none.
 
 ### Deployed
-- https://insects-of-guam.vercel.app is this build (2026-11-13, 22:28 UTC; deploy
-  8rbpc1esb). Re-run `ops/harvest.sh` (it deploys at the end) or `ops/deploy.sh --prod`.
+- Superseded by the evening build above. Re-run `ops/harvest.sh` (it deploys at the end) or
+  `ops/deploy.sh --prod`.
 
 ### Waiting on the user
 - **Review page** (`data/exports/review.html`): 210 literature or near-spelling names held for
