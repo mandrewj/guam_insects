@@ -405,6 +405,13 @@
     if (r.establishment && STATUS[r.establishment]) {
       badges.push('<span class="badge est-' + STATUS[r.establishment][1] + '" title="Curated">' +
         esc(STATUS[r.establishment][0]) + "</span>");
+    } else if (r.status_sources && r.status_sources.length) {
+      // Not curated: say what the sources say, and that a machine read it.
+      var s0 = r.status_sources[0], st = STATUS[s0.status] || [s0.status, "muted"];
+      badges.push('<span class="badge est-' + st[1] + '" title="' + esc(r.status_sources.map(function (x) {
+        return regionLabel(x.area.toLowerCase()) + ": " + x.status + (x.year ? " (first noted " + x.year + ")" : "") +
+          " per " + x.citation;
+      }).join("; ")) + ' (read by machine, not yet checked)">' + esc(st[0]) + "*</span>");
     }
     if (r.status === "morphospecies") badges.push('<span class="badge morpho" title="Not formally named; recognised from specimens or photos">Morphospecies</span>');
     if (r.status === "synonym") badges.push('<span class="badge warn">Synonym</span>');
@@ -710,8 +717,14 @@
   }
 
   function curatedNote(r) {
-    if (!r.note) return "";
-    return '<div class="notice curated-note">' + esc(r.note) + "</div>";
+    var out = r.note ? '<div class="notice curated-note">' + esc(r.note) + "</div>" : "";
+    if (r.status_sources && r.status_sources.length) {
+      out += '<p class="status-note">' + r.status_sources.map(function (x) {
+        return "<b>" + esc(regionLabel(x.area.toLowerCase())) + "</b>: " + esc(x.status) +
+          (x.year ? ", first noticed " + x.year : "") + " (" + esc(x.citation) + (x.page ? " p. " + x.page : "") + ")";
+      }).join("; ") + '. <span class="muted">Read by machine from the paper; not yet checked.</span></p>';
+    }
+    return out;
   }
 
   // Stat tiles: exact below 2,000, then ">2k", ">97k", ">1.2M" (exact value on hover).

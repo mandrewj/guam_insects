@@ -73,3 +73,17 @@ def test_site_helpers():
     borrowed = {"thumb": "b", "w": 900, "h": 600, "of_id": 5}
     assert card_thumb([portrait, landscape]) == "l"
     assert card_thumb([portrait, borrowed]) == "p"     # never swap own for borrowed
+
+
+def test_establishment_year_prefers_the_area():
+    from guaminsects.establishment import PARAGRAPH, first_year
+
+    para = ("Aleurodicus dispersus Russell, the spiralling whitefly, is a Neotropical species "
+            "which was first noted in Hawaii in 1978. It arrived on Guam in 1981, most likely "
+            "with ornamentals.")
+    assert first_year(para, "GU") == 1981
+    assert first_year("It was first collected in 1984 at which time it was abundant.", "GU") == 1984
+    text = ("     Stenocatantops splendens (Thunberg) was first collected in 1984.\n"
+            "     Thrips pa/mi Karny was first noted in Guam in 1983.")
+    paras = PARAGRAPH.split(text)
+    assert len(paras) == 2 and first_year(paras[0], "GU") == 1984

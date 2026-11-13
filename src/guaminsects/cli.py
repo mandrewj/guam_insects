@@ -268,6 +268,14 @@ def cmd_croppests(args) -> int:
     return 0
 
 
+def cmd_establishment(args) -> int:
+    """Introduced-species statements from the lists of introductions in the library."""
+    from . import establishment
+
+    establishment.scan(db.connect(), None if args.no_match else gbif_client())
+    return 0
+
+
 def cmd_stats(args) -> int:
     conn = db.connect()
     for r in conn.execute("SELECT rank, COUNT(*) n, SUM(hidden) h FROM taxa GROUP BY rank "
@@ -339,6 +347,9 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_import)
     p = sub.add_parser("croppests", help=cmd_croppests.__doc__)
     p.set_defaults(func=cmd_croppests)
+    p = sub.add_parser("establishment", help=cmd_establishment.__doc__)
+    p.add_argument("--no-match", action="store_true", help="skip GBIF matching of new names")
+    p.set_defaults(func=cmd_establishment)
     p = sub.add_parser("stats", help="counts by rank and area")
     p.set_defaults(func=cmd_stats)
     args = ap.parse_args(argv)

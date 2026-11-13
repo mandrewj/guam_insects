@@ -260,6 +260,12 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
         for c in children[tid]:
             for a, isl in islands.get(c, {}).items():
                 islands[tid][a] |= isl
+    est: dict[int, list[dict]] = defaultdict(list)
+    for r in conn.execute("SELECT * FROM establishment ORDER BY taxon_id, area, year"):
+        if r["taxon_id"] in taxa:
+            est[r["taxon_id"]].append({"area": r["area"], "status": r["status"], "year": r["year"],
+                                       "citation": r["citation"], "page": r["page"],
+                                       "auto": bool(r["auto"])})
     hosts: dict[int, list[str]] = defaultdict(list)
     for r in conn.execute("SELECT taxon_id, host FROM taxon_hosts ORDER BY host"):
         hosts[r["taxon_id"]].append(r["host"])
@@ -377,6 +383,7 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "literature": lit.get(tid, []),
             "evidence": evidence.get(tid, []),
             "hosts": hosts.get(tid, []),
+            "status_sources": est.get(tid, []),
             "photos": photos.get(tid, []), "wikipedia": wiki.get(tid), "map": None,
             "sections": [],
             "conservation": {"iucn": w["iucn"], "qid": w["qid"]}

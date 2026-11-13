@@ -142,3 +142,9 @@ CREATE TABLE IF NOT EXISTS taxon_islands (
 -- Host plants (crops) a source records a taxon attacking.
 CREATE TABLE IF NOT EXISTS taxon_hosts (
   taxon_id INTEGER, host TEXT, source TEXT, PRIMARY KEY (taxon_id, host, source));
+
+-- Native / introduced statements, one row per source and area (never collapsed).
+CREATE TABLE IF NOT EXISTS establishment (
+  taxon_id INTEGER, area TEXT, status TEXT, source TEXT, citation TEXT, year INTEGER,
+  page INTEGER, auto INTEGER NOT NULL DEFAULT 1, fetched_at TEXT,
+  PRIMARY KEY (taxon_id, area, source));
