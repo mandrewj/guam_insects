@@ -10,7 +10,7 @@ import time
 import httpx
 
 from .. import config, db
-from .gbif_checklist import match_name, parse_taxon, store_taxon
+from .gbif_checklist import fetch_taxa, match_name
 from .http import ApiClient
 
 INAT = "https://api.inaturalist.org/v1"
@@ -94,8 +94,8 @@ def link_to_gbif(conn, gbif: ApiClient) -> dict[str, int]:
             stats["matched" if key else "unmatched"] += 1
             if key and not conn.execute("SELECT 1 FROM gbif_taxa WHERE gbif_key = ?",
                                         (key,)).fetchone():
-                store_taxon(conn, parse_taxon(gbif.get_cached(f"/species/{key}")))
-                conn.commit()
+                # With its ancestors: a species alone leaves `resolve` a parent it lacks.
+                fetch_taxa(conn, gbif, {key})
         if keys[k]:
             rows.append((keys[k], r["area"], r["n"]))
     stamp = db.now()

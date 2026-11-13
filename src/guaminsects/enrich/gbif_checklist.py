@@ -105,7 +105,10 @@ def store_taxon(conn, row: dict) -> None:
 def fetch_taxa(conn, client: ApiClient, keys: set[int], refresh: bool = False) -> int:
     """Fetch every key and its ancestors (up to Arthropoda). Commits every 50 taxa."""
     known = {r[0] for r in conn.execute("SELECT gbif_key FROM gbif_taxa")}
-    todo = sorted(keys - known) if not refresh else sorted(keys)
+    # Repair: any stored taxon whose parent (or accepted name) was never fetched.
+    gaps = {k for row in conn.execute("SELECT parent_key, accepted_key FROM gbif_taxa")
+            for k in row if k and k not in known and k != config.ARTHROPODA_KEY}
+    todo = sorted((keys | gaps) - known) if not refresh else sorted(keys | gaps)
     queued = set(todo)
     fetched = 0
     while todo:

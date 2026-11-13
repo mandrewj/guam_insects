@@ -30,10 +30,9 @@ is done, what is waiting, and what needs the user.
   only: it quotes PDFs). It holds the 50-species sample, doubtful records, literature-only
   taxa and unmatched names.
 
-### Numbers at the end of the night (2026-11-14, about 03:20)
+### Numbers at the end of the night (2026-11-14, 09:00, after iNaturalist came through)
 
-- **4,780 taxa: 2,659 species** in 1,727 genera, 327 families, 26 orders. **1,353 species
-  are recorded from Guam.** Every species has at least one source placing it in Micronesia.
+- **4,793 taxa: 2,668 species**. **1,360 species are recorded from Guam.** Every species has at least one source placing it in Micronesia.
 - **Sources per species**: GBIF records ~2,000; the digitised *Insects of Guam* (Plazi)
   ~450 on Guam; the PDF library's species accounts ~1,000 (island-level); Nafus &
   Schreiner's crop pests ~290 (Palau, FSM islands, with 830 host-crop pairs).
@@ -42,14 +41,17 @@ is done, what is waiting, and what needs the user.
   has both, the PDF-derived island group agrees with GBIF/Plazi for 69% of claims. A sample
   of the rest shows mostly real older records (ants in Clouse 2007, mosquitoes in IOM 12-1),
   plus some leaks between neighbouring species accounts (now limited by bounded sections).
-- **Pages**: 1,941 taxa with photos (Commons; iNat to come), 2,164 with Wikipedia, 1,359
+- **iNaturalist**: research-grade, wild observations of 762 taxa across the five areas
+  (Guam 324 taxa / 5,563 observations; CNMI 209; Palau 133; FSM 48; Marshalls 48), 438
+  matched to GBIF names.
+- **Pages**: 2,502 taxa with photos (Commons and iNat), 2,164 with Wikipedia, 1,359
   with a BugGuide link, 11,320 GBIF synonyms searchable ("also known as").
 - **Native/introduced**: 16 machine-read statements (Schreiner 1991, Nafus 1991) for 15
   taxa. GBIF records almost never say (`establishmentMeans` on 7 Guam records).
 - **Review page** (`data/exports/review.html`): 750 species rest on one or two GBIF records
   and nothing else; 46 of them are North American species with a BugGuide page (likely
   mislabelled specimens). 53 species headings in the PDFs match nothing in GBIF.
-- **Public build**: 29 MB, 6,800 files. Passes the smoke test in Chrome, WebKit and Firefox.
+- **Public build**: 38.5 MB, 8,400 files (thumbnails included). Passes the smoke test in Chrome, WebKit and Firefox.
 
 ### Ran at full scale without a person's dry-run check
 
@@ -60,10 +62,8 @@ before the first deploy.
 
 ### Waiting on something
 
-- **iNaturalist**: species counts per area and taxon photos are written and tested, but iNat
-  answered 429 all night while entobase's `link --stubs` used the same IP. They retry
-  every 5 minutes; rerun `uv run guaminsects inat` and `uv run guaminsects photos inat
-  select thumbs` once entobase is idle.
+- **iNaturalist observation photos from Micronesia** (rather than iNat's general taxon
+  photos) are not fetched yet: one request per taxon (~760), best run when entobase is idle.
 - **First deploy**: `ops/deploy.sh` (preview) / `ops/deploy.sh --prod`. Not run, because it
   publishes. The public build is about 24 MB in about 6,000 files, inside Vercel Hobby's limits.
 

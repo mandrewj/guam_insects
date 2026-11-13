@@ -77,7 +77,8 @@ def encode_postings(postings: dict[int, int]) -> str:
 def _names(r: dict) -> list[str]:
     """Common names, then synonyms: an old name finds the taxon under its current one."""
     out = []
-    for c in (r["common"], (r.get("inat") or {}).get("common"), *r.get("synonyms", [])):
+    for c in (r["common"], (r.get("inat") or {}).get("common"), *r.get("alt_common", []),
+              *r.get("synonyms", [])):
         if c and c.lower() not in {x.lower() for x in out}:
             out.append(c)
     return out

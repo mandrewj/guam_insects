@@ -399,6 +399,10 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "evidence": evidence.get(tid, []),
             "hosts": hosts.get(tid, []),
             "synonyms": [n for n in synonyms.get(tid, []) if n != t["name"]][:40],
+            # Other English names (Wikidata), for search: "globe skimmer" finds Pantala
+            # whose page leads with iNaturalist's "Wandering Glider".
+            "alt_common": json.loads(w["commons"]) if w.get("commons") and
+            w.get("confidence") == "high" else [],
             "status_sources": est.get(tid, []),
             "photos": photos.get(tid, []), "wikipedia": wiki.get(tid), "map": None,
             "sections": [],
