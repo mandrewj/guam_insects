@@ -232,12 +232,35 @@ def select(conn, per_taxon: int = 6) -> dict[str, int]:
         for p in own.get(tid, [])[:2]:
             rows.append((tid, pos, p["photo_id"], "own", None))
             pos += 1
+    # Still nothing (no species under it has a photo of its own, e.g. a class whose only
+    # pictures are of families): take the first photo of each child that has one, deepest
+    # taxa first so a family's picture reaches its order and then its class.
+    first: dict[int, tuple[str, int]] = {}
+    for tid, _pos, pid, role, sp in rows:
+        if tid not in first:
+            first[tid] = (pid, sp if role == "inherited" else tid)
+    kids: dict[int, list[int]] = {}
+    for tid, t in taxa.items():
+        if t["parent_id"] is not None and not t["hidden"]:
+            kids.setdefault(t["parent_id"], []).append(tid)
+    raised = 0
+    for tid in sorted(taxa, key=lambda x: -taxa[x]["lineage"].count("/")):
+        if tid in first or taxa[tid]["rank"] in ("Species", "Subspecies"):
+            continue
+        got = [first[c] for c in sorted(kids.get(tid, []), key=lambda c: (-(guam.get(c) or 0),
+                                                                          -(any_rec.get(c) or 0)))
+               if c in first][:3]
+        for pos, (pid, src) in enumerate(got):
+            rows.append((tid, pos, pid, "inherited", src))
+        if got:
+            first[tid] = got[0]
+            raised += 1
     with conn:
         conn.execute("DELETE FROM taxon_photos")
         conn.executemany("INSERT INTO taxon_photos (taxon_id, position, photo_id, role, "
                          "from_taxon_id, selected_at) VALUES (?, ?, ?, ?, ?, ?)",
                          [(*r, db.now()) for r in rows])
-    return {"with_own": len(own), "borrowed": lent}
+    return {"with_own": len(own), "borrowed": lent, "from_groups_below": raised}
 
 
 def thumbs(conn, limit: int | None = None) -> dict[str, int]:

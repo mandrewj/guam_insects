@@ -225,7 +225,7 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             inat_by_taxon[tid] = {"id": r["inat_id"], "common": r["common_name"],
                                   "observations": r["n"], "name": r["name"]}
 
-    # Literature: digitised checklists naming the taxon (Plazi on GBIF).
+    # Literature: digitized checklists naming the taxon (Plazi on GBIF).
     lit: dict[int, list[dict]] = defaultdict(list)
     for r in conn.execute(
             "SELECT DISTINCT n.nub_key, s.dataset_key, s.source, s.title, s.citation, s.areas, s.doi "
@@ -374,15 +374,26 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
     presence_fetched = conn.execute(
         "SELECT MAX(fetched_at) FROM taxon_presence WHERE source = 'gbif'").fetchone()[0]
 
+    # The Catalogue of Life's English names and synonyms (ChecklistBank, `colinfo`).
+    col_info = {r["taxon_id"]: (json.loads(r["vernacular"] or "[]"), json.loads(r["synonyms"] or "[]"))
+                for r in conn.execute("SELECT * FROM col_info")}
+    for tid, (_, syns) in col_info.items():
+        for n in syns:
+            if tid in taxa and n != taxa[tid]["name"] and n not in synonyms[tid]:
+                synonyms[tid].append(n)
+
     def common_of(t: dict) -> str | None:
-        """Curated, then iNaturalist's (as used locally), then Wikidata's English, then GBIF's."""
+        """Curated, then iNaturalist's (as used locally), then Wikidata's English, then the
+        Catalogue of Life's, then GBIF's."""
         inat = inat_by_taxon.get(t["taxon_id"])
         if "common_name" in (t["curated_fields"] or ""):
             return clean_common(t["common_name"], t["name"])
         w = wd.get(t["taxon_id"]) or {}
         wcommon = json.loads(w["commons"])[0] if w.get("commons") and \
             w.get("confidence") == "high" else None
-        return clean_common((inat or {}).get("common") or wcommon or t["common_name"], t["name"])
+        ccommon = (col_info.get(t["taxon_id"]) or ([], []))[0]
+        return clean_common((inat or {}).get("common") or wcommon or
+                            (ccommon[0] if ccommon else None) or t["common_name"], t["name"])
 
     def brief(t: dict) -> dict:
         return {"id": t["taxon_id"], "rank": t["rank"], "name": t["name"], "common": common_of(t)}
@@ -420,6 +431,9 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
         if tid in wiki:
             links.append({"system": "wikipedia", "label": "Wikipedia", "url": wiki[tid]["url"],
                           "confidence": "high"})
+        if w.get("wikispecies"):
+            links.append({"system": "wikispecies", "label": "Wikispecies", "url": w["wikispecies"],
+                          "confidence": w["confidence"]})
         if w.get("qid"):
             links.append({"system": "wikidata", "label": "Wikidata",
                           "url": f"https://www.wikidata.org/wiki/{w['qid']}",
@@ -463,8 +477,9 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "synonyms": [n for n in synonyms.get(tid, []) if n != t["name"]][:40],
             # Other English names (Wikidata), for search: "globe skimmer" finds Pantala
             # whose page leads with iNaturalist's "Wandering Glider".
-            "alt_common": json.loads(w["commons"]) if w.get("commons") and
-            w.get("confidence") == "high" else [],
+            "alt_common": sorted(set((json.loads(w["commons"]) if w.get("commons") and
+                                      w.get("confidence") == "high" else []) +
+                                     (col_info.get(tid) or ([], []))[0])),
             "status_sources": est.get(tid, []),
             "photos": photos.get(tid, []), "wikipedia": wiki.get(tid), "map": None,
             "sections": [],

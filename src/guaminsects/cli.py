@@ -50,6 +50,22 @@ def cmd_col(args) -> int:
     return 0
 
 
+def cmd_colinfo(args) -> int:
+    """From ChecklistBank (COL's own API): the taxa COL marks extinct, then English common
+    names and synonyms for every COL taxon in the tree."""
+    from .enrich import col
+    from .enrich.http import ApiClient
+
+    conn = db.connect()
+    clb = ApiClient(col.CLB, min_interval=0.5)
+    print(f"{col.extinct_sweep(conn, clb)} extinct taxa")
+    if not args.extinct_only:
+        keys = [r[0] for r in conn.execute("SELECT taxon_id FROM taxa WHERE in_col = 1 "
+                                           "ORDER BY rank = 'Species' DESC, taxon_id")]
+        print(f"{col.info_sweep(conn, clb, keys)} taxa asked; {clb.requests} requests")
+    return 0
+
+
 def cmd_match(args) -> int:
     """Put every name a source used on the Catalogue of Life (name_matches)."""
     from . import names
@@ -97,7 +113,7 @@ def cmd_inat(args) -> int:
 
 
 def cmd_plazi(args) -> int:
-    """Literature checklists digitised by Plazi (Insects of Guam 1942-46 and others)."""
+    """Literature checklists digitized by Plazi (Insects of Guam 1942-46 and others)."""
     from .enrich import gbif_checklist, plazi
 
     conn = db.connect()
@@ -365,6 +381,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--area", action="append", choices=config.AREA_CODES)
     p.add_argument("--backbone", action="store_true", help="GBIF Backbone keys instead of COL")
     p.set_defaults(func=cmd_checklist)
+    p = sub.add_parser("colinfo", help=cmd_colinfo.__doc__)
+    p.add_argument("--extinct-only", action="store_true")
+    p.set_defaults(func=cmd_colinfo)
     p = sub.add_parser("match", help=cmd_match.__doc__)
     p.add_argument("--refresh", action="store_true", help="match every name again")
     p.add_argument("--shard", default="0/1", help="i/n: every n-th key (two streams: 0/2, 1/2)")

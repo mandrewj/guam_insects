@@ -3,7 +3,7 @@ taxon COL lacks on the GBIF taxon ID (P846). Rows are stored under the taxon's i
 (column gbif_key, kept for older rows keyed on GBIF Backbone keys, which the site still
 reads as a fallback for a COL taxon with the same name).
 
-One SPARQL query per batch of ids returns the QID, taxon name (P225), iNaturalist
+One SPARQL query per batch of ids returns the Wikispecies page (a sitelink), the QID, taxon name (P225), iNaturalist
 taxon ID (P3151), BugGuide ID (P2464, used to find entobase's page), IUCN status (P141),
 an image (P18, a Commons file), and the English Wikipedia article and English common name.
 Batches of 300 keys stay well inside the public endpoint's 60 s limit. One query at a time.
@@ -23,7 +23,7 @@ from .. import config, db, ids
 SPARQL_URL = "https://query.wikidata.org/sparql"
 BATCH = 300
 QUERY = """
-SELECT ?id ?item ?name ?inat ?bg ?iucn ?image ?article ?common WHERE {
+SELECT ?id ?item ?name ?inat ?bg ?iucn ?image ?article ?species ?common WHERE {
   VALUES ?id { %s }
   ?item wdt:%s ?id .
   OPTIONAL { ?item wdt:P225 ?name }
@@ -32,6 +32,7 @@ SELECT ?id ?item ?name ?inat ?bg ?iucn ?image ?article ?common WHERE {
   OPTIONAL { ?item wdt:P141 ?iucnItem . ?iucnItem rdfs:label ?iucn FILTER(lang(?iucn) = "en") }
   OPTIONAL { ?item wdt:P18 ?image }
   OPTIONAL { ?article schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> }
+  OPTIONAL { ?species schema:about ?item ; schema:isPartOf <https://species.wikimedia.org/> }
   OPTIONAL { ?item wdt:P1843 ?common FILTER(lang(?common) = "en") }
 }
 """
@@ -91,10 +92,11 @@ def sweep(conn, refresh: bool = False) -> dict[str, int]:
                         stats["review"] += not agrees
                         conn.execute(
                             "INSERT OR REPLACE INTO wikidata_taxa (gbif_key, qid, name, inat_id, "
-                            "bugguide_id, iucn, image, article, commons, confidence, fetched_at) "
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                            "bugguide_id, iucn, image, article, wikispecies, commons, confidence, "
+                            "fetched_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                             (k, v["item"].rsplit("/", 1)[-1], v.get("name"), v.get("inat"),
                              v.get("bg"), v.get("iucn"), v.get("image"), v.get("article"),
+                             v.get("species"),
                              json.dumps(sorted(v["commons"])) if v["commons"] else None,
                              "high" if agrees else "review", stamp))
                 print(f"  Wikidata {prop}: {min(i + BATCH, len(batch_ids))}/{len(batch_ids)}",

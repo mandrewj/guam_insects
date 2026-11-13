@@ -1,4 +1,4 @@
-"""Literature checklists that Plazi digitised and GBIF serves as CHECKLIST datasets.
+"""Literature checklists that Plazi digitized and GBIF serves as CHECKLIST datasets.
 
 The 1940s *Insects of Guam* I and II (Bishop Museum Bulletins 172, 189) came out as one
 paper per group ("Sphingidae Of Guam", "Coleoptera Heteromera From Guam" ...), and Plazi
@@ -103,7 +103,7 @@ def sweep(conn, client: ApiClient) -> dict[str, int]:
         conn.executemany(
             "INSERT OR IGNORE INTO checklist_names (dataset_key, source, usage_key, nub_key, "
             "name, rank) VALUES (?, 'plazi', ?, ?, ?, ?)", rows)
-        # records = how many digitised papers list the taxon for the area
+        # records = how many digitized papers list the taxon for the area
         conn.executemany(
             "INSERT INTO taxon_presence (taxon_id, area, source, records, citation, fetched_at) "
             "VALUES (?, ?, 'plazi', ?, 'plazi', ?) ON CONFLICT (taxon_id, area, source) "

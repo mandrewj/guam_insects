@@ -177,3 +177,19 @@ def test_a_hand_merge_is_listed_with_its_reason(conn):
                        (C("RHIPI"),)).fetchone()
     assert tuple(row) == ("curated merge", "records labelled Rhipiceridae are Callirhipis",
                           C("CALLI"), "Rhipiceridae")
+
+
+def test_fossil_taxa_are_removed_with_everything_under_them(conn, files):
+    from conftest import col_row, presence
+
+    col_row(conn, "PALAE", "H6", "ORDER", "Palaeodictyoptera")
+    col_row(conn, "MEGAP", "PALAE", "FAMILY", "Megaptilidae")
+    col_row(conn, "EXTFM", "DDHNW", "FAMILY", "Fossilidae")
+    conn.execute("INSERT INTO col_extinct (taxon_id, name, rank) VALUES (?, 'Fossilidae', 'family')",
+                 (C("EXTFM"),))
+    presence(conn, C("MEGAP"), "PW", "gbif", 127)
+    presence(conn, C("EXTFM"), "GU", "gbif", 2)
+    curation.resolve(conn, curation.load(*files))
+    names_in_tree = {r["name"] for r in taxa(conn).values()}
+    assert not names_in_tree & {"Palaeodictyoptera", "Megaptilidae", "Fossilidae"}
+    assert "Coleoptera" in names_in_tree

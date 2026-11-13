@@ -2,7 +2,7 @@
 
 For each hexapod document in sources/library.csv, page by page (data/pdf_text/):
 
-1. **Known names.** Every binomial in the tree (and the verbatim names Plazi digitised, which
+1. **Known names.** Every binomial in the tree (and the verbatim names Plazi digitized, which
    are often the old combinations) found on the page is a mention.
 2. **Abbreviated binomials.** "O. rhinoceros" counts when the page (or the document so far)
    has used a genus starting with O. that has that species.

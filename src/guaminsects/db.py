@@ -20,6 +20,7 @@ ADDED_COLUMNS: list[tuple[str, str, str]] = [
     ("taxa", "in_col", "INTEGER NOT NULL DEFAULT 1"),
     ("taxa", "match_note", "TEXT"),
     ("taxa", "extra", "TEXT"),
+    ("wikidata_taxa", "wikispecies", "TEXT"),
 ]
 
 

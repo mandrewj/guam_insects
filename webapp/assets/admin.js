@@ -118,7 +118,7 @@
         '<form id="ev" class="form"><label>Kind <select name="kind">' + KINDS.map(function (k) {
           return '<option value="' + k[0] + '">' + esc(k[1]) + "</option>"; }).join("") + "</select></label>" +
         '<label>Id, file or URL <input name="ref" required></label>' +
-        '<label>Licence (photos) <select name="license">' + options(LICENSES, "", "(none: not a photo)") + "</select></label>" +
+        '<label>License (photos) <select name="license">' + options(LICENSES, "", "(none: not a photo)") + "</select></label>" +
         '<label>Credit <input name="credit" placeholder="© M. A. Johnston"></label>' +
         '<label>Note <input name="note" placeholder="e.g. Guam, Ritidian, 2026"></label>' +
         "<button type=\"submit\">Add evidence</button></form>";

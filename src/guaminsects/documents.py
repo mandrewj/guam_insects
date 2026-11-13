@@ -2,7 +2,7 @@
 
 The manifest is in git; the files are not (literature/ is git-ignored: the documents are
 copyrighted, CLAUDE.md rule 4). Each row names a file under literature/ that people can
-recognise ("ADAP 2000-4 - Coconut rhinoceros beetle (Oryctes rhinoceros).pdf") and the URL
+recognize ("ADAP 2000-4 - Coconut rhinoceros beetle (Oryctes rhinoceros).pdf") and the URL
 it came from, which is what the public site links to. `fetch` downloads whatever is missing.
 """
 

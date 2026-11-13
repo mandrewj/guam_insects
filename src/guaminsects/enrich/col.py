@@ -8,7 +8,7 @@ data/raw/ like every other API.
 `match` puts a name a source used (a GBIF Backbone name, iNaturalist, Plazi, a PDF) on COL:
 
     EXACT       the same name (an accepted COL taxon, or a COL synonym of one)
-    VARIANT     a spelling or gender-ending variant COL recognises ("adpressiformis")
+    VARIANT     a spelling or gender-ending variant COL recognizes ("adpressiformis")
     FUZZY       a near spelling; accepted only within the same genus (names.py)
     HIGHERRANK  COL does not have the name; the result is the nearest taxon above it
     NONE        nothing (or several equal homonyms: retried with the classification)
@@ -17,6 +17,7 @@ Names are matched without classification hints first: an outdated family in a so
 (Callirhipis in "Rhipiceridae") would otherwise pull the match up to that family.
 """
 
+import json
 import sys
 
 from .. import db, ids
@@ -125,3 +126,58 @@ def match(client: ApiClient, name: str, rank: str | None = None, authorship: str
 
 def match_type(d: dict) -> str:
     return (d.get("diagnostics") or {}).get("matchType") or "NONE"
+
+
+# ---------------------------------------------------------------- ChecklistBank (COL's API)
+CLB = "https://api.checklistbank.org"
+CLB_DATASET = 316691            # the COL XR GBIF serves (ChecklistBank 3LXR, COL26.10 XR)
+EXTINCT_RANKS = ("superorder", "order", "suborder", "infraorder", "superfamily", "family",
+                 "subfamily", "tribe", "genus")
+
+
+def extinct_sweep(conn, clb: ApiClient) -> int:
+    """Replace col_extinct: every hexapod taxon COL marks extinct, rank by rank (the search
+    pages to 10,000 rows; every rank above species stays under that). Species are left
+    out: a fossil species of a living genus is not what puts fossils in this tree."""
+    found: dict[int, tuple[str, str]] = {}
+    for rank in EXTINCT_RANKS:
+        offset = 0
+        while True:
+            d = clb.get_cached(f"/dataset/{CLB_DATASET}/nameusage/search", {
+                "TAXON_ID": HEXAPODA, "extinct": "true", "status": "accepted", "rank": rank,
+                "limit": 1000, "offset": offset})
+            for r in d.get("result", []):
+                u = r["usage"]
+                found[ids.from_col(u["id"])] = (u["name"]["scientificName"], rank)
+            offset += 1000
+            if d.get("last", True) or offset >= min(d.get("total", 0), 10000):
+                break
+    with conn:
+        conn.execute("DELETE FROM col_extinct")
+        conn.executemany("INSERT INTO col_extinct (taxon_id, name, rank) VALUES (?, ?, ?)",
+                         [(k, n, r) for k, (n, r) in found.items()])
+    return len(found)
+
+
+def info_sweep(conn, clb: ApiClient, keys: list[int]) -> int:
+    """English common names and synonyms from COL for each taxon (one request each, cached;
+    committed per taxon)."""
+    done = {r[0] for r in conn.execute("SELECT taxon_id FROM col_info")}
+    todo = [k for k in keys if ids.kind(k) == "col" and k not in done]
+    for n, k in enumerate(todo, 1):
+        try:
+            d = clb.get_cached(f"/dataset/{CLB_DATASET}/taxon/{ids.col_of(k)}/info")
+        except Exception as e:      # retried next run
+            print(f"  COL info {ids.col_of(k)}: {e}", file=sys.stderr)
+            continue
+        english = sorted({v["name"] for v in d.get("vernacularNames") or []
+                          if v.get("language") == "eng" and v.get("name")})
+        syn = d.get("synonyms") or {}
+        names = sorted({s["name"]["scientificName"] for group in ("homotypic", "heterotypic")
+                        for s in syn.get(group) or [] if (s.get("name") or {}).get("scientificName")})
+        conn.execute("INSERT OR REPLACE INTO col_info (taxon_id, vernacular, synonyms, fetched_at) "
+                     "VALUES (?, ?, ?, ?)", (k, json.dumps(english), json.dumps(names), db.now()))
+        conn.commit()
+        if n % 100 == 0:
+            print(f"  COL info: {n} of {len(todo)}", file=sys.stderr)
+    return len(todo)

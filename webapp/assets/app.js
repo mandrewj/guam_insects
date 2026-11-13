@@ -346,7 +346,7 @@
       'Rota and the northern islands); Palau; the Federated States of Micronesia (Yap, Chuuk, ' +
       'Pohnpei, Kosrae); the Marshall Islands. A taxon counts as recorded from a group when ' +
       'GBIF holds a record from there, iNaturalist has a research-grade observation there, or a ' +
-      'digitised checklist lists it for that group; a genus or family takes the union of its species.</p></details>';
+      'digitized checklist lists it for that group; a genus or family takes the union of its species.</p></details>';
   }
 
 
@@ -418,7 +418,7 @@
 
   function homeIntro() {
     var c = meta.counts, stats = [
-      [c.species, "species"], [c.guam, "recorded from Guam"], [c.literature, "in digitised literature"],
+      [c.species, "species"], [c.guam, "recorded from Guam"], [c.literature, "in digitized literature"],
       [c.not_in_col || null, "not yet in the Catalogue of Life"],
       [c.morphospecies || null, "morphospecies"], [c.photos || null, "with photos"]];
     return '<section class="hero"><h1 class="hero-title">' + esc(meta.title) +
@@ -449,7 +449,7 @@
           " per " + x.citation;
       }).join("; ")) + ' (read by machine, not yet checked)">' + esc(st[0]) + "*</span>");
     }
-    if (r.status === "morphospecies") badges.push('<span class="badge morpho" title="Not formally named; recognised from specimens or photos">Morphospecies</span>');
+    if (r.status === "morphospecies") badges.push('<span class="badge morpho" title="Not formally named; recognized from specimens or photos">Morphospecies</span>');
     if (r.status === "synonym") badges.push('<span class="badge warn">Synonym</span>');
     if (r.status === "doubtful") badges.push('<span class="badge warn" title="Marked doubtful">Doubtful name</span>');
     if (r.in_col === false && r.origin !== "curated") badges.push('<span class="badge warn" title="' +
@@ -730,7 +730,7 @@
   }
 
 
-  // Literature: digitised checklists and papers that list the taxon, with the islands each
+  // Literature: digitized checklists and papers that list the taxon, with the islands each
   // supports. The public build cites; it never quotes the text.
   function literature(r) {
     if (!r.literature.length) return "";
@@ -753,7 +753,7 @@
           ' <span class="ref-links">' + ext(w.url, w.source === "croppests" ? "the list online" : "checklist on GBIF") +
           (w.doi ? " · " + ext("https://doi.org/" + w.doi, "doi:" + esc(w.doi)) : "") + "</span></li>";
       }).join("") + "</ul>" +
-      '<p class="section-note">Digitised checklists come from ' + ext("https://plazi.org/", "Plazi") +
+      '<p class="section-note">Digitized checklists come from ' + ext("https://plazi.org/", "Plazi") +
       " (via GBIF, CC0) and the crop pest list. Entries marked <em>machine-read</em> were found by a name " +
       "finder in the text of the papers and monographs listed; island groups are those the document names " +
       "in its account of the taxon. No person has checked them yet, so a mention can be a comparison or a " +
@@ -841,7 +841,7 @@
 
 
   // Schematic island map: every island a dot; islands named in the records in their group's
-  // colour; a group with records but no island named lights its main islands faintly.
+  // color; a group with records but no island named lights its main islands faintly.
   // Drawn here from meta.geo (approximate positions), so no map image is shipped.
   var GROUP_LABELS = { GU: [13.4, 143.0, "Guam"], MP: [17.6, 147.2, "CNMI"], PW: [9.4, 133.6, "Palau"],
                        FM: [10.6, 151.0, "FSM"], MH: [13.0, 168.5, "Marshalls"] };
@@ -895,7 +895,7 @@
     var higher = r.rank !== "Species" && r.rank !== "Subspecies";
     if (!rows.length) {
       return r.rank === "Subphylum" ? "" : '<div class="box presence-box"><h3>Recorded from</h3><p class="muted">' +
-        "No dated records from Micronesia in GBIF, iNaturalist or the digitised checklists yet.</p></div>";
+        "No dated records from Micronesia in GBIF, iNaturalist or the digitized checklists yet.</p></div>";
     }
     var cell = function (n) { return n ? Number(n).toLocaleString() : '<span class="muted">–</span>'; };
     var head = "<tr><th></th>" + (higher ? '<th title="Species recorded there, any source">spp.</th>' : "") +
@@ -921,7 +921,7 @@
     return '<div class="box presence-box"><h3>Recorded from</h3>' +
       islandMap((r.regions || []), [].concat.apply([], (r.islands || []).map(function (x) { return x.islands; }))) +
       '<table class="presence">' + head + body + "</table>" + named +
-      '<p class="cs-src">Counts are records, not individuals; sources overlap, so they are not added. ' +
+      '<p class="cs-src">Record counts per source, sources often overlap. ' +
       (machine.length ? "* includes literature records read by machine from the PDF library, not yet checked. " : "") +
       "Map positions are approximate.</p></div>";
   }
@@ -952,9 +952,15 @@
   function narrow() { return window.matchMedia("(max-width: 860px)").matches; }
 
 
+  // iNaturalist first, then GBIF's records in Micronesia, then the rest as the record lists them.
+  var LINK_ORDER = { inaturalist: 0, gbif: 1 };
   function links(r) {
     if (!r.links.length) return "";
-    var items = r.links.map(function (l) {
+    var ordered = r.links.map(function (l, i) { return [l, i]; }).sort(function (a, b) {
+      var pa = LINK_ORDER[a[0].system], pb = LINK_ORDER[b[0].system];
+      return (pa === undefined ? 9 : pa) - (pb === undefined ? 9 : pb) || a[1] - b[1];
+    }).map(function (x) { return x[0]; });
+    var items = ordered.map(function (l) {
       var flag = l.confidence && l.confidence !== "high"
         ? ' <span class="badge ' + (l.confidence === "review" ? "warn" : "muted") + '" title="' +
           esc(l.note || "") + '">' + esc(l.confidence) + "</span>" : "";
@@ -993,7 +999,7 @@
         " through its public API.</li>");
     }
     if (r.literature.length) {
-      rows.push("<li><strong>Literature</strong>: citations as given above. Checklists digitised by " +
+      rows.push("<li><strong>Literature</strong>: citations as given above. Checklists digitized by " +
         ext("https://plazi.org/", "Plazi") + " are published through GBIF under CC0. Papers and " +
         "monographs remain under their publishers' copyright: this page cites them and links to the " +
         "publisher's copy" + (meta.target === "local"
@@ -1011,7 +1017,7 @@
       ext("https://www.wikidata.org/wiki/" + r.conservation.qid, "Wikidata") + " (CC0).</li>");
     if (r.links.some(function (l) { return l.system === "wikidata" || l.system === "bugguide"; })) {
       rows.push("<li><strong>Cross-links</strong>: Wikidata (CC0) matched by GBIF key, with the name checked; " +
-        "BugGuide pages via the author's entobase index of BugGuide. Links below high confidence are labelled.</li>");
+        "BugGuide pages via the author's entobase index of BugGuide. Links below high confidence are labeled.</li>");
     }
     rows.push("<li><strong>This page</strong>: data built " + fmtDate(r.built_at) + ".</li>");
     return '<section class="attribution" id="s-sources"><h2>Sources &amp; attribution</h2><ul>' + rows.join("") +
@@ -1411,7 +1417,7 @@
     var el = document.getElementById("site-footer");
     if (el && meta) {
       el.innerHTML = esc(meta.title + " " + meta.subtitle) + " · built " + fmtDate(meta.built_at) +
-        " · Every photo, record and text carries its own credit and licence; see each page's " +
+        " · Every photo, record and text carries its own credit and license; see each page's " +
         "Sources section. · " + ext("https://github.com/mandrewj/guam_insects", "Source code") + " (MIT)" +
         (meta.target === "local" ? ' · <a href="admin.html">Curate</a> (needs <code>guaminsects serve</code>)' : "");
     }

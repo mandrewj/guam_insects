@@ -28,6 +28,16 @@ HIGHER = {"Subphylum", "Class", "Order", "Family"}
 EXTRA_RANKS = {"SUBORDER": "suborder", "SUPERFAMILY": "superfamily",
                "SUBFAMILY": "subfamily", "TRIBE": "tribe", "SUBGENUS": "subgenus"}
 INT_FIELDS = ("parent_id", "accepted_id", "hidden", "verified")
+# Insect orders known only as fossils. COL flags many extinct taxa (col_extinct) but not all:
+# Palaeodictyoptera itself carries no flag. Records of these are misidentifications.
+FOSSIL_ORDERS = {
+    "Palaeodictyoptera", "Paleodictyoptera", "Megasecoptera", "Diaphanopterodea", "Dicliptera",
+    "Archodonata", "Permothemistida", "Meganisoptera", "Protodonata", "Geroptera",
+    "Protanisoptera", "Triadophlebiomorpha", "Miomoptera", "Caloneurodea", "Titanoptera",
+    "Glosselytrodea", "Paoliida", "Cnemidolestodea", "Cnemidolestida", "Eoblattida", "Reculida",
+    "Panorthoptera", "Permopsocida", "Alienoptera", "Chresmodida", "Tarachoptera",
+    "Permithonida", "Protelytroptera", "Protorthoptera", "Coxoplectoptera", "Hypoperlida",
+    "Syntonopterida", "Lophioneurida", "Monura"}
 SOURCE_LABELS = {"gbif": "GBIF", "gbif_backbone": "GBIF Backbone", "inat": "iNaturalist",
                  "plazi": "Plazi", "pdf": "literature", "checklist": "crop pest list"}
 
@@ -240,6 +250,26 @@ def build(conn, cur) -> dict[str, int]:
 
     for a in auto:
         del nodes[a]
+
+    # Fossils go, with everything under them (and the names placed there): a taxon COL
+    # marks extinct, or an order known only from fossils.
+    extinct = {r[0] for r in conn.execute("SELECT taxon_id FROM col_extinct")}
+    fossil = {t for t, n in nodes.items()
+              if t in extinct or (n["rank"] == "Order" and n["name"] in FOSSIL_ORDERS)}
+
+    def under_fossil(t: int) -> bool:
+        seen = set()
+        while t is not None and t in nodes and t not in seen:
+            if t in fossil:
+                return True
+            seen.add(t)
+            t = nodes[t]["parent_id"]
+        return False
+
+    drop = [t for t in nodes if under_fossil(t)]
+    for t in drop:
+        del nodes[t]
+    stats["fossils_removed"] = len(drop)
 
     # ---------------------------------------------------------------- curated overrides
     by_name: dict[str, list[int]] = defaultdict(list)

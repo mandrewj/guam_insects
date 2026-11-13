@@ -44,6 +44,12 @@ CREATE TABLE IF NOT EXISTS col_taxa (
   fetched_at TEXT);
 CREATE INDEX IF NOT EXISTS col_taxa_parent ON col_taxa(parent_id);
 
+-- Hexapod taxa COL marks extinct (ranks above species), and COL's English common names and
+-- synonyms per taxon (ChecklistBank; enrich/col.py).
+CREATE TABLE IF NOT EXISTS col_extinct (taxon_id INTEGER PRIMARY KEY, name TEXT, rank TEXT);
+CREATE TABLE IF NOT EXISTS col_info (taxon_id INTEGER PRIMARY KEY, vernacular TEXT,
+  synonyms TEXT, fetched_at TEXT);
+
 -- Every name a source used, matched to COL once (names.py). `key`: a GBIF Backbone key, or a
 -- name- id (sources/names.csv) for a name GBIF does not have. `taxon` is the COL taxon it
 -- stands for; 0 when COL does not have it (then `parent` is where it goes).
@@ -149,7 +155,7 @@ CREATE INDEX IF NOT EXISTS pdf_candidates_name ON pdf_candidates(name);
 -- Wikidata (CC0) by GBIF key. A row with qid NULL means "asked, no item".
 CREATE TABLE IF NOT EXISTS wikidata_taxa (
   gbif_key INTEGER PRIMARY KEY, qid TEXT, name TEXT, inat_id TEXT, bugguide_id TEXT,
-  iucn TEXT, image TEXT, article TEXT, commons TEXT,
+  iucn TEXT, image TEXT, article TEXT, wikispecies TEXT, commons TEXT,
   confidence TEXT,                         -- high (P225 = our name) | review
   fetched_at TEXT);
 
