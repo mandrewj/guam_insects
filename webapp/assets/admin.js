@@ -2,10 +2,9 @@
  * is validated against the whole tree on the server; errors come back as a list. */
 (function () {
   "use strict";
-  var RANKS = ["Subphylum", "Class", "Subclass", "Superorder", "Order", "Suborder", "Infraorder",
-    "Superfamily", "Family", "Subfamily", "Tribe", "Subtribe", "Genus", "Subgenus", "Species", "Subspecies"];
-  var FIELDS = [["name", "Name"], ["rank", "Rank"], ["authorship", "Authorship"], ["parent_id", "Parent id"],
-    ["status", "Status"], ["accepted_id", "Accepted id (for a synonym)"], ["common_name", "Common name"],
+  var RANKS = ["Subphylum", "Class", "Order", "Family", "Genus", "Species", "Subspecies"];
+  var FIELDS = [["name", "Name"], ["rank", "Rank"], ["authorship", "Authorship"], ["parent_id", "Parent id (e.g. KVC9L)"],
+    ["status", "Status"], ["accepted_id", "Merge into id (status synonym)"], ["common_name", "Common name"],
     ["establishment", "Establishment"], ["hidden", "Hidden (1 hides it and all below)"],
     ["verified", "Editor confirmed (1: you confirm it is in Micronesia)"], ["note", "Note"]];
   var CHOICES = { status: ["", "accepted", "synonym", "doubtful", "morphospecies"],
@@ -52,7 +51,10 @@
       clearTimeout(t);
       t = setTimeout(function () {
         var q = input.value.trim();
-        if (/^key:\d+$/.test(q)) { list.innerHTML = '<li data-id="' + q.slice(4) + '">GBIF key ' + esc(q.slice(4)) + "</li>"; return; }
+        // An id typed in: a Catalogue of Life id (KVC9L) or gbif:<key>, name-<n>, IOG-<n>.
+        if (/^(gbif:\d+|name-\d+|IOG-\d+|[0-9A-Z]{3,7})$/.test(q) && !/^[A-Z][a-z]/.test(q)) {
+          list.innerHTML = '<li data-id="' + esc(q) + '">Id ' + esc(q) + "</li>"; return;
+        }
         if (q.length < 2) { list.innerHTML = ""; return; }
         api("taxa?q=" + encodeURIComponent(q)).then(function (rows) {
           list.innerHTML = rows.map(function (r) {
@@ -64,17 +66,18 @@
     });
     list.addEventListener("click", function (e) {
       var li = e.target.closest("li[data-id]");
-      if (li) { list.innerHTML = ""; onPick(Number(li.getAttribute("data-id")), li.textContent); }
+      if (li) { list.innerHTML = ""; onPick(li.getAttribute("data-id"), li.textContent); }
     });
   }
 
   function showTaxon(id) {
-    api("taxon/" + id).then(function (d) {
+    api("taxon/" + encodeURIComponent(id)).then(function (d) {
       var t = d.taxon, c = d.curated || {};
       if (!t) {
-        // A GBIF key not in the tree yet: offer to add it (the server fetches it).
-        $("#edit").innerHTML = "<p>Key " + esc(id) + " is not in the tree. Adding it fetches it from GBIF.</p>" +
-          '<button id="addkey">Add GBIF taxon ' + esc(id) + "</button>";
+        // A COL id or GBIF key not in the tree yet: offer to add it (the server fetches it).
+        $("#edit").innerHTML = "<p>" + esc(id) + " is not in the tree. Adding it fetches it (COL id " +
+          "or gbif:&lt;key&gt;) and matches it to the Catalogue of Life.</p>" +
+          '<button id="addkey">Add ' + esc(id) + "</button>";
         $("#addkey").onclick = function () {
           api("taxon", { taxon_id: String(id), note: "", reason: "added by key" }).then(function (r) {
             if (report(r, "Added.")) showTaxon(id);
@@ -84,19 +87,24 @@
       }
       var g = d.gbif || {};
       var rows = FIELDS.map(function (f) {
-        var k = f[0], cur = c[k] || "", base = k === "name" ? g.canonical_name : k === "authorship" ? g.authorship :
-          k === "parent_id" ? g.parent_key : k === "common_name" ? g.vernacular_name : k === "rank" ? g.rank : "";
+        var k = f[0], cur = c[k] || "", base = { name: 1, authorship: 1, parent_id: 1, common_name: 1, rank: 1 }[k] ? t[k] : "";
         var input = CHOICES[k] ? '<select name="' + k + '">' + options(CHOICES[k], cur) + "</select>"
           : k === "note" ? '<textarea name="note" rows="2">' + esc(cur) + "</textarea>"
           : '<input name="' + k + '" value="' + esc(cur) + '">';
         return "<tr><th>" + esc(f[1]) + "</th><td>" + input + '</td><td class="muted small">' +
-          (t.origin === "gbif" && base != null && base !== "" ? "GBIF: " + esc(base) : "") + "</td></tr>";
+          (base != null && base !== "" ? "now: " + esc(base) : "") + "</td></tr>";
       }).join("");
       $("#edit").innerHTML = '<p><span class="rank-chip">' + esc(t.rank) + "</span> <b>" + esc(t.name) + "</b> " +
         '<a href="index.html#/t/' + t.taxon_id + '" target="_blank">page ↗</a> · id ' + t.taxon_id +
-        (d.parent ? " · in " + esc(d.parent.name) : "") + " · " + esc(t.origin) + "</p>" +
-        '<p class="muted small">Blank = keep ' + (t.origin === "gbif" ? "GBIF's" : "the") + " value. " +
-        "Parent can also be given by searching below.</p>" +
+        (d.parent ? " · in " + esc(d.parent.name) : "") + " · " + (t.in_col ? "Catalogue of Life" :
+          t.origin === "curated" ? "added by hand" : "not in the Catalogue of Life") + "</p>" +
+        (t.match_note ? '<p class="muted small">' + esc(t.match_note) + "</p>" : "") +
+        ((d.names || []).length ? '<p class="small">Names merged here (split one out: open its id, status accepted): ' +
+          d.names.map(function (n) {
+            return '<a href="#" data-id="' + esc(n.name_id) + '"><i>' + esc(n.name) + "</i></a> (" + esc(n.kind) + ")";
+          }).join("; ") + "</p>" : "") +
+        '<p class="muted small">Blank = keep the source\'s value. To merge this into another taxon: status ' +
+        "synonym and that taxon's id as Merge into. Parent can also be given by searching below.</p>" +
         '<form id="ed" class="form"><table class="ed">' + rows + "</table>" +
         '<label>Move under (search) <input name="parent_pick" autocomplete="off"></label><ul class="pick" data-for="ed"></ul>' +
         '<label>Reason / source <input name="reason" value="' + esc(c.reason || "") + '"></label>' +
@@ -115,7 +123,7 @@
         '<label>Note <input name="note" placeholder="e.g. Guam, Ritidian, 2026"></label>' +
         "<button type=\"submit\">Add evidence</button></form>";
       $("#edit").insertAdjacentHTML("beforeend", '<h3 class="gap">Found in the literature</h3><div id="mentions" class="small muted">Loading…</div>');
-      api("mentions/" + t.taxon_id).then(function (ms) {
+      api("mentions/" + encodeURIComponent(t.taxon_id)).then(function (ms) {
         $("#mentions").className = "";
         $("#mentions").innerHTML = ms.length ? '<table class="curated">' + ms.map(function (m) {
           return '<tr class="d-' + esc(m.decision) + '"><td>' + esc(m.kind) + "<br><span class=\"muted small\">" + esc(m.method) +
@@ -144,7 +152,7 @@
         api("taxon", row).then(function (r) { if (report(r, "Saved.")) { showTaxon(t.taxon_id); loadCurated(); } });
       };
       if ($("#clear")) $("#clear").onclick = function () {
-        api("taxon/" + t.taxon_id + "/delete", {}).then(function (r) { if (report(r, "Edits removed.")) { showTaxon(t.taxon_id); loadCurated(); } });
+        api("taxon/" + encodeURIComponent(t.taxon_id) + "/delete", {}).then(function (r) { if (report(r, "Edits removed.")) { showTaxon(t.taxon_id); loadCurated(); } });
       };
       var ev = $("#ev");
       ev.onsubmit = function (e) {
@@ -173,7 +181,11 @@
   }
   $("#curated").addEventListener("click", function (e) {
     var a = e.target.closest("a[data-id]");
-    if (a) { e.preventDefault(); showTaxon(Number(a.getAttribute("data-id"))); }
+    if (a) { e.preventDefault(); showTaxon(a.getAttribute("data-id")); }
+  });
+  $("#edit").addEventListener("click", function (e) {      // a merged name: open its own id
+    var a = e.target.closest("a[data-id]");
+    if (a) { e.preventDefault(); showTaxon(a.getAttribute("data-id")); }
   });
 
   var add = $("#add");

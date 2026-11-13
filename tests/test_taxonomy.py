@@ -1,18 +1,13 @@
 import csv
 
 import pytest
+from conftest import MARIANUS, C
 
-from guaminsects import config, curation, taxonomy
-from test_curation import conn, files  # noqa: F401  (fixtures)
-
-H = config.HEXAPODA_ID
+from guaminsects import curation, taxonomy
 
 
 @pytest.fixture
-def repo(conn, files, tmp_path, monkeypatch):  # noqa: F811
-    monkeypatch.setattr(taxonomy, "REPO_CSV", tmp_path / "taxonomy.csv")
-    monkeypatch.setattr(taxonomy, "SNAPSHOT", tmp_path / "taxonomy.last.csv")
-    curation.resolve(conn, curation.load(*files))
+def repo(conn):
     taxonomy.write(taxonomy.rows(conn))
     return conn
 
@@ -31,85 +26,73 @@ def edit(path, change):
         w.writerows(rows)
 
 
-def by_name(rows, name):
-    return next(r for r in rows if r["scientificName"] == name)
+def by_name(rows, name, status="accepted"):
+    return next(r for r in rows if r["scientificName"] == name and r["taxonomicStatus"] == status)
 
 
-def test_rows_are_darwin_core_with_family_and_depth_first(repo):
+def test_rows_are_darwin_core_with_synonym_rows(repo):
     rows = table(taxonomy.REPO_CSV)
     assert list(rows[0]) == taxonomy.COLUMNS
-    assert [r["scientificName"] for r in rows] == ["Hexapoda", "Insecta", "Coleoptera",
-                                                  "Scarabaeidae", "Oryctes", "Oryctes rhinoceros"]
     crb = by_name(rows, "Oryctes rhinoceros")
-    assert crb["family"] == "Scarabaeidae" and crb["parentNameUsage"] == "Oryctes"
-    assert crb["recordedIn"] == "GU" and crb["gbifRecords"] == "12"
+    assert crb["taxonID"] == "ORRHI" and crb["parentNameUsageID"] == "ORYCT"
+    assert crb["family"] == "Scarabaeidae" and crb["subfamily"] == "Dynastinae"
+    assert crb["inCatalogueOfLife"] == "yes" and crb["references"].endswith("/ORRHI")
+    old = by_name(rows, "Scarabaeus rhinoceros", "synonym")
+    assert old["acceptedNameUsageID"] == "ORRHI" and old["nameMatch"] == "COL synonym"
+    assert rows.index(old) == rows.index(crb) + 1      # right after its accepted taxon
+    onoi = by_name(rows, "Callirhipis onoi")
+    assert onoi["inCatalogueOfLife"] == "no" and onoi["family"] == "Callirhipidae"
+    assert onoi["literatureSources"] == "" or "[machine-read]" in onoi["literatureSources"]
 
 
-def test_verification_levels_roll_up(repo):
+def test_verification_levels_and_machine_read_remark(repo):
     rows = table(taxonomy.REPO_CSV)
-    assert by_name(rows, "Oryctes rhinoceros")["verificationStatus"] == "unconfirmed"
-    repo.execute("INSERT INTO taxon_specimens (taxon_id, area, records) VALUES (4995642, 'GU', 3)")
+    assert by_name(rows, "Oryctes rhinoceros")["verificationStatus"] == "literature records"
+    repo.execute("INSERT INTO taxon_specimens (taxon_id, area, records) VALUES (?, 'GU', 3)",
+                 (C("CALIS"),))
     rows = taxonomy.rows(repo)
-    assert by_name(rows, "Oryctes rhinoceros")["verificationStatus"] == "specimen records"
-    assert by_name(rows, "Hexapoda")["specimenRecords"] == 3          # totals its children
-    repo.execute("INSERT INTO taxon_presence (taxon_id, area, source, records) VALUES "
-                 "(4995642, 'GU', 'plazi', 1)")
-    assert by_name(taxonomy.rows(repo), "Coleoptera")["verificationStatus"] == \
-        "literature records"
+    assert by_name(rows, "Callirhipis")["specimenRecords"] == 3
+    onoi = by_name(rows, "Callirhipis onoi")
+    assert onoi["verificationStatus"] == "literature records"
+    assert onoi["verificationRemarks"] == "literature records machine-read only"
 
 
-def test_edits_in_the_file_become_curation_on_sync(repo):
+def test_edits_become_curation_on_sync(repo):
     def change(rows):
         crb = by_name(rows, "Oryctes rhinoceros")
         crb["vernacularName"] = "coconut rhinoceros beetle"
         crb["verificationStatus"] = "editor confirmed"
-        crb["verificationSource"] = "Moore et al. 2018"
         crb["gbifRecords"] = "999"                      # computed: left alone
+        # merge a name COL lacks into a COL species
+        by_name(rows, "Oryctes marianus")["acceptedNameUsageID"] = "ORGIG"
         rows.append({c: "" for c in taxonomy.COLUMNS} | {
             "scientificName": "Oryctes sp. GU-1", "taxonRank": "Species",
-            "parentNameUsage": "Oryctes", "taxonomicStatus": "morphospecies"})
+            "parentNameUsageID": "ORYCT", "taxonomicStatus": "morphospecies"})
     edit(taxonomy.REPO_CSV, change)
     stats = taxonomy.sync(repo, editor="t")
-    assert (stats["changed"], stats["new"], stats["ignored"]) == (1, 1, 1)
-    cur = {r["name"] or r["taxon_id"]: r for r in curation.load(*paths_of()).rows}
-    assert cur["4995642"]["common_name"] == "coconut rhinoceros beetle"
-    assert cur["4995642"]["verified"] == "1" and cur["4995642"]["citation"] == "Moore et al. 2018"
-    assert cur["Oryctes sp. GU-1"]["status"] == "morphospecies"
+    assert (stats["changed"], stats["new"], stats["ignored"]) == (2, 1, 1)
+    cur = {r["taxon_id"]: r for r in curation.load(curation.TAXA_CSV,
+                                                    curation.EVIDENCE_CSV).rows}
+    assert cur["ORRHI"]["verified"] == "1"
+    assert cur["gbif:777"]["status"] == "synonym" and cur["gbif:777"]["accepted_id"] == "ORGIG"
     rows = taxonomy.rows(repo)
-    crb = by_name(rows, "Oryctes rhinoceros")
-    assert crb["verificationStatus"] == "editor confirmed" and crb["verifiedBy"] == "t"
-    assert by_name(rows, "Oryctes sp. GU-1")["parentNameUsage"] == "Oryctes"
-    taxonomy.write(rows)
-    assert taxonomy.sync(repo) is None                  # nothing new since the write
+    assert by_name(rows, "Oryctes rhinoceros")["verificationStatus"] == "editor confirmed"
+    assert by_name(rows, "Oryctes marianus", "synonym")["acceptedNameUsageID"] == "ORGIG"
+    assert by_name(rows, "Oryctes sp. GU-1", "morphospecies")["taxonID"] == "IOG-1"
 
 
 def test_a_bad_edit_changes_nothing(repo):
     before = curation.TAXA_CSV.read_text()
-    edit(taxonomy.REPO_CSV, lambda rows: by_name(rows, "Oryctes")
-         .update(parentNameUsageID="4995642"))          # under its own species: a cycle
+    edit(taxonomy.REPO_CSV, lambda rows: by_name(rows, "Coleoptera")
+         .update(parentNameUsageID="ORYCT"))
     with pytest.raises(curation.CurationError, match="cycle"):
         taxonomy.sync(repo, editor="t")
     assert curation.TAXA_CSV.read_text() == before
 
 
-def test_unconfirming_clears_the_flag(repo):
-    edit(taxonomy.REPO_CSV, lambda rows: by_name(rows, "Oryctes")
-         .update(verificationStatus="editor confirmed"))
-    taxonomy.sync(repo, editor="t")
-    taxonomy.write(taxonomy.rows(repo))
-    edit(taxonomy.REPO_CSV, lambda rows: by_name(rows, "Oryctes")
-         .update(verificationStatus="unconfirmed"))
-    taxonomy.sync(repo, editor="t")
-    assert by_name(taxonomy.rows(repo), "Oryctes")["verificationStatus"] == "unconfirmed"
-    assert not [r for r in curation.load(*paths_of()).rows if r["taxon_id"] == "1063"]
-
-
-def test_subtree(repo):
+def test_subtree_includes_synonym_rows(repo):
     rows = taxonomy.rows(repo)
-    assert [r["scientificName"] for r in taxonomy.subtree(rows, 7779)] == \
-        ["Scarabaeidae", "Oryctes", "Oryctes rhinoceros"]
-    assert len(taxonomy.subtree(rows, H)) == len(rows)
-
-
-def paths_of():
-    return curation.TAXA_CSV, curation.EVIDENCE_CSV
+    names = [r["scientificName"] for r in taxonomy.subtree(rows, "ORYCT")]
+    assert names[0] == "Oryctes" and "Scarabaeus rhinoceros" in names
+    assert "Callirhipis" not in names
+    assert MARIANUS

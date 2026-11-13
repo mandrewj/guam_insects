@@ -64,8 +64,8 @@ def _text(html: str | None) -> str:
 def commons_sweep(conn) -> dict[str, int]:
     """Licence and sizes for every Commons file Wikidata names (P18), 50 files a request."""
     rows = conn.execute(
-        "SELECT t.taxon_id, w.image FROM wikidata_taxa w JOIN taxa t ON t.gbif_key = w.gbif_key "
-        "WHERE w.image IS NOT NULL AND w.confidence = 'high'").fetchall()
+        "SELECT taxon_id, image FROM taxon_wikidata "
+        "WHERE image IS NOT NULL AND confidence = 'high'").fetchall()
     files: dict[str, list[int]] = {}
     for r in rows:
         name = urllib.parse.unquote(r["image"].rsplit("/", 1)[-1])
@@ -123,8 +123,8 @@ def commons_sweep(conn) -> dict[str, int]:
 def inat_taxon_sweep(conn, client: ApiClient) -> dict[str, int]:
     """iNaturalist taxon photos (the curated set on each taxon page), 30 taxa a request."""
     links = conn.execute(
-        "SELECT t.taxon_id, w.inat_id FROM wikidata_taxa w JOIN taxa t ON t.gbif_key = w.gbif_key "
-        "WHERE w.inat_id IS NOT NULL AND w.confidence = 'high'").fetchall()
+        "SELECT taxon_id, inat_id FROM taxon_wikidata "
+        "WHERE inat_id IS NOT NULL AND confidence = 'high'").fetchall()
     by_inat = {}
     for r in links:
         if str(r["inat_id"]).isdigit():
@@ -175,16 +175,29 @@ def _cc_url(code: str) -> str:
 
 def select(conn, per_taxon: int = 6) -> dict[str, int]:
     """Rebuild taxon_photos: own photos by rank_hint, then borrowing for taxa with none."""
+    # Candidates were found under whatever key the taxon had then (a GBIF Backbone key
+    # before the Catalogue of Life): taxon_keys says which taxon each belongs to now.
+    keys = db.keymap(conn)
     cands: dict[int, list[dict]] = {}
+    seen: set[tuple[int, str]] = set()
     for r in conn.execute(
             "SELECT c.taxon_id, c.rank_hint, p.* FROM photo_candidates c JOIN photos p "
-            "ON p.photo_id = c.photo_id WHERE p.status = 'ok' ORDER BY c.taxon_id, c.rank_hint"):
-        cands.setdefault(r["taxon_id"], []).append(dict(r))
+            "ON p.photo_id = c.photo_id WHERE p.status = 'ok' ORDER BY c.rank_hint, c.taxon_id"):
+        tid = keys.get(r["taxon_id"], r["taxon_id"])
+        if (tid, r["photo_id"]) not in seen:
+            seen.add((tid, r["photo_id"]))
+            cands.setdefault(tid, []).append(dict(r))
     taxa = {r["taxon_id"]: dict(r) for r in conn.execute(
         "SELECT taxon_id, parent_id, rank, lineage, hidden FROM taxa")}
-    guam = dict(conn.execute("SELECT taxon_id, SUM(records) FROM taxon_presence WHERE area = 'GU' "
-                             "GROUP BY taxon_id"))
-    any_rec = dict(conn.execute("SELECT taxon_id, SUM(records) FROM taxon_presence GROUP BY taxon_id"))
+    guam: dict[int, int] = {}
+    any_rec: dict[int, int] = {}
+    for r in conn.execute("SELECT taxon_id, area, records FROM taxon_presence "
+                          "WHERE source != 'gbif_backbone'"):
+        tid = keys.get(r["taxon_id"])
+        if tid is not None:
+            any_rec[tid] = any_rec.get(tid, 0) + (r["records"] or 0)
+            if r["area"] == "GU":
+                guam[tid] = guam.get(tid, 0) + (r["records"] or 0)
     rows = []
     own = {}
     for tid, lst in cands.items():

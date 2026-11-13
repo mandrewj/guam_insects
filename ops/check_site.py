@@ -4,8 +4,8 @@
     uv run python ops/check_site.py --shots /tmp/s   # also save screenshots of key pages
     uv run python ops/check_site.py --browsers chrome --target local
 
-Fixtures: 789 Odonata, 5936 Libellulidae, 1427855 Pantala flavescens (photos, Wikipedia,
-literature). WebKit/Firefox need `uv run playwright install webkit firefox` once; missing
+Fixtures (Catalogue of Life ids): B6LCL Odonata, BZS Libellulidae, 4CGSL Pantala flavescens
+(photos, Wikipedia, literature). WebKit/Firefox need `uv run playwright install webkit firefox` once; missing
 browsers are skipped. Exit status 1 if any check fails. Photos are hotlinked, so the image
 check needs the network.
 """
@@ -21,12 +21,14 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+from guaminsects import ids  # noqa: E402  (id parity check)
 from guaminsects.search import tokens  # noqa: E402  (tokenizer parity check)
 
 SIZES = {"desktop": {"width": 1280, "height": 900}, "phone": {"width": 390, "height": 844}}
+ID_SAMPLES = ["KVC9L", "4CGSL", "N", "gbif:1045882", "name-12", "IOG-3"]
 TOKEN_SAMPLES = ["Mécoptères du Québec", "Globe skimmers and Wandering gliders",
                  "the mosses & bus", "Pantala flavescens's species-group", "glass ibis classes"]
-ORDER, FAMILY, SPECIES = 789, 5936, 1427855
+ORDER, FAMILY, SPECIES = "B6LCL", "BZS", "4CGSL"
 SHOTS = {"home": "", "family": f"#/t/{FAMILY}", "species": f"#/t/{SPECIES}",
          "identify": f"#/id/{ORDER}", "search": "#/search?q=wandering%20glider"}
 
@@ -50,6 +52,9 @@ def check(page, url: str) -> dict[str, bool]:
     r["home lists orders"] = page.locator("#s-children .card").count() >= 10
     r["tokenizer parity"] = all(page.evaluate("s => guaminsects.tokens(s)", s) == tokens(s)
                                 for s in TOKEN_SAMPLES)
+    r["id parity"] = all(page.evaluate("s => guaminsects.ids.tidOf(s)", s) == ids.to_int(s) and
+                         page.evaluate("n => guaminsects.ids.extOf(n)", ids.to_int(s)) == s
+                         for s in ID_SAMPLES)
     page.goto(url + f"#/t/{FAMILY}")
     page.wait_for_selector(".taxon-head h1")
     page.evaluate("document.querySelectorAll('img[loading=lazy]').forEach(i => i.loading = 'eager')")
@@ -58,6 +63,12 @@ def check(page, url: str) -> dict[str, bool]:
         "[...document.images].every(i => !i.complete || i.naturalWidth > 0)")
     r["no sideways scroll"] = page.evaluate("document.documentElement.scrollWidth <= innerWidth")
     r["presence table"] = page.locator("table.presence tr.r-gu").count() == 1
+    r["region tooltips"] = "Mariana" in (page.locator("table.presence tr.r-gu abbr")
+                                          .get_attribute("title") or "")
+    r["checklist"] = page.locator(".checklist .cl a").count() > 10
+    click(page, ".checklist button[data-cl='open']")
+    r["checklist expands"] = page.evaluate(
+        "[...document.querySelectorAll('.checklist details')].every(d => d.open)")
     # Taxonomy download: this family and everything under it, then the whole tree.
     rows = {}
     for key in (str(FAMILY), "all"):

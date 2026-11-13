@@ -73,7 +73,7 @@ def clean(html: str) -> tuple[str, str]:
 
 def targets(conn, limit: int | None) -> list:
     rows = conn.execute(
-        f"""SELECT t.taxon_id, w.article FROM wikidata_taxa w JOIN taxa t ON t.gbif_key = w.gbif_key
+        f"""SELECT w.taxon_id, w.article FROM taxon_wikidata w JOIN taxa t USING (taxon_id)
             WHERE w.article IS NOT NULL AND w.confidence = 'high'
               AND NOT EXISTS (SELECT 1 FROM wikipedia_articles a WHERE a.taxon_id = t.taxon_id
                               AND a.fetched_at > datetime('now', '-{REFRESH_DAYS} days'))

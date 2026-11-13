@@ -2,7 +2,7 @@
 
 For each area, one request lists its level-1 units with records (gadmLevel1Gid facet), one
 request per unit gives its name, and one facet request per (unit, rank) lists the taxon keys
-recorded there: about 150 requests for all of Micronesia (docs/LESSONS.md "presence by
+recorded there (Catalogue of Life keys): about 180 requests for all of Micronesia (docs/LESSONS.md "presence by
 area"). Guam is one island and needs no split.
 
 Level-1 units are municipalities (CNMI: Saipan, Tinian, Rota, Northern Islands), states
@@ -14,7 +14,7 @@ their outer islands.
 import sys
 
 from .. import config, db
-from .gbif_checklist import FACETS, FACET_PAGE, occurrence_filter
+from .gbif_checklist import COL_FACETS, FACET_PAGE, facet_key, occurrence_filter
 from .http import ApiClient
 
 BABELDAOB = {"Aimeliik", "Airai", "Melekeok", "Ngaraard", "Ngarchelong", "Ngardmau",
@@ -53,7 +53,7 @@ def sweep(conn, client: ApiClient) -> dict[str, int]:
                 continue
             isl = island_name(area["code"], name)
             stats["units"] += 1
-            for facet in FACETS:
+            for facet in COL_FACETS:
                 offset = 0
                 while True:
                     d = client.get("/occurrence/search", occurrence_filter(area["gbif"]) + [
@@ -61,7 +61,7 @@ def sweep(conn, client: ApiClient) -> dict[str, int]:
                         ("facetLimit", FACET_PAGE), ("facetOffset", offset)])
                     got = (d.get("facets") or [{}])[0].get("counts", [])
                     for c in got:
-                        k = (int(c["name"]), isl)
+                        k = (facet_key(c["name"], True), isl)
                         counts[k] = counts.get(k, 0) + int(c["count"])
                     if len(got) < FACET_PAGE:
                         break

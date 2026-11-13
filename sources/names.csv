@@ -1,0 +1,3761 @@
+id,name,rank,origin,hints
+1,Acalles samoanus,SPECIES,inat,{}
+2,Acalolepta antenor,SPECIES,inat,{}
+3,Acalolepta marianarum,SPECIES,inat,{}
+4,Acanthocoris scaber,SPECIES,inat,{}
+5,Acanthograeffea denticulata,SPECIES,inat,{}
+6,Achaea janata,SPECIES,inat,{}
+7,Acherontia lachesis,SPECIES,inat,{}
+8,Acromantis palauana,SPECIES,inat,{}
+9,Adoretus sinicus,SPECIES,inat,{}
+10,Adoxophyes melia,SPECIES,inat,{}
+11,Aedes albopictus,SPECIES,inat,{}
+12,Aedes pandani,SPECIES,inat,{}
+13,Agrilus occipitalis,SPECIES,inat,{}
+14,Agriocnemis femina,SPECIES,inat,{}
+15,Agrioglypta excelsalis,SPECIES,inat,{}
+16,Agrionoptera cardinalis,SPECIES,inat,{}
+17,Agrionoptera insignis,SPECIES,inat,{}
+18,Agrionoptera sanguinolenta,SPECIES,inat,{}
+19,Agrius convolvuli,SPECIES,inat,{}
+20,Agrius cordiae,SPECIES,inat,{}
+21,Aiolopus thalassinus,SPECIES,inat,{}
+22,Aleurocanthus spiniferus,SPECIES,inat,{}
+23,Aleurocanthus woglumi,SPECIES,inat,{}
+24,Aleurothrixus floccosus,SPECIES,inat,{}
+25,Allomerus auropunctatus,SPECIES,inat,{}
+26,Amarygmus hydrophiloides,SPECIES,inat,{}
+27,Amarygmus micans,SPECIES,inat,{}
+28,Amarygmus palauensis,SPECIES,inat,{}
+29,Amorphoidea lata,SPECIES,inat,{}
+30,Anaciaeschna jaspidea,SPECIES,inat,{}
+31,Ananca bicolor,SPECIES,inat,{}
+32,Anax guttatus,SPECIES,inat,{}
+33,Anax piraticus,SPECIES,inat,{}
+34,Anisops,GENUS,inat,{}
+35,Anochetus graeffei,SPECIES,inat,{}
+36,Anomala sulcatula,SPECIES,inat,{}
+37,Anomis flava,SPECIES,inat,{}
+38,Anoplolepis gracilipes,SPECIES,inat,{}
+39,Anthrax koshunensis,SPECIES,inat,{}
+40,Aphis nerii,SPECIES,inat,{}
+41,Aphthona bicolorata,SPECIES,inat,{}
+42,Apis mellifera,SPECIES,inat,{}
+43,Araecerus fasciculatus,SPECIES,inat,{}
+44,Argina astrea,SPECIES,inat,{}
+45,Armacia clara,SPECIES,inat,{}
+46,Aspidiotus destructor,SPECIES,inat,{}
+47,Aspidomorpha deusta,SPECIES,inat,{}
+48,Aulacaspis yasumatsui,SPECIES,inat,{}
+49,Aulacophora indica,SPECIES,inat,{}
+50,Aulacophora quadrimaculata,SPECIES,inat,{}
+51,Axona chalcopyga,SPECIES,inat,{}
+52,Bactrocera cucurbitae,SPECIES,inat,{}
+53,Bactrocera frauenfeldi,SPECIES,inat,{}
+54,Badamia exclamationis,SPECIES,inat,{}
+55,Balclutha rubrostriata,SPECIES,inat,{}
+56,Baliga bicarunculata,SPECIES,inat,{}
+57,Balta notulata,SPECIES,inat,{}
+58,Bemisia argentifolii,SPECIES,inat,{}
+59,Brachycyttarus griseus,SPECIES,inat,{}
+60,Brachydeutera adusta,SPECIES,inat,{}
+61,Brachymyrmex obscurior,SPECIES,inat,{}
+62,Brachyplatys subaeneus,SPECIES,inat,{}
+63,Brachyrhynchus membranaceus,SPECIES,inat,{}
+64,Brontispa chalybeipennis,SPECIES,inat,{}
+65,Brontispa mariana,SPECIES,inat,{}
+66,Brontispa palauensis,SPECIES,inat,{}
+67,Callirhipis onoi,SPECIES,inat|literature,{}
+68,Campiglossa sororcula,SPECIES,inat,{}
+69,Camponotus flavicomans,SPECIES,inat,{}
+70,Camponotus kubaryi,SPECIES,inat,{}
+71,Camponotus marianensis,SPECIES,inat,{}
+72,Camponotus micronesicus,SPECIES,inat,{}
+73,Camponotus peleliuensis,SPECIES,inat,{}
+74,Camponotus reticulatus,SPECIES,inat,{}
+75,Camponotus zonatus,SPECIES,inat,{}
+76,Campsomeriella annulata,SPECIES,inat,{}
+77,Cardiodactylus esakii,SPECIES,inat,{}
+78,Carpophilus maculatus,SPECIES,inat,{}
+79,Cassida circumdata,SPECIES,inat,{}
+80,Catopsilia pomona,SPECIES,inat,{}
+81,Cecidochares connexa,SPECIES,inat,{}
+82,Cephaleta brunniventris,SPECIES,inat,{}
+83,Cephonodes armatus,SPECIES,inat,{}
+84,Cephonodes hylas,SPECIES,inat,{}
+85,Cephonodes picus,SPECIES,inat,{}
+86,Ceratina dentipes,SPECIES,inat,{}
+87,Ceratina palauensis,SPECIES,inat,{}
+88,Ceresium unicolor,SPECIES,inat,{}
+89,Ceroplastes ceriferus,SPECIES,inat,{}
+90,Ceroplastes rubens,SPECIES,inat,{}
+91,Ceroplastes stellifer,SPECIES,inat,{}
+92,Chaetospania fuscata,SPECIES,inat,{}
+93,Chaetospania ponapensis,SPECIES,inat,{}
+94,Chalybion bengalense,SPECIES,inat,{}
+95,Cheilomenes sexmaculata,SPECIES,inat,{}
+96,Chelisoches morio,SPECIES,inat,{}
+97,Chelonus formosanus,SPECIES,inat,{}
+98,Chilocorus nigritus,SPECIES,inat,{}
+99,Chlorophorus annularis,SPECIES,inat,{}
+100,Chrysis fuscipennis,SPECIES,inat,{}
+101,Chrysodeixis eriosoma,SPECIES,inat,{}
+102,Chrysodema ventralis,SPECIES,inat,{}
+103,Chrysomya megacephala,SPECIES,inat,{}
+104,Chrysomya rufifacies,SPECIES,inat,{}
+105,Chrysopera combinans,SPECIES,inat,{}
+106,Chrysotus crosbyi,SPECIES,inat,{}
+107,Cicadulina bipunctata,SPECIES,inat,{}
+108,Clogmia albipunctata,SPECIES,inat,{}
+109,Coccinella transversalis,SPECIES,inat,{}
+110,Coccus viridis,SPECIES,inat,{}
+111,Coelophora inaequalis,SPECIES,inat,{}
+112,Conocephalus longipennis,SPECIES,inat,{}
+113,Conotelus mexicanus,SPECIES,inat,{}
+114,Coptosoma xanthogramma,SPECIES,inat|literature,{}
+115,Corythucha gossypii,SPECIES,inat,{}
+116,Cosmopolites sordidus,SPECIES,inat,{}
+117,Crematogaster fritzi,SPECIES,inat,{}
+118,Creontiades pacificus,SPECIES,inat,{}
+119,Cryptolaemus montrouzieri,SPECIES,inat,{}
+120,Cryptophyllium yapicum,SPECIES,inat,{}
+121,Ctenocephalides felis,SPECIES,inat,{}
+122,Ctenolepisma longicaudatum,SPECIES,inat,{}
+123,Curinus coeruleus,SPECIES,inat,{}
+124,Cydalima laticostalis,SPECIES,inat,{}
+125,Cylas formicarius,SPECIES,inat,{}
+126,Cyphogastra auripennis,SPECIES,inat,{}
+127,Daealus tibialis,SPECIES,inat,{}
+128,Daealus tuberosus,SPECIES,inat,{}
+129,Danaus affinis,SPECIES,inat,{}
+130,Danaus plexippus,SPECIES,inat,{}
+131,Daphnis hypothous,SPECIES,inat,{}
+132,Daphnis nerii,SPECIES,inat,{}
+133,Daphnis placida,SPECIES,inat,{}
+134,Dappula tertius,SPECIES,inat,{}
+135,Delta esuriens,SPECIES,inat,{}
+136,Delta pyriforme,SPECIES,inat,{}
+137,Diaphania indica,SPECIES,inat,{}
+138,Diaphorina citri,SPECIES,inat,{}
+139,Dione vanillae,SPECIES,inat,{}
+140,Diplacodes bipunctata,SPECIES,inat,{}
+141,Diplacodes trivialis,SPECIES,inat,{}
+142,Discomyza maculipennis,SPECIES,inat,{}
+143,Dissoptera palauensis,SPECIES,inat,{}
+144,Doleschallia bisaltide,SPECIES,inat,{}
+145,Doleschallia tongana,SPECIES,inat,{}
+146,Dorcus benningseni,SPECIES,inat,{}
+147,Drepanosticta palauensis,SPECIES,inat,{}
+148,Dysdercus decussatus,SPECIES,inat,{}
+149,Earias vittella,SPECIES,inat,{}
+150,Echthromorpha agrestoria,SPECIES,inat,{}
+151,Ectomyelois ceratoniae,SPECIES,inat,{}
+152,Eocanthecona furcellata,SPECIES,inat,{}
+153,Erionota thrax,SPECIES,inat,{}
+154,Eristalinus arvorum,SPECIES,inat,{}
+155,Eristalinus megacephalus,SPECIES,inat,{}
+156,Eublemma accedens,SPECIES,inat,{}
+157,Euborellia annulata,SPECIES,inat,{}
+158,Euchromia creusa,SPECIES,inat,{}
+159,Euconocephalus nasutus,SPECIES,inat,{}
+160,Eucorynus crassicornis,SPECIES,inat,{}
+161,Eudocima phalonia,SPECIES,inat,{}
+162,Eumelea ludovicata,SPECIES,inat,{}
+163,Euploea algea,SPECIES,inat,{}
+164,Euploea eunice,SPECIES,inat,{}
+165,Eurema blanda,SPECIES,inat,{}
+166,Euwallacea similis,SPECIES,inat,{}
+167,Euxesta annonae,SPECIES,inat,{}
+168,Evania appendigaster,SPECIES,inat,{}
+169,Exitianus exitiosus,SPECIES,inat,{}
+170,Ferrisia virgata,SPECIES,inat,{}
+171,Figulus integricollis,SPECIES,inat,{}
+172,Glyphodes multilinealis,SPECIES,inat,{}
+173,Gnathothlibus eras,SPECIES,inat,{}
+174,Gnathothlibus erotus,SPECIES,inat,{}
+175,Grammodes geometrica,SPECIES,inat,{}
+176,Graphium agamemnon,SPECIES,inat,{}
+177,Graptostethus servus,SPECIES,inat,{}
+178,Gryllodes sigillatus,SPECIES,inat,{}
+179,Gryllotalpa orientalis,SPECIES,inat,{}
+180,Halmus chalybeus,SPECIES,inat,{}
+181,Halobates,GENUS,inat,{}
+182,Halovelia bergrothi,SPECIES,inat,{}
+183,Hamza ciliaris,SPECIES,inat,{}
+184,Haptognathus pacificus,SPECIES,inat|literature,{}
+185,Helicoverpa armigera,SPECIES,inat,{}
+186,Helicoverpa assulta,SPECIES,inat,{}
+187,Hemicordulia mindana,SPECIES,inat,{}
+188,Henosepilachna vigintioctomaculata,SPECIES,inat,{}
+189,Henosepilachna vigintioctopunctata,SPECIES,inat,{}
+190,Hermetia illucens,SPECIES,inat,{}
+191,Herpetogramma licarsisalis,SPECIES,inat,{}
+192,Heteroderes amplicollis,SPECIES,inat,{}
+193,Heteropternis obscurella,SPECIES,inat,{}
+194,Hierodula patellifera,SPECIES,inat,{}
+195,Hippotion celerio,SPECIES,inat,{}
+196,Hippotion rosetta,SPECIES,inat,{}
+197,Hippotion velox,SPECIES,inat,{}
+198,Holotrichia bipunctata,SPECIES,inat,{}
+199,Horridipamera nietneri,SPECIES,inat,{}
+200,Hulodes caranea,SPECIES,inat,{}
+201,Hyblaea puera,SPECIES,inat,{}
+202,Hyblaea sanguinea,SPECIES,inat,{}
+203,Hylephila phyleus,SPECIES,inat,{}
+204,Hypena laceratalis,SPECIES,inat,{}
+205,Hypolimnas anomala,SPECIES,inat,{}
+206,Hypolimnas bolina,SPECIES,inat,{}
+207,Hypolimnas misippus,SPECIES,inat,{}
+208,Hypolimnas octocula,SPECIES,inat,{}
+209,Hypolimnas pithoeka,SPECIES,inat,{}
+210,Hysteroneura setariae,SPECIES,inat,{}
+211,Icerya aegyptiaca,SPECIES,inat,{}
+212,Icerya imperatae,SPECIES,inat,{}
+213,Icerya samaraia,SPECIES,inat,{}
+214,Icerya seychellarum,SPECIES,inat,{}
+215,Insnesia extrema,SPECIES,inat,{}
+216,Insnesia glabrascuta,SPECIES,inat,{}
+217,Iridomyrmex anceps,SPECIES,inat,{}
+218,Ischiodon scutellaris,SPECIES,inat,{}
+219,Ischnura aurora,SPECIES,inat,{}
+220,Ischnura luta,SPECIES,inat,{}
+221,Ischnura senegalensis,SPECIES,inat,{}
+222,Ischyja ferrifracta,SPECIES,inat,{}
+223,Junonia hedonia,SPECIES,inat,{}
+224,Junonia villida,SPECIES,inat,{}
+225,Kallitaxila crini,SPECIES,inat,{}
+226,Krakatauia micronesiana,SPECIES,inat,{}
+227,Labidura riparia,SPECIES,inat,{}
+228,Lacturnea lacturnus,SPECIES,inat,{}
+229,Laius marchei,SPECIES,inat,{}
+230,Lallemandana phalerata,SPECIES,inat,{}
+231,Lampides boeticus,SPECIES,inat,{}
+232,Lanelater bifoveatus,SPECIES,inat|literature,{}
+233,Lasioglossum kumejimense,SPECIES,inat,{}
+234,Lathrecista asiatica,SPECIES,inat,{}
+235,Lebinthus luae,SPECIES,inat,{}
+236,Lepidiota squamulata,SPECIES,inat,{}
+237,Leptocentrus taurus,SPECIES,inat,{}
+238,Leptocoris vicinus,SPECIES,inat,{}
+239,Leptocorisa oratoria,SPECIES,inat,{}
+240,Leptoglossus gonagra,SPECIES,inat,{}
+241,Leptoglossus occidentalis,SPECIES,inat,{}
+242,Leptynoptera sulfurea,SPECIES,inat,{}
+243,Limnogonus,GENUS,inat,{}
+244,Limnogonus hungerfordi,SPECIES,inat,{}
+245,Limnometra,GENUS,inat,{}
+246,Linnavuoriella arcuata,SPECIES,inat,{}
+247,Locusta migratoria,SPECIES,inat,{}
+248,Lopharthrum comprimens,SPECIES,inat,{}
+249,Lophothetes convexus,SPECIES,inat,{}
+250,Lophothetes hirsutus,SPECIES,inat,{}
+251,Lucilia cuprina,SPECIES,inat,{}
+252,Luthrodes pandava,SPECIES,inat,{}
+253,Macrodiplax cora,SPECIES,inat,{}
+254,Macroglossum divergens,SPECIES,inat,{}
+255,Mallada basalis,SPECIES,inat,{}
+256,Maruca vitrata,SPECIES,inat,{}
+257,Megachile laticeps,SPECIES,inat,{}
+258,Megachile sculpturalis,SPECIES,inat,{}
+259,Megachile umbripennis,SPECIES,inat,{}
+260,Megymenum affine,SPECIES,inat,{}
+261,Melanitis leda,SPECIES,inat,{}
+262,Melanozosteria nitida,SPECIES,inat,{}
+263,Melittia oedipus,SPECIES,inat,{}
+264,Melormenis basalis,SPECIES,inat,{}
+265,Menectetorus setulosus,SPECIES,inat,{}
+266,Menectetorus simplex,SPECIES,inat,{}
+267,Mesohomotoma hibisci,SPECIES,inat,{}
+268,Metaleurodicus cardini,SPECIES,inat,{}
+269,Microchrysa flaviventris,SPECIES,inat,{}
+270,Microcryptorhynchus guamae,SPECIES,inat,{}
+271,Micromeriella marginella,SPECIES,inat,{}
+272,Microvelia leveillei,SPECIES,inat,{}
+273,Mimegralla albimana,SPECIES,inat|literature,{}
+274,Mocis frugalis,SPECIES,inat,{}
+275,Mocis undata,SPECIES,inat,{}
+276,Monomorium floricola,SPECIES,inat,{}
+277,Monomorium pharaonis,SPECIES,inat,{}
+278,Nasutitermes corniger,SPECIES,inat,{}
+279,Necrobia rufipes,SPECIES,inat,{}
+280,Neogurelca hyas,SPECIES,inat,{}
+281,Neurothemis terminata,SPECIES,inat,{}
+282,Nezara viridula,SPECIES,inat,{}
+283,Nipaecoccus nipae,SPECIES,inat,{}
+284,Nipaecoccus viridis,SPECIES,inat,{}
+285,Nisitra flavomaculata,SPECIES,inat,{}
+286,Novius pumilus,SPECIES,inat,{}
+287,Nylanderia bourbonica,SPECIES,inat,{}
+288,Odontomachus malignus,SPECIES,inat,{}
+289,Odontomachus simillimus,SPECIES,inat,{}
+290,Olenecamptus bilobus,SPECIES,inat,{}
+291,Olepa ricini,SPECIES,inat,{}
+292,Olethrius carolinensis,SPECIES,inat,{}
+293,Olla v-nigrum,SPECIES,inat,{}
+294,Omiodes diemenalis,SPECIES,inat,{}
+295,Onthophagus armatus,SPECIES,inat,{}
+296,Ophiomyia cornuta,SPECIES,inat,{}
+297,Ophiusa disjungens,SPECIES,inat,{}
+298,Ornidia obesa,SPECIES,inat,{}
+299,Orthetrum sabina,SPECIES,inat,{}
+300,Orthetrum serapia,SPECIES,inat,{}
+301,Orthodera burmeisteri,SPECIES,inat,{}
+302,Oryctes rhinoceros,SPECIES,inat,{}
+303,Oryzaephilus surinamensis,SPECIES,inat,{}
+304,Oxya japonica,SPECIES,inat,{}
+305,Oxyodes scrobiculata,SPECIES,inat,{}
+306,Pachodynerus nasidens,SPECIES,inat,{}
+307,Pantala flavescens,SPECIES,inat,{}
+308,Papilio demoleus,SPECIES,inat,{}
+309,Papilio polytes,SPECIES,inat,{}
+310,Paralabellula curvicauda,SPECIES,inat|literature,{}
+311,Parastasia nigriceps,SPECIES,inat,{}
+312,Paratachardina pseudolobata,SPECIES,inat,{}
+313,Paratettix nigrescens,SPECIES,inat,{}
+314,Paratrechina longicornis,SPECIES,inat,{}
+315,Pareuchaetes pseudoinsulata,SPECIES,inat,{}
+316,Parlatoria ziziphi,SPECIES,inat,{}
+317,Paromius gracilis,SPECIES,inat,{}
+318,Pelargoderus luteosparsus,SPECIES,inat,{}
+319,Pentalonia nigronervosa,SPECIES,inat,{}
+320,Peregrinus maidis,SPECIES,inat,{}
+321,Pericyma cruegeri,SPECIES,inat,{}
+322,Periplaneta americana,SPECIES,inat,{}
+323,Phaneroptera furcifera,SPECIES,inat,{}
+324,Phaulula carolinensis,SPECIES,inat,{}
+325,Pheidole sexspinosa,SPECIES,inat,{}
+326,Phereoeca uterella,SPECIES,inat,{}
+327,Physomerus grossipes,SPECIES,inat,{}
+328,Phytorus lineolatus,SPECIES,inat,{}
+329,Piezodorus hybneri,SPECIES,inat,{}
+330,Platyja umminia,SPECIES,inat,{}
+331,Platysimus insularis,SPECIES,inat,{}
+332,Plinachtus acicularis,SPECIES,inat,{}
+333,Podontia quatuordecimpunctata,SPECIES,inat,{}
+334,Poeciloterpa palauensis,SPECIES,inat,{}
+335,Poliobotys ablactalis,SPECIES,inat,{}
+336,Polistes olivaceus,SPECIES,inat,{}
+337,Polistes stigma,SPECIES,inat,{}
+338,Polydesma boarmoides,SPECIES,inat,{}
+339,Polyrhachis dives,SPECIES,inat,{}
+340,Popillia lewisi,SPECIES,inat,{}
+341,Promethis sulcigera,SPECIES,inat,{}
+342,Prorhinotermes inopinatus,SPECIES,inat,{}
+343,Protaetia fusca,SPECIES,inat,{}
+344,Protaetia orientalis,SPECIES,inat,{}
+345,Protaetia pryeri,SPECIES,inat,{}
+346,Protalebrella brasiliensis,SPECIES,inat,{}
+347,Proutista moesta,SPECIES,inat,{}
+348,Psamatodes abydata,SPECIES,inat,{}
+349,Pseudopachybrachius guttus,SPECIES,inat,{}
+350,Psilogramma discistriga,SPECIES,inat,{}
+351,Psilogramma increta,SPECIES,inat,{}
+352,Psilogramma menephron,SPECIES,inat,{}
+353,Pterolophia bigibbera,SPECIES,inat,{}
+354,Purana carolettae,SPECIES,inat,{}
+355,Pycnoscelus indicus,SPECIES,inat,{}
+356,Pycnoscelus surinamensis,SPECIES,inat,{}
+357,Quadrastichus erythrinae,SPECIES,inat,{}
+358,Raivuna patruelis,SPECIES,inat,{}
+359,Raivuna sobrina,SPECIES,inat,{}
+360,Rectimarginalis fuscospinosa,SPECIES,inat,{}
+361,Rhabdoscelus obscurus,SPECIES,inat,{}
+362,Rhesala imparata,SPECIES,inat,{}
+363,Rhynchium brunneum,SPECIES,inat,{}
+364,Rhynchium haemorrhoidale,SPECIES,inat,{}
+365,Rhyothemis variegata,SPECIES,inat,{}
+366,Rhytiphora bankii,SPECIES,inat,{}
+367,Rhyzobius lophanthae,SPECIES,inat,{}
+368,Rhyzopertha dominica,SPECIES,inat,{}
+369,Romabenna consul,SPECIES,inat,{}
+370,Ropalidia marginata,SPECIES,inat,{}
+371,Salduncula swezeyi,SPECIES,inat,{}
+372,Salomona guamensis,SPECIES,inat,{}
+373,Salomona truncata,SPECIES,inat,{}
+374,Sameodes cancellalis,SPECIES,inat,{}
+375,Scadra rufidens,SPECIES,inat,{}
+376,Sceliphron laetum,SPECIES,inat,{}
+377,Sceliphron madraspatanum,SPECIES,inat,{}
+378,Schizaspidia chamorro,SPECIES,inat,{}
+379,Scholastes bimaculatus,SPECIES,inat,{}
+380,Segestes unicolor,SPECIES,inat,{}
+381,Sitophilus oryzae,SPECIES,inat,{}
+382,Solenopsis geminata,SPECIES,inat,{}
+383,Solenopsis papuana,SPECIES,inat,{}
+384,Speiredonia obscura,SPECIES,inat,{}
+385,Spodoptera litura,SPECIES,inat,{}
+386,Spodoptera mauritia,SPECIES,inat,{}
+387,Spodoptera picta,SPECIES,inat,{}
+388,Spoladea recurvalis,SPECIES,inat,{}
+389,Statilia nemoralis,SPECIES,inat,{}
+390,Statilia pallida,SPECIES,inat,{}
+391,Stenocatantops splendens,SPECIES,inat,{}
+392,Stenolophus quinquepustulatus,SPECIES,inat,{}
+393,Stephanitis typica,SPECIES,inat,{}
+394,Sternochetus mangiferae,SPECIES,inat,{}
+395,Sticholotis ruficeps,SPECIES,inat,{}
+396,Stomorhina discolor,SPECIES,inat,{}
+397,Stomoxys calcitrans,SPECIES,inat,{}
+398,Strepsicrates ejectana,SPECIES,inat,{}
+399,Striglina scitaria,SPECIES,inat,{}
+400,Strongylium cultellatum,SPECIES,inat,{}
+401,Strumigenys eggersi,SPECIES,inat,{}
+402,Strumigenys emmae,SPECIES,inat,{}
+403,Strumigenys rogeri,SPECIES,inat,{}
+404,Supella longipalpa,SPECIES,inat,{}
+405,Sybra alternans,SPECIES,inat,{}
+406,Tabanus palauensis,SPECIES,inat,{}
+407,Tapinoma melanocephalum,SPECIES,inat,{}
+408,Tapinoma minutum,SPECIES,inat,{}
+409,Taractrocera luzonensis,SPECIES,inat,{}
+410,Technomyrmex albipes,SPECIES,inat,{}
+411,Technomyrmex difficilis,SPECIES,inat,{}
+412,Technomyrmex kraepelini,SPECIES,inat,{}
+413,Teinobasis palauensis,SPECIES,inat,{}
+414,Telostylinus,GENUS,inat,{}
+415,Telostylinus gressitti,SPECIES,inat,{}
+416,Telostylinus lineolatus,SPECIES,inat,{}
+417,Tenodera australasiae,SPECIES,inat,{}
+418,Tenodera costalis,SPECIES,inat,{}
+419,Tetragonula clypearis,SPECIES,inat,{}
+420,Tetraleurodes acaciae,SPECIES,inat,{}
+421,Tetramorium bicarinatum,SPECIES,inat,{}
+422,Tetramorium lanuginosum,SPECIES,inat,{}
+423,Tetramorium pacificum,SPECIES,inat,{}
+424,Tetrarthria variegata,SPECIES,inat,{}
+425,Thalassodes pilaria,SPECIES,inat,{}
+426,Thaumaglossa rufocapillata,SPECIES,inat,{}
+427,Theretra nessus,SPECIES,inat,{}
+428,Theretra silhetensis,SPECIES,inat,{}
+429,Tholymis tillarga,SPECIES,inat,{}
+430,Thyas coronata,SPECIES,inat,{}
+431,Thyas honesta,SPECIES,inat,{}
+432,Thyas miniacea,SPECIES,inat,{}
+433,Tilloidea notata,SPECIES,inat,{}
+434,Tramea transmarina,SPECIES,inat,{}
+435,Traminda aventiaria,SPECIES,inat,{}
+436,Trichomyrmex destructor,SPECIES,inat,{}
+437,Trichrysis lusca,SPECIES,inat,{}
+438,Trirachys inhirsutus,SPECIES,inat,{}
+439,Trochoideus desjardinsi,SPECIES,inat,{}
+440,Trolicaphyllium brachysoma,SPECIES,inat,{}
+441,Trypetomima completa,SPECIES,inat,{}
+442,Uroplata girardi,SPECIES,inat,{}
+443,Utetheisa lotrix,SPECIES,inat,{}
+444,Utetheisa pulchelloides,SPECIES,inat,{}
+445,Vagrans egista,SPECIES,inat,{}
+446,Valanga excavata,SPECIES,inat,{}
+447,Valanga nigricornis,SPECIES,inat,{}
+448,Valenfriesia fulgida,SPECIES,inat,{}
+449,Vespa mandarinia,SPECIES,inat,{}
+450,Vespa tropica,SPECIES,inat,{}
+451,Vollenhovia oblonga,SPECIES,inat,{}
+452,Willowsia jacobsoni,SPECIES,inat,{}
+453,Xylocopa sonorina,SPECIES,inat,{}
+454,Xylosandrus compactus,SPECIES,inat,{}
+455,Xyphon reticulatum,SPECIES,inat,{}
+456,Zanchius fragilis,SPECIES,inat,{}
+457,Zizina otis,SPECIES,inat,{}
+458,Zizula hylax,SPECIES,inat,{}
+459,Zyxomma petiolatum,SPECIES,inat,{}
+460,Aaroniella gressitti,SPECIES,literature,{}
+461,Aaroniella trukensis,SPECIES,literature,{}
+462,Abbella mira,SPECIES,literature,{}
+463,Ablabesmyia flavidella,SPECIES,literature,{}
+464,Acarinus kraussi,SPECIES,literature,{}
+465,Acarinus philippinensis,SPECIES,literature,{}
+466,Acatalectus flavo-marginata,SPECIES,literature,{}
+467,Aciptilia denticulata,SPECIES,literature,{}
+468,Aciptilia niveodactyla,SPECIES,literature,{}
+469,Aciptilia suffiata,SPECIES,literature,{}
+470,Aconura grandis,SPECIES,literature,{}
+471,Acritochaeta pulviniata,SPECIES,literature,{}
+472,Acroclita clivesa,SPECIES,literature,{}
+473,Acroclita grypodes,SPECIES,literature,{}
+474,Acroclita scleropa,SPECIES,literature,{}
+475,Acroclita symbolias,SPECIES,literature,{}
+476,Acroclita vulturina,SPECIES,literature,{}
+477,Actobius horni,SPECIES,literature,{}
+478,Aedes hebrideus,SPECIES,literature,{}
+479,Aedes variegatus hebrideus,SUBSPECIES,literature,{}
+480,Aedomyia catasticta,SPECIES,literature,{}
+481,Aethriostoma undulata,SPECIES,literature,{}
+482,Aethus pallidocornis,SPECIES,literature,{}
+483,Aethus pallidotarsus,SPECIES,literature,{}
+484,Africonidia macdanieli,SPECIES,literature,{}
+485,Agonox ena,SPECIES,literature,{}
+486,Agonox ena argaula,SUBSPECIES,literature,{}
+487,Agriocn emis femina,SUBSPECIES,literature,{}
+488,Agrion furcig erum,SUBSPECIES,literature,{}
+489,Agrion pygma eum,SUBSPECIES,literature,{}
+490,Agroecia solida,SPECIES,literature,{}
+491,Agromyza atomella,SPECIES,literature,{}
+492,Agromyza lantanae,SPECIES,literature,{}
+493,Agromyza piliseta,SPECIES,literature,{}
+494,Agromyza pubicornis,SPECIES,literature,{}
+495,Agrypnus nigroplagiatus,SPECIES,literature,{}
+496,Agrypnus pruinosus,SPECIES,literature,{}
+497,Agrypnus squalidus,SPECIES,literature,{}
+498,Aidomyia snyderi,SPECIES,literature,{}
+499,Alafua large,SPECIES,literature,{}
+500,Alaus depressicollis,SPECIES,literature,{}
+501,Alaus guamensis,SPECIES,literature,{}
+502,Alebroides boninensis,SPECIES,literature,{}
+503,Alema leveri,SPECIES,literature,{}
+504,Alema nigra,SPECIES,literature,{}
+505,Alema paradoxa,SPECIES,literature,{}
+506,Alema puncticolle,SPECIES,literature,{}
+507,Alema spatiosa,SPECIES,literature,{}
+508,Aleurocanthus esakii,SPECIES,literature,{}
+509,Aleurothrixus ftoccosus,SPECIES,literature,{}
+510,Aleyrodes bergii,SPECIES,literature,{}
+511,Aleyrodes kirkaldyi,SPECIES,literature,{}
+512,Aleyrodes oceanica,SPECIES,literature,{}
+513,Alfygus lotophagorum,SPECIES,literature,{}
+514,Allecula papuensis,SPECIES,literature,{}
+515,Allotraeus boninensis,SPECIES,literature,{}
+516,Alluaudomyia insulana,SPECIES,literature,{}
+517,Alluaudomyia maculosipennis,SPECIES,literature,{}
+518,Alphitobius diaperinus,SPECIES,literature,{}
+519,Alphitophagus subfascia,SPECIES,literature,{}
+520,Alpinia pubiflora,SPECIES,literature,{}
+521,Alpinia purpurata,SPECIES,literature,{}
+522,Altica lifuana,SPECIES,literature,{}
+523,Amarygmus decipiens,SPECIES,literature,{}
+524,Amarygmus iris,SPECIES,literature,{}
+525,Amarygmus morio,SPECIES,literature,{}
+526,Amarygmus tubercidiger,SPECIES,literature,{}
+527,Amarygmus tuberculiger,SPECIES,literature,{}
+528,Amblypsilopus austerus,SPECIES,literature,{}
+529,Amblypsilopus biprovincialis,SPECIES,literature,{}
+530,Amblypsilopus ponapensis,SPECIES,literature,{}
+531,Amblypsilopus sabroskyi,SPECIES,literature,{}
+532,Amblypsilopus trukensis,SPECIES,literature,{}
+533,Ambrosiodmus wilderi,SPECIES,literature,{}
+534,Ambrosiophilus wilderi,SPECIES,literature,{}
+535,Amiota poecilogasira,SPECIES,literature,{}
+536,Ampedus bifoveolatus,SPECIES,literature,{}
+537,Amphicerus cornutus,SPECIES,literature,{}
+538,Anagrus fiaveolus,SPECIES,literature,{}
+539,Anal ring,SPECIES,literature,{}
+540,Anal vein,SPECIES,literature,{}
+541,Analema nigra,SPECIES,literature,{}
+542,Anastatus picticornis,SPECIES,literature,{}
+543,Anastomoderma palauensis,SPECIES,literature,{}
+544,Anatopynia boninensis,SPECIES,literature,{}
+545,Anatopynia elongata,SPECIES,literature,{}
+546,Anax parthenope julius,SUBSPECIES,literature,{}
+547,Anchastus dybasi,SPECIES,literature,{}
+548,Anchastus incertus,SPECIES,literature,{}
+549,Anchastus tongaensis,SPECIES,literature,{}
+550,Anchastus trukensis,SPECIES,literature,{}
+551,Anchomenus laetus,SPECIES,literature,{}
+552,Ancylis microphthora,SPECIES,literature,{}
+553,Aneurus lobatus,SPECIES,literature,{}
+554,Aneurus micronesicus,SPECIES,literature,{}
+555,Angabe des,SPECIES,literature,{}
+556,Anisolabis maritima,SPECIES,literature,{}
+557,Anisolabis picea,SPECIES,literature,{}
+558,Anisolabis rninutissima,SPECIES,literature,{}
+559,Anobium castaneum,SPECIES,literature,{}
+560,Anodius piceus,SPECIES,literature,{}
+561,Anomoearthrum sensitivum,SPECIES,literature,{}
+562,Anopheles ludlowi,SPECIES,literature,{}
+563,Antestia angulosa,SPECIES,literature,{}
+564,Antestia degenera,SPECIES,literature,{}
+565,Antestia punctatissima,SPECIES,literature,{}
+566,Anthelephilus cribriceps,SPECIES,literature,{}
+567,Anthicus carolinensis,SPECIES,literature,{}
+568,Anthicus confucii,SPECIES,literature,{}
+569,Anthicus dybasi,SPECIES,literature,{}
+570,Anthicus formicarius,SPECIES,literature,{}
+571,Anthicus oceanicus,SPECIES,literature,{}
+572,Anthicus quisquilarius,SPECIES,literature,{}
+573,Anthicus tobias,SPECIES,literature,{}
+574,Anthicus vexator,SPECIES,literature,{}
+575,Anthocoris parallelus,SPECIES,literature,{}
+576,Anthomyia aenescens,SPECIES,literature,{}
+577,Anthomyia bisetosa,SPECIES,literature,{}
+578,Anthomyia illocata,SPECIES,literature,{}
+579,Anthomyia leucosticta,SPECIES,literature,{}
+580,Anthomyia setia,SPECIES,literature,{}
+581,Anthomyia tonitrui,SPECIES,literature,{}
+582,Anthomyia vicaricans,SPECIES,literature,{}
+583,Anthrenus claviger,SPECIES,literature,{}
+584,Anthrenus fuscus,SPECIES,literature,{}
+585,Antonina indica,SPECIES,literature,{}
+586,Aonidiella aurantii,SPECIES,literature,{}
+587,Aonidiella bromiliae,SPECIES,literature,{}
+588,Apate capucina,SPECIES,literature,{}
+589,Apate carinipennis,SPECIES,literature,{}
+590,Apate castanoptera,SPECIES,literature,{}
+591,Apate destruator,SPECIES,literature,{}
+592,Apate dominicana,SPECIES,literature,{}
+593,Apate flavipes,SPECIES,literature,{}
+594,Apate marginata,SPECIES,literature,{}
+595,Apate minuta,SPECIES,literature,{}
+596,Apate nipponensis,SPECIES,literature,{}
+597,Apate punctipennis,SPECIES,literature,{}
+598,Apate religiosae,SPECIES,literature,{}
+599,Apate rufa,SPECIES,literature,{}
+600,Apate sinuata,SPECIES,literature,{}
+601,Aphanus sordidus,SPECIES,literature,{}
+602,Aphelinoidea oceanica,SPECIES,literature,{}
+603,Aphidius colemani,SPECIES,literature,{}
+604,Aphidius matricariae,SPECIES,literature,{}
+605,Aphiochaeta ferruginea,SPECIES,literature,{}
+606,Aphiochaeta repicta,SPECIES,literature,{}
+607,Aphis arundinis,SPECIES,literature,{}
+608,Aphis asclepiadis,SPECIES,literature,{}
+609,Aphis bauhinia,SPECIES,literature,{}
+610,Aphis camelliae,SPECIES,literature,{}
+611,Aphis citrulli,SPECIES,literature,{}
+612,Aphis convolvuli,SPECIES,literature,{}
+613,Aphis cucumeris,SPECIES,literature,{}
+614,Aphis cynoglossi,SPECIES,literature,{}
+615,Aphis dianthi,SPECIES,literature,{}
+616,Aphis heliotropii,SPECIES,literature,{}
+617,Aphis medicagin-is,SPECIES,literature,{}
+618,Aphis medicaqinis,SPECIES,literature,{}
+619,Aphis nerti,SPECIES,literature,{}
+620,Aphis oxalina,SPECIES,literature,{}
+621,Aphis oxalis,SPECIES,literature,{}
+622,Aphis parvus,SPECIES,literature,{}
+623,Aphis persicae,SPECIES,literature,{}
+624,Aphis pseudobrassicae,SPECIES,literature,{}
+625,Aphis shirakii,SPECIES,literature,{}
+626,Aphis viridula,SPECIES,literature,{}
+627,Aphodius matusitai,SPECIES,literature,{}
+628,Aphrophora bizonalis,SPECIES,literature,{}
+629,Aphthona cheesmani,SPECIES,literature,{}
+630,Aphthona erromangana,SPECIES,literature,{}
+631,Aphthona formosana,SPECIES,literature,{}
+632,Aphthona formosana yakuana,SUBSPECIES,literature,{}
+633,Aphthona greenwoodi,SPECIES,literature,{}
+634,Aphthona lamia,SPECIES,literature,{}
+635,Aphthona nanyoensis,SPECIES,literature,{}
+636,Aphthona samoana,SPECIES,literature,{}
+637,Aphthona senetiki,SPECIES,literature,{}
+638,Apocephalus flaviventris,SPECIES,literature,{}
+639,Aposthonia oceanica,SPECIES,literature,{}
+640,Apteromerus coiwexus,SPECIES,literature,{}
+641,Apteromerus convexus,SPECIES,literature,{}
+642,Apterophenus dybasi,SPECIES,literature,{}
+643,Aradus membranaceus,SPECIES,literature,{}
+644,Araucaricola carolinensis,SPECIES,literature,{}
+645,Araucaricola compacla,SPECIES,literature,{}
+646,Araucaricola compacta,SPECIES,literature,{}
+647,Araucaricola parallela,SPECIES,literature,{}
+648,Araucaricola parullela,SPECIES,literature,{}
+649,Araucaricola simuhms,SPECIES,literature,{}
+650,Araucaricola simulans,SPECIES,literature,{}
+651,Araucaricola trukensis,SPECIES,literature,{}
+652,Arbela hibisci,SPECIES,literature,{}
+653,Arbela nitidula,SPECIES,literature,{}
+654,Archipsocus dybasi,SPECIES,literature,{}
+655,Archipsocus spinosus,SPECIES,literature,{}
+656,Argopistes biplagiatus,SPECIES,literature,{}
+657,Argopistes biplagwtus,SPECIES,literature,{}
+658,Argopistes coccinelliformis,SPECIES,literature,{}
+659,Argopistes coccinelloides,SPECIES,literature,{}
+660,Argyroploce aeraria,SPECIES,literature,{}
+661,Argyroploce lasiandra,SPECIES,literature,{}
+662,Argyroploce poetica,SPECIES,literature,{}
+663,Arhopalus longicornis,SPECIES,literature,{}
+664,Armada clara kusaieana,SUBSPECIES,literature,{}
+665,Arrow auf der,SUBSPECIES,literature,{}
+666,Artabanellus infuscatus,SPECIES,literature,{}
+667,Artabanus lativentris,SPECIES,literature,{}
+668,Artemita insularis,SPECIES,literature,{}
+669,Arten aus,SPECIES,literature,{}
+670,Arten der,SPECIES,literature,{}
+671,Arten dieser,SPECIES,literature,{}
+672,Arten durch die,SUBSPECIES,literature,{}
+673,Arten ist die,SUBSPECIES,literature,{}
+674,Arten leben auf,SUBSPECIES,literature,{}
+675,Arten sind,SPECIES,literature,{}
+676,Arten von den,SUBSPECIES,literature,{}
+677,Arytaina extr ema,SUBSPECIES,literature,{}
+678,Asopidiopsis csikii,SPECIES,literature,{}
+679,Asopidiopsis elongatus,SPECIES,literature,{}
+680,Asopidiopsis ovalis,SPECIES,literature,{}
+681,Asopis suavis,SPECIES,literature,{}
+682,Aspidiotus aurantit,SPECIES,literature,{}
+683,Aspidiotus dictyospermt,SPECIES,literature,{}
+684,Aspidiotus hart,SPECIES,literature,{}
+685,Aspidiotus jaranensis,SPECIES,literature,{}
+686,Aspidiotus palmae,SPECIES,literature,{}
+687,Aspidiotus rapax,SPECIES,literature,{}
+688,Aspidiotus rosae,SPECIES,literature,{}
+689,Aspidiotus secretus,SPECIES,literature,{}
+690,Asteia australis,SPECIES,literature,{}
+691,Asteia sexsetosa,SPECIES,literature,{}
+692,Asteia societas,SPECIES,literature,{}
+693,Asterodiaspis pustu,SPECIES,literature,{}
+694,Asterolecanium coronatum,SPECIES,literature,{}
+695,Asterolecanium orchidearum,SPECIES,literature,{}
+696,Asterolecanium pseudolanceolatum,SPECIES,literature,{}
+697,Astiosoma okinawae,SPECIES,literature,{}
+698,Ataenius pacificus,SPECIES,literature,{}
+699,Ataenius pacijicus,SPECIES,literature,{}
+700,Atherigona boninensis,SPECIES,literature,{}
+701,Atherigona dybasi,SPECIES,literature,{}
+702,Atherigona oryzae,SPECIES,literature,{}
+703,Athysanus bicolor,SPECIES,literature,{}
+704,Athysanus insularis,SPECIES,literature,{}
+705,Athysanus nanus,SPECIES,literature,{}
+706,Athysanus simillimus,SPECIES,literature,{}
+707,Athysanus similtimus,SPECIES,literature,{}
+708,Athysanus taeniaticeps,SPECIES,literature,{}
+709,Atractocera latipes,SPECIES,literature,{}
+710,Atrichopogon arciforceps,SPECIES,literature,{}
+711,Atrichopogon flavenicruris,SPECIES,literature,{}
+712,Atrichopogon snyderi,SPECIES,literature,{}
+713,Attagenus rufipes,SPECIES,literature,{}
+714,Attagenus testaceipes,SPECIES,literature,{}
+715,Augen durch die,SUBSPECIES,literature,{}
+716,Augen von den,SUBSPECIES,literature,{}
+717,Aulacaspis rosae,SPECIES,literature,{}
+718,Aulacophora coralinsula,SPECIES,literature,{}
+719,Aulacophora flavomarginata,SPECIES,literature,{}
+720,Aulacophora hayashii,SPECIES,literature,{}
+721,Aulacophora marginalis,SPECIES,literature,{}
+722,Aulacophora mariana,SPECIES,literature,{}
+723,Ausser diesen,SPECIES,literature,{}
+724,Azya trinitatis,SPECIES,literature,{}
+725,Baccha apicalis,SPECIES,literature,{}
+726,Baccha apicenotata,SPECIES,literature,{}
+727,Baccha pulchrifrons,SPECIES,literature,{}
+728,Bactra cerata,SPECIES,literature,{}
+729,Bactra hostilis,SPECIES,literature,{}
+730,Bactra leonina,SPECIES,literature,{}
+731,Bactra microtripta,SPECIES,literature,{}
+732,Bactra phaeopis,SPECIES,literature,{}
+733,Baiclutha pectoralis,SPECIES,literature,{}
+734,Baker collection,SPECIES,literature,{}
+735,Balclutha brevieeps,SPECIES,literature,{}
+736,Balclutha nifofasciata,SPECIES,literature,{}
+737,Bastrichus bicarnutus,SPECIES,literature,{}
+738,Bastrichus migrator,SPECIES,literature,{}
+739,Batrachomorphus atrifrons,SPECIES,literature,{}
+740,Batrachomorphus curvatus,SPECIES,literature,{}
+741,Batrachomorphus harpago,SPECIES,literature,{}
+742,Batrachomorphus ogasawarensis,SPECIES,literature,{}
+743,Batrachomorphus viridoflavidus,SPECIES,literature,{}
+744,Bdellolarynx carabao,SPECIES,literature,{}
+745,Beaverium swezeyi,SPECIES,literature,{}
+746,Bedunia cuspidata,SPECIES,literature,{}
+747,Bedunia insularis,SPECIES,literature,{}
+748,Bedunia nesiotes,SPECIES,literature,{}
+749,Bembidium sexguttatum,SPECIES,literature,{}
+750,Beris javana,SPECIES,literature,{}
+751,Berotingis yapensis,SPECIES,literature,{}
+752,Bezziola stricklandi,SPECIES,literature,{}
+753,Bhatia boninensis,SPECIES,literature,{}
+754,Bionesus cinereosparsus,SPECIES,literature,{}
+755,Bionesus gebieni,SPECIES,literature,{}
+756,Bionesus neboissi,SPECIES,literature,{}
+757,Bionesus rufescens,SPECIES,literature,{}
+758,Biroa zimmermani,SPECIES,literature,{}
+759,Blaptostethus pacincus,SPECIES,literature,{}
+760,Boettcherisca karnyi,SPECIES,literature,{}
+761,Boettcherisca peregrina,SPECIES,literature,{}
+762,Boettcherisca septentrionalis,SPECIES,literature,{}
+763,Boisduvalia lataniae,SPECIES,literature,{}
+764,Borborus marginatis,SPECIES,literature,{}
+765,Borborus marmoratus,SPECIES,literature,{}
+766,Borborus punctipennis,SPECIES,literature,{}
+767,Borborus vagans,SPECIES,literature,{}
+768,Boroxylon stephegynis,SPECIES,literature,{}
+769,Bostrichus aequalis,SPECIES,literature,{}
+770,Bostrichus areccae,SPECIES,literature,{}
+771,Bostrichus boteldiew,SPECIES,literature,{}
+772,Bostrichus capuc-inus,SPECIES,literature,{}
+773,Bostrichus carpophagus,SPECIES,literature,{}
+774,Bostrichus cylindrus,SPECIES,literature,{}
+775,Bostrichus eremitus,SPECIES,literature,{}
+776,Bostrichus exiguus,SPECIES,literature,{}
+777,Bostrichus iracundus,SPECIES,literature,{}
+778,Bostrichus minutus,SPECIES,literature,{}
+779,Bostrichus moderata,SPECIES,literature,{}
+780,Bostrichus mutilatus,SPECIES,literature,{}
+781,Bostrichus parallelus,SPECIES,literature,{}
+782,Bostrichus peregrinus,SPECIES,literature,{}
+783,Bostrichus saxesenii,SPECIES,literature,{}
+784,Bostrichus testaceus,SPECIES,literature,{}
+785,Bostrichus vertens,SPECIES,literature,{}
+786,Brachycara ventralis,SPECIES,literature,{}
+787,Brachylabis greensladei,SPECIES,literature,{}
+788,Brachypeplus kusaiensis,SPECIES,literature,{}
+789,Brachypeplus planus,SPECIES,literature,{}
+790,Brachypeplus ponapeus,SPECIES,literature,{}
+791,Brachyplatys insularis,SPECIES,literature,{}
+792,Brachyrhynchus tagalicus,SPECIES,literature,{}
+793,Brachysphyrus irroratus,SPECIES,literature,{}
+794,Brachytarsina carolinae,SPECIES,literature,{}
+795,Bradymcrus carolinensis,SPECIES,literature,{}
+796,Bradymerus amicorum,SPECIES,literature,{}
+797,Bradymerus apterus,SPECIES,literature,{}
+798,Bradymerus cancellalus,SPECIES,literature,{}
+799,Bradymerus cancellatus,SPECIES,literature,{}
+800,Bradymerus carolinensis,SPECIES,literature,{}
+801,Bradymerus costatus,SPECIES,literature,{}
+802,Bradymerus diversepunctatus,SPECIES,literature,{}
+803,Bradymerus faraulepensis,SPECIES,literature,{}
+804,Bradymerus fijianus,SPECIES,literature,{}
+805,Bradymerus granaticollis,SPECIES,literature,{}
+806,Bradymerus granaticollts,SPECIES,literature,{}
+807,Bradymerus kondoi,SPECIES,literature,{}
+808,Bradymerus lobicollis,SPECIES,literature,{}
+809,Bradymerus oakleyi,SPECIES,literature,{}
+810,Bradymerus peclinatus,SPECIES,literature,{}
+811,Bradymerus sublaevicollis,SPECIES,literature,{}
+812,Bradymerus zimmermani,SPECIES,literature,{}
+813,Bradymerus zimmetmani,SPECIES,literature,{}
+814,Bradysia boninensis,SPECIES,literature,{}
+815,Bradysia snyderi,SPECIES,literature,{}
+816,Bradysia spinipennis,SPECIES,literature,{}
+817,Bradysia tritici,SPECIES,literature,{}
+818,Brontispa mar iana,SUBSPECIES,literature,{}
+819,Brontispa namorikia,SPECIES,literature,{}
+820,Brontispa palauen sis,SUBSPECIES,literature,{}
+821,Brontispa yoshinoi,SPECIES,literature,{}
+822,Brunettia bifarmis,SPECIES,literature,{}
+823,Brunettia biformis,SPECIES,literature,{}
+824,Brust und,SPECIES,literature,{}
+825,Bulbostethus chrysopterus,SPECIES,literature,{}
+826,Bulbostethus transversalis,SPECIES,literature,{}
+827,Burksia viridimaculata,SPECIES,literature,{}
+828,Caecilius analis,SPECIES,literature,{}
+829,Caecilius apicatus,SPECIES,literature,{}
+830,Caecilius casarum,SPECIES,literature,{}
+831,Caecilius fuscipennis,SPECIES,literature,{}
+832,Caecilius guttulatus,SPECIES,literature,{}
+833,Caecilius leuroceps,SPECIES,literature,{}
+834,Caecilius marginatus,SPECIES,literature,{}
+835,Caecilius marianus,SPECIES,literature,{}
+836,Caecilius novoguinensis,SPECIES,literature,{}
+837,Caecilius palmarum,SPECIES,literature,{}
+838,Caecilius pseudanalis,SPECIES,literature,{}
+839,Caecilius trukensis,SPECIES,literature,{}
+840,Caedius pinguis,SPECIES,literature,{}
+841,Caenoblissus differs,SPECIES,literature,{}
+842,Caenocara clarkei,SPECIES,literature,{}
+843,Caenocara dybasi,SPECIES,literature,{}
+844,Caenocara mariana,SPECIES,literature,{}
+845,Calisins saipanensis,SPECIES,literature,{}
+846,Calisius araklai,SPECIES,literature,{}
+847,Calisius infuscatus,SPECIES,literature,{}
+848,Calisius longicornis,SPECIES,literature,{}
+849,Calisius tinianensis,SPECIES,literature,{}
+850,Calisius trukensis,SPECIES,literature,{}
+851,Callidium annularis,SPECIES,literature,{}
+852,Callidium flavum,SPECIES,literature,{}
+853,Callidium pilicorne,SPECIES,literature,{}
+854,Callineda boulardi,SPECIES,literature,{}
+855,Calotermes ogasawarensis,SPECIES,literature,{}
+856,Calotermes rainbowi,SPECIES,literature,{}
+857,Calphurnia pacalis,SPECIES,literature,{}
+858,Calphurnia reticulata,SPECIES,literature,{}
+859,Camaronotus perplexus,SPECIES,literature,{}
+860,Camponotus eryhtrocephalus,SPECIES,literature,{}
+861,Camptocladius flavus,SPECIES,literature,{}
+862,Camptocladius van der,SUBSPECIES,literature,{}
+863,Campylomma boninensis,SPECIES,literature,{}
+864,Campylomma chichijima,SPECIES,literature,{}
+865,Cantacader quinquecostaius,SPECIES,literature,{}
+866,Capsus stramineus,SPECIES,literature,{}
+867,Carabus elevatus,SPECIES,literature,{}
+868,Carabus pallens,SPECIES,literature,{}
+869,Cardiastcthus brounianus,SPECIES,literature,{}
+870,Cardiophorus adjutor,SPECIES,literature,{}
+871,Carebara atoma,SPECIES,literature,{}
+872,Caricea prominens,SPECIES,literature,{}
+873,Caroline atolls,SPECIES,literature,{}
+874,Carolinotettix palauensis,SPECIES,literature,{}
+875,Carphurus reductipennis,SPECIES,literature,{}
+876,Carpophilus auripilosus,SPECIES,literature,{}
+877,Carpophilus cribellatus,SPECIES,literature,{}
+878,Carpophilus davidsoni,SPECIES,literature,{}
+879,Carpophilus floridanus,SPECIES,literature,{}
+880,Carpophilus frivolus,SPECIES,literature,{}
+881,Carpophilus funereus,SPECIES,literature,{}
+882,Carpophilus hemipterus,SPECIES,literature,{}
+883,Carpophilus nitens,SPECIES,literature,{}
+884,Carpophilus obsoletus,SPECIES,literature,{}
+885,Carpophilus oculatus,SPECIES,literature,{}
+886,Carpophilus pilosellus,SPECIES,literature,{}
+887,Carpophilus quadrisignata,SPECIES,literature,{}
+888,Carpophilus strigipennis,SPECIES,literature,{}
+889,Carter hat diese,SUBSPECIES,literature,{}
+890,Carter hielt diese,SUBSPECIES,literature,{}
+891,Carter und auch,SUBSPECIES,literature,{}
+892,Cassida obtusata,SPECIES,literature,{}
+893,Catacanthus fuchsinus,SPECIES,literature,{}
+894,Catana dimidiata,SPECIES,literature,{}
+895,Catana spilota,SPECIES,literature,{}
+896,Cateretes dimidiatus,SPECIES,literature,{}
+897,Cateretes pictus,SPECIES,literature,{}
+898,Cephalispa gressitti,SPECIES,literature,{}
+899,Cephalochrysa chrysidiformis,SPECIES,literature,{}
+900,Cephalonomia stephanoderis,SPECIES,literature,{}
+901,Ceratopogon fuscimanus,SPECIES,literature,{}
+902,Ceratovacuna brasillensis,SPECIES,literature,{}
+903,Ceresium imicolor,SPECIES,literature,{}
+904,Ceresium impuncticolle,SPECIES,literature,{}
+905,Ceresium nanyoanum,SPECIES,literature,{}
+906,Ceresium olidum,SPECIES,literature,{}
+907,Ceresium signaticolle,SPECIES,literature,{}
+908,Ceresium simile,SPECIES,literature,{}
+909,Ceresium sinicum,SPECIES,literature,{}
+910,Ceresium yoshinoi,SPECIES,literature,{}
+911,Ceroplastes cirripediformis,SPECIES,literature,{}
+912,Ceroplastes cirripediformis xix,SUBSPECIES,literature,{}
+913,Ceroplastes cistudiformis,SPECIES,literature,{}
+914,Ceroplastes pseudoceriferus,SPECIES,literature,{}
+915,Chaetocnema allardi,SPECIES,literature,{}
+916,Chaetocnema basalis,SPECIES,literature,{}
+917,Chaetocnema confmis,SPECIES,literature,{}
+918,Chaetocnema geniculata,SPECIES,literature,{}
+919,Chaetocnema gestroi,SPECIES,literature,{}
+920,Chaetocnema parvula,SPECIES,literature,{}
+921,Chaetococcus bambusae,SPECIES,literature,{}
+922,Chariotheca cuprina,SPECIES,literature,{}
+923,Chariotheca dentipes,SPECIES,literature,{}
+924,Chariotheca kulzeri,SPECIES,literature,{}
+925,Chariotheca neomcdina,SPECIES,literature,{}
+926,Chariotheca neomedina,SPECIES,literature,{}
+927,Chariotheca planicollis,SPECIES,literature,{}
+928,Chariotheca planicollis samoana,SUBSPECIES,literature,{}
+929,Chariotheca profundepunctata,SPECIES,literature,{}
+930,Chariotheca samoensis,SPECIES,literature,{}
+931,Chariotheca smaragdipunctata,SPECIES,literature,{}
+932,Chariotheca striata,SPECIES,literature,{}
+933,Chariotheca sulcipennis,SPECIES,literature,{}
+934,Chariotheca yapensis,SPECIES,literature,{}
+935,Chermes miliaris,SPECIES,literature,{}
+936,Chermes oleae,SPECIES,literature,{}
+937,Cherostus crenipennis,SPECIES,literature,{}
+938,Cherostus nitdus,SPECIES,literature,{}
+939,Chiastoplonia ponapensis,SPECIES,literature,{}
+940,Chiastoplonia pygmaea,SPECIES,literature,{}
+941,Chilomenes sexmaculata,SPECIES,literature,{}
+942,Chionaspis aspidistrae,SPECIES,literature,{}
+943,Chionaspis madiunensis,SPECIES,literature,{}
+944,Chionaspis tegalensis,SPECIES,literature,{}
+945,Chionea venatica,SPECIES,literature,{}
+946,Chironomus albiceps,SPECIES,literature,{}
+947,Chironomus carolinense,SPECIES,literature,{}
+948,Chironomus claggi,SPECIES,literature,{}
+949,Chironomus concomitatus,SPECIES,literature,{}
+950,Chironomus javae,SPECIES,literature,{}
+951,Chironomus javanus,SPECIES,literature,{}
+952,Chironomus longilobus,SPECIES,literature,{}
+953,Chironomus pallidinubeculosus,SPECIES,literature,{}
+954,Chironomus plumatisetigerus,SPECIES,literature,{}
+955,Chironomus ponapensis,SPECIES,literature,{}
+956,Chironomus sexipunctatus,SPECIES,literature,{}
+957,Chironomus stictopterus,SPECIES,literature,{}
+958,Chironomus subgenera,SPECIES,literature,{}
+959,Chironomus subgenus,SPECIES,literature,{}
+960,Chironomus trifasciatus,SPECIES,literature,{}
+961,Chlaenius biguttatus,SPECIES,literature,{}
+962,Chloriona eupompe,SPECIES,literature,{}
+963,Chloriona fieberi,SPECIES,literature,{}
+964,Chloriona formosella,SPECIES,literature,{}
+965,Chloriona geranor,SPECIES,literature,{}
+966,Chloriona kolophon,SPECIES,literature,{}
+967,Chloriona kyusyuensis,SPECIES,literature,{}
+968,Chloriona ochrias,SPECIES,literature,{}
+969,Chlorita boninensis,SPECIES,literature,{}
+970,Chlorophorus bifasciatus,SPECIES,literature,{}
+971,Chlorophorus boninensis,SPECIES,literature,{}
+972,Chlorophorus muscosus,SPECIES,literature,{}
+973,Chrysoconops fuscopteron,SPECIES,literature,{}
+974,Chrysoconops pygmaeus,SPECIES,literature,{}
+975,Chrysomela chrysocephala,SPECIES,literature,{}
+976,Chrysomela oleracea,SPECIES,literature,{}
+977,Chrysomphalus ficus,SPECIES,literature,{}
+978,Chrysomya capensis,SPECIES,literature,{}
+979,Chrysomya duvaucelli,SPECIES,literature,{}
+980,Chrysomyia albiceps,SPECIES,literature,{}
+981,Chrysomyia cordieri,SPECIES,literature,{}
+982,Chrysomyia nigripes,SPECIES,literature,{}
+983,Chrysomyia putoria,SPECIES,literature,{}
+984,Chrysonotomyia punctiventris,SPECIES,literature,{}
+985,Chrysopa astur,SPECIES,literature,{}
+986,Chrysopa boninensis,SPECIES,literature,{}
+987,Chrysopa deutera,SPECIES,literature,{}
+988,Chrysopa furcifera,SPECIES,literature,{}
+989,Chrysopa jaluitana,SPECIES,literature,{}
+990,Chrysopa neutra,SPECIES,literature,{}
+991,Chrysopa notosticta,SPECIES,literature,{}
+992,Chrysopa ramburi,SPECIES,literature,{}
+993,Chrysopa reaumeri,SPECIES,literature,{}
+994,Chrysopa vicina,SPECIES,literature,{}
+995,Chrysosoma agrihan,SPECIES,literature,{}
+996,Chrysosoma complicatum,SPECIES,literature,{}
+997,Chrysosoma flavipodex,SPECIES,literature,{}
+998,Chrysosoma guamense,SPECIES,literature,{}
+999,Chrysosoma jlavipodex,SPECIES,literature,{}
+1000,Chrysosoma kusaiense,SPECIES,literature,{}
+1001,Chrysosoma leucochirum,SPECIES,literature,{}
+1002,Chrysosoma loewi,SPECIES,literature,{}
+1003,Chrysosoma mariana,SPECIES,literature,{}
+1004,Chrysosoma molestum,SPECIES,literature,{}
+1005,Chrysosoma patelliferum,SPECIES,literature,{}
+1006,Chrysosoma pelagica,SPECIES,literature,{}
+1007,Chrysosoma townesi,SPECIES,literature,{}
+1008,Chrysosoma yapense,SPECIES,literature,{}
+1009,Cicada taurus,SPECIES,literature,{}
+1010,Cicindela bonina,SPECIES,literature,{}
+1011,Cicindela bonma,SPECIES,literature,{}
+1012,Cicindela labiata,SPECIES,literature,{}
+1013,Cillaeopeplus gracilus,SPECIES,literature,{}
+1014,Cillaeus rastrus,SPECIES,literature,{}
+1015,Cimex acuta,SPECIES,literature,{}
+1016,Cimex angusta,SPECIES,literature,{}
+1017,Cimex filicis,SPECIES,literature,{}
+1018,Cimex furcellata,SPECIES,literature,{}
+1019,Cimex hybneri,SPECIES,literature,{}
+1020,Cimex sordidus,SPECIES,literature,{}
+1021,Cirrospiloideus fullawayi,SPECIES,literature,{}
+1022,Cirrospiloideus japonica,SPECIES,literature,{}
+1023,Cirrospiloideus kraussi,SPECIES,literature,{}
+1024,Clerus rufipes,SPECIES,literature,{}
+1025,Cligenes flavicornis,SPECIES,literature,{}
+1026,Clinidium sulcicolle,SPECIES,literature,{}
+1027,Clinotanypus guamensis,SPECIES,literature,{}
+1028,Clunio pacificus,SPECIES,literature,{}
+1029,Clunio tuthilli,SPECIES,literature,{}
+1030,Coccinclla arcuata,SPECIES,literature,{}
+1031,Coccinella axyridis,SPECIES,literature,{}
+1032,Coccinella borealis,SPECIES,literature,{}
+1033,Coccinella brucki,SPECIES,literature,{}
+1034,Coccinella discolor,SPECIES,literature,{}
+1035,Coccinella marginepunctata,SPECIES,literature,{}
+1036,Coccinella novempunetata,SPECIES,literature,{}
+1037,Coccinella octomaculata,SPECIES,literature,{}
+1038,Coccinella orbicula,SPECIES,literature,{}
+1039,Coccinella repanda,SPECIES,literature,{}
+1040,Coccotrypes cinnamomi,SPECIES,literature,{}
+1041,Coccotrypes cyperi,SPECIES,literature,{}
+1042,Coccotrypes integer,SPECIES,literature,{}
+1043,Coccotrypes myristicae,SPECIES,literature,{}
+1044,Coccotrypes tutuilensis,SPECIES,literature,{}
+1045,Coccotrypes vulgaris,SPECIES,literature,{}
+1046,Coccus adonidum,SPECIES,literature,{}
+1047,Coccus bromeliae,SPECIES,literature,{}
+1048,Coccus oleae,SPECIES,literature,{}
+1049,Coccus sacchari,SPECIES,literature,{}
+1050,Coccus stellifer,SPECIES,literature,{}
+1051,Coccus zizyphus,SPECIES,literature,{}
+1052,Coeccus acuminatus,SPECIES,literature,{}
+1053,Coelidia boninensis,SPECIES,literature,{}
+1054,Coelidia fuscovenosa,SPECIES,literature,{}
+1055,Coelidia insularis,SPECIES,literature,{}
+1056,Coelidia nigrifrons,SPECIES,literature,{}
+1057,Coelidia ogasawarensis,SPECIES,literature,{}
+1058,Coelidia virescens,SPECIES,literature,{}
+1059,Coelopa aequatorialis,SPECIES,literature,{}
+1060,Coelopa afrieana,SPECIES,literature,{}
+1061,Coelopa alluaudi,SPECIES,literature,{}
+1062,Coelopa anomala,SPECIES,literature,{}
+1063,Coelopa dasypoda,SPECIES,literature,{}
+1064,Coelopa debilis,SPECIES,literature,{}
+1065,Coelopa eurvipes,SPECIES,literature,{}
+1066,Coelopa frigida,SPECIES,literature,{}
+1067,Coelopa glabra,SPECIES,literature,{}
+1068,Coelopa maequariensis,SPECIES,literature,{}
+1069,Coelopa monstruosa,SPECIES,literature,{}
+1070,Coelopa pilipes,SPECIES,literature,{}
+1071,Coelopa stejnegeri,SPECIES,literature,{}
+1072,Coelopa vanduzeei,SPECIES,literature,{}
+1073,Coelophora boulardi,SPECIES,literature,{}
+1074,Coelophora symbolica,SPECIES,literature,{}
+1075,Coenobius glochidionis,SPECIES,literature,{}
+1076,Coenobius macarangae,SPECIES,literature,{}
+1077,Coenobius subaeneus,SPECIES,literature,{}
+1078,Coenosia marginata,SPECIES,literature,{}
+1079,Coenosia pictipennis,SPECIES,literature,{}
+1080,Colasposoma metallicum rugiceps,SUBSPECIES,literature,{}
+1081,Colasposoma rugiceps,SPECIES,literature,{}
+1082,Colpodes laetus,SPECIES,literature,{}
+1083,Colpodes laetus laetus,SUBSPECIES,literature,{}
+1084,Colpodes pacificus,SPECIES,literature,{}
+1085,Compsolacon cognatus,SPECIES,literature,{}
+1086,Compsolacon miiklini,SPECIES,literature,{}
+1087,Conocephaloides gracilis,SPECIES,literature,{}
+1088,Conocephalus lineatipes,SPECIES,literature,{}
+1089,Conoderus umbraculatus,SPECIES,literature,{}
+1090,Conosia insularis,SPECIES,literature,{}
+1091,Conosia van der,SUBSPECIES,literature,{}
+1092,Copromyza marginatis,SPECIES,literature,{}
+1093,Coptoborus melas,SPECIES,literature,{}
+1094,Coptops abdominalis,SPECIES,literature,{}
+1095,Coptops hirtiventris,SPECIES,literature,{}
+1096,Coptosoma variegata,SPECIES,literature,{}
+1097,Coridromoides carinatus,SPECIES,literature,{}
+1098,Corynoptera brevipalpis,SPECIES,literature,{}
+1099,Corynoptera heterochela,SPECIES,literature,{}
+1100,Corynoptera latistylata,SPECIES,literature,{}
+1101,Corynoptera ponapensis,SPECIES,literature,{}
+1102,Corynoptera sabroskyi,SPECIES,literature,{}
+1103,Corynoptera sylviae,SPECIES,literature,{}
+1104,Cosmopsaltria ogasawarensis,SPECIES,literature,{}
+1105,Cotesia erionotae,SPECIES,literature,{}
+1106,Crataerina hirundinis,SPECIES,literature,{}
+1107,Creagris matsuokae,SPECIES,literature,{}
+1108,Crepidodera brullei,SPECIES,literature,{}
+1109,Crepidodera coeruleoviolacea,SPECIES,literature,{}
+1110,Crepidodera dimidiata,SPECIES,literature,{}
+1111,Crepidodera elongata,SPECIES,literature,{}
+1112,Crepidodera evansi,SPECIES,literature,{}
+1113,Crepidodera fuscitarsis,SPECIES,literature,{}
+1114,Crepidodera instabilis,SPECIES,literature,{}
+1115,Crepidodera kraussi,SPECIES,literature,{}
+1116,Crepidodera nigra,SPECIES,literature,{}
+1117,Crepidodera oceanica,SPECIES,literature,{}
+1118,Crepidodera rotunda,SPECIES,literature,{}
+1119,Crepidodera seminulum,SPECIES,literature,{}
+1120,Cricotopus gressitti,SPECIES,literature,{}
+1121,Cricotopus quadrizonatus,SPECIES,literature,{}
+1122,Cricotopus sabroskyi,SPECIES,literature,{}
+1123,Cricotopus van der,SUBSPECIES,literature,{}
+1124,Crioceris quadrimaculata,SPECIES,literature,{}
+1125,Crocidosema ptiladelpha,SPECIES,literature,{}
+1126,Crocidosema synneurota,SPECIES,literature,{}
+1127,Crossotarsus externedentatus,SPECIES,literature,{}
+1128,Crossotarsus grevilleae,SPECIES,literature,{}
+1129,Crossotosoma aegyptiaca,SPECIES,literature,{}
+1130,Cryphalomorphus granulatus,SPECIES,literature,{}
+1131,Cryphalomorphus nanulus,SPECIES,literature,{}
+1132,Cryphalomorphus pacificus,SPECIES,literature,{}
+1133,Cryphalomorphus pumilus,SPECIES,literature,{}
+1134,Cryphalus basihirtus,SPECIES,literature,{}
+1135,Cryphalus capucinomorphus,SPECIES,literature,{}
+1136,Cryphalus hampet,SPECIES,literature,{}
+1137,Cryphalus imitans,SPECIES,literature,{}
+1138,Cryphalus longipilus,SPECIES,literature,{}
+1139,Cryphalus mangiferae,SPECIES,literature,{}
+1140,Cryphalus mollis,SPECIES,literature,{}
+1141,Cryphalus pexus,SPECIES,literature,{}
+1142,Cryphalus polynesiae,SPECIES,literature,{}
+1143,Cryphalus samoensis,SPECIES,literature,{}
+1144,Cryphalus setistriatus,SPECIES,literature,{}
+1145,Cryphalus silvanus,SPECIES,literature,{}
+1146,Cryphalus tutuilaensis,SPECIES,literature,{}
+1147,Cryphalus upoluensis,SPECIES,literature,{}
+1148,Cryptochironomus javae,SPECIES,literature,{}
+1149,Cryptogonus orbiculus,SPECIES,literature,{}
+1150,Cryptolaemus montrousieri,SPECIES,literature,{}
+1151,Cryptophlebia peltastica,SPECIES,literature,{}
+1152,Cryptopone mayri,SPECIES,literature,{}
+1153,Cryptopone tenuis,SPECIES,literature,{}
+1154,Cryptorhopalum brevicorne,SPECIES,literature,{}
+1155,Cryptus notulatorius,SPECIES,literature,{}
+1156,Csihiola thesileiformis,SPECIES,literature,{}
+1157,Csikiola sulcipennis,SPECIES,literature,{}
+1158,Csikiola thesileiformis,SPECIES,literature,{}
+1159,Csiktola sulcipennis,SPECIES,literature,{}
+1160,Culex annulus,SPECIES,literature,{}
+1161,Culex bitaeniorhynchus,SPECIES,literature,{}
+1162,Culex consimilis,SPECIES,literature,{}
+1163,Culex nocturnus,SPECIES,literature,{}
+1164,Culex nocturnus niger,SUBSPECIES,literature,{}
+1165,Culex palpalis,SPECIES,literature,{}
+1166,Culex pullus maplei,SUBSPECIES,literature,{}
+1167,Culex simplex,SPECIES,literature,{}
+1168,Culex somerseti,SPECIES,literature,{}
+1169,Culex vorax,SPECIES,literature,{}
+1170,Culicada annulata,SPECIES,literature,{}
+1171,Culicelsa annulirostris milni,SUBSPECIES,literature,{}
+1172,Culicelsa togoi,SPECIES,literature,{}
+1173,Culicoides ardentissimus,SPECIES,literature,{}
+1174,Culicoides claggi,SPECIES,literature,{}
+1175,Culicoides esakii,SPECIES,literature,{}
+1176,Culicoides esmoneti,SPECIES,literature,{}
+1177,Culicoides judicandus,SPECIES,literature,{}
+1178,Culicoides kusaiensis,SPECIES,literature,{}
+1179,Culicoides peliliouensis,SPECIES,literature,{}
+1180,Culicoides peregrinus,SPECIES,literature,{}
+1181,Culicoides philippensis,SPECIES,literature,{}
+1182,Culicoides yasumatsui,SPECIES,literature,{}
+1183,Culicoides yoshimurai,SPECIES,literature,{}
+1184,Curtomerus flavus,SPECIES,literature,{}
+1185,Cybocephalus gressitti,SPECIES,literature,{}
+1186,Cybocephalus politissimus palauanus,SUBSPECIES,literature,{}
+1187,Cyclopedia albertisii,SPECIES,literature,{}
+1188,Cyclopedia pteropus,SPECIES,literature,{}
+1189,Cydnus rarociliatus,SPECIES,literature,{}
+1190,Cylindera pallida,SPECIES,literature,{}
+1191,Cyptophania marginata,SPECIES,literature,{}
+1192,Cyrtacanthacris nigrovaria,SPECIES,literature,{}
+1193,Cyrtobagous salviniae,SPECIES,literature,{}
+1194,Cyrtogenius grandis,SPECIES,literature,{}
+1195,Cyrtogenius samoanus,SPECIES,literature,{}
+1196,Cyrtoneurina nudiseta,SPECIES,literature,{}
+1197,Cyrtorhinus fulvus,SPECIES,literature,{}
+1198,Czernyola pleuralis,SPECIES,literature,{}
+1199,Dactylopius comstockt,SPECIES,literature,{}
+1200,Dactylopius longispinus,SPECIES,literature,{}
+1201,Dactylopius pandant,SPECIES,literature,{}
+1202,Dactylosternum abdontinale,SPECIES,literature,{}
+1203,Dacus boninensis,SPECIES,literature,{}
+1204,Dacus calophylli,SPECIES,literature,{}
+1205,Dacus conformis,SPECIES,literature,{}
+1206,Dasyhelea carolinensis,SPECIES,literature,{}
+1207,Dasyhelea dupliforceps,SPECIES,literature,{}
+1208,Dasyhelea esakii,SPECIES,literature,{}
+1209,Dasyhelea esakti,SPECIES,literature,{}
+1210,Dasyhelea flavibasalis,SPECIES,literature,{}
+1211,Dasyhelea fumala,SPECIES,literature,{}
+1212,Dasyhelea insularis,SPECIES,literature,{}
+1213,Dasyhelea multifascia,SPECIES,literature,{}
+1214,Dasyhelea nigripygma,SPECIES,literature,{}
+1215,Dasyhelea palauensis,SPECIES,literature,{}
+1216,Dasyhelea peliliouensis,SPECIES,literature,{}
+1217,Dasyhelea perfida,SPECIES,literature,{}
+1218,Dasyhelea quarternihamata,SPECIES,literature,{}
+1219,Dasyhelea raripilosa,SPECIES,literature,{}
+1220,Dasyhelea striipennis,SPECIES,literature,{}
+1221,Dasyhelea subscutellata,SPECIES,literature,{}
+1222,Dasynus fuscescens,SPECIES,literature,{}
+1223,Dasyrhicnoessa asymbasia,SPECIES,literature,{}
+1224,Dasyrhicnoessa boninensis,SPECIES,literature,{}
+1225,Dasyrhicnoessa insularis,SPECIES,literature,{}
+1226,Dasyrhicnoessa jerruginea,SPECIES,literature,{}
+1227,Dasyrhicnoessa phyllodes,SPECIES,literature,{}
+1228,Dasyrhicnoessa vockerothi,SPECIES,literature,{}
+1229,Daulis abdominalis,SPECIES,literature,{}
+1230,Daulis boulardi,SPECIES,literature,{}
+1231,Dechiustes carolinensis,SPECIES,literature,{}
+1232,Delphacodes lacteipennis,SPECIES,literature,{}
+1233,Delphacodes sameshimae,SPECIES,literature,{}
+1234,Delphastus pusillus,SPECIES,literature,{}
+1235,Delphax granulineruis,SPECIES,literature,{}
+1236,Delphax hamata,SPECIES,literature,{}
+1237,Delphax lttgens,SPECIES,literature,{}
+1238,Deltocephalus oryzae,SPECIES,literature,{}
+1239,Deltocephalus subgenus,SPECIES,literature,{}
+1240,Dendrurgus vulgaris,SPECIES,literature,{}
+1241,Dermestes ater,SPECIES,literature,{}
+1242,Dermestes cadaverinus,SPECIES,literature,{}
+1243,Dermestes chinensis,SPECIES,literature,{}
+1244,Dermestes domesticus,SPECIES,literature,{}
+1245,Dermestes elongatus,SPECIES,literature,{}
+1246,Dermestes favarcqui,SPECIES,literature,{}
+1247,Dermestes felinus,SPECIES,literature,{}
+1248,Dermestes fumata,SPECIES,literature,{}
+1249,Dermestes hemipterus,SPECIES,literature,{}
+1250,Dermestes hispidulus,SPECIES,literature,{}
+1251,Dermestes lateralis,SPECIES,literature,{}
+1252,Dermestes lupinus,SPECIES,literature,{}
+1253,Dermestes marginatus,SPECIES,literature,{}
+1254,Dermestes noxius,SPECIES,literature,{}
+1255,Dermestes paniceus,SPECIES,literature,{}
+1256,Dermestes piceus,SPECIES,literature,{}
+1257,Dermestes semistriatus,SPECIES,literature,{}
+1258,Dermestes senex,SPECIES,literature,{}
+1259,Dermestes subcostatus,SPECIES,literature,{}
+1260,Dermestes sudanicus,SPECIES,literature,{}
+1261,Derostenus fullawayi,SPECIES,literature,{}
+1262,Derostenus fullowayi,SPECIES,literature,{}
+1263,Dettopsomyia formosa,SPECIES,literature,{}
+1264,Diaclina testaceicornis,SPECIES,literature,{}
+1265,Diaeretus oregmae,SPECIES,literature,{}
+1266,Diapus pusillimus,SPECIES,literature,{}
+1267,Diaspis fioriniae,SPECIES,literature,{}
+1268,Diaspis peniagona,SPECIES,literature,{}
+1269,Diatora lissonota,SPECIES,literature,{}
+1270,Dibolia coccinea,SPECIES,literature,{}
+1271,Dibolia dichroa,SPECIES,literature,{}
+1272,Dibolia gagates,SPECIES,literature,{}
+1273,Dibolia thomassini,SPECIES,literature,{}
+1274,Diceropyga boninensis,SPECIES,literature,{}
+1275,Dichaetomyia apicalis,SPECIES,literature,{}
+1276,Dichaetomyia carolina,SPECIES,literature,{}
+1277,Dichaetomyia latifrons,SPECIES,literature,{}
+1278,Dichaetomyia mariana,SPECIES,literature,{}
+1279,Dichaetomyia rota,SPECIES,literature,{}
+1280,Dichaetomyia rufa,SPECIES,literature,{}
+1281,Dichaetomyia sabroskyi,SPECIES,literature,{}
+1282,Dichaetomyia trukensis,SPECIES,literature,{}
+1283,Dichaetomyia yapensis,SPECIES,literature,{}
+1284,Dichophaula inexpectata,SPECIES,literature,{}
+1285,Dicranomyia arachnophila,SPECIES,literature,{}
+1286,Dicranomyia atripleura,SPECIES,literature,{}
+1287,Dicranomyia basifusca,SPECIES,literature,{}
+1288,Dicranomyia guttula,SPECIES,literature,{}
+1289,Dicranomyia saltans,SPECIES,literature,{}
+1290,Dicranomyia saltens,SPECIES,literature,{}
+1291,Dicranotropis ucalegon,SPECIES,literature,{}
+1292,Dicrepidius tastui,SPECIES,literature,{}
+1293,Dihammus fulvicornis hachijoensis,SUBSPECIES,literature,{}
+1294,Dihammus korolensis,SPECIES,literature,{}
+1295,Dihammus lupinus,SPECIES,literature,{}
+1296,Dihammus magneticus auripilis,SUBSPECIES,literature,{}
+1297,Dihammus ohzwi,SPECIES,literature,{}
+1298,Dihammus trucanus,SPECIES,literature,{}
+1299,Dinoderus perpunctatus,SPECIES,literature,{}
+1300,Dinoderus substriatus,SPECIES,literature,{}
+1301,Diphyrrhynchus carolinensis,SPECIES,literature,{}
+1302,Diphyrrhynchus chalceus,SPECIES,literature,{}
+1303,Diplax cora,SPECIES,literature,{}
+1304,Diploconus bakewelli,SPECIES,literature,{}
+1305,Diploconus cervinus,SPECIES,literature,{}
+1306,Diploconus ciprinus,SPECIES,literature,{}
+1307,Diploconus consanguineus,SPECIES,literature,{}
+1308,Diploconus erythronotus,SPECIES,literature,{}
+1309,Diploconus erythropus,SPECIES,literature,{}
+1310,Diploconus lateralis,SPECIES,literature,{}
+1311,Diploconus nigrifrons,SPECIES,literature,{}
+1312,Diploconus nitidus,SPECIES,literature,{}
+1313,Diploconus peregrinus,SPECIES,literature,{}
+1314,Diploconus philippinensis,SPECIES,literature,{}
+1315,Diploconus politus,SPECIES,literature,{}
+1316,Diplonevra comuta,SPECIES,literature,{}
+1317,Distant erected,SPECIES,literature,{}
+1318,Distoleon boninensis,SPECIES,literature,{}
+1319,Dohrniphora bequaerti,SPECIES,literature,{}
+1320,Dohrniphora divaricata,SPECIES,literature,{}
+1321,Dohrniphora dohrni,SPECIES,literature,{}
+1322,Dohrniphora setitibia,SPECIES,literature,{}
+1323,Dolichoctis tetraspilotus,SPECIES,literature,{}
+1324,Dorilas hiatus,SPECIES,literature,{}
+1325,Doryphorina sobrina,SPECIES,literature,{}
+1326,Doryphorina stali,SPECIES,literature,{}
+1327,Drabescus fiavicollis,SPECIES,literature,{}
+1328,Drapetis brevicula,SPECIES,literature,{}
+1329,Drapetis formosae,SPECIES,literature,{}
+1330,Drapetis kraussi,SPECIES,literature,{}
+1331,Drapetis simplex,SPECIES,literature,{}
+1332,Drosophila albovittata,SPECIES,literature,{}
+1333,Drosophila annulipes,SPECIES,literature,{}
+1334,Drosophila anuda,SPECIES,literature,{}
+1335,Drosophila bilimbata,SPECIES,literature,{}
+1336,Drosophila brount,SPECIES,literature,{}
+1337,Drosophila curvipennis,SPECIES,literature,{}
+1338,Drosophila hydei,SPECIES,literature,{}
+1339,Drosophila immigrans,SPECIES,literature,{}
+1340,Drosophila nasuta,SPECIES,literature,{}
+1341,Drosophila novicia,SPECIES,literature,{}
+1342,Drosophila pallida,SPECIES,literature,{}
+1343,Drosophila pectinifera,SPECIES,literature,{}
+1344,Drosophila polychaeta,SPECIES,literature,{}
+1345,Drosophila scaptomyzoidea,SPECIES,literature,{}
+1346,Drosophila spinofemora,SPECIES,literature,{}
+1347,Drosophila takahashii,SPECIES,literature,{}
+1348,Drosophila virgata,SPECIES,literature,{}
+1349,Dryocoetes samoanus,SPECIES,literature,{}
+1350,Dudua cellifera,SPECIES,literature,{}
+1351,Dudua pottsi,SPECIES,literature,{}
+1352,Dudua ptarmicopa,SPECIES,literature,{}
+1353,Dysmicoccus neobrevipes,SPECIES,literature,{}
+1354,Ebenolus aruensis,SPECIES,literature,{}
+1355,Ebenolus banksi,SPECIES,literature,{}
+1356,Ebenolus fijianus,SPECIES,literature,{}
+1357,Ebenolus impunctatus,SPECIES,literature,{}
+1358,Ebenolus laevipennis,SPECIES,literature,{}
+1359,Ebenolus lucidus,SPECIES,literature,{}
+1360,Ebenolus minor,SPECIES,literature,{}
+1361,Ebenolus papuensis,SPECIES,literature,{}
+1362,Ebenolus plicicollis,SPECIES,literature,{}
+1363,Ebenolus pro sternalis,SUBSPECIES,literature,{}
+1364,Ebenolus puncticollis,SPECIES,literature,{}
+1365,Ebenolus sculptipunctus,SPECIES,literature,{}
+1366,Ebenolus serraticollis,SPECIES,literature,{}
+1367,Ebenolus subviridis,SPECIES,literature,{}
+1368,Ebenolus swezeyi,SPECIES,literature,{}
+1369,Ebenolus vernicatus,SPECIES,literature,{}
+1370,Ebenolus zimmermani,SPECIES,literature,{}
+1371,Eccoptopterus spinosus,SPECIES,literature,{}
+1372,Echmepteryx costalis,SPECIES,literature,{}
+1373,Echmepteryx marmorata,SPECIES,literature,{}
+1374,Echthrbmorpha semperi,SPECIES,literature,{}
+1375,Echthromorpha atrata marquisensis,SUBSPECIES,literature,{}
+1376,Echthromorpha immaculata,SPECIES,literature,{}
+1377,Echthromqrpha agrestoria samoana,SUBSPECIES,literature,{}
+1378,Echthromqrpha agrestoria uapou,SUBSPECIES,literature,{}
+1379,Echthromqrpha agrestoria variegata,SUBSPECIES,literature,{}
+1380,Echthromqrpha agrestoria vittata,SUBSPECIES,literature,{}
+1381,Echthrpmorpha pallidilineata,SPECIES,literature,{}
+1382,Echthrpmorpha samoana,SPECIES,literature,{}
+1383,Echthrqmorpha agrestoria semperi,SUBSPECIES,literature,{}
+1384,Ectemnus pictip ennis,SUBSPECIES,literature,{}
+1385,Ectemnus pictipennis,SPECIES,literature,{}
+1386,Ectopsocus boharti,SPECIES,literature,{}
+1387,Ectopsocus briggsi,SPECIES,literature,{}
+1388,Ectopsocus briggsi meridionalis,SUBSPECIES,literature,{}
+1389,Ectopsocus cryptomeriae,SPECIES,literature,{}
+1390,Ectopsocus denervus,SPECIES,literature,{}
+1391,Ectopsocus fenestratus,SPECIES,literature,{}
+1392,Ectopsocus fullawayi,SPECIES,literature,{}
+1393,Ectopsocus lepnevae,SPECIES,literature,{}
+1394,Ectopsocus maindroni,SPECIES,literature,{}
+1395,Ectopsocus marginatus,SPECIES,literature,{}
+1396,Ectopsocus paraplesius,SPECIES,literature,{}
+1397,Ectopsocus salpinn,SPECIES,literature,{}
+1398,Ectopsocus salpinx,SPECIES,literature,{}
+1399,Ectopsocus separatus,SPECIES,literature,{}
+1400,Ectopsocus speciosus,SPECIES,literature,{}
+1401,Ectopsocus spilotus,SPECIES,literature,{}
+1402,Ectopsocus thysanus,SPECIES,literature,{}
+1403,Edessa glauca,SPECIES,literature,{}
+1404,Ehenolus zimmerjiiani,SPECIES,literature,{}
+1405,Eidophelus argutus,SPECIES,literature,{}
+1406,Eidophelus incomptus,SPECIES,literature,{}
+1407,Eidophelus marquesanus,SPECIES,literature,{}
+1408,Eidophelus pacificus,SPECIES,literature,{}
+1409,Elachertus advena,SPECIES,literature,{}
+1410,Elachisoma atomus,SPECIES,literature,{}
+1411,Elaeonoma adeneia,SPECIES,literature,{}
+1412,Elaeonoma moira,SPECIES,literature,{}
+1413,Elaeonoma swezeyi,SPECIES,literature,{}
+1414,Elaphropeza ekyphysis,SPECIES,literature,{}
+1415,Elaphropeza formosae,SPECIES,literature,{}
+1416,Elaphropeza semibadia,SPECIES,literature,{}
+1417,Elasmostethus gracilis,SPECIES,literature,{}
+1418,Elater bifoveolatus,SPECIES,literature,{}
+1419,Elater lugens,SPECIES,literature,{}
+1420,Elipsocus criniger,SPECIES,literature,{}
+1421,Embia hum bertuma,SUBSPECIES,literature,{}
+1422,Emesopsis amoenus,SPECIES,literature,{}
+1423,Emesopsis bellulus,SPECIES,literature,{}
+1424,Emesopsis habros,SPECIES,literature,{}
+1425,Emesopsis nubilus,SPECIES,literature,{}
+1426,Emesopsis scitulus,SPECIES,literature,{}
+1427,Empoasca acuticeps,SPECIES,literature,{}
+1428,Empoasca bipunctata,SPECIES,literature,{}
+1429,Empoasca colorata,SPECIES,literature,{}
+1430,Empoasca dentistylus,SPECIES,literature,{}
+1431,Empoasca esakii,SPECIES,literature,{}
+1432,Empoasca fumatipennis,SPECIES,literature,{}
+1433,Empoasca ngatpangensis,SPECIES,literature,{}
+1434,Empoasca nocturna,SPECIES,literature,{}
+1435,Empoasca sesuvii,SPECIES,literature,{}
+1436,Empoasca xanthopus,SPECIES,literature,{}
+1437,Encarsia haitiensis,SPECIES,literature,{}
+1438,Enicospilus nocturnus,SPECIES,literature,{}
+1439,Enicospilus pankumensis,SPECIES,literature,{}
+1440,Enicospilus pilatus,SPECIES,literature,{}
+1441,Enicospilus receptor,SPECIES,literature,{}
+1442,Enicospilus salomonis,SPECIES,literature,{}
+1443,Enicospilus taiwanus,SPECIES,literature,{}
+1444,Enneadesmus nicobaricus,SPECIES,literature,{}
+1445,Entedonomorpha guamensis,SPECIES,literature,{}
+1446,Eosaccharissa javana,SPECIES,literature,{}
+1447,Epacromia turpis,SPECIES,literature,{}
+1448,Epeurysa nawaii,SPECIES,literature,{}
+1449,Epilachna philippinensis,SPECIES,literature,{}
+1450,Epilasium ineisum,SPECIES,literature,{}
+1451,Epinotia lantana,SPECIES,literature,{}
+1452,Epipsocus tahitiensis,SPECIES,literature,{}
+1453,Epipsylla albolineata,SPECIES,literature,{}
+1454,Epistom noch erweiterte,SUBSPECIES,literature,{}
+1455,Epistom und,SPECIES,literature,{}
+1456,Epistro phe fasciata,SUBSPECIES,literature,{}
+1457,Epistro phe longulus,SUBSPECIES,literature,{}
+1458,Epistrophe septemvittata,SPECIES,literature,{}
+1459,Epuraea bifasciatus,SPECIES,literature,{}
+1460,Epuraea decoratus,SPECIES,literature,{}
+1461,Epuraea minuta,SPECIES,literature,{}
+1462,Ereunetis flamstnata,SPECIES,literature,{}
+1463,Ericryphalus henshawi,SPECIES,literature,{}
+1464,Ericryphalus longipilus,SPECIES,literature,{}
+1465,Ericryphalus minimus,SPECIES,literature,{}
+1466,Erionota torus,SPECIES,literature,{}
+1467,Eristalis anticetus,SPECIES,literature,{}
+1468,Eristalis suavissima,SPECIES,literature,{}
+1469,Erythroneura macarangae,SPECIES,literature,{}
+1470,Esaki recorded,SPECIES,literature,{}
+1471,Eteoneus esaki,SPECIES,literature,{}
+1472,Eteoneus esakii,SPECIES,literature,{}
+1473,Eteoneus yapensis,SPECIES,literature,{}
+1474,Eucnocerus anthrenoides,SPECIES,literature,{}
+1475,Eucoilidea guamensis,SPECIES,literature,{}
+1476,Eucosma brachyptycha,SPECIES,literature,{}
+1477,Eucosma miltographa,SPECIES,literature,{}
+1478,Eucosma mosaica,SPECIES,literature,{}
+1479,Eucosma phaedropa,SPECIES,literature,{}
+1480,Eucosma polyphaea,SPECIES,literature,{}
+1481,Eucosma tornocosma,SPECIES,literature,{}
+1482,Euderus metallicus,SPECIES,literature,{}
+1483,Eugenia reinwardtiana,SPECIES,literature,{}
+1484,Eugnathodus calcarus,SPECIES,literature,{}
+1485,Eulechria piodes,SPECIES,literature,{}
+1486,Eumarissa clivosa,SPECIES,literature,{}
+1487,Eumarissa grypodes,SPECIES,literature,{}
+1488,Eumarissa microphthora,SPECIES,literature,{}
+1489,Eumarissa scleropa,SPECIES,literature,{}
+1490,Eumarissa symbolias,SPECIES,literature,{}
+1491,Euobraztsovia chionodelta,SPECIES,literature,{}
+1492,Eupelmus aeneus,SPECIES,literature,{}
+1493,Eupelmus boharti,SPECIES,literature,{}
+1494,Eupelmus kororensis,SPECIES,literature,{}
+1495,Eupelmus memnonius,SPECIES,literature,{}
+1496,Eupelmus nigricoxus,SPECIES,literature,{}
+1497,Eupelmus papa,SPECIES,literature,{}
+1498,Eupelmus popa,SPECIES,literature,{}
+1499,Euphranta lemniscata,SPECIES,literature,{}
+1500,Euphranta lemniseata,SPECIES,literature,{}
+1501,Euplatypus parallelus,SPECIES,literature,{}
+1502,Euplectrus leucostomus,SPECIES,literature,{}
+1503,Euponera atrata,SPECIES,literature,{}
+1504,Eupteromalus americanus,SPECIES,literature,{}
+1505,Eupteromalus micropterus,SPECIES,literature,{}
+1506,Euricania ocellus fascialis,SUBSPECIES,literature,{}
+1507,Eurodolia cardinalis,SPECIES,literature,{}
+1508,Euryphlepsia pallescens,SPECIES,literature,{}
+1509,Euscelis picturatus,SPECIES,literature,{}
+1510,Euscelis transversus,SPECIES,literature,{}
+1511,Euscelis vulnerans,SPECIES,literature,{}
+1512,Euwallacea destruens,SPECIES,literature,{}
+1513,Euwallacea perbrevis,SPECIES,literature,{}
+1514,Euwallacea piceus,SPECIES,literature,{}
+1515,Evania sericea,SPECIES,literature,{}
+1516,Evania variiceps,SPECIES,literature,{}
+1517,Evanta impressa,SPECIES,literature,{}
+1518,Exechia snyderi,SPECIES,literature,{}
+1519,Exitianus nanus,SPECIES,literature,{}
+1520,Exitianus simillimus,SPECIES,literature,{}
+1521,Exocentrus bioculatus,SPECIES,literature,{}
+1522,Exorista sorbillans,SPECIES,literature,{}
+1523,Exptochiomera japonica,SPECIES,literature,{}
+1524,Eysarcoris insularis,SPECIES,literature,{}
+1525,Fairmaire als,SPECIES,literature,{}
+1526,Fairmaire beschrieb die,SUBSPECIES,literature,{}
+1527,Fairmaire betrachtet und,SUBSPECIES,literature,{}
+1528,Fairmaire hatte seine,SUBSPECIES,literature,{}
+1529,Falsolophocnemis sinuatipes,SPECIES,literature,{}
+1530,Falsolophocnemis testaceitarsis,SPECIES,literature,{}
+1531,Falsonotostrongylium bradymeroides,SPECIES,literature,{}
+1532,Fannia leucosticta,SPECIES,literature,{}
+1533,Fannia prisca,SPECIES,literature,{}
+1534,Febra insularis,SPECIES,literature,{}
+1535,Febra nigroornata vanuana,SUBSPECIES,literature,{}
+1536,Febra ovata,SPECIES,literature,{}
+1537,Febra rubra,SPECIES,literature,{}
+1538,Febra semiaurantiaca,SPECIES,literature,{}
+1539,Febra varioloidea,SPECIES,literature,{}
+1540,Febra venusta,SPECIES,literature,{}
+1541,Ficicis despectus,SPECIES,literature,{}
+1542,Ficicis porcatus,SPECIES,literature,{}
+1543,Fiorinia cockerelli,SPECIES,literature,{}
+1544,Fiorinia fioriniae,SPECIES,literature,{}
+1545,Fiorinia fioriniae japonica,SUBSPECIES,literature,{}
+1546,Fiorinia japonica,SPECIES,literature,{}
+1547,Fiorinia nephelii,SPECIES,literature,{}
+1548,Fiorinia nephelit,SPECIES,literature,{}
+1549,Fiorinia pellucida,SPECIES,literature,{}
+1550,Flatoides fascialis,SPECIES,literature,{}
+1551,Foenatopus cervinus,SPECIES,literature,{}
+1552,Forcinella stali,SPECIES,literature,{}
+1553,Forcipomyia claggi,SPECIES,literature,{}
+1554,Forcipomyia esakiana,SPECIES,literature,{}
+1555,Forcipomyia fascicanda,SPECIES,literature,{}
+1556,Forcipomyia fascicauda,SPECIES,literature,{}
+1557,Forcipomyia fidens,SPECIES,literature,{}
+1558,Forcipomyia oligarthra,SPECIES,literature,{}
+1559,Forcipomyia ornata,SPECIES,literature,{}
+1560,Forcipomyia penniornata,SPECIES,literature,{}
+1561,Forcipomyia punctipes,SPECIES,literature,{}
+1562,Forcipomyia sauteri,SPECIES,literature,{}
+1563,Forcipomyia squamianulipes,SPECIES,literature,{}
+1564,Forficula riparia,SPECIES,literature,{}
+1565,Forjicesila pilicornis,SPECIES,literature,{}
+1566,Foudrasia des,SPECIES,literature,{}
+1567,Fraudatrix melas,SPECIES,literature,{}
+1568,Fucellia apicalis,SPECIES,literature,{}
+1569,Fucellia boninensis,SPECIES,literature,{}
+1570,Fulvius brevicornis,SPECIES,literature,{}
+1571,Fulvius buxtoni,SPECIES,literature,{}
+1572,Fulvius peregrinator,SPECIES,literature,{}
+1573,Fulvius samoanus,SPECIES,literature,{}
+1574,Furcaspis oceanicus,SPECIES,literature,{}
+1575,Fureaspis oceanica,SPECIES,literature,{}
+1576,Galeruca similis,SPECIES,literature,{}
+1577,Gardena catenarium,SPECIES,literature,{}
+1578,Geomyza laticosta,SPECIES,literature,{}
+1579,Geotomus juncudus,SPECIES,literature,{}
+1580,Germalus montandoni,SPECIES,literature,{}
+1581,Gesonia zonocera,SPECIES,literature,{}
+1582,Glaucias amyoti,SPECIES,literature,{}
+1583,Glaucias eburnopictus,SPECIES,literature,{}
+1584,Glaucias fulvescens,SPECIES,literature,{}
+1585,Glaucias inornatus,SPECIES,literature,{}
+1586,Glaucias lucidus,SPECIES,literature,{}
+1587,Glaucias lyratum,SPECIES,literature,{}
+1588,Glaucias robustus,SPECIES,literature,{}
+1589,Globicornis fulvipes,SPECIES,literature,{}
+1590,Gnalhocerus cornulus,SPECIES,literature,{}
+1591,Gnamptopsilopus pallidicornis,SPECIES,literature,{}
+1592,Gnathocerus cornutus,SPECIES,literature,{}
+1593,Goniodineura van der,SUBSPECIES,literature,{}
+1594,Goniophyto boninensis,SPECIES,literature,{}
+1595,Gonocephalum impictiim,SPECIES,literature,{}
+1596,Gonocephalum impictum,SPECIES,literature,{}
+1597,Gonocephalum pottsi,SPECIES,literature,{}
+1598,Gonocephalum verrucosum,SPECIES,literature,{}
+1599,Gonomyia digitifera,SPECIES,literature,{}
+1600,Gonomyia esakiella,SPECIES,literature,{}
+1601,Gonomyia pietatis,SPECIES,literature,{}
+1602,Gonomyia secreta,SPECIES,literature,{}
+1603,Goweria obscura,SPECIES,literature,{}
+1604,Grabhamia ambiguus,SPECIES,literature,{}
+1605,Graeffea coccophaga,SPECIES,literature,{}
+1606,Graejfea crouanii,SPECIES,literature,{}
+1607,Graphomya maculata,SPECIES,literature,{}
+1608,Graphomya minor,SPECIES,literature,{}
+1609,Graphomya rufitibia,SPECIES,literature,{}
+1610,Graphomyia stipata,SPECIES,literature,{}
+1611,Graptomyza minor,SPECIES,literature,{}
+1612,Graptomyza uchiyamai,SPECIES,literature,{}
+1613,Gressittiola platydemoides,SPECIES,literature,{}
+1614,Gryllus annulata,SPECIES,literature,{}
+1615,Gryllus elongatus,SPECIES,literature,{}
+1616,Gymnodia expansa,SPECIES,literature,{}
+1617,Gymnodia marguerita,SPECIES,literature,{}
+1618,Gymnodia tonitrui,SPECIES,literature,{}
+1619,Gymnoscymnus quadrimaculatus,SPECIES,literature,{}
+1620,Gymnostylina schmitzi,SPECIES,literature,{}
+1621,Habrocytus medicaginis,SPECIES,literature,{}
+1622,Haeckeliania brontispae,SPECIES,literature,{}
+1623,Haematobia flavohirta,SPECIES,literature,{}
+1624,Haematopinus tuberculatus,SPECIES,literature,{}
+1625,Haltica corusca,SPECIES,literature,{}
+1626,Haltica cucumeris,SPECIES,literature,{}
+1627,Haltica pubescens,SPECIES,literature,{}
+1628,Haltica undulata,SPECIES,literature,{}
+1629,Halyzia pallasii,SPECIES,literature,{}
+1630,Hamaxas esakii,SPECIES,literature,{}
+1631,Hamza uthiyamae,SPECIES,literature,{}
+1632,Hapalips samoensis,SPECIES,literature,{}
+1633,Hapalips taprobanae,SPECIES,literature,{}
+1634,Haplophallus boninensis,SPECIES,literature,{}
+1635,Haplophallus fuscistigma,SPECIES,literature,{}
+1636,Haptognathus minutus,SPECIES,literature,{}
+1637,Haptognathus nitidus,SPECIES,literature,{}
+1638,Haptognathus reticulatus,SPECIES,literature,{}
+1639,Haptoncus albertisi,SPECIES,literature,{}
+1640,Haptoncus arcuatus,SPECIES,literature,{}
+1641,Haptoncus attenuatus,SPECIES,literature,{}
+1642,Haptoncus barbulus,SPECIES,literature,{}
+1643,Haptoncus dispersus,SPECIES,literature,{}
+1644,Haptoncus epuraeoides,SPECIES,literature,{}
+1645,Haptoncus insularis,SPECIES,literature,{}
+1646,Haptoncus minutus,SPECIES,literature,{}
+1647,Haptoncus murrayi,SPECIES,literature,{}
+1648,Haptoncus opaculus,SPECIES,literature,{}
+1649,Haptoncus opacus,SPECIES,literature,{}
+1650,Haptoncus sobrinus,SPECIES,literature,{}
+1651,Haptoncus sordidus,SPECIES,literature,{}
+1652,Haptoncus testaceus,SPECIES,literature,{}
+1653,Haptoncus valgus,SPECIES,literature,{}
+1654,Harmonia axyridis,SPECIES,literature,{}
+1655,Harpaloxenus rasilis,SPECIES,literature,{}
+1656,Harpalus monilicornis,SPECIES,literature,{}
+1657,Heleanna melanomochla,SPECIES,literature,{}
+1658,Hemerobius abdominalis,SPECIES,literature,{}
+1659,Hemerobius pedicularius,SPECIES,literature,{}
+1660,Hemiberlesia cyanophylli,SPECIES,literature,{}
+1661,Hemiberlesia rapax,SPECIES,literature,{}
+1662,Hemichionaspis marchali,SPECIES,literature,{}
+1663,Hemichionaspis minor strachant,SUBSPECIES,literature,{}
+1664,Hemichionaspis townsendi,SPECIES,literature,{}
+1665,Hemicordulia ogasawarensis,SPECIES,literature,{}
+1666,Hemiptarsenus varicornis,SPECIES,literature,{}
+1667,Hemipyrellia cyaneo-marginata,SPECIES,literature,{}
+1668,Hemipyrellia ligurriens,SPECIES,literature,{}
+1669,Henicospilus taiwanus,SPECIES,literature,{}
+1670,Herpystis avida,SPECIES,literature,{}
+1671,Hesperophanes olidus,SPECIES,literature,{}
+1672,Heterobostrychus hamatipennis,SPECIES,literature,{}
+1673,Heterocaecilius adamsi,SPECIES,literature,{}
+1674,Heterocaecilius campanula,SPECIES,literature,{}
+1675,Heterocaecilius dybasi,SPECIES,literature,{}
+1676,Heterocaecilius minotus,SPECIES,literature,{}
+1677,Heterophyllus pacificus,SPECIES,literature,{}
+1678,Heteropsylla longicornis,SPECIES,literature,{}
+1679,Heterostrongylium weiskei,SPECIES,literature,{}
+1680,Hexagonia palauensis,SPECIES,literature,{}
+1681,Hill behind,SPECIES,literature,{}
+1682,Hippobosca equina,SPECIES,literature,{}
+1683,Hippobosca longipennis,SPECIES,literature,{}
+1684,Hippobosca sitiens,SPECIES,literature,{}
+1685,Hippobosca variegata,SPECIES,literature,{}
+1686,Hippobosca viridipes,SPECIES,literature,{}
+1687,Holochlora fuscospinosa,SPECIES,literature,{}
+1688,Holochlora nawae,SPECIES,literature,{}
+1689,Holostrongylium gravidum,SPECIES,literature,{}
+1690,Homoneura carolinensis,SPECIES,literature,{}
+1691,Homoneura denticulimentula,SPECIES,literature,{}
+1692,Homoneura dimorpha,SPECIES,literature,{}
+1693,Homoneura setulosa,SPECIES,literature,{}
+1694,Horcoma lacteipennis,SPECIES,literature,{}
+1695,Howardia biclavis,SPECIES,literature,{}
+1696,Hyadesimyia grisea,SPECIES,literature,{}
+1697,Hyalopeplus amboinae,SPECIES,literature,{}
+1698,Hylesinus despectus,SPECIES,literature,{}
+1699,Hylesinus porcatus,SPECIES,literature,{}
+1700,Hylesinus samoanus,SPECIES,literature,{}
+1701,Hypocryphalus basihirtus,SPECIES,literature,{}
+1702,Hypocryphalus imitans,SPECIES,literature,{}
+1703,Hypocryphalus mangiferae,SPECIES,literature,{}
+1704,Hypocryphalus mollis,SPECIES,literature,{}
+1705,Hypocryphalus polynesiae,SPECIES,literature,{}
+1706,Hypocryphalus tutuilaensis,SPECIES,literature,{}
+1707,Hypophlaeus filum,SPECIES,literature,{}
+1708,Hypophloeus ater,SPECIES,literature,{}
+1709,Hypophloeus cylindricollis,SPECIES,literature,{}
+1710,Hypophloeus cylindricus,SPECIES,literature,{}
+1711,Hypophloeus dimidiatus,SPECIES,literature,{}
+1712,Hypophloeus filum,SPECIES,literature,{}
+1713,Hypothenemus areccae,SPECIES,literature,{}
+1714,Hypothenemus basjoo,SPECIES,literature,{}
+1715,Hypothenemus birmanus,SPECIES,literature,{}
+1716,Hypothenemus brunneus,SPECIES,literature,{}
+1717,Hypothenemus capitalis,SPECIES,literature,{}
+1718,Hypothenemus eupolyphagus,SPECIES,literature,{}
+1719,Hypothenemus maculicollis,SPECIES,literature,{}
+1720,Hypothenemus mangarevanus,SPECIES,literature,{}
+1721,Hypothenemus seriatus,SPECIES,literature,{}
+1722,Hypothenemus striatulus,SPECIES,literature,{}
+1723,Hypothenemus sylvicola,SPECIES,literature,{}
+1724,Icerya aegyptiaea,SPECIES,literature,{}
+1725,Icerya jacobsoni,SPECIES,literature,{}
+1726,Icosta albipennis ardeae,SUBSPECIES,literature,{}
+1727,Icosta chalcolampra,SPECIES,literature,{}
+1728,Icosta samoana,SPECIES,literature,{}
+1729,Ikedana latipennis,SPECIES,literature,{}
+1730,Iphrobrium guamense,SPECIES,literature,{}
+1731,Iphrobrium palauense,SPECIES,literature,{}
+1732,Ischiodontus hawaiiensis,SPECIES,literature,{}
+1733,Ischnura ezoin,SPECIES,literature,{}
+1734,Issarius tartarus,SPECIES,literature,{}
+1735,Iwosiopelus masudai,SPECIES,literature,{}
+1736,Japanagromyza elaeagni,SPECIES,literature,{}
+1737,Japanagromyza insularum,SPECIES,literature,{}
+1738,Kakuna sameshimae,SPECIES,literature,{}
+1739,Kallitaxila suturalis,SPECIES,literature,{}
+1740,Keroplatus alnulipes,SPECIES,literature,{}
+1741,Kevanophisis ponapensis,SPECIES,literature,{}
+1742,Kops atone,SPECIES,literature,{}
+1743,Krakatauia evulgatum,SPECIES,literature,{}
+1744,Labia grandis,SPECIES,literature,{}
+1745,Labia pilicornis,SPECIES,literature,{}
+1746,Labia wallacei,SPECIES,literature,{}
+1747,Lagria livida,SPECIES,literature,{}
+1748,Laius cyaneus,SPECIES,literature,{}
+1749,Laius palauensis,SPECIES,literature,{}
+1750,Laius yapensis,SPECIES,literature,{}
+1751,Lallemandana upiana,SPECIES,literature,{}
+1752,Lamenia numilor hulo,SUBSPECIES,literature,{}
+1753,Lange der,SPECIES,literature,{}
+1754,Lange eines,SPECIES,literature,{}
+1755,Lantanophaga pusillidactyla,SPECIES,literature,{}
+1756,Laodelphax striatella,SPECIES,literature,{}
+1757,Lasiochilus campylus,SPECIES,literature,{}
+1758,Lasiochilus mesostenus,SPECIES,literature,{}
+1759,Lasiohelea esakit,SPECIES,literature,{}
+1760,Lathromeris pacifica,SPECIES,literature,{}
+1761,Lathyrophthalmus suavissimus,SPECIES,literature,{}
+1762,Lauxania forcipata,SPECIES,literature,{}
+1763,Lauxania spiculata,SPECIES,literature,{}
+1764,Leperisinus pacificus,SPECIES,literature,{}
+1765,Lepidiota carolinensis,SPECIES,literature,{}
+1766,Lepidopsocus pallidus,SPECIES,literature,{}
+1767,Lepidosaphes punicae,SPECIES,literature,{}
+1768,Lepidosaphes rubrovittatus,SPECIES,literature,{}
+1769,Lepiopsocus exiguus,SPECIES,literature,{}
+1770,Leptocera atoma,SPECIES,literature,{}
+1771,Leptocera atomus,SPECIES,literature,{}
+1772,Leptocera boharti,SPECIES,literature,{}
+1773,Leptocera boninensis,SPECIES,literature,{}
+1774,Leptocera collinella,SPECIES,literature,{}
+1775,Leptocera conica,SPECIES,literature,{}
+1776,Leptocera disciseta,SPECIES,literature,{}
+1777,Leptocera downesi,SPECIES,literature,{}
+1778,Leptocera femorina,SPECIES,literature,{}
+1779,Leptocera ferruginata,SPECIES,literature,{}
+1780,Leptocera fittkaui,SPECIES,literature,{}
+1781,Leptocera hirtula,SPECIES,literature,{}
+1782,Leptocera longiventris,SPECIES,literature,{}
+1783,Leptocera lutea,SPECIES,literature,{}
+1784,Leptocera punctipennis,SPECIES,literature,{}
+1785,Leptocera subtinctipennis,SPECIES,literature,{}
+1786,Leptocera vagans,SPECIES,literature,{}
+1787,Leptocoris ahnnei,SPECIES,literature,{}
+1788,Leptocoris insularis,SPECIES,literature,{}
+1789,Leptocoris isolata,SPECIES,literature,{}
+1790,Leptocoris lariversi,SPECIES,literature,{}
+1791,Leptocoris rufomarginata,SPECIES,literature,{}
+1792,Leptocoris rufomarginatus,SPECIES,literature,{}
+1793,Leptocoris spectabilis,SPECIES,literature,{}
+1794,Leptocoris tagalica,SPECIES,literature,{}
+1795,Leptocoris taitensis,SPECIES,literature,{}
+1796,Leptocoris vicina,SPECIES,literature,{}
+1797,Leptocoris vulgaris,SPECIES,literature,{}
+1798,Leptocorisa arcuata,SPECIES,literature,{}
+1799,Leptocorixa acuta,SPECIES,literature,{}
+1800,Leptoterna nicotianae,SPECIES,literature,{}
+1801,Leptothorax nudis,SPECIES,literature,{}
+1802,Leptovanua suturalis,SPECIES,literature,{}
+1803,Lethaeus descriptus,SPECIES,literature,{}
+1804,Leucaspis indica,SPECIES,literature,{}
+1805,Leucophenga halteropunctata,SPECIES,literature,{}
+1806,Leucophenga nigriventris,SPECIES,literature,{}
+1807,Libellula virginia,SPECIES,literature,{}
+1808,Libnotes notata vander,SUBSPECIES,literature,{}
+1809,Licyllus viridipennis,SPECIES,literature,{}
+1810,Limnobia saltens,SPECIES,literature,{}
+1811,Limnophora boninensis,SPECIES,literature,{}
+1812,Limnophora bracteola,SPECIES,literature,{}
+1813,Limnophora carolina,SPECIES,literature,{}
+1814,Limnophora dybasi,SPECIES,literature,{}
+1815,Limnophora exilis,SPECIES,literature,{}
+1816,Limnophora haha,SPECIES,literature,{}
+1817,Limnophora setibunda,SPECIES,literature,{}
+1818,Limnophora umbra,SPECIES,literature,{}
+1819,Limonia basifusca,SPECIES,literature,{}
+1820,Limonia bidenioides,SPECIES,literature,{}
+1821,Limonia boninensis,SPECIES,literature,{}
+1822,Limonia boniniana,SPECIES,literature,{}
+1823,Limonia carolinensis,SPECIES,literature,{}
+1824,Limonia cinereicapilla,SPECIES,literature,{}
+1825,Limonia delandi,SPECIES,literature,{}
+1826,Limonia gutiula,SPECIES,literature,{}
+1827,Limonia guttula,SPECIES,literature,{}
+1828,Limonia illingworthi,SPECIES,literature,{}
+1829,Limonia kotoshoensis,SPECIES,literature,{}
+1830,Limonia magnistyla,SPECIES,literature,{}
+1831,Limonia marksae,SPECIES,literature,{}
+1832,Limonia microstigma carolinensis,SUBSPECIES,literature,{}
+1833,Limonia neomisera,SPECIES,literature,{}
+1834,Limonia pectinunguis,SPECIES,literature,{}
+1835,Limonia pontophila,SPECIES,literature,{}
+1836,Limonia seychellensis,SPECIES,literature,{}
+1837,Limonia snyderi,SPECIES,literature,{}
+1838,Limonia sus,SPECIES,literature,{}
+1839,Limonia tusitala,SPECIES,literature,{}
+1840,Limonia tusitala palauicola,SUBSPECIES,literature,{}
+1841,Limonia unisetosa perelongata,SUBSPECIES,literature,{}
+1842,Limosina atoma,SPECIES,literature,{}
+1843,Limosina ferruginata,SPECIES,literature,{}
+1844,Limosina fittkaui,SPECIES,literature,{}
+1845,Limosina hirtula,SPECIES,literature,{}
+1846,Limosina subtinctipennis,SPECIES,literature,{}
+1847,Linaltica simmondsi,SPECIES,literature,{}
+1848,Linognathus africanus,SPECIES,literature,{}
+1849,Liopygia ruficornis,SPECIES,literature,{}
+1850,Lipolexis scutellaris,SPECIES,literature,{}
+1851,Lipoptena fortisetosa,SPECIES,literature,{}
+1852,Lipoptena japonica,SPECIES,literature,{}
+1853,Lipoptena pteropi,SPECIES,literature,{}
+1854,Lipoptena rusaecola,SPECIES,literature,{}
+1855,Lipoptena sigma,SPECIES,literature,{}
+1856,Liriomyza cruciferarum,SPECIES,literature,{}
+1857,Lispe albifacies,SPECIES,literature,{}
+1858,Lispe assimilis,SPECIES,literature,{}
+1859,Lispe baba,SPECIES,literature,{}
+1860,Lispe boninensis,SPECIES,literature,{}
+1861,Lispe hilli,SPECIES,literature,{}
+1862,Lispe incerta,SPECIES,literature,{}
+1863,Lispe pumiloides,SPECIES,literature,{}
+1864,Lispocephala ciliata,SPECIES,literature,{}
+1865,Lispocephala dispersa,SPECIES,literature,{}
+1866,Lispocephala inaequalis,SPECIES,literature,{}
+1867,Litargus vestitus,SPECIES,literature,{}
+1868,Lobophora laetior,SPECIES,literature,{}
+1869,Lobosciara spinipennis,SPECIES,literature,{}
+1870,Locusta japonica,SPECIES,literature,{}
+1871,Longipalpus saipanensis,SPECIES,literature,{}
+1872,Longitarsus insularis,SPECIES,literature,{}
+1873,Longitarsus lewisiellus,SPECIES,literature,{}
+1874,Longitarsus ligustrivorus,SPECIES,literature,{}
+1875,Lophocnemis aeneus,SPECIES,literature,{}
+1876,Lophocnemis brandti,SPECIES,literature,{}
+1877,Lophocnemis cyaneus,SPECIES,literature,{}
+1878,Lophocnemis keyensis,SPECIES,literature,{}
+1879,Lophocnemis laevicollis,SPECIES,literature,{}
+1880,Lophocnemis morgei,SPECIES,literature,{}
+1881,Lophocnemis semperi,SPECIES,literature,{}
+1882,Lophocnemis solomonis,SPECIES,literature,{}
+1883,Lophopterygella cincticornis,SPECIES,literature,{}
+1884,Lorelus blairi,SPECIES,literature,{}
+1885,Lorelus carolinensis,SPECIES,literature,{}
+1886,Lorelus clarkei,SPECIES,literature,{}
+1887,Lorichius umbonatus,SPECIES,literature,{}
+1888,Losbanus nishidai,SPECIES,literature,{}
+1889,Lucilia albopilosa,SPECIES,literature,{}
+1890,Lucilia argyrocephala,SPECIES,literature,{}
+1891,Lucilia barberi,SPECIES,literature,{}
+1892,Lucilia basalis,SPECIES,literature,{}
+1893,Lucilia callida,SPECIES,literature,{}
+1894,Lucilia chloris,SPECIES,literature,{}
+1895,Lucilia dorsalis,SPECIES,literature,{}
+1896,Lucilia elegans,SPECIES,literature,{}
+1897,Lucilia flaviceps,SPECIES,literature,{}
+1898,Lucilia flavipennis,SPECIES,literature,{}
+1899,Lucilia frontalis,SPECIES,literature,{}
+1900,Lucilia giraulti,SPECIES,literature,{}
+1901,Lucilia latifrons,SPECIES,literature,{}
+1902,Lucilia modesta,SPECIES,literature,{}
+1903,Lucilia pallescens,SPECIES,literature,{}
+1904,Lucilia pubescens,SPECIES,literature,{}
+1905,Lucilia sayi,SPECIES,literature,{}
+1906,Ludius erubescens,SPECIES,literature,{}
+1907,Lygaeus australis,SPECIES,literature,{}
+1908,Lygaeus flavomarginatus,SPECIES,literature,{}
+1909,Lygaeus hospes,SPECIES,literature,{}
+1910,Lygaeus membranaceus,SPECIES,literature,{}
+1911,Lygaeus pacificus,SPECIES,literature,{}
+1912,Lygaeus rufomarginatus,SPECIES,literature,{}
+1913,Lygaeus taitense,SPECIES,literature,{}
+1914,Lygus godmani,SPECIES,literature,{}
+1915,Lygus rubrotinctus,SPECIES,literature,{}
+1916,Lygus uruguayensis,SPECIES,literature,{}
+1917,Lymaenon saipanensis,SPECIES,literature,{}
+1918,Lynchia setosa,SPECIES,literature,{}
+1919,Lyphia laeviceps,SPECIES,literature,{}
+1920,Lyriothemis insularis,SPECIES,literature,{}
+1921,Lysiphlebus testaceipes,SPECIES,literature,{}
+1922,Macrolonidea hyalinus,SPECIES,literature,{}
+1923,Macronovius cardinalis,SPECIES,literature,{}
+1924,Macropterous form,SPECIES,literature,{}
+1925,Macroxiphus globiceratus,SPECIES,literature,{}
+1926,Madagascar through,SPECIES,literature,{}
+1927,Major weeds include,SUBSPECIES,literature,{}
+1928,Maltypus marquesanus,SPECIES,literature,{}
+1929,Manobia costata,SPECIES,literature,{}
+1930,Manobia levicollis,SPECIES,literature,{}
+1931,Manobia metallica,SPECIES,literature,{}
+1932,Manobia obtusicollis,SPECIES,literature,{}
+1933,Manobia producticollis,SPECIES,literature,{}
+1934,Mansonia crassipes,SPECIES,literature,{}
+1935,Mansonia diaretus,SPECIES,literature,{}
+1936,Mantis gigas,SPECIES,literature,{}
+1937,Mantis jamaicensis,SPECIES,literature,{}
+1938,Mantis viridana,SPECIES,literature,{}
+1939,Mantis viridis,SPECIES,literature,{}
+1940,Marasmarcha liophanes,SPECIES,literature,{}
+1941,Marianas other than,SUBSPECIES,literature,{}
+1942,Martianus castaneus,SPECIES,literature,{}
+1943,Martianus dermestoides,SPECIES,literature,{}
+1944,Maruca caterpillar,SPECIES,literature,{}
+1945,Mastigocoris angulatus,SPECIES,literature,{}
+1946,Mecistoscelis scirtetoides,SPECIES,literature,{}
+1947,Medetera babelthaup,SPECIES,literature,{}
+1948,Medetera salomonis,SPECIES,literature,{}
+1949,Megapenthes brunniventris,SPECIES,literature,{}
+1950,Megapenthes carinifrons,SPECIES,literature,{}
+1951,Megapenthes disjunctus,SPECIES,literature,{}
+1952,Megapenthes subinconditus,SPECIES,literature,{}
+1953,Megaselia boninensis,SPECIES,literature,{}
+1954,Megaselia heterochaeta,SPECIES,literature,{}
+1955,Megaselia micronesiae,SPECIES,literature,{}
+1956,Megaselia tenebricior,SPECIES,literature,{}
+1957,Megaselia tetricifrons,SPECIES,literature,{}
+1958,Meimuna bonin-insulana,SPECIES,literature,{}
+1959,Meimuna ogasawarensis,SPECIES,literature,{}
+1960,Meinen lieben,SPECIES,literature,{}
+1961,Melampsalta rosacea,SPECIES,literature,{}
+1962,Melampsalta yapetlsis,SPECIES,literature,{}
+1963,Melanagromyza atomella,SPECIES,literature,{}
+1964,Melanagromyza boninensis,SPECIES,literature,{}
+1965,Melanoxanthus arcuatus,SPECIES,literature,{}
+1966,Melanoxanthus argus,SPECIES,literature,{}
+1967,Melanoxanthus comptus,SPECIES,literature,{}
+1968,Melanoxanthus dissitus,SPECIES,literature,{}
+1969,Melanoxanthus divergens,SPECIES,literature,{}
+1970,Melanoxanthus festivus,SPECIES,literature,{}
+1971,Melanoxanthus lariversi,SPECIES,literature,{}
+1972,Melanoxanthus lepidus,SPECIES,literature,{}
+1973,Melanoxanthus luteus aquilus,SUBSPECIES,literature,{}
+1974,Melanoxanthus luteus luteus,SUBSPECIES,literature,{}
+1975,Melanoxanthus minor,SPECIES,literature,{}
+1976,Melanoxanthus sannio,SPECIES,literature,{}
+1977,Melanoxanthus silus,SPECIES,literature,{}
+1978,Melanoxanthus simplex,SPECIES,literature,{}
+1979,Melanoxanthus varians,SPECIES,literature,{}
+1980,Melanoxanthus venustus,SPECIES,literature,{}
+1981,Melichariella bomnensis,SPECIES,literature,{}
+1982,Melichariella boninensis,SPECIES,literature,{}
+1983,Melophagus ovinus,SPECIES,literature,{}
+1984,Menandris aenea,SPECIES,literature,{}
+1985,Menandris blairi,SPECIES,literature,{}
+1986,Menimus abbrcviatus,SPECIES,literature,{}
+1987,Menimus abbreviatus,SPECIES,literature,{}
+1988,Menimus adamsi,SPECIES,literature,{}
+1989,Menimus csikii,SPECIES,literature,{}
+1990,Menimus nitidus,SPECIES,literature,{}
+1991,Menimus pauxillus,SPECIES,literature,{}
+1992,Menimus samoensis,SPECIES,literature,{}
+1993,Menimus tagaloides,SPECIES,literature,{}
+1994,Merionoeda tosawai,SPECIES,literature,{}
+1995,Meristhus scobinula,SPECIES,literature,{}
+1996,Merostenus guamensis,SPECIES,literature,{}
+1997,Mesepora boninensis,SPECIES,literature,{}
+1998,Mesepora issiforlllis,SPECIES,literature,{}
+1999,Mesepora issiformis,SPECIES,literature,{}
+2000,Mesepora ogasawarana,SPECIES,literature,{}
+2001,Mesomorphus villiger,SPECIES,literature,{}
+2002,Metaleyrodes oceanica,SPECIES,literature,{}
+2003,Metamasius hemipterus,SPECIES,literature,{}
+2004,Metapelma palauensis,SPECIES,literature,{}
+2005,Metasyrphus fasciatus,SPECIES,literature,{}
+2006,Metopina ventralis,SPECIES,literature,{}
+2007,Metriocnemus adjecta,SPECIES,literature,{}
+2008,Metriocnemus claggi,SPECIES,literature,{}
+2009,Metriocnemus van der,SUBSPECIES,literature,{}
+2010,Metriona circumdata,SPECIES,literature,{}
+2011,Mezira angularis,SPECIES,literature,{}
+2012,Mezira nanamaraki,SPECIES,literature,{}
+2013,Mezira tagalica,SPECIES,literature,{}
+2014,Micrepitrix carolina,SPECIES,literature,{}
+2015,Microchrysa chrysidiformis,SPECIES,literature,{}
+2016,Microcrypticus scriptipennis,SPECIES,literature,{}
+2017,Microlynchia galapagoensis,SPECIES,literature,{}
+2018,Micromenandris mirabilis,SPECIES,literature,{}
+2019,Micronesia except,SPECIES,literature,{}
+2020,Micronesia includes,SPECIES,literature,{}
+2021,Micronesia than,SPECIES,literature,{}
+2022,Microstrongylium cyanicolle,SPECIES,literature,{}
+2023,Mimeseoptilus pumilia,SPECIES,literature,{}
+2024,Mimothydemus angustatus,SPECIES,literature,{}
+2025,Miotropis platynotae,SPECIES,literature,{}
+2026,Mirosternus boninensis,SPECIES,literature,{}
+2027,Mirosternus gressitti,SPECIES,literature,{}
+2028,Mirosternus guamensis,SPECIES,literature,{}
+2029,Monalocoris filicis,SPECIES,literature,{}
+2030,Monochamus acanthias,SPECIES,literature,{}
+2031,Monochamus fasciatus,SPECIES,literature,{}
+2032,Monocrepidius umbraculatus,SPECIES,literature,{}
+2033,Monohelea insularis,SPECIES,literature,{}
+2034,Monohelea mcdanieli,SPECIES,literature,{}
+2035,Monomacra bouqueti,SPECIES,literature,{}
+2036,Monomorium chinense-group,SPECIES,literature,{}
+2037,Montandoniola thripodes,SPECIES,literature,{}
+2038,Morion orientale,SPECIES,literature,{}
+2039,Muiraiyricen pallescens,SPECIES,literature,{}
+2040,Musca angustifrons,SPECIES,literature,{}
+2041,Musca biseta,SPECIES,literature,{}
+2042,Musca bovina,SPECIES,literature,{}
+2043,Musca corvina,SPECIES,literature,{}
+2044,Musca divaricata,SPECIES,literature,{}
+2045,Musca fortunata,SPECIES,literature,{}
+2046,Musca hervei,SPECIES,literature,{}
+2047,Musca lagyra,SPECIES,literature,{}
+2048,Musca latifrons,SPECIES,literature,{}
+2049,Musca ligurriens,SPECIES,literature,{}
+2050,Musca maculata,SPECIES,literature,{}
+2051,Musca minor,SPECIES,literature,{}
+2052,Musca multispina,SPECIES,literature,{}
+2053,Musca nebulo,SPECIES,literature,{}
+2054,Musca nobilis,SPECIES,literature,{}
+2055,Musca promiscua,SPECIES,literature,{}
+2056,Musca pruinosa,SPECIES,literature,{}
+2057,Musca pumila,SPECIES,literature,{}
+2058,Musca ruficornis,SPECIES,literature,{}
+2059,Musca scapularis,SPECIES,literature,{}
+2060,Musca sericata,SPECIES,literature,{}
+2061,Musca solaia,SPECIES,literature,{}
+2062,Musca sordidissima,SPECIES,literature,{}
+2063,Musca tegularia,SPECIES,literature,{}
+2064,Musca vagatoria,SPECIES,literature,{}
+2065,Musca vicaria,SPECIES,literature,{}
+2066,Musca vulpina,SPECIES,literature,{}
+2067,Mycodrosophila ponapeae,SPECIES,literature,{}
+2068,Mydaea apicalis,SPECIES,literature,{}
+2069,Mydaea rufa,SPECIES,literature,{}
+2070,Mydaea van,SPECIES,literature,{}
+2071,Myndorus palescens,SPECIES,literature,{}
+2072,Myndorus palleseens,SPECIES,literature,{}
+2073,Myndus marginatns,SPECIES,literature,{}
+2074,Myodocha trinotata,SPECIES,literature,{}
+2075,Myophora argyrostoma,SPECIES,literature,{}
+2076,Myophora peregrina,SPECIES,literature,{}
+2077,Myophora rapida,SPECIES,literature,{}
+2078,Myophora subrotunda,SPECIES,literature,{}
+2079,Myophthiria capsoides,SPECIES,literature,{}
+2080,Myophthiria lygaeoides,SPECIES,literature,{}
+2081,Myophthiria reduvioides,SPECIES,literature,{}
+2082,Myopsocus clunius,SPECIES,literature,{}
+2083,Myopsocus palauensis,SPECIES,literature,{}
+2084,Myopsocus punctatus,SPECIES,literature,{}
+2085,Myrimica insolens,SPECIES,literature,{}
+2086,Myrmeleon solers,SPECIES,literature,{}
+2087,Myrmeleon striola,SPECIES,literature,{}
+2088,Myrmica punctata,SPECIES,literature,{}
+2089,Mysus asclepiadis,SPECIES,literature,{}
+2090,Mytilaspis auriculata,SPECIES,literature,{}
+2091,Mytilaspis pandani,SPECIES,literature,{}
+2092,Myzus malvae,SPECIES,literature,{}
+2093,Nabis fasciata,SPECIES,literature,{}
+2094,Nanyohanmus luteosparsus,SPECIES,literature,{}
+2095,Narbo metochoides,SPECIES,literature,{}
+2096,Neanias ogasawarensis,SPECIES,literature,{}
+2097,Nenomoshia aeraria,SPECIES,literature,{}
+2098,Nenomoshia callicratis,SPECIES,literature,{}
+2099,Nenomoshia miltographa,SPECIES,literature,{}
+2100,Neodiploconus angustus,SPECIES,literature,{}
+2101,Neodiploconus exilis,SPECIES,literature,{}
+2102,Neodiploconus exis,SPECIES,literature,{}
+2103,Neodiploconus haddeni,SPECIES,literature,{}
+2104,Neodiploconus marginatus,SPECIES,literature,{}
+2105,Neodiploconus niger,SPECIES,literature,{}
+2106,Neodiploconus nigripes,SPECIES,literature,{}
+2107,Neodiploconus nitens,SPECIES,literature,{}
+2108,Neodiploconus surdus,SPECIES,literature,{}
+2109,Neoempheria vicina,SPECIES,literature,{}
+2110,Neomenimus clavatus,SPECIES,literature,{}
+2111,Neoripersia ogasawarensis,SPECIES,literature,{}
+2112,Neotagatus tuberculiger,SPECIES,literature,{}
+2113,Neotrichophorus erubescens,SPECIES,literature,{}
+2114,Nephaspis bicolor,SPECIES,literature,{}
+2115,Nephus melinus,SPECIES,literature,{}
+2116,Nepticulomima bothriata,SPECIES,literature,{}
+2117,Nepticulomima lineatus,SPECIES,literature,{}
+2118,Nesenicocephalus dybasi,SPECIES,literature,{}
+2119,Nesohaltica atra,SPECIES,literature,{}
+2120,Nesohaltica brunnea,SPECIES,literature,{}
+2121,Nesohaltica lauensis,SPECIES,literature,{}
+2122,Nesohaltica nigra,SPECIES,literature,{}
+2123,Nesohaltica vitiensis,SPECIES,literature,{}
+2124,Nesophrosyne argentatus distam,SUBSPECIES,literature,{}
+2125,Nesorhamma halcas chalcas,SUBSPECIES,literature,{}
+2126,Nestra ruficollis,SPECIES,literature,{}
+2127,Neuroctenus abdominalis,SPECIES,literature,{}
+2128,Neuroctenus angulatus,SPECIES,literature,{}
+2129,Neuroctenus lobatus,SPECIES,literature,{}
+2130,Neuroctenus palauensis,SPECIES,literature,{}
+2131,Neuroctenus variegatus,SPECIES,literature,{}
+2132,Nezara pellucida,SPECIES,literature,{}
+2133,Nicobium castaneum,SPECIES,literature,{}
+2134,Niphohammus auripilis,SPECIES,literature,{}
+2135,Niphohammus korolensis,SPECIES,literature,{}
+2136,Nipponorthezia guadaicanalia,SPECIES,literature,{}
+2137,Nipponorthezia guadaleanalia,SPECIES,literature,{}
+2138,Nitidula cadaverina,SPECIES,literature,{}
+2139,Nitidula dimidiatus,SPECIES,literature,{}
+2140,Nitidula flexulosa,SPECIES,literature,{}
+2141,Nitidula intendens,SPECIES,literature,{}
+2142,Nitidula quadrata,SPECIES,literature,{}
+2143,Nitidula quadriguttata,SPECIES,literature,{}
+2144,Nitidula significans,SPECIES,literature,{}
+2145,Nodostoma consimile,SPECIES,literature,{}
+2146,Noliphus erythrocephalus,SPECIES,literature,{}
+2147,Nomadaeris guttulosa guttulosa,SUBSPECIES,literature,{}
+2148,Nonarthra cyanea,SPECIES,literature,{}
+2149,Nonarthra cyaneum,SPECIES,literature,{}
+2150,Nonarthra fulvum,SPECIES,literature,{}
+2151,Norbanus elongastus,SPECIES,literature,{}
+2152,Notostrongylium asperipenne,SPECIES,literature,{}
+2153,Notostrongylium kaszabi,SPECIES,literature,{}
+2154,Notostrongylium papuanum,SPECIES,literature,{}
+2155,Notostrongylium rugosicolle,SPECIES,literature,{}
+2156,Notostrongylium salomonis,SPECIES,literature,{}
+2157,Novius cardinalis,SPECIES,literature,{}
+2158,Nymphopsocus troglodytes,SPECIES,literature,{}
+2159,Nysius picipes,SPECIES,literature,{}
+2160,Nysius vinitor,SPECIES,literature,{}
+2161,Obelosia plusiivorax,SPECIES,literature,{}
+2162,Oceanophisis kororensis,SPECIES,literature,{}
+2163,Ocellatoria gravinympha,SPECIES,literature,{}
+2164,Ochthiphila discoglauca,SPECIES,literature,{}
+2165,Octaspidiotus araucariae,SPECIES,literature,{}
+2166,Odonaspis morrisoni,SPECIES,literature,{}
+2167,Odonaspis penicillata,SPECIES,literature,{}
+2168,Odonaspis secreta,SPECIES,literature,{}
+2169,Odonteucoila floccosa,SPECIES,literature,{}
+2170,Oechalia schellenbe gii,SUBSPECIES,literature,{}
+2171,Oedipoda obscura,SPECIES,literature,{}
+2172,Ogasawara testacea,SPECIES,literature,{}
+2173,Oidaematophorus hirosakianus,SPECIES,literature,{}
+2174,Olenecamptus lacteoguttatus,SPECIES,literature,{}
+2175,Olethrius glabrus,SPECIES,literature,{}
+2176,Olfersia ardeae,SPECIES,literature,{}
+2177,Olfersia botauri,SPECIES,literature,{}
+2178,Olfersia courtilleri,SPECIES,literature,{}
+2179,Olfersia erythropsis,SPECIES,literature,{}
+2180,Olfersia fossulata,SPECIES,literature,{}
+2181,Olfersia sordida,SPECIES,literature,{}
+2182,Oliarus boninensis,SPECIES,literature,{}
+2183,Oliarus ogasawarensis,SPECIES,literature,{}
+2184,Oligosita utills,SPECIES,literature,{}
+2185,Oligotoma humbertiana,SPECIES,literature,{}
+2186,Oligotoma saundersii,SPECIES,literature,{}
+2187,Omania marksae,SPECIES,literature,{}
+2188,Omoglymmius impletus,SPECIES,literature,{}
+2189,Omorgus punctatus,SPECIES,literature,{}
+2190,Omphale metallicus,SPECIES,literature,{}
+2191,Omphrale papuana,SPECIES,literature,{}
+2192,Oncopeltus confusus,SPECIES,literature,{}
+2193,Oncopeltus nigriceps,SPECIES,literature,{}
+2194,Oncylocotis capitonis,SPECIES,literature,{}
+2195,Oncylocotis esakii,SPECIES,literature,{}
+2196,Oncylocotis gracilis,SPECIES,literature,{}
+2197,Ootetrastichus beatus,SPECIES,literature,{}
+2198,Ootetrastichus fonnosanus,SPECIES,literature,{}
+2199,Ootetrastichus formosanus,SPECIES,literature,{}
+2200,Opatrum laevigatum,SPECIES,literature,{}
+2201,Opatrum villiger,SPECIES,literature,{}
+2202,Ophiomyia lantanae,SPECIES,literature,{}
+2203,Ophiomyia leucolepis,SPECIES,literature,{}
+2204,Ophion expeditus,SPECIES,literature,{}
+2205,Ophion nocturnus,SPECIES,literature,{}
+2206,Ophyra aenescens,SPECIES,literature,{}
+2207,Ophyra nigra,SPECIES,literature,{}
+2208,Ophyra trochanterata,SPECIES,literature,{}
+2209,Opomyza illota,SPECIES,literature,{}
+2210,Opuna hawaiiensis,SPECIES,literature,{}
+2211,Orchisia costata,SPECIES,literature,{}
+2212,Orfelia digitata,SPECIES,literature,{}
+2213,Orfelia spinosa,SPECIES,literature,{}
+2214,Orimarga hygropetrica,SPECIES,literature,{}
+2215,Orius niobe,SPECIES,literature,{}
+2216,Ornithoctona australasiae,SPECIES,literature,{}
+2217,Ornithoctona fusciventris,SPECIES,literature,{}
+2218,Ornithoctona magna,SPECIES,literature,{}
+2219,Ornithoctona melaena,SPECIES,literature,{}
+2220,Ornithoctona soror,SPECIES,literature,{}
+2221,Ornithoctona vitrina,SPECIES,literature,{}
+2222,Ornithoica aequisenta,SPECIES,literature,{}
+2223,Ornithoica annalis,SPECIES,literature,{}
+2224,Ornithoica beccariina,SPECIES,literature,{}
+2225,Ornithoica bistativa,SPECIES,literature,{}
+2226,Ornithoica curvata,SPECIES,literature,{}
+2227,Ornithoica hirtisternum,SPECIES,literature,{}
+2228,Ornithoica momiyamai,SPECIES,literature,{}
+2229,Ornithoica philippinensis,SPECIES,literature,{}
+2230,Ornithoica podargi,SPECIES,literature,{}
+2231,Ornithoica punctatissima,SPECIES,literature,{}
+2232,Ornithoica rabori,SPECIES,literature,{}
+2233,Ornithoica simplicis,SPECIES,literature,{}
+2234,Ornithoica stipituri,SPECIES,literature,{}
+2235,Ornithoica submicans,SPECIES,literature,{}
+2236,Ornithoica unicolor,SPECIES,literature,{}
+2237,Ornithoica vicina,SPECIES,literature,{}
+2238,Ornithoica zamicra,SPECIES,literature,{}
+2239,Ornithomya avicularia,SPECIES,literature,{}
+2240,Ornithomya fringillina,SPECIES,literature,{}
+2241,Ornithomya fuscipennis,SPECIES,literature,{}
+2242,Ornithomyia asiatica,SPECIES,literature,{}
+2243,Ornithomyia batchiana,SPECIES,literature,{}
+2244,Ornithomyia batchianica,SPECIES,literature,{}
+2245,Ornithomyia columbae,SPECIES,literature,{}
+2246,Ornithomyia doreica,SPECIES,literature,{}
+2247,Ornithomyia exilis,SPECIES,literature,{}
+2248,Ornithomyia hatamensis,SPECIES,literature,{}
+2249,Ornithomyia hova,SPECIES,literature,{}
+2250,Ornithomyia kanakorum,SPECIES,literature,{}
+2251,Ornithomyia nigricans,SPECIES,literature,{}
+2252,Ornithomyia plicata von,SUBSPECIES,literature,{}
+2253,Ornithomyia pusilla,SPECIES,literature,{}
+2254,Ornithomyia tropica,SPECIES,literature,{}
+2255,Ornithomyia unicolor,SPECIES,literature,{}
+2256,Ornithophila metallica,SPECIES,literature,{}
+2257,Orosius lotophagonun,SPECIES,literature,{}
+2258,Orphinus nesioticus,SPECIES,literature,{}
+2259,Ortalia tricolor,SPECIES,literature,{}
+2260,Orthaulaca marginalis,SPECIES,literature,{}
+2261,Orthetrum chrysis,SPECIES,literature,{}
+2262,Orthocladius van der,SUBSPECIES,literature,{}
+2263,Ortholfersia bequaerti,SPECIES,literature,{}
+2264,Ortholfersia macleayi,SPECIES,literature,{}
+2265,Ortholfersia minuta,SPECIES,literature,{}
+2266,Ortholfersia phaneroneura,SPECIES,literature,{}
+2267,Oxya molueeensis,SPECIES,literature,{}
+2268,Oxycephala esakii,SPECIES,literature,{}
+2269,Oxycephala pandani,SPECIES,literature,{}
+2270,Oxycephala spaethi,SPECIES,literature,{}
+2271,Oxyptilus anisodactylus,SPECIES,literature,{}
+2272,Oxyptilus pusillidactylus,SPECIES,literature,{}
+2273,Pachybrachius pallicornis,SPECIES,literature,{}
+2274,Pachytroctes insularis,SPECIES,literature,{}
+2275,Pacificola vitiensis,SPECIES,literature,{}
+2276,Pacificothemis esakii,SPECIES,literature,{}
+2277,Paedisca lavaterana,SPECIES,literature,{}
+2278,Palau woeceecececeseceececessscseeesnesceesnesecesceeenceeececececeereeseenssseneeseeesseasnenenusseeseneeoaens yoshinoi,SUBSPECIES,literature,{}
+2279,Palauella gressitti,SPECIES,literature,{}
+2280,Palorus austrinus,SPECIES,literature,{}
+2281,Palorus foveicollis,SPECIES,literature,{}
+2282,Palorus papuanus,SPECIES,literature,{}
+2283,Palorus upoluensis,SPECIES,literature,{}
+2284,Palpomyia sabroskyi,SPECIES,literature,{}
+2285,Pantala flavescelfs,SPECIES,literature,{}
+2286,Papuana hubneri,SPECIES,literature,{}
+2287,Paracalais depressicollis,SPECIES,literature,{}
+2288,Paracalais guamensis,SPECIES,literature,{}
+2289,Parachalcura maculata,SPECIES,literature,{}
+2290,Parahyocis championi,SPECIES,literature,{}
+2291,Paraputo leveri,SPECIES,literature,{}
+2292,Parasaissetia coffeae,SPECIES,literature,{}
+2293,Parasarcophaga argyrostoma,SPECIES,literature,{}
+2294,Parasarcophaga misera,SPECIES,literature,{}
+2295,Parasarcophaga ruficomis,SPECIES,literature,{}
+2296,Parastasia guttulata,SPECIES,literature,{}
+2297,Parastrongylium gebienianum,SPECIES,literature,{}
+2298,Parastrongylium honestum,SPECIES,literature,{}
+2299,Parastrongylium humboldti,SPECIES,literature,{}
+2300,Parastrongylium lorentzi,SPECIES,literature,{}
+2301,Paratrechina minutula,SPECIES,literature,{}
+2302,Paratrypanius intricatus,SPECIES,literature,{}
+2303,Paratypen als,SPECIES,literature,{}
+2304,Paraupenthes subinconditus,SPECIES,literature,{}
+2305,Parealda bouvieri,SPECIES,literature,{}
+2306,Paremeopedus wakensis,SPECIES,literature,{}
+2307,Parlatoria greeni,SPECIES,literature,{}
+2308,Parlatoria sinensis,SPECIES,literature,{}
+2309,Parvacrena punctata,SPECIES,literature,{}
+2310,Parvisquama ciliata,SPECIES,literature,{}
+2311,Paussus cruciatus,SPECIES,literature,{}
+2312,Pectiniseta prominens,SPECIES,literature,{}
+2313,Pediopsis nigromaculatus,SPECIES,literature,{}
+2314,Pedioscopus tutuilanus curtulus,SUBSPECIES,literature,{}
+2315,Pelicerus grandis,SPECIES,literature,{}
+2316,Pelicerus granulifer,SPECIES,literature,{}
+2317,Pentagonica blanda,SPECIES,literature,{}
+2318,Pentagonica erichsoni,SPECIES,literature,{}
+2319,Pentagonica pallipes,SPECIES,literature,{}
+2320,Pentagoniea blanda,SPECIES,literature,{}
+2321,Pentagoniea eriehsoni,SPECIES,literature,{}
+2322,Pentaneura carolinensis,SPECIES,literature,{}
+2323,Pentaneura delosa,SPECIES,literature,{}
+2324,Pentaneura ignobilis,SPECIES,literature,{}
+2325,Pentaneura monilis,SPECIES,literature,{}
+2326,Pentaneura ponapensis,SPECIES,literature,{}
+2327,Pentapedilum converum,SPECIES,literature,{}
+2328,Pentapedilum esakii,SPECIES,literature,{}
+2329,Pentapedilum nodosum,SPECIES,literature,{}
+2330,Pentapedilum subgenus,SPECIES,literature,{}
+2331,Pentapedilum trukensis,SPECIES,literature,{}
+2332,Pentaphyllus minimus,SPECIES,literature,{}
+2333,Pentaphyllus nanus,SPECIES,literature,{}
+2334,Pentaphyllus punctatus,SPECIES,literature,{}
+2335,Pentaphyltus nanus,SPECIES,literature,{}
+2336,Pentatoma degenera,SPECIES,literature,{}
+2337,Pentatoma eonsocialis,SPECIES,literature,{}
+2338,Pentatoma melacanthus,SPECIES,literature,{}
+2339,Penthina altheana,SPECIES,literature,{}
+2340,Perigona nigriceps,SPECIES,literature,{}
+2341,Peripsocus ferrugineus,SPECIES,literature,{}
+2342,Peripsocus pauliani,SPECIES,literature,{}
+2343,Peripsocus paulianti,SPECIES,literature,{}
+2344,Peripsocus pumilis,SPECIES,literature,{}
+2345,Peripsocus suffitus,SPECIES,literature,{}
+2346,Perkinsiella baked,SPECIES,literature,{}
+2347,Perkinsiella saccharicida,SPECIES,literature,{}
+2348,Peyerimhoffia brachyptera,SPECIES,literature,{}
+2349,Phaciocephal paschalis,SPECIES,literature,{}
+2350,Phaciocephalus fla ocollaris,SUBSPECIES,literature,{}
+2351,Phaenicia sericata,SPECIES,literature,{}
+2352,Phaenopsectra gressitti,SPECIES,literature,{}
+2353,Phainoma veridica,SPECIES,literature,{}
+2354,Phaneroptera punctifera,SPECIES,literature,{}
+2355,Pharellus calvus,SPECIES,literature,{}
+2356,Pharellus dybasi,SPECIES,literature,{}
+2357,Pharellus guamensis,SPECIES,literature,{}
+2358,Pharellus palauensis,SPECIES,literature,{}
+2359,Pharellus ponapensis,SPECIES,literature,{}
+2360,Pharellus setosus,SPECIES,literature,{}
+2361,Pharellus yapensis,SPECIES,literature,{}
+2362,Phasma edule,SPECIES,literature,{}
+2363,Phasma grandis,SPECIES,literature,{}
+2364,Phatnoma veridica,SPECIES,literature,{}
+2365,Phaula phaneropteroides,SPECIES,literature,{}
+2366,Phaulula malayica,SPECIES,literature,{}
+2367,Phaulula trukkensis,SPECIES,literature,{}
+2368,Phenacoccus solani,SPECIES,literature,{}
+2369,Phloeonomus singulare,SPECIES,literature,{}
+2370,Phloeosinus pacificus,SPECIES,literature,{}
+2371,Phloeotrogus bidentatus,SPECIES,literature,{}
+2372,Phloeotrogus crassiusculus,SPECIES,literature,{}
+2373,Phora chlorogastra,SPECIES,literature,{}
+2374,Phora cleghorni,SPECIES,literature,{}
+2375,Phora coniuncta,SPECIES,literature,{}
+2376,Phora conventa,SPECIES,literature,{}
+2377,Phora cornuta,SPECIES,literature,{}
+2378,Phora divaricata,SPECIES,literature,{}
+2379,Phora fissa,SPECIES,literature,{}
+2380,Phora florea,SPECIES,literature,{}
+2381,Phora mordax,SPECIES,literature,{}
+2382,Phora navigans,SPECIES,literature,{}
+2383,Phora scalaris,SPECIES,literature,{}
+2384,Phora venusta,SPECIES,literature,{}
+2385,Phora vitripennis,SPECIES,literature,{}
+2386,Phora xanthina,SPECIES,literature,{}
+2387,Phorodon cynoglossi,SPECIES,literature,{}
+2388,Phorodonta niger,SPECIES,literature,{}
+2389,Phyllodinus nervatus,SPECIES,literature,{}
+2390,Phyllodinus nigromaculoslls,SPECIES,literature,{}
+2391,Phyllodinus sauteri,SPECIES,literature,{}
+2392,Phyllophaga bipunctata,SPECIES,literature,{}
+2393,Phyllotreta australis,SPECIES,literature,{}
+2394,Phyllotreta blackburni,SPECIES,literature,{}
+2395,Phyllotreta cyaneum,SPECIES,literature,{}
+2396,Phyllotreta fuliginosa,SPECIES,literature,{}
+2397,Phyllotreta graminicola,SPECIES,literature,{}
+2398,Phyllotreta littoralis,SPECIES,literature,{}
+2399,Phyllotreta nitida,SPECIES,literature,{}
+2400,Phyllotreta paspalae,SPECIES,literature,{}
+2401,Phyllotreta rugulosa,SPECIES,literature,{}
+2402,Phyllotreta testacea,SPECIES,literature,{}
+2403,Phyllotreta vittigera,SPECIES,literature,{}
+2404,Phytobia piliseta,SPECIES,literature,{}
+2405,Phytocoris filicis,SPECIES,literature,{}
+2406,Phytosarcophaga gressitti,SPECIES,literature,{}
+2407,Phytosciara brachygaster,SPECIES,literature,{}
+2408,Piatyptilia farfarella,SPECIES,literature,{}
+2409,Pictinus affinis,SPECIES,literature,{}
+2410,Pictinus crassicornis,SPECIES,literature,{}
+2411,Pictinus granulatus,SPECIES,literature,{}
+2412,Pictinus minimus,SPECIES,literature,{}
+2413,Pictinus nigripennis,SPECIES,literature,{}
+2414,Pictinus palauensis,SPECIES,literature,{}
+2415,Pictinus productus,SPECIES,literature,{}
+2416,Pictinus rectus,SPECIES,literature,{}
+2417,Pietinus palauensis,SPECIES,literature,{}
+2418,Pilophorus perplexus,SPECIES,literature,{}
+2419,Pimelopus hubneri,SPECIES,literature,{}
+2420,Pimpla insidiator,SPECIES,literature,{}
+2421,Pimpla macula,SPECIES,literature,{}
+2422,Pimpla vittata,SPECIES,literature,{}
+2423,Pinnaspis temporaria,SPECIES,literature,{}
+2424,Pipunculus albiseta,SPECIES,literature,{}
+2425,Pipunculus glabrum,SPECIES,literature,{}
+2426,Pipunculus insularis,SPECIES,literature,{}
+2427,Pipunculus knowltoni,SPECIES,literature,{}
+2428,Piura mundus,SPECIES,literature,{}
+2429,Placodes ebeninus,SPECIES,literature,{}
+2430,Plagiozopelma jlavipodex,SPECIES,literature,{}
+2431,Plalolenes simillimus,SPECIES,literature,{}
+2432,Planibates granulosipennis,SPECIES,literature,{}
+2433,Planiculus bicolor,SPECIES,literature,{}
+2434,Planispa castaneipennis,SPECIES,literature,{}
+2435,Planispa palauensis,SPECIES,literature,{}
+2436,Plastosciara jaluitensis,SPECIES,literature,{}
+2437,Plastosciara latipons,SPECIES,literature,{}
+2438,Plastosciara yapensis,SPECIES,literature,{}
+2439,Platensina platyptera,SPECIES,literature,{}
+2440,Platocera achilles,SPECIES,literature,{}
+2441,Platocera calypso,SPECIES,literature,{}
+2442,Platolenes cuprifulgens,SPECIES,literature,{}
+2443,Platolenes fulgidus,SPECIES,literature,{}
+2444,Platolenes gracilis,SPECIES,literature,{}
+2445,Platolenes gyorffyi,SPECIES,literature,{}
+2446,Platolenes gyorfiyi,SPECIES,literature,{}
+2447,Platolenes hydrophiloides,SPECIES,literature,{}
+2448,Platolenes hydrophiloides hydrophiloides,SUBSPECIES,literature,{}
+2449,Platolenes hydrophiloides samoensis,SUBSPECIES,literature,{}
+2450,Platolenes kochi,SPECIES,literature,{}
+2451,Platolenes lucidus,SPECIES,literature,{}
+2452,Platolenes micros,SPECIES,literature,{}
+2453,Platolenes opacus,SPECIES,literature,{}
+2454,Platolenes ovalauensis,SPECIES,literature,{}
+2455,Platolenes rugipennis,SPECIES,literature,{}
+2456,Platolenes simillimus,SPECIES,literature,{}
+2457,Platolenes violaceus,SPECIES,literature,{}
+2458,Platycrania edulis,SPECIES,literature,{}
+2459,Platydema marseuli,SPECIES,literature,{}
+2460,Platydema plagiatum,SPECIES,literature,{}
+2461,Platydema scriptip ennis,SUBSPECIES,literature,{}
+2462,Platydema subfascia,SPECIES,literature,{}
+2463,Platydema townesi,SPECIES,literature,{}
+2464,Platydema waterhousei,SPECIES,literature,{}
+2465,Platynychus adjutor,SPECIES,literature,{}
+2466,Platypeplus rhynchias,SPECIES,literature,{}
+2467,Platyptilia farfarella,SPECIES,literature,{}
+2468,Platyptilia hemimetra,SPECIES,literature,{}
+2469,Platyptilia lantana,SPECIES,literature,{}
+2470,Platyptilia lantanadactyla,SPECIES,literature,{}
+2471,Platyptilia tecnidion,SPECIES,literature,{}
+2472,Platyptilus fmfarellus,SPECIES,literature,{}
+2473,Platypus acutidentatus,SPECIES,literature,{}
+2474,Platypus externedentatus,SPECIES,literature,{}
+2475,Platypus jansoni,SPECIES,literature,{}
+2476,Platyzosteria nitida,SPECIES,literature,{}
+2477,Plautia cyanoviridis,SPECIES,literature,{}
+2478,Plectochorus palauensis,SPECIES,literature,{}
+2479,Plesispa esakii,SPECIES,literature,{}
+2480,Plesispa spaethi,SPECIES,literature,{}
+2481,Plochionus pallens,SPECIES,literature,{}
+2482,Plociomera japonica,SPECIES,literature,{}
+2483,Ploiaria uniformis,SPECIES,literature,{}
+2484,Ploiariola pallida,SPECIES,literature,{}
+2485,Pochazia ocellus,SPECIES,literature,{}
+2486,Poecilips fallax,SPECIES,literature,{}
+2487,Poecilips fijianus,SPECIES,literature,{}
+2488,Poecilips niger,SPECIES,literature,{}
+2489,Poecilips persicae,SPECIES,literature,{}
+2490,Poecilips striatus,SPECIES,literature,{}
+2491,Poecilips tapatapaoanus,SPECIES,literature,{}
+2492,Poecilips variabilis,SPECIES,literature,{}
+2493,Poecilips vulgaris,SPECIES,literature,{}
+2494,Polychrosis cerata,SPECIES,literature,{}
+2495,Polype dilum,SPECIES,literature,{}
+2496,Polypedilum concomitatus,SPECIES,literature,{}
+2497,Polypedilum convexum,SPECIES,literature,{}
+2498,Polypedilum elongatus,SPECIES,literature,{}
+2499,Polypedilum esakii,SPECIES,literature,{}
+2500,Polypedilum insulanus,SPECIES,literature,{}
+2501,Polypedilum nigribasalis,SPECIES,literature,{}
+2502,Polypedilum nodosum,SPECIES,literature,{}
+2503,Polypedilum perturbans,SPECIES,literature,{}
+2504,Polypedilum ponapensis,SPECIES,literature,{}
+2505,Polypedilum subgenus,SPECIES,literature,{}
+2506,Polypedilum yapensis,SPECIES,literature,{}
+2507,Polyrachis dives,SPECIES,literature,{}
+2508,Polytoxus distinctus,SPECIES,literature,{}
+2509,Ponapagonum dybasi,SPECIES,literature,{}
+2510,Ponapea arachnoides,SPECIES,literature,{}
+2511,Ponera loi,SPECIES,literature,{}
+2512,Ponera luteipes,SPECIES,literature,{}
+2513,Ponera pruinosa,SPECIES,literature,{}
+2514,Pontomyia oceana,SPECIES,literature,{}
+2515,Prenolepis minutula,SPECIES,literature,{}
+2516,Prionocerus brevicornis,SPECIES,literature,{}
+2517,Prionocerus caeruleipennis,SPECIES,literature,{}
+2518,Prionocerus forticornis,SPECIES,literature,{}
+2519,Prionocerus fuscipennis,SPECIES,literature,{}
+2520,Prionocerus tereticollis,SPECIES,literature,{}
+2521,Priopus angusticollis,SPECIES,literature,{}
+2522,Priopus bakeri,SPECIES,literature,{}
+2523,Priopus bakewelli,SPECIES,literature,{}
+2524,Priopus bicolor,SPECIES,literature,{}
+2525,Priopus bolmi,SPECIES,literature,{}
+2526,Priopus brunneus,SPECIES,literature,{}
+2527,Priopus carinatus,SPECIES,literature,{}
+2528,Priopus cervinus,SPECIES,literature,{}
+2529,Priopus ciprinus,SPECIES,literature,{}
+2530,Priopus consanguineus,SPECIES,literature,{}
+2531,Priopus coxalis,SPECIES,literature,{}
+2532,Priopus crassiusculus,SPECIES,literature,{}
+2533,Priopus erythronotus,SPECIES,literature,{}
+2534,Priopus frontalis,SPECIES,literature,{}
+2535,Priopus fuscus,SPECIES,literature,{}
+2536,Priopus haddeni,SPECIES,literature,{}
+2537,Priopus hayekae,SPECIES,literature,{}
+2538,Priopus hiekei,SPECIES,literature,{}
+2539,Priopus marginatus,SPECIES,literature,{}
+2540,Priopus merkli,SPECIES,literature,{}
+2541,Priopus nigripes,SPECIES,literature,{}
+2542,Priopus nitens,SPECIES,literature,{}
+2543,Priopus oberthueri,SPECIES,literature,{}
+2544,Priopus politus,SPECIES,literature,{}
+2545,Priopus schwarzi,SPECIES,literature,{}
+2546,Priopus torrevillasi,SPECIES,literature,{}
+2547,Priopus umbilicatus,SPECIES,literature,{}
+2548,Pristomyrmex largus,SPECIES,literature,{}
+2549,Pristomyrmex punctatus,SPECIES,literature,{}
+2550,Prolabia ascensionis,SPECIES,literature,{}
+2551,Prometopia quadrimaculata,SPECIES,literature,{}
+2552,Propalticus acupinctus,SPECIES,literature,{}
+2553,Propalticus oculatus,SPECIES,literature,{}
+2554,Propalticus saipanensis,SPECIES,literature,{}
+2555,Propalticus sarawakensis,SPECIES,literature,{}
+2556,Propalticus scriptitatus,SPECIES,literature,{}
+2557,Propalticus ulimanganus,SPECIES,literature,{}
+2558,Propsephus langfordi,SPECIES,literature,{}
+2559,Propsephus tongaensis,SPECIES,literature,{}
+2560,Proreus laetior,SPECIES,literature,{}
+2561,Prosevania variiceps,SPECIES,literature,{}
+2562,Prosoplus bimaculicollis,SPECIES,literature,{}
+2563,Prosoplus trukensis,SPECIES,literature,{}
+2564,Protacanthus pacificus,SPECIES,literature,{}
+2565,Proteopteryx blackburnii,SPECIES,literature,{}
+2566,Protocaria scalaris,SPECIES,literature,{}
+2567,Pseudallotraeus boninensis,SPECIES,literature,{}
+2568,Pseudaonidia clavigera,SPECIES,literature,{}
+2569,Pseudaonidia manilensis,SPECIES,literature,{}
+2570,Pseudishnaspis anassarum,SPECIES,literature,{}
+2571,Pseudisopus gressitti,SPECIES,literature,{}
+2572,Pseudocaecilius criniger,SPECIES,literature,{}
+2573,Pseudocaecilius elutus,SPECIES,literature,{}
+2574,Pseudococcus bromeliae,SPECIES,literature,{}
+2575,Pseudococcus calceolariae,SPECIES,literature,{}
+2576,Pseudococcus carolinensis,SPECIES,literature,{}
+2577,Pseudococcus cuspidatae,SPECIES,literature,{}
+2578,Pseudococcus esaktt,SPECIES,literature,{}
+2579,Pseudococcus gilbertensis,SPECIES,literature,{}
+2580,Pseudococcus levert,SPECIES,literature,{}
+2581,Pseudococcus neomaritimus,SPECIES,literature,{}
+2582,Pseudococcus oceanicus,SPECIES,literature,{}
+2583,Pseudococcus piricola,SPECIES,literature,{}
+2584,Pseudococcus wistariae,SPECIES,literature,{}
+2585,Pseudococeus adonidum,SPECIES,literature,{}
+2586,Pseudococeus multiductus,SPECIES,literature,{}
+2587,Pseudocryptopone incerta,SPECIES,literature,{}
+2588,Pseudoformicaleo jacobsoni,SPECIES,literature,{}
+2589,Pseudolfersia diomedeae,SPECIES,literature,{}
+2590,Pseudolynchia garzettae,SPECIES,literature,{}
+2591,Pseudolynchia serratipes,SPECIES,literature,{}
+2592,Pseudoscottiella bifasciata,SPECIES,literature,{}
+2593,Pseudoscottiella clarkei,SPECIES,literature,{}
+2594,Pseudoscottiella fuscistigma,SPECIES,literature,{}
+2595,Pseudoscottiella pallida,SPECIES,literature,{}
+2596,Pseudoscottiella postica,SPECIES,literature,{}
+2597,Pseudostrongylium aeneum,SPECIES,literature,{}
+2598,Pseudostrongylium banksi,SPECIES,literature,{}
+2599,Pseudostrongylium cyaneum,SPECIES,literature,{}
+2600,Pseudostrongylium goramense,SPECIES,literature,{}
+2601,Pseudostrongylium viride,SPECIES,literature,{}
+2602,Pseudostrongylium viridipenne,SPECIES,literature,{}
+2603,Pseudozaena opaea,SPECIES,literature,{}
+2604,Pseudozaena orientalis opaca,SUBSPECIES,literature,{}
+2605,Psilogaster nishidai,SPECIES,literature,{}
+2606,Psocus binotatus,SPECIES,literature,{}
+2607,Psocus nigricans,SPECIES,literature,{}
+2608,Psocus roseus,SPECIES,literature,{}
+2609,Psychoda acanthostyla,SPECIES,literature,{}
+2610,Psychoda adumbrata,SPECIES,literature,{}
+2611,Psychoda allodapa,SPECIES,literature,{}
+2612,Psychoda harrisi,SPECIES,literature,{}
+2613,Psychoda longiseta,SPECIES,literature,{}
+2614,Psychoda lucia,SPECIES,literature,{}
+2615,Psychoda quadriiilis guamensis,SUBSPECIES,literature,{}
+2616,Psychoda rarotongensis,SPECIES,literature,{}
+2617,Psylliodes cucurbitae,SPECIES,literature,{}
+2618,Psylliodes difficilis,SPECIES,literature,{}
+2619,Psylliodes fulvipes,SPECIES,literature,{}
+2620,Psylliodes illigeri,SPECIES,literature,{}
+2621,Psylliodes lubricata,SPECIES,literature,{}
+2622,Psylliodes novaecaledoniae,SPECIES,literature,{}
+2623,Psylliodes sera,SPECIES,literature,{}
+2624,Psylliodes simmondsi,SPECIES,literature,{}
+2625,Psylliodes solanae,SPECIES,literature,{}
+2626,Psylliodes splendida,SPECIES,literature,{}
+2627,Psylliodes vitiensis,SPECIES,literature,{}
+2628,Psyllobora luctuosa,SPECIES,literature,{}
+2629,Psyllobora mexicana,SPECIES,literature,{}
+2630,Psylloneura williamsi,SPECIES,literature,{}
+2631,Pterobosca adhesipes,SPECIES,literature,{}
+2632,Pterobosca feminae,SPECIES,literature,{}
+2633,Pterobosca fidens,SPECIES,literature,{}
+2634,Pteromalus brassicae,SPECIES,literature,{}
+2635,Pteromalus puparum,SPECIES,literature,{}
+2636,Pterophorus denticulata,SPECIES,literature,{}
+2637,Pterophorus hirosakianus,SPECIES,literature,{}
+2638,Pterophorus oxydaetylus,SPECIES,literature,{}
+2639,Pterophorus suffiata,SPECIES,literature,{}
+2640,Pterorthochaetes pieinus,SPECIES,literature,{}
+2641,Pthirus pubis,SPECIES,literature,{}
+2642,Ptilopodius marquesanus,SPECIES,literature,{}
+2643,Ptilopodius pacificus,SPECIES,literature,{}
+2644,Ptilopodius ramosus,SPECIES,literature,{}
+2645,Ptilopodius zimmermani,SPECIES,literature,{}
+2646,Ptinobius swezeyi,SPECIES,literature,{}
+2647,Ptinus fissicornis,SPECIES,literature,{}
+2648,Ptinus piceus,SPECIES,literature,{}
+2649,Ptochiomera minima,SPECIES,literature,{}
+2650,Ptychanatis axyridis,SPECIES,literature,{}
+2651,Ptycta angulata,SPECIES,literature,{}
+2652,Ptycta micromaculata,SPECIES,literature,{}
+2653,Ptycta nitens,SPECIES,literature,{}
+2654,Ptycta parvula,SPECIES,literature,{}
+2655,Ptyelus patruelis,SPECIES,literature,{}
+2656,Pulex canis,SPECIES,literature,{}
+2657,Pulex irritans,SPECIES,literature,{}
+2658,Pulex philippinensis,SPECIES,literature,{}
+2659,Puliciphora pallicauda,SPECIES,literature,{}
+2660,Pullus coccidovora,SPECIES,literature,{}
+2661,Pulvinaria aurantii,SPECIES,literature,{}
+2662,Pulvinaria thespesiae,SPECIES,literature,{}
+2663,Pygophora boninensis,SPECIES,literature,{}
+2664,Pygophora edgari,SPECIES,literature,{}
+2665,Pygophora kusaiensis,SPECIES,literature,{}
+2666,Pygophora minuscula,SPECIES,literature,{}
+2667,Pygophora tarsaseta,SPECIES,literature,{}
+2668,Racilia okinawensis,SPECIES,literature,{}
+2669,Radial sector,SPECIES,literature,{}
+2670,Radial sector unbranched,SUBSPECIES,literature,{}
+2671,Rainieria boninensis,SPECIES,literature,{}
+2672,Reduviolus capsiformis,SPECIES,literature,{}
+2673,Reduvius laniger,SPECIES,literature,{}
+2674,Rhagoletis completa,SPECIES,literature,{}
+2675,Rhexoza magnipalpus,SPECIES,literature,{}
+2676,Rhicnoessa orientalis,SPECIES,literature,{}
+2677,Rhinia obsoleta,SPECIES,literature,{}
+2678,Rhinocypha ogasawarensis,SPECIES,literature,{}
+2679,Rhipidandrus cioides,SPECIES,literature,{}
+2680,Rhipidandrus cioides clypeatus,SUBSPECIES,literature,{}
+2681,Rhipidandrus crenipennis,SPECIES,literature,{}
+2682,Rhipidandrus dybasi,SPECIES,literature,{}
+2683,Rhipidandrus sodalis,SPECIES,literature,{}
+2684,Rhipidia tusitala,SPECIES,literature,{}
+2685,Rhizopertha bifoveolata,SPECIES,literature,{}
+2686,Rhizopertha dominica,SPECIES,literature,{}
+2687,Rhizopertha sicula,SPECIES,literature,{}
+2688,Rhizophagus hunieralis,SPECIES,literature,{}
+2689,Rhopalothrix procera,SPECIES,literature,{}
+2690,Rhyopsocus pandanicola,SPECIES,literature,{}
+2691,Rhyparida carolina,SPECIES,literature,{}
+2692,Rhyparida carolina carolina,SUBSPECIES,literature,{}
+2693,Rhyparida carolina ponapeana,SUBSPECIES,literature,{}
+2694,Rhyparida carolina trukana,SUBSPECIES,literature,{}
+2695,Rhyparida dybasi,SPECIES,literature,{}
+2696,Rhyparida esakii,SPECIES,literature,{}
+2697,Rhyparochromus delineatus,SPECIES,literature,{}
+2698,Rhyparochromus descriptus,SPECIES,literature,{}
+2699,Rhyparochromus pallicornis,SPECIES,literature,{}
+2700,Rhyzobius satteles,SPECIES,literature,{}
+2701,Rhyzodiastes pollinosus,SPECIES,literature,{}
+2702,Rhyzodiastes sulcicollis,SPECIES,literature,{}
+2703,Ricania flabellum,SPECIES,literature,{}
+2704,Ripersia agasawarensis,SPECIES,literature,{}
+2705,Ripersia palmarum,SPECIES,literature,{}
+2706,Rodolia breviuscula,SPECIES,literature,{}
+2707,Rosapha bkolor,SPECIES,literature,{}
+2708,Rosapha meolor philippinensis,SUBSPECIES,literature,{}
+2709,Rotamalachius esakii,SPECIES,literature,{}
+2710,Saccharicoceus sacchari,SPECIES,literature,{}
+2711,Saldula guamensis,SPECIES,literature,{}
+2712,Sapromyza costata,SPECIES,literature,{}
+2713,Sapromyza signatifrons,SPECIES,literature,{}
+2714,Sapromyza singaporensis,SPECIES,literature,{}
+2715,Saprosites pygmaeus,SPECIES,literature,{}
+2716,Sarcophaga argyrostoma,SPECIES,literature,{}
+2717,Sarcophaga bezzii,SPECIES,literature,{}
+2718,Sarcophaga brunneopalpis,SPECIES,literature,{}
+2719,Sarcophaga falculata,SPECIES,literature,{}
+2720,Sarcophaga gamma,SPECIES,literature,{}
+2721,Sarcophaga hirtipes orchidea,SUBSPECIES,literature,{}
+2722,Sarcophaga knabi,SPECIES,literature,{}
+2723,Sarcophaga noumea,SPECIES,literature,{}
+2724,Sarcophaga nurus,SPECIES,literature,{}
+2725,Sarcophaga orchidea,SPECIES,literature,{}
+2726,Sarcophaga ruficornis,SPECIES,literature,{}
+2727,Scadra ranges,SPECIES,literature,{}
+2728,Scaphisoma dybasi,SPECIES,literature,{}
+2729,Scaphisoma perkinsi,SPECIES,literature,{}
+2730,Scaphisoma tricolor,SPECIES,literature,{}
+2731,Scaphisoma tridentatum,SPECIES,literature,{}
+2732,Scaphobaeocera remota,SPECIES,literature,{}
+2733,Scaptomyza disticha,SPECIES,literature,{}
+2734,Scaptomyza pallida,SPECIES,literature,{}
+2735,Scarabaeus lividus,SPECIES,literature,{}
+2736,Scatopse atrata,SPECIES,literature,{}
+2737,Scatopse fuscipes,SPECIES,literature,{}
+2738,Schenkiingia esakii,SPECIES,literature,{}
+2739,Schenklingia esakii,SPECIES,literature,{}
+2740,Schenklingia ponapensis,SPECIES,literature,{}
+2741,Schenklingia yasumatsui,SPECIES,literature,{}
+2742,Schenklingia yoshimurai,SPECIES,literature,{}
+2743,Schisaspidia palauensis,SPECIES,literature,{}
+2744,Schizaspidia ponapensis,SPECIES,literature,{}
+2745,Schizomma gressitti,SPECIES,literature,{}
+2746,Schizomma minor,SPECIES,literature,{}
+2747,Schizomma neckeri,SPECIES,literature,{}
+2748,Sciadella bioculata,SPECIES,literature,{}
+2749,Sciadella iwojimana,SPECIES,literature,{}
+2750,Sciadella subcylindrica,SPECIES,literature,{}
+2751,Sciapus evulgatus,SPECIES,literature,{}
+2752,Sciapus pressipes,SPECIES,literature,{}
+2753,Sciara garretti,SPECIES,literature,{}
+2754,Sciara hawaiiensis,SPECIES,literature,{}
+2755,Sciara hyalipennis,SPECIES,literature,{}
+2756,Sciara latistylata,SPECIES,literature,{}
+2757,Sciara lqfooni,SPECIES,literature,{}
+2758,Sciara ocellaris,SPECIES,literature,{}
+2759,Sciara radicum,SPECIES,literature,{}
+2760,Sciara tricuspidata,SPECIES,literature,{}
+2761,Sciara tritici,SPECIES,literature,{}
+2762,Sciophagus pandanicola,SPECIES,literature,{}
+2763,Sciophagus piceus,SPECIES,literature,{}
+2764,Sciophagus zimmennani,SPECIES,literature,{}
+2765,Sciophagus zimmermani,SPECIES,literature,{}
+2766,Scoloposcelis picicornis,SPECIES,literature,{}
+2767,Scolopscelis parallelus,SPECIES,literature,{}
+2768,Scolytomimus maculatus,SPECIES,literature,{}
+2769,Scolytus spinosus,SPECIES,literature,{}
+2770,Scotinophara minor,SPECIES,literature,{}
+2771,Scotoderus opacus,SPECIES,literature,{}
+2772,Scymnus cinctus,SPECIES,literature,{}
+2773,Scymnus ebeninus,SPECIES,literature,{}
+2774,Scymnus loewii,SPECIES,literature,{}
+2775,Scymnus roepkei,SPECIES,literature,{}
+2776,Scymnus sylvaticus,SPECIES,literature,{}
+2777,Scymnus trukensis,SPECIES,literature,{}
+2778,Scymnus uncinus,SPECIES,literature,{}
+2779,Secodella metallica,SPECIES,literature,{}
+2780,Seenopinus niger,SPECIES,literature,{}
+2781,Selenophorus pyritosus,SPECIES,literature,{}
+2782,Serangium spilotum,SPECIES,literature,{}
+2783,Serinetha fimbriata,SPECIES,literature,{}
+2784,Serinetha lurida,SPECIES,literature,{}
+2785,Serromyia esakii,SPECIES,literature,{}
+2786,Sesellius parallelus,SPECIES,literature,{}
+2787,Setenis atronitens,SPECIES,literature,{}
+2788,Setenis sulcigera,SPECIES,literature,{}
+2789,Seven paratypes,SPECIES,literature,{}
+2790,Silpha bimaculata,SPECIES,literature,{}
+2791,Simodactylus beardsleyi,SPECIES,literature,{}
+2792,Simodactylus collinus,SPECIES,literature,{}
+2793,Simodactylus decoratus,SPECIES,literature,{}
+2794,Simodactylus decumanus,SPECIES,literature,{}
+2795,Simodactylus exsul,SPECIES,literature,{}
+2796,Simodactylus fasciolatus,SPECIES,literature,{}
+2797,Simodactylus gressitti,SPECIES,literature,{}
+2798,Simodactylus hesperius hesperius,SUBSPECIES,literature,{}
+2799,Simodactylus hesperius pullus,SUBSPECIES,literature,{}
+2800,Simodactylus impressus,SPECIES,literature,{}
+2801,Simodactylus lineatus,SPECIES,literature,{}
+2802,Simodactylus marianarum,SPECIES,literature,{}
+2803,Simodactylus marianorum,SPECIES,literature,{}
+2804,Simodactylus nitens,SPECIES,literature,{}
+2805,Simodactylus palauensis,SPECIES,literature,{}
+2806,Simodactylus pallidus,SPECIES,literature,{}
+2807,Simodactylus remotus,SPECIES,literature,{}
+2808,Simodactylus tasmani,SPECIES,literature,{}
+2809,Simodactylus tastui,SPECIES,literature,{}
+2810,Simodactylus trukensis,SPECIES,literature,{}
+2811,Simodactylus trullensis,SPECIES,literature,{}
+2812,Simulium bonninense,SPECIES,literature,{}
+2813,Since then,SPECIES,literature,{}
+2814,Site name,SPECIES,literature,{}
+2815,Sitodrepa panicea,SPECIES,literature,{}
+2816,Solindenia picticornis,SPECIES,literature,{}
+2817,Somomyia caeruleolimbata,SPECIES,literature,{}
+2818,Somomyia cyaneo-cincta,SPECIES,literature,{}
+2819,Somomyia melanifera,SPECIES,literature,{}
+2820,Somomyia micropogon,SPECIES,literature,{}
+2821,Somomyia pallifrons,SPECIES,literature,{}
+2822,Somomyia pfefferi,SPECIES,literature,{}
+2823,Somomyta saffranea,SPECIES,literature,{}
+2824,Sotenus setiger,SPECIES,literature,{}
+2825,Spalangia nigra,SPECIES,literature,{}
+2826,Spathulina parca,SPECIES,literature,{}
+2827,Sphaeniscus sexmaculatus atilia,SUBSPECIES,literature,{}
+2828,Sphaeniseus sexmaeulatus atilia,SUBSPECIES,literature,{}
+2829,Sphaerococcus bambusae,SPECIES,literature,{}
+2830,Sphaerococcus graminis,SPECIES,literature,{}
+2831,Sphaeroderma wedeliae,SPECIES,literature,{}
+2832,Sphaeromias kraussi,SPECIES,literature,{}
+2833,Sphaerophyma armipes,SPECIES,literature,{}
+2834,Sphaerophyma insularum,SPECIES,literature,{}
+2835,Sphegigaster rugosa,SPECIES,literature,{}
+2836,Sphegigaster tiqkensis,SPECIES,literature,{}
+2837,Sphenarches anisodactylus,SPECIES,literature,{}
+2838,Sphenarches caffer,SPECIES,literature,{}
+2839,Sphenarches synophrys,SPECIES,literature,{}
+2840,Spheniscomyia sexmaculatus,SPECIES,literature,{}
+2841,Spheniseomyia sexmaeulata,SPECIES,literature,{}
+2842,Spilogaster apicalis,SPECIES,literature,{}
+2843,Spilogaster rufa,SPECIES,literature,{}
+2844,Spilonota indentata,SPECIES,literature,{}
+2845,Spilostethus hospes,SPECIES,literature,{}
+2846,Spinisternum palauensis,SPECIES,literature,{}
+2847,States bordering,SPECIES,literature,{}
+2848,Stegana ornatipes,SPECIES,literature,{}
+2849,Steganoptycha obscura,SPECIES,literature,{}
+2850,Steganoptycha signatana,SPECIES,literature,{}
+2851,Stelidota alternata,SPECIES,literature,{}
+2852,Stelidota nigrovaria,SPECIES,literature,{}
+2853,Stenocranus carolinensis,SPECIES,literature,{}
+2854,Stenocranus philippinensis,SPECIES,literature,{}
+2855,Stenosis carinata,SPECIES,literature,{}
+2856,Stenotarsus politus,SPECIES,literature,{}
+2857,Stenus ficus,SPECIES,literature,{}
+2858,Stephanitis desecta,SPECIES,literature,{}
+2859,Stephanoderes alter,SPECIES,literature,{}
+2860,Stephanoderes birmanus,SPECIES,literature,{}
+2861,Stephanoderes brunneus,SPECIES,literature,{}
+2862,Stephanoderes coffeae,SPECIES,literature,{}
+2863,Stephanoderes fungicola,SPECIES,literature,{}
+2864,Stephanoderes georgiae,SPECIES,literature,{}
+2865,Stephanoderes hampei,SPECIES,literature,{}
+2866,Stephanoderes hawauensis,SPECIES,literature,{}
+2867,Stephanoderes hispidus,SPECIES,literature,{}
+2868,Stephanoderes hivaoea,SPECIES,literature,{}
+2869,Stephanoderes pacificus,SPECIES,literature,{}
+2870,Stephanoderes seriatus,SPECIES,literature,{}
+2871,Stephanus indicus,SPECIES,literature,{}
+2872,Stethopathus ocellatus,SPECIES,literature,{}
+2873,Stictochironomus townesi,SPECIES,literature,{}
+2874,Stictopisthus guamensis,SPECIES,literature,{}
+2875,Stieholotis ruficeps,SPECIES,literature,{}
+2876,Stilbula manipurensis,SPECIES,literature,{}
+2877,Stilobezeia subsoror,SPECIES,literature,{}
+2878,Stilobezzia esakiana,SPECIES,literature,{}
+2879,Stilobezzia esakit,SPECIES,literature,{}
+2880,Stilobezzia longistyla,SPECIES,literature,{}
+2881,Stilobezzia spadicitibialis,SPECIES,literature,{}
+2882,Stilobezzia subsoror,SPECIES,literature,{}
+2883,Stiongylium cuspidatum,SPECIES,literature,{}
+2884,Stiongylium subalpinum,SPECIES,literature,{}
+2885,Stirellus grandis,SPECIES,literature,{}
+2886,Stomorhina obsoleta,SPECIES,literature,{}
+2887,Stroblia braueri,SPECIES,literature,{}
+2888,Stromatium asperulum,SPECIES,literature,{}
+2889,Stromatium longicorne,SPECIES,literature,{}
+2890,Strongylium alleculoides,SPECIES,literature,{}
+2891,Strongylium alticola,SPECIES,literature,{}
+2892,Strongylium angulatum,SPECIES,literature,{}
+2893,Strongylium antennarium,SPECIES,literature,{}
+2894,Strongylium anthrax,SPECIES,literature,{}
+2895,Strongylium asperipenne,SPECIES,literature,{}
+2896,Strongylium aterrimum,SPECIES,literature,{}
+2897,Strongylium atripes,SPECIES,literature,{}
+2898,Strongylium australe,SPECIES,literature,{}
+2899,Strongylium bacchusi,SPECIES,literature,{}
+2900,Strongylium baiyer,SPECIES,literature,{}
+2901,Strongylium biakense,SPECIES,literature,{}
+2902,Strongylium biroi,SPECIES,literature,{}
+2903,Strongylium bisianumui,SPECIES,literature,{}
+2904,Strongylium bmnneovirens,SPECIES,literature,{}
+2905,Strongylium bomberai,SPECIES,literature,{}
+2906,Strongylium bomberianum,SPECIES,literature,{}
+2907,Strongylium bomeae,SPECIES,literature,{}
+2908,Strongylium bornemisszai,SPECIES,literature,{}
+2909,Strongylium bougainvillei,SPECIES,literature,{}
+2910,Strongylium brandtianum,SPECIES,literature,{}
+2911,Strongylium britannicum,SPECIES,literature,{}
+2912,Strongylium brittoni,SPECIES,literature,{}
+2913,Strongylium campanulatum,SPECIES,literature,{}
+2914,Strongylium carteri,SPECIES,literature,{}
+2915,Strongylium coloniaie,SPECIES,literature,{}
+2916,Strongylium compactum,SPECIES,literature,{}
+2917,Strongylium corrugatum,SPECIES,literature,{}
+2918,Strongylium costatissimum,SPECIES,literature,{}
+2919,Strongylium cyanicolle,SPECIES,literature,{}
+2920,Strongylium cyclopsi,SPECIES,literature,{}
+2921,Strongylium cylinder,SPECIES,literature,{}
+2922,Strongylium cylindripenne,SPECIES,literature,{}
+2923,Strongylium dadayi,SPECIES,literature,{}
+2924,Strongylium darlingtoni,SPECIES,literature,{}
+2925,Strongylium demani,SPECIES,literature,{}
+2926,Strongylium demarzi,SPECIES,literature,{}
+2927,Strongylium dubium,SPECIES,literature,{}
+2928,Strongylium dudichi,SPECIES,literature,{}
+2929,Strongylium eliptamini,SPECIES,literature,{}
+2930,Strongylium elongatum,SPECIES,literature,{}
+2931,Strongylium erythroderum,SPECIES,literature,{}
+2932,Strongylium fenemorei,SPECIES,literature,{}
+2933,Strongylium fenicheli,SPECIES,literature,{}
+2934,Strongylium finschi,SPECIES,literature,{}
+2935,Strongylium flyi,SPECIES,literature,{}
+2936,Strongylium fordi,SPECIES,literature,{}
+2937,Strongylium fordianum,SPECIES,literature,{}
+2938,Strongylium frater,SPECIES,literature,{}
+2939,Strongylium fuscovestitum,SPECIES,literature,{}
+2940,Strongylium gagatum,SPECIES,literature,{}
+2941,Strongylium gazellae,SPECIES,literature,{}
+2942,Strongylium gebieni,SPECIES,literature,{}
+2943,Strongylium geelvinki,SPECIES,literature,{}
+2944,Strongylium genale,SPECIES,literature,{}
+2945,Strongylium georgiense,SPECIES,literature,{}
+2946,Strongylium gibbosicolle,SPECIES,literature,{}
+2947,Strongylium globithorax,SPECIES,literature,{}
+2948,Strongylium gravidum,SPECIES,literature,{}
+2949,Strongylium greensladei,SPECIES,literature,{}
+2950,Strongylium gressittinum,SPECIES,literature,{}
+2951,Strongylium grossi,SPECIES,literature,{}
+2952,Strongylium hardyi,SPECIES,literature,{}
+2953,Strongylium hiekei,SPECIES,literature,{}
+2954,Strongylium honestum,SPECIES,literature,{}
+2955,Strongylium horridum,SPECIES,literature,{}
+2956,Strongylium indignum,SPECIES,literature,{}
+2957,Strongylium infans,SPECIES,literature,{}
+2958,Strongylium irianicum,SPECIES,literature,{}
+2959,Strongylium iridis,SPECIES,literature,{}
+2960,Strongylium iris,SPECIES,literature,{}
+2961,Strongylium karimui,SPECIES,literature,{}
+2962,Strongylium kassami,SPECIES,literature,{}
+2963,Strongylium kaszabi,SPECIES,literature,{}
+2964,Strongylium keyanum,SPECIES,literature,{}
+2965,Strongylium keyense,SPECIES,literature,{}
+2966,Strongylium kiungae,SPECIES,literature,{}
+2967,Strongylium koala,SPECIES,literature,{}
+2968,Strongylium kokodae,SPECIES,literature,{}
+2969,Strongylium kulumadau,SPECIES,literature,{}
+2970,Strongylium kulzerianum,SPECIES,literature,{}
+2971,Strongylium kuperra,SPECIES,literature,{}
+2972,Strongylium laevicolle,SPECIES,literature,{}
+2973,Strongylium laevipenne,SPECIES,literature,{}
+2974,Strongylium latifrons,SPECIES,literature,{}
+2975,Strongylium latipes,SPECIES,literature,{}
+2976,Strongylium leai,SPECIES,literature,{}
+2977,Strongylium longicrurum,SPECIES,literature,{}
+2978,Strongylium longipes,SPECIES,literature,{}
+2979,Strongylium lucidum,SPECIES,literature,{}
+2980,Strongylium maai,SPECIES,literature,{}
+2981,Strongylium mapriki,SPECIES,literature,{}
+2982,Strongylium mastersi,SPECIES,literature,{}
+2983,Strongylium matthewsi,SPECIES,literature,{}
+2984,Strongylium microthorax,SPECIES,literature,{}
+2985,Strongylium milnebayi,SPECIES,literature,{}
+2986,Strongylium minor,SPECIES,literature,{}
+2987,Strongylium misoolei,SPECIES,literature,{}
+2988,Strongylium moluccanum,SPECIES,literature,{}
+2989,Strongylium mulier,SPECIES,literature,{}
+2990,Strongylium neboissi,SPECIES,literature,{}
+2991,Strongylium neboissianum,SPECIES,literature,{}
+2992,Strongylium normanbyi,SPECIES,literature,{}
+2993,Strongylium okei,SPECIES,literature,{}
+2994,Strongylium papua,SPECIES,literature,{}
+2995,Strongylium physopus,SPECIES,literature,{}
+2996,Strongylium pitoki,SPECIES,literature,{}
+2997,Strongylium plicicolle,SPECIES,literature,{}
+2998,Strongylium politicolle,SPECIES,literature,{}
+2999,Strongylium popei,SPECIES,literature,{}
+3000,Strongylium popondettae,SPECIES,literature,{}
+3001,Strongylium praogenoides,SPECIES,literature,{}
+3002,Strongylium profemoratum,SPECIES,literature,{}
+3003,Strongylium prosternale,SPECIES,literature,{}
+3004,Strongylium puberulum,SPECIES,literature,{}
+3005,Strongylium pubescens,SPECIES,literature,{}
+3006,Strongylium puncticolle,SPECIES,literature,{}
+3007,Strongylium punctithorax,SPECIES,literature,{}
+3008,Strongylium pusillum,SPECIES,literature,{}
+3009,Strongylium queenslandicum,SPECIES,literature,{}
+3010,Strongylium reticulatum,SPECIES,literature,{}
+3011,Strongylium rufescens,SPECIES,literature,{}
+3012,Strongylium ruficolle,SPECIES,literature,{}
+3013,Strongylium rugosicolle,SPECIES,literature,{}
+3014,Strongylium rugosopunctatum,SPECIES,literature,{}
+3015,Strongylium salomonis,SPECIES,literature,{}
+3016,Strongylium satan,SPECIES,literature,{}
+3017,Strongylium sculptipunctatum,SPECIES,literature,{}
+3018,Strongylium sculptipunctum,SPECIES,literature,{}
+3019,Strongylium sedlaceki,SPECIES,literature,{}
+3020,Strongylium sensitivum,SPECIES,literature,{}
+3021,Strongylium serraticolle,SPECIES,literature,{}
+3022,Strongylium straatmani,SPECIES,literature,{}
+3023,Strongylium submontanum,SPECIES,literature,{}
+3024,Strongylium swezeyi,SPECIES,literature,{}
+3025,Strongylium tarsale,SPECIES,literature,{}
+3026,Strongylium testaceitarse,SPECIES,literature,{}
+3027,Strongylium thoracale,SPECIES,literature,{}
+3028,Strongylium torricellii,SPECIES,literature,{}
+3029,Strongylium tricoloremaculatum,SPECIES,literature,{}
+3030,Strongylium tuberculiferum,SPECIES,literature,{}
+3031,Strongylium tuberculipenne,SPECIES,literature,{}
+3032,Strongylium tuberipenne,SPECIES,literature,{}
+3033,Strongylium vernicatum,SPECIES,literature,{}
+3034,Strongylium verrueosum,SPECIES,literature,{}
+3035,Strongylium vertebrale,SPECIES,literature,{}
+3036,Strongylium vertebrale unicolor,SUBSPECIES,literature,{}
+3037,Strongylium vossi,SPECIES,literature,{}
+3038,Strongylium wagneri,SPECIES,literature,{}
+3039,Strongylium wakaiunum,SPECIES,literature,{}
+3040,Strongylium woodlarki,SPECIES,literature,{}
+3041,Strongylium zimmermani,SPECIES,literature,{}
+3042,Strongytium punctithorax,SPECIES,literature,{}
+3043,Strumigenys frivaldskyi,SPECIES,literature,{}
+3044,Strumigenys karawajewi,SPECIES,literature,{}
+3045,Styringomyia ceylonica,SPECIES,literature,{}
+3046,Styringomyia jacobsoni,SPECIES,literature,{}
+3047,Styringomyia vittata,SPECIES,literature,{}
+3048,Swammerdamella albimana,SPECIES,literature,{}
+3049,Swezeyia maurellei,SPECIES,literature,{}
+3050,Swezeyia zephyrus,SPECIES,literature,{}
+3051,Sybra catalana,SPECIES,literature,{}
+3052,Synarmostes picinus,SPECIES,literature,{}
+3053,Synharmonia scalaris,SPECIES,literature,{}
+3054,Synodendron dominicum,SPECIES,literature,{}
+3055,Synodendron pusillum,SPECIES,literature,{}
+3056,Synthesiomyia brasiliana,SPECIES,literature,{}
+3057,Synthesiomyia nudiseta,SPECIES,literature,{}
+3058,Syntormon boninense,SPECIES,literature,{}
+3059,Syntormon distortitarsis,SPECIES,literature,{}
+3060,Syntormon jlexibilis,SPECIES,literature,{}
+3061,Syntormon lindneri,SPECIES,literature,{}
+3062,Syntormon miritarsus,SPECIES,literature,{}
+3063,Syntormon mycklebusti,SPECIES,literature,{}
+3064,Syritta femorata,SPECIES,literature,{}
+3065,Syritta oceanica,SPECIES,literature,{}
+3066,Syritta rufifacies,SPECIES,literature,{}
+3067,Syritta snyderi,SPECIES,literature,{}
+3068,Syrphus nasutus,SPECIES,literature,{}
+3069,Szekessya flavipennis,SPECIES,literature,{}
+3070,Szekessya hypophloeoides,SPECIES,literature,{}
+3071,Szekessya kaszabi,SPECIES,literature,{}
+3072,Tacbys ceylanicus,SPECIES,literature,{}
+3073,Tachys fumicatus,SPECIES,literature,{}
+3074,Tachys lutcus,SPECIES,literature,{}
+3075,Tachys luteus,SPECIES,literature,{}
+3076,Tachys nigriceps,SPECIES,literature,{}
+3077,Tachys ochrioides,SPECIES,literature,{}
+3078,Tachys quadrillum,SPECIES,literature,{}
+3079,Taeniorhynchus brevicellulus,SPECIES,literature,{}
+3080,Taeniorhynchus tenax,SPECIES,literature,{}
+3081,Tagalopsis szekessyi,SPECIES,literature,{}
+3082,Tagalus angustus,SPECIES,literature,{}
+3083,Tagalus dybasi,SPECIES,literature,{}
+3084,Tagalus gossi,SPECIES,literature,{}
+3085,Tagalus siualei,SPECIES,literature,{}
+3086,Tagalus sulcalus,SPECIES,literature,{}
+3087,Tagalus sulcatus,SPECIES,literature,{}
+3088,Tagalus swalei,SPECIES,literature,{}
+3089,Tambinia boninensis,SPECIES,literature,{}
+3090,Tanytarsus boninensis,SPECIES,literature,{}
+3091,Tanytarsus brachyurus,SPECIES,literature,{}
+3092,Tanytarsus dybasi,SPECIES,literature,{}
+3093,Tanytarsus emarginatus,SPECIES,literature,{}
+3094,Tanytarsus esakii,SPECIES,literature,{}
+3095,Tanytarsus gressitti,SPECIES,literature,{}
+3096,Tanytarsus halophilae,SPECIES,literature,{}
+3097,Tanytarsus insulicolus,SPECIES,literature,{}
+3098,Tanytarsus magnihamatus,SPECIES,literature,{}
+3099,Tanytarsus maritimus,SPECIES,literature,{}
+3100,Tanytarsus ovatus,SPECIES,literature,{}
+3101,Tanytarsus pelagicus,SPECIES,literature,{}
+3102,Tanytarsus ponapensis,SPECIES,literature,{}
+3103,Tanytarsus subgenus,SPECIES,literature,{}
+3104,Tanytarsus tricuspis,SPECIES,literature,{}
+3105,Tanytarsus van der,SUBSPECIES,literature,{}
+3106,Tapeina truncata,SPECIES,literature,{}
+3107,Tapinella formosana,SPECIES,literature,{}
+3108,Tapinella mariana,SPECIES,literature,{}
+3109,Tapinella pictipenna,SPECIES,literature,{}
+3110,Tartessus ferrugineus proximus,SUBSPECIES,literature,{}
+3111,Taxila suturalis,SPECIES,literature,{}
+3112,Teleonemia bifasciata,SPECIES,literature,{}
+3113,Teleonemia lantanae,SPECIES,literature,{}
+3114,Teleonemia scrupulosa,SPECIES,literature,{}
+3115,Telmatogeton pusillum,SPECIES,literature,{}
+3116,Telostylinus luridus,SPECIES,literature,{}
+3117,Telostylinus speculator,SPECIES,literature,{}
+3118,Telostylinus yapensis,SPECIES,literature,{}
+3119,Telsimia ephippiger,SPECIES,literature,{}
+3120,Telsimia megalops,SPECIES,literature,{}
+3121,Telsimia yapensis,SPECIES,literature,{}
+3122,Tempora boninensis,SPECIES,literature,{}
+3123,Tendipes subgenus,SPECIES,literature,{}
+3124,Tenebrio diaperinus,SPECIES,literature,{}
+3125,Tenebrio fossor,SPECIES,literature,{}
+3126,Tenodera aridifolia sinensis,SUBSPECIES,literature,{}
+3127,Teratodella anthocoroides,SPECIES,literature,{}
+3128,Termes fatidicum,SPECIES,literature,{}
+3129,Tethina insularis,SPECIES,literature,{}
+3130,Tethina lasiophthalma,SPECIES,literature,{}
+3131,Tethina orientalis,SPECIES,literature,{}
+3132,Tetraneura akinire,SPECIES,literature,{}
+3133,Tetrarthria congrua,SPECIES,literature,{}
+3134,Tetrarthria lateralis,SPECIES,literature,{}
+3135,Tetrarthria linetata,SPECIES,literature,{}
+3136,Tetrastichus boninensis,SPECIES,literature,{}
+3137,Tetrastichus gressitti,SPECIES,literature,{}
+3138,Tetrastichus guamensis,SPECIES,literature,{}
+3139,Tettigonia obtecta,SPECIES,literature,{}
+3140,Thalassomyia maritima,SPECIES,literature,{}
+3141,Thalassomyia pilipes,SPECIES,literature,{}
+3142,Thalassomyia sabroskyi,SPECIES,literature,{}
+3143,Thalops fessus,SPECIES,literature,{}
+3144,Thamnotettix argentatus,SPECIES,literature,{}
+3145,Thamnotettiz nigropicta,SPECIES,literature,{}
+3146,Thamnurgides cinnamomi,SPECIES,literature,{}
+3147,Thamnurgides cyperi,SPECIES,literature,{}
+3148,Thamnurgides myristicae,SPECIES,literature,{}
+3149,Thamnurgides persicae,SPECIES,literature,{}
+3150,Thamnurgides setosus,SPECIES,literature,{}
+3151,Thamnurgides tutuilensis,SPECIES,literature,{}
+3152,Thamnurgides variabilis,SPECIES,literature,{}
+3153,Thamnurgides vulgaris,SPECIES,literature,{}
+3154,Tharra rubrovittata,SPECIES,literature,{}
+3155,Thaumaphrastus karanisensis,SPECIES,literature,{}
+3156,Thectura cribrum,SPECIES,literature,{}
+3157,Therates labiatus,SPECIES,literature,{}
+3158,Thesilea funebris,SPECIES,literature,{}
+3159,Thesilea impressipennis,SPECIES,literature,{}
+3160,Thesilea lateralis,SPECIES,literature,{}
+3161,Thesilea puncticeps,SPECIES,literature,{}
+3162,Thesilea valentinei,SPECIES,literature,{}
+3163,Thesilea versicolor,SPECIES,literature,{}
+3164,Three paratypes,SPECIES,literature,{}
+3165,Thrypticomyia arcuata,SPECIES,literature,{}
+3166,Thyamis bimaculata,SPECIES,literature,{}
+3167,Thylacopsis albidus,SPECIES,literature,{}
+3168,Thyreocoris variegatus,SPECIES,literature,{}
+3169,Tinda javana,SPECIES,literature,{}
+3170,Tinda recedens,SPECIES,literature,{}
+3171,Tipula monilis,SPECIES,literature,{}
+3172,Tomicus eruditus,SPECIES,literature,{}
+3173,Tomicus perforans,SPECIES,literature,{}
+3174,Tonoas resembles,SPECIES,literature,{}
+3175,Toramus taprobanae,SPECIES,literature,{}
+3176,Townes dermatitis,SPECIES,literature,{}
+3177,Townes parasitic,SPECIES,literature,{}
+3178,Townes ticks,SPECIES,literature,{}
+3179,Toxicum quadricorne,SPECIES,literature,{}
+3180,Toxoptera aurantii,SPECIES,literature,{}
+3181,Toxoptera citricida,SPECIES,literature,{}
+3182,Toxoptera leonuri,SPECIES,literature,{}
+3183,Trachyscelis suturalis,SPECIES,literature,{}
+3184,Trachytetra frontalis,SPECIES,literature,{}
+3185,Trachytetra robusta,SPECIES,literature,{}
+3186,Tramea lim bata,SUBSPECIES,literature,{}
+3187,Tramea loewi,SPECIES,literature,{}
+3188,Tramea virginia,SPECIES,literature,{}
+3189,Traps baited,SPECIES,literature,{}
+3190,Trentepohlia australasiae,SPECIES,literature,{}
+3191,Trentepohlia poliocephala,SPECIES,literature,{}
+3192,Tribolia rufa,SPECIES,literature,{}
+3193,Tribolium confusum,SPECIES,literature,{}
+3194,Tricentrus akonis,SPECIES,literature,{}
+3195,Trichiorhyssemus esakii,SPECIES,literature,{}
+3196,Trichogramma nanum,SPECIES,literature,{}
+3197,Trichogrammatomyia tortricis,SPECIES,literature,{}
+3198,Trichopsychoda boninensis,SPECIES,literature,{}
+3199,Tridactylus japonicus,SPECIES,literature,{}
+3200,Triehoptilus eentetes,SPECIES,literature,{}
+3201,Triehoptilus eompsochares,SPECIES,literature,{}
+3202,Triehoptilus oehrodaetylus,SPECIES,literature,{}
+3203,Trigonaptera glabra,SPECIES,literature,{}
+3204,Trigonogastra rugosa,SPECIES,literature,{}
+3205,Trinophylum barbatum,SPECIES,literature,{}
+3206,Trinophylum boninense,SPECIES,literature,{}
+3207,Trioea lyra,SPECIES,literature,{}
+3208,Trionymus calceolariae,SPECIES,literature,{}
+3209,Trionymus palauensis,SPECIES,literature,{}
+3210,Trionymus pandani,SPECIES,literature,{}
+3211,Trioza disjuncta,SPECIES,literature,{}
+3212,Trioza eugeniae,SPECIES,literature,{}
+3213,Trioza swezeyi,SPECIES,literature,{}
+3214,Trogoderma anthrenoides,SPECIES,literature,{}
+3215,Trogoderma unicolor,SPECIES,literature,{}
+3216,Trogosita mauritanica,SPECIES,literature,{}
+3217,Trogosita quadricornis,SPECIES,literature,{}
+3218,Tropostethus flavicornis,SPECIES,literature,{}
+3219,Trybliographa beardsleyi,SPECIES,literature,{}
+3220,Trymalitis cataracta,SPECIES,literature,{}
+3221,Trymalitis macarista,SPECIES,literature,{}
+3222,Trypaneoides octopunctatum,SPECIES,literature,{}
+3223,Trypeta atilia,SPECIES,literature,{}
+3224,Trypeta formosana,SPECIES,literature,{}
+3225,Trypeta lemniscata,SPECIES,literature,{}
+3226,Trypeta melaleuea,SPECIES,literature,{}
+3227,Trypeta sexineisa,SPECIES,literature,{}
+3228,Tylana subgenus,SPECIES,literature,{}
+3229,Tylococcus giffardi,SPECIES,literature,{}
+3230,Typblonesiotes zwaluwenburgi,SPECIES,literature,{}
+3231,Typhaea crmata,SPECIES,literature,{}
+3232,Typhaea gilvella,SPECIES,literature,{}
+3233,Typhaea obscura,SPECIES,literature,{}
+3234,Typhaea stercorea,SPECIES,literature,{}
+3235,Typhaea tomentosa,SPECIES,literature,{}
+3236,Typhaea variabilis,SPECIES,literature,{}
+3237,Typhlonesiotes zwaluwenburgi,SPECIES,literature,{}
+3238,Udamostiqma hibisci,SPECIES,literature,{}
+3239,Ugyops percheronii,SPECIES,literature,{}
+3240,Ugyops superciliata,SPECIES,literature,{}
+3241,Uioma ijisularis,SPECIES,literature,{}
+3242,Uloma bituberosa samoana,SUBSPECIES,literature,{}
+3243,Uloma insularis,SPECIES,literature,{}
+3244,Uloma ponapensis plana,SUBSPECIES,literature,{}
+3245,Uloma ponapensis ponapensis,SUBSPECIES,literature,{}
+3246,Unkana hakonensis,SPECIES,literature,{}
+3247,Upis rotundicollis,SPECIES,literature,{}
+3248,Upis sulcigera,SPECIES,literature,{}
+3249,Vagrans egistina,SPECIES,literature,{}
+3250,Valanga irregularis carolinensis,SUBSPECIES,literature,{}
+3251,Valanga ornata,SPECIES,literature,{}
+3252,Valanga viridipes,SPECIES,literature,{}
+3253,Valentine aus dem,SUBSPECIES,literature,{}
+3254,Velitra micronesica,SPECIES,literature,{}
+3255,Vinsonia pulchella,SPECIES,literature,{}
+3256,Vitellus mucronatus,SPECIES,literature,{}
+3257,Wallacellus piceus,SPECIES,literature,{}
+3258,Westwoodella hilaris,SPECIES,literature,{}
+3259,Xestocephalus ininutus,SPECIES,literature,{}
+3260,Xiphidion modestum upoluense,SUBSPECIES,literature,{}
+3261,Xiphidion oceanicum,SPECIES,literature,{}
+3262,Xiphidium maculatum,SPECIES,literature,{}
+3263,Xiphidium redtenbacheri,SPECIES,literature,{}
+3264,Xiphidium vittatum,SPECIES,literature,{}
+3265,Xyleborinus artelineatus,SPECIES,literature,{}
+3266,Xyleborinus exiguus,SPECIES,literature,{}
+3267,Xyleborinus perexiguus,SPECIES,literature,{}
+3268,Xyleborinus saxesenii,SPECIES,literature,{}
+3269,Xyleborus agnatus,SPECIES,literature,{}
+3270,Xyleborus artelineatus,SPECIES,literature,{}
+3271,Xyleborus bicolor,SPECIES,literature,{}
+3272,Xyleborus bicolor unimodus,SUBSPECIES,literature,{}
+3273,Xyleborus bidentatus,SPECIES,literature,{}
+3274,Xyleborus buxtoni,SPECIES,literature,{}
+3275,Xyleborus cinctipennis,SPECIES,literature,{}
+3276,Xyleborus compactus,SPECIES,literature,{}
+3277,Xyleborus destruens,SPECIES,literature,{}
+3278,Xyleborus eccoptopterus,SPECIES,literature,{}
+3279,Xyleborus exiguus,SPECIES,literature,{}
+3280,Xyleborus fallaxoides,SPECIES,literature,{}
+3281,Xyleborus fuscatus,SPECIES,literature,{}
+3282,Xyleborus indicus,SPECIES,literature,{}
+3283,Xyleborus laevis,SPECIES,literature,{}
+3284,Xyleborus mascarenus,SPECIES,literature,{}
+3285,Xyleborus melas,SPECIES,literature,{}
+3286,Xyleborus parvulus,SPECIES,literature,{}
+3287,Xyleborus perbrevis,SPECIES,literature,{}
+3288,Xyleborus rameus,SPECIES,literature,{}
+3289,Xyleborus samoensis,SPECIES,literature,{}
+3290,Xyleborus semigranosus,SPECIES,literature,{}
+3291,Xyleborus senachalensis,SPECIES,literature,{}
+3292,Xyleborus silvestris,SPECIES,literature,{}
+3293,Xyleborus submarginatus,SPECIES,literature,{}
+3294,Xyleborus swezeyi,SPECIES,literature,{}
+3295,Xyleborus upoluensis,SPECIES,literature,{}
+3296,Xyleborus versicolor,SPECIES,literature,{}
+3297,Xyleborus wilderi,SPECIES,literature,{}
+3298,Xylopertha religiosa,SPECIES,literature,{}
+3299,Xylopsocus castanopterus,SPECIES,literature,{}
+3300,Xylosandrus crassiusculus,SPECIES,literature,{}
+3301,Xylosandrus morigerus,SPECIES,literature,{}
+3302,Xylota boninensis,SPECIES,literature,{}
+3303,Xylothrips llavipes,SPECIES,literature,{}
+3304,Xylothrips religioslls,SPECIES,literature,{}
+3305,Xylotrechus boninensis,SPECIES,literature,{}
+3306,Xylotrechus grayii,SPECIES,literature,{}
+3307,Xylotrechus ogasawarensis,SPECIES,literature,{}
+3308,Yasumatsu veterinary entomology,SUBSPECIES,literature,{}
+3309,Zangis amyoti,SPECIES,literature,{}
+3310,Zangis inornata,SPECIES,literature,{}
+3311,Zoraida fistulator,SPECIES,literature,{}
+3312,Zoraida,GENUS,literature,{}
+3313,Zangis,GENUS,literature,{}
+3314,Yasumatsu veterinary,SPECIES,literature,{}
+3315,Yasumatsu,GENUS,literature,{}
+3316,Xylotrechus,GENUS,literature,{}
+3317,Xylothrips,GENUS,literature,{}
+3318,Xylota,GENUS,literature,{}
+3319,Xylosandrus,GENUS,literature,{}
+3320,Xylopsocus,GENUS,literature,{}
+3321,Xylopertha,GENUS,literature,{}
+3322,Xyleborus,GENUS,literature,{}
+3323,Xyleborinus,GENUS,literature,{}
+3324,Xiphidium,GENUS,literature,{}
+3325,Xiphidion,GENUS,literature,{}
+3326,Xiphidion modestum,SPECIES,literature,{}
+3327,Xestocephalus,GENUS,literature,{}
+3328,Westwoodella,GENUS,literature,{}
+3329,Wallacellus,GENUS,literature,{}
+3330,Vitellus,GENUS,literature,{}
+3331,Vinsonia,GENUS,literature,{}
+3332,Velitra,GENUS,literature,{}
+3333,Valentine aus,SPECIES,literature,{}
+3334,Valentine,GENUS,literature,{}
+3335,Valanga,GENUS,literature|inat,{}
+3336,Valanga irregularis,SPECIES,literature,{}
+3337,Vagrans,GENUS,literature|inat,{}
+3338,Upis,GENUS,literature,{}
+3339,Unkana,GENUS,literature,{}
+3340,Uloma ponapensis,SPECIES,literature,{}
+3341,Uloma,GENUS,literature,{}
+3342,Uloma bituberosa,SPECIES,literature,{}
+3343,Uioma,GENUS,literature,{}
+3344,Ugyops,GENUS,literature,{}
+3345,Udamostiqma,GENUS,literature,{}
+3346,Typhlonesiotes,GENUS,literature,{}
+3347,Typhaea,GENUS,literature,{}
+3348,Typblonesiotes,GENUS,literature,{}
+3349,Tylococcus,GENUS,literature,{}
+3350,Tylana,GENUS,literature,{}
+3351,Trypeta,GENUS,literature,{}
+3352,Trypaneoides,GENUS,literature,{}
+3353,Trymalitis,GENUS,literature,{}
+3354,Trybliographa,GENUS,literature,{}
+3355,Tropostethus,GENUS,literature,{}
+3356,Trogosita,GENUS,literature,{}
+3357,Trogoderma,GENUS,literature,{}
+3358,Trioza,GENUS,literature,{}
+3359,Trionymus,GENUS,literature,{}
+3360,Trioea,GENUS,literature,{}
+3361,Trinophylum,GENUS,literature,{}
+3362,Trigonogastra,GENUS,literature,{}
+3363,Trigonaptera,GENUS,literature,{}
+3364,Triehoptilus,GENUS,literature,{}
+3365,Tridactylus,GENUS,literature,{}
+3366,Trichopsychoda,GENUS,literature,{}
+3367,Trichogrammatomyia,GENUS,literature,{}
+3368,Trichogramma,GENUS,literature,{}
+3369,Trichiorhyssemus,GENUS,literature,{}
+3370,Tricentrus,GENUS,literature,{}
+3371,Tribolium,GENUS,literature,{}
+3372,Tribolia,GENUS,literature,{}
+3373,Trentepohlia,GENUS,literature,{}
+3374,Traps,GENUS,literature,{}
+3375,Tramea,GENUS,literature,{}
+3376,Tramea lim,SPECIES,literature,{}
+3377,Trachytetra,GENUS,literature,{}
+3378,Trachyscelis,GENUS,literature,{}
+3379,Toxoptera,GENUS,literature,{}
+3380,Toxicum,GENUS,literature,{}
+3381,Townes,GENUS,literature,{}
+3382,Toramus,GENUS,literature,{}
+3383,Tonoas,GENUS,literature,{}
+3384,Tomicus,GENUS,literature,{}
+3385,Tipula,GENUS,literature,{}
+3386,Tinda,GENUS,literature,{}
+3387,Thyreocoris,GENUS,literature,{}
+3388,Thylacopsis,GENUS,literature,{}
+3389,Thyamis,GENUS,literature,{}
+3390,Thrypticomyia,GENUS,literature,{}
+3391,Three,GENUS,literature,{}
+3392,Thesilea,GENUS,literature,{}
+3393,Therates,GENUS,literature,{}
+3394,Thectura,GENUS,literature,{}
+3395,Thaumaphrastus,GENUS,literature,{}
+3396,Tharra,GENUS,literature,{}
+3397,Thamnurgides,GENUS,literature,{}
+3398,Thamnotettiz,GENUS,literature,{}
+3399,Thamnotettix,GENUS,literature,{}
+3400,Thalops,GENUS,literature,{}
+3401,Thalassomyia,GENUS,literature,{}
+3402,Tettigonia,GENUS,literature,{}
+3403,Tetrastichus,GENUS,literature,{}
+3404,Tetrarthria,GENUS,literature,{}
+3405,Tetraneura,GENUS,literature,{}
+3406,Tethina,GENUS,literature,{}
+3407,Termes,GENUS,literature,{}
+3408,Acalles,GENUS,inat,{}
+3409,Acalolepta,GENUS,inat,{}
+3410,Acanthograeffea,GENUS,inat,{}
+3411,Acherontia,GENUS,inat,{}
+3412,Adoretus,GENUS,inat,{}
+3413,Aedes,GENUS,inat,{}
+3414,Agrilus,GENUS,inat,{}
+3415,Agrioglypta,GENUS,inat,{}
+3416,Agrionoptera,GENUS,inat,{}
+3417,Agrius,GENUS,inat,{}
+3418,Aiolopus,GENUS,inat,{}
+3419,Aleurocanthus,GENUS,inat,{}
+3420,Allomerus,GENUS,inat,{}
+3421,Amarygmus,GENUS,inat,{}
+3422,Amorphoidea,GENUS,inat,{}
+3423,Ananca,GENUS,inat,{}
+3424,Anax,GENUS,inat,{}
+3425,Anochetus,GENUS,inat,{}
+3426,Anomis,GENUS,inat,{}
+3427,Anthrax,GENUS,inat,{}
+3428,Aphthona,GENUS,inat|literature,{}
+3429,Araecerus,GENUS,inat,{}
+3430,Armacia,GENUS,inat,{}
+3431,Aspidomorpha,GENUS,inat,{}
+3432,Aulacophora,GENUS,inat|literature,{}
+3433,Axona,GENUS,inat,{}
+3434,Bactrocera,GENUS,inat,{}
+3435,Balclutha,GENUS,inat,{}
+3436,Balta,GENUS,inat,{}
+3437,Brachycyttarus,GENUS,inat,{}
+3438,Brachymyrmex,GENUS,inat,{}
+3439,Brachyrhynchus,GENUS,inat,{}
+3440,Brontispa,GENUS,inat|literature,{}
+3441,Callirhipis,GENUS,inat,{}
+3442,Camponotus,GENUS,inat,{}
+3443,Cardiodactylus,GENUS,inat,{}
+3444,Cassida,GENUS,inat,{}
+3445,Cecidochares,GENUS,inat,{}
+3446,Cephonodes,GENUS,inat,{}
+3447,Ceratina,GENUS,inat,{}
+3448,Ceroplastes,GENUS,inat|literature,{}
+3449,Chaetospania,GENUS,inat,{}
+3450,Cheilomenes,GENUS,inat,{}
+3451,Chelonus,GENUS,inat,{}
+3452,Chlorophorus,GENUS,inat,{}
+3453,Chrysodeixis,GENUS,inat,{}
+3454,Chrysomya,GENUS,inat,{}
+3455,Chrysopera,GENUS,inat,{}
+3456,Cicadulina,GENUS,inat,{}
+3457,Coccinella,GENUS,inat|literature,{}
+3458,Coelophora,GENUS,inat,{}
+3459,Conotelus,GENUS,inat,{}
+3460,Corythucha,GENUS,inat,{}
+3461,Crematogaster,GENUS,inat,{}
+3462,Cryptolaemus,GENUS,inat,{}
+3463,Ctenocephalides,GENUS,inat,{}
+3464,Curinus,GENUS,inat,{}
+3465,Cylas,GENUS,inat,{}
+3466,Daealus,GENUS,inat,{}
+3467,Danaus,GENUS,inat,{}
+3468,Daphnis,GENUS,inat,{}
+3469,Delta,GENUS,inat,{}
+3470,Diaphania,GENUS,inat,{}
+3471,Dione,GENUS,inat,{}
+3472,Diplacodes,GENUS,inat,{}
+3473,Dissoptera,GENUS,inat,{}
+3474,Doleschallia,GENUS,inat,{}
+3475,Drepanosticta,GENUS,inat,{}
+3476,Earias,GENUS,inat,{}
+3477,Ectomyelois,GENUS,inat,{}
+3478,Erionota,GENUS,inat,{}
+3479,Eristalinus,GENUS,inat,{}
+3480,Euborellia,GENUS,inat,{}
+3481,Euconocephalus,GENUS,inat,{}
+3482,Eudocima,GENUS,inat,{}
+3483,Euploea,GENUS,inat,{}
+3484,Eurema,GENUS,inat,{}
+3485,Euxesta,GENUS,inat,{}
+3486,Exitianus,GENUS,inat,{}
+3487,Figulus,GENUS,inat,{}
+3488,Gnathothlibus,GENUS,inat,{}
+3489,Grammodes,GENUS,inat,{}
+3490,Graptostethus,GENUS,inat,{}
+3491,Gryllotalpa,GENUS,inat,{}
+3492,Hamza,GENUS,inat,{}
+3493,Helicoverpa,GENUS,inat,{}
+3494,Hemicordulia,GENUS,inat,{}
+3495,Henosepilachna,GENUS,inat,{}
+3496,Herpetogramma,GENUS,inat,{}
+3497,Heteropternis,GENUS,inat,{}
+3498,Hippotion,GENUS,inat,{}
+3499,Horridipamera,GENUS,inat,{}
+3500,Hyblaea,GENUS,inat,{}
+3501,Hylephila,GENUS,inat,{}
+3502,Hypolimnas,GENUS,inat,{}
+3503,Icerya,GENUS,inat|literature,{}
+3504,Insnesia,GENUS,inat,{}
+3505,Iridomyrmex,GENUS,inat,{}
+3506,Ischnura,GENUS,inat,{}
+3507,Junonia,GENUS,inat,{}
+3508,Kallitaxila,GENUS,inat,{}
+3509,Labidura,GENUS,inat,{}
+3510,Laius,GENUS,inat|literature,{}
+3511,Lampides,GENUS,inat,{}
+3512,Lasioglossum,GENUS,inat,{}
+3513,Lebinthus,GENUS,inat,{}
+3514,Leptocentrus,GENUS,inat,{}
+3515,Leptocorisa,GENUS,inat,{}
+3516,Leptoglossus,GENUS,inat,{}
+3517,Locusta,GENUS,inat,{}
+3518,Lophothetes,GENUS,inat,{}
+3519,Lucilia,GENUS,inat,{}
+3520,Macrodiplax,GENUS,inat,{}
+3521,Mallada,GENUS,inat,{}
+3522,Megachile,GENUS,inat,{}
+3523,Melanitis,GENUS,inat,{}
+3524,Melittia,GENUS,inat,{}
+3525,Menectetorus,GENUS,inat,{}
+3526,Mesohomotoma,GENUS,inat,{}
+3527,Microchrysa,GENUS,inat,{}
+3528,Micromeriella,GENUS,inat,{}
+3529,Mimegralla,GENUS,inat,{}
+3530,Mocis,GENUS,inat,{}
+3531,Monomorium,GENUS,inat,{}
+3532,Necrobia,GENUS,inat,{}
+3533,Neurothemis,GENUS,inat,{}
+3534,Nipaecoccus,GENUS,inat,{}
+3535,Nisitra,GENUS,inat,{}
+3536,Nylanderia,GENUS,inat,{}
+3537,Odontomachus,GENUS,inat,{}
+3538,Olepa,GENUS,inat,{}
+3539,Olla,GENUS,inat,{}
+3540,Onthophagus,GENUS,inat,{}
+3541,Ophiusa,GENUS,inat,{}
+3542,Orthetrum,GENUS,inat,{}
+3543,Orthodera,GENUS,inat,{}
+3544,Oryzaephilus,GENUS,inat,{}
+3545,Oxyodes,GENUS,inat,{}
+3546,Pantala,GENUS,inat,{}
+3547,Papilio,GENUS,inat,{}
+3548,Parastasia,GENUS,inat,{}
+3549,Paratettix,GENUS,inat,{}
+3550,Pareuchaetes,GENUS,inat,{}
+3551,Paromius,GENUS,inat,{}
+3552,Pentalonia,GENUS,inat,{}
+3553,Pericyma,GENUS,inat,{}
+3554,Phaneroptera,GENUS,inat,{}
+3555,Pheidole,GENUS,inat,{}
+3556,Physomerus,GENUS,inat,{}
+3557,Piezodorus,GENUS,inat,{}
+3558,Platysimus,GENUS,inat,{}
+3559,Podontia,GENUS,inat,{}
+3560,Poliobotys,GENUS,inat,{}
+3561,Polistes,GENUS,inat,{}
+3562,Polyrhachis,GENUS,inat,{}
+3563,Promethis,GENUS,inat,{}
+3564,Protaetia,GENUS,inat,{}
+3565,Proutista,GENUS,inat,{}
+3566,Pseudopachybrachius,GENUS,inat,{}
+3567,Psilogramma,GENUS,inat,{}
+3568,Pterolophia,GENUS,inat,{}
+3569,Pycnoscelus,GENUS,inat,{}
+3570,Quadrastichus,GENUS,inat,{}
+3571,Raivuna,GENUS,inat,{}
+3572,Rhabdoscelus,GENUS,inat,{}
+3573,Rhynchium,GENUS,inat,{}
+3574,Rhyothemis,GENUS,inat,{}
+3575,Rhyzobius,GENUS,inat,{}
+3576,Romabenna,GENUS,inat,{}
+3577,Salduncula,GENUS,inat,{}
+3578,Salomona,GENUS,inat,{}
+3579,Scadra,GENUS,inat,{}
+3580,Sceliphron,GENUS,inat,{}
+3581,Scholastes,GENUS,inat,{}
+3582,Sitophilus,GENUS,inat,{}
+3583,Solenopsis,GENUS,inat,{}
+3584,Spodoptera,GENUS,inat,{}
+3585,Statilia,GENUS,inat,{}
+3586,Stenocatantops,GENUS,inat,{}
+3587,Stephanitis,GENUS,inat,{}
+3588,Sticholotis,GENUS,inat,{}
+3589,Stomoxys,GENUS,inat,{}
+3590,Striglina,GENUS,inat,{}
+3591,Strumigenys,GENUS,inat,{}
+3592,Sybra,GENUS,inat,{}
+3593,Tapinoma,GENUS,inat,{}
+3594,Taractrocera,GENUS,inat,{}
+3595,Technomyrmex,GENUS,inat,{}
+3596,Teinobasis,GENUS,inat,{}
+3597,Tenodera,GENUS,inat,{}
+3598,Tetragonula,GENUS,inat,{}
+3599,Tetramorium,GENUS,inat,{}
+3600,Thalassodes,GENUS,inat,{}
+3601,Theretra,GENUS,inat,{}
+3602,Tholymis,GENUS,inat,{}
+3603,Thyas,GENUS,inat,{}
+3604,Tilloidea,GENUS,inat,{}
+3605,Traminda,GENUS,inat,{}
+3606,Trichrysis,GENUS,inat,{}
+3607,Trochoideus,GENUS,inat,{}
+3608,Trypetomima,GENUS,inat,{}
+3609,Utetheisa,GENUS,inat,{}
+3610,Vespa,GENUS,inat,{}
+3611,Vollenhovia,GENUS,inat,{}
+3612,Xylocopa,GENUS,inat,{}
+3613,Xyphon,GENUS,inat,{}
+3614,Zizina,GENUS,inat,{}
+3615,Zyxomma,GENUS,inat,{}
+3616,Acarinus,GENUS,literature,{}
+3617,Aciptilia,GENUS,literature,{}
+3618,Agrion pygma,SPECIES,literature,{}
+3619,Agromyza,GENUS,literature,{}
+3620,Agrypnus,GENUS,literature,{}
+3621,Alaus,GENUS,literature,{}
+3622,Aleyrodes,GENUS,literature,{}
+3623,Alpinia,GENUS,literature,{}
+3624,Amblypsilopus,GENUS,literature,{}
+3625,Anal,GENUS,literature,{}
+3626,Anisolabis,GENUS,literature,{}
+3627,Antestia,GENUS,literature,{}
+3628,Anthicus,GENUS,literature,{}
+3629,Antonina,GENUS,literature,{}
+3630,Apate,GENUS,literature,{}
+3631,Aphodius,GENUS,literature,{}
+3632,Aposthonia,GENUS,literature,{}
+3633,Aspidiotus,GENUS,literature,{}
+3634,Asterodiaspis,GENUS,literature,{}
+3635,Atractocera,GENUS,literature,{}
+3636,Bactra,GENUS,literature,{}
+3637,Batrachomorphus,GENUS,literature,{}
+3638,Borborus,GENUS,literature,{}
+3639,Bostrichus,GENUS,literature,{}
+3640,Brachylabis,GENUS,literature,{}
+3641,Bradymcrus,GENUS,literature,{}
+3642,Caecilius,GENUS,literature,{}
+3643,Cantacader,GENUS,literature,{}
+3644,Carabus,GENUS,literature,{}
+3645,Caroline,GENUS,literature,{}
+3646,Carpophilus,GENUS,literature,{}
+3647,Cephalochrysa,GENUS,literature,{}
+3648,Ceresium,GENUS,literature,{}
+3649,Chaetocnema,GENUS,literature,{}
+3650,Chaetococcus,GENUS,literature,{}
+3651,Chermes,GENUS,literature,{}
+3652,Chiastoplonia,GENUS,literature,{}
+3653,Chionaspis,GENUS,literature,{}
+3654,Chironomus,GENUS,literature,{}
+3655,Chlaenius,GENUS,literature,{}
+3656,Chrysopa,GENUS,literature,{}
+3657,Chrysosoma,GENUS,literature,{}
+3658,Cicada,GENUS,literature,{}
+3659,Cligenes,GENUS,literature,{}
+3660,Coccus,GENUS,literature,{}
+3661,Coenobius,GENUS,literature,{}
+3662,Colasposoma,GENUS,literature,{}
+3663,Compsolacon,GENUS,literature,{}
+3664,Conocephaloides,GENUS,literature,{}
+3665,Coridromoides,GENUS,literature,{}
+3666,Cryptopone,GENUS,literature,{}
+3667,Culex,GENUS,literature,{}
+3668,Culicoides,GENUS,literature,{}
+3669,Dactylopius,GENUS,literature,{}
+3670,Dacus,GENUS,literature,{}
+3671,Dasyhelea,GENUS,literature,{}
+3672,Delphax,GENUS,literature,{}
+3673,Dettopsomyia,GENUS,literature,{}
+3674,Dicranomyia,GENUS,literature,{}
+3675,Dihammus,GENUS,literature,{}
+3676,Diploconus,GENUS,literature,{}
+3677,Drosophila,GENUS,literature,{}
+3678,Dysmicoccus,GENUS,literature,{}
+3679,Echmepteryx,GENUS,literature,{}
+3680,Ectopsocus,GENUS,literature,{}
+3681,Empoasca,GENUS,literature,{}
+3682,Entedonomorpha,GENUS,literature,{}
+3683,Epilachna,GENUS,literature,{}
+3684,Eteoneus,GENUS,literature,{}
+3685,Eucosma,GENUS,literature,{}
+3686,Euponera,GENUS,literature,{}
+3687,Euscelis,GENUS,literature,{}
+3688,Evanta,GENUS,literature,{}
+3689,Forcipomyia,GENUS,literature,{}
+3690,Forjicesila,GENUS,literature,{}
+3691,Fulvius,GENUS,literature,{}
+3692,Gnamptopsilopus,GENUS,literature,{}
+3693,Gonomyia,GENUS,literature,{}
+3694,Gryllus,GENUS,literature,{}
+3695,Gymnoscymnus,GENUS,literature,{}
+3696,Haematobia,GENUS,literature,{}
+3697,Halyzia,GENUS,literature,{}
+3698,Haptoncus,GENUS,literature,{}
+3699,Heterocaecilius,GENUS,literature,{}
+3700,Heterophyllus,GENUS,literature,{}
+3701,Hill,GENUS,literature,{}
+3702,Holochlora,GENUS,literature,{}
+3703,Homoneura,GENUS,literature,{}
+3704,Hyalopeplus,GENUS,literature,{}
+3705,Hypocryphalus,GENUS,literature,{}
+3706,Hypophloeus,GENUS,literature,{}
+3707,Iphrobrium,GENUS,literature,{}
+3708,Iwosiopelus,GENUS,literature,{}
+3709,Kevanophisis,GENUS,literature,{}
+3710,Lallemandana,GENUS,literature,{}
+3711,Lasiochilus,GENUS,literature,{}
+3712,Lasiohelea,GENUS,literature,{}
+3713,Lauxania,GENUS,literature,{}
+3714,Lepidiota,GENUS,literature,{}
+3715,Lepidosaphes,GENUS,literature,{}
+3716,Lepiopsocus,GENUS,literature,{}
+3717,Leptocera,GENUS,literature,{}
+3718,Leptocoris,GENUS,literature,{}
+3719,Leptothorax,GENUS,literature,{}
+3720,Leucophenga,GENUS,literature,{}
+3721,Limnophora,GENUS,literature,{}
+3722,Limonia,GENUS,literature,{}
+3723,Limosina,GENUS,literature,{}
+3724,Lorichius,GENUS,literature,{}
+3725,Lygaeus,GENUS,literature,{}
+3726,Lymaenon,GENUS,literature,{}
+3727,Lyphia,GENUS,literature,{}
+3728,Lysiphlebus,GENUS,literature,{}
+3729,Macroxiphus,GENUS,literature,{}
+3730,Marianas other,SPECIES,literature,{}
+3731,Melanoxanthus,GENUS,literature,{}
+3732,Meristhus,GENUS,literature,{}
+3733,Mezira,GENUS,literature,{}
+3734,Micronesia,GENUS,literature,{}
+3735,Monohelea,GENUS,literature,{}
+3736,Myndorus,GENUS,literature,{}
+3737,Myrimica,GENUS,literature,{}
+3738,Nephus,GENUS,literature,{}
+3739,Nesorhamma halcas,SPECIES,literature,{}
+3740,Niphohammus,GENUS,literature,{}
+3741,Nodostoma,GENUS,literature,{}
+3742,Nysius,GENUS,literature,{}
+3743,Obelosia,GENUS,literature,{}
+3744,Odonaspis,GENUS,literature,{}
+3745,Oedipoda,GENUS,literature,{}
+3746,Olfersia,GENUS,literature,{}
+3747,Omania,GENUS,literature,{}
+3748,Ornithoica,GENUS,literature,{}
+3749,Ornithomyia,GENUS,literature,{}
+3750,Ortalia,GENUS,literature,{}
+3751,Oxya,GENUS,literature,{}
+3752,Oxycephala,GENUS,literature,{}
+3753,Pacificola,GENUS,literature,{}
+3754,Paedisca,GENUS,literature,{}
+3755,Parlatoria,GENUS,literature,{}
+3756,Pentagoniea,GENUS,literature,{}
+3757,Peripsocus,GENUS,literature,{}
+3758,Phainoma,GENUS,literature,{}
+3759,Pharellus,GENUS,literature,{}
+3760,Phaula,GENUS,literature,{}

@@ -12,6 +12,28 @@
   var ITALIC_RANKS = { Genus: 1, Subgenus: 1, Species: 1, Subspecies: 1 };
   var SITE = "Insects of Guam";
 
+  // ------------------------------------------------------------------ taxon ids
+  // Must match src/guaminsects/ids.py: the id in URLs and CSV files (a Catalogue of Life id
+  // like KVC9L, gbif:<key>, name-<n>, IOG-<n>) <-> the number records are filed under.
+  var COL_BASE = 1e11, NAME_BASE = 3e11, LOCAL_BASE = 5e11;
+  function extOf(id) {
+    id = Number(id);
+    if (id < COL_BASE) return "gbif:" + id;
+    if (id < NAME_BASE) return (id - COL_BASE).toString(36).toUpperCase();
+    if (id < LOCAL_BASE) return "name-" + (id - NAME_BASE);
+    return "IOG-" + (id - LOCAL_BASE);
+  }
+  function tidOf(ext) {
+    var s = decodeURIComponent(String(ext)), m;
+    if ((m = s.match(/^gbif:(\d+)$/))) return Number(m[1]);
+    if ((m = s.match(/^name-(\d+)$/))) return NAME_BASE + Number(m[1]);
+    if ((m = s.match(/^IOG-(\d+)$/))) return LOCAL_BASE + Number(m[1]);
+    if (/^\d{8,}$/.test(s)) return Number(s);
+    if (/^[0-9A-Z]{1,7}$/.test(s)) return COL_BASE + parseInt(s, 36);
+    return null;
+  }
+  function href(id) { return "#/t/" + extOf(id); }
+
   // ------------------------------------------------------------------ data loading
   window.guaminsects = {
     meta: function (m) { meta = m; renderSiteFooter(); route(); },
@@ -33,7 +55,7 @@
     var p = new Promise(function (resolve, reject) {
       waiting.set(id, { resolve: resolve, reject: reject });
       var s = document.createElement("script");
-      s.src = "data/t/" + Math.floor(id / 1000) + "/" + id + ".js";
+      s.src = "data/t/" + (id % 1000) + "/" + id + ".js";
       s.onload = function () { s.remove(); };
       s.onerror = function () { s.remove(); waiting.delete(id); reject(new Error("missing")); };
       document.head.appendChild(s);
@@ -121,17 +143,17 @@
       renderSearch(params.get("q") || "", params.get("hidden") === "1");
       return;
     }
-    var im = location.hash.match(/^#\/id\/(\d+)(?:\?r=([a-z,]+))?/);
+    var im = location.hash.match(/^#\/id\/([^/?]+)(?:\?r=([a-z,]+))?/);
     if (im) {
-      var iid = Number(im[1]);
+      var iid = tidOf(im[1]);
       var valid = (meta.regions || []).map(function (x) { return x.key; });
       var keys = (im[2] || "").split(",").filter(function (k) { return valid.indexOf(k) >= 0; });
       loadRecord(iid).then(live(function (rec) { renderIdentify(rec, keys); }),
                            live(function () { renderMissing(iid); }));
       return;
     }
-    var m = location.hash.match(/^#\/t\/(\d+)/);
-    var id = m ? Number(m[1]) : meta.root;
+    var m = location.hash.match(/^#\/t\/([^/?]+)/);
+    var id = m ? tidOf(m[1]) : meta.root;
     if (!id) { app.innerHTML = "<p>No data has been built yet. Run <code>uv run guaminsects build</code>.</p>"; return; }
     loadRecord(id).then(live(function (rec) { renderTaxon(rec, !m); }),
                         live(function () { renderMissing(id); }));
@@ -150,7 +172,7 @@
     identifyBtn.addEventListener("click", function () {
       var id = currentId || meta.root;
       if (!id) return;
-      location.hash = (identifyBtn.classList.contains("on") ? "#/t/" : "#/id/") + id;
+      location.hash = (identifyBtn.classList.contains("on") ? "#/t/" : "#/id/") + extOf(id);
     });
   }
 
@@ -210,7 +232,7 @@
     document.title = (isHome ? "" : r.name + (r.common ? " – " + r.common : "") + " · ") + SITE;
     // The home page lists the orders straight away: Hexapoda's own children are four
     // classes, and Insecta holds nearly everything.
-    var shown = isHome && meta.home.length ? Object.assign({}, r, { children: meta.home, families: [] }) : r;
+    var shown = isHome && meta.home.length ? Object.assign({}, r, { children: meta.home }) : r;
     var html = [];
     if (isHome) html.push(homeIntro());
     else html.push(breadcrumb(r));
@@ -229,10 +251,11 @@
     if (!isHome) html.push(pageNav(r));
     if (!isHome) html.push(curatedNote(r));
     html.push(children(shown));
-    html.push(familyIndex(shown));
+    html.push(checklist(r));
     html.push(sections(r));
     html.push(hostCrops(r));
     html.push(literature(r));
+    html.push(otherNames(r));
     html.push(evidence(r));
     html.push(wikipedia(r));
     html.push("</div></div>");
@@ -247,7 +270,7 @@
 
 
   function identifyPanel(c, keys) {
-    var href = c.kids ? identifyHref(c.id, keys) : "#/t/" + c.id;
+    var link = c.kids ? identifyHref(c.id, keys) : href(c.id);
     var filtering = keys.length > 0;
     var unknown = !c.regions;
     var pic = c.thumb
@@ -259,9 +282,9 @@
         esc(STATUS[c.est][0].toLowerCase()) + "</span>" : "")
       : (c.species_count ? plural(c.species_count, "species") : esc(displayRank(c.rank, c.name)));
     var where = c.regions ? '<span class="ip-where">' + c.regions.map(function (k) {
-      return '<span class="isle r-' + esc(k) + '">' + esc(regionLabel(k)) + "</span>";
+      return '<span class="isle r-' + esc(k) + '" title="' + esc(regionTip(k)) + '">' + esc(regionLabel(k)) + "</span>";
     }).join("") + "</span>" : "";
-    return '<a class="ip' + (filtering && unknown ? " ip-unknown" : "") + '" href="' + href + '">' +
+    return '<a class="ip' + (filtering && unknown ? " ip-unknown" : "") + '" href="' + link + '">' +
       '<span class="ip-figures">' + pic + map + "</span>" +
       '<span class="ip-name">' + sciName(c.rank, c.name) + "</span>" +
       '<span class="ip-sub">' + sub + (c.kids ? " ›" : "") + "</span>" + where +
@@ -272,7 +295,7 @@
 
   function identifyHref(id, keys) {
     var r = (keys || []).join(",");
-    return "#/id/" + id + (r ? "?r=" + r : "");
+    return "#/id/" + extOf(id) + (r ? "?r=" + r : "");
   }
 
   // Clicking a region adds or removes it; the panels show anything in ANY chosen region,
@@ -288,14 +311,26 @@
     var found = (meta.regions || []).filter(function (x) { return x.key === key; })[0];
     return found ? found.label : key;
   }
+  // What each island group's short name stands for (tooltips on tables, maps and chips).
+  var REGION_TIPS = {
+    gu: "Guam: a US territory, the southernmost of the Mariana Islands",
+    mp: "CNMI: the Commonwealth of the Northern Mariana Islands (Saipan, Tinian, Rota and the " +
+        "islands to the north), a US commonwealth",
+    pw: "Palau: the Republic of Palau (Babeldaob, Koror, Peleliu, Angaur, Kayangel and the " +
+        "Southwest Islands)",
+    fm: "FSM: the Federated States of Micronesia, four states across the Caroline Islands: " +
+        "Yap, Chuuk, Pohnpei and Kosrae",
+    mh: "Marshalls: the Republic of the Marshall Islands, 29 atolls and 5 islands"
+  };
+  function regionTip(key) { return REGION_TIPS[String(key).toLowerCase()] || ""; }
 
 
   function identifyFilter(r, keys, counts) {
     var chips = (meta.regions || []).map(function (x) {
       var on = keys.indexOf(x.key) >= 0;
-      return '<a class="chip r-' + esc(x.key) + (on ? " on" : "") + '" href="' +
+      return '<a class="chip r-' + esc(x.key) + (on ? " on" : "") + '" title="' + esc(regionTip(x.key)) + '" href="' +
         identifyHref(r.id, withRegion(keys, x.key)) + '" role="button" aria-pressed="' + on +
-        '" title="' + esc(x.name) + '">' + esc(x.label) + "</a>";
+        '">' + esc(x.label) + "</a>";
     }).join("");
     var clear = keys.length
       ? '<a class="chip chip-clear" href="' + identifyHref(r.id, []) + '">Clear</a>' : "";
@@ -337,12 +372,12 @@
             esc(keys.map(regionLabel).join(" or ")) + '. <a href="' +
             identifyHref(r.id, []) + '">Clear the filter</a>.</p>')
       : '<p class="muted">Nothing below ' + sciName(r.rank, r.name) + " to compare. " +
-        '<a href="#/t/' + r.id + '">Open its page</a> instead.</p>';
+        '<a href="' + href(r.id) + '">Open its page</a> instead.</p>';
     var left = r.children.length - kids.length;
     app.innerHTML = breadcrumb(r) +
       '<header class="taxon-head"><div class="head-line">' +
       '<span class="rank-chip">Identify</span><h1>' + sciName(r.rank, r.name) + "</h1>" +
-      '<p class="badges"><a class="ip-exit" href="#/t/' + r.id + '">Full page</a></p></div>' +
+      '<p class="badges"><a class="ip-exit" href="' + href(r.id) + '">Full page</a></p></div>' +
       (kids.length ? '<p class="common">' + kids.length + " to compare" +
         (left ? " (" + left + " hidden page" + (left === 1 ? "" : "s") + " or synonym" +
           (left === 1 ? "" : "s") + " left out)" : "") + "</p>" : "") +
@@ -356,7 +391,7 @@
     var trail = r.lineage;
     if (!trail.length) return "";
     return '<nav class="crumbs" aria-label="Taxonomy"><ol>' + trail.map(function (a) {
-      return '<li><a href="#/t/' + a.id + '" title="' + esc(a.rank) + (a.common ? ": " + esc(a.common) : "") +
+      return '<li><a href="' + href(a.id) + '" title="' + esc(a.rank) + (a.common ? ": " + esc(a.common) : "") +
         '">' + sciName(a.rank, a.name) + "</a></li>";
     }).join("") + "</ol></nav>";
   }
@@ -365,6 +400,7 @@
   function pageNav(r) {
     var items = [];
     if (r.children.length) items.push(["s-children", "Included taxa"]);
+    if (r.checklist && r.checklist.length) items.push(["s-checklist", "Checklist"]);
     r.sections.forEach(function (s) { items.push(["s-" + s.key, s.heading]); });
     if (r.map) items.push(["s-map", "Distribution"]);
     if (r.hosts && r.hosts.length) items.push(["s-hosts", "Crops attacked"]);
@@ -383,14 +419,12 @@
   function homeIntro() {
     var c = meta.counts, stats = [
       [c.species, "species"], [c.guam, "recorded from Guam"], [c.literature, "in digitised literature"],
+      [c.not_in_col || null, "not yet in the Catalogue of Life"],
       [c.morphospecies || null, "morphospecies"], [c.photos || null, "with photos"]];
     return '<section class="hero"><h1 class="hero-title">' + esc(meta.title) +
       ' <span class="hero-sub">' + esc(meta.subtitle) + "</span></h1>" +
       '<p class="lede">The insects and other hexapods of Guam, the Northern Mariana Islands, Palau, ' +
-      "the Federated States of Micronesia and the Marshall Islands. Regional lists are thin, so " +
-      "this reference pools them: museum and survey records on GBIF (including the University " +
-      "of Guam Insect Collection), iNaturalist observations, and the digitised <i>Insects of " +
-      "Guam</i> and <i>Insects of Micronesia</i>. Start with an order below, use " +
+      "the Federated States of Micronesia and the Marshall Islands. Start with an order below, use " +
       "<b>Identify</b> to compare a group island by island, or press <kbd>/</kbd> to search.</p>" +
       '<ul class="stats">' + stats.filter(function (x) {
         return x[0] != null;
@@ -417,9 +451,11 @@
     }
     if (r.status === "morphospecies") badges.push('<span class="badge morpho" title="Not formally named; recognised from specimens or photos">Morphospecies</span>');
     if (r.status === "synonym") badges.push('<span class="badge warn">Synonym</span>');
-    if (r.status === "doubtful") badges.push('<span class="badge warn" title="GBIF marks this name doubtful">Doubtful name</span>');
+    if (r.status === "doubtful") badges.push('<span class="badge warn" title="Marked doubtful">Doubtful name</span>');
+    if (r.in_col === false && r.origin !== "curated") badges.push('<span class="badge warn" title="' +
+      esc(r.match_note || "Not in the Catalogue of Life") + '">Not in Catalogue of Life</span>');
     if (r.hidden) badges.push('<span class="badge muted" title="' + esc(r.hidden_reason || "") + '">Hidden</span>');
-    if (r.origin === "curated" && r.status !== "morphospecies") badges.push('<span class="badge muted" title="Added by hand, not from GBIF">Curated</span>');
+    if (r.origin === "curated" && r.status !== "morphospecies") badges.push('<span class="badge muted" title="Added by hand by this site\'s curator">Curated</span>');
     var commons = [];
     if (r.common) commons.push(esc(r.common));
     return '<header class="taxon-head"><div class="head-line">' +
@@ -430,15 +466,16 @@
       (commons.length ? '<p class="common">' + commons.join(" · ") + "</p>" : "") +
       (r.synonyms && r.synonyms.length ? '<p class="synonyms">Also known as ' + r.synonyms.slice(0, 8).map(function (n) {
         return "<i>" + esc(n) + "</i>"; }).join(", ") + (r.synonyms.length > 8 ? " and " + (r.synonyms.length - 8) + " more" : "") +
-        ' <span class="src">(GBIF synonyms)</span></p>' : "") +
-      (r.status === "synonym" && r.accepted_id ? '<p class="notice">A synonym; see the <a href="#/t/' +
-        r.accepted_id + '">accepted name</a>.</p>' : "") + "</header>";
+        (r.names && r.names.length ? ' <a class="jump src" href="#s-names" data-target="s-names">(where these come from)</a>' : "") +
+        "</p>" : "") +
+      (r.status === "synonym" && r.accepted_id ? '<p class="notice">A synonym; see the <a href="' +
+        href(r.accepted_id) + '">accepted name</a>.</p>' : "") + "</header>";
   }
 
   function photoCaption(ph) {
     // A photo borrowed from a taxon below says so first: a tribe page showing one of its
     // species must not read as a picture of the tribe.
-    var of = ph.of ? '<a href="#/t/' + ph.of_id + '">' + esc(ph.of) + "</a>" : "";
+    var of = ph.of ? '<a href="' + href(ph.of_id) + '">' + esc(ph.of) + "</a>" : "";
     return (ph.of ? (ITALIC_RANKS[ph.of_rank] ? "<i>" + of + "</i>" : of) + ", " +
             "an included taxon · " : "") +
       esc(ph.attribution || "") + " · " +
@@ -560,28 +597,51 @@
     if (c.status === "morphospecies") sub.push("morphospecies");
     if (c.status === "synonym") sub.push("synonym");
     if (c.est && STATUS[c.est]) sub.push('<span class="est-tag est-' + STATUS[c.est][1] + '">' + esc(STATUS[c.est][0].toLowerCase()) + "</span>");
-    return '<li><a class="card' + (c.thumb || withTile ? " has-thumb" : "") + '" href="#/t/' + c.id + '">' +
+    return '<li><a class="card' + (c.thumb || withTile ? " has-thumb" : "") + '" href="' + href(c.id) + '">' +
       (c.thumb ? '<img class="card-thumb" src="' + esc(c.thumb) + '" alt="" loading="lazy">'
                : withTile ? '<span class="card-thumb tile" aria-hidden="true">' + esc(initials(c.name)) + "</span>" : "") +
       '<span class="card-rank">' + esc(displayRank(c.rank, c.name)) +
       '</span><span class="card-name">' + sciName(c.rank, c.name) + "</span>" +
       (sub.length ? '<span class="card-sub">' + sub.join(" · ") + "</span>" : "") +
       (c.regions ? '<span class="card-isles">' + c.regions.map(function (k) {
-        return '<span class="isle r-' + esc(k) + '">' + esc(regionLabel(k)) + "</span>";
+        return '<span class="isle r-' + esc(k) + '" title="' + esc(regionTip(k)) + '">' + esc(regionLabel(k)) + "</span>";
       }).join("") + "</span>" : "") + "</a></li>";
   }
 
   // Every family beneath an order, suborder or superfamily in one compact list.
-  function familyIndex(r) {
-    if (!r.families || r.families.length < 2) return "";
-    return '<details class="families" id="s-families" open><summary>All ' + r.families.length +
-      " families (" + r.families.reduce(function (n, f) { return n + f.n; }, 0).toLocaleString() +
-      " species)</summary><ul>" + r.families.map(function (f) {
-        return '<li><a href="#/t/' + f.id + '"><span class="f-name">' + esc(f.name) + "</span>" +
-          (f.common ? ' <span class="f-common">' + esc(f.common) + "</span>" : "") +
-          ' <span class="f-n">' + f.n.toLocaleString() + "</span></a></li>";
-      }).join("") + "</ul></details>";
+  // The full checklist under a taxon: nested [id, name, rank code, children] from the record.
+  // Groups fold open and shut; every name links to its page.
+  var CL_RANK = { P: "Subphylum", C: "Class", O: "Order", F: "Family", G: "Genus", S: "Species",
+                  s: "Subspecies", v: "Variety", f: "Form" };
+  function clCount(n) {
+    if (n[2] === "S") return 1;
+    return (n[3] || []).reduce(function (a, k) { return a + clCount(k); }, 0);
   }
+  function clItem(n) {
+    var rank = CL_RANK[n[2]] || "", kids = n[3];
+    var link = '<a href="' + href(n[0]) + '" title="' + esc(rank) + '">' + sciName(rank, n[1]) + "</a>";
+    if (!kids || !kids.length) return "<li>" + link + "</li>";
+    var c = rank === "Species" ? 0 : clCount(n);
+    var count = c ? ' <span class="cl-n">' + plural(c, "species") + "</span>" : "";
+    return "<li><details><summary>" + link + count + "</summary><ul>" + kids.map(clItem).join("") +
+      "</ul></details></li>";
+  }
+  function checklist(r) {
+    if (!r.checklist || !r.checklist.length) return "";
+    var total = r.checklist.reduce(function (a, n) { return a + clCount(n); }, 0);
+    var nested = r.checklist.some(function (n) { return n[3] && n[3].length; });
+    return '<section class="checklist" id="s-checklist"><h2>Checklist</h2><p class="cl-tools">' +
+      plural(total, "species") + " in " + sciName(r.rank, r.name) +
+      (nested ? ' · <button type="button" class="link" data-cl="open">Expand all</button>' +
+        ' · <button type="button" class="link" data-cl="close">Collapse all</button>' : "") +
+      '</p><ul class="cl">' + r.checklist.map(clItem).join("") + "</ul></section>";
+  }
+  app.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest("button[data-cl]");
+    if (!b) return;
+    var open = b.getAttribute("data-cl") === "open";
+    b.closest(".checklist").querySelectorAll("details").forEach(function (d) { d.open = open; });
+  });
 
 
   function children(r) {
@@ -677,11 +737,13 @@
     return '<section class="refs" id="s-literature"><h2>Literature</h2><ul class="lit">' +
       r.literature.map(function (w) {
         var where = w.areas.length ? ' <span class="lit-areas">' + w.areas.map(function (a) {
-          return '<span class="isle r-' + esc(a.toLowerCase()) + '">' + esc(regionLabel(a.toLowerCase())) + "</span>";
+          return '<span class="isle r-' + esc(a.toLowerCase()) + '" title="' + esc(regionTip(a)) + '">' +
+            esc(regionLabel(a.toLowerCase())) + "</span>";
         }).join("") + "</span>" : "";
         if (w.source === "pdf") {
           var pages = w.pages && w.pages.length ? (w.pages.length > 1 ? " pp. " : " p. ") + w.pages.join(", ") : "";
           return "<li>" + (w.treated ? '<span class="badge" title="The document has a section on this taxon">Treated</span> ' : "") +
+            (w.machine_read ? '<span class="badge machine" title="Found by the name finder in the PDF text; no person has checked it yet">Machine-read</span> ' : "") +
             "<cite>" + esc(w.citation) + "</cite>" + esc(pages) + where +
             ' <span class="ref-links">' + (w.url ? ext(w.url, "publisher's copy") : "") +
             (w.file ? (w.url ? " · " : "") + '<a href="' + esc(w.file) + '" target="_blank" rel="noopener">local PDF</a>' : "") + "</span>" +
@@ -691,10 +753,27 @@
           ' <span class="ref-links">' + ext(w.url, w.source === "croppests" ? "the list online" : "checklist on GBIF") +
           (w.doi ? " · " + ext("https://doi.org/" + w.doi, "doi:" + esc(w.doi)) : "") + "</span></li>";
       }).join("") + "</ul>" +
-      '<p class="section-note">Names found by machine in the literature: digitised checklists from ' +
-      ext("https://plazi.org/", "Plazi") + " (via GBIF, CC0), and the text of the papers and monographs " +
-      "listed. Island groups are those the document names in its account of the taxon. Not yet " +
-      "checked by a person, so a mention can be a comparison or a misreading.</p></section>";
+      '<p class="section-note">Digitised checklists come from ' + ext("https://plazi.org/", "Plazi") +
+      " (via GBIF, CC0) and the crop pest list. Entries marked <em>machine-read</em> were found by a name " +
+      "finder in the text of the papers and monographs listed; island groups are those the document names " +
+      "in its account of the taxon. No person has checked them yet, so a mention can be a comparison or a " +
+      "misreading.</p></section>";
+  }
+
+  // Other names shown as this taxon: COL synonyms, spelling variants, entries merged by hand.
+  function otherNames(r) {
+    if (!r.names || !r.names.length) return "";
+    return '<section class="refs" id="s-names"><h2>Names merged here</h2><ul class="lit names">' +
+      r.names.map(function (n) {
+        return "<li><i>" + esc(n.name) + "</i>" + (n.authority ? " " + esc(n.authority) : "") +
+          ' <span class="badge muted">' + esc(n.kind) + "</span>" +
+          (n.note ? ' <span class="nm-note">' + esc(n.note) + "</span>" : "") +
+          (n.sources ? ' <span class="src">used by ' + esc(n.sources) + "</span>" : "") +
+          ' <span class="src">' + esc(extOf(n.id)) + "</span></li>";
+      }).join("") + "</ul>" +
+      '<p class="section-note">Records under these names are shown on this page. The classification ' +
+      "follows the " + ext("https://www.catalogueoflife.org/", "Catalogue of Life") + "; older names from " +
+      "the literature, GBIF and iNaturalist are matched to it, spelling variants included.</p></section>";
   }
 
   // Crops it is recorded attacking (Nafus & Schreiner's list; facts, cited).
@@ -785,7 +864,7 @@
     }).join("");
     var labels = small ? "" : Object.keys(GROUP_LABELS).map(function (a) {
       var L = GROUP_LABELS[a];
-      return '<text class="glabel' + (areas.has(a) ? " r-" + a.toLowerCase() : "") + '" x="' + x(L[1]) + '" y="' + y(L[0]) + '">' + L[2] + "</text>";
+      return '<text class="glabel' + (areas.has(a) ? " r-" + a.toLowerCase() : "") + '" x="' + x(L[1]) + '" y="' + y(L[0]) + '"><title>' + esc(regionTip(a)) + "</title>" + L[2] + "</text>";
     }).join("");
     return '<svg class="isle-map' + (small ? " small" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' +
       (areas.size ? "Recorded from " + Array.from(areas).map(function (a) { return regionLabel(a.toLowerCase()); }).join(", ") : "No records") +
@@ -821,22 +900,29 @@
     var cell = function (n) { return n ? Number(n).toLocaleString() : '<span class="muted">–</span>'; };
     var head = "<tr><th></th>" + (higher ? '<th title="Species recorded there, any source">spp.</th>' : "") +
       '<th class="t-gbif" title="GBIF records">GBIF</th><th class="t-inat" title="iNaturalist research-grade observations">iNat</th>' +
-      '<th title="' + (higher ? "Species listed in digitised checklists" : "Digitised checklists listing it") + '">Lit.</th></tr>';
+      '<th title="' + (higher ? "Species recorded in the literature" : "Documents recording it") + '">Lit.</th></tr>';
+    // A literature count resting on machine-read records gets an asterisk.
+    var machine = higher ? [] : (r.machine_lit || []);
     var body = rows.map(function (p) {
-      return '<tr class="r-' + esc(p.area.toLowerCase()) + '"><th>' + esc(p.label) + "</th>" +
+      var lit = cell(p.literature) + (p.literature && machine.indexOf(p.area) >= 0
+        ? '<sup class="machine-mark" title="includes machine-read records">*</sup>' : "");
+      return '<tr class="r-' + esc(p.area.toLowerCase()) + '"><th><abbr title="' + esc(regionTip(p.area)) + '">' +
+        esc(p.label) + "</abbr></th>" +
         (higher ? "<td>" + cell(p.species) + "</td>" : "") + "<td>" + cell(p.gbif) + "</td><td>" +
-        cell(p.inat) + "</td><td>" + cell(p.literature) + "</td></tr>";
+        cell(p.inat) + "</td><td>" + lit + "</td></tr>";
     }).join("");
     // The list of island names under the map: genus and below (higher up the map says it).
     var low = { Genus: 1, Subgenus: 1, Species: 1, Subspecies: 1 };
     var isles = low[r.rank] ? (r.islands || []).filter(function (x) { return x.islands.length; }) : [];
     var named = isles.length ? '<p class="isle-list">Islands named in the records: ' + isles.map(function (x) {
-      return '<span class="r-' + esc(x.area.toLowerCase()) + '"><b>' + esc(x.label) + "</b> " + esc(x.islands.join(", ")) + "</span>";
+      return '<span class="r-' + esc(x.area.toLowerCase()) + '"><b title="' + esc(regionTip(x.area)) + '">' + esc(x.label) +
+        "</b> " + esc(x.islands.join(", ")) + "</span>";
     }).join("; ") + "</p>" : "";
     return '<div class="box presence-box"><h3>Recorded from</h3>' +
       islandMap((r.regions || []), [].concat.apply([], (r.islands || []).map(function (x) { return x.islands; }))) +
       '<table class="presence">' + head + body + "</table>" + named +
       '<p class="cs-src">Counts are records, not individuals; sources overlap, so they are not added. ' +
+      (machine.length ? "* includes literature records read by machine from the PDF library, not yet checked. " : "") +
       "Map positions are approximate.</p></div>";
   }
 
@@ -850,7 +936,7 @@
       var self = i === chain.length - 1;
       var label = sciName(a.rank, a.name) + (a.common ? ' <span class="c-common">' + esc(a.common) + "</span>" : "") +
         (self && r.authority ? '<span class="c-auth">' + esc(r.authority) + "</span>" : "");
-      var cell = !self ? '<a href="#/t/' + a.id + '">' + label + "</a>" : label;
+      var cell = !self ? '<a href="' + href(a.id) + '">' + label + "</a>" : label;
       rows.push("<tr" + (self ? ' class="self"' : "") + "><th>" + esc(a.rank) + "</th><td>" + cell + "</td></tr>");
     });
     var path = chain.slice(Math.max(0, chain.length - 4), -1)
@@ -858,8 +944,9 @@
     return '<details class="box classif-box"' + (narrow() ? "" : " open") + "><summary><h3>Classification</h3>" +
       (path ? '<span class="classif-path">' + path + "</span>" : "") + "</summary>" +
       '<table class="classif">' + rows.join("") + "</table>" +
-      (r.origin === "gbif" ? '<p class="cs-src">GBIF Backbone Taxonomy' +
-        (r.curated.length ? "; edited by hand: " + esc(r.curated.join(", ").replace(/_/g, " ")) : "") + "</p>" : "") +
+      '<p class="cs-src">' + (r.in_col ? "Catalogue of Life" : r.origin === "curated" ? "Added by hand"
+        : "Not in the Catalogue of Life: placed under its nearest COL taxon") +
+        (r.curated.length ? "; edited by hand: " + esc(r.curated.join(", ").replace(/_/g, " ")) : "") + "</p>" +
       "</details>";
   }
   function narrow() { return window.matchMedia("(max-width: 860px)").matches; }
@@ -878,11 +965,17 @@
 
 
   function attribution(r) {
-    var rows = [], g = r.sources.gbif;
-    if (g && g.key) {
-      rows.push("<li><strong>Name and classification</strong>: GBIF Backbone Taxonomy, " +
-        ext("https://www.gbif.org/species/" + g.key, "taxon " + g.key) + ", retrieved " + fmtDate(g.fetched_at) +
-        (r.curated.length ? "; with hand edits (" + esc(r.curated.join(", ").replace(/_/g, " ")) + ")" : "") + ".</li>");
+    var rows = [], g = r.sources.gbif, c = r.sources.col || {};
+    var edits = r.curated.length ? "; with hand edits (" + esc(r.curated.join(", ").replace(/_/g, " ")) + ")" : "";
+    if (c.id) {
+      rows.push("<li><strong>Name and classification</strong>: " +
+        ext("https://www.catalogueoflife.org/data/taxon/" + c.id, "Catalogue of Life") + " (eXtended Release, " +
+        "through GBIF), taxon " + esc(c.id) + ", retrieved " + fmtDate(c.fetched_at) + edits + ".</li>");
+    } else if (r.origin !== "curated") {
+      rows.push("<li><strong>Name</strong>: not in the Catalogue of Life; " + esc(r.match_note || "") +
+        (g && g.key ? " The name is from the " + ext("https://www.gbif.org/species/" + g.key, "GBIF Backbone Taxonomy") +
+          " (taxon " + g.key + ")" : " The name is from the sources below") +
+        ", placed under its genus or family in the Catalogue of Life" + edits + ".</li>");
     } else if (r.origin === "curated") {
       rows.push("<li><strong>Name and placement</strong>: added by hand by this site's curator" +
         (r.status === "morphospecies" ? " as a morphospecies" : "") + ".</li>");
@@ -932,7 +1025,7 @@
   window.guaminsects.taxonomy = function (d) { taxonomyData = d; };
 
   function downloadBox(r, isHome) {
-    var below = isHome ? "" : '<button type="button" class="dl-btn" data-dl="' + r.id + '">' +
+    var below = isHome ? "" : '<button type="button" class="dl-btn" data-dl="' + esc(extOf(r.id)) + '">' +
       sciName(r.rank, r.name) + (r.children.length ? " and everything under it" : "") + "</button>";
     return '<div class="box dl-box"><h3>Download taxonomy</h3><div class="dl-row">' + below +
       '<button type="button" class="dl-btn" data-dl="all">' + (isHome ? "The whole taxonomy" : "Whole taxonomy") +
@@ -950,9 +1043,11 @@
   function taxonomyRows(key) {
     var cols = taxonomyData.columns, rows = taxonomyData.rows;
     if (key === "all") return rows;
-    var iId = cols.indexOf("taxonID"), iParent = cols.indexOf("parentNameUsageID");
-    var parent = new Map(), inside = new Map([[+key, true]]);
-    rows.forEach(function (row) { parent.set(row[iId], row[iParent]); });
+    var iId = cols.indexOf("taxonID"), iParent = cols.indexOf("parentNameUsageID"),
+      iAcc = cols.indexOf("acceptedNameUsageID");
+    var parent = new Map(), inside = new Map([[key, true]]);
+    // A synonym row has no parent of its own: it goes with its accepted taxon.
+    rows.forEach(function (row) { parent.set(row[iId], row[iParent] || row[iAcc]); });
     function under(id) {      // walk up to a known answer, then remember it for the path
       var path = [];
       while (!inside.has(id) && id !== "" && id !== undefined) { path.push(id); id = parent.get(id); }
@@ -973,7 +1068,7 @@
       var rows = taxonomyRows(key);
       var text = [taxonomyData.columns].concat(rows)
         .map(function (row) { return row.map(csvCell).join(","); }).join("\n") + "\n";
-      var rec = records.get(+key);
+      var rec = key === "all" ? null : records.get(tidOf(key));
       var file = "insects-of-guam-taxonomy" + (rec ? "-" + rec.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : "") +
         "-" + (meta.built_at || "").slice(0, 10) + ".csv";
       var url = URL.createObjectURL(new Blob(["\ufeff" + text], { type: "text/csv;charset=utf-8" }));
@@ -1007,6 +1102,7 @@
   };
   window.guaminsects.ft = function (key, data) { shards.set(key, data); };
   window.guaminsects.tokens = function (s) { return tokens(s); };   // exposed for tests
+  window.guaminsects.ids = { extOf: extOf, tidOf: tidOf };              // likewise
 
   function loadScript(src) {
     if (!scriptPromises.has(src)) {
@@ -1156,7 +1252,7 @@
   }
 
   function nameRow(n) {
-    return '<li><a href="#/t/' + n.id + '"><span class="s-rank">' + esc(n.rank) + "</span> " +
+    return '<li><a href="' + href(n.id) + '"><span class="s-rank">' + esc(n.rank) + "</span> " +
       sciName(n.rank, n.name) + (n.commons ? ' <span class="s-common">' + esc(n.commons) + "</span>" : "") +
       (n.ctx ? ' <span class="s-ctx">' + esc(n.ctx) + "</span>" : "") +
       (n.hidden ? ' <span class="badge warn">hidden</span>' : "") + "</a></li>";
@@ -1220,7 +1316,7 @@
       }
       html.push('<ul class="results text">' + text.slice(0, limit).map(function (h) {
         var n = byId.get(h.id);
-        return '<li data-id="' + h.id + '"><a href="#/t/' + h.id + '">' + (n ? sciName(n.rank, n.name) : h.id) + "</a>" +
+        return '<li data-id="' + h.id + '"><a href="' + href(h.id) + '">' + (n ? sciName(n.rank, n.name) : h.id) + "</a>" +
           (n && n.commons ? ' <span class="s-common">' + esc(n.commons) + "</span>" : "") +
           (n && n.ctx ? ' <span class="s-ctx">' + esc(n.ctx) + "</span>" : "") + '<p class="snip"></p></li>';
       }).join("") + "</ul>");
@@ -1274,7 +1370,7 @@
     qInput.setAttribute("aria-activedescendant", items[active].id || "");
   }
   function choose(li) {
-    if (li && li.getAttribute("data-id")) location.hash = "#/t/" + li.getAttribute("data-id");
+    if (li && li.getAttribute("data-id")) location.hash = href(li.getAttribute("data-id"));
     else location.hash = "#/search?" + new URLSearchParams({ q: qInput.value });
     closeSuggest();
     qInput.blur();

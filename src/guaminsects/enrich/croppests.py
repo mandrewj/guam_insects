@@ -13,7 +13,7 @@ import csv
 import re
 import sys
 
-from .. import config, db
+from .. import config, db, ids
 from .gbif_checklist import fetch_taxa, match_name
 from .http import ApiClient
 
@@ -76,7 +76,7 @@ def sweep(conn, client: ApiClient) -> dict[str, int]:
             continue
         m = match_name(client, name, "SPECIES")
         keys[name] = m and (m.get("acceptedUsageKey") or m.get("usageKey"))
-    fetch_taxa(conn, client, {k for k in keys.values() if k and k < config.CURATED_ID_BASE})
+    fetch_taxa(conn, client, {k for k in keys.values() if k and k < ids.COL_BASE})
     presence: dict[tuple[int, str], int] = {}
     islands: set[tuple[int, str, str]] = set()
     hosts: set[tuple[int, str]] = set()

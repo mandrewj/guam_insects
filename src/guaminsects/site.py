@@ -21,7 +21,7 @@ import shutil
 from collections import defaultdict
 from pathlib import Path
 
-from . import config, db, geo
+from . import config, db, geo, ids
 
 WEBAPP_DIR = config.ROOT / "webapp"
 JS_GLOBAL = "guaminsects"          # webapp/assets/app.js defines window.guaminsects
@@ -29,10 +29,15 @@ TARGETS = ("public", "local")
 PUBLIC_BUDGET_MB = 90              # Vercel Hobby takes 100 MB per CLI deploy
 AREA_KEYS = {a["code"]: a["code"].lower() for a in config.AREAS}   # URL-friendly region keys
 AREA_SHORT = {"GU": "Guam", "MP": "CNMI", "PW": "Palau", "FM": "FSM", "MH": "Marshalls"}
-ABOVE_FAMILY = {"Subphylum", "Class", "Subclass", "Superorder", "Order", "Suborder",
-                "Infraorder", "Superfamily"}
 SPECIES_RANKS = {"Species"}
+# Rank codes in the checklist (app.js CL_RANK reads them back).
+RANK_CODES = {"Subphylum": "P", "Class": "C", "Order": "O", "Family": "F", "Genus": "G",
+              "Species": "S", "Subspecies": "s", "Variety": "v", "Form": "f"}
 GBIF_SPECIES = "https://www.gbif.org/species/"
+COL_TAXON = "https://www.catalogueoflife.org/data/taxon/"
+GBIF_RECORDS = ("https://www.gbif.org/occurrence/search?checklist_key="
+                "7ddf754f-d193-4cc9-b351-99906754a03b&" +
+                "&".join(f"country={a['gbif']}" for a in config.AREAS) + "&taxon_key=")
 INAT_TAXA = "https://www.inaturalist.org/taxa/"
 
 
@@ -105,6 +110,9 @@ def _postorder(children: dict[int, list[int]], roots: list[int]) -> list[int]:
 
 def build_records(conn, target: str = "public") -> dict[int, dict]:
     taxa = {r["taxon_id"]: dict(r) for r in conn.execute("SELECT * FROM taxa")}
+    # Source rows carry the key the source used (a COL id, a GBIF Backbone key, a name- id);
+    # taxon_keys says which displayed taxon each belongs to (several names can be one taxon).
+    keys = db.keymap(conn)
     children: dict[int, list[int]] = defaultdict(list)
     for t in taxa.values():
         if t["parent_id"] is not None and t["parent_id"] in taxa:
@@ -114,13 +122,25 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
 
     # Presence: what each source says per area, keyed by taxon.
     own: dict[int, dict[str, dict[str, int]]] = defaultdict(lambda: defaultdict(dict))
+    machine_lit: dict[int, set[str]] = defaultdict(set)    # areas with machine-read records
     for r in conn.execute("SELECT taxon_id, area, source, records FROM taxon_presence"):
-        if r["taxon_id"] in taxa:
-            # The literature sources (Plazi's checklists, the PDF library, other checklists) count
-            # as "literature": the number is how many documents record the taxon there.
-            src = "literature" if r["source"] in ("plazi", "pdf", "checklist") else r["source"]
-            cell = own[r["taxon_id"]][r["area"]]
-            cell[src] = cell.get(src, 0) + (r["records"] or 0)
+        tid = keys.get(r["taxon_id"])
+        if tid is None or tid not in taxa:
+            continue
+        src = r["source"]
+        if src == "gbif_backbone":
+            # GBIF records under a Backbone name count only for a taxon COL lacks; for one in
+            # COL, GBIF's count under the COL key already includes them.
+            if taxa[tid]["in_col"]:
+                continue
+            src = "gbif"
+        # The literature sources (Plazi's checklists, the PDF library, other checklists) count
+        # as "literature": the number is how many documents record the taxon there.
+        src = "literature" if src in ("plazi", "pdf", "checklist") else src
+        cell = own[tid][r["area"]]
+        cell[src] = cell.get(src, 0) + (r["records"] or 0)
+        if r["source"] == "pdf":
+            machine_lit[tid].add(r["area"])
     # Curated evidence (an iNat observation, a GBIF record) puts a taxon on the list even
     # with no area yet; the curator gives the area in the note until evidence is fetched.
 
@@ -180,31 +200,30 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
         areas |= {a for a, s in species_in[tid].items() if s}
         return [AREA_KEYS[a] for a in config.AREA_CODES if a in areas] or None
 
-    # Families under each rank above family, so an order page reaches them in one step.
-    families: dict[int, list[dict]] = {}
-    for tid, t in taxa.items():
-        if t["rank"] not in ABOVE_FAMILY:
+    # The checklist under each taxon above species: everything below it as nested
+    # [id, name, rank code, children], children by name, hidden taxa left out. Built leaves
+    # first, so each node is made once and shared by every ancestor's list.
+    node: dict[int, list] = {}
+    for tid in order:
+        t = taxa[tid]
+        if t["hidden"]:
             continue
-        out, stack, seen = [], list(children[tid]), set()
-        while stack:
-            c = stack.pop()
-            if c in seen:
-                continue
-            seen.add(c)
-            k = taxa[c]
-            if k["rank"] == "Family" and not k["hidden"] and n_species[c]:
-                out.append({"id": c, "name": k["name"], "common": None, "n": n_species[c]})
-            elif k["rank"] not in ("Genus", "Species", "Subspecies"):
-                stack.extend(children[c])
-        if len(out) > 1:
-            families[tid] = sorted(out, key=lambda f: f["name"].casefold())
+        kids = [node[c] for c in sorted(children[tid], key=lambda c: taxa[c]["name"].casefold())
+                if c in node]
+        node[tid] = [tid, t["name"], RANK_CODES.get(t["rank"], "?")] + ([kids] if kids else [])
 
     # iNaturalist: the taxa iNat has observations of here, matched by name (rank agreeing).
-    inat_by_name: dict[tuple[str, str], dict] = {}
+    from .names import Registry
+
+    reg = Registry()
+    inat_by_taxon: dict[int, dict] = {}
     for r in conn.execute("SELECT inat_id, name, rank, common_name, SUM(observations) n "
-                          "FROM inat_place_counts GROUP BY inat_id"):
-        inat_by_name[(r["name"], r["rank"])] = {"id": r["inat_id"], "common": r["common_name"],
-                                                "observations": r["n"]}
+                          "FROM inat_place_counts GROUP BY inat_id ORDER BY n DESC"):
+        n = reg.by_name.get((r["name"], (r["rank"] or "").upper()))
+        tid = keys.get(ids.NAME_BASE + n) if n else None
+        if tid is not None and tid not in inat_by_taxon:
+            inat_by_taxon[tid] = {"id": r["inat_id"], "common": r["common_name"],
+                                  "observations": r["n"], "name": r["name"]}
 
     # Literature: digitised checklists naming the taxon (Plazi on GBIF).
     lit: dict[int, list[dict]] = defaultdict(list)
@@ -212,8 +231,9 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "SELECT DISTINCT n.nub_key, s.dataset_key, s.source, s.title, s.citation, s.areas, s.doi "
             "FROM checklist_names n JOIN checklist_sources s ON s.dataset_key = n.dataset_key "
             "ORDER BY s.title"):
-        if r["nub_key"] in taxa:
-            lit[r["nub_key"]].append({
+        tid = keys.get(r["nub_key"])
+        if tid in taxa and not any(e.get("dataset") == r["dataset_key"] for e in lit[tid]):
+            lit[tid].append({"dataset": r["dataset_key"],
                 "title": r["title"], "citation": r["citation"],
                 "areas": (r["areas"] or "").split(",") if r["areas"] else [],
                 "url": "https://aubreymoore.github.io/crop-pest-list/" if r["source"] == "croppests"
@@ -226,16 +246,24 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
 
     lib_rows = {r["file"]: r for r in librarylib.rows()} if librarylib.LIBRARY.exists() else {}
     pdf_hits: dict[tuple[int, str], dict] = {}
-    for r in conn.execute("SELECT taxon_id, file, page, kind, areas, snippet, decision FROM "
-                          "pdf_mentions WHERE decision != 'rejected' ORDER BY file, page"):
-        if r["taxon_id"] not in taxa or r["file"] not in lib_rows:
+    mentions = conn.execute(
+        "SELECT taxon_id, file, page, kind, areas, snippet, decision FROM pdf_mentions "
+        "WHERE decision != 'rejected' UNION ALL "
+        # headings of names the tree did not have yet (now under their name- keys)
+        "SELECT gbif_key, file, page, 'heading', areas, snippet, decision FROM pdf_candidates "
+        "WHERE gbif_key IS NOT NULL AND decision != 'rejected' ORDER BY 2, 3").fetchall()
+    for r in mentions:
+        tid = keys.get(r["taxon_id"])
+        if tid not in taxa or r["file"] not in lib_rows:
             continue
-        e = pdf_hits.setdefault((r["taxon_id"], r["file"]), {
-            "pages": [], "areas": set(), "treated": False, "snippet": None})
+        e = pdf_hits.setdefault((tid, r["file"]), {
+            "pages": [], "areas": set(), "treated": False, "snippet": None,
+            "reviewed": False})
         if r["page"] not in e["pages"]:
             e["pages"].append(r["page"])
         e["areas"] |= set((r["areas"] or "").split(",")) - {""}
         e["treated"] |= r["kind"] == "heading"
+        e["reviewed"] |= r["decision"] == "accepted"
         if target == "local" and not e["snippet"] and r["snippet"]:
             e["snippet"] = r["snippet"]
     for (tid, fname), e in pdf_hits.items():
@@ -245,6 +273,8 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "areas": [a for a in config.AREA_CODES if a in e["areas"]],
             "url": doc["url"] or None, "doi": None, "source": "pdf",
             "pages": e["pages"][:12], "treated": e["treated"], "year": doc["year"],
+            # Found by the name finder in the PDF text; a person has not checked it yet.
+            "machine_read": not e["reviewed"],
             "kind": doc["kind"],
             **({"snippet": e["snippet"], "file": "literature/" + fname}
                if target == "local" else {})})
@@ -257,41 +287,62 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
     island_area = {isl: a for a, d in ISLANDS.items() for isl in d.values()}
     islands: dict[int, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
     for r in conn.execute("SELECT taxon_id, islands FROM pdf_mentions WHERE kind = 'heading' "
-                          "AND islands IS NOT NULL AND decision != 'rejected'"):
+                          "AND islands IS NOT NULL AND decision != 'rejected' UNION ALL "
+                          "SELECT gbif_key, islands FROM pdf_candidates WHERE gbif_key IS NOT "
+                          "NULL AND islands IS NOT NULL AND decision != 'rejected'"):
+        tid = keys.get(r["taxon_id"])
         for isl in r["islands"].split(","):
-            if isl in island_area:
-                islands[r["taxon_id"]][island_area[isl]].add(isl)
+            if isl in island_area and tid in taxa:
+                islands[tid][island_area[isl]].add(isl)
     for r in conn.execute("SELECT taxon_id, area, island FROM taxon_islands"):
-        if r["taxon_id"] in taxa:
-            islands[r["taxon_id"]][r["area"]].add(r["island"])
+        tid = keys.get(r["taxon_id"])
+        if tid in taxa:
+            islands[tid][r["area"]].add(r["island"])
     for tid in order:                    # leaves first: a genus takes its species' islands
         for c in children[tid]:
             for a, isl in islands.get(c, {}).items():
                 islands[tid][a] |= isl
     est: dict[int, list[dict]] = defaultdict(list)
     for r in conn.execute("SELECT * FROM establishment ORDER BY taxon_id, area, year"):
-        if r["taxon_id"] in taxa:
-            est[r["taxon_id"]].append({"area": r["area"], "status": r["status"], "year": r["year"],
+        tid = keys.get(r["taxon_id"])
+        if tid in taxa:
+            est[tid].append({"area": r["area"], "status": r["status"], "year": r["year"],
                                        "citation": r["citation"], "page": r["page"],
                                        "auto": bool(r["auto"])})
     synonyms: dict[int, list[str]] = defaultdict(list)
     for r in conn.execute("SELECT taxon_id, synonym FROM taxon_synonyms WHERE synonym != '' "
                           "ORDER BY synonym"):
-        synonyms[r["taxon_id"]].append(r["synonym"])
+        tid = keys.get(r["taxon_id"])
+        if tid is not None and r["synonym"] not in synonyms[tid]:
+            synonyms[tid].append(r["synonym"])
+    # Other names shown as this taxon (COL synonyms, spelling variants, merged entries).
+    other_names: dict[int, list[dict]] = defaultdict(list)
+    for r in conn.execute("SELECT * FROM taxon_names ORDER BY name"):
+        other_names[r["taxon_id"]].append({
+            "id": r["name_id"], "name": r["name"], "authority": r["authorship"],
+            "kind": r["kind"], "note": r["note"], "sources": r["sources"]})
+        if r["name"] and r["name"] not in synonyms[r["taxon_id"]]:
+            synonyms[r["taxon_id"]].insert(0, r["name"])
     hosts: dict[int, list[str]] = defaultdict(list)
     for r in conn.execute("SELECT taxon_id, host FROM taxon_hosts ORDER BY host"):
-        hosts[r["taxon_id"]].append(r["host"])
+        tid = keys.get(r["taxon_id"])
+        if tid is not None and r["host"] not in hosts[tid]:
+            hosts[tid].append(r["host"])
     evidence: dict[int, list[dict]] = defaultdict(list)
     for r in conn.execute("SELECT * FROM taxon_evidence ORDER BY taxon_id, kind, ref"):
         evidence[r["taxon_id"]].append({"kind": r["kind"], "ref": r["ref"], "license": r["license"],
                                         "credit": r["credit"], "note": r["note"]})
-    wd = {r["gbif_key"]: dict(r) for r in conn.execute(
-        "SELECT * FROM wikidata_taxa WHERE qid IS NOT NULL")}
-    bugguide = dict(conn.execute("SELECT gbif_key, bugguide_id FROM bugguide_links"))
+    wd = {r["taxon_id"]: dict(r) for r in conn.execute(
+        "SELECT * FROM taxon_wikidata WHERE qid IS NOT NULL")}
+    bugguide: dict[int, int] = {}
+    for r in conn.execute("SELECT gbif_key, bugguide_id, name FROM bugguide_links"):
+        tid = keys.get(r["gbif_key"])
+        if tid in taxa and (tid not in bugguide or r["name"] == taxa[tid]["name"]):
+            bugguide[tid] = r["bugguide_id"]
     for k, v in wd.items():          # Wikidata's BugGuide id where entobase has none
         if v["bugguide_id"] and v["confidence"] == "high" and str(v["bugguide_id"]).isdigit():
             bugguide.setdefault(k, int(v["bugguide_id"]))
-    wiki = {r["taxon_id"]: {
+    wiki = {keys.get(r["taxon_id"], r["taxon_id"]): {
         "title": r["title"], "url": r["url"], "revid": r["revid"],
         "rev_timestamp": r["rev_timestamp"], "retrieved": r["fetched_at"],
         "preview": preview(r["text"]), "lead_only": bool(r["lead_only"]), "html": r["html"]}
@@ -318,16 +369,17 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "page": r["page_url"], "license": license_label(r["license_code"]),
             "license_url": r["license_url"], "attribution": r["attribution"],
             "retrieved": r["fetched_at"]})
-    fetched = dict(conn.execute("SELECT gbif_key, fetched_at FROM gbif_taxa"))
+    fetched = dict(conn.execute("SELECT taxon_id, fetched_at FROM col_taxa"))
+    fetched_bb = dict(conn.execute("SELECT gbif_key, fetched_at FROM gbif_taxa"))
     presence_fetched = conn.execute(
         "SELECT MAX(fetched_at) FROM taxon_presence WHERE source = 'gbif'").fetchone()[0]
 
     def common_of(t: dict) -> str | None:
         """Curated, then iNaturalist's (as used locally), then Wikidata's English, then GBIF's."""
-        inat = inat_by_name.get((t["name"], t["rank"].lower()))
+        inat = inat_by_taxon.get(t["taxon_id"])
         if "common_name" in (t["curated_fields"] or ""):
             return clean_common(t["common_name"], t["name"])
-        w = wd.get(t["gbif_key"]) or {}
+        w = wd.get(t["taxon_id"]) or {}
         wcommon = json.loads(w["commons"])[0] if w.get("commons") and \
             w.get("confidence") == "high" else None
         return clean_common((inat or {}).get("common") or wcommon or t["common_name"], t["name"])
@@ -339,10 +391,16 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
     for tid, t in taxa.items():
         kids = sorted((taxa[c] for c in children[tid]),
                       key=lambda k: (k["status"] == "synonym", k["name"].casefold()))
-        inat = inat_by_name.get((t["name"], t["rank"].lower()))
-        w = wd.get(t["gbif_key"]) or {}
+        inat = inat_by_taxon.get(tid)
+        w = wd.get(tid) or {}
         links = []
-        if t["gbif_key"]:
+        col_id = ids.col_of(tid)
+        if col_id and t["in_col"]:
+            links.append({"system": "col", "label": "Catalogue of Life", "url": COL_TAXON + col_id,
+                          "confidence": "high"})
+            links.append({"system": "gbif", "label": "GBIF records in Micronesia",
+                          "url": GBIF_RECORDS + col_id, "confidence": "high"})
+        elif t["gbif_key"]:
             links.append({"system": "gbif", "label": "GBIF", "url": GBIF_SPECIES +
                           str(t["gbif_key"]), "confidence": "high"})
         # iNaturalist: Wikidata's id (keyed on the GBIF key, name checked) beats a name match.
@@ -355,9 +413,9 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             links.append({"system": "inaturalist", "label": "iNaturalist",
                           "url": INAT_TAXA + str(inat["id"]), "confidence": "medium",
                           "note": "matched by name"})
-        if t["gbif_key"] in bugguide:
+        if tid in bugguide:
             links.append({"system": "bugguide", "label": "BugGuide",
-                          "url": f"https://bugguide.net/node/view/{bugguide[t['gbif_key']]}",
+                          "url": f"https://bugguide.net/node/view/{bugguide[tid]}",
                           "confidence": "high", "note": "North American guide"})
         if tid in wiki:
             links.append({"system": "wikipedia", "label": "Wikipedia", "url": wiki[tid]["url"],
@@ -369,7 +427,10 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
                           "note": None if w["confidence"] == "high" else
                           f"Wikidata names it {w['name']}"})
         records[tid] = {
-            "id": tid, "rank": t["rank"], "name": t["name"], "authority": t["authorship"],
+            "id": tid, "ext": t["ext_id"] or ids.to_ext(tid), "in_col": bool(t["in_col"]),
+            "match_note": t["match_note"], "names": other_names.get(tid, []),
+            "machine_lit": [a for a in config.AREA_CODES if a in machine_lit.get(tid, ())],
+            "rank": t["rank"], "name": t["name"], "authority": t["authorship"],
             "common": common_of(t), "status": t["status"], "origin": t["origin"],
             "accepted_id": t["accepted_id"], "establishment": t["establishment"],
             "hidden": bool(t["hidden"]), "hidden_reason": t["hidden_reason"],
@@ -388,7 +449,8 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
                                            for i in a}) or None,
                           "thumb": card_thumb(photos.get(k["taxon_id"]) or [])}
                          for k in kids],
-            "families": families.get(tid, []),
+            "checklist": node[tid][3] if t["rank"] not in SPECIES_RANKS and tid in node
+            and len(node[tid]) > 3 else [],
             "presence": presence_of(tid),
             "islands": [{"area": a, "label": AREA_SHORT[a],
                          "islands": sorted(i for i in islands[tid][a]
@@ -411,14 +473,18 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "links": links,
             "inat": inat and {"id": inat["id"], "common": inat["common"],
                               "observations": inat["observations"]},
-            "sources": {"gbif": {"key": t["gbif_key"], "fetched_at": fetched.get(t["gbif_key"]),
+            "sources": {"col": {"id": col_id if t["in_col"] else None,
+                                "fetched_at": fetched.get(tid)},
+                        "gbif": {"key": t["gbif_key"],
+                                 "fetched_at": fetched_bb.get(t["gbif_key"]),
                                  "presence_fetched_at": presence_fetched}},
         }
     return records
 
 
 def _record_path(site: Path, tid: int) -> Path:
-    return site / "data" / "t" / str(tid // 1000) / f"{tid}.js"
+    # Ids are spread over 10^12 (ids.py), so bucket by the last three digits.
+    return site / "data" / "t" / str(tid % 1000) / f"{tid}.js"
 
 
 def _write_if_changed(path: Path, content: str) -> bool:
@@ -508,7 +574,7 @@ def build(conn, target: str = "public", site: Path | None = None) -> dict[str, i
     _write_if_changed(site / "data" / "taxonomy.js", taxonomy.site_script(table))
 
     idx = search.build(conn, records, site)
-    root = config.HEXAPODA_ID if config.HEXAPODA_ID in records else None
+    root = next((tid for tid, r in records.items() if not r["lineage"]), None)
     species = [r for r in records.values() if r["rank"] == "Species" and not r["hidden"]
                and r["status"] != "synonym"]
     meta = {
@@ -523,6 +589,7 @@ def build(conn, target: str = "public", site: Path | None = None) -> dict[str, i
             "taxa": len(records), "species": len(species),
             "guam": sum("gu" in (r["regions"] or []) for r in species),
             "morphospecies": sum(r["status"] == "morphospecies" for r in records.values()),
+            "not_in_col": sum(not r["in_col"] and r["origin"] != "curated" for r in species),
             "photos": sum(bool(r["photos"]) for r in records.values()),
             "literature": sum(bool(r["literature"]) for r in species),
         },

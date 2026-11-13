@@ -25,7 +25,7 @@ import threading
 import urllib.parse
 from pathlib import Path
 
-from . import config, curation, db
+from . import curation, db, ids
 
 _rebuild = {"running": False, "last": None, "error": None, "pending": False}
 _lock = threading.Lock()
@@ -52,15 +52,40 @@ def _rebuild_site() -> None:
         _rebuild["running"] = False
 
 
-def _ensure_gbif_key(conn, row: dict) -> None:
-    """A curator may add a GBIF taxon by its key: fetch it (and its parents) first."""
-    tid = str(row.get("taxon_id") or "")
-    if tid.isdigit() and int(tid) < config.CURATED_ID_BASE and not conn.execute(
-            "SELECT 1 FROM gbif_taxa WHERE gbif_key = ?", (int(tid),)).fetchone():
-        from .cli import gbif_client
+def _ensure_known(conn, row: dict) -> None:
+    """A curator may add a taxon by a Catalogue of Life id or a GBIF key the tree does not
+    have yet: fetch it (and, for a GBIF key, match its name to COL) first."""
+    ext = str(row.get("taxon_id") or "").strip()
+    if not ext or not ids.valid(ext):
+        return
+    tid = ids.to_int(ext)
+    from .cli import col_client, gbif_client
+
+    if ids.kind(tid) == "col" and not conn.execute(
+            "SELECT 1 FROM col_taxa WHERE taxon_id = ? AND full = 1", (tid,)).fetchone():
+        from .enrich import col
+
+        col.fetch_taxa(conn, col_client(), {tid})
+    elif ids.kind(tid) == "gbif" and not conn.execute(
+            "SELECT 1 FROM name_matches WHERE key = ?", (tid,)).fetchone():
+        from . import names
         from .enrich.gbif_checklist import fetch_taxa
 
-        fetch_taxa(conn, gbif_client(), {int(tid)})
+        fetch_taxa(conn, gbif_client(), {tid})
+        names.match_keys(conn, col_client(), {tid})
+
+
+def _external(t: dict | None) -> dict | None:
+    """A taxa row as the admin page sees it: ids in their external form."""
+    if not t:
+        return None
+    t = dict(t)
+    t["tid"] = t["taxon_id"]
+    t["taxon_id"] = t["ext_id"] or ids.to_ext(t["taxon_id"])
+    for f in ("parent_id", "accepted_id"):
+        if t.get(f) is not None:
+            t[f] = ids.to_ext(t[f])
+    return t
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -92,28 +117,35 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if url.path == "/api/taxa":
             term = (q.get("q") or [""])[0].strip()
             rows = conn.execute(
-                "SELECT taxon_id, rank, name, status, origin FROM taxa WHERE name LIKE ? "
-                "ORDER BY name LIKE ? DESC, length(name) LIMIT 25", (f"%{term}%", f"{term}%"))
-            return self._json([dict(r) for r in rows])
+                "SELECT taxon_id, ext_id, rank, name, status, origin, in_col FROM taxa "
+                "WHERE name LIKE ? ORDER BY name LIKE ? DESC, length(name) LIMIT 25",
+                (f"%{term}%", f"{term}%"))
+            return self._json([_external(r) for r in rows])
         if url.path.startswith("/api/taxon/"):
-            tid = url.path.rsplit("/", 1)[-1]
-            t = conn.execute("SELECT * FROM taxa WHERE taxon_id = ?", (tid,)).fetchone()
+            ext = urllib.parse.unquote(url.path.rsplit("/", 1)[-1])
+            if not ids.valid(ext):
+                return self._json({"error": f"not an id: {ext}"}, 404)
+            tid = ids.to_int(ext)
+            shown = conn.execute("SELECT taxon_id FROM taxon_keys WHERE key = ?", (tid,)).fetchone()
+            t = conn.execute("SELECT * FROM taxa WHERE taxon_id = ?",
+                             (shown[0] if shown else tid,)).fetchone()
             cur = curation.load(assign_ids=False)
-            row = next((r for r in cur.rows if r["taxon_id"] == tid), None)
-            ev = [e for e in cur.evidence if e["taxon_id"] == tid]
+            row = next((r for r in cur.rows if r["taxon_id"] == ext), None)
+            ev = [e for e in cur.evidence if e["taxon_id"] == ext]
             parent = t and conn.execute("SELECT name, rank FROM taxa WHERE taxon_id = ?",
                                         (t["parent_id"],)).fetchone()
-            g = t and t["gbif_key"] and conn.execute(
-                "SELECT * FROM gbif_taxa WHERE gbif_key = ?", (t["gbif_key"],)).fetchone()
-            return self._json({"taxon": dict(t) if t else None, "curated": row, "evidence": ev,
+            names = t and [dict(r) | {"name_id": ids.to_ext(r["name_id"])} for r in conn.execute(
+                "SELECT * FROM taxon_names WHERE taxon_id = ? ORDER BY name", (t["taxon_id"],))]
+            return self._json({"taxon": _external(t), "curated": row, "evidence": ev,
                                "parent": dict(parent) if parent else None,
-                               "gbif": dict(g) if g else None})
+                               "names": names or []})
         if url.path.startswith("/api/mentions/"):
-            tid = int(url.path.rsplit("/", 1)[-1])
+            ext = urllib.parse.unquote(url.path.rsplit("/", 1)[-1])
+            tid = ids.to_int(ext) if ids.valid(ext) else -1
             rows = conn.execute(
                 "SELECT file, page, name_found, method, kind, areas, islands, snippet, decision "
-                "FROM pdf_mentions WHERE taxon_id = ? ORDER BY kind != 'heading', file, page",
-                (tid,)).fetchall()
+                "FROM pdf_mentions WHERE taxon_id IN (SELECT key FROM taxon_keys WHERE "
+                "taxon_id = ?) ORDER BY kind != 'heading', file, page", (tid,)).fetchall()
             return self._json([dict(r) for r in rows])
         if url.path == "/api/curated":
             return self._json(curation.load(assign_ids=False).rows)
@@ -127,11 +159,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         try:
             data = self._body()
             if url.path == "/api/taxon":
-                _ensure_gbif_key(conn, data)
+                _ensure_known(conn, data)
                 stats = curation.upsert(conn, data, editor=data.pop("editor", None) or
                                         self.editor, reason=data.get("reason", ""))
             elif url.path.startswith("/api/taxon/") and url.path.endswith("/delete"):
-                stats = curation.remove(conn, int(url.path.split("/")[3]))
+                stats = curation.remove(conn, urllib.parse.unquote(url.path.split("/")[3]))
             elif url.path == "/api/evidence":
                 stats = curation.add_evidence(conn, data, editor=self.editor)
             elif url.path == "/api/decision":
@@ -141,7 +173,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                                       data["decision"], self.editor, data.get("note", ""))
                 stats = {"mentions": n}
             elif url.path == "/api/evidence/delete":
-                stats = curation.remove_evidence(conn, int(data["taxon_id"]), data["kind"],
+                stats = curation.remove_evidence(conn, str(data["taxon_id"]), data["kind"],
                                                  data["ref"])
             else:
                 return self._json({"error": "unknown endpoint"}, 404)

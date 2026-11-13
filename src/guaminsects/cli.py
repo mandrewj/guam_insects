@@ -3,7 +3,7 @@
 import argparse
 import sys
 
-from . import config, curation, db
+from . import config, curation, db, ids
 
 
 def gbif_client():
@@ -13,14 +13,52 @@ def gbif_client():
     return ApiClient(GBIF, min_interval=0.34)        # ≤3 requests/s (CLAUDE.md rule 2)
 
 
+def col_client():
+    """GBIF's v2 API (the Catalogue of Life match), at the same polite rate."""
+    from .enrich.col import GBIF_ROOT
+    from .enrich.http import ApiClient
+
+    return ApiClient(GBIF_ROOT, min_interval=0.34)
+
+
 def cmd_checklist(args) -> int:
-    """GBIF presence sweep: hexapod taxon keys with records in each area."""
+    """GBIF presence sweep: hexapod taxon keys with records in each area (COL keys; with
+    --backbone, GBIF Backbone keys, used to find names COL lacks)."""
     from .enrich import gbif_checklist
 
     conn = db.connect()
     client = gbif_client()
-    gbif_checklist.sweep(conn, client, args.area or None)
+    gbif_checklist.sweep(conn, client, args.area or None, col=not args.backbone)
     print(f"{client.requests} GBIF requests")
+    return 0
+
+
+def cmd_col(args) -> int:
+    """Catalogue of Life taxa for every COL key with records (and their classifications)."""
+    from .enrich import col
+
+    conn = db.connect()
+    client = col_client()
+    keys = {r[0] for r in conn.execute("SELECT DISTINCT taxon_id FROM taxon_presence "
+                                       "WHERE taxon_id >= ? AND taxon_id < ?",
+                                       (ids.COL_BASE, ids.NAME_BASE))}
+    keys |= {r[0] for r in conn.execute("SELECT taxon FROM name_matches WHERE taxon > 0 "
+                                        "UNION SELECT parent FROM name_matches WHERE parent > 0")}
+    n = col.fetch_taxa(conn, client, keys, refresh=args.refresh)
+    m = col.fetch_taxa(conn, client, col.displayed_ancestors(conn))
+    print(f"{n} COL taxa, {m} ancestors, {client.requests} GBIF requests")
+    return 0
+
+
+def cmd_match(args) -> int:
+    """Put every name a source used on the Catalogue of Life (name_matches)."""
+    from . import names
+
+    conn = db.connect()
+    client = col_client()
+    i, n = (int(x) for x in args.shard.split("/"))
+    stats = names.match_all(conn, client, refresh=args.refresh, shard=(i, n))
+    print(", ".join(f"{k} {v}" for k, v in stats.items()) + f"; {client.requests} requests")
     return 0
 
 
@@ -31,9 +69,10 @@ def cmd_taxa(args) -> int:
     conn = db.connect()
     cur = curation.load()
     keys = gbif_checklist.present_keys(conn) | set(config.HEXAPOD_CLASSES)
-    keys |= {int(r["taxon_id"]) for r in cur.rows if int(r["taxon_id"]) < config.CURATED_ID_BASE}
-    keys |= {int(e["taxon_id"]) for e in cur.evidence
-             if int(e["taxon_id"]) < config.CURATED_ID_BASE}
+    keys |= {ids.to_int(r["taxon_id"]) for r in cur.rows
+             if ids.kind(ids.to_int(r["taxon_id"])) == "gbif"}
+    keys |= {ids.to_int(e["taxon_id"]) for e in cur.evidence
+             if ids.kind(ids.to_int(e["taxon_id"])) == "gbif"}
     client = gbif_client()
     n = gbif_checklist.fetch_taxa(conn, client, keys, refresh=args.refresh)
     print(f"{n} taxa stored, {client.requests} GBIF requests")
@@ -41,7 +80,7 @@ def cmd_taxa(args) -> int:
 
 
 def cmd_inat(args) -> int:
-    """iNaturalist species counts per area, then GBIF keys for their names."""
+    """iNaturalist species counts per area, then name keys for them (matched by `match`)."""
     from .enrich import inat_counts
     from .enrich.http import ApiClient
 
@@ -52,10 +91,8 @@ def cmd_inat(args) -> int:
         print(f"{inat.requests} iNat requests")
     if args.sweep_only:
         return 0
-    gbif = gbif_client()
-    stats = inat_counts.link_to_gbif(conn, gbif)
-    print(f"iNat names: {stats['matched']} matched to GBIF, {stats['unmatched']} not; "
-          f"{gbif.requests} GBIF requests")
+    stats = inat_counts.link_names(conn)
+    print(f"iNat names: {stats['names']} names, {stats['rows']} presence rows")
     return 0
 
 
@@ -185,7 +222,7 @@ def cmd_literature(args) -> int:
     conn = db.connect()
     literature.scan(conn)
     if not args.no_match:
-        stats = literature.match_candidates(conn, gbif_client())
+        stats = literature.match_candidates(conn, col_client())
         print("candidates: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
     print(f"{literature.presence_rows(conn)} taxon-area rows from the library")
     return 0
@@ -326,7 +363,15 @@ def main(argv: list[str] | None = None) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("checklist", help=cmd_checklist.__doc__)
     p.add_argument("--area", action="append", choices=config.AREA_CODES)
+    p.add_argument("--backbone", action="store_true", help="GBIF Backbone keys instead of COL")
     p.set_defaults(func=cmd_checklist)
+    p = sub.add_parser("match", help=cmd_match.__doc__)
+    p.add_argument("--refresh", action="store_true", help="match every name again")
+    p.add_argument("--shard", default="0/1", help="i/n: every n-th key (two streams: 0/2, 1/2)")
+    p.set_defaults(func=cmd_match)
+    p = sub.add_parser("col", help=cmd_col.__doc__)
+    p.add_argument("--refresh", action="store_true", help="refetch cached taxa")
+    p.set_defaults(func=cmd_col)
     p = sub.add_parser("taxa", help=cmd_taxa.__doc__)
     p.add_argument("--refresh", action="store_true", help="refetch cached taxa")
     p.set_defaults(func=cmd_taxa)

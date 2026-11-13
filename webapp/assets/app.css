@@ -243,6 +243,9 @@ section[id] { scroll-margin-top: 80px; }
 .dl-note { margin: 8px 0 0; font-size: 0.8rem; color: var(--muted); }
 .dl-status { margin: 4px 0 0; font-size: 0.8rem; color: var(--muted); overflow-wrap: anywhere; }
 .dl-status:empty { display: none; }
+.badge.machine { background: var(--surface); border: 1px dashed var(--muted); color: var(--muted); }
+.machine-mark { color: var(--muted); margin-left: 1px; }
+.names .nm-note { color: var(--muted); font-size: 0.9em; }
 
 /* dark mode: soften the bright basemap */
 @media (prefers-color-scheme: dark) { .map-stack img:first-child { filter: brightness(0.82) contrast(0.95); } }
@@ -366,6 +369,8 @@ section[id] { scroll-margin-top: 80px; }
 .card-isles, .ip-where { display: block; margin-top: 4px; }
 table.presence { width: 100%; border-collapse: collapse; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
 table.presence th, table.presence td { padding: 3px 4px; border-bottom: 1px solid var(--line); }
+table.presence abbr, .isle-list b[title] { text-decoration: underline dotted var(--muted); text-underline-offset: 2px; cursor: help; }
+.isle[title], .chip[title], .isle-map .glabel { cursor: help; }
 table.presence td { text-align: right; }
 table.presence tr:first-child th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); text-align: right; border-bottom-width: 2px; }
 table.presence tr:first-child th.t-gbif { color: var(--gbif); } table.presence tr:first-child th.t-inat { color: var(--inat); }
@@ -427,14 +432,19 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 h1[tabindex="-1"]:focus { outline: none; }
 .nophoto { font-size: 0.85rem; margin: 4px 0 0; }
 .missing-note { font-size: 0.82rem; }
-.families { margin: 0 0 18px; }
-.families summary { cursor: pointer; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
-.families ul { list-style: none; margin: 0; padding: 0; columns: 3 220px; column-gap: 18px; }
-.families li { break-inside: avoid; padding: 2px 0; }
-.families a { display: flex; gap: 6px; align-items: baseline; text-decoration: none; }
-.families .f-name { font-weight: 600; }
-.families .f-common { color: var(--muted); font-size: 0.85rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.families .f-n { margin-left: auto; color: var(--muted); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+.checklist { margin: 0 0 22px; }
+.checklist .cl-tools { margin: 0 0 8px; color: var(--muted); font-size: 0.88rem; }
+.checklist button.link { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; }
+.cl, .cl ul { list-style: none; margin: 0; padding: 0; }
+.cl ul { padding-left: 14px; margin-left: 5px; border-left: 1px solid var(--line); }
+.cl li { padding: 1px 0; }
+.cl > li { break-inside: avoid; }
+.cl summary { cursor: pointer; padding: 1px 0; }
+.cl summary::marker { color: var(--muted); }
+.cl a { text-decoration: none; }
+.cl a:hover { text-decoration: underline; }
+.cl > li > details > summary > a { font-weight: 600; }
+.cl .cl-n { color: var(--muted); font-size: 0.78rem; font-variant-numeric: tabular-nums; margin-left: 4px; }
 .guilds { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .chip-tag { font-size: 0.75rem; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
 

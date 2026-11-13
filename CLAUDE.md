@@ -13,31 +13,34 @@ foundation:
 | Regions | NE / SE / SW / NW (US + Canada) | **islands and island groups** (Guam, CNMI, Palau, FSM, Marshalls) |
 | Output | static `file://` web app | **the same app**, reused from `starter/webapp/` |
 
-Status (2026-11-13, end of first night): the pipeline runs end to end and the site builds and
-passes `ops/check_site.py` in all three engines. Not yet deployed (ops/deploy.sh is ready;
+Status (2026-11-13): the tree is the Catalogue of Life (round 4 below); the pipeline runs end
+to end and the site builds and passes `ops/check_site.py` in all three engines. Not yet deployed (ops/deploy.sh is ready;
 the first deploy waits for the user). Start with the decisions below (they override
 `BUILD_PLAN.md`), then "Pipeline order".
 
 ## Pipeline order (each step resumable; one stream per host)
 
 ```sh
-uv run guaminsects checklist     # GBIF presence by area (facets)          GBIF
-uv run guaminsects taxa          # GBIF classification, cached              GBIF
-uv run guaminsects plazi         # digitised literature checklists          GBIF
-uv run guaminsects croppests     # Nafus & Schreiner crop pest list         GBIF (matching)
-uv run guaminsects islands       # GBIF presence by island (GADM level 1)  GBIF
-uv run guaminsects specimens     # GBIF preserved specimens per area        GBIF
-uv run guaminsects synonyms      # GBIF synonyms (search, PDF name finder)  GBIF
-uv run guaminsects inat          # iNat species counts per area + matching  iNat, then GBIF
-uv run guaminsects library       # sources/library.csv (citations)          (Bishop Museum page cached)
-uv run guaminsects pdftext       # text of literature/ (OCR scans)          local
-uv run guaminsects literature    # names + island records from the PDFs     GBIF (matching)
-uv run guaminsects establishment # introduced-species statements            GBIF (matching)
-uv run guaminsects resolve       # tree = GBIF + curation/*.csv             local
-uv run guaminsects wikidata      # cross-links by GBIF key                  Wikidata
-uv run guaminsects wikipedia     # article text                             en.wikipedia
-uv run guaminsects bugguide      # links from entobase (read-only)          local
-uv run guaminsects photos        # Commons + iNat photos, select, thumbs    Commons, iNat
+uv run guaminsects checklist     # GBIF presence by area, Catalogue of Life keys   GBIF
+uv run guaminsects checklist --backbone  # the same, GBIF Backbone keys (names COL lacks)
+uv run guaminsects specimens     # GBIF preserved specimens per area (COL keys)    GBIF
+uv run guaminsects islands       # GBIF presence by island (GADM level 1, COL)     GBIF
+uv run guaminsects col           # COL taxa + classification (v2 match, usageKey)  GBIF v2
+uv run guaminsects taxa          # GBIF Backbone names for the Backbone keys        GBIF
+uv run guaminsects plazi         # digitised literature checklists                 GBIF
+uv run guaminsects croppests     # Nafus & Schreiner crop pest list                GBIF (matching)
+uv run guaminsects synonyms      # GBIF synonyms (search, PDF name finder)         GBIF
+uv run guaminsects inat          # iNat species counts per area -> name- keys      iNat
+uv run guaminsects library       # sources/library.csv (citations)                 (cached)
+uv run guaminsects pdftext       # text of literature/ (OCR scans)                 local
+uv run guaminsects literature    # names + island records from the PDFs            GBIF v2
+uv run guaminsects establishment # introduced-species statements                   GBIF (matching)
+uv run guaminsects match [--shard 0/2]  # every source name -> COL (name_matches)  GBIF v2
+uv run guaminsects resolve       # tree = COL + name matches + curation/*.csv      local
+uv run guaminsects wikidata      # cross-links by COL id (P10585) / GBIF id        Wikidata
+uv run guaminsects wikipedia     # article text                                    en.wikipedia
+uv run guaminsects bugguide      # links from entobase (read-only)                 local
+uv run guaminsects photos        # Commons + iNat photos, select, thumbs           Commons, iNat
 uv run guaminsects resolve && uv run guaminsects build public local   # also taxonomy.csv
 uv run python ops/check_site.py  # Chrome/WebKit/Firefox x desktop/phone
 uv run python ops/review.py      # data/exports/review.html for the curator (local only)
@@ -45,8 +48,15 @@ uv run guaminsects serve         # http://localhost:8765 (+ /admin.html)
 ops/deploy.sh [--prod]           # Vercel (public build)
 ```
 
-Presence sources in `taxon_presence.source`: gbif, inat, plazi, pdf, checklist. The site
-shows GBIF and iNat separately and the last three as "Lit." (documents that record it).
+Presence sources in `taxon_presence.source`: gbif (COL keys), gbif_backbone (Backbone keys;
+counted only for taxa COL lacks), inat, plazi, pdf, checklist. The site shows GBIF and iNat
+separately and the last three as "Lit." (documents that record it).
+
+**Keys and ids** (`src/guaminsects/ids.py`, mirrored in app.js): source rows carry the key
+the source used (a COL id stored as COL_BASE + base 36, a GBIF Backbone key, a name- id from
+`sources/names.csv`); `taxon_keys` (written by resolve) maps each to the displayed taxon, and
+every reader goes through `db.keymap(conn)`. External ids: `KVC9L`, `gbif:<key>`,
+`name-<n>`, `IOG-<n>` (curated). Never compare source keys with taxa ids directly.
 
 ## Decisions already made by the user (2026-11-13; do not re-ask)
 
@@ -113,6 +123,27 @@ shows GBIF and iNat separately and the last three as "Lit." (documents that reco
   Plazi datasets, which `guaminsects plazi` uses.
 - `reference/` and `starter/` stay out of git (entobase is a private repo).
 
+## Decisions, round 4 (2026-11-13; these override anything above)
+
+- **Backbone: the Catalogue of Life** as GBIF delivers it (COL eXtended Release, checklistKey
+  7ddf754f-d193-4cc9-b351-99906754a03b; the root is COL's Hexapoda L2655). The GBIF Backbone
+  and the literature carry outdated names and placements (Callirhipis under Rhipiceridae,
+  two Gonocephalum genera): every source name is matched to COL and shown as one taxon.
+- **Ranks shown: main ranks only** (class, order, family, genus, species, subspecies).
+  Intermediate COL ranks are kept in `taxa.extra` and as taxonomy.csv columns.
+- **Names COL lacks, genera included,** are added under their proper parent and flagged "not
+  in the Catalogue of Life" when any GBIF, iNaturalist or literature record has them. COL is
+  thin for Pacific taxa.
+- **Spelling variants auto-merge with a note** (COL's VARIANT, a near spelling in the same
+  genus, siblings one letter or a gender ending apart); a near spelling in another genus is
+  held for review. Every merge can be undone in curation/taxa.csv or taxonomy.csv.
+- **Merged names are rows in taxonomy.csv** (taxonomicStatus synonym, acceptedNameUsageID,
+  nameMatch, matchRemarks, nameSources), right after their accepted taxon.
+- **taxonomy.csv is tracked in git.** Machine-read literature records are published, flagged
+  "machine-read" on the site and in the CSV.
+- Rhipiceridae (10 UOG specimens from Yap and Kosrae identified only to family) is merged
+  into Callirhipidae in curation/taxa.csv, per the user.
+
 ## Hard rules (inherited from entobase; they exist because something went wrong)
 
 1. **Never fetch BugGuide directly** (no curl, WebFetch, httpx, requests). It is behind
@@ -141,7 +172,7 @@ shows GBIF and iNat separately and the last three as "Lit." (documents that reco
 5. **BugGuide content carries `ai-train=no`.** Show it with attribution; never use it as
    training or fine-tuning data.
 6. **Never commit** `data/`, `data.nosync/`, `pdfs/`, `literature/`, built site output, or
-   tokens. The repo is **public**: anything committed is published. Commit and push after
+   tokens (`taxonomy.csv` is the one derived file that is tracked, by the user's choice). The repo is **public**: anything committed is published. Commit and push after
    each change set, with the trailer
    `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>` (use whatever model line the
    session's attribution reminder gives).

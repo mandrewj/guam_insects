@@ -26,6 +26,31 @@ accessed <date>" (as entobase's captions do). Dataset-level licences vary (CC0, 
 you are showing counts and a density picture, not individual records. If you ever display single
 records, read each record's licence.
 
+## Catalogue of Life, through GBIF (https://api.gbif.org/v2)  CC BY 4.0 (COL); the tree's backbone
+
+The tree is COL's eXtended Release as GBIF serves it (checklistKey
+`7ddf754f-d193-4cc9-b351-99906754a03b`; ChecklistBank dataset 3LXR, release "COL26.10 XR"
+when first fetched on 2026-11-13). COL ids are short codes of digits and capitals (`KVC9L`).
+
+- **Occurrences under COL keys**: `/v1/occurrence/search?checklistKey=<COL>&taxonKey=L2655`
+  (L2655 = Hexapoda) with `facet=speciesKey|genusKey|familyKey|orderKey|classKey`. The facet
+  values are COL ids. Without checklistKey a COL id finds nothing.
+- **A taxon and its classification in one call**: `/v2/species/match?checklistKey=<COL>&usageKey=KVC9L`
+  (usage, acceptedUsage for a synonym, classification including itself). ChecklistBank's
+  `/dataset/316691/taxon/{id}/classification` gives the same chain without the taxon.
+- **Name matching**: `/v2/species/match?checklistKey=<COL>&scientificName=...&taxonRank=...`.
+  matchType EXACT / VARIANT (spelling or gender variant) / FUZZY / HIGHERRANK (COL lacks
+  the name; the result is the taxon above) / NONE. `taxonRank` does not separate homonyms
+  ("Multiple equal matches for Diplura"); a classification hint does (`phylum=Arthropoda`).
+  **A family hint can mislead**: Callirhipis onoi with family=Rhipiceridae matches up to
+  Rhipiceridae; without it, to the genus in Callirhipidae. So match without hints first.
+- Answers take ~0.8 s each (the v2 endpoint is slow): ~1 request/s per stream in practice.
+- The bulk GBIF-key-to-COL mapping (download.checklistbank.org/col/gbif) sits behind a bot
+  challenge: not used.
+- Web pages: `https://www.catalogueoflife.org/data/taxon/<id>`; GBIF records in Micronesia:
+  `https://www.gbif.org/occurrence/search?checklist_key=<COL>&country=GU&...&taxon_key=<id>`.
+- Wikidata has COL ids as P10585.
+
 ## iNaturalist (https://api.inaturalist.org/v1)  no key for reads; ≈1 request/s; iNat asks for under ~10k requests a day
 
 | Need | Call |

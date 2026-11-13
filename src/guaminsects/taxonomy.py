@@ -25,19 +25,22 @@ import subprocess
 from collections import defaultdict
 from pathlib import Path
 
-from . import config, curation, db
+from . import config, curation, db, ids
 
 REPO_CSV = config.ROOT / "taxonomy.csv"
 SNAPSHOT = config.ROOT / "data.nosync" / "taxonomy.last.csv"
+COL_TAXON = "https://www.catalogueoflife.org/data/taxon/"
 GBIF_SPECIES = "https://www.gbif.org/species/"
 
 COLUMNS = ["taxonID", "parentNameUsageID", "parentNameUsage", "acceptedNameUsageID",
            "acceptedNameUsage", "scientificName", "scientificNameAuthorship", "taxonRank",
-           "taxonomicStatus", "vernacularName", "kingdom", "phylum", "class", "order", "family",
-           "genus", "establishmentMeans", "recordedIn", "islands", "verificationStatus",
-           "verifiedBy", "verifiedDate", "verificationSource", "literatureRecords",
-           "literatureSources", "specimenRecords", "gbifRecords", "inatObservations",
-           "nameAccordingTo", "references", "taxonRemarks", "hidden", "curatedFields"]
+           "taxonomicStatus", "vernacularName", "kingdom", "phylum", "class", "order",
+           "superfamily", "family", "subfamily", "tribe", "genus", "establishmentMeans",
+           "recordedIn", "islands", "inCatalogueOfLife", "nameMatch", "matchRemarks",
+           "nameSources", "verificationStatus", "verificationRemarks", "verifiedBy",
+           "verifiedDate", "verificationSource", "literatureRecords", "literatureSources",
+           "specimenRecords", "gbifRecords", "inatObservations", "nameAccordingTo", "references",
+           "taxonRemarks", "hidden", "curatedFields"]
 # Editable column -> curation/taxa.csv column. Everything else is computed and read-only.
 EDITABLE = {"parentNameUsageID": "parent_id", "parentNameUsage": "parent_name",
             "acceptedNameUsageID": "accepted_id", "scientificName": "name",
@@ -49,38 +52,58 @@ LEVELS = ["unconfirmed", "specimen records", "literature records", "editor confi
 CONFIRMED = LEVELS[-1]
 LOW_RANKS = {"Genus", "Subgenus", "Species", "Subspecies", "Variety", "Form"}   # island lists
 SEP = " | "                      # Darwin Core's separator for lists in one cell
+MACHINE = " [machine-read]"      # a citation the name finder made; no person has checked it
 
 
 def rows(conn, records: dict[int, dict] | None = None) -> list[dict]:
-    """One row per taxon, depth first, children by name (as the site lists them)."""
+    """One row per taxon, depth first, children by name (as the site lists them); each
+    taxon's other names (synonyms, spelling variants, merged entries) follow it."""
     if records is None:
         from . import site
 
         records = site.build_records(conn, "public")
     taxa = {r["taxon_id"]: dict(r) for r in conn.execute(
-        "SELECT taxon_id, lineage, verified, establishment FROM taxa")}
-    specimens = dict(conn.execute(
-        "SELECT taxon_id, SUM(records) FROM taxon_specimens GROUP BY taxon_id"))
-    lit_presence = {r[0] for r in conn.execute(
-        "SELECT DISTINCT taxon_id FROM taxon_presence WHERE source IN ('plazi', 'pdf', 'checklist')")}
-    curated = {int(r["taxon_id"]): r for r in
+        "SELECT taxon_id, lineage, verified, extra FROM taxa")}
+    keys = db.keymap(conn)
+    specimens: dict[int, int] = defaultdict(int)
+    for r in conn.execute("SELECT taxon_id, SUM(records) n FROM taxon_specimens GROUP BY taxon_id"):
+        t = keys.get(r["taxon_id"])
+        if t is not None and (t == r["taxon_id"] or not specimens.get(t)):
+            specimens[t] += r["n"]
+    curated = {ids.to_int(r["taxon_id"]): r for r in
                curation.load(curation.TAXA_CSV, curation.EVIDENCE_CSV, assign_ids=False).rows
                if r["taxon_id"]}
+
+    def lit_kind(rec: dict) -> tuple[bool, bool]:
+        """(checked literature, machine-read literature) placing the taxon in Micronesia."""
+        checked = any(e["source"] != "pdf" or (e.get("areas") and not e.get("machine_read"))
+                      for e in rec["literature"])
+        # Presence from checklists (Plazi, the crop pest list) is checked literature; the
+        # PDF name finder's (machine_lit) is not.
+        checked |= any(p["literature"] and p["area"] not in rec.get("machine_lit", ())
+                       for p in rec["presence"])
+        machine = bool(rec.get("machine_lit")) or any(
+            e["source"] == "pdf" and e.get("areas") and e.get("machine_read")
+            for e in rec["literature"])
+        return checked, machine
+
+    totals: dict[int, int] = {}
+
+    def specimens_of(tid: int) -> int:
+        # A taxon with no specimen count of its own totals its children's, which are
+        # disjoint; GBIF's facet already counted everything else.
+        if tid not in totals:
+            totals[tid] = specimens.get(tid) or sum(specimens_of(c["id"])
+                                                    for c in records[tid]["children"])
+        return totals[tid]
 
     def own_level(tid: int) -> int:
         if taxa[tid]["verified"]:
             return 3
-        if tid in lit_presence or any(e["source"] != "pdf" or e.get("areas")
-                                      for e in records[tid]["literature"]):
+        checked, machine = lit_kind(records[tid])
+        if checked or machine:
             return 2
         return 1 if specimens_of(tid) else 0
-
-    # A taxon with no specimen count of its own (the curated root, a hand-added genus) totals
-    # its children's, which are disjoint; GBIF's facet already counted everything else.
-    def specimens_of(tid: int) -> int:
-        if tid not in specimens:
-            specimens[tid] = sum(specimens_of(c["id"]) for c in records[tid]["children"])
-        return specimens[tid]
 
     level: dict[int, int] = defaultdict(int)
     for tid in records:              # a taxon is as well attested as anything under it
@@ -97,27 +120,40 @@ def rows(conn, records: dict[int, dict] | None = None) -> list[dict]:
         stack.extend(reversed([c["id"] for c in r["children"]]))
         chain = r["lineage"] + [{"rank": r["rank"], "name": r["name"]}]
         by_rank = {a["rank"]: a["name"] for a in chain}
+        extra = json.loads(taxa[tid]["extra"] or "{}")
         parent = r["lineage"][-1] if r["lineage"] else None
-        accepted = records.get(r["accepted_id"]) if r["status"] == "synonym" else None
         cur = curated.get(tid, {})
         mine = bool(taxa[tid]["verified"])
         est = r["establishment"] or next((s["status"] for s in sorted(
             r["status_sources"], key=lambda s: s["area"] != "GU")), "")
+        checked, machine = lit_kind(r)
+        remark = ""
+        if level[tid] == 2 and own_level(tid) == 2 and machine and not checked:
+            remark = "literature records machine-read only"
+        elif level[tid] > own_level(tid):
+            remark = "from taxa under it"
+        classification = {
+            "kingdom": "Animalia", "phylum": "Arthropoda", "class": by_rank.get("Class", ""),
+            "order": by_rank.get("Order", ""), "superfamily": extra.get("superfamily", ""),
+            "family": by_rank.get("Family", ""), "subfamily": extra.get("subfamily", ""),
+            "tribe": extra.get("tribe", ""), "genus": by_rank.get("Genus", "")}
+        col_id = ids.col_of(tid) if r["in_col"] else None
         out.append({
-            "taxonID": tid, "parentNameUsageID": parent["id"] if parent else "",
+            "taxonID": r["ext"], "parentNameUsageID": ids.to_ext(parent["id"]) if parent else "",
             "parentNameUsage": parent["name"] if parent else "",
-            "acceptedNameUsageID": accepted["id"] if accepted else "",
-            "acceptedNameUsage": accepted["name"] if accepted else "",
+            "acceptedNameUsageID": "", "acceptedNameUsage": "",
             "scientificName": r["name"], "scientificNameAuthorship": r["authority"] or "",
             "taxonRank": r["rank"], "taxonomicStatus": r["status"],
-            "vernacularName": r["common"] or "", "kingdom": "Animalia", "phylum": "Arthropoda",
-            "class": by_rank.get("Class", ""), "order": by_rank.get("Order", ""),
-            "family": by_rank.get("Family", ""), "genus": by_rank.get("Genus", ""),
+            "vernacularName": r["common"] or "", **classification,
             "establishmentMeans": est,
             "recordedIn": SEP.join(k.upper() for k in r["regions"] or []),
             "islands": SEP.join(i for g in r["islands"] for i in g["islands"])
             if r["rank"] in LOW_RANKS else "",
-            "verificationStatus": LEVELS[level[tid]],
+            "inCatalogueOfLife": "yes" if r["in_col"] else "no",
+            "nameMatch": "Catalogue of Life" if r["in_col"] else "not in Catalogue of Life",
+            "matchRemarks": r["match_note"] or "",
+            "nameSources": "",
+            "verificationStatus": LEVELS[level[tid]], "verificationRemarks": remark,
             "verifiedBy": cur.get("editor", "") if mine else "",
             "verifiedDate": cur.get("edited", "") if mine else "",
             "verificationSource": cur.get("citation", "") if mine else "",
@@ -126,24 +162,41 @@ def rows(conn, records: dict[int, dict] | None = None) -> list[dict]:
             "specimenRecords": specimens_of(tid),
             "gbifRecords": sum(p["gbif"] for p in r["presence"]),
             "inatObservations": sum(p["inat"] for p in r["presence"]),
-            "nameAccordingTo": "GBIF Backbone Taxonomy" if r["origin"] == "gbif"
-            else "Insects of Guam curator",
-            "references": GBIF_SPECIES + str(tid) if r["origin"] == "gbif" else "",
+            "nameAccordingTo": "Catalogue of Life" if r["in_col"] else (
+                "GBIF Backbone Taxonomy" if r["origin"] == "gbif" else
+                "Insects of Guam curator" if r["origin"] == "curated" else "source name"),
+            "references": COL_TAXON + col_id if col_id else (
+                GBIF_SPECIES + str(tid) if r["origin"] == "gbif" else ""),
             "taxonRemarks": r["note"] or "", "hidden": int(r["hidden"]),
             "curatedFields": ",".join(r["curated"]),
         })
+        for nm in r["names"]:            # the names shown as this taxon
+            out.append({c: "" for c in COLUMNS} | classification | {
+                "taxonID": ids.to_ext(nm["id"]), "acceptedNameUsageID": r["ext"],
+                "acceptedNameUsage": r["name"], "scientificName": nm["name"],
+                "scientificNameAuthorship": nm["authority"] or "", "taxonRank": r["rank"],
+                "taxonomicStatus": "synonym",
+                "inCatalogueOfLife": "yes" if nm["kind"] == "COL synonym" else "no",
+                "nameMatch": nm["kind"], "matchRemarks": nm["note"] or "",
+                "nameSources": nm["sources"] or "",
+                "nameAccordingTo": "GBIF Backbone Taxonomy" if nm["id"] < ids.COL_BASE
+                else "source name",
+                "references": GBIF_SPECIES + str(nm["id"]) if nm["id"] < ids.COL_BASE else "",
+                "hidden": int(r["hidden"])})
     return out
 
 
 def _cite(e: dict) -> str:
     text = (e.get("citation") or e.get("title") or "").strip().rstrip(".")
     pages = e.get("pages") or []
-    return text + (f", p. {', '.join(str(p) for p in pages)}" if pages else "")
+    return (text + (f", p. {', '.join(str(p) for p in pages)}" if pages else "") +
+            (MACHINE if e.get("machine_read") else ""))
 
 
-def subtree(table: list[dict], taxon_id: int) -> list[dict]:
-    """The rows of `taxon_id` and everything under it (rows are depth first)."""
-    parent = {r["taxonID"]: r["parentNameUsageID"] for r in table}
+def subtree(table: list[dict], taxon_id: str) -> list[dict]:
+    """The rows of `taxon_id` (an external id) and everything under it, with their other
+    names (rows are depth first)."""
+    parent = {r["taxonID"]: r["parentNameUsageID"] or r["acceptedNameUsageID"] for r in table}
     inside: dict = {taxon_id: True}
 
     def under(tid) -> bool:
@@ -268,6 +321,21 @@ def import_edits(conn, path: Path, editor: str, baseline: dict[str, dict] | None
                 del diffs["parent_name"]
             else:
                 diffs["parent_id"] = ""
+        # Merging and splitting: an accepted taxon given an acceptedNameUsageID becomes a
+        # synonym of it (shown as one taxon); a synonym row made accepted is its own taxon
+        # again, under its accepted taxon's parent unless a parent is given.
+        if diffs.get("accepted_id") and "status" not in diffs:
+            diffs["status"] = "synonym"
+        if diffs.get("status") == "synonym" and not (diffs.get("accepted_id") or
+                                                     base["acceptedNameUsageID"]):
+            errors.append(f"{path.name} line {line}: {base['scientificName']} made a synonym "
+                          "needs acceptedNameUsageID (the taxon it is the same as)")
+        if base["taxonomicStatus"] == "synonym" and diffs.get("status") in (
+                "accepted", "doubtful", "morphospecies"):
+            diffs["accepted_id"] = ""
+            if not diffs.get("parent_id") and not diffs.get("parent_name"):
+                acc = baseline.get(base["acceptedNameUsageID"]) or {}
+                diffs["parent_id"] = acc.get("parentNameUsageID", "")
         if not diffs:
             continue
         row = by_id.setdefault(tid, {c: "" for c in curation.TAXA_COLUMNS} | {"taxon_id": tid})
@@ -279,7 +347,7 @@ def import_edits(conn, path: Path, editor: str, baseline: dict[str, dict] | None
     if errors:
         raise curation.CurationError("\n".join(errors))
     # A GBIF taxon's row with nothing left to override goes (as the admin page does).
-    kept = [r for r in by_id.values() if int(r["taxon_id"]) >= config.CURATED_ID_BASE or
+    kept = [r for r in by_id.values() if ids.kind(ids.to_int(r["taxon_id"])) == "curated" or
             any(r[c] for c in curation.OVERRIDE_FIELDS + ["parent_name"])]
     if (stats["changed"] or stats["new"]) and not dry_run:
         curation._apply(conn, kept + new_rows, cur.evidence)

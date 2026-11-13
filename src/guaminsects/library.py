@@ -104,9 +104,20 @@ def build() -> dict[str, int]:
             old = {r["file"]: r for r in csv.DictReader(f)}
     iom = parse_iom_index(IOM_INDEX.read_text(encoding="utf-8")) if IOM_INDEX.exists() else []
     docs = {r["file"]: r for r in documents.rows() if r["file"]}
-    rows, stats = [], {"iom": 0, "documents": 0, "unknown": 0, "kept": 0}
-    for pdf in sorted(config.LITERATURE_DIR.rglob("*.pdf")):
+    rows, stats = [], {"iom": 0, "documents": 0, "unknown": 0, "kept": 0, "moved": 0}
+    pdfs = sorted(config.LITERATURE_DIR.rglob("*.pdf"))
+    here = {str(p.relative_to(config.LITERATURE_DIR)) for p in pdfs}
+    # A file moved to another folder keeps its row (and a person's checks): matched by name
+    # when exactly one vanished path has it.
+    gone: dict[str, list[str]] = {}
+    for f in old:
+        if f not in here:
+            gone.setdefault(Path(f).name, []).append(f)
+    for pdf in pdfs:
         rel = str(pdf.relative_to(config.LITERATURE_DIR))
+        if rel not in old and len(gone.get(pdf.name, [])) == 1:
+            old[rel] = dict(old[gone[pdf.name][0]], file=rel)
+            stats["moved"] += 1
         if old.get(rel, {}).get("checked") == "1":
             rows.append(old[rel])
             stats["kept"] += 1

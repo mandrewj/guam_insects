@@ -36,6 +36,38 @@ CREATE TABLE IF NOT EXISTS taxon_presence (
   fetched_at TEXT,
   PRIMARY KEY (taxon_id, area, source)
 );
+-- The Catalogue of Life (enrich/col.py). taxon_id = ids.from_col(col_id). `full` = the
+-- taxon's own record was read (else it is an ancestor seen in a classification).
+CREATE TABLE IF NOT EXISTS col_taxa (
+  taxon_id INTEGER PRIMARY KEY, col_id TEXT NOT NULL, parent_id INTEGER, rank TEXT, name TEXT,
+  authorship TEXT, status TEXT, accepted_id INTEGER, full INTEGER NOT NULL DEFAULT 0,
+  fetched_at TEXT);
+CREATE INDEX IF NOT EXISTS col_taxa_parent ON col_taxa(parent_id);
+
+-- Every name a source used, matched to COL once (names.py). `key`: a GBIF Backbone key, or a
+-- name- id (sources/names.csv) for a name GBIF does not have. `taxon` is the COL taxon it
+-- stands for; 0 when COL does not have it (then `parent` is where it goes).
+CREATE TABLE IF NOT EXISTS name_matches (
+  key INTEGER PRIMARY KEY, name TEXT, rank TEXT, authorship TEXT, origin TEXT,
+  match_type TEXT, taxon INTEGER, parent INTEGER, kind TEXT, note TEXT, hints TEXT,
+  matched_at TEXT);
+
+-- Derived by resolve: any key a source row carries -> the displayed taxon it belongs to.
+CREATE TABLE IF NOT EXISTS taxon_keys (key INTEGER PRIMARY KEY, taxon_id INTEGER NOT NULL,
+  how TEXT);
+-- Derived by resolve: other names shown as one taxon with an accepted one (the synonym rows
+-- of taxonomy.csv): COL synonyms, spelling variants, duplicate Backbone entries.
+CREATE TABLE IF NOT EXISTS taxon_names (
+  name_id INTEGER PRIMARY KEY, taxon_id INTEGER NOT NULL, name TEXT, authorship TEXT,
+  rank TEXT, kind TEXT, note TEXT, sources TEXT);
+
+-- One Wikidata row per taxon: its own (by COL id, or GBIF id for a taxon COL lacks), else the
+-- row of the GBIF Backbone key with the same name.
+CREATE VIEW IF NOT EXISTS taxon_wikidata AS
+  SELECT t.taxon_id, w.* FROM taxa t JOIN wikidata_taxa w ON w.gbif_key = CASE
+    WHEN EXISTS (SELECT 1 FROM wikidata_taxa x WHERE x.gbif_key = t.taxon_id AND x.qid IS NOT NULL)
+    THEN t.taxon_id ELSE t.gbif_key END;
+
 -- GBIF specimen records per area (preserved specimens and material samples only): the
 -- "specimen records" level of the taxonomy export's verificationStatus.
 CREATE TABLE IF NOT EXISTS taxon_specimens (
@@ -50,7 +82,7 @@ CREATE TABLE IF NOT EXISTS inat_place_counts (
   inat_id INTEGER, place_id INTEGER, area TEXT, name TEXT, rank TEXT, common_name TEXT,
   iconic TEXT, observations INTEGER, fetched_at TEXT, PRIMARY KEY (inat_id, place_id));
 
--- The resolved tree (derived; see top of file). taxon_id = gbif_key for backbone taxa.
+-- The resolved tree (derived by tree.py). taxon_id: internal id (ids.py).
 CREATE TABLE IF NOT EXISTS taxa (
   taxon_id       INTEGER PRIMARY KEY,
   gbif_key       INTEGER,
@@ -68,6 +100,10 @@ CREATE TABLE IF NOT EXISTS taxa (
   note           TEXT,
   verified       INTEGER NOT NULL DEFAULT 0,  -- 1: an editor confirmed it (curation/taxa.csv)
   curated_fields TEXT,                     -- comma list of fields set by hand, for the UI
+  ext_id         TEXT,                     -- the id in URLs and CSV files (ids.to_ext)
+  in_col         INTEGER NOT NULL DEFAULT 1,  -- 0: not in the Catalogue of Life
+  match_note     TEXT,                     -- how the name was placed (tree.py)
+  extra          TEXT,                     -- JSON: suborder, superfamily, subfamily, tribe
   lineage        TEXT,                     -- '/900000001/216/1470/…/' : LIKE for "under X"
   depth          INTEGER,
   resolved_at    TEXT

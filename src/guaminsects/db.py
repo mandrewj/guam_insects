@@ -16,6 +16,10 @@ def now() -> str:
 # has them for new databases; existing databases get them via ALTER TABLE.
 ADDED_COLUMNS: list[tuple[str, str, str]] = [
     ("taxa", "verified", "INTEGER NOT NULL DEFAULT 0"),
+    ("taxa", "ext_id", "TEXT"),
+    ("taxa", "in_col", "INTEGER NOT NULL DEFAULT 1"),
+    ("taxa", "match_note", "TEXT"),
+    ("taxa", "extra", "TEXT"),
 ]
 
 
@@ -31,6 +35,12 @@ def connect(path: Path = config.DB_PATH) -> sqlite3.Connection:
             conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {ddl}")
     conn.executescript(files("guaminsects").joinpath("schema.sql").read_text())
     return conn
+
+
+def keymap(conn) -> dict[int, int]:
+    """Any key a source row carries (a COL id, a GBIF Backbone key, a name- id) -> the
+    displayed taxon it belongs to (`taxon_keys`, written by resolve)."""
+    return dict(conn.execute("SELECT key, taxon_id FROM taxon_keys"))
 
 
 def lineages(parents: dict[int, int | None]) -> dict[int, str]:

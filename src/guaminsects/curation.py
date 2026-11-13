@@ -1,15 +1,17 @@
 """Hand curation of the taxonomy, kept in git as CSV files under curation/.
 
-curation/taxa.csv: one row per taxon a curator touched. A row whose `taxon_id` is a GBIF key
-overrides that taxon's fields (blank = keep GBIF's value); a row with a blank or curated
-`taxon_id` adds a taxon (morphospecies, a genus GBIF lacks, the synthetic Hexapoda root).
-New rows get an id on the next `resolve`, written back into the file, so links to them are
-stable. Either the admin page or a spreadsheet can edit the file; both go through here.
+curation/taxa.csv: one row per taxon a curator touched. `taxon_id` is the taxon's id as the
+site shows it (ids.py): a Catalogue of Life id (KVC9L), gbif:<key> or name-<n> for a name COL
+lacks, IOG-<n> for one added here. A row for an existing taxon overrides its fields (blank =
+keep the source's value); status synonym with accepted_id merges it into another taxon, and
+status accepted on a merged name makes it its own taxon again. A row with a blank taxon_id
+adds a taxon (a morphospecies, a genus no source has); it gets an IOG- id on the next
+`resolve`, written back into the file, so links to it are stable.
 
 curation/evidence.csv: what supports a curated taxon (or adds to a GBIF one): iNaturalist
 observations, GBIF occurrences, the curator's own photo files, or a photo URL.
 
-`resolve` derives the `taxa` table from GBIF + these files. Nothing here writes to the
+`resolve` derives the `taxa` table from COL + the name matches + these files (tree.py). Nothing here writes to the
 pipeline tables, and nothing in the pipeline writes to these files.
 """
 
@@ -17,7 +19,7 @@ import csv
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from . import config, db
+from . import config, db, ids
 
 TAXA_CSV = config.CURATION_DIR / "taxa.csv"
 EVIDENCE_CSV = config.CURATION_DIR / "evidence.csv"
@@ -37,9 +39,7 @@ ESTABLISHMENT = {"native", "endemic", "introduced", "invasive", "unknown"}
 EVIDENCE_KINDS = {"inat_observation", "gbif_occurrence", "photo_file", "photo_url"}
 # Photo licences the site may show (CLAUDE.md rule 3); a curator's own photo needs one too.
 LICENSES = {"cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"}
-RANKS = ["Subphylum", "Class", "Subclass", "Superorder", "Order", "Suborder", "Infraorder",
-         "Superfamily", "Family", "Subfamily", "Tribe", "Subtribe", "Genus", "Subgenus",
-         "Species", "Subspecies"]
+RANKS = ["Subphylum", "Class", "Order", "Family", "Genus", "Species", "Subspecies"]
 
 
 class CurationError(ValueError):
@@ -81,8 +81,9 @@ def load(taxa_csv: Path = TAXA_CSV, evidence_csv: Path = EVIDENCE_CSV,
     rows = _read(taxa_csv, TAXA_COLUMNS)
     errors = []
     seen: set[int] = set()
-    next_id = max([config.HEXAPODA_ID] + [int(r["taxon_id"]) for r in rows
-                                          if r["taxon_id"].isdigit()]) + 1
+    next_n = 1 + max([0] + [ids.to_int(r["taxon_id"]) - ids.LOCAL_BASE for r in rows
+                            if ids.valid(r["taxon_id"]) and
+                            ids.kind(ids.to_int(r["taxon_id"])) == "curated"])
     assigned = 0
     for i, r in enumerate(rows, start=2):           # line 1 is the header
         where = f"taxa.csv line {i}"
@@ -91,20 +92,21 @@ def load(taxa_csv: Path = TAXA_CSV, evidence_csv: Path = EVIDENCE_CSV,
                 errors.append(f"{where}: a new taxon needs at least a name and a rank")
                 continue
             if assign_ids:
-                r["taxon_id"] = str(next_id)
-                next_id += 1
+                r["taxon_id"] = f"IOG-{next_n}"
+                next_n += 1
                 assigned += 1
             else:
                 continue
-        if not r["taxon_id"].isdigit():
-            errors.append(f"{where}: taxon_id {r['taxon_id']!r} is not a number")
+        if not ids.valid(r["taxon_id"]):
+            errors.append(f"{where}: taxon_id {r['taxon_id']!r} is not an id (a Catalogue of "
+                          "Life id like KVC9L, gbif:<key>, name-<n> or IOG-<n>)")
             continue
-        tid = int(r["taxon_id"])
+        tid = ids.to_int(r["taxon_id"])
         if tid in seen:
-            errors.append(f"{where}: taxon_id {tid} appears twice; merge the rows")
+            errors.append(f"{where}: taxon_id {r['taxon_id']} appears twice; merge the rows")
         seen.add(tid)
-        if tid >= config.CURATED_ID_BASE and not (r["name"] and r["rank"]):
-            errors.append(f"{where}: curated taxon {tid} needs a name and a rank")
+        if ids.kind(tid) == "curated" and not (r["name"] and r["rank"]):
+            errors.append(f"{where}: curated taxon {r['taxon_id']} needs a name and a rank")
         if r["rank"] and r["rank"] not in RANKS:
             errors.append(f"{where}: rank {r['rank']!r} is not one of {', '.join(RANKS)}")
         if r["status"] and r["status"] not in STATUSES:
@@ -118,13 +120,13 @@ def load(taxa_csv: Path = TAXA_CSV, evidence_csv: Path = EVIDENCE_CSV,
             if r[flag] and r[flag] not in ("0", "1"):
                 errors.append(f"{where}: {flag} must be 0 or 1")
         for col in ("parent_id", "accepted_id"):
-            if r[col] and not r[col].isdigit():
-                errors.append(f"{where}: {col} {r[col]!r} is not a number")
+            if r[col] and not ids.valid(r[col]):
+                errors.append(f"{where}: {col} {r[col]!r} is not an id")
     evidence = _read(evidence_csv, EVIDENCE_COLUMNS)
     for i, e in enumerate(evidence, start=2):
         where = f"evidence.csv line {i}"
-        if not e["taxon_id"].isdigit():
-            errors.append(f"{where}: taxon_id {e['taxon_id']!r} is not a number")
+        if not ids.valid(e["taxon_id"]):
+            errors.append(f"{where}: taxon_id {e['taxon_id']!r} is not an id")
         if e["kind"] not in EVIDENCE_KINDS:
             errors.append(f"{where}: kind {e['kind']!r} is not one of {sorted(EVIDENCE_KINDS)}")
         if not e["ref"]:
@@ -141,151 +143,12 @@ def load(taxa_csv: Path = TAXA_CSV, evidence_csv: Path = EVIDENCE_CSV,
     return Curation(rows=rows, evidence=evidence, assigned=assigned)
 
 
-GBIF_RANK = {"KINGDOM": "Kingdom", "PHYLUM": "Phylum", "CLASS": "Class", "ORDER": "Order",
-             "FAMILY": "Family", "GENUS": "Genus", "SPECIES": "Species",
-             "SUBSPECIES": "Subspecies", "VARIETY": "Variety", "FORM": "Form"}
-GBIF_STATUS = {"ACCEPTED": "accepted", "DOUBTFUL": "doubtful"}   # anything else: synonym
-
-
 def resolve(conn, cur: Curation) -> dict[str, int]:
-    """Rebuild `taxa`: every hexapod GBIF taxon with presence, its ancestors, plus curation.
+    """Rebuild `taxa` (and taxon_keys, taxon_names) from COL, the name matches and `cur`.
+    Raises CurationError on a broken tree, listing every problem at once."""
+    from . import tree
 
-    Ancestors above class (Arthropoda, Animalia) are dropped: the four classes hang from the
-    curated Hexapoda root (config.HEXAPODA_ID, its own row in taxa.csv). Raises
-    CurationError on a broken tree, listing every problem at once.
-    """
-    gbif = {r["gbif_key"]: dict(r) for r in conn.execute("SELECT * FROM gbif_taxa")}
-    present = {r[0] for r in conn.execute("SELECT DISTINCT taxon_id FROM taxon_presence")}
-    curated = {int(r["taxon_id"]): r for r in cur.rows if r["taxon_id"]}
-    evidence_ids = {int(e["taxon_id"]) for e in cur.evidence}
-
-    # Which GBIF keys belong in the tree: present (or curated, or evidenced), hexapod,
-    # accepted; then all their ancestors below Arthropoda.
-    wanted = {k for k in present | set(curated) | evidence_ids if k in gbif}
-    include: set[int] = set()
-    for k in wanted:
-        t = gbif[k]
-        if t["class_key"] not in config.HEXAPOD_CLASSES:
-            continue
-        if GBIF_STATUS.get(t["taxonomic_status"]) is None and t["accepted_key"] in gbif:
-            k = t["accepted_key"]               # a synonym's presence counts for its name
-        while k and k in gbif and k not in include and k != config.ARTHROPODA_KEY:
-            include.add(k)
-            k = gbif[k]["parent_key"]
-
-    taxa: dict[int, dict] = {}
-    for k in include:
-        t = gbif[k]
-        taxa[k] = {
-            "taxon_id": k, "gbif_key": k,
-            "parent_id": config.HEXAPODA_ID if k in config.HEXAPOD_CLASSES else t["parent_key"],
-            "rank": GBIF_RANK.get(t["rank"] or "", (t["rank"] or "").title()),
-            "name": t["canonical_name"], "authorship": t["authorship"],
-            "status": GBIF_STATUS.get(t["taxonomic_status"], "synonym"),
-            "accepted_id": t["accepted_key"], "origin": "gbif",
-            "common_name": t["vernacular_name"], "establishment": None, "hidden": 0,
-            "hidden_reason": None, "note": None, "verified": 0, "curated_fields": None,
-        }
-
-    # Curated rows: new taxa first (so parent_name can point at them), then overrides.
-    by_name: dict[str, list[int]] = {}
-    for tid, r in curated.items():
-        if tid >= config.CURATED_ID_BASE:
-            taxa[tid] = {"taxon_id": tid, "gbif_key": None, "parent_id": None, "rank": r["rank"],
-                         "name": r["name"], "authorship": None, "status": "accepted",
-                         "accepted_id": None, "origin": "curated", "common_name": None,
-                         "establishment": None, "hidden": 0, "hidden_reason": None,
-                         "note": None, "verified": 0, "curated_fields": None}
-    for t in taxa.values():
-        by_name.setdefault(t["name"], []).append(t["taxon_id"])
-    errors = []
-    for tid, r in curated.items():
-        t = taxa.get(tid)
-        if t is None:
-            errors.append(f"taxa.csv: taxon_id {tid} ({r['name'] or 'no name'}) is not a GBIF key "
-                          "we hold; run `guaminsects taxa` to fetch it, or fix the id")
-            continue
-        changed = []
-        for f in OVERRIDE_FIELDS:
-            v = r[f]
-            if v == "":
-                continue
-            t[f] = int(v) if f in ("parent_id", "accepted_id", "hidden", "verified") else v
-            changed.append(f)
-        if r["parent_name"] and not r["parent_id"]:
-            hits = by_name.get(r["parent_name"], [])
-            if len(hits) != 1:
-                errors.append(f"taxa.csv: parent_name {r['parent_name']!r} for {t['name']} matches "
-                              f"{len(hits)} taxa; give parent_id instead")
-            else:
-                t["parent_id"] = hits[0]
-                changed.append("parent_id")
-        if t["hidden"]:
-            t["hidden_reason"] = r["reason"] or "curated"
-        t["curated_fields"] = ",".join(changed) or None
-
-    for t in taxa.values():
-        p = t["parent_id"]
-        if p is not None and p not in taxa:
-            errors.append(f"{t['name']} ({t['taxon_id']}): parent {p} is not in the tree")
-        if t["status"] == "synonym" and t["accepted_id"] not in taxa:
-            errors.append(f"{t['name']} ({t['taxon_id']}): accepted taxon {t['accepted_id']} "
-                          "is not in the tree")
-    lineage = db.lineages({tid: t["parent_id"] for tid, t in taxa.items()})
-    roots = [t for t in taxa.values() if t["parent_id"] is None]
-    if len(roots) > 1:
-        errors.append("more than one root: " + ", ".join(f"{t['name']} ({t['taxon_id']})"
-                                                         for t in roots[:10]))
-    # A cycle: walk up from each lineage top whose parent is in the tree until a node
-    # repeats; report each cycle once, by its members, not every taxon hanging below it.
-    reported: set[int] = set()
-    for tid in taxa:
-        top = int(lineage[tid].strip("/").split("/")[0])
-        if taxa[top]["parent_id"] is None or taxa[top]["parent_id"] not in taxa or \
-                top in reported:
-            continue
-        path, node = [], top
-        while node not in path:
-            path.append(node)
-            node = taxa[node]["parent_id"]
-        loop = path[path.index(node):]
-        if not reported & set(loop):
-            errors.append("these would sit under their own descendants (a cycle): " +
-                          " > ".join(f"{taxa[x]['name']} ({x})" for x in loop))
-        reported |= set(path)
-    for e in cur.evidence:
-        if int(e["taxon_id"]) not in taxa:
-            errors.append(f"evidence.csv: taxon_id {e['taxon_id']} is not in the tree")
-    if errors:
-        raise CurationError("\n".join(errors))
-
-    # Hidden propagates down: anything under a hidden taxon is hidden too.
-    hidden_ids = {tid for tid, t in taxa.items() if t["hidden"]}
-    for tid, t in taxa.items():
-        if not t["hidden"] and any(f"/{h}/" in lineage[tid] for h in hidden_ids):
-            t["hidden"], t["hidden_reason"] = 1, "under a hidden taxon"
-
-    cols = ["taxon_id", "gbif_key", "parent_id", "rank", "name", "authorship", "status",
-            "accepted_id", "origin", "common_name", "establishment", "hidden", "hidden_reason",
-            "note", "verified", "curated_fields", "lineage", "depth", "resolved_at"]
-    stamp = db.now()
-    with conn:
-        conn.execute("DELETE FROM taxa")
-        conn.executemany(
-            f"INSERT INTO taxa ({', '.join(cols)}) VALUES ({', '.join('?' for _ in cols)})",
-            [[*(t[c] for c in cols[:16]), lineage[tid], lineage[tid].count("/") - 2, stamp]
-             for tid, t in taxa.items()])
-        conn.execute("DELETE FROM taxon_evidence")
-        conn.executemany(
-            "INSERT OR REPLACE INTO taxon_evidence (taxon_id, kind, ref, license, credit, note) "
-            "VALUES (?, ?, ?, ?, ?, ?)",
-            [(int(e["taxon_id"]), e["kind"], e["ref"], e["license"] or None,
-              e["credit"] or None, e["note"] or None) for e in cur.evidence])
-    return {"taxa": len(taxa), "gbif": sum(t["origin"] == "gbif" for t in taxa.values()),
-            "curated": sum(t["origin"] == "curated" for t in taxa.values()),
-            "overridden": sum(bool(t["curated_fields"]) and t["origin"] == "gbif"
-                              for t in taxa.values()),
-            "hidden": sum(t["hidden"] for t in taxa.values())}
+    return tree.build(conn, cur)
 
 
 # ---------------------------------------------------------------- editing (admin page, import)
@@ -332,7 +195,7 @@ def upsert(conn, row: dict, editor: str, reason: str = "") -> dict[str, int]:
     if reason:
         target["reason"] = reason
     if not any(target[c] for c in OVERRIDE_FIELDS + ["parent_name"]) and \
-            target["taxon_id"] and int(target["taxon_id"]) < config.CURATED_ID_BASE:
+            target["taxon_id"] and ids.kind(ids.to_int(target["taxon_id"])) != "curated":
         rows.remove(target)          # nothing left to override: drop the row
     return _apply(conn, rows, cur.evidence)
 

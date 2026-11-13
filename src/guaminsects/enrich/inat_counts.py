@@ -10,7 +10,6 @@ import time
 import httpx
 
 from .. import config, db
-from .gbif_checklist import fetch_taxa, match_name
 from .http import ApiClient
 
 INAT = "https://api.inaturalist.org/v1"
@@ -73,31 +72,22 @@ def sweep(conn, client: ApiClient, refresh_days: int = 7) -> dict[str, int]:
     return done
 
 
-def link_to_gbif(conn, gbif: ApiClient) -> dict[str, int]:
-    """Give each iNat name a GBIF key (strict match rules) and write source='inat' presence.
+def link_names(conn, reg=None) -> dict[str, int]:
+    """Give each iNat name a name- key and write source='inat' presence under it; `guaminsects
+    match` then puts the names on the Catalogue of Life (iNat's taxonomy is close to COL's).
 
-    A name GBIF already has records for still gets an 'inat' row: the two counts are shown
+    A taxon GBIF already has records for still gets an 'inat' row: the two counts are shown
     side by side, never summed (they overlap, since research-grade iNat flows into GBIF).
     """
+    from ..names import Registry
+
+    reg = reg or Registry()
     names = conn.execute(
         "SELECT name, rank, area, SUM(observations) n FROM inat_place_counts "
         "WHERE rank IN ('species', 'subspecies', 'genus') GROUP BY name, rank, area").fetchall()
-    keys: dict[tuple[str, str], int | None] = {}
-    stats = {"matched": 0, "unmatched": 0}
-    rows = []
-    for r in names:
-        k = (r["name"], r["rank"])
-        if k not in keys:
-            m = match_name(gbif, r["name"], GBIF_RANKS[r["rank"]])
-            key = m and (m.get("acceptedUsageKey") or m.get("usageKey"))
-            keys[k] = key
-            stats["matched" if key else "unmatched"] += 1
-            if key and not conn.execute("SELECT 1 FROM gbif_taxa WHERE gbif_key = ?",
-                                        (key,)).fetchone():
-                # With its ancestors: a species alone leaves `resolve` a parent it lacks.
-                fetch_taxa(conn, gbif, {key})
-        if keys[k]:
-            rows.append((keys[k], r["area"], r["n"]))
+    rows = [(reg.key_for(r["name"], GBIF_RANKS[r["rank"]], "inat"), r["area"], r["n"])
+            for r in names]
+    reg.save()
     stamp = db.now()
     with conn:
         conn.execute("DELETE FROM taxon_presence WHERE source = 'inat'")
@@ -106,4 +96,4 @@ def link_to_gbif(conn, gbif: ApiClient) -> dict[str, int]:
             "VALUES (?, ?, 'inat', ?, ?) ON CONFLICT (taxon_id, area, source) "
             "DO UPDATE SET records = records + excluded.records",
             [(k, a, n, stamp) for k, a, n in rows])
-    return stats
+    return {"names": len({k for k, _, _ in rows}), "rows": len(rows)}

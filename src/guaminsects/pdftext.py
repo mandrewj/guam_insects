@@ -95,6 +95,32 @@ def extract_all(workers: int = 4) -> int:
     return done
 
 
+def current() -> dict[str, str]:
+    """{path under literature/: sha256} for the PDFs there now, whose text is extracted.
+
+    The path inside a .jsonl is where the file was when it was read; files get moved and
+    renamed, so the scans go through this instead. Hashes are cached by size and mtime in
+    data/pdf_text/index.json, so only new or changed files are read."""
+    index_path = TEXT_DIR / "index.json"
+    try:
+        cache = json.loads(index_path.read_text())
+    except (OSError, ValueError):
+        cache = {}
+    out, fresh = {}, {}
+    for pdf in sorted(config.LITERATURE_DIR.rglob("*.pdf")):
+        rel = str(pdf.relative_to(config.LITERATURE_DIR))
+        st = pdf.stat()
+        hit = cache.get(rel)
+        digest = hit["sha256"] if hit and hit["size"] == st.st_size and \
+            hit["mtime"] == st.st_mtime else sha256(pdf)
+        fresh[rel] = {"size": st.st_size, "mtime": st.st_mtime, "sha256": digest}
+        if (TEXT_DIR / f"{digest}.jsonl").exists():
+            out[rel] = digest
+    TEXT_DIR.mkdir(parents=True, exist_ok=True)
+    index_path.write_text(json.dumps(fresh, indent=0))
+    return out
+
+
 def pages(digest: str):
     path = TEXT_DIR / f"{digest}.jsonl"
     with path.open() as f:

@@ -11,7 +11,6 @@ shows a curated value first (curation/taxa.csv `establishment`), else these stat
 with their sources, marked as read by machine.
 """
 
-import json
 import re
 import sys
 
@@ -54,13 +53,7 @@ def scan(conn, client=None) -> dict[str, int]:
     """`client` (a GBIF ApiClient) also matches paragraph names that are not in the tree."""
     names, _ = literature.lexicon(conn)
     docs = {r["file"]: r for r in library.rows()}
-    sha = {}
-    for p in pdftext.TEXT_DIR.glob("*.jsonl"):
-        with p.open() as f:
-            line = f.readline()
-        if line:
-            rec = json.loads(line)
-            sha[rec["file"]] = rec["sha256"]
+    sha = pdftext.current()
     rows, unmatched = [], []
     for fname, area in LISTS:
         if fname not in sha:

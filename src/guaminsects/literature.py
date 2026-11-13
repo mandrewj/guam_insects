@@ -19,7 +19,6 @@ only and never published (CLAUDE.md rule 4).
 """
 
 import csv
-import json
 import re
 import sys
 from collections import defaultdict
@@ -139,22 +138,26 @@ def load_decisions() -> dict[tuple[str, int, str], dict]:
 def lexicon(conn) -> tuple[dict[str, int], dict[str, set[str]]]:
     """name -> taxon id (tree binomials and Plazi verbatim names), genus -> epithets."""
     names: dict[str, int] = {}
-    for r in conn.execute("SELECT taxon_id, name, accepted_id, status FROM taxa "
-                          "WHERE rank IN ('Species', 'Subspecies')"):
-        tid = r["accepted_id"] if r["status"] == "synonym" and r["accepted_id"] else r["taxon_id"]
-        names[r["name"]] = tid
+    for r in conn.execute("SELECT taxon_id, name FROM taxa WHERE rank IN ('Species', 'Subspecies')"):
+        names[r["name"]] = r["taxon_id"]
+    # Other names shown as a taxon (COL synonyms, spelling variants, merged entries).
+    for r in conn.execute("SELECT taxon_id, name FROM taxon_names WHERE rank IN "
+                          "('Species', 'Subspecies') AND name LIKE '% %'"):
+        names.setdefault(r["name"], r["taxon_id"])
+    keys = db.keymap(conn)
     tree = set(names.values())
     for r in conn.execute("SELECT name, nub_key FROM checklist_names WHERE rank IN "
                           "('SPECIES', 'SUBSPECIES')"):
         canon = canonical(r["name"] or "")
-        if canon and r["nub_key"] in tree and canon not in names:
-            names[canon] = r["nub_key"]
-    # Synonyms: binomials only (one-word genus synonyms would make every genus a mention),
-    # and never the empty "asked, none" marker rows.
-    known_ids = set(names.values())
+        tid = keys.get(r["nub_key"])
+        if canon and tid in tree and canon not in names:
+            names[canon] = tid
+    # GBIF synonyms (keyed on Backbone keys): binomials only (one-word genus synonyms would
+    # make every genus a mention), and never the empty "asked, none" marker rows.
     for r in conn.execute("SELECT taxon_id, synonym FROM taxon_synonyms WHERE synonym LIKE '% %'"):
-        if r["taxon_id"] in known_ids:
-            names.setdefault(r["synonym"], r["taxon_id"])
+        tid = keys.get(r["taxon_id"])
+        if tid in tree:
+            names.setdefault(r["synonym"], tid)
     genera: dict[str, set[str]] = defaultdict(set)
     for n in names:
         parts = n.split()
@@ -181,13 +184,7 @@ def scan(conn) -> dict[str, int]:
     known_re = re.compile(r"\b(" + "|".join(re.escape(n) for n in by_len) + r")\b")
     decisions = load_decisions()
     docs = {r["file"]: r for r in library.rows() if r["hexapod"] == "1"}
-    sha_of = {}
-    for path in pdftext.TEXT_DIR.glob("*.jsonl"):
-        with path.open() as f:
-            first = f.readline()
-        if first:
-            rec = json.loads(first)
-            sha_of[rec["file"]] = rec["sha256"]
+    sha_of = pdftext.current()
     rows, candidates = [], defaultdict(list)
     stats = {"documents": 0, "mentions": 0, "headings": 0, "candidates": 0}
     for fname, doc in docs.items():
@@ -273,15 +270,19 @@ def _row(fname, pg, name, tid, method, kind, islands, text, pos) -> dict:
 
 
 def match_candidates(conn, client) -> dict[str, int]:
-    """GBIF-match literature-only heading names; hexapods become candidate taxa."""
-    from .enrich.gbif_checklist import fetch_taxa, match_name
+    """Literature-only heading names in hexapod genera get name- keys (sources/names.csv);
+    `guaminsects match` then puts them on the Catalogue of Life. `client` asks COL (GBIF's
+    v2 match) whether a heading's first word is a hexapod genus."""
+    from .enrich import col
+    from .names import Registry, is_hexapod
 
-    stats = {"genera": 0, "hexapod_genera": 0, "names": 0, "matched": 0, "in_tree": 0}
+    stats = {"genera": 0, "hexapod_genera": 0, "names": 0}
     names = [r[0] for r in conn.execute("SELECT DISTINCT name FROM pdf_candidates")]
     # Most heading-shaped lines that are not in the tree are prose ("Kopf und", "The
-    # family"). Ask GBIF about each distinct first word as a genus first, which is one
-    # request per genus, and only then about the species of the real hexapod genera.
-    known = {r[0] for r in conn.execute(
+    # family"). Ask about each distinct first word as a genus first, one request per genus,
+    # and keep only the names in real hexapod genera (COL's, or the GBIF Backbone's).
+    known = {r[0] for r in conn.execute("SELECT name FROM col_taxa WHERE rank = 'GENUS'")}
+    known |= {r[0] for r in conn.execute(
         "SELECT canonical_name FROM gbif_taxa WHERE rank = 'GENUS' AND class_key IN (%s)"
         % ",".join(str(k) for k in config.HEXAPOD_CLASSES))}
     genera = {n.split()[0] for n in names}
@@ -290,29 +291,30 @@ def match_candidates(conn, client) -> dict[str, int]:
     for g in sorted(genera - known):
         if len(g) < 4 or g.lower() in GERMAN_ENGLISH:
             continue
-        if match_name(client, g, "GENUS"):
+        # With the phylum: without a hint COL's matcher sends some genera up to Animalia.
+        d = col.match(client, g, "GENUS", hints={"phylum": "Arthropoda"}, force_hints=True)
+        if col.match_type(d) in ("EXACT", "VARIANT") and is_hexapod(d):
             hexapod_genera.add(g)
     stats["hexapod_genera"] = len(hexapod_genera)
-    names = [n for n in names if n.split()[0] in hexapod_genera]
+    reg = Registry()
     keys = {}
     for name in names:
+        if name.split()[0] not in hexapod_genera:
+            continue
         stats["names"] += 1
-        m = match_name(client, name, "SUBSPECIES" if len(name.split()) == 3 else "SPECIES")
-        if m:
-            keys[name] = m.get("acceptedUsageKey") or m.get("usageKey")
-            stats["matched"] += 1
+        keys[name] = reg.key_for(name, "SUBSPECIES" if len(name.split()) == 3 else "SPECIES",
+                                 "literature")
+    reg.save()
     with conn:
+        conn.execute("UPDATE pdf_candidates SET gbif_key = NULL")
         conn.executemany("UPDATE pdf_candidates SET gbif_key = ? WHERE name = ?",
                          [(k, n) for n, k in keys.items()])
-    fetch_taxa(conn, client, set(keys.values()))
-    in_tree = {r[0] for r in conn.execute("SELECT taxon_id FROM taxa")}
-    stats["in_tree"] = sum(k in in_tree for k in keys.values())
     return stats
 
 
 def presence_rows(conn) -> int:
     """source='pdf' presence from section headings in regional documents with islands,
-    and from GBIF-matched literature-only candidates. Rejected decisions are left out."""
+    and from literature-only candidates in hexapod genera (by their name- keys). Rejected decisions are left out."""
     counts: dict[tuple[int, str], set[str]] = defaultdict(set)
     for r in conn.execute("SELECT taxon_id, file, areas FROM pdf_mentions WHERE kind = "
                           "'heading' AND areas IS NOT NULL AND decision != 'rejected'"):

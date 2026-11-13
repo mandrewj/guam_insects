@@ -1,2 +1,3 @@
 taxon_id,rank,name,authorship,parent_id,parent_name,status,accepted_id,common_name,establishment,hidden,verified,note,editor,edited,reason,citation
-900000001,Subphylum,Hexapoda,"Latreille, 1825",,,accepted,,hexapods,,,,"Hexapods: the insects and their six-legged relatives, the springtails (Collembola), proturans and diplurans.",build,2026-11-13,tree root,
+L2655,,,,,,,,hexapods,,,,"Hexapods: the insects and their six-legged relatives, the springtails (Collembola), proturans and diplurans.",build,2026-11-13,tree root,
+KVR6P,,,,,,synonym,KV3JN,,,,,,M. Andrew Johnston,2026-11-13,"Micronesian records labelled Rhipiceridae are Callirhipis, placed in Rhipiceridae in the older classification (Zimmerman 1942); Rhipiceridae has no species here","Zimmerman 1942, Rhipiceridae of Guam"

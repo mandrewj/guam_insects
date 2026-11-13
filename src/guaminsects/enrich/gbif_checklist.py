@@ -1,17 +1,23 @@
-"""The backbone: which hexapod taxa GBIF has records of in each area, and their classification.
+"""Which hexapod taxa GBIF has records of in each area.
 
 `sweep` asks GBIF once per (area, rank facet) for every taxon key with records there (about 40
-requests for all five areas), never once per taxon. `fetch_taxa` then reads /species/{key}
-for each of those keys and every ancestor, cached under data/raw/ so re-runs are free.
+requests for all five areas), never once per taxon. GBIF interprets every occurrence against
+two taxonomies: the Catalogue of Life (COL XR, the tree this site uses; keys like "KVC9L",
+stored as ids.from_col) and the legacy GBIF Backbone (integer keys, source 'gbif_backbone').
+The Backbone sweep is kept for one job: finding the names COL does not have (enrich/col.py).
+`fetch_taxa` reads /species/{key} for Backbone keys and their ancestors, for their names.
 """
 
 import sys
 
-from .. import config, db
+from .. import config, db, ids
 from .http import ApiClient
 
 GBIF = "https://api.gbif.org/v1"
 FACETS = ("speciesKey", "genusKey", "familyKey", "orderKey")
+COL_FACETS = FACETS + ("classKey",)
+COL_CHECKLIST = "7ddf754f-d193-4cc9-b351-99906754a03b"   # Catalogue of Life eXtended Release
+COL_HEXAPODA = "L2655"
 FACET_PAGE = 1000
 # Everything but fossils and living collections (zoos, insectaries, quarantine colonies).
 BASIS = ("PRESERVED_SPECIMEN", "HUMAN_OBSERVATION", "MACHINE_OBSERVATION", "OBSERVATION",
@@ -20,70 +26,82 @@ BASIS = ("PRESERVED_SPECIMEN", "HUMAN_OBSERVATION", "MACHINE_OBSERVATION", "OBSE
 SPECIMEN_BASIS = ("PRESERVED_SPECIMEN", "MATERIAL_SAMPLE")
 
 
-def occurrence_filter(country: str, basis: tuple[str, ...] = BASIS) -> list[tuple[str, str | int]]:
-    """Shared filters; a list because GBIF ORs repeated parameters (taxonKey, basisOfRecord)."""
+def occurrence_filter(country: str, basis: tuple[str, ...] = BASIS,
+                      col: bool = True) -> list[tuple[str, str | int]]:
+    """Shared filters; a list because GBIF ORs repeated parameters (taxonKey, basisOfRecord).
+    `col`: keys and facets in the Catalogue of Life (else the GBIF Backbone)."""
     params: list[tuple[str, str | int]] = [("country", country),
                                            ("hasGeospatialIssue", "false"),
                                            ("occurrenceStatus", "PRESENT")]
-    params += [("taxonKey", k) for k in config.HEXAPOD_CLASSES]
+    if col:
+        params += [("checklistKey", COL_CHECKLIST), ("taxonKey", COL_HEXAPODA)]
+    else:
+        params += [("taxonKey", k) for k in config.HEXAPOD_CLASSES]
     params += [("basisOfRecord", b) for b in basis]
     return params
 
 
+def facet_key(name: str, col: bool) -> int:
+    return ids.from_col(name) if col else int(name)
+
+
 def facet_counts(client: ApiClient, country: str, facet: str,
-                 basis: tuple[str, ...] = BASIS) -> dict[int, int]:
-    """{taxon key: records} for one facet, paged."""
+                 basis: tuple[str, ...] = BASIS, col: bool = True) -> dict[int, int]:
+    """{taxon key (internal id): records} for one facet, paged."""
     out: dict[int, int] = {}
     offset = 0
     while True:
-        params = occurrence_filter(country, basis) + [("limit", 0), ("facet", facet),
+        params = occurrence_filter(country, basis, col) + [("limit", 0), ("facet", facet),
                                                ("facetLimit", FACET_PAGE),
                                                ("facetOffset", offset)]
         data = client.get("/occurrence/search", params)
         counts = (data.get("facets") or [{}])[0].get("counts", [])
-        out.update((int(c["name"]), int(c["count"])) for c in counts)
+        out.update((facet_key(c["name"], col), int(c["count"])) for c in counts)
         if len(counts) < FACET_PAGE:
             return out
         offset += FACET_PAGE
 
 
-def sweep(conn, client: ApiClient, areas: list[str] | None = None) -> dict[str, int]:
-    """Replace the GBIF presence rows of each area. Network first, then one short write."""
+def sweep(conn, client: ApiClient, areas: list[str] | None = None,
+          col: bool = True) -> dict[str, int]:
+    """Replace the GBIF presence rows of each area (source 'gbif' for COL keys,
+    'gbif_backbone' for Backbone keys). Network first, then one short write."""
+    source = "gbif" if col else "gbif_backbone"
     done = {}
     for area in config.AREAS:
         if areas and area["code"] not in areas:
             continue
         counts: dict[int, int] = {}
         per_facet = {}
-        for facet in FACETS:
-            got = facet_counts(client, area["gbif"], facet)
+        for facet in (COL_FACETS if col else FACETS):
+            got = facet_counts(client, area["gbif"], facet, col=col)
             per_facet[facet] = len(got)
             counts.update(got)          # a key belongs to exactly one rank: no clashes
         stamp = db.now()
         with conn:
-            conn.execute("DELETE FROM taxon_presence WHERE area = ? AND source = 'gbif'",
-                         (area["code"],))
+            conn.execute("DELETE FROM taxon_presence WHERE area = ? AND source = ?",
+                         (area["code"], source))
             conn.executemany(
                 "INSERT INTO taxon_presence (taxon_id, area, source, records, fetched_at) "
-                "VALUES (?, ?, 'gbif', ?, ?)",
-                [(k, area["code"], n, stamp) for k, n in counts.items()])
+                "VALUES (?, ?, ?, ?, ?)",
+                [(k, area["code"], source, n, stamp) for k, n in counts.items()])
             conn.executemany(
                 "INSERT OR REPLACE INTO presence_queries (area, source, facet, taxa, answered_at) "
-                "VALUES (?, 'gbif', ?, ?, ?)",
-                [(area["code"], f, n, stamp) for f, n in per_facet.items()])
+                "VALUES (?, ?, ?, ?, ?)",
+                [(area["code"], source, f, n, stamp) for f, n in per_facet.items()])
         done[area["code"]] = len(counts)
-        print(f"GBIF {area['code']}: " + ", ".join(f"{f} {n}" for f, n in per_facet.items()),
+        print(f"GBIF {source} {area['code']}: " + ", ".join(f"{f} {n}" for f, n in per_facet.items()),
               file=sys.stderr)
     return done
 
 
 def specimen_sweep(conn, client: ApiClient) -> dict[str, int]:
     """Replace taxon_specimens: GBIF preserved specimens and material samples per area,
-    by the same facets as `sweep` (about 20 requests for all five areas)."""
+    by the same facets as `sweep` (COL keys; about 25 requests for all five areas)."""
     done = {}
     for area in config.AREAS:
         counts: dict[int, int] = {}
-        for facet in FACETS:
+        for facet in COL_FACETS:
             counts.update(facet_counts(client, area["gbif"], facet, SPECIMEN_BASIS))
         stamp = db.now()
         with conn:
@@ -156,9 +174,9 @@ def fetch_taxa(conn, client: ApiClient, keys: set[int], refresh: bool = False) -
 
 
 def present_keys(conn) -> set[int]:
+    """GBIF Backbone keys with presence of any kind (their names are matched to COL)."""
     return {r[0] for r in conn.execute(
-        "SELECT DISTINCT taxon_id FROM taxon_presence WHERE taxon_id < ?",
-        (config.CURATED_ID_BASE,))}
+        "SELECT DISTINCT taxon_id FROM taxon_presence WHERE taxon_id < ?", (ids.COL_BASE,))}
 
 
 def match_name(client: ApiClient, name: str, rank: str | None = None) -> dict | None:

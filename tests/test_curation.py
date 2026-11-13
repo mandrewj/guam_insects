@@ -1,119 +1,170 @@
 import csv
 
 import pytest
+from conftest import (CRB, GIGAS, MARIANA, MARIANUS, MERGE_ROW, OLD_CRB, ONOI, ORYCTES_DUP,
+                      ROOT_ROW, C, write_taxa)
 
-from guaminsects import config, curation, db
-
-H = config.HEXAPODA_ID
-ROOT_ROW = {"taxon_id": str(H), "rank": "Subphylum", "name": "Hexapoda"}
-
-
-def write_taxa(path, rows):
-    curation.write_csv(path, curation.TAXA_COLUMNS, rows)
+from guaminsects import curation, db, ids, names
 
 
-def gbif_row(conn, key, parent, rank, name, cls=216, status="ACCEPTED", accepted=None):
-    conn.execute("INSERT INTO gbif_taxa (gbif_key, parent_key, rank, canonical_name, "
-                 "taxonomic_status, accepted_key, class_key) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                 (key, parent, rank, name, status, accepted, cls))
+def taxa(conn):
+    return {r["taxon_id"]: dict(r) for r in conn.execute("SELECT * FROM taxa")}
 
 
-@pytest.fixture
-def conn(tmp_path):
-    c = db.connect(tmp_path / "t.sqlite")
-    gbif_row(c, 54, 1, "PHYLUM", "Arthropoda", cls=None)
-    gbif_row(c, 216, 54, "CLASS", "Insecta")
-    gbif_row(c, 1470, 216, "ORDER", "Coleoptera")
-    gbif_row(c, 7779, 1470, "FAMILY", "Scarabaeidae")
-    gbif_row(c, 1063, 7779, "GENUS", "Oryctes")
-    gbif_row(c, 4995642, 1063, "SPECIES", "Oryctes rhinoceros")
-    gbif_row(c, 359, 54, "CLASS", "Arachnida", cls=367)   # not a hexapod
-    gbif_row(c, 9999, 359, "SPECIES", "Some spider", cls=367)
-    c.execute("INSERT INTO taxon_presence (taxon_id, area, source, records) VALUES "
-              "(4995642, 'GU', 'gbif', 12), (9999, 'GU', 'gbif', 3)")
-    return c
+def keymap(conn):
+    return db.keymap(conn)
 
 
-def paths(tmp_path):
-    return tmp_path / "taxa.csv", tmp_path / "evidence.csv"
+def test_tree_is_col_at_main_ranks(conn):
+    t = taxa(conn)
+    by_name = {r["name"]: r for r in t.values()}
+    assert by_name["Hexapoda"]["parent_id"] is None
+    # Suborder and subfamily are skipped in the tree, and kept for the CSV.
+    assert "Polyphaga" not in by_name and "Dynastinae" not in by_name
+    assert by_name["Scarabaeidae"]["parent_id"] == C("C2L")
+    assert by_name["Oryctes"]["parent_id"] == C("SCARB")
+    assert '"subfamily": "Dynastinae"' in by_name["Oryctes rhinoceros"]["extra"]
+    assert by_name["Oryctes rhinoceros"]["ext_id"] == "ORRHI"
+    assert by_name["Oryctes rhinoceros"]["in_col"] == 1
 
 
-def test_tree_is_rooted_at_hexapoda_and_drops_non_hexapods(conn, tmp_path):
-    taxa_csv, ev_csv = paths(tmp_path)
-    write_taxa(taxa_csv, [ROOT_ROW])
-    stats = curation.resolve(conn, curation.load(taxa_csv, ev_csv))
-    rows = {r["taxon_id"]: dict(r) for r in conn.execute("SELECT * FROM taxa")}
-    assert set(rows) == {H, 216, 1470, 7779, 1063, 4995642}
-    assert rows[216]["parent_id"] == H
-    assert rows[4995642]["lineage"] == f"/{H}/216/1470/7779/1063/4995642/"
-    assert rows[H]["origin"] == "curated" and rows[4995642]["origin"] == "gbif"
-    assert stats["curated"] == 1
+def test_names_col_lacks_go_under_their_col_parent_flagged(conn):
+    t = taxa(conn)
+    onoi = t[ONOI]
+    assert onoi["parent_id"] == C("CALIS") and onoi["in_col"] == 0
+    assert onoi["ext_id"] == "name-2" and "Not in the Catalogue of Life" in onoi["match_note"]
+    # A Backbone species COL lacks: under the COL genus its Backbone genus matched.
+    assert t[MARIANUS]["parent_id"] == C("ORYCT") and t[MARIANUS]["ext_id"] == "gbif:777"
 
 
-def test_override_keeps_blank_fields_and_records_what_changed(conn, tmp_path):
-    taxa_csv, ev_csv = paths(tmp_path)
-    write_taxa(taxa_csv, [ROOT_ROW, {"taxon_id": "4995642", "common_name":
-                                     "coconut rhinoceros beetle", "establishment": "invasive"}])
+def test_names_for_the_same_taxon_are_shown_as_one(conn):
+    keys = keymap(conn)
+    assert keys[CRB] == keys[ids.NAME_BASE + 1] == keys[OLD_CRB] == C("ORRHI")
+    assert keys[ORYCTES_DUP] == C("ORYCT")             # the duplicate Backbone genus
+    assert keys[MARIANA] == MARIANUS                    # one gender ending apart: merged
+    rows = {r["name_id"]: dict(r) for r in conn.execute("SELECT * FROM taxon_names")}
+    assert rows[OLD_CRB]["kind"] == "COL synonym" and rows[OLD_CRB]["taxon_id"] == C("ORRHI")
+    assert rows[ORYCTES_DUP]["kind"] == "same name, other author"
+    assert rows[MARIANA]["kind"] == "spelling variant"
+    assert "Oryctes mariana → Oryctes marianus" in rows[MARIANA]["note"]
+    assert CRB not in rows                              # the same name: nothing to say
+
+
+def test_a_curated_merge_removes_a_family_with_family_level_records_only(conn):
+    t = taxa(conn)
+    assert C("RHIPI") not in t
+    assert keymap(conn)[C("RHIPI")] == C("CALLI")
+    assert t[C("CALIS")]["parent_id"] == C("CALLI")
+
+
+def test_a_merged_name_can_be_split_out_again(conn, files):
+    taxa_csv, ev_csv = files
+    write_taxa(taxa_csv, [ROOT_ROW, MERGE_ROW,
+                          {"taxon_id": "name-3", "status": "accepted", "parent_id": "ORYCT",
+                           "reason": "a different species"}])
     curation.resolve(conn, curation.load(taxa_csv, ev_csv))
-    t = conn.execute("SELECT * FROM taxa WHERE taxon_id = 4995642").fetchone()
-    assert t["name"] == "Oryctes rhinoceros"          # blank name = keep GBIF's
-    assert t["common_name"] == "coconut rhinoceros beetle"
-    assert t["curated_fields"] == "common_name,establishment"
+    assert keymap(conn)[MARIANA] == MARIANA
+    assert taxa(conn)[MARIANA]["parent_id"] == C("ORYCT")
 
 
-def test_new_morphospecies_gets_a_stable_id_written_back(conn, tmp_path):
-    taxa_csv, ev_csv = paths(tmp_path)
-    write_taxa(taxa_csv, [ROOT_ROW, {"rank": "Species", "name": "Oryctes sp. GU-1",
-                                     "parent_name": "Oryctes", "status": "morphospecies"}])
+def test_override_by_col_id_and_hidden_propagates(conn, files):
+    taxa_csv, ev_csv = files
+    write_taxa(taxa_csv, [ROOT_ROW, MERGE_ROW,
+                          {"taxon_id": "ORRHI", "common_name": "coconut rhinoceros beetle",
+                           "establishment": "invasive"},
+                          {"taxon_id": "SCARB", "hidden": "1", "reason": "test"}])
+    curation.resolve(conn, curation.load(taxa_csv, ev_csv))
+    t = taxa(conn)
+    assert t[C("ORRHI")]["common_name"] == "coconut rhinoceros beetle"
+    assert t[C("ORRHI")]["curated_fields"] == "common_name,establishment"
+    assert t[C("ORYCT")]["hidden_reason"] == "under a hidden taxon"
+    assert t[MARIANUS]["hidden"] == 1
+
+
+def test_new_morphospecies_gets_a_stable_iog_id(conn, files):
+    taxa_csv, ev_csv = files
+    write_taxa(taxa_csv, [ROOT_ROW, MERGE_ROW,
+                          {"rank": "Species", "name": "Oryctes sp. GU-1", "parent_id": "ORYCT",
+                           "status": "morphospecies"}])
     cur = curation.load(taxa_csv, ev_csv)
     assert cur.assigned == 1
     with taxa_csv.open() as f:
-        saved = list(csv.DictReader(f))
-    new_id = int(saved[1]["taxon_id"])
-    assert new_id == H + 1
+        assert list(csv.DictReader(f))[2]["taxon_id"] == "IOG-1"
     curation.resolve(conn, cur)
-    t = conn.execute("SELECT * FROM taxa WHERE taxon_id = ?", (new_id,)).fetchone()
-    assert t["parent_id"] == 1063 and t["status"] == "morphospecies"
-    # A second load assigns nothing new: the id is now in the file.
+    t = taxa(conn)[ids.to_int("IOG-1")]
+    assert t["parent_id"] == C("ORYCT") and t["status"] == "morphospecies"
     assert curation.load(taxa_csv, ev_csv).assigned == 0
 
 
-def test_hidden_propagates_to_descendants(conn, tmp_path):
-    taxa_csv, ev_csv = paths(tmp_path)
-    write_taxa(taxa_csv, [ROOT_ROW, {"taxon_id": "7779", "hidden": "1", "reason": "test"}])
-    curation.resolve(conn, curation.load(taxa_csv, ev_csv))
-    hidden = dict(conn.execute("SELECT taxon_id, hidden_reason FROM taxa WHERE hidden = 1"))
-    assert hidden == {7779: "test", 1063: "under a hidden taxon", 4995642: "under a hidden taxon"}
-
-
-def test_bad_rows_are_all_reported(conn, tmp_path):
-    taxa_csv, ev_csv = paths(tmp_path)
+def test_bad_rows_are_all_reported(files):
+    taxa_csv, ev_csv = files
     write_taxa(taxa_csv, [ROOT_ROW, {"rank": "Species"},
-                          {"taxon_id": "1063", "status": "maybe", "establishment": "alien"}])
+                          {"taxon_id": "ORYCT", "status": "maybe", "establishment": "alien"},
+                          {"taxon_id": "not an id!"}])
     with pytest.raises(curation.CurationError) as e:
         curation.load(taxa_csv, ev_csv)
     msg = str(e.value)
     assert "line 3" in msg and "status 'maybe'" in msg and "establishment 'alien'" in msg
+    assert "'not an id!' is not an id" in msg
 
 
-def test_cycle_and_missing_parent_are_errors(conn, tmp_path):
-    taxa_csv, ev_csv = paths(tmp_path)
-    write_taxa(taxa_csv, [ROOT_ROW, {"taxon_id": "1470", "parent_id": "1063"}])
+def test_cycle_and_missing_parent_are_errors(conn, files):
+    taxa_csv, ev_csv = files
+    write_taxa(taxa_csv, [ROOT_ROW, MERGE_ROW, {"taxon_id": "C2L", "parent_id": "ORYCT"}])
     with pytest.raises(curation.CurationError, match="cycle"):
         curation.resolve(conn, curation.load(taxa_csv, ev_csv))
-    write_taxa(taxa_csv, [ROOT_ROW, {"taxon_id": "1470", "parent_id": "123"}])
-    with pytest.raises(curation.CurationError, match="parent 123 is not in the tree"):
+    write_taxa(taxa_csv, [ROOT_ROW, MERGE_ROW, {"taxon_id": "C2L", "parent_id": "ZZZZ"}])
+    with pytest.raises(curation.CurationError, match="parent ZZZZ is not in the tree"):
         curation.resolve(conn, curation.load(taxa_csv, ev_csv))
 
 
-def test_evidence_needs_a_licence_for_photos(conn, tmp_path):
-    taxa_csv, ev_csv = paths(tmp_path)
-    write_taxa(taxa_csv, [ROOT_ROW])
+def test_evidence_needs_a_licence_for_photos(files):
+    taxa_csv, ev_csv = files
     curation.write_csv(ev_csv, curation.EVIDENCE_COLUMNS, [
-        {"taxon_id": "4995642", "kind": "photo_url", "ref": "https://example.org/a.jpg"},
-        {"taxon_id": "4995642", "kind": "inat_observation", "ref": "12345"}])
+        {"taxon_id": "ORRHI", "kind": "photo_url", "ref": "https://example.org/a.jpg"},
+        {"taxon_id": "ORRHI", "kind": "inat_observation", "ref": "12345"}])
     with pytest.raises(curation.CurationError, match="line 2: a photo needs a licence"):
         curation.load(taxa_csv, ev_csv)
+
+
+def test_upsert_then_clear_drops_the_row(conn, files):
+    curation.upsert(conn, {"taxon_id": "ORRHI", "common_name": "CRB"}, editor="t")
+    assert taxa(conn)[C("ORRHI")]["common_name"] == "CRB"
+    curation.upsert(conn, {"taxon_id": "ORRHI", "common_name": ""}, editor="t")
+    assert [r["taxon_id"] for r in curation.load(*files).rows] == ["L2655", "RHIPI"]
+
+
+def test_bad_edit_changes_nothing(conn, files):
+    taxa_csv, _ = files
+    before = taxa_csv.read_text()
+    with pytest.raises(curation.CurationError):
+        curation.upsert(conn, {"taxon_id": "C2L", "parent_id": "ORYCT"}, editor="t")
+    assert taxa_csv.read_text() == before
+    assert taxa(conn)[C("C2L")]["parent_id"] == C("H6")
+
+
+def test_morphospecies_with_evidence(conn, files):
+    curation.upsert(conn, {"rank": "Species", "name": "Oryctes sp. GU-1", "parent_id": "ORYCT",
+                           "status": "morphospecies"}, editor="t")
+    curation.add_evidence(conn, {"taxon_id": "IOG-1", "kind": "inat_observation", "ref": "123"},
+                          editor="t")
+    assert conn.execute("SELECT taxon_id, ref FROM taxon_evidence").fetchone()[:] == \
+        (ids.to_int("IOG-1"), "123")
+
+
+def test_ids_round_trip():
+    for ext in ["KVC9L", "4CGSL", "N", "gbif:1045882", "name-12", "IOG-3"]:
+        assert ids.to_ext(ids.to_int(ext)) == ext
+    assert ids.kind(ids.to_int("KVC9L")) == "col" and ids.to_int(GIGAS) == GIGAS
+    assert not ids.valid("kvc9l") and not ids.valid("gbif:x")
+
+
+def test_spelling_nearness():
+    assert names.near("Oryctes mariana", "Oryctes marianus")
+    assert names.near("Gonocephalum adpressiformis", "Gonocephalum adpressiforme")
+    assert names.near("Anomala sulcatula", "Anomala sulcatulla")
+    assert not names.near("Oryctes gigas", "Oryctes rhinoceros")
+    assert not names.near("Anomala sulcata", "Adoretus sulcata")
 
 
 def test_lineages_survive_a_cycle():
@@ -121,42 +172,8 @@ def test_lineages_survive_a_cycle():
     assert lin[2] == "/1/2/" and set(lin) == {1, 2, 3, 4}
 
 
-@pytest.fixture
-def files(tmp_path, monkeypatch):
-    taxa_csv, ev_csv = paths(tmp_path)
-    write_taxa(taxa_csv, [ROOT_ROW])
-    curation.write_csv(ev_csv, curation.EVIDENCE_COLUMNS, [])
-    monkeypatch.setattr(curation, "TAXA_CSV", taxa_csv)
-    monkeypatch.setattr(curation, "EVIDENCE_CSV", ev_csv)
-    return taxa_csv, ev_csv
-
-
-def test_upsert_then_clear_drops_the_row(conn, files):
-    taxa_csv, _ = files
-    curation.resolve(conn, curation.load(*files))
-    curation.upsert(conn, {"taxon_id": "4995642", "common_name": "CRB"}, editor="t")
-    assert conn.execute("SELECT common_name FROM taxa WHERE taxon_id = 4995642").fetchone()[0] == "CRB"
-    curation.upsert(conn, {"taxon_id": "4995642", "common_name": ""}, editor="t")
-    assert [r["taxon_id"] for r in curation.load(*files).rows] == [str(H)]
-
-
-def test_bad_edit_changes_nothing(conn, files):
-    taxa_csv, _ = files
-    curation.resolve(conn, curation.load(*files))
-    before = taxa_csv.read_text()
-    with pytest.raises(curation.CurationError):
-        curation.upsert(conn, {"taxon_id": "1470", "parent_id": "1063"}, editor="t")   # a cycle
-    assert taxa_csv.read_text() == before
-    assert conn.execute("SELECT parent_id FROM taxa WHERE taxon_id = 1470").fetchone()[0] == 216
-
-
-def test_new_morphospecies_with_evidence(conn, files):
-    curation.resolve(conn, curation.load(*files))
-    curation.upsert(conn, {"rank": "Species", "name": "Oryctes sp. GU-1", "parent_id": "1063",
-                           "status": "morphospecies"}, editor="t")
-    new_id = H + 1
-    curation.add_evidence(conn, {"taxon_id": str(new_id), "kind": "inat_observation",
-                                 "ref": "123"}, editor="t")
-    assert conn.execute("SELECT status FROM taxa WHERE taxon_id = ?", (new_id,)).fetchone()[0] \
-        == "morphospecies"
-    assert conn.execute("SELECT ref FROM taxon_evidence").fetchone()[0] == "123"
+def test_a_hand_merge_is_listed_with_its_reason(conn):
+    row = conn.execute("SELECT kind, note, taxon_id, name FROM taxon_names WHERE name_id = ?",
+                       (C("RHIPI"),)).fetchone()
+    assert tuple(row) == ("curated merge", "records labelled Rhipiceridae are Callirhipis",
+                          C("CALLI"), "Rhipiceridae")
