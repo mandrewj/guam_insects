@@ -6,7 +6,8 @@
 #
 # The public build only: openly licensed content, no PDF text, no admin page. Vercel Hobby
 # accepts 100 MB and 15,000 files per CLI deploy (site.PUBLIC_BUDGET_MB keeps us under the
-# first; --archive=tgz covers the second). The project link lives in site/public/.vercel,
+# first; --archive=tgz uploads one file, so the 15,000-file
+# limit and the 5,000-uploads-a-day limit never bite). The project link lives in site/public/.vercel,
 # which the build leaves alone and git never sees.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -32,7 +33,8 @@ JSON
 if [ ! -d site/public/.vercel ]; then
   vercel link --yes --project "$PROJECT" --cwd site/public
 fi
-args=(deploy --yes --cwd site/public)
-[ "$files" -gt 14000 ] && args+=(--archive=tgz)
+# Always one archive: Hobby counts each uploaded file against 5,000 uploads a day
+# ("api-upload-free"), and the site is ~8,000 files.
+args=(deploy --yes --cwd site/public --archive=tgz)
 [ "${1:-}" = "--prod" ] && args+=(--prod)
 vercel "${args[@]}"
