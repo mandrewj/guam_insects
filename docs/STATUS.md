@@ -30,6 +30,27 @@ is done, what is waiting, and what needs the user.
   only: it quotes PDFs). It holds the 50-species sample, doubtful records, literature-only
   taxa and unmatched names.
 
+### Numbers at the end of the night (2026-11-14, about 03:20)
+
+- **4,780 taxa: 2,659 species** in 1,727 genera, 327 families, 26 orders. **1,353 species
+  are recorded from Guam.** Every species has at least one source placing it in Micronesia.
+- **Sources per species**: GBIF records ~2,000; the digitised *Insects of Guam* (Plazi)
+  ~450 on Guam; the PDF library's species accounts ~1,000 (island-level); Nafus &
+  Schreiner's crop pests ~290 (Palau, FSM islands, with 830 host-crop pairs).
+- **506 species are in the tree only because of the literature.** These are historical
+  records the databases lack, or old names GBIF resolves to an accepted one. Where a species
+  has both, the PDF-derived island group agrees with GBIF/Plazi for 69% of claims. A sample
+  of the rest shows mostly real older records (ants in Clouse 2007, mosquitoes in IOM 12-1),
+  plus some leaks between neighbouring species accounts (now limited by bounded sections).
+- **Pages**: 1,941 taxa with photos (Commons; iNat to come), 2,164 with Wikipedia, 1,359
+  with a BugGuide link, 11,320 GBIF synonyms searchable ("also known as").
+- **Native/introduced**: 16 machine-read statements (Schreiner 1991, Nafus 1991) for 15
+  taxa. GBIF records almost never say (`establishmentMeans` on 7 Guam records).
+- **Review page** (`data/exports/review.html`): 750 species rest on one or two GBIF records
+  and nothing else; 46 of them are North American species with a BugGuide page (likely
+  mislabelled specimens). 53 species headings in the PDFs match nothing in GBIF.
+- **Public build**: 29 MB, 6,800 files. Passes the smoke test in Chrome, WebKit and Firefox.
+
 ### Ran at full scale without a person's dry-run check
 
 BUILD_PLAN asks for a 50-taxon dry run before any enrichment at scale. The read-only API
