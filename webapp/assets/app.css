@@ -377,6 +377,7 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 .hero-title { font: 700 1.7rem/1.2 var(--font); margin: 0 0 10px; }
 .hero-sub { color: var(--muted); font-weight: 500; }
 .curated-note { margin-bottom: 14px; }
+.synonyms { margin: 2px 0 6px; font-size: 0.88rem; color: var(--muted); }
 .status-note { font-size: 0.9rem; margin: 0 0 14px; padding: 8px 12px; border-left: 3px solid var(--warn); background: var(--warn-soft); border-radius: 0 8px 8px 0; }
 .isle-list { font-size: 0.85rem; margin: 8px 0 0; }
 .isle-map { display: block; width: 100%; height: auto; margin: 0 0 8px; }

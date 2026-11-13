@@ -266,6 +266,10 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             est[r["taxon_id"]].append({"area": r["area"], "status": r["status"], "year": r["year"],
                                        "citation": r["citation"], "page": r["page"],
                                        "auto": bool(r["auto"])})
+    synonyms: dict[int, list[str]] = defaultdict(list)
+    for r in conn.execute("SELECT taxon_id, synonym FROM taxon_synonyms WHERE synonym != '' "
+                          "ORDER BY synonym"):
+        synonyms[r["taxon_id"]].append(r["synonym"])
     hosts: dict[int, list[str]] = defaultdict(list)
     for r in conn.execute("SELECT taxon_id, host FROM taxon_hosts ORDER BY host"):
         hosts[r["taxon_id"]].append(r["host"])
@@ -383,6 +387,7 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             "literature": lit.get(tid, []),
             "evidence": evidence.get(tid, []),
             "hosts": hosts.get(tid, []),
+            "synonyms": [n for n in synonyms.get(tid, []) if n != t["name"]][:40],
             "status_sources": est.get(tid, []),
             "photos": photos.get(tid, []), "wikipedia": wiki.get(tid), "map": None,
             "sections": [],

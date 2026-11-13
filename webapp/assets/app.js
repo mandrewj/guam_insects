@@ -426,6 +426,9 @@
       (r.authority ? ' <span class="authority">' + esc(r.authority) + "</span>" : "") + "</h1>" +
       (badges.length ? '<p class="badges">' + badges.join(" ") + "</p>" : "") + "</div>" +
       (commons.length ? '<p class="common">' + commons.join(" · ") + "</p>" : "") +
+      (r.synonyms && r.synonyms.length ? '<p class="synonyms">Also known as ' + r.synonyms.slice(0, 8).map(function (n) {
+        return "<i>" + esc(n) + "</i>"; }).join(", ") + (r.synonyms.length > 8 ? " and " + (r.synonyms.length - 8) + " more" : "") +
+        ' <span class="src">(GBIF synonyms)</span></p>' : "") +
       (r.status === "synonym" && r.accepted_id ? '<p class="notice">A synonym; see the <a href="#/t/' +
         r.accepted_id + '">accepted name</a>.</p>' : "") + "</header>";
   }

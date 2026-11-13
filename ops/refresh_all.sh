@@ -17,7 +17,7 @@ run() { local name=$1; shift; echo "$(date +%H:%M) $name"; uv run guaminsects "$
 main() {
   # GBIF stream: presence, classification, literature checklists, island presence.
   ( run checklist checklist; run taxa taxa; run plazi plazi; run croppests croppests
-    run islands islands ) &
+    run islands islands; run synonyms synonyms ) &
   gbif=$!
   if [ "${1:-}" != "--no-inat" ]; then
     ( run inat-sweep inat --sweep-only ) &

@@ -280,6 +280,15 @@ def cmd_establishment(args) -> int:
     return 0
 
 
+def cmd_synonyms(args) -> int:
+    """GBIF synonyms for species and genera (for search and the PDF name finder)."""
+    from .enrich import gbif_checklist
+
+    stats = gbif_checklist.fetch_synonyms(db.connect(), gbif_client(), args.refresh)
+    print(", ".join(f"{k} {v}" for k, v in stats.items()))
+    return 0
+
+
 def cmd_stats(args) -> int:
     conn = db.connect()
     for r in conn.execute("SELECT rank, COUNT(*) n, SUM(hidden) h FROM taxa GROUP BY rank "
@@ -354,6 +363,9 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("establishment", help=cmd_establishment.__doc__)
     p.add_argument("--no-match", action="store_true", help="skip GBIF matching of new names")
     p.set_defaults(func=cmd_establishment)
+    p = sub.add_parser("synonyms", help=cmd_synonyms.__doc__)
+    p.add_argument("--refresh", action="store_true")
+    p.set_defaults(func=cmd_synonyms)
     p = sub.add_parser("stats", help="counts by rank and area")
     p.set_defaults(func=cmd_stats)
     args = ap.parse_args(argv)

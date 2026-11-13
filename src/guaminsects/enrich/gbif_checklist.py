@@ -152,3 +152,33 @@ def match_name(client: ApiClient, name: str, rank: str | None = None) -> dict | 
 
 def _norm(s: str | None) -> str:
     return " ".join((s or "").lower().split())
+
+
+def fetch_synonyms(conn, client: ApiClient, refresh: bool = False) -> dict[str, int]:
+    """GBIF synonyms of every species and genus in the tree, into taxon_synonyms (source
+    'gbif'). Old Micronesian literature uses old names: search and the PDF name finder
+    read these. One request per taxon, cached; resumable."""
+    done = set() if refresh else {r[0] for r in conn.execute(
+        "SELECT DISTINCT taxon_id FROM taxon_synonyms WHERE source IN ('gbif', 'gbif:none')")}
+    todo = [r[0] for r in conn.execute(
+        "SELECT taxon_id FROM taxa WHERE gbif_key = taxon_id AND rank IN ('Species', "
+        "'Subspecies', 'Genus') ORDER BY rank != 'Species', taxon_id") if r[0] not in done]
+    stats = {"asked": len(todo), "synonyms": 0}
+    for i, tid in enumerate(todo, 1):
+        try:
+            d = client.get_cached(f"/species/{tid}/synonyms", {"limit": 100})
+        except Exception as e:      # retried on the next run
+            print(f"  synonyms {tid}: {e}", file=sys.stderr)
+            continue
+        names = {(r.get("canonicalName") or "").strip() for r in d.get("results", [])} - {""}
+        with conn:
+            if names:
+                conn.executemany("INSERT OR IGNORE INTO taxon_synonyms (taxon_id, synonym, "
+                                 "source) VALUES (?, ?, 'gbif')", [(tid, n) for n in names])
+            else:                    # asked, none: remembered so a re-run skips it
+                conn.execute("INSERT OR IGNORE INTO taxon_synonyms (taxon_id, synonym, source) "
+                             "VALUES (?, '', 'gbif:none')", (tid,))
+        stats["synonyms"] += len(names)
+        if i % 200 == 0:
+            print(f"  synonyms: {i}/{len(todo)}", file=sys.stderr)
+    return stats
