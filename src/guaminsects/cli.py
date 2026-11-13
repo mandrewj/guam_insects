@@ -272,7 +272,11 @@ def cmd_establishment(args) -> int:
     """Introduced-species statements from the lists of introductions in the library."""
     from . import establishment
 
-    establishment.scan(db.connect(), None if args.no_match else gbif_client())
+    conn = db.connect()
+    establishment.scan(conn, None if args.no_match else gbif_client())
+    if not args.no_match:
+        stats = establishment.gbif_sweep(conn, gbif_client())
+        print("GBIF establishmentMeans: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
     return 0
 
 

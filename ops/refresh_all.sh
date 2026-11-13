@@ -28,6 +28,7 @@ main() {
   wait "$gbif"
   [ -n "${inat:-}" ] && wait "$inat" && run inat-link inat --link-only
   run literature literature          # GBIF matching of new names: after the GBIF stream
+  run establishment establishment
   run resolve resolve
   ( run wikidata wikidata; run wikipedia wikipedia ) &
   wiki=$!

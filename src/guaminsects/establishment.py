@@ -97,7 +97,7 @@ def scan(conn, client=None) -> dict[str, int]:
                                  pg["page"]))
     stamp = db.now()
     with conn:
-        conn.execute("DELETE FROM establishment WHERE auto = 1")
+        conn.executemany("DELETE FROM establishment WHERE source = ?", [(f,) for f, _ in LISTS])
         conn.executemany(
             "INSERT OR REPLACE INTO establishment (taxon_id, area, status, source, citation, "
             "year, page, auto, fetched_at) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)",
@@ -112,3 +112,38 @@ def scan(conn, client=None) -> dict[str, int]:
     for n, f, p in unmatched[:40]:
         print(f"  unmatched: {n} ({f.split('/')[-1][:30]} p.{p})", file=sys.stderr)
     return stats
+
+
+GBIF_MEANS = {"NATIVE": "native", "INTRODUCED": "introduced", "INVASIVE": "invasive",
+              "NATURALISED": "introduced", "MANAGED": "introduced", "VAGRANT": "unknown"}
+
+
+def gbif_sweep(conn, client) -> dict[str, int]:
+    """GBIF records that say how a species got there (`establishmentMeans`), by area: one
+    facet request per (area, value), never per taxon. Few records carry it; where they do,
+    it is the collector's or dataset's statement, kept as one source among others."""
+    from . import config
+    from .enrich.gbif_checklist import FACET_PAGE, occurrence_filter
+
+    rows = []
+    for area in config.AREAS:
+        for means, status in GBIF_MEANS.items():
+            offset = 0
+            while True:
+                d = client.get("/occurrence/search", occurrence_filter(area["gbif"]) + [
+                    ("establishmentMeans", means), ("limit", 0), ("facet", "speciesKey"),
+                    ("facetLimit", FACET_PAGE), ("facetOffset", offset)])
+                got = (d.get("facets") or [{}])[0].get("counts", [])
+                rows += [(int(c["name"]), area["code"], status, f"gbif:{means.lower()}",
+                          f"GBIF records marked {means.lower()} ({c['count']})") for c in got]
+                if len(got) < FACET_PAGE:
+                    break
+                offset += FACET_PAGE
+    stamp = db.now()
+    with conn:
+        conn.execute("DELETE FROM establishment WHERE source LIKE 'gbif:%'")
+        conn.executemany(
+            "INSERT OR REPLACE INTO establishment (taxon_id, area, status, source, citation, "
+            "year, page, auto, fetched_at) VALUES (?, ?, ?, ?, ?, NULL, NULL, 1, ?)",
+            [(*r, stamp) for r in rows])
+    return {"statements": len(rows), "taxa": len({r[0] for r in rows})}
