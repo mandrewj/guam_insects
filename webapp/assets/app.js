@@ -254,7 +254,8 @@
       : '<span class="ip-photo ip-none">' + esc(initials(c.name)) + "</span>";
     var map = '<span class="ip-map ip-isles">' + islandMap(c.regions, c.isles, true) + "</span>";
     var sub = (c.rank === "Species" || c.rank === "Subspecies")
-      ? esc(c.common || "")
+      ? esc(c.common || "") + (c.est && STATUS[c.est] ? ' <span class="est-tag est-' + STATUS[c.est][1] + '">' +
+        esc(STATUS[c.est][0].toLowerCase()) + "</span>" : "")
       : (c.species_count ? plural(c.species_count, "species") : esc(displayRank(c.rank, c.name)));
     var where = c.regions ? '<span class="ip-where">' + c.regions.map(function (k) {
       return '<span class="isle r-' + esc(k) + '">' + esc(regionLabel(k)) + "</span>";
@@ -557,6 +558,7 @@
     if (c.species_count && c.rank !== "Species") sub.push(plural(c.species_count, "species"));
     if (c.status === "morphospecies") sub.push("morphospecies");
     if (c.status === "synonym") sub.push("synonym");
+    if (c.est && STATUS[c.est]) sub.push('<span class="est-tag est-' + STATUS[c.est][1] + '">' + esc(STATUS[c.est][0].toLowerCase()) + "</span>");
     return '<li><a class="card' + (c.thumb || withTile ? " has-thumb" : "") + '" href="#/t/' + c.id + '">' +
       (c.thumb ? '<img class="card-thumb" src="' + esc(c.thumb) + '" alt="" loading="lazy">'
                : withTile ? '<span class="card-thumb tile" aria-hidden="true">' + esc(initials(c.name)) + "</span>" : "") +

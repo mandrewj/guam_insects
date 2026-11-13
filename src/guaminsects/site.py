@@ -381,6 +381,9 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
                           "species_count": n_species[k["taxon_id"]],
                           "kids": len(children[k["taxon_id"]]), "map": None,
                           "regions": regions_of(k["taxon_id"]),
+                          "est": k["establishment"] or next(
+                              (x["status"] for x in est.get(k["taxon_id"], [])
+                               if x["area"] == "GU"), None),
                           "isles": sorted({i for a in islands.get(k["taxon_id"], {}).values()
                                            for i in a}) or None,
                           "thumb": card_thumb(photos.get(k["taxon_id"]) or [])}
