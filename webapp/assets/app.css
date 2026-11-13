@@ -378,6 +378,20 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 .hero-sub { color: var(--muted); font-weight: 500; }
 .curated-note { margin-bottom: 14px; }
 .isle-list { font-size: 0.85rem; margin: 8px 0 0; }
+.isle-map { display: block; width: 100%; height: auto; margin: 0 0 8px; }
+.isle-map .sea { fill: var(--accent-soft); }
+.isle-map .dot { fill: var(--muted); opacity: 0.35; }
+.isle-map .dot.on { opacity: 1; stroke: var(--surface); stroke-width: 0.6; }
+.isle-map .dot.faint { opacity: 0.55; }
+.isle-map .dot.r-gu { fill: var(--gu); } .isle-map .dot.r-mp { fill: var(--mp); }
+.isle-map .dot.r-pw { fill: var(--pw); } .isle-map .dot.r-fm { fill: var(--fm); }
+.isle-map .dot.r-mh { fill: var(--mh); }
+.isle-map .glabel { font: 600 9px var(--font); fill: var(--muted); opacity: 0.6; text-anchor: middle; }
+.isle-map .glabel.r-gu { fill: var(--gu); opacity: 1; } .isle-map .glabel.r-mp { fill: var(--mp); opacity: 1; }
+.isle-map .glabel.r-pw { fill: var(--pw); opacity: 1; } .isle-map .glabel.r-fm { fill: var(--fm); opacity: 1; }
+.isle-map .glabel.r-mh { fill: var(--mh); opacity: 1; }
+.ip-map.ip-isles { background: none; aspect-ratio: 2 / 1; }
+.ip-map.ip-isles .isle-map { margin: 0; position: static; }
 .isle-list .r-gu b { color: var(--gu); } .isle-list .r-mp b { color: var(--mp); }
 .isle-list .r-pw b { color: var(--pw); } .isle-list .r-fm b { color: var(--fm); }
 .isle-list .r-mh b { color: var(--mh); }

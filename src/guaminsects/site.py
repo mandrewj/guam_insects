@@ -21,7 +21,7 @@ import shutil
 from collections import defaultdict
 from pathlib import Path
 
-from . import config, db
+from . import config, db, geo
 
 WEBAPP_DIR = config.ROOT / "webapp"
 JS_GLOBAL = "guaminsects"          # webapp/assets/app.js defines window.guaminsects
@@ -253,7 +253,12 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
             if isl in island_area:
                 islands[r["taxon_id"]][island_area[isl]].add(isl)
     for r in conn.execute("SELECT taxon_id, area, island FROM taxon_islands"):
-        islands[r["taxon_id"]][r["area"]].add(r["island"])
+        if r["taxon_id"] in taxa:
+            islands[r["taxon_id"]][r["area"]].add(r["island"])
+    for tid in order:                    # leaves first: a genus takes its species' islands
+        for c in children[tid]:
+            for a, isl in islands.get(c, {}).items():
+                islands[tid][a] |= isl
     evidence: dict[int, list[dict]] = defaultdict(list)
     for r in conn.execute("SELECT * FROM taxon_evidence ORDER BY taxon_id, kind, ref"):
         evidence[r["taxon_id"]].append({"kind": r["kind"], "ref": r["ref"], "license": r["license"],
@@ -354,6 +359,8 @@ def build_records(conn, target: str = "public") -> dict[int, dict]:
                           "species_count": n_species[k["taxon_id"]],
                           "kids": len(children[k["taxon_id"]]), "map": None,
                           "regions": regions_of(k["taxon_id"]),
+                          "isles": sorted({i for a in islands.get(k["taxon_id"], {}).values()
+                                           for i in a}) or None,
                           "thumb": card_thumb(photos.get(k["taxon_id"]) or [])}
                          for k in kids],
             "families": families.get(tid, []),
@@ -466,6 +473,7 @@ def build(conn, target: str = "public", site: Path | None = None) -> dict[str, i
         "home": home_cards(records, root) if root else [],
         "regions": [{"key": AREA_KEYS[a["code"]], "code": a["code"], "label": AREA_SHORT[a["code"]],
                      "name": a["name"]} for a in config.AREAS],
+        "geo": geo.for_meta(),
         "search": {"docs": idx["docs"], "shards": idx["shards"], "stopwords": idx["stopwords"]},
         "counts": {
             "taxa": len(records), "species": len(species),

@@ -251,10 +251,7 @@
     var pic = c.thumb
       ? '<img class="ip-photo" src="' + esc(c.thumb) + '" alt="" loading="lazy">'
       : '<span class="ip-photo ip-none">' + esc(initials(c.name)) + "</span>";
-    var map = c.map
-      ? '<span class="ip-map"><img src="' + esc(meta.basemap) + '" alt="" loading="lazy">' +
-        '<img class="ip-overlay" src="' + esc(c.map) + '" alt="" loading="lazy"></span>'
-      : "";
+    var map = '<span class="ip-map ip-isles">' + islandMap(c.regions, c.isles, true) + "</span>";
     var sub = (c.rank === "Species" || c.rank === "Subspecies")
       ? esc(c.common || "")
       : (c.species_count ? plural(c.species_count, "species") : esc(displayRank(c.rank, c.name)));
@@ -734,6 +731,37 @@
   }
 
 
+  // Schematic island map: every island a dot; islands named in the records in their group's
+  // colour; a group with records but no island named lights its main islands faintly.
+  // Drawn here from meta.geo (approximate positions), so no map image is shipped.
+  var GROUP_LABELS = { GU: [13.4, 143.0, "Guam"], MP: [17.6, 147.2, "CNMI"], PW: [9.2, 131.4, "Palau"],
+                       FM: [10.6, 151.0, "FSM"], MH: [13.0, 168.5, "Marshalls"] };
+  function islandMap(regions, isles, small) {
+    var g = meta.geo;
+    if (!g) return "";
+    var W = small ? 200 : 330, H = Math.round(W / 2), b = g.bounds;
+    var x = function (lon) { return ((lon - b.west) / (b.east - b.west) * W).toFixed(1); };
+    var y = function (lat) { return ((b.north - lat) / (b.north - b.south) * H).toFixed(1); };
+    var named = new Set((isles || []).map(function (i) { return g.alias[i] || i; }));
+    var areas = new Set((regions || []).map(function (k) { return k.toUpperCase(); }));
+    var namedAreas = new Set(g.islands.filter(function (i) { return named.has(i[1]); }).map(function (i) { return i[0]; }));
+    var dots = g.islands.map(function (i) {
+      var a = i[0], cls = "dot", rad = small ? 1.4 : 1.8;
+      if (named.has(i[1])) { cls += " on r-" + a.toLowerCase(); rad = small ? 2.6 : 3.2; }
+      else if (areas.has(a) && !namedAreas.has(a) && g.anchors[a].indexOf(i[1]) >= 0) {
+        cls += " faint r-" + a.toLowerCase(); rad = small ? 2.4 : 3;
+      }
+      return '<circle class="' + cls + '" cx="' + x(i[3]) + '" cy="' + y(i[2]) + '" r="' + rad + '"><title>' + esc(i[1]) + "</title></circle>";
+    }).join("");
+    var labels = small ? "" : Object.keys(GROUP_LABELS).map(function (a) {
+      var L = GROUP_LABELS[a];
+      return '<text class="glabel' + (areas.has(a) ? " r-" + a.toLowerCase() : "") + '" x="' + x(L[1]) + '" y="' + y(L[0]) + '">' + L[2] + "</text>";
+    }).join("");
+    return '<svg class="isle-map' + (small ? " small" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' +
+      (areas.size ? "Recorded from " + Array.from(areas).map(function (a) { return regionLabel(a.toLowerCase()); }).join(", ") : "No records") +
+      '"><rect class="sea" width="' + W + '" height="' + H + '" rx="6"></rect>' + labels + dots + "</svg>";
+  }
+
   // IUCN Red List category as Wikidata records it (P141, CC0). The assessment itself is on
   // the IUCN site; we show the category and say where it came from.
   var IUCN_TONE = { "critically endangered": "t-crit", "endangered": "t-crit", "vulnerable": "t-warn",
@@ -773,8 +801,11 @@
     var named = isles.length ? '<p class="isle-list">Islands named in the records: ' + isles.map(function (x) {
       return '<span class="r-' + esc(x.area.toLowerCase()) + '"><b>' + esc(x.label) + "</b> " + esc(x.islands.join(", ")) + "</span>";
     }).join("; ") + "</p>" : "";
-    return '<div class="box"><h3>Recorded from</h3><table class="presence">' + head + body + "</table>" + named +
-      '<p class="cs-src">Counts are records, not individuals; sources overlap, so they are not added.</p></div>';
+    return '<div class="box"><h3>Recorded from</h3>' +
+      islandMap((r.regions || []), [].concat.apply([], (r.islands || []).map(function (x) { return x.islands; }))) +
+      '<table class="presence">' + head + body + "</table>" + named +
+      '<p class="cs-src">Counts are records, not individuals; sources overlap, so they are not added. ' +
+      "Map positions are approximate.</p></div>";
   }
 
   // Classification: Kingdom and phylum as text (outside this reference's scope), then every
