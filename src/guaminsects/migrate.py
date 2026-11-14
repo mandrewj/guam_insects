@@ -66,7 +66,7 @@ def migrate(conn, out: Path | None = None, copy_media: bool = True) -> dict:
         docs.append({"doc_id": doc_id, "file": r["file"], "title": r["title"] or Path(r["file"]).stem,
                      "authors": r["authors"], "year": r["year"], "container": r["series"],
                      "pages": r["pages"], "url": r["url"] if r["url"].startswith("http") else "",
-                     "kind": DOC_KIND.get(r["kind"], "other"),
+                     "kind": r["kind"] if r["kind"] in schema.DOC_KINDS else "other",
                      "region": "yes" if r["scope"] in ("Guam", "Micronesia", "Marianas") else "",
                      "citation": library.citation(r), "added_by": "migrate",
                      "added": ""})
@@ -239,7 +239,7 @@ def migrate(conn, out: Path | None = None, copy_media: bool = True) -> dict:
         return lit.setdefault((tid, doc_id, kind), {
             "taxon_id": ext(tid), "doc_id": doc_id, "kind": kind, "pages": [], "name_printed": "",
             "areas": set(), "islands": set(), "status": "", "status_area": set(),
-            "first_record_year": "", "method": "", "review": "", "added_by": "migrate",
+            "first_record_year": "", "status_page": "", "method": "", "review": "", "added_by": "migrate",
             "added": ""})
 
     isl_area = {isl: a for a, d in geo.ISLAND_COORDS.items() for isl in d}
@@ -283,11 +283,12 @@ def migrate(conn, out: Path | None = None, copy_media: bool = True) -> dict:
         row["status_area"].add(r["area"])
         if r["year"]:
             row["first_record_year"] = str(min(int(row["first_record_year"] or 9999), r["year"]))
-        if r["page"] and r["page"] not in row["pages"]:
-            row["pages"].append(r["page"])
+        if r["page"]:
+            row["status_page"] = row.get("status_page") or r["page"]
+            if r["page"] not in row["pages"]:
+                row["pages"].append(r["page"])
         row["method"] = row["method"] or "text"
         row["review"] = row["review"] or "machine"
-        row["areas"].add(r["area"])
     # Checklists: Plazi's digitised papers and the crop pest list.
     pres_areas: dict[tuple[int, str], set[str]] = defaultdict(set)
     for r in conn.execute("SELECT taxon_id, area FROM taxon_presence WHERE source = 'checklist'"):
@@ -373,6 +374,18 @@ def migrate(conn, out: Path | None = None, copy_media: bool = True) -> dict:
             link_rows.append({"taxon_id": ext(tid), "system": sysname, "value": value,
                               "label": lk["label"] if sysname == "editor" else "",
                               "confidence": lk.get("confidence") or "", "note": lk.get("note") or ""})
+        nm_inat = rec["inat"]
+        if nm_inat:             # iNaturalist's name-matched taxon (its English name is the label)
+            same = next((x for x in link_rows[-8:] if x["taxon_id"] == ext(tid)
+                         and x["system"] == "inaturalist" and x["value"] == str(nm_inat["id"])), None)
+            if same:
+                same["label"] = nm_inat["common"] or ""
+                if "matched by name" not in same["note"]:
+                    same["note"] = (same["note"] + "; " if same["note"] else "") + "matched by name"
+            else:
+                link_rows.append({"taxon_id": ext(tid), "system": "inaturalist",
+                                  "value": str(nm_inat["id"]), "label": nm_inat["common"] or "",
+                                  "confidence": "medium", "note": "matched by name"})
     ds["links"] = link_rows
     ds["distribution"] = [{"taxon_id": ext(r["taxon_id"]), "place": r["value"],
                            "status": r["status"] or "present", "source": r["source"] or "",

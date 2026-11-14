@@ -27,7 +27,7 @@ REVIEW = ["machine", "editor"]
 AREAS = ["GU", "MP", "PW", "FM", "MH"]
 LICENCES = ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"]   # CLAUDE.md rule 3
 PLACE_STATUS = ["present", "absent", "doubtful"]
-DOC_KINDS = ["monograph", "paper", "fact sheet", "checklist", "dataset", "other"]
+DOC_KINDS = ["monograph", "paper", "fact sheet", "checklist", "dataset", "report", "map", "other"]
 LIT_KINDS = ["account", "mention", "checklist"]
 LIT_STATUS = ["native", "introduced", "endemic", "invasive", "cryptogenic", "unknown"]
 LIT_METHODS = ["text", "ocr", "plazi", "checklist", "manual"]
@@ -160,7 +160,7 @@ TABLES: list[Table] = [
         C("areas", "list", enum=AREAS, doc="island groups the document records it from"),
         C("islands", "list"),
         C("status", enum=LIT_STATUS), C("status_area", "list", enum=AREAS),
-        C("first_record_year", "int"),
+        C("first_record_year", "int"), C("status_page", "int", doc="page of the status statement"),
         C("method", enum=LIT_METHODS),
         C("review", enum=REVIEW, doc="machine: read by a tool; editor: confirmed; "
           "empty: from a published checklist"),
