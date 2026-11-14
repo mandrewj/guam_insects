@@ -418,23 +418,34 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 .isle-map .glabel.r-pw { fill: var(--pw); opacity: 1; } .isle-map .glabel.r-fm { fill: var(--fm); opacity: 1; }
 .isle-map .glabel.r-mh { fill: var(--mh); opacity: 1; }
 .ip-map.ip-isles { background: none; aspect-ratio: 2 / 1; }
-/* landing page */
-.landing h2 { font: 700 1.25rem/1.25 var(--font); margin: 26px 0 8px; }
-.land-hero .lede { max-width: 62ch; }
-.quick-row { display: flex; flex-wrap: wrap; gap: 10px; }
-.quick { display: flex; flex-direction: column; gap: 2px; flex: 1 1 200px; padding: 12px 14px; border: 1px solid var(--line);
-  border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-decoration: none; color: var(--text); }
+/* landing page: the first screen holds the title, stats, checklist links, the map and the regional counts */
+.landing h2 { font: 700 1.05rem/1.25 var(--font); margin: 14px 0 6px; }
+.land-top { display: grid; grid-template-columns: minmax(280px, 5fr) 7fr; gap: 18px 24px; align-items: start; margin-top: 2px; }
+.land-title { font: 700 1.55rem/1.15 var(--font); margin: 4px 0 6px; }
+.land-lede { margin: 0 0 8px; font-size: 0.95rem; max-width: 52ch; }
+.land-stats { gap: 2px 14px; font-size: 0.85rem; }
+.land-quick h2 { margin-top: 12px; }
+.quick-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+.quick { display: flex; flex-direction: column; gap: 1px; padding: 8px 10px; border: 1px solid var(--line);
+  border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-decoration: none; color: var(--text); min-width: 0; }
 .quick:hover, .quick:focus-visible { border-color: var(--accent); }
-.quick strong { font-size: 1.1rem; }
-.quick span { font-size: 0.88rem; color: var(--muted); }
-.quick em { font-style: normal; color: var(--accent); font-weight: 600; }
-.quick-main { flex-basis: 100%; background: var(--accent-soft); border-color: var(--accent); }
-.quick-main strong { font-size: 1.35rem; }
-.land-more { margin: 8px 0 0; font-size: 0.9rem; }
-.land-sub { max-width: 70ch; margin: 0 0 10px; color: var(--muted); }
-.land-figure { margin: 0 0 12px; }
+.quick strong { font-size: 1rem; }
+.quick span { font-size: 0.78rem; color: var(--muted); }
+.quick em { font-style: normal; font-size: 0.72rem; color: var(--accent); font-weight: 600; }
+.quick-main { background: var(--accent-soft); border-color: var(--accent); padding: 10px 12px; }
+.quick-main strong { font-size: 1.2rem; }
+.quick-main span { font-size: 0.85rem; }
+.land-more { margin: 8px 0 0; font-size: 0.85rem; }
+.land-figure { margin: 0 0 6px; }
 .isle-map.large { margin: 0; border: 1px solid var(--line); border-radius: 8px; }
 .isle-map.large .glabel { font: 700 19px var(--font); opacity: 1; }
+.region-strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.region-strip li { display: flex; flex-wrap: nowrap; white-space: nowrap; align-items: baseline; gap: 2px 6px; padding: 6px 8px; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--surface); font-size: 0.82rem; cursor: help; }
+.region-strip li span:last-child { margin-left: auto; font: 700 1rem var(--font); font-variant-numeric: tabular-nums; }
+.region-strip .swatch { margin: 0; align-self: center; flex: 0 0 10px; height: 10px; }
+.strip-note { margin: 4px 0 0; font-size: 0.75rem; color: var(--muted); }
+.land-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
 .land-regions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
 .land-regions li { display: flex; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .land-regions p { margin: 2px 0; font-size: 0.9rem; }
@@ -625,8 +636,12 @@ h1[tabindex="-1"]:focus { outline: none; }
 }
 
 /* landing page on a phone */
+@media (max-width: 900px) {
+  .land-top, .land-cols { grid-template-columns: 1fr; }
+}
 @media (max-width: 640px) {
-  .quick { flex-basis: 100%; }
+  .quick-row { grid-template-columns: 1fr; }
   .isle-map.large .glabel { font-size: 24px; }
   .land-regions { grid-template-columns: 1fr; }
+  .region-strip { grid-template-columns: repeat(3, 1fr); }
 }
