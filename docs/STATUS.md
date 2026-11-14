@@ -3,7 +3,59 @@
 Updated by the build session; newest first. Decisions live in CLAUDE.md; this file is what
 is done, what is waiting, and what needs the user.
 
-## 2026-11-13, night: the taxonomy editor (on the new machine, no database)
+## 2026-11-13, late night: the refactor is built (docs/REFACTOR.md, CLAUDE.md round 7)
+
+### Done (phases 0-7, on the data machine)
+- **Phase 0**: tag `pipeline-v1`; `data.nosync/guam-pipeline-v1.sqlite`; the baseline site
+  (records, screenshots) in `private.nosync/baseline/`; git's object store moved out of iCloud
+  (`../guam_insects.git.nosync`); build output in `site.nosync/`.
+- **Phase 1**: `schema.py`, `dataset.py`, the migration (run once, then retired): 6,643 taxa and
+  name rows, 12,175 record rows, 6,571 literature rows, 11,974 photo rows, 2,143 Wikipedia
+  articles, 3,204 thumbnails. **Nativity**: 16 introduced and 1 native from machine-read
+  statements, the rest unknown; no conflicts.
+- **Phase 2**: `model.py`, `build/records.py`, `build/export.py`: every record equals the
+  baseline apart from the intended changes (nativity; a document counted twice for a taxon with two
+  source keys now once, 48 taxa; crop-pest areas are the taxon's own, 183; one Schreiner mention
+  is now an account; whitespace in titles collapsed; photo dates are dates) and taxonomy.csv
+  equals the old export in every column.
+- **Phase 3**: the site from the dataset, bundled: 194 chunk files (largest 370 KB), Wikipedia
+  chunks, 36 search shards. check_site passes in all three engines at both sizes, with checks
+  for chunks, shards and the Wikipedia expand; screenshots are identical except the new
+  nativity badge.
+- **Phase 4**: the editor edits the dataset directly (nativity, review, unplaced-name tools and
+  worklists); CI checks the dataset, runs the tests, builds, checks and deploys from a clone.
+- **Phase 5**: `match`, `sync check|apply`, `refresh ...` on the dataset, tested against canned
+  API answers. **No live run yet.**
+- **Phase 6**: `lit add|cite|pages|scan|apply` and the skills `/ingest-literature` and
+  `/sync-records` (`.claude/skills/`). No run on a real PDF yet.
+- **Phase 7**: the old pipeline code, `curation/`, `sources/`, `taxonomy.csv`, BUILD_PLAN.md and
+  the scripts are removed (they are in the tag).
+
+### Waiting on the user
+- **Production deploy**: a preview deployment of the bundled site is live and `Ready`; the
+  production deploy (`ops/deploy.sh --prod`, or a push once the Vercel secrets below are set) was
+  not run, because the session's permission mode refused it. Run `ops/deploy.sh --prod`.
+- **Vercel secrets** in the GitHub repo: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+  (orgId / projectId in `site.nosync/public/.vercel/project.json`). Until then CI checks every
+  push and stops with a notice instead of deploying.
+- **Delete the `data-snapshot` release** on GitHub (unused now): `gh release delete data-snapshot`.
+- **`data/raw/`** (459 MB of API answers) is still there; the tag and the dataset hold everything
+  needed. Delete it, or archive it (`tar` + `zstd`) into `private.nosync/`.
+- **First live runs**, reviewed with you: `uv run guaminsects sync check` (look at the summary
+  before `sync apply`), and `/ingest-literature` on one short fact sheet before a monograph.
+- A taxonomy editor session on the real data, from a browser, to see the new tools.
+
+### Notes for whoever continues
+- The record builder reads only `dataset/`; the old `site.build_records` is gone, so the
+  comparison with the baseline (`ops/compare_records.py`) is the proof it still matches what the
+  pipeline made.
+- Photo rows carry the pointer for borrowed photos (`role inherited`, `from_id`) rather than
+  recomputing the choice on every build; `refresh photos` and `sync apply` recompute it
+  (`sources/photos.py inherit`).
+- A literature row's `status_area` / `status_page` hold the nativity statement; `areas` is where
+  the document records the taxon (presence).
+
+## Earlier: 2026-11-13, night: the taxonomy editor (pre-refactor) (on the new machine, no database)
 
 ### Done
 - **Editor** (`editor/`, docs/EDITOR.md): static, opens from `file://`, `guaminsects edit`

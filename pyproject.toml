@@ -26,7 +26,7 @@ dev = ["pytest>=9.2.0"]
 
 [tool.ruff]
 line-length = 100
-cache-dir = "data.nosync/ruff_cache"   # outside iCloud
+cache-dir = "private.nosync/ruff_cache"   # outside iCloud
 src = ["src", "tests"]
 
 [tool.ruff.lint]
@@ -34,5 +34,5 @@ select = ["F", "E9", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-# Outside iCloud (data.nosync is never synced): a half-synced cache folder hangs pytest.
-cache_dir = "data.nosync/pytest_cache"
+# Outside iCloud (private.nosync is never synced): a half-synced cache folder hangs pytest.
+cache_dir = "private.nosync/pytest_cache"

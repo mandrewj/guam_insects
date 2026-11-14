@@ -18,48 +18,47 @@ everywhere:
 
 ```sh
 uv sync                              # Python 3.13 (venv in venv.nosync; see CLAUDE.md)
-uv run guaminsects build
-open index.html                      # redirects to site/public/; or: uv run guaminsects serve (http://localhost:8765)
+uv run guaminsects build             # dataset/ -> site.nosync/public (no database, no network)
+open index.html                      # redirects to site.nosync/public/; or: uv run guaminsects serve
 ```
 
-There is one build, `site/public`: the site you open here is the one deployed
-(`ops/deploy.sh`, Vercel).
+There is one build, `site.nosync/public`: the site you open here is the one deployed
+(`ops/deploy.sh`, or a push to `main`: GitHub Actions rebuilds and deploys to Vercel).
 
-## Curate
+## The data
 
-The tree is the Catalogue of Life plus the hand edits in `curation/` (add a morphospecies,
-rename, move, merge, hide, set native/introduced, tag islands, attach iNaturalist
-observations, GBIF records, links or your own photos). Three ways in, all writing the same
-files:
+`dataset/` is the data: about a dozen CSV tables and `wikipedia.jsonl`, in git
+([every column](dataset/README.md); declared in `src/guaminsects/schema.py`). The taxon table
+is the Catalogue of Life's hexapods that have records in Micronesia, plus the names it lacks
+(flagged), each with a nativity (native, introduced or unknown). `media/thumbs/` holds the card
+thumbnails. A clone builds the whole site; only the PDF library is not in it.
+
+## Edit it
 
 - **The editor** (`editor/index.html`; [how it works](docs/EDITOR.md)): open it in a browser,
-  from a clone or anywhere. It loads the latest taxonomy from GitHub, has tools for tags,
-  vouchers, links, synonyms and new taxa, and a table of every value. Its **Commit** button
-  commits to `main` (with your GitHub token, or with your git through
-  `uv run guaminsects edit`), which rebuilds and redeploys the site. Everything you add is
-  credited to the name you give it.
-- **`taxonomy.csv`** at the top of this folder: the whole taxonomy in Darwin Core columns
-  (with family on every row, the island groups, sources and a verification level). Every
-  build rewrites it, and edits made to it are taken in first. The site's "Download taxonomy"
-  box gives the same file for the whole tree or for the taxon on screen and everything
-  under it; an edited download goes back in with `uv run guaminsects import <file>`;
-- `curation/taxa.csv`, `curation/evidence.csv` and `curation/annotations.csv` directly
-  ([format](curation/README.md)).
+  from a clone or anywhere. It loads the latest dataset from GitHub, has tools for tags,
+  vouchers, links, synonyms, nativity, new taxa and for reviewing what the tools wrote, and a
+  table of every value. Its **Commit** button commits to `main` (with your GitHub token, or
+  with your git through `uv run guaminsects edit`), which rebuilds and redeploys the site.
+  Everything you add is credited to the name you give it.
+- **The CSV files directly**: edit them in a spreadsheet or a text editor and push;
+  `uv run guaminsects dataset check` reports every problem at once, and CI runs it.
 
-Every change is checked against the whole tree before it is saved, and
-`uv run python ops/review.py` writes a review page of doubtful records and unmatched names.
+## Add to it (the data machine)
 
-## Refresh the data
-
-`ops/refresh_all.sh` runs every step in order, one stream per web service; CLAUDE.md lists
-the steps. Each is resumable and caches its answers in `data/raw/`. `uv run pytest -q` and
-`uv run python ops/check_site.py` (Chrome, WebKit, Firefox; desktop and phone) check it.
+Two Claude Code skills drive the tools, which need the PDF library and the polite API streams:
+`/ingest-literature <directory>` (names, pages, islands, status, hosts, years and short
+paraphrased notes from PDFs, flagged machine-read) and `/sync-records` (GBIF and iNaturalist
+counts; new taxa flagged `new`). `uv run guaminsects refresh photos|wikipedia|wikidata|bugguide|col`
+refreshes one outside source. `uv run pytest -q` and `uv run python ops/check_site.py` (Chrome,
+WebKit, Firefox; desktop and phone) check it. The previous pipeline (a database rebuilt from
+cached API answers) is the git tag `pipeline-v1`.
 
 ## Not in this repo
 
-The data (`data/`, `data.nosync/`), the PDF library (`literature/`, copyrighted) and the
-built sites (`site/`). `sources/library.csv` and `sources/documents.csv` list every document
-with its citation and source.
+The PDF library (`literature/`, copyrighted), the PDF text and API cache (`private.nosync/`)
+and the built site (`site.nosync/`). Documents are listed in `dataset/documents.csv` with
+their citation and public source.
 
 - **Code licence:** MIT (see `LICENSE`). It covers the code only, not the data or content.
 - **Content licences:** everything shown on the site carries its source's own licence and

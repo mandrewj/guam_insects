@@ -1,4 +1,4 @@
-from guaminsects.enrich.http import cache_path
+from guaminsects.http import cache_path
 
 
 def test_cache_path_is_readable_and_stable(tmp_path):
@@ -13,3 +13,8 @@ def test_long_queries_are_hashed(tmp_path):
     params = [("taxonKey", k) for k in range(60)]
     p = cache_path("https://api.gbif.org/v1/occurrence/search", params, root=tmp_path)
     assert len(p.stem) == 24 and p.parent == tmp_path / "api.gbif.org/v1/occurrence/search"
+
+
+def test_cache_lives_in_private_nosync():
+    p = cache_path("https://api.gbif.org/v1/species/216")
+    assert "private.nosync/api/api.gbif.org" in str(p)

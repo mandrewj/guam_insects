@@ -1,19 +1,15 @@
-"""Search indexes for the static app (ported from entobase; the tokenizer must not drift).
+"""The search tokenizer and the postings format for the static app (ported from entobase; the
+tokenizer must not drift: ops/check_site.py checks it against webapp/assets/app.js).
 
-- data/s/names.js: one row per taxon for as-you-type name suggestions.
-- data/s/ft/<xx>.js: full-text inverted index, sharded by a term's first two characters.
-  Each shard maps term -> postings "id:tf,id:tf" with ids delta-encoded in base 36 (tf omitted when 1).
-
-The browser tokenizes queries with the same rules (webapp/assets/app.js `tokens`); the stopword
-list is shipped in meta.js so both sides agree.
+`build/search.py` writes the indexes: data/s/names.js (as-you-type suggestions) and one
+full-text shard per first character of a term, each mapping term -> postings "id:tf,id:tf"
+with ids delta-encoded in base 36 (tf omitted when 1). The browser tokenizes queries with the
+same rules (`tokens` in app.js); the stopword list is shipped in meta.js.
 """
 
-import hashlib
-import json
 import re
 import unicodedata
 from collections import Counter, defaultdict
-from pathlib import Path
 
 STOPWORDS = sorted(set("""
 a about above after again against all also am an and any are as at be because been before being
@@ -49,10 +45,6 @@ def stem(t: str) -> str:
 
 def tokens(text: str) -> list[str]:
     return [stem(t) for t in SPLIT_RE.split(fold(text)) if len(t) >= 2 and t not in _STOP]
-
-
-def shard_key(term: str) -> str:
-    return term[:2]
 
 
 def b36(n: int) -> str:
@@ -104,39 +96,3 @@ def documents(conn, records: dict[int, dict]) -> dict[int, Counter]:
 def _context(r: dict) -> str:
     """'Coleoptera › Scarabaeidae' for display beside a name suggestion."""
     return " › ".join(a["name"] for a in r["lineage"] if a["rank"] in ("Order", "Family"))
-
-
-def _write_if_changed(path: Path, content: str) -> bool:
-    if path.exists() and hashlib.sha1(path.read_bytes()).digest() == \
-            hashlib.sha1(content.encode()).digest():
-        return False
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
-    return True
-
-
-def build(conn, records: dict[int, dict], site: Path) -> dict:
-    out = site / "data" / "s"
-    # Names: [id, name, commons, rank, context, hidden]
-    rows = [[tid, r["name"], " | ".join(_names(r)), r["rank"], _context(r),
-             int(r["hidden"] or r["status"] == "synonym")] for tid, r in sorted(records.items())]
-    _write_if_changed(out / "names.js", f"{JS_GLOBAL}.names(" +
-                      json.dumps(rows, ensure_ascii=False, separators=(",", ":")) + ");\n")
-
-    docs = documents(conn, records)
-    index: dict[str, dict[str, dict[int, int]]] = defaultdict(lambda: defaultdict(dict))
-    for tid, counts in docs.items():
-        for term, tf in counts.items():
-            index[shard_key(term)][term][tid] = tf
-    keys, changed = [], 0
-    for key, terms in sorted(index.items()):
-        body = {term: encode_postings(p) for term, p in sorted(terms.items())}
-        changed += _write_if_changed(
-            out / "ft" / f"{key}.js",
-            f"{JS_GLOBAL}.ft({json.dumps(key)}," +
-            json.dumps(body, ensure_ascii=False, separators=(",", ":")) + ");\n")
-        keys.append(key)
-    for stale in (out / "ft").glob("*.js"):
-        if stale.stem not in index:
-            stale.unlink()
-    return {"docs": len(docs), "shards": keys, "stopwords": STOPWORDS, "changed_shards": changed}

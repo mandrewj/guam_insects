@@ -13,59 +13,48 @@ foundation:
 | Regions | NE / SE / SW / NW (US + Canada) | **islands and island groups** (Guam, CNMI, Palau, FSM, Marshalls) |
 | Output | static `file://` web app | **the same app**, reused from `starter/webapp/` |
 
-Status (2026-11-13, night): one build (round 5); the taxonomy editor, annotations and the
-rebuild-on-push workflow are in (round 6, docs/EDITOR.md); development continues on a machine
-without the database, harvesting on the other one (docs/STATUS.md). The tree is the
-Catalogue of Life (round 4); the site builds and passes `ops/check_site.py`. Live at
-https://insects-of-guam.vercel.app (`ops/deploy.sh --prod`, or a push once CI is set up).
-Start with the decisions below (they override `BUILD_PLAN.md`), then "Pipeline order".
+Status (2026-11-13, night): **the round-7 refactor is built** (docs/REFACTOR.md): the
+dataset is CSV tables in `dataset/` (in git); `guaminsects build` makes the site from it with no
+database and no network; the editor edits the tables directly; two Claude Code skills
+(`/ingest-literature`, `/sync-records`) and slim `refresh` commands replace the old pipeline,
+which is the git tag `pipeline-v1` (with `data.nosync/guam-pipeline-v1.sqlite`). Live at
+https://insects-of-guam.vercel.app (a push to main rebuilds and deploys through
+`.github/workflows/rebuild.yml` once the Vercel secrets are set; `ops/deploy.sh [--prod]` by
+hand). Start with the decisions below (they override `docs/REFACTOR.md` where they differ), then
+"Tools and commands".
 
-## Pipeline order (each step resumable; one stream per host)
+## Tools and commands
 
 ```sh
-uv run guaminsects checklist     # GBIF presence by area, Catalogue of Life keys   GBIF
-uv run guaminsects checklist --backbone  # the same, GBIF Backbone keys (names COL lacks)
-uv run guaminsects specimens     # GBIF preserved specimens per area (COL keys)    GBIF
-uv run guaminsects islands       # GBIF presence by island (GADM level 1, COL)     GBIF
-uv run guaminsects col           # COL taxa + classification (v2 match, usageKey)  GBIF v2
-uv run guaminsects taxa          # GBIF Backbone names for the Backbone keys        GBIF
-uv run guaminsects plazi         # digitised literature checklists                 GBIF
-uv run guaminsects croppests     # Nafus & Schreiner crop pest list                GBIF (matching)
-uv run guaminsects synonyms      # GBIF synonyms (search, PDF name finder)         GBIF
-uv run guaminsects inat          # iNat species counts per area -> name- keys      iNat
-uv run guaminsects library       # sources/library.csv (citations)                 (cached)
-uv run guaminsects pdftext       # text of literature/ (OCR scans)                 local
-uv run guaminsects literature    # names + island records from the PDFs            GBIF v2
-uv run guaminsects establishment # introduced-species statements                   GBIF (matching)
-uv run guaminsects match [--shard 0/2]  # every source name -> COL (name_matches)  GBIF v2
-uv run guaminsects resolve       # tree = COL + name matches + curation/*.csv      local
-uv run guaminsects wikidata      # cross-links by COL id (P10585) / GBIF id        Wikidata
-uv run guaminsects wikipedia     # article text                                    en.wikipedia
-uv run guaminsects bugguide      # links from entobase (read-only)                 local
-uv run guaminsects photos        # Commons, iNat, GBIF images; select, thumbs   Commons, iNat, GBIF
-uv run guaminsects resolve && uv run guaminsects build   # site/public; also taxonomy.csv
-uv run python ops/check_site.py  # Chrome/WebKit/Firefox x desktop/phone
-uv run python ops/review.py      # data/exports/review.html for the curator (local only)
-uv run guaminsects serve         # http://localhost:8765 (+ the curation /api)
-uv run guaminsects snapshot --upload  # build data (no PDF text) -> release data-snapshot  gh
-ops/deploy.sh [--prod]           # Vercel (public build)
-uv run guaminsects edit          # the taxonomy editor for a clone: localhost:8766 (no DB needed)
-uv run guaminsects restore       # fetch the data snapshot (CI; a new machine)
+uv run guaminsects dataset check         # every problem in dataset/ at once (CI runs it)
+uv run guaminsects build                 # dataset/ -> site.nosync/public (no db, no network)
+uv run python ops/check_site.py          # Chrome/WebKit/Firefox x desktop/phone
+uv run guaminsects serve                 # the site on http://localhost:8765
+uv run guaminsects edit                  # the taxonomy editor for this clone: localhost:8766
+uv run guaminsects editor-spec           # editor/assets/spec.js (after changing schema.py or geo.py)
+uv run guaminsects dataset readme        # dataset/README.md, generated from schema.py
+ops/deploy.sh [--prod]                   # Vercel (public build)
+
+# data machine only (the PDFs, the polite API streams); the skills drive these
+uv run guaminsects lit add|cite|pages|scan|apply   # /ingest-literature
+uv run guaminsects sync check|apply                # /sync-records
+uv run guaminsects match NAME ...                  # names -> the Catalogue of Life (new taxa flagged new)
+uv run guaminsects refresh photos|wikipedia|wikidata|bugguide|col [--taxa new|all|ID ...]
+uv run python ops/compare_records.py     # records vs the pipeline-v1 baseline (Phase 2 proof)
 ```
 
-The editor (`editor/`, docs/EDITOR.md) commits to main; `.github/workflows/rebuild.yml`
-restores the snapshot, resolves, builds, checks and deploys. After changing curation.py,
-taxonomy.py or geo.py vocabulary, run `uv run guaminsects editor-spec`.
+The dataset (`dataset/README.md` lists every column; `src/guaminsects/schema.py` declares them):
+`taxa` (every taxon and name; nativity, flags, verification), `keys` (source key -> taxon),
+`names`, `records` (counts per taxon x island group x source), `islands`, `documents`,
+`literature`, `notes`, `hosts`, `photos`, `links`, `distribution`, `vouchers`,
+`review/unplaced`, and `wikipedia.jsonl`. Card thumbnails are `media/thumbs/`. The build is
+`dataset.load` + `check` -> `model.py` -> `build/records.py` (the record each page renders)
+-> `build/bundle.py` (chunk files), `build/search.py`, `build/export.py` (taxonomy.js).
 
-Presence sources in `taxon_presence.source`: gbif (COL keys), gbif_backbone (Backbone keys;
-counted only for taxa COL lacks), inat, plazi, pdf, checklist. The site shows GBIF and iNat
-separately and the last three as "Lit." (documents that record it).
-
-**Keys and ids** (`src/guaminsects/ids.py`, mirrored in app.js): source rows carry the key
-the source used (a COL id stored as COL_BASE + base 36, a GBIF Backbone key, a name- id from
-`sources/names.csv`); `taxon_keys` (written by resolve) maps each to the displayed taxon, and
-every reader goes through `db.keymap(conn)`. External ids: `KVC9L`, `gbif:<key>`,
-`name-<n>`, `IOG-<n>` (curated). Never compare source keys with taxa ids directly.
+**Keys and ids** (`src/guaminsects/ids.py`, mirrored in app.js): taxon ids are `KVC9L` (a
+Catalogue of Life id), `gbif:<key>`, `name-<n>`, `IOG-<n>` (added by hand); `keys.csv` maps
+the key a source used (a COL id, a GBIF Backbone key, a printed name) to the displayed taxon.
+Rows in any table may point at a synonym's id; the build follows `accepted_id`.
 
 ## Decisions already made by the user (2026-11-13; do not re-ask)
 
@@ -193,10 +182,11 @@ every reader goes through `db.keymap(conn)`. External ids: `KVC9L`, `gbif:<key>`
 - Data harvesting continues on the other machine; tool development happens without a
   database (fixtures in `tests/`).
 
-## Decisions, round 7 (2026-11-13; planned, not yet built: docs/REFACTOR.md)
+## Decisions, round 7 (2026-11-13; built the same night: docs/REFACTOR.md)
 
-A refactor to be done **on the data machine**, phase by phase, following docs/REFACTOR.md.
-Until a phase lands, everything above still describes the code.
+The refactor was done on the data machine, phase by phase (docs/REFACTOR.md). Where the
+earlier rounds describe the old pipeline (database, curation/*.csv, snapshot, `resolve`), this
+round replaced it.
 
 - **The dataset becomes the truth**: CSV tables (+ `wikipedia.jsonl`) in `dataset/`, in git;
   the taxa table is edited directly (no override layer; git is the history). The build is a
@@ -218,8 +208,7 @@ Until a phase lands, everything above still describes the code.
   default; for Micronesia as a whole, with per-island-group statements kept as literature
   records). It replaces the five-value `establishment`: endemic → native, invasive →
   introduced (the original word kept in the note). Tools never overwrite an editor's value;
-  they fill only `unknown`, marked machine. Until Phase 1 lands, the code still uses
-  `establishment`.
+  they fill only `unknown`, marked machine.
 - **Worldwide distribution maps for every species may come later** (not scheduled): a coarse
   GBIF grid per species drawn by the app over one world basemap (docs/REFACTOR.md,
   "Possible later"). Keep `gbif_key` and the COL id on species rows and room for a map on the
@@ -259,24 +248,31 @@ The old pipeline is the tag `pipeline-v1`; `data.nosync/guam-pipeline-v1.sqlite`
    date. Photos: **CC0, CC BY, CC BY-SA, CC BY-NC, CC BY-NC-SA only. No ND, no "all rights
    reserved"**. Do not store Bugwood images (per-image licence; link only).
 4. **PDFs are not openly licensed.** Treat every PDF as in copyright unless the user says
-   otherwise: store extracted *facts* and short page-cited snippets (a sentence or two) with a
-   full citation, never whole pages, and link the PDF by its local file name only. Never
-   publish the PDFs or their text to any shared location (including an Artifact). Same rule as
+   otherwise: store extracted *facts* (names, pages, islands, status, hosts, years) and notes
+   that are **your own paraphrase of at most 200 characters** with a full citation. No snippet
+   columns exist anywhere in `dataset/`; the PDF text and the staging files stay in
+   `private.nosync/`; `dataset check` rejects a note sharing eight consecutive words with the
+   document. Never publish the PDFs or their text to any shared location (including an
+   Artifact); the site links to a document's public URL, never the file. Same rule as
    entobase's extension fact sheets (`../entobase/CLAUDE.md` rule 13).
 5. **BugGuide content carries `ai-train=no`.** Show it with attribution; never use it as
    training or fine-tuning data.
-6. **Never commit** `data/`, `data.nosync/`, `pdfs/`, `literature/`, built site output, or
-   tokens (`taxonomy.csv` is the one derived file that is tracked, by the user's choice). The repo is **public**: anything committed is published. Commit and push after
-   each change set, with the trailer
+6. **Never commit** `literature/`, `private.nosync/`, `data.nosync/`, `data/`, `pdfs/`, built
+   site output (`site.nosync/`), or tokens. `dataset/` and `media/thumbs/` are committed: the repo
+   is **public**, so anything committed is published. Commit and push after each change set, with
+   the trailer
    `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>` (use whatever model line the
    session's attribution reminder gives).
-7. **Keep write transactions short.** SQLite with a background writer: commit per row or per
-   small batch, never hold a lock across a network call, use `PRAGMA busy_timeout`.
-8. **Schema change = edit `schema.sql` *and* the `ADDED_COLUMNS` migration list *and* check every
-   positional `INSERT ... VALUES`.** Name columns in every insert.
+7. **Tools never overwrite a person.** A value an editor set (`nativity_review editor`,
+   `review editor`, `verified`) is never changed by `lit apply`, `sync`, `match` or `refresh`;
+   tools fill only what is empty or `unknown`, marked machine.
+8. **Schema change = edit `src/guaminsects/schema.py`**, then `uv run guaminsects editor-spec` and
+   `uv run guaminsects dataset readme`, the editor's `model.js` if the change touches how rows are
+   written, and the fixture dataset in `tests/fixtures/dataset/`. Tables are written only
+   through `dataset.write` (sorted, deterministic: a second write changes no byte).
 9. **The app runs from `file://`**: no `fetch()`; data arrives as `<script>` files calling
-   `entobase.load/names/ft/meta` (rename the global if you like, then change it everywhere).
-   The URL hash is the route.
+   `guaminsects.meta/index/chunk/wiki/names/ft/taxonomy` (webapp/assets/app.js; the loader is
+   described in docs/APP_SPEC.md). The URL hash is the route.
 10. **The search tokenizer must stay identical** in Python and JavaScript; `ops/check_site.py`
     checks parity.
 11. Verify UI changes with `ops/check_site.py` (Chrome/WebKit/Firefox, desktop and phone) and
@@ -288,23 +284,21 @@ The old pipeline is the tag `pipeline-v1`; `data.nosync/guam-pipeline-v1.sqlite`
 
 | Path | What |
 |---|---|
-| `BUILD_PLAN.md` | the phased build plan: start here |
-| `src/guaminsects/` | the package: `cli.py` (one subcommand per job), `curation.py`, `enrich/` (gbif_checklist, inat_counts, plazi, http), `documents.py`, `schema.sql` |
-| `curation/` | hand edits to the tree (git-tracked CSV; see its README): taxa, evidence, annotations |
-| `editor/` | the taxonomy editor (static; docs/EDITOR.md); `src/guaminsects/editor.py` is its server and spec |
-| `.github/workflows/rebuild.yml` | rebuild + deploy after a push (needs the snapshot release and Vercel secrets) |
-| `sources/documents.csv` | manifest of downloaded documents in `literature/` |
-| `webapp/` | the site's front end (from `starter/webapp/`, rebranded, blue palette) |
-| `literature/` | the PDF library: IOM volumes, UOG fact sheets, Micronesica papers (git-ignored) |
-| `docs/SOURCES.md` | every data source: endpoint recipes, licences, gotchas, verified facts |
-| `docs/LESSONS.md` | what went wrong in entobase and how it was fixed (read before writing any enrichment) |
-| `docs/APP_SPEC.md` | the web app: record schema, views, what to keep and what to change for Micronesia |
-| `docs/SCHEMA_DRAFT.sql` | a starting database schema |
-| `scripts/` | probes and one-off fetchers: `gbif_checklist.py`, `pdf_ingest.py` (text + OCR + name finding), `micronesica_index.py` (10 s crawl delay) |
-| `starter/webapp/` | the entobase web app as it stands, ready to adapt (`index.html`, `assets/app.js`, `assets/app.css`, images) |
-| `reference/entobase/` | read-only snapshot of entobase's code, tests, ops scripts and docs (no data, no BugGuide fixtures). Read it; copy from it; do not edit it. See `reference/README.md` |
-| `data/`, `data.nosync/`, `pdfs/` | git-ignored working directories |
+| `dataset/` | **the data** (CSV tables + `wikipedia.jsonl`, in git; `README.md` generated) |
+| `media/thumbs/` | the ~200 px WebP card thumbnails (in git) |
+| `src/guaminsects/` | `schema.py` (every table), `dataset.py` (read/check/write), `model.py`, `build/` (records, bundle, search, export), `match.py`, `sync.py`, `refresh.py`, `sources/` (gbif, inat, col, wikidata, wikipedia, bugguide, photos), `literature/` (text, finder, stage), `editor.py` (editor spec + `guaminsects edit`), `server.py`, `http.py`, `ids.py`, `geo.py`, `cli.py` |
+| `webapp/` | the site's front end |
+| `editor/` | the taxonomy editor (static; docs/EDITOR.md) |
+| `.claude/skills/` | `ingest-literature`, `sync-records` (data machine only) |
+| `.github/workflows/rebuild.yml`, `ops/` | rebuild on push; `deploy.sh`, `check_site.py`, `ci_rebuild.sh`, `compare_records.py` |
+| `tests/` | pytest, with the fixture dataset in `tests/fixtures/dataset/` |
+| `docs/` | `REFACTOR.md` (the plan, as built), `EDITOR.md`, `APP_SPEC.md`, `SOURCES.md`, `LESSONS.md`, `STATUS.md` |
+| `literature/` | the PDF library (git-ignored; iCloud keeps it on both machines) |
+| `private.nosync/` | never synced or committed: API cache (`api/`), PDF text, staging files, the Phase 0 baseline |
+| `site.nosync/public/` | build output (never synced or committed) |
+| `data.nosync/` | the pipeline-v1 archive (`guam-pipeline-v1.sqlite`) |
+| `data/`, `reference/`, `starter/` | git-ignored leftovers of the old pipeline and the entobase snapshot |
 
-Commands you will use: `uv run pytest -q`, `uvx ruff@0.14.0 check src tests ops scripts`,
-`uv run python ops/check_site.py`, `sqlite3 data.nosync/guam.sqlite "..."`. Python's
-`urllib` fails TLS on this Mac (no certifi): use httpx or curl.
+Commands you will use: `uv run pytest -q`, `uvx ruff@0.14.0 check src tests ops`,
+`uv run python ops/check_site.py`, `uv run guaminsects dataset check`. Python's `urllib`
+fails TLS on this Mac (no certifi): use httpx or curl.

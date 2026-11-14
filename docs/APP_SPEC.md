@@ -16,11 +16,24 @@ identical". Keep the structure; change what is listed under **Change**.
 - `assets/app.css`: tokens in `:root` (+ dark mode), components, then a desktop density block
   (`min-width: 861px`) and responsive blocks **at the end of the file**.
 - `assets/img/`: logo, favicon, `regions.svg` (the identify view's region map).
-- Output written by the builder (`site.build`): `data/site/index.html` (the shell), `data/site/assets/`,
-  `data/site/data/meta.js`, `data/site/data/t/<id//1000>/<id>.js` (one record per taxon),
-  `data/site/data/s/names.js` (as-you-type names) and `data/site/data/s/ft/<xx>.js` (full-text
-  shards by a term's first two characters). Images live in `data/media/`, referenced from the
-  site as `../media/...` (`site.DATA_FROM_SITE`), so `data/` must stay together.
+- Output written by the builder (`guaminsects build`, `src/guaminsects/build/`): `index.html`
+  (the shell), `assets/`, and under `data/`:
+
+  | file | contents | loaded |
+  |---|---|---|
+  | `meta.js` | areas, island map, counts, home cards, build date | at start |
+  | `index.js` | which chunk holds each taxon (ids delta-encoded, base 36) | at start (before `meta.js`) |
+  | `c/<n>.js` | the full records of one chunk (`guaminsects.chunk(n, {id: record})`) | on the first visit to a taxon in it |
+  | `w/<n>.js` | the Wikipedia HTML of the same chunk's taxa (`guaminsects.wiki(n, {id: html})`) | when "Show entire Wikipedia article" is first opened |
+  | `s/names.js` | one row per taxon for as-you-type suggestions | on the first search |
+  | `s/<x>.js` | full-text index of the terms starting with `<x>` | for the query's terms |
+  | `taxonomy.js` | the Darwin Core download rows | on a download button |
+
+  A chunk is a family and everything under it (families over 400 KB split by genus, small
+  neighbouring families in one order merged up to 150 KB, each taxon above Family alone), about
+  190 files of up to 370 KB. Each file is one `<script>` that calls into `guaminsects`, so it
+  works from `file://` (no `fetch`). The app keeps the last few chunks, the one on screen always.
+  `media/thumbs/` holds the card thumbnails; photos are hotlinked from their hosts.
 
 ## Views (routes)
 

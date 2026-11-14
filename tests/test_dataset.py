@@ -4,18 +4,16 @@ import shutil
 
 import pytest
 
-from guaminsects import dataset, migrate, schema
+from guaminsects import dataset, schema
 
 
 @pytest.fixture
-def ds_dir(conn, tmp_path):
-    out = tmp_path / "dataset"
-    report = migrate.migrate(conn, out, copy_media=False)
-    return out, report
+def ds_dir(world):
+    return world, None
 
 
-def test_migrated_world_passes_the_checks(ds_dir):
-    out, report = ds_dir
+def test_the_fixture_dataset_passes_the_checks(ds_dir):
+    out, _ = ds_dir
     ds = dataset.load(out)
     assert dataset.check(ds).items == []
     taxa = {r["id"]: r for r in ds["taxa"]}
@@ -23,15 +21,6 @@ def test_migrated_world_passes_the_checks(ds_dir):
     assert taxa["ORRHI"]["nativity"] == "unknown"        # nobody has assessed it
     assert any(r["status"] == "synonym" and r["accepted_id"] == "CALLI" and r["name"] == "Rhipiceridae"
                for r in ds["taxa"])                       # the curated merge is a synonym row
-    assert report["taxa"] == sum(r["status"] != "synonym" for r in ds["taxa"])
-
-
-def test_records_follow_the_key_rules(ds_dir):
-    ds = dataset.load(ds_dir[0])
-    cells = {(r["taxon_id"], r["area"], r["source"]): int(r["records"]) for r in ds["records"]}
-    assert cells[("ORRHI", "GU", "gbif")] == 90          # the Backbone's 85 are the same records
-    assert cells[("ORRHI", "GU", "inat")] == 30
-    assert cells[("gbif:777", "PW", "gbif")] == 3         # a name COL lacks keeps its Backbone count
 
 
 def test_write_is_deterministic_and_round_trips(ds_dir, tmp_path):

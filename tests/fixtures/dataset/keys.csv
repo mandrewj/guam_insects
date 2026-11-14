@@ -1,0 +1,21 @@
+﻿source,key,name,taxon_id,how
+gbif,777,Oryctes marianus,gbif:777,
+literature,Oryctes mariana,Oryctes mariana,gbif:777,matched by spelling: Oryctes mariana → Oryctes marianus
+col,H6,Insecta,H6,
+col,C2L,Coleoptera,C2L,
+col,CALIS,Callirhipis,CALIS,
+col,CALLI,Callirhipidae,CALLI,
+col,RHIPI,,CALLI,curated merge
+col,L2655,Hexapoda,L2655,
+col,ORGIG,Oryctes gigas,ORGIG,
+gbif,12,Oryctes gigas,ORGIG,same
+col,ORRHI,Oryctes rhinoceros,ORRHI,
+gbif,2080570,Scarabaeus rhinoceros,ORRHI,COL synonym
+gbif,4995642,Oryctes rhinoceros,ORRHI,same
+inat,Oryctes rhinoceros,Oryctes rhinoceros,ORRHI,same
+col,ORYCT,Oryctes,ORYCT,
+gbif,1045882,Oryctes,ORYCT,same
+gbif,1063,Oryctes,ORYCT,same
+literature,Oryctes,Oryctes,ORYCT,same
+col,SCARB,Scarabaeidae,SCARB,
+literature,Callirhipis onoi,Callirhipis onoi,name-2,

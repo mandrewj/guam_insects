@@ -8,7 +8,7 @@ import time
 
 import pytest
 
-from guaminsects import config, dataset, editor, migrate, snapshot
+from guaminsects import config, dataset, editor
 from guaminsects.build import records
 
 ASSETS = config.ROOT / "editor" / "assets"
@@ -56,24 +56,6 @@ def run(page, texts, ops, name="T. Editor"):
       return {files: IOGModel.files(st), rows, errors: all.map(o => o.error), checks: IOGModel.check(st),
               ops: all, describe: all.map(o => IOGModel.describe(o, st)), order: st.rows.map(r => r.taxonID)};
     }""", [texts, ops, name])
-
-
-@pytest.fixture
-def world(conn, tmp_path):
-    """The fixture world as a dataset, with a document, a machine-read literature row, a
-    machine-written note and an unplaced name added so the review tools have something to do."""
-    out = tmp_path / "dataset"
-    migrate.migrate(conn, out, copy_media=False)
-    ds = dataset.load(out)
-    ds["documents"] = [{"doc_id": "d1", "title": "A paper", "kind": "paper", "citation": "A. Author. 1990. A paper."}]
-    ds["literature"] = [{"taxon_id": "ORGIG", "doc_id": "d1", "kind": "account", "pages": "4", "areas": "GU",
-                         "method": "text", "review": "machine"}]
-    ds["notes"] = [{"taxon_id": "ORGIG", "doc_id": "d1", "pages": "4", "topic": "biology",
-                    "note": "Breeds in rotting palm logs.", "review": "machine", "written_by": "a model"}]
-    ds["unplaced"] = [{"name": "Zorotypus guineensis", "rank": "Species", "source": "literature",
-                       "key": "d1", "records": "2"}]
-    dataset.write(ds, out)
-    return out
 
 
 def texts_of(root):
@@ -307,20 +289,6 @@ def test_local_server_serves_only_the_editor_and_its_files(clone):
         assert status == 403
     finally:
         srv.shutdown()
-
-
-def test_snapshot_strips_pdf_text(tmp_path):
-    import sqlite3
-
-    conn = sqlite3.connect(tmp_path / "s.sqlite")
-    conn.execute("CREATE TABLE pdf_mentions (mention_id INTEGER, snippet TEXT, page INTEGER)")
-    conn.execute("CREATE TABLE later_table (context TEXT, name TEXT)")
-    conn.execute("INSERT INTO pdf_mentions VALUES (1, 'a sentence from a book', 3)")
-    conn.execute("INSERT INTO later_table VALUES ('more words', 'Oryctes')")
-    out = snapshot.strip(conn)
-    assert out == {"pdf_mentions.snippet": 1, "later_table.context": 1}
-    assert conn.execute("SELECT snippet, page FROM pdf_mentions").fetchone() == (None, 3)
-    assert conn.execute("SELECT context, name FROM later_table").fetchone() == (None, "Oryctes")
 
 
 def test_ui_loads_and_edits_from_files(browser, world):

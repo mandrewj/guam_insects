@@ -1,0 +1,9 @@
+﻿taxon_id,area,source,records,first_year,last_year,query_key,refreshed
+gbif:777,PW,gbif,3,,,777,
+CALIS,GU,gbif,118,,,CALIS,
+CALLI,FM,gbif,10,,,RHIPI,
+CALLI,GU,gbif,122,,,CALLI,
+ORRHI,GU,gbif,90,,,ORRHI,
+ORRHI,GU,inat,30,,,300000000001,
+ORYCT,GU,gbif,95,,,ORYCT,
+SCARB,GU,gbif,95,,,SCARB,
