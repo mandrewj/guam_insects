@@ -111,6 +111,7 @@ def check(page, url: str) -> dict[str, bool]:
             page.goto(here)
             page.wait_for_selector(".taxon-head h1")
             walked += 1
+            page.wait_for_timeout(300)           # the old page's heading is still there until the new one renders
             nxt = page.locator(".cards a.card")
             if not nxt.count():
                 break

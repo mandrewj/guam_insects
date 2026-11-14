@@ -5,7 +5,7 @@
 #   ops/deploy.sh --prod     # production: insects-of-guam.vercel.app
 #
 # The one build (the local site is the same): openly licensed content, no PDF text. Vercel Hobby
-# accepts 100 MB and 15,000 files per CLI deploy (site.PUBLIC_BUDGET_MB keeps us under the
+# accepts 100 MB and 15,000 files per CLI deploy (cli.BUDGET_MB keeps us under the
 # first; --archive=tgz uploads one file, so the 15,000-file
 # limit and the 5,000-uploads-a-day limit never bite). The project link lives in site.nosync/public/.vercel,
 # which the build leaves alone and git never sees.
@@ -24,7 +24,7 @@ cat > site.nosync/public/vercel.json <<'JSON'
 {
   "cleanUrls": false,
   "headers": [
-    { "source": "/data/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }] },
+    { "source": "/data/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] },
     { "source": "/media/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
   ]
 }

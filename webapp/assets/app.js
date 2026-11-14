@@ -22,7 +22,8 @@
     return "IOG-" + (id - LOCAL_BASE);
   }
   function tidOf(ext) {
-    var s = decodeURIComponent(String(ext)), m;
+    var s, m;
+    try { s = decodeURIComponent(String(ext)); } catch (e) { return null; }   // a mangled hash
     if ((m = s.match(/^gbif:(\d+)$/))) return Number(m[1]);
     if ((m = s.match(/^name-(\d+)$/))) return NAME_BASE + Number(m[1]);
     if ((m = s.match(/^IOG-(\d+)$/))) return LOCAL_BASE + Number(m[1]);
@@ -208,6 +209,7 @@
     }
     var m = location.hash.match(/^#\/t\/([^/?]+)/);
     var id = m ? tidOf(m[1]) : meta.root;
+    if (m && !id) { renderMissing(m[1]); return; }
     if (!id) { app.innerHTML = "<p>No data has been built yet. Run <code>uv run guaminsects build</code>.</p>"; return; }
     loadRecord(id).then(live(function (rec) { renderTaxon(rec, !m); }),
                         live(function () { renderMissing(id); }));

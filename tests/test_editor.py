@@ -327,3 +327,29 @@ def test_ui_loads_and_edits_from_files(browser, world):
     time.sleep(0.1)
     assert not errors, errors
     pg.close()
+
+
+def test_local_server_refuses_a_foreign_host_and_cleans_the_author(clone):
+    import http.client
+    import threading
+    from functools import partial
+    from http.server import ThreadingHTTPServer
+
+    work, remote = clone
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), partial(editor.Handler, directory=str(work)))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    try:
+        c = http.client.HTTPConnection("127.0.0.1", srv.server_address[1], timeout=10)
+        c.request("GET", "/api/editor/info", headers={"Host": "evil.example"})
+        assert c.getresponse().status == 403          # DNS rebinding: the page's own host
+        c = http.client.HTTPConnection("127.0.0.1", srv.server_address[1], timeout=10)
+        c.request("GET", "/api/editor/info")
+        assert c.getresponse().status == 200
+    finally:
+        srv.shutdown()
+    base = git(work, "rev-parse", "HEAD")
+    text = ((work / DIST).read_text(encoding="utf-8") if (work / DIST).exists()
+            else "﻿taxon_id,place,status,source,added_by,added\n") + "ORGIG,Guam,present,,A,2026-11-14\n"
+    out = editor.commit({DIST: text}, "m", "Eve <evil@x.org>\nAuthor: x", base)
+    assert out["ok"], out
+    assert git(remote, "log", "-1", "--format=%an", "main") == "Eve evil@x.orgAuthor: x"

@@ -13,6 +13,7 @@ editor's Commit button is pressed. It needs no database: the push triggers the r
 import functools
 import http.server
 import json
+import re
 import subprocess
 import tempfile
 import urllib.parse
@@ -119,7 +120,8 @@ def commit(files: dict[str, str], message: str, author: str, base: str,
     unknown = sorted(set(files) - set(WRITABLE))
     if unknown:
         return {"ok": False, "status": 400, "errors": [f"not an editor file: {', '.join(unknown)}"]}
-    if not author.strip():
+    author = re.sub(r"[<>\r\n]", "", author).strip()      # a name, not extra git headers
+    if not author:
         return {"ok": False, "status": 400, "errors": ["a name (added by) is required"]}
     state = info()
     if state["head"] != base:
@@ -140,7 +142,7 @@ def commit(files: dict[str, str], message: str, author: str, base: str,
         tmp.replace(path)
     email = _git("config", "user.email", check=False)
     _git("add", "--", *files)
-    _git("commit", "-q", "-m", message, f"--author={author.strip()} <{email}>")
+    _git("commit", "-q", "-m", message, f"--author={author} <{email}>")
     sha = _git("rev-parse", "HEAD")
     out = {"ok": True, "sha": sha, "pushed": False}
     if push:
@@ -188,6 +190,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
     def do_GET(self):
+        if not self._local_host():
+            return self._json({"error": "not addressed to localhost"}, 403)
         url = urllib.parse.urlsplit(self.path)
         if url.path in ("/", "/editor"):
             self.send_response(302)
@@ -203,7 +207,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self._json({"error": "not served"}, 404)
         return super().do_GET()
 
+    def _local_host(self) -> bool:
+        """Only requests addressed to localhost: a page on another site that re-points its own
+        name at 127.0.0.1 (DNS rebinding) sends its own Host and is refused."""
+        return urllib.parse.urlsplit("//" + self.headers.get("Host", "")).hostname in (
+            "localhost", "127.0.0.1")
+
     def do_POST(self):
+        if not self._local_host():
+            return self._json({"ok": False, "errors": ["not addressed to localhost"]}, 403)
         if self.path != "/api/editor/commit":
             return self._json({"error": "unknown endpoint"}, 404)
         # Only the editor page itself may commit (a page from another site cannot).

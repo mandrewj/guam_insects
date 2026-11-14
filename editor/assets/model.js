@@ -299,7 +299,7 @@
         const sum = src => ownRecs.filter(x => x.source === src).reduce((n, x) => n + +x.records, 0);
         const areas = new Set(ownRecs.filter(x => x.source !== "gbif_specimens" && +x.records).map(x => x.area));
         for (const l of (lits.get(id) || [])) if (l.kind !== "mention") splitList(l.areas).forEach(a => areas.add(a));
-        for (const x of (dists.get(id) || [])) if (x.status === "present") areas.add(PLACE.get(x.place).area);
+        for (const x of (dists.get(id) || [])) if (x.status === "present") areas.add((PLACE.get(x.place) || { area: "" }).area);
         const litRows = lits.get(id) || [];
         const docsHere = [...new Set(litRows.map(l => l.doc_id))];
         const machineLit = litRows.filter(l => l.review === "machine").length;
