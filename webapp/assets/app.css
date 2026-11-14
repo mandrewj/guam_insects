@@ -418,6 +418,33 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 .isle-map .glabel.r-pw { fill: var(--pw); opacity: 1; } .isle-map .glabel.r-fm { fill: var(--fm); opacity: 1; }
 .isle-map .glabel.r-mh { fill: var(--mh); opacity: 1; }
 .ip-map.ip-isles { background: none; aspect-ratio: 2 / 1; }
+/* landing page */
+.landing h2 { font: 700 1.25rem/1.25 var(--font); margin: 26px 0 8px; }
+.land-hero .lede { max-width: 62ch; }
+.quick-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.quick { display: flex; flex-direction: column; gap: 2px; flex: 1 1 200px; padding: 12px 14px; border: 1px solid var(--line);
+  border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-decoration: none; color: var(--text); }
+.quick:hover, .quick:focus-visible { border-color: var(--accent); }
+.quick strong { font-size: 1.1rem; }
+.quick span { font-size: 0.88rem; color: var(--muted); }
+.quick em { font-style: normal; color: var(--accent); font-weight: 600; }
+.quick-main { flex-basis: 100%; background: var(--accent-soft); border-color: var(--accent); }
+.quick-main strong { font-size: 1.35rem; }
+.land-more { margin: 8px 0 0; font-size: 0.9rem; }
+.land-sub { max-width: 70ch; margin: 0 0 10px; color: var(--muted); }
+.land-figure { margin: 0 0 12px; }
+.isle-map.large { margin: 0; border: 1px solid var(--line); border-radius: 8px; }
+.isle-map.large .glabel { font: 700 19px var(--font); opacity: 1; }
+.land-regions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.land-regions li { display: flex; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.land-regions p { margin: 2px 0; font-size: 0.9rem; }
+.land-regions .rc { color: var(--muted); font-size: 0.85rem; }
+.swatch { flex: 0 0 12px; height: 12px; margin-top: 6px; border-radius: 50%; background: var(--muted); }
+.swatch.r-gu { background: var(--gu); } .swatch.r-mp { background: var(--mp); } .swatch.r-pw { background: var(--pw); }
+.swatch.r-fm { background: var(--fm); } .swatch.r-mh { background: var(--mh); }
+.land-about p, .land-tools li { max-width: 72ch; }
+.land-tools ul { padding-left: 1.2em; }
+.land-tools li { margin: 0 0 6px; }
 .ip-map.ip-isles .isle-map { margin: 0; position: static; }
 .isle-list .r-gu b { color: var(--gu); } .isle-list .r-mp b { color: var(--mp); }
 .isle-list .r-pw b { color: var(--pw); } .isle-list .r-fm b { color: var(--fm); }
@@ -595,4 +622,11 @@ h1[tabindex="-1"]:focus { outline: none; }
 }
 @media print {
   :root { --bg: #fff; --surface: #fff; --text: #000; --muted: #444; --line: #ccc; --accent: #1b5e3f; --accent-soft: #fff; }
+}
+
+/* landing page on a phone */
+@media (max-width: 640px) {
+  .quick { flex-basis: 100%; }
+  .isle-map.large .glabel { font-size: 24px; }
+  .land-regions { grid-template-columns: 1fr; }
 }

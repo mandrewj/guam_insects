@@ -39,7 +39,7 @@ identical". Keep the structure; change what is listed under **Change**.
 
 | Hash | View |
 |---|---|
-| `#/` | home: orders (here: Arthropoda → classes) as cards with photos |
+| `#/` | the landing page: what the site is, the enlarged island map with the five regions explained, the tools, quick links into the checklist (Hexapoda, then the three biggest orders with beetles first), and the order cards. The checklist itself starts at `#/t/<Hexapoda>` |
 | `#/t/<id>` | taxon page |
 | `#/id/<id>[?r=gu]` | **identify**: every member of a group side by side (photo + range map), filterable by region chips |
 | `#/search?q=…` | search results with snippets; suggest-as-you-type from the names index |

@@ -208,6 +208,7 @@
       return;
     }
     var m = location.hash.match(/^#\/t\/([^/?]+)/);
+    if (!m) { if (meta.root) { renderLanding(); return; } }
     var id = m ? tidOf(m[1]) : meta.root;
     if (m && !id) { renderMissing(m[1]); return; }
     if (!id) { app.innerHTML = "<p>No data has been built yet. Run <code>uv run guaminsects build</code>.</p>"; return; }
@@ -470,6 +471,87 @@
       }).join("") + "</nav>";
   }
 
+
+  // The landing page (#/): what this is, where the records are from, the tools, and quick links
+  // into the checklist (all of Hexapoda first, then the three biggest orders, beetles first).
+  var REGION_BLURB = {
+    gu: "The southernmost of the Mariana Islands and the focus of the project: the best-studied island here.",
+    mp: "Saipan, Tinian and Rota, with a chain of smaller volcanic islands running north.",
+    pw: "Babeldaob, Koror, Peleliu, Angaur and the scattered Southwest Islands, in the far west.",
+    fm: "Yap, Chuuk, Pohnpei and Kosrae, with many outer atolls spread along the Caroline Islands.",
+    mh: "Twenty-nine atolls and five islands in the east, including Majuro and Kwajalein."
+  };
+  function topOrders() {
+    var orders = (meta.home || []).filter(function (c) { return !c.hidden && c.status !== "synonym"; })
+      .sort(function (a, b) { return b.species_count - a.species_count; });
+    var top = orders.slice(0, 3);
+    var beetles = orders.filter(function (c) { return c.name === "Coleoptera"; })[0];
+    if (beetles) top = [beetles].concat(top.filter(function (c) { return c !== beetles; })).slice(0, 3);
+    return top;
+  }
+  function renderLanding() {
+    currentId = null;
+    setIdentify(false);
+    document.title = SITE;
+    var c = meta.counts, regions = meta.regions || [], orders = topOrders();
+    var rootCard = { id: meta.root };
+    var beetles = (meta.home || []).filter(function (x) { return x.name === "Coleoptera"; })[0];
+    var allIsles = (meta.geo ? meta.geo.islands : []).map(function (i) { return i[1]; });
+    var stats = [[c.species, "species"], [c.guam, "recorded from Guam"], [c.literature, "in digitized literature"],
+                 [c.photos || null, "with photos"]];
+    var h = ['<section class="landing">'];
+    h.push('<div class="hero land-hero"><h1 class="hero-title">' + esc(meta.title) + ' <span class="hero-sub">' + esc(meta.subtitle) + "</span></h1>" +
+      '<p class="lede">A free reference to the insects and their six-legged relatives (the hexapods) of Guam and the rest of ' +
+      "Micronesia. Regional lists are thin, so this site pools everything that is known about each species (specimen and " +
+      "observation records, the published literature, photographs) onto one checklist, with Guam first.</p>" +
+      '<ul class="stats">' + stats.filter(function (x) { return x[0] != null; }).map(function (x) {
+        return "<li><strong>" + Number(x[0]).toLocaleString() + "</strong> " + esc(x[1]) + "</li>";
+      }).join("") + "</ul></div>");
+    // quick links into the checklist
+    h.push('<section class="land-quick"><h2>Start with the checklist</h2><div class="quick-row">' +
+      '<a class="quick quick-main" href="' + href(meta.root) + '"><strong>Hexapoda</strong><span>The whole checklist: every order, family and species' +
+      (c.species ? " (" + Number(c.species).toLocaleString() + " species)" : "") + "</span></a>" +
+      orders.map(function (o, i) {
+        return '<a class="quick" href="' + href(o.id) + '"><strong>' + esc(o.name) + "</strong><span>" +
+          (o.common ? esc(o.common) + " · " : "") + Number(o.species_count).toLocaleString() + " species" +
+          (o.name === "Coleoptera" ? ' · <em>the first group being verified</em>' : "") + "</span></a>";
+      }).join("") + "</div>" +
+      '<p class="land-more"><a href="#orders" data-scroll="orders">All orders</a> · <a href="#/search?q=">Search</a></p></section>');
+    // the map and the five regions
+    h.push('<section class="land-map"><h2>Where the records are from</h2>' +
+      '<p class="land-sub">Five island groups across the western Pacific, from Guam in the west to the Marshall Islands in the east. ' +
+      "Every dot is an island we place records on. Pages show which groups, and which islands, a species is recorded from.</p>" +
+      '<figure class="land-figure">' + islandMap(regions.map(function (x) { return x.key; }), allIsles, false, true) + "</figure>" +
+      '<ul class="land-regions">' + regions.map(function (x) {
+        return '<li class="r-' + esc(x.key) + '"><span class="swatch r-' + esc(x.key) + '"></span><div><strong>' + esc(x.name) + "</strong> " +
+          '<span class="muted">(' + esc(x.label) + ")</span><p>" + esc(REGION_BLURB[x.key] || "") + "</p><p class=\"rc\">" +
+          (x.species != null ? Number(x.species).toLocaleString() + " species recorded" : "") +
+          (beetles ? ' · <a href="' + identifyHref(beetles.id, [x.key]) + '">beetles recorded here</a>' : "") + "</p></div></li>";
+      }).join("") + "</ul></section>");
+    h.push('<section class="land-about"><h2>About this project</h2>' +
+      "<p><b>What it is.</b> An identification and data-aggregation tool for the terrestrial hexapods of Micronesia: insects, springtails, proturans and diplurans. " +
+      "Names and classification follow the Catalogue of Life; names it lacks are added and flagged.</p>" +
+      "<p><b>Where the information comes from.</b> Occurrence records from GBIF (including the University of Guam Insect Collection) and iNaturalist; " +
+      "the <i>Insects of Micronesia</i> monographs, <i>Micronesica</i> papers, University of Guam fact sheets and other literature, read by software and cited with page numbers; " +
+      "photographs from iNaturalist, Wikimedia Commons and GBIF, each credited with its licence.</p>" +
+      "<p><b>How far to trust it.</b> Records read from the literature by software are marked <i>machine-read</i> until a person confirms them, and each species is " +
+      "labelled native, introduced or unknown for Micronesia as a whole. Beetles (Coleoptera) are the first group being checked by hand; treat the other groups as a draft.</p></section>");
+    h.push('<section class="land-tools"><h2>Tools</h2><ul>' +
+      "<li><b>Identify</b> (button at the top): every member of a group side by side, with photos and island maps, filtered by island group.</li>" +
+      "<li><b>Search</b> (press <kbd>/</kbd>): scientific and common names, synonyms, and the text of the pages.</li>" +
+      "<li><b>Sources</b> on every page: the literature, the records and the photographs it rests on, with links.</li>" +
+      "<li><b>Download</b>: the whole checklist, or any group and everything under it, as a spreadsheet (Darwin Core columns).</li>" +
+      '<li><b>Editor</b>: contributors add records, sources and corrections through a web editor that works on the <a href="https://github.com/mandrewj/guam_insects" target="_blank" rel="noopener">project\'s repository</a>.</li>' +
+      "</ul></section>");
+    h.push('<div id="orders">' + children({ id: meta.root, children: meta.home || [] }) + "</div>");
+    h.push(downloadBox(rootCard, true));
+    h.push("</section>");
+    app.innerHTML = h.join("");
+    var more = app.querySelector("a[data-scroll]");
+    if (more) more.addEventListener("click", function (e) { e.preventDefault(); var t = document.getElementById("orders"); if (t) t.scrollIntoView({ behavior: "smooth" }); });
+    qInput.value = "";
+    restoreScroll();
+  }
 
   function homeIntro() {
     var c = meta.counts, stats = [
@@ -915,18 +997,18 @@
   // Drawn here from meta.geo (approximate positions), so no map image is shipped.
   var GROUP_LABELS = { GU: [13.4, 143.0, "Guam"], MP: [17.6, 147.2, "CNMI"], PW: [9.4, 133.6, "Palau"],
                        FM: [10.6, 151.0, "FSM"], MH: [13.0, 168.5, "Marshalls"] };
-  function islandMap(regions, isles, small) {
+  function islandMap(regions, isles, small, large) {
     var g = meta.geo;
     if (!g) return "";
-    var W = small ? 200 : 330, H = Math.round(W / 2), b = g.bounds;
+    var W = large ? 860 : small ? 200 : 330, H = Math.round(W / 2), b = g.bounds;
     var x = function (lon) { return ((lon - b.west) / (b.east - b.west) * W).toFixed(1); };
     var y = function (lat) { return ((b.north - lat) / (b.north - b.south) * H).toFixed(1); };
     var named = new Set((isles || []).map(function (i) { return g.alias[i] || i; }));
     var areas = new Set((regions || []).map(function (k) { return k.toUpperCase(); }));
     var namedAreas = new Set(g.islands.filter(function (i) { return named.has(i[1]); }).map(function (i) { return i[0]; }));
     var dots = g.islands.map(function (i) {
-      var a = i[0], cls = "dot", rad = small ? 1.4 : 1.8;
-      if (named.has(i[1])) { cls += " on r-" + a.toLowerCase(); rad = small ? 2.6 : 3.2; }
+      var a = i[0], cls = "dot", rad = large ? 3.6 : small ? 1.4 : 1.8;
+      if (named.has(i[1])) { cls += " on r-" + a.toLowerCase(); rad = large ? 6.2 : small ? 2.6 : 3.2; }
       else if (areas.has(a) && !namedAreas.has(a) && g.anchors[a].indexOf(i[1]) >= 0) {
         cls += " faint r-" + a.toLowerCase(); rad = small ? 2.4 : 3;
       }
@@ -936,7 +1018,7 @@
       var L = GROUP_LABELS[a];
       return '<text class="glabel' + (areas.has(a) ? " r-" + a.toLowerCase() : "") + '" x="' + x(L[1]) + '" y="' + y(L[0]) + '"><title>' + esc(regionTip(a)) + "</title>" + L[2] + "</text>";
     }).join("");
-    return '<svg class="isle-map' + (small ? " small" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' +
+    return '<svg class="isle-map' + (small ? " small" : "") + (large ? " large" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' +
       (areas.size ? "Recorded from " + Array.from(areas).map(function (a) { return regionLabel(a.toLowerCase()); }).join(", ") : "No records") +
       '"><rect class="sea" width="' + W + '" height="' + H + '" rx="6"></rect>' + labels + dots + "</svg>";
   }

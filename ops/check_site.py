@@ -50,6 +50,12 @@ def check(page, url: str) -> dict[str, bool]:
     page.goto(url)
     page.wait_for_selector(".hero", timeout=10_000)
     r["home lists orders"] = page.locator("#s-children .card").count() >= 10
+    quick = page.locator(".land-quick a.quick")
+    names = [t.split("\n")[0] for t in quick.all_inner_texts()]
+    r["landing quick links"] = names[:2] == ["Hexapoda", "Coleoptera"] and len(names) == 4 and \
+        quick.first.get_attribute("href").startswith("#/t/")
+    r["landing map and regions"] = page.locator(".land-map svg.isle-map.large").count() == 1 and \
+        page.locator(".land-regions li").count() == 5
     r["tokenizer parity"] = all(page.evaluate("s => guaminsects.tokens(s)", s) == tokens(s)
                                 for s in TOKEN_SAMPLES)
     r["id parity"] = all(page.evaluate("s => guaminsects.ids.tidOf(s)", s) == ids.to_int(s) and

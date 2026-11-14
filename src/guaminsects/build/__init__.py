@@ -78,7 +78,8 @@ def build(ds: dataset.Dataset | None = None, out: Path | None = None, check: boo
         "title": config.SITE_TITLE, "subtitle": config.SITE_SUBTITLE,
         "home": home_cards(recs, root) if root else [],
         "regions": [{"key": a["code"].lower(), "code": a["code"],
-                     "label": records.AREA_SHORT[a["code"]], "name": a["name"]}
+                     "label": records.AREA_SHORT[a["code"]], "name": a["name"],
+                     "species": sum(a["code"].lower() in (r["regions"] or []) for r in species)}
                     for a in config.AREAS],
         "geo": geo.for_meta(),
         "search": {"docs": idx["docs"], "shards": idx["shards"], "stopwords": idx["stopwords"]},
