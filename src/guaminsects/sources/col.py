@@ -80,7 +80,10 @@ def chain(d: dict, target: dict) -> list[dict]:
             continue
         if r not in MAIN_RANKS:
             continue
-        row = usage_row(c) | {"parent_id": parent["id"] if parent else "",
+        order = list(MAIN_RANKS)
+        if rows and order.index(r) <= order.index(rows[-1]["_rank"]):
+            continue                    # COL files a subgenus-like "genus" under a genus: not a level
+        row = usage_row(c) | {"_rank": r, "parent_id": parent["id"] if parent else "",
                               **{k: v for k, v in extra.items()}}
         rows.append(row)
         parent = row
