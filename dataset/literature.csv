@@ -5,7 +5,7 @@ gbif:2054156,iom-6-8-fulgoroidea-suppl,account,9,Megamelus proserpina,,,,,,,text
 gbif:2054156,iom-6-8-fulgoroidea-suppl,mention,9,Megamelus proserpina,,,,,,,text,machine,,,migrate,2026-11-13
 gbif:2054156,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 gbif:2054156,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
-gbif:3262852,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+gbif:3262852,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 gbif:5064139,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 gbif:5163555,iom-6-7-coccoidea,mention,11 | 16 | 107,Coccus acuminatus,,,,,,,ocr,machine,,,migrate,2026-11-13
 gbif:5163555,iom-6-9-coccoidea-suppl,mention,2 | 3,Coccus acuminatus,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -35,42 +35,41 @@ gbif:9318025,iom-7-4-lygaeidae,mention,27,Pachybrachius nietneri,,,,,,,text,mach
 gbif:9318025,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 gbif:11111510,iom-12-8-tipulidae,account,92,Limonia arachnophila,,,,,,,ocr,machine,,,migrate,2026-11-13
 gbif:11111510,iom-12-8-tipulidae,mention,5,Limonia arachnophila,,,,,,,text,machine,,,migrate,2026-11-13
-gbif:11171234,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 gbif:11171234,swezey-1942-misc-coleoptera-guam,account,3,Phloeonomus singularis,,,,,,,text,machine,,,migrate,2026-11-13
+gbif:11171234,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 gbif:11171234,swezey-1942-misc-coleoptera-guam,mention,3,Phloeonomus singularis,,,,,,,text,machine,,,migrate,2026-11-13
 gbif:11229655,plazi-607dcc60,checklist,,,GU,,,,,,plazi,,,,migrate,
 P5D,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
-QXR,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+QXR,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 RSC,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
 VDK,plazi-c9232a85,checklist,,,GU,,,,,,plazi,,,,migrate,
 WFW,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 WZB,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 XYG,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
-YFV,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-YJD,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+YFV,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+YJD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 Z8L,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 33JJ,plazi-204ef7e8,checklist,,,GU,,,,,,plazi,,,,migrate,
-34TD,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+34TD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 3B5B,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
 3CNT,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
 3FPG,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 3GGD,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
 3GGD,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 3GGD,plazi-cafcb311,checklist,,,,,,,,,plazi,,,,migrate,
-3GGD,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 3GMC,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 3JK3,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 3KKF,plazi-2930c6b8,checklist,,,GU,,,,,,plazi,,,,migrate,
 3KMV,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 3N8R,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
-3PFH,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+3PFH,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 3VHM,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
 3VHN,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 3VLH,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
-3YPN,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+3YPN,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 435P,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
 43CC,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
-45SF,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+45SF,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 465S,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
 472Q,plazi-592c9898,checklist,,,GU,,,,,,plazi,,,,migrate,
 47X5,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -81,7 +80,7 @@ Z8L,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 4B96,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 4BBZ,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 4BV9,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
-4DWJ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+4DWJ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 4GZK,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 4JQB,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 4LCX,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -94,7 +93,7 @@ Z8L,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 4TLK,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
 4V2X,plazi-c9232a85,checklist,,,GU,,,,,,plazi,,,,migrate,
 4VFC,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
-4Y4L,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+4Y4L,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 4ZFS,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 4ZZ9,plazi-356a98ac,checklist,,,GU,,,,,,plazi,,,,migrate,
 526H,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -123,7 +122,6 @@ Z8L,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 6MT9,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
 6N3H,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
 6N3H,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
-6N3H,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 6PGC,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
 6PZ3,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 6QWN,plazi-1df399c6,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -147,8 +145,8 @@ Z8L,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 84JZ,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 84JZ,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
 85HH,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
-89KG,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-89LJ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+89KG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+89LJ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8QP8,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 8QP8,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
 8R6L,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -157,8 +155,8 @@ Z8L,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 8RH9,iom-17-2-cerambycidae,account,58,Dihammus korolensis,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 8RHW,iom-17-2-cerambycidae,account,57,Dihammus marianarum,GU | MP,Guam | Rota,,,,,ocr,machine,,,migrate,2026-11-13
 8RHW,iom-17-2-cerambycidae,mention,10 | 57 | 60,Dihammus marianarum,,,,,,,ocr,machine,,,migrate,2026-11-13
-8RHW,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 8RHW,swezey-1942-misc-coleoptera-guam,account,20,Dihammus marianarum,,,,,,,text,machine,,,migrate,2026-11-13
+8RHW,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8RHW,swezey-1942-misc-coleoptera-guam,mention,20,Dihammus marianarum,,,,,,,text,machine,,,migrate,2026-11-13
 8RMP,iom-17-2-cerambycidae,account,59,Dihammus trucanus,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 8VGJ,iom-7-7-coreidae-neididae-nabidae,account,22,Acanthocoris acutus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
@@ -192,8 +190,8 @@ Z8L,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 9YVG,iom-7-5-reduviidae,account,32,Ademula reticulatoides,,,,,,,ocr,machine,,,migrate,2026-11-13
 9YVG,iom-7-5-reduviidae,mention,3 | 32 | 36,Ademula reticulatoides,,,,,,,ocr,machine,,,migrate,2026-11-13
 B65V,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
-B65V,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 B65V,swezey-1942-misc-coleoptera-guam,account,15,Agrilus occipitalis,,,,,,,text,machine,,,migrate,2026-11-13
+B65V,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 B65V,swezey-1942-misc-coleoptera-guam,mention,15,Agrilus occipitalis,,,,,,,text,machine,,,migrate,2026-11-13
 B7KL,buden-2011-the-odonata-of-fais-island-and-ulithi-and-wol,mention,3 | 5 | 7,Agriocnemis femina,,,,,,,text,machine,,,migrate,2026-11-13
 B7KL,iom-12-3-ceratopogonidae,mention,130,Agriocnemis femina,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -262,8 +260,8 @@ CN78,iom-13-8-dolichopodidae-part-1,mention,32,Chrysosoma austerum,,,,,,,text,ma
 CN7Q,iom-13-8-dolichopodidae-part-1,account,29,Amblypsilopus biprovincialis,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 D6C9,iom-17-4-scarabaeidae,account,23,Holotrichia bipunctata,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 D6C9,iom-17-4-scarabaeidae,mention,23,Holotrichia bipunctata,,,,,,,text,machine,,,migrate,2026-11-13
-D6CM,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 D6CM,swezey-1942-misc-coleoptera-guam,account,19,Holotrichia mindanaoana,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+D6CM,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 D6CM,swezey-1942-misc-coleoptera-guam,mention,19,Holotrichia mindanaoana,,,,,,,text,machine,,,migrate,2026-11-13
 DBK9,buden-2011-the-odonata-of-fais-island-and-ulithi-and-wol,mention,4,Anaciaeschna jaspidea,,,,,,,text,machine,,,migrate,2026-11-13
 DBK9,iom-5-1-odonata,account,45,Anaciaeschna jaspidea,,,,,,,text,machine,,,migrate,2026-11-13
@@ -381,15 +379,15 @@ HNPH,iom-14-2-asteiidae,mention,2 | 5 | 10,Asteia atrifacies,,,,,,,text,machine,
 HNQ5,iom-14-2-asteiidae,account,10,Asteia kraussi,GU | FM,Guam | Satawal,,,,,text,machine,,,migrate,2026-11-13
 HNQ5,iom-14-2-asteiidae,mention,3 | 6 | 10 | 11,Asteia kraussi,,,,,,,text,machine,,,migrate,2026-11-13
 J7HL,iom-17-4-scarabaeidae,mention,14,Ataenius cognatus,,,,,,,text,machine,,,migrate,2026-11-13
-J7HL,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 J7HL,scarab-and-stag-beetles-of-the-pacific-guam-scarabaeoide,mention,1,Ataenius cognatus,,,,,,,text,machine,,,migrate,2026-11-13
 J7HL,swezey-1942-misc-coleoptera-guam,account,19,Ataenius cognatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+J7HL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 J7HL,swezey-1942-misc-coleoptera-guam,mention,19,Ataenius cognatus,,,,,,,text,machine,,,migrate,2026-11-13
 J7L8,iom-17-4-scarabaeidae,account,15 | 16,Ataenius nocturnus,MP | FM,Kosrae | Saipan,,,,,text,machine,,,migrate,2026-11-13
 J7L8,iom-17-4-scarabaeidae,mention,2 | 3 | 15 | 16,Ataenius nocturnus,,,,,,,text,machine,,,migrate,2026-11-13
-J7L8,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 J7L8,scarab-and-stag-beetles-of-the-pacific-guam-scarabaeoide,mention,1,Ataenius nocturnus,,,,,,,text,machine,,,migrate,2026-11-13
 J7L8,swezey-1942-misc-coleoptera-guam,account,18 | 19,Ataenius gracilis,,,,,,,text,machine,,,migrate,2026-11-13
+J7L8,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 J7L8,swezey-1942-misc-coleoptera-guam,mention,18 | 19,Ataenius gracilis,,,,,,,text,machine,,,migrate,2026-11-13
 J7P2,iom-17-4-scarabaeidae,account,14,Ataenius orbicularis,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
 J7P2,iom-17-4-scarabaeidae,mention,3 | 14,Ataenius orbicularis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -642,8 +640,8 @@ R5CB,anon-et-al-9-idechiil-o-r-h-miller-k-s-pike-l-d-hansen-a,account,11,Cardioc
 R5CB,anon-et-al-9-idechiil-o-r-h-miller-k-s-pike-l-d-hansen-a,mention,10 | 11 | 12 | 16 | 24 | 26,Cardiocondyla wroughtonii,,,,,,,text,machine,,,migrate,2026-11-13
 R5CB,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,60,Cardiocondyla wroughtoni,,,,,,,text,machine,,,migrate,2026-11-13
 R5CB,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
-RFC6,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 RFC6,swezey-1942-misc-coleoptera-guam,account,4,Trogophloeus exiguus,,,,,,,text,machine,,,migrate,2026-11-13
+RFC6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 RFC6,swezey-1942-misc-coleoptera-guam,mention,4,Trogophloeus exiguus,,,,,,,text,machine,,,migrate,2026-11-13
 RMCP,iom-1-introduction,mention,244,Cassida circumdata,,,,,,,text,machine,,,migrate,2026-11-13
 RMCP,iom-17-1-chrysomelidae,account,58,Cassida circumdata,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
@@ -754,8 +752,8 @@ XQ24,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,account,41,Xiphidi
 XSWZ,iom-12-8-tipulidae,account,5 | 103,Conosia insularis,GU | PW | FM,Guam | Koror | Kosrae | Palau | Pohnpei | Yap,,,,,ocr,machine,,,migrate,2026-11-13
 XSWZ,iom-12-8-tipulidae,mention,5 | 102 | 103,Conosia insularis,,,,,,,ocr,machine,,,migrate,2026-11-13
 XSWZ,plazi-557bdb7f,checklist,,,GU,,,,,,plazi,,,,migrate,
-Y38Q,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 Y38Q,swezey-1942-misc-coleoptera-guam,account,3,Bidessus gentilis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+Y38Q,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 Y38Q,swezey-1942-misc-coleoptera-guam,mention,3,Bidessus gentilis,,,,,,,text,machine,,,migrate,2026-11-13
 Y69M,iom-14-5-sphaeroceridae,account,24,Leptocera ferruginata,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 Y69Q,iom-14-5-sphaeroceridae,account,25,Leptocera hirtula,MP | PW,Koror | Saipan,,,,,text,machine,,,migrate,2026-11-13
@@ -843,8 +841,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 32ZRH,iom-7-1-miridae,mention,12 | 13,Cylapomorpha pacifica,,,,,,,text,machine,,,migrate,2026-11-13
 33257,iom-15-1-carabidae-incl-cicindelinae,account,9,Cicindela bonma,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 334HN,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
-33F3T,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 33F3T,swezey-1942-misc-coleoptera-guam,account,15,Cyphogastra auripennis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+33F3T,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 33F3T,swezey-1942-misc-coleoptera-guam,mention,15,Cyphogastra auripennis,,,,,,,text,machine,,,migrate,2026-11-13
 33NNF,iom-7-1-miridae,account,53,Cyrtorhinus lividipennis,,,,,,,text,machine,,,migrate,2026-11-13
 33NNF,iom-7-1-miridae,mention,53,Cyrtorhinus lividipennis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -856,8 +854,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 33SST,plazi-607dcc60,checklist,,,GU,,,,,,plazi,,,,migrate,
 33STY,iom-14-7-clusiidae,account,3,Tonnoiria ponapensis,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 33STY,iom-14-7-clusiidae,mention,3 | 4,Tonnoiria ponapensis,,,,,,,text,machine,,,migrate,2026-11-13
-33WV6,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 33WV6,swezey-1942-misc-coleoptera-guam,account,13,Dactylosternum abdominale,,,,,,,text,machine,,,migrate,2026-11-13
+33WV6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 33WV6,swezey-1942-misc-coleoptera-guam,mention,13,Dactylosternum abdominale,,,,,,,text,machine,,,migrate,2026-11-13
 33XRJ,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
 33XRK,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -958,8 +956,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 368XL,iom-16-2-bostrychidae,mention,2 | 5 | 6,Dinoderus bifoveolatus,,,,,,,text,machine,,,migrate,2026-11-13
 368XY,iom-16-2-bostrychidae,account,6,Dinoderus minutus,,,,,,,text,machine,,,migrate,2026-11-13
 368XY,iom-16-2-bostrychidae,mention,2 | 7,Dinoderus minutus,,,,,,,text,machine,,,migrate,2026-11-13
-368XY,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 368XY,swezey-1942-misc-coleoptera-guam,account,14,Dinoderus minutus,,,,,,,text,machine,,,migrate,2026-11-13
+368XY,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 368XY,swezey-1942-misc-coleoptera-guam,mention,14,Dinoderus minutus,,,,,,,text,machine,,,migrate,2026-11-13
 36GP4,buden-2004-the-odonata-of-pakin-ant-mokil-and-pingelap-a,mention,1 | 6 | 7 | 8 | 9,Diplacodes bipunctata,,,,,,,text,machine,,,migrate,2026-11-13
 36GP4,buden-2008-first-records-of-odonata-from-the-republic-of,account,3,Diplacodes bipunctata,,,,,,,text,machine,,,migrate,2026-11-13
@@ -1129,8 +1127,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 39RDM,iom-12-5-chironomidae,account,88,Chironomus tenuicaudus,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
 39STX,iom-15-1-carabidae-incl-cicindelinae,account,42,Plochionus pradieri,,,,,,,text,machine,,,migrate,2026-11-13
 39STX,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 42,Endynomena pradieri,,,,,,,text,machine,,,migrate,2026-11-13
-39STX,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 39STX,swezey-1942-misc-coleoptera-guam,account,2,Endynomena pradieri,,,,,,,text,machine,,,migrate,2026-11-13
+39STX,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 39STX,swezey-1942-misc-coleoptera-guam,mention,2,Endynomena pradieri,,,,,,,text,machine,,,migrate,2026-11-13
 3B55L,beardsley-1991-introduction-of-arthropod-pests-into-the,mention,3,Erionota thrax,,,,,,,text,machine,,,migrate,2026-11-13
 3B55L,beardsley-1993-exotic-terrestrial-arthropods-in-the-hawa,mention,3,Erionota thrax,,,,,,,text,machine,,,migrate,2026-11-13
@@ -1254,8 +1252,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 3DXX4,iom-7-1-miridae,mention,26,Felisacus rubricuneus,,,,,,,text,machine,,,migrate,2026-11-13
 3FJZG,iom-17-2-cerambycidae,account,41,Gelonaetha hirta,GU | MP,Guam | Saipan,,,,,ocr,machine,,,migrate,2026-11-13
 3FJZG,iom-17-2-cerambycidae,mention,9 | 41,Gelonaetha hirta,,,,,,,ocr,machine,,,migrate,2026-11-13
-3FJZG,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 3FJZG,swezey-1942-misc-coleoptera-guam,account,21,Gelonaetha hirta,,,,,,,text,machine,,,migrate,2026-11-13
+3FJZG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 3FJZG,swezey-1942-misc-coleoptera-guam,mention,21,Gelonaetha hirta,,,,,,,text,machine,,,migrate,2026-11-13
 3FKGD,guam-pest-series-88-17-vanda-orchid-scale,mention,1,Genaparlatoria pseudaspidiotus,,,,,,,ocr,machine,,,migrate,2026-11-13
 3FP5P,iom-6-7-coccoidea,account,39,Geococcus coffeae,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -1295,8 +1293,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 3HSYY,iom-13-6-muscidae,account,105,Myospila palau,,,,,,,text,machine,,,migrate,2026-11-13
 3HSYY,iom-13-6-muscidae,mention,9 | 105,Myospila palau,,,,,,,text,machine,,,migrate,2026-11-13
 3HW42,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
-3J2MM,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 3J2MM,swezey-1942-misc-coleoptera-guam,account,5,Gyrophaena moluccensis,,,,,,,text,machine,,,migrate,2026-11-13
+3J2MM,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 3J2MM,swezey-1942-misc-coleoptera-guam,mention,5,Gyrophaena moluccensis,,,,,,,text,machine,,,migrate,2026-11-13
 3J83K,evenhuis-et-al-2010-pagan-island,mention,60,Haematobia exigua,,,,,,,text,machine,,,migrate,2026-11-13
 3J83K,iom-13-6-muscidae,mention,121,Haematobia exigua,,,,,,,text,machine,,,migrate,2026-11-13
@@ -1381,8 +1379,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 3M3CC,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 3M7NT,iom-15-1-carabidae-incl-cicindelinae,account,39,Holcoderus decolor,PW | FM,Babeldaob | Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
 3M7NT,iom-15-1-carabidae-incl-cicindelinae,mention,5 | 39 | 40,Holcoderus decolor,,,,,,,text,machine,,,migrate,2026-11-13
-3M8DD,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 3M8DD,swezey-1942-misc-coleoptera-guam,account,4,Oligota flavicornis,,,,,,,text,machine,,,migrate,2026-11-13
+3M8DD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 3M8DD,swezey-1942-misc-coleoptera-guam,mention,4,Oligota flavicornis,,,,,,,text,machine,,,migrate,2026-11-13
 3M9H7,iom-12-2-bibionidae-scatopsidae,account,5,Scatopse guamensis,,,,,,,text,machine,,,migrate,2026-11-13
 3M9H7,iom-12-2-bibionidae-scatopsidae,mention,5 | 14,Scatopse guamensis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -1544,9 +1542,9 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 3RHH4,evenhuis-et-al-2010-pagan-island,mention,58,Aphodius lividus,,,,,,,text,machine,,,migrate,2026-11-13
 3RHH4,iom-17-4-scarabaeidae,account,7,Aphodius lividus,,,,,,,text,machine,,,migrate,2026-11-13
 3RHH4,iom-17-4-scarabaeidae,mention,2 | 3 | 6 | 7,Aphodius lividus,,,,,,,text,machine,,,migrate,2026-11-13
-3RHH4,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 3RHH4,scarab-and-stag-beetles-of-the-pacific-guam-scarabaeoide,mention,1,Aphodius lividus,,,,,,,text,machine,,,migrate,2026-11-13
 3RHH4,swezey-1942-misc-coleoptera-guam,account,19,Aphodius lividus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+3RHH4,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 3RHH4,swezey-1942-misc-coleoptera-guam,mention,19,Aphodius lividus,,,,,,,text,machine,,,migrate,2026-11-13
 3RJLW,iom-5-2-dermaptera,account,3 | 26,Labidura riparia,MH,Enewetak | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 3RJLW,iom-5-2-dermaptera,mention,3 | 4 | 12 | 16 | 26 | 27,Labidura riparia,,,,,,,text,machine,,,migrate,2026-11-13
@@ -1947,8 +1945,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 45BX4,iom-8-2-neuroptera-myrmeleontidae-chrysopidae,mention,6,Myrmeleon celebensis,,,,,,,ocr,machine,,,migrate,2026-11-13
 45JGN,schreiner-nafus-1997-butterflies-of-micronesia,account,33,Nacaduba kurava,GU | MP | PW | FM,Chuuk | Guam | Palau | Pohnpei | Saipan | Yap,,,,,text,machine,,,migrate,2026-11-13
 45JGN,schreiner-nafus-1997-butterflies-of-micronesia,mention,21 | 33 | 39,Nacaduba kurava,,,,,,,text,machine,,,migrate,2026-11-13
-45JKJ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 45JKJ,swezey-1942-misc-coleoptera-guam,account,3,Lispinus foveatus,,,,,,,text,machine,,,migrate,2026-11-13
+45JKJ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 45JKJ,swezey-1942-misc-coleoptera-guam,mention,3,Lispinus foveatus,,,,,,,text,machine,,,migrate,2026-11-13
 45NHN,crop-pests-micronesia,checklist,,,FM,Chuuk,,,,,checklist,,,,migrate,
 46C56,iom-8-4-psocoptera,account,71,Heterocaecilius campanula,FM | MH,Kapingamarangi | Majuro | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
@@ -2186,8 +2184,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4FKF9,iom-6-3-fulgoroidea,mention,6 | 132,Phaciocephalus phaedra,,,,,,,text,machine,,,migrate,2026-11-13
 4FKFL,iom-6-3-fulgoroidea,account,130,Phaciocephalus zethus,,,,,,,text,machine,,,migrate,2026-11-13
 4FKFL,iom-6-3-fulgoroidea,mention,6 | 130 | 133 | 134,Phaciocephalus zethus,,,,,,,text,machine,,,migrate,2026-11-13
-4FKKY,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 4FKKY,swezey-1942-misc-coleoptera-guam,account,4,Leptacinus flavipennis,,,,,,,text,machine,,,migrate,2026-11-13
+4FKKY,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 4FKKY,swezey-1942-misc-coleoptera-guam,mention,4,Leptacinus flavipennis,,,,,,,text,machine,,,migrate,2026-11-13
 4FT4S,plazi-16f6ef92,checklist,,,GU,,,,,,plazi,,,,migrate,
 4FT4S,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,account,40,Phaneroptera brevis,GU | MH,Enewetak | Guam | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
@@ -2232,8 +2230,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4G2C7,nafus-1991-movement-of-new-insects-into-the-carolines-an,account,4 | 11,Phenacoccus madeirensis,GU | PW | FM | MH,Guam | Likiep | Majuro | Palau | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 4G2C7,nafus-1991-movement-of-new-insects-into-the-carolines-an,mention,4 | 11,Phenacoccus madeirensis,,,,,,,text,machine,,,migrate,2026-11-13
 4G2GB,iom-6-7-coccoidea,account,56,Phenacoccus solani,MH,Kwajalein | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
-4G9ZJ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 4G9ZJ,swezey-1942-misc-coleoptera-guam,account,4,Philonthus quisquiliarius,,,,,,,text,machine,,,migrate,2026-11-13
+4G9ZJ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 4G9ZJ,swezey-1942-misc-coleoptera-guam,mention,4,Philonthus quisquiliarius,,,,,,,text,machine,,,migrate,2026-11-13
 4GC8Y,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 4GC8Y,iom-14-1-tephritidae,account,17,Hendelina bisecta,,,,,,,text,machine,,,migrate,2026-11-13
@@ -2350,8 +2348,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4MWFF,evenhuis-et-al-2010-pagan-island,mention,57,Prosoplus marianarum,,,,,,,text,machine,,,migrate,2026-11-13
 4MWFF,iom-17-2-cerambycidae,account,74,Prosoplus marianarum,,,,,,,ocr,machine,,,migrate,2026-11-13
 4MWFF,iom-17-2-cerambycidae,mention,73 | 74 | 75,Prosoplus marianarum,,,,,,,text,machine,,,migrate,2026-11-13
-4MWFF,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 4MWFF,swezey-1942-misc-coleoptera-guam,account,21,Prosoplus marianarum,,,,,,,text,machine,,,migrate,2026-11-13
+4MWFF,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 4MWFF,swezey-1942-misc-coleoptera-guam,mention,21,Prosoplus marianarum,,,,,,,text,machine,,,migrate,2026-11-13
 4MXCN,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,account,12,Prosopogryllacris chuukensis,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 4MXCN,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,mention,12 | 13 | 14 | 15,Prosopogryllacris chuukensis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -2494,8 +2492,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4RVQY,evenhuis-et-al-2010-pagan-island,mention,58,Rhabdocnemis obscura,,,,,,,text,machine,,,migrate,2026-11-13
 4RVQY,iom-2-bibliography,mention,35 | 42 | 55,Rhabdocnemis obscura,,,,,,,ocr,machine,,,migrate,2026-11-13
 4RVQY,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
-4S3PP,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 4S3PP,swezey-1942-misc-coleoptera-guam,account,2,Rhantus pulverosus,,,,,,,text,machine,,,migrate,2026-11-13
+4S3PP,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 4S3PP,swezey-1942-misc-coleoptera-guam,mention,2,Rhantus pulverosus,,,,,,,text,machine,,,migrate,2026-11-13
 4S465,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,account,1 | 18,Rhaphidophora ponapensis,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 4S465,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,mention,1 | 18 | 19,Rhaphidophora ponapensis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -2624,8 +2622,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4Z9PH,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 4Z9T8,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 4ZB9V,evenhuis-et-al-2010-pagan-island,mention,58,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
-4ZB9V,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 4ZB9V,swezey-1942-misc-coleoptera-guam,account,7,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
+4ZB9V,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 4ZB9V,swezey-1942-misc-coleoptera-guam,mention,7,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
 4ZKX3,iom-9-1-tortricoidea,account,93,Statherotis leucaspis,FM | MH,Kosrae | Marshall Is.,,,,,ocr,machine,,,migrate,2026-11-13
 4ZKX3,iom-9-1-tortricoidea,mention,83 | 93 | 94 | 95,Statherotis leucaspis,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -2854,8 +2852,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 55TJH,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,mention,2 | 13,Tetrastichus yapensis,,,,,,,text,machine,,,migrate,2026-11-13
 55ZKW,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 55ZQH,iom-12-5-chironomidae,account,56,Thalassomyia pilipes,MP | MH,Marshall Is. | Tinian,,,,,text,machine,,,migrate,2026-11-13
-5632V,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5632V,swezey-1942-misc-coleoptera-guam,account,5,Thamiaraea insigniventris,,,,,,,text,machine,,,migrate,2026-11-13
+5632V,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5632V,swezey-1942-misc-coleoptera-guam,mention,5,Thamiaraea insigniventris,,,,,,,text,machine,,,migrate,2026-11-13
 563T8,iom-18-1-platypodidae-scolytidae,account,47,Thamnurgides striatus,PW,Palau,,,,,ocr,machine,,,migrate,2026-11-13
 563T8,iom-18-1-platypodidae-scolytidae,mention,47,Thamnurgides striatus,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -2951,8 +2949,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 59F3B,iom-9-1-tortricoidea,mention,126,Trymalitis escharia,,,,,,,ocr,machine,,,migrate,2026-11-13
 59G3P,iom-14-10-lauxaniidae-part-2,account,3,Trypetisoma octopunctatum,GU | FM,Guam | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 59G3P,iom-14-10-lauxaniidae-part-2,mention,1 | 3,Trypetisoma,,,,,,,text,machine,,,migrate,2026-11-13
-59G3P,plazi-8efcace3,checklist,,,,,,,,,plazi,,,,migrate,
 59G3P,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,account,3,Trypetisoma octopunctatum,GU | FM,Guam | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
+59G3P,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,checklist,,,,,,,,,plazi,,,,migrate,
 59G3P,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,mention,1 | 3,Trypetisoma,,,,,,,text,machine,,,migrate,2026-11-13
 59V49,iom-6-6-psyllidae,account,5,Nesiope ornata,,,,,,,text,machine,,,migrate,2026-11-13
 59V49,iom-6-6-psyllidae,mention,5,Nesiope ornata,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3011,8 +3009,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5CMB4,iom-16-2-bostrychidae,account,2 | 18,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
 5CMB4,iom-16-2-bostrychidae,mention,2 | 18,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
 5CMB4,iom-2-bibliography,mention,45,Xylopsocus capucinus,,,,,,,ocr,machine,,,migrate,2026-11-13
-5CMB4,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5CMB4,swezey-1942-misc-coleoptera-guam,account,13 | 14,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
+5CMB4,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5CMB4,swezey-1942-misc-coleoptera-guam,mention,13 | 14,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
 5CMJ9,daehler-2002-impact-of-the-black-twig-borer-an-introduce,account,18,Xylosandrus compactus,,,,,,,text,machine,,,migrate,2026-11-13
 5CMJ9,daehler-2002-impact-of-the-black-twig-borer-an-introduce,mention,1 | 18,Xylosandrus compactus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3039,8 +3037,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5G6HT,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 5G6HT,schreiner-nafus-1997-butterflies-of-micronesia,mention,32,Camponotus,,,,,,,text,machine,,,migrate,2026-11-13
 5GB6D,plazi-2930c6b8,checklist,,,GU,,,,,,plazi,,,,migrate,
-5GR5Z,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5GR5Z,swezey-1942-misc-coleoptera-guam,account,2,Cybister tripunctatus hamatus,,,,,,,text,machine,,,migrate,2026-11-13
+5GR5Z,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5GR5Z,swezey-1942-misc-coleoptera-guam,mention,2,Cybister tripunctatus hamatus,,,,,,,text,machine,,,migrate,2026-11-13
 5J3CX,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 5LQ83,kevan-1997-acridoidea-and-related-orthoptera-grasshopper,account,16,Valanga irregularis carolinensis,PW | FM,Chuuk | Fais | Palau | Ulithi | Yap,,,,,text,machine,,,migrate,2026-11-13
@@ -3062,8 +3060,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5V7WK,iom-12-1-culicidae,account,18,Anopheles subpictus indefinitus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 5V7WK,iom-12-1-culicidae,mention,7 | 10 | 13 | 15 | 18,Anopheles subpictus,,,,,,,text,machine,,,migrate,2026-11-13
 5V7WK,iom-2-bibliography,mention,24,Anopheles subpictus,,,,,,,ocr,machine,,,migrate,2026-11-13
-5V8FP,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5V8FP,swezey-1942-misc-coleoptera-guam,account,5,Homalota cribrum,,,,,,,text,machine,,,migrate,2026-11-13
+5V8FP,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5V8FP,swezey-1942-misc-coleoptera-guam,mention,5,Homalota cribrum,,,,,,,text,machine,,,migrate,2026-11-13
 5V8YV,anon-et-al-9-idechiil-o-r-h-miller-k-s-pike-l-d-hansen-a,mention,10 | 12 | 13 | 15 | 21 | 23,Anoplolepis gracilipes,,,,,,,text,machine,,,migrate,2026-11-13
 5V8YV,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,53,Anoplolepis gracilipes,GU | MP | PW | FM | MH,Ailinglaplap | Arno | Babeldaob | Chuuk | Elato | Fais | Guam | Jaluit | Koror | Kosrae | Majuro | Marshall Is. | Pagan | Palau | Peleliu | Pohnpei | Rota | Saipan | Sonsorol | Sorol | Tinian | Ulithi | Woleai | Yap,,,,,text,machine,,,migrate,2026-11-13
@@ -3125,8 +3123,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5W5DZ,nandwani-2003-biological-control-of-insect-and-plant-pes,mention,4 | 5 | 6,Aspidiotus destructor,,,,,,,text,machine,,,migrate,2026-11-13
 5W5DZ,swezey-1942-misc-coleoptera-guam,mention,11,Aspidiotus destructor,,,,,,,text,machine,,,migrate,2026-11-13
 5W5DZ,tauili-ili-1993-history-of-biological-control-in-america,mention,1 | 3,Aspidiotus destructor,,,,,,,text,machine,,,migrate,2026-11-13
-5W6LW,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5W6LW,swezey-1942-misc-coleoptera-guam,account,4,Astenus horni,,,,,,,text,machine,,,migrate,2026-11-13
+5W6LW,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5W6LW,swezey-1942-misc-coleoptera-guam,mention,4,Astenus horni,,,,,,,text,machine,,,migrate,2026-11-13
 5W8WD,iom-13-6-muscidae,account,53,Atherigona trukensis,,,,,,,text,machine,,,migrate,2026-11-13
 5W8WD,iom-13-6-muscidae,mention,9 | 53 | 55 | 56,Atherigona trukensis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3152,8 +3150,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5X36F,iom-2-bibliography,mention,23 | 50,Brontispa chalybeipennis,,,,,,,ocr,machine,,,migrate,2026-11-13
 5X36F,muniappan-1980-biological-control-of-the-palau-coconut-b,mention,1,Brontispa chalybeipennis,,,,,,,text,machine,,,migrate,2026-11-13
 5X36F,muniappan-2002-pests-of-coconut-and-their-natural-enemie,mention,5,Brontispa chalybeipennis,,,,,,,text,machine,,,migrate,2026-11-13
-5X5QV,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5X5QV,swezey-1942-misc-coleoptera-guam,account,15,Buprestis aurulenta,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+5X5QV,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5X5QV,swezey-1942-misc-coleoptera-guam,mention,15,Buprestis aurulenta,,,,,,,text,machine,,,migrate,2026-11-13
 5XDL7,crop-pests-micronesia,checklist,,,FM,Chuuk | Kosrae,,,,,checklist,,,,migrate,
 5XDL7,iom-17-2-cerambycidae,account,67 | 69,Caroliniella aenescens aenescens,FM,Chuuk | Kosrae,,,,,ocr,machine,,,migrate,2026-11-13
@@ -3172,8 +3170,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5XM2Y,evenhuis-et-al-2010-pagan-island,mention,57,Ceresium unicolor unicolor,,,,,,,text,machine,,,migrate,2026-11-13
 5XM2Y,iom-17-2-cerambycidae,account,38 | 39,Ceresium unicolor unicolor,GU | MP | PW | FM | MH,Guam | Koror | Majuro | Marshall Is. | Palau | Pohnpei | Rota | Saipan,,,,,ocr,machine,,,migrate,2026-11-13
 5XM2Y,iom-17-2-cerambycidae,mention,37 | 38 | 39,Ceresium unicolor,,,,,,,text,machine,,,migrate,2026-11-13
-5XM2Y,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5XM2Y,swezey-1942-misc-coleoptera-guam,account,20,Ceresium unicolor,,,,,,,text,machine,,,migrate,2026-11-13
+5XM2Y,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5XM2Y,swezey-1942-misc-coleoptera-guam,mention,20 | 21,Ceresium unicolor,,,,,,,text,machine,,,migrate,2026-11-13
 5XP3J,iom-5-2-dermaptera,account,36,Chaetospania fuscata,,,,,,,text,machine,,,migrate,2026-11-13
 5XP3J,iom-5-2-dermaptera,mention,8 | 9 | 36 | 37 | 38,Chaetospania fuscata,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3198,14 +3196,14 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5YBCW,iom-13-7-phoridae,account,32,Chonocephalus hirsutus,,,,,,,text,machine,,,migrate,2026-11-13
 5YBCW,iom-13-7-phoridae,mention,32,Chonocephalus hirsutus,,,,,,,text,machine,,,migrate,2026-11-13
 5YLST,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
-5YLST,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5YLST,swezey-1942-misc-coleoptera-guam,account,15,Chrysobothris costata,,,,,,,text,machine,,,migrate,2026-11-13
+5YLST,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5YLST,swezey-1942-misc-coleoptera-guam,mention,15,Chrysobothris costata,,,,,,,text,machine,,,migrate,2026-11-13
 5YNJ6,crop-pests-micronesia,checklist,,,PW,Palau,,,,,checklist,,,,migrate,
 5YNJ6,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 5YNJ6,uog-insect-pests-of-cucurbit-crops-and-their-control-on,mention,14,Chrysodeixis chalcites,,,,,,,text,machine,,,migrate,2026-11-13
-5YPFC,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 5YPFC,swezey-1942-misc-coleoptera-guam,account,15,Chrysodema ventralis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+5YPFC,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 5YPFC,swezey-1942-misc-coleoptera-guam,mention,15,Chrysodema ventralis,,,,,,,text,machine,,,migrate,2026-11-13
 5YQ36,crop-pests-micronesia,checklist,,,PW | FM,Chuuk | Palau,,,,,checklist,,,,migrate,
 5YQ36,iom-6-7-coccoidea,account,140,Aspidiotus mangiferae,PW | MH,Koror | Majuro,,,,,ocr,machine,,,migrate,2026-11-13
@@ -3254,20 +3252,20 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5ZKWZ,iom-13-6-muscidae,account,20,Limosia townesi,FM,Kosrae,,,,,text,machine,,,migrate,2026-11-13
 5ZKWZ,iom-13-6-muscidae,mention,2 | 20,Limosia townesi,,,,,,,text,machine,,,migrate,2026-11-13
 5ZZP2,iom-7-6-saldidae,account,3,Omania marksae,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-62BHC,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+62BHC,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 62CWH,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
-62G5J,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+62G5J,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 62HGJ,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
 62KFW,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
-62LMF,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+62LMF,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 62LNN,plazi-592c9898,checklist,,,GU,,,,,,plazi,,,,migrate,
 62M5W,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
-62P4G,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+62P4G,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 62PCF,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
-62Q32,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+62Q32,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 62QTS,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 62R3H,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
-62SNY,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+62SNY,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 62YJY,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 633JZ,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 633VT,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -3286,8 +3284,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 63V54,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 63VPH,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
 63VPH,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
-63VPH,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
-642NP,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+642NP,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 647SW,plazi-204ef7e8,checklist,,,GU,,,,,,plazi,,,,migrate,
 6496V,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 64TXK,crop-pests-micronesia,checklist,,,FM,Kosrae,,,,,checklist,,,,migrate,
@@ -3373,9 +3370,9 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 676PZ,iom-17-4-scarabaeidae,mention,3 | 25 | 28,Anomala sulcatula,,,,,,,text,machine,,,migrate,2026-11-13
 676PZ,iom-2-bibliography,mention,53,Anomala sulcatula,,,,,,,ocr,machine,,,migrate,2026-11-13
 676PZ,nafus-1989-biological-control-activities-in-the-mariana,mention,22 | 23,Anomala sulcatula,,,,,,,text,machine,,,migrate,2026-11-13
-676PZ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 676PZ,scarab-and-stag-beetles-of-the-pacific-guam-scarabaeoide,mention,1,Anomala sulcatula,,,,,,,text,machine,,,migrate,2026-11-13
 676PZ,swezey-1942-misc-coleoptera-guam,account,19,Anomala sulcatula,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+676PZ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 676PZ,swezey-1942-misc-coleoptera-guam,mention,19,Anomala sulcatula,,,,,,,text,machine,,,migrate,2026-11-13
 6792Q,crop-pests-micronesia,checklist,,,PW,Palau,,,,,checklist,,,,migrate,
 6792Q,iom-1-introduction,mention,242,Anoronotum rufum,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3449,14 +3446,14 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 69V42,iom-12-5-chironomidae,mention,75,Chironomus nigerilateralis,,,,,,,text,machine,,,migrate,2026-11-13
 69VKQ,iom-15-1-carabidae-incl-cicindelinae,account,6 | 30,Chlaenius flaviguttatus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 69VKQ,iom-15-1-carabidae-incl-cicindelinae,mention,6 | 30,Chlaenius flaviguttatus,,,,,,,text,machine,,,migrate,2026-11-13
-69VKQ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 69VKQ,swezey-1942-misc-coleoptera-guam,account,1,Chlaenius flaviguttatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+69VKQ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 69VKQ,swezey-1942-misc-coleoptera-guam,mention,1,Chlaenius flaviguttatus,,,,,,,text,machine,,,migrate,2026-11-13
 69XKH,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 69XKH,iom-17-2-cerambycidae,account,50,Chlorophorus annularis,GU,Guam,,,,,ocr,machine,,,migrate,2026-11-13
 69XKH,iom-17-2-cerambycidae,mention,10 | 50,Chlorophorus annularis,,,,,,,ocr,machine,,,migrate,2026-11-13
-69XKH,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 69XKH,swezey-1942-misc-coleoptera-guam,account,21,Chlorophorus annularis,,,,,,,text,machine,,,migrate,2026-11-13
+69XKH,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 69XKH,swezey-1942-misc-coleoptera-guam,mention,21,Chlorophorus annularis,,,,,,,text,machine,,,migrate,2026-11-13
 69YSQ,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
 69YT2,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -3526,8 +3523,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6D49G,iom-12-8-tipulidae,mention,4,Limonia leptomera,,,,,,,text,machine,,,migrate,2026-11-13
 6D4D9,iom-13-6-muscidae,account,118,Dichaetomyia saperoi,,,,,,,text,machine,,,migrate,2026-11-13
 6D4D9,iom-13-6-muscidae,mention,6 | 118,Dichaetomyia saperoi,,,,,,,text,machine,,,migrate,2026-11-13
-6D4M9,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 6D4M9,swezey-1942-misc-coleoptera-guam,account,4,Dibelonetes formosae,,,,,,,text,machine,,,migrate,2026-11-13
+6D4M9,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 6D4M9,swezey-1942-misc-coleoptera-guam,mention,4,Dibelonetes formosae,,,,,,,text,machine,,,migrate,2026-11-13
 6DJFH,iom-13-3-empididae,account,4,Drapetis brevicula,,,,,,,text,machine,,,migrate,2026-11-13
 6DJFH,iom-13-3-empididae,mention,4,Drapetis brevicula,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3564,8 +3561,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6FCJD,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
 6FQG8,iom-12-6-mycetophilidae,account,26,Epicypta palauensis,,,,,,,text,machine,,,migrate,2026-11-13
 6FQG8,iom-12-6-mycetophilidae,mention,3 | 26 | 27,Epicypta palauensis,,,,,,,text,machine,,,migrate,2026-11-13
-6GH6V,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 6GH6V,swezey-1942-misc-coleoptera-guam,account,2,Eretes sticticus,,,,,,,text,machine,,,migrate,2026-11-13
+6GH6V,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 6GH6V,swezey-1942-misc-coleoptera-guam,mention,2,Eretes sticticus,,,,,,,text,machine,,,migrate,2026-11-13
 6GMXW,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 6GR57,iom-12-8-tipulidae,account,5 | 105,Erioptera geniculata,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -3599,13 +3596,13 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6HQD6,swezey-1942-misc-coleoptera-guam,mention,12,Ferrisia virgata,,,,,,,text,machine,,,migrate,2026-11-13
 6HR5T,iom-7-1-miridae,account,22,Felisacus adamsi,,,,,,,text,machine,,,migrate,2026-11-13
 6HR5T,iom-7-1-miridae,mention,22 | 23 | 25,Felisacus adamsi,,,,,,,text,machine,,,migrate,2026-11-13
-6HZRS,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 6HZRS,scarab-and-stag-beetles-of-the-pacific-guam-scarabaeoide,mention,1,Figulus lilliputanus,,,,,,,text,machine,,,migrate,2026-11-13
 6HZRS,swezey-1942-misc-coleoptera-guam,account,18,Figulus lilliputanus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+6HZRS,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 6HZRS,swezey-1942-misc-coleoptera-guam,mention,18,Figulus lilliputanus,,,,,,,text,machine,,,migrate,2026-11-13
-6HZZV,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 6HZZV,scarab-and-stag-beetles-of-the-pacific-guam-scarabaeoide,mention,1,Figulus integricollis,,,,,,,text,machine,,,migrate,2026-11-13
 6HZZV,swezey-1942-misc-coleoptera-guam,account,18,Figulus integricollis,,,,,,,text,machine,,,migrate,2026-11-13
+6HZZV,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 6HZZV,swezey-1942-misc-coleoptera-guam,mention,18,Figulus integricollis,,,,,,,text,machine,,,migrate,2026-11-13
 6J6FW,crop-pests-micronesia,checklist,,,FM,Kosrae,,,,,checklist,,,,migrate,
 6J6FW,iom-6-3-fulgoroidea,account,101,Flaccia dione,MH,Arno | Majuro | Marshall Is. | Namdrik,,,,,text,machine,,,migrate,2026-11-13
@@ -3681,8 +3678,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6KZRZ,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 6L6F2,iom-13-7-phoridae,account,6,Gymnoptera molluscovora,GU | MH,Guam | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 6L6F2,iom-13-7-phoridae,mention,6,Gymnoptera molluscovora,,,,,,,text,machine,,,migrate,2026-11-13
-6L8TW,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 6L8TW,swezey-1942-misc-coleoptera-guam,account,5,Gyrophaena variolosa,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+6L8TW,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 6L8TW,swezey-1942-misc-coleoptera-guam,mention,5,Gyrophaena variolosa,,,,,,,text,machine,,,migrate,2026-11-13
 6LCY6,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
 6LNT2,crop-pests-micronesia,checklist,,,PW | FM,Kosrae | Palau | Pohnpei | Yap,,,,,checklist,,,,migrate,
@@ -3859,7 +3856,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6S95G,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 6S9BT,iom-14-6-drosophilidae,account,50,Neotanygastrella pacifica,,,,,,,ocr,machine,,,migrate,2026-11-13
 6S9BT,iom-14-6-drosophilidae,mention,3 | 50 | 51,Neotanygastrella pacifica,,,,,,,ocr,machine,,,migrate,2026-11-13
-6SB79,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+6SB79,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 6SB79,swezey-1942-misc-coleoptera-guam,mention,13,Noteropagus obscurus,,,,,,,text,machine,,,migrate,2026-11-13
 6SBKY,plazi-0f4ee0b0,checklist,,,GU,,,,,,plazi,,,,migrate,
 6SCMY,iom-6-3-fulgoroidea,account,73,Dicranotropis cognata,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3909,8 +3906,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6TG59,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
 6TPMN,plazi-6e65e7d3,checklist,,,GU,,,,,,plazi,,,,migrate,
 6TQXN,swezey-1942-misc-coleoptera-guam,account,3,Phloeonomus singulare,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-6TR9N,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 6TR9N,swezey-1942-misc-coleoptera-guam,account,3,Phloeonomus hebridensis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+6TR9N,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 6TR9N,swezey-1942-misc-coleoptera-guam,mention,3,Phloeonomus hebridensis,,,,,,,text,machine,,,migrate,2026-11-13
 6TRNG,iom-6-7-coccoidea,account,175,Parlatoria crotonis,PW | FM,Chuuk | Koror,,,,,text,machine,,,migrate,2026-11-13
 6TRNR,crop-pests-micronesia,checklist,,,FM,Chuuk | Pohnpei,,,,,checklist,,,,migrate,
@@ -4307,8 +4304,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 772J5,iom-6-8-fulgoroidea-suppl,account,24,Platocera calypso,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 77947,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,account,30,Phaulula carolinensis,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 77947,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,mention,30,Phaulula carolinensis,,,,,,,text,machine,,,migrate,2026-11-13
-779TK,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 779TK,swezey-1942-misc-coleoptera-guam,account,4,Philonthus discoideus,,,,,,,text,machine,,,migrate,2026-11-13
+779TK,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 779TK,swezey-1942-misc-coleoptera-guam,mention,4,Philonthus discoideus,,,,,,,text,machine,,,migrate,2026-11-13
 77HMK,evenhuis-et-al-2010-pagan-island,mention,61,Physoderes minor,,,,,,,text,machine,,,migrate,2026-11-13
 77HMK,iom-7-5-reduviidae,account,50,Physoderes minor,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -4572,8 +4569,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 7G9TX,iom-6-9-cicadellidae-suppl,mention,13,Xestocephalus izzardi,,,,,,,text,machine,,,migrate,2026-11-13
 7G9YW,iom-16-2-bostrychidae,account,14 | 16,Apate religiosae,GU | FM,Guam | Kosrae | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 7G9YW,iom-16-2-bostrychidae,mention,2 | 16,Xylopsocus religiosus,,,,,,,text,machine,,,migrate,2026-11-13
-7G9YW,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 7G9YW,swezey-1942-misc-coleoptera-guam,account,13,Xylothrips religiosus,,,,,,,text,machine,,,migrate,2026-11-13
+7G9YW,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 7G9YW,swezey-1942-misc-coleoptera-guam,mention,13,Xylothrips religiosus,,,,,,,text,machine,,,migrate,2026-11-13
 7GBK4,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,account,47,Anastatus kraussi,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 7GBK4,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,mention,3 | 47 | 48,Anastatus kraussi,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4691,7 +4688,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 8CD56,iom-14-9-lauxaniidae,account,8,Homoneura longisetosa,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 8CD56,sasakawa-2009-insects-of-micronesia-volume-14-no-9-dipte,account,8,Homoneura longisetosa,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 8CFX6,iom-14-10-lauxaniidae-part-2,mention,1 | 5,Kerteszomyia guamensis,,,,,,,text,machine,,,migrate,2026-11-13
-8CFX6,plazi-8efcace3,checklist,,,,,,,,,plazi,,,,migrate,
+8CFX6,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,checklist,,,,,,,,,plazi,,,,migrate,
 8CFX6,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,mention,1 | 5,Kerteszomyia guamensis,,,,,,,text,machine,,,migrate,2026-11-13
 8CG2N,bickel-1994-insects-of-micronesia-volume-13-no-8-diptera,account,27,Krakatauia micronesiana,,,,,,,text,machine,,,migrate,2026-11-13
 8CG2N,bickel-1994-insects-of-micronesia-volume-13-no-8-diptera,mention,1 | 3 | 24 | 27 | 28,Krakatauia micronesiana,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4703,7 +4700,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 8CRXX,iom-13-7-phoridae,account,13,Megaselia seiuncta,,,,,,,text,machine,,,migrate,2026-11-13
 8CRXX,iom-13-7-phoridae,mention,2,Megaselia seiuncta,,,,,,,text,machine,,,migrate,2026-11-13
 8CSCC,iom-14-10-lauxaniidae-part-2,mention,1 | 2 | 5,Meiosimyza carolinensis,,,,,,,text,machine,,,migrate,2026-11-13
-8CSCC,plazi-8efcace3,checklist,,,,,,,,,plazi,,,,migrate,
+8CSCC,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,checklist,,,,,,,,,plazi,,,,migrate,
 8CSCC,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,mention,1 | 2 | 5,Meiosimyza carolinensis,,,,,,,text,machine,,,migrate,2026-11-13
 8CV8R,iom-14-6-drosophilidae,account,56,Microdrosophila ochracella,,,,,,,ocr,machine,,,migrate,2026-11-13
 8CV8R,iom-14-6-drosophilidae,mention,3 | 54 | 56,Microdrosophila ochracella,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4835,12 +4832,12 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 8JWXP,iom-6-5-cicadellidae,mention,92,Irinula declivata,,,,,,,text,machine,,,migrate,2026-11-13
 8K2TB,iom-6-5-cicadellidae,account,76,Pediopsis nigromaculatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 8KL2Q,iom-6-9-cicadellidae-suppl,mention,5,Empoasca setsukoae,,,,,,,text,machine,,,migrate,2026-11-13
-8KVJR,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8KVLV,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8KVTQ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8KW2D,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+8KVJR,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8KVLV,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8KVTQ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8KW2D,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8KW3Q,plazi-5728a9af,checklist,,,GU,,,,,,plazi,,,,migrate,
-8KW4F,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+8KW4F,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8MQ8D,plazi-16f6ef92,checklist,,,GU,,,,,,plazi,,,,migrate,
 8MQGV,plazi-16f6ef92,checklist,,,GU,,,,,,plazi,,,,migrate,
 8MQPY,plazi-592c9898,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -4959,26 +4956,26 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 8VQWS,scarab-and-stag-beetles-of-the-pacific-guam-scarabaeoide,mention,1,Adoretus sinicus,,,,,,,text,machine,,,migrate,2026-11-13
 8VQWS,tsutsumi-et-al-1993-an-integrated-approach-to-adoretus-c,mention,1 | 2 | 3 | 4 | 5,Adoretus sinicus,,,,,,,text,machine,,,migrate,2026-11-13
 8VRBL,plazi-797184fa,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VRHF,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VRNH,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VRQ3,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VRHF,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VRNH,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VRQ3,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8VRQX,plazi-797184fa,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VRR3,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VRS9,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VRX4,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VRR3,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VRS9,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8VRX4,plazi-797184fa,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VRX4,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8VRXW,plazi-797184fa,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VRYR,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VRYX,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VRYR,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VRYX,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8VS3F,plazi-797184fa,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VS59,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VWQG,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VWW6,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VYYN,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VS59,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VWQG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VWW6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8VYYN,plazi-797184fa,checklist,,,GU,,,,,,plazi,,,,migrate,
-8VZRW,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8X7W9,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-8XL9B,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VYYN,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8VZRW,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8X7W9,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+8XL9B,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 8YDV7,plazi-797184fa,checklist,,,GU,,,,,,plazi,,,,migrate,
 8YDV8,plazi-797184fa,checklist,,,GU,,,,,,plazi,,,,migrate,
 8ZXHP,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -5165,10 +5162,10 @@ BDMDV,iom-12-5-chironomidae,account,127,Tanytarsus halophilae,MH,Marshall Is.,,,
 BDMDW,iom-12-5-chironomidae,account,125,Tanytarsus dybasi,MP | PW,Babeldaob | Palau | Saipan,,,,,text,machine,,,migrate,2026-11-13
 BDMDY,iom-12-5-chironomidae,account,133,Tanytarsus magnihamatus,MH,Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 BDNTQ,iom-12-5-chironomidae,account,137,Tanytarsus brachyurus,PW,Angaur | Babeldaob | Palau,,,,,text,machine,,,migrate,2026-11-13
-BJ7SG,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-BJ8VD,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+BJ7SG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJ8VD,plazi-7f2d2fe5,checklist,,,GU,,,,,,plazi,,,,migrate,
-BJ8XF,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+BJ8VD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+BJ8XF,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJ9KL,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJ9KM,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 BJ9KM,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -5178,10 +5175,10 @@ BJ9KQ,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 BJ9KQ,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJ9KS,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 BJ9KS,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
-BJB3N,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+BJB3N,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJBQK,plazi-7f2d2fe5,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJC3G,plazi-7f2d2fe5,checklist,,,GU,,,,,,plazi,,,,migrate,
-BJDCL,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+BJDCL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJDP6,plazi-7f2d2fe5,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJDYZ,plazi-7f2d2fe5,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJS3Q,iom-17-2-cerambycidae,account,30,Ceresium guttaticolle yapense,FM,Ulithi | Yap,,,,,ocr,machine,,,migrate,2026-11-13
@@ -5189,8 +5186,8 @@ BJS3Q,iom-17-2-cerambycidae,mention,30 | 32,Ceresium guttaticolle,,,,,,,ocr,mach
 BJS3Q,plazi-7f2d2fe5,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJY5Y,iom-17-2-cerambycidae,account,72,Prosoplus bankii,GU | MP | PW,Guam | Palau | Rota,,,,,ocr,machine,,,migrate,2026-11-13
 BJY5Y,iom-17-2-cerambycidae,mention,10 | 72 | 73 | 74,Prosoplus bankii,,,,,,,ocr,machine,,,migrate,2026-11-13
-BJY5Y,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJY5Y,swezey-1942-misc-coleoptera-guam,account,21,Prosoplus bankii,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+BJY5Y,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 BJY5Y,swezey-1942-misc-coleoptera-guam,mention,21,Prosoplus bankii,,,,,,,text,machine,,,migrate,2026-11-13
 BJY66,iom-17-2-cerambycidae,account,76,Prosoplus xyalopus,,,,,,,ocr,machine,,,migrate,2026-11-13
 BJY66,iom-17-2-cerambycidae,mention,76,Prosoplus xyalopus,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -5233,7 +5230,7 @@ BXZT5,plazi-60161840,checklist,,,,,,,,,plazi,,,,migrate,
 BY247,plazi-607dcc60,checklist,,,GU,,,,,,plazi,,,,migrate,
 BY2GL,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 BY2KM,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
-BY2WD,plazi-8efcace3,checklist,,,,,,,,,plazi,,,,migrate,
+BY2WD,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,checklist,,,,,,,,,plazi,,,,migrate,
 BY2ZT,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 BY2ZV,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 BY3DT,plazi-607dcc60,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -5247,11 +5244,11 @@ BY4CC,plazi-60161840,checklist,,,,,,,,,plazi,,,,migrate,
 BY4GF,plazi-607dcc60,checklist,,,GU,,,,,,plazi,,,,migrate,
 BY4JS,plazi-3efb1a4f,checklist,,,GU,,,,,,plazi,,,,migrate,
 BY4K5,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
-BY4XL,plazi-8efcace3,checklist,,,,,,,,,plazi,,,,migrate,
+BY4XL,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,checklist,,,,,,,,,plazi,,,,migrate,
 BY5H5,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 BY8S7,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 BYD32,iom-14-7-hippoboscidae-streblidae,account,12,Olfersia ardeae,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-BYG8P,plazi-8efcace3,checklist,,,,,,,,,plazi,,,,migrate,
+BYG8P,sasakawa-2017-insects-of-micronesia-volume-14-no-10-dipt,checklist,,,,,,,,,plazi,,,,migrate,
 BYH88,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 BYKDX,plazi-7b960500,checklist,,,GU,,,,,,plazi,,,,migrate,
 BYPYP,plazi-607dcc60,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -5341,11 +5338,11 @@ CCCW9,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,mention,3 | 48 | 
 CCDQ2,plazi-2eb23bc8,checklist,,,GU,,,,,,plazi,,,,migrate,
 CCY9K,iom-14-1-tephritidae,account,21,Trypeta sororcula,,,,,,,text,machine,,,migrate,2026-11-13
 CCY9K,iom-14-1-tephritidae,mention,21,Trypeta sororcula,,,,,,,text,machine,,,migrate,2026-11-13
-CFDTP,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-CFZG2,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+CFDTP,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+CFZG2,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 CGB99,nafus-1989-biological-control-activities-in-the-mariana,mention,14,Lindorus lophanthae,,,,,,,text,machine,,,migrate,2026-11-13
-CGB99,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 CGB99,swezey-1942-misc-coleoptera-guam,account,12,Lindorus lophanthae,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+CGB99,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 CGB99,swezey-1942-misc-coleoptera-guam,mention,12,Lindorus lophanthae,,,,,,,text,machine,,,migrate,2026-11-13
 CGB99,terry-2009-cone-insects-and-putative-pollen-vectors-of-t,mention,4,Rhyzobius lophanthae,,,,,,,text,machine,,,migrate,2026-11-13
 CGBBK,nafus-1989-biological-control-activities-in-the-mariana,account,14,Rhyzobius satelles,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
@@ -5374,19 +5371,15 @@ CLCL4,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,42,Campon
 CLCNJ,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,15 | 43,Camponotus eperiamorum,FM | MH,Marshall Is. | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 CLCNJ,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,15 | 32 | 43,Camponotus eperiamorum,,,,,,,text,machine,,,migrate,2026-11-13
 CLCNJ,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
-CLCNJ,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 CLCNL,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,44,Camponotus eryhtrocephalus,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
 CLCNL,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,15,Camponotus erythrocephalus,,,,,,,text,machine,,,migrate,2026-11-13
 CLCNL,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
-CLCNL,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 CLCNR,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,44,Camponotus flavicomans,PW,Babeldaob | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 CLCNR,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,15 | 31 | 44,Camponotus flavicomans,,,,,,,text,machine,,,migrate,2026-11-13
 CLCNR,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
-CLCNR,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 CLCPW,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,44,Camponotus marianensis,MP,Rota | Saipan | Tinian,,,,,text,machine,,,migrate,2026-11-13
 CLCPW,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,15 | 31 | 44,Camponotus marianensis,,,,,,,text,machine,,,migrate,2026-11-13
 CLCPW,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
-CLCPW,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 CLCQ7,plazi-cafcb311,checklist,,,,,,,,,plazi,,,,migrate,
 CLCR8,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,44,Camponotus peleliuensis,PW,Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
 CLCR8,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,15 | 31 | 44 | 121,Camponotus peleliuensis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5421,7 +5414,6 @@ CMHBK,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,51,Paratr
 CMLSQ,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,13 | 72,Pheidole recondita,GU | MP | PW | FM,Anatahan | Chuuk | Guam | Kosrae | Palau | Pohnpei | Rota | Yap,,,,,text,machine,,,migrate,2026-11-13
 CMLSQ,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,11 | 13 | 14 | 17 | 27 | 70 | 72 | 75 | 113 | 123,Pheidole recondita,,,,,,,text,machine,,,migrate,2026-11-13
 CMLSQ,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
-CMLSQ,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 CMP45,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,99,Pachycondyla stigma,PW | FM,Angaur | Babeldaob | Chuuk | Elato | Ifalik | Koror | Kosrae | Ngulu | Palau | Peleliu | Pohnpei | Yap,,,,,text,machine,,,migrate,2026-11-13
 CMP45,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 99 | 122,Pachycondyla stigma,,,,,,,text,machine,,,migrate,2026-11-13
 CMPKZ,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,17 | 67,Pristomyrmex largus,PW | FM | MH,Chuuk | Kosrae | Marshall Is. | Palau | Pohnpei | Yap,,,,,text,machine,,,migrate,2026-11-13
@@ -5453,21 +5445,19 @@ CN25B,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 CN4MJ,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,18 | 64,Vollenhovia kaselela,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 CN4MJ,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,18 | 22 | 64 | 66 | 119 | 120 | 125,Vollenhovia kaselela,,,,,,,text,machine,,,migrate,2026-11-13
 CN4MJ,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
-CN4MJ,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 CN4MV,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,64,Vollenhovia mwereka,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 CN4MV,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,14 | 18 | 22 | 64 | 120 | 125,Vollenhovia mwereka,,,,,,,text,machine,,,migrate,2026-11-13
 CN4MV,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
 CN4N3,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,65,Vollenhovia pwidikidika,FM,Chuuk | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 CN4N3,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,19 | 22 | 65 | 120 | 125,Vollenhovia pwidikidika,,,,,,,text,machine,,,migrate,2026-11-13
 CN4N3,plazi-2c7e0e7d,checklist,,,,,,,,,plazi,,,,migrate,
-CN4N3,plazi-daea9e8b,checklist,,,,,,,,,plazi,,,,migrate,
 CNM5Z,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,account,45,Conocephalus semivittatus semivittatus,PW,Palau | Tobi,,,,,text,machine,,,migrate,2026-11-13
 CNM5Z,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,mention,45,Conocephalus semivittatus semivittatus,,,,,,,text,machine,,,migrate,2026-11-13
 CSXTC,iom-6-2-aphididae,account,19,Oregma bambusae carolinensis,,,,,,,ocr,machine,,,migrate,2026-11-13
 CSXTC,iom-6-2-aphididae,mention,19,Oregma bambusae carolinensis,,,,,,,ocr,machine,,,migrate,2026-11-13
-DBNX3,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+DBNX3,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 DDM44,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
-DDPBN,plazi-25a9c8d4,checklist,,,GU,,,,,,plazi,,,,migrate,
+DDPBN,zimmerman-rhipiceridae-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 DDPFV,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
 DQN84,iom-15-1-carabidae-incl-cicindelinae,account,10 | 11,Pseudozaena orientalis opaca,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 FJ58D,iom-9-2-gelechioidea,account,3,Elaeonoma adeneia,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5494,30 +5484,30 @@ KTD2T,iom-5-2-dermaptera,mention,5 | 10 | 14 | 15 | 40 | 41 | 45,Labia curvicaud
 KTD2T,kevan-1997-an-annotated-provisional-list-of-non-saltator,account,50,Paralabellula curvicauda,GU | MP | PW | FM | MH,Angaur | Arno | Babeldaob | Chuuk | Guam | Jaluit | Kapingamarangi | Koror | Kosrae | Kwajalein | Majuro | Peleliu | Pingelap | Pohnpei | Saipan | Tinian | Ulithi | Yap,,,,,text,machine,,,migrate,2026-11-13
 KTD2T,kevan-1997-an-annotated-provisional-list-of-non-saltator,mention,50,Paralabellula curvicauda,,,,,,,text,machine,,,migrate,2026-11-13
 KTD2T,plazi-16f6ef92,checklist,,,GU,,,,,,plazi,,,,migrate,
-KTY3G,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+KTY3G,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 KTYGS,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 KTYMX,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
-KV2JX,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KV2KY,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+KV2JX,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KV2KY,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 KV3ZY,plazi-cadac5b6,checklist,,,GU,,,,,,plazi,,,,migrate,
 KV6WR,iom-12-8-tipulidae,account,32,Limonia magnistyla,GU | PW,Guam | Koror,,,,,text,machine,,,migrate,2026-11-13
 KVC57,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVC9L,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 KVC9L,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVC9L,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 KVGBX,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVHSB,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVHSB,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 KVJZZ,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVK6J,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVKXL,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVNMC,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVQDZ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVK6J,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVKXL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVNMC,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVQDZ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 KVSMC,plazi-984523ac,checklist,,,,,,,,,plazi,,,,migrate,
-KVT7L,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVWC6,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVWMB,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVX64,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVT7L,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVWC6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVWMB,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 KVX64,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
-KVX7X,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVX64,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KVX7X,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 KVXS6,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 KW475,iom-17-4-scarabaeidae,account,26,Lepidiota furtiva,PW,Koror | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
 KW475,iom-17-4-scarabaeidae,mention,3 | 22 | 26,Lepidiota furtiva,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5526,19 +5516,19 @@ KW47C,iom-17-4-scarabaeidae,mention,3 | 22 | 24 | 26 | 34,Lepidiota dybasi,,,,,,
 KW47V,iom-17-4-scarabaeidae,account,24,Lepidiota carolinensis,GU | PW,Babeldaob | Guam | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
 KZP2V,iom-6-2-aphididae,account,14,Aphis camelliae,GU,Guam,,,,,ocr,machine,,,migrate,2026-11-13
 KZP2V,iom-6-2-aphididae,mention,14,Aphis camelliae,,,,,,,ocr,machine,,,migrate,2026-11-13
-KZRL6,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KZV8P,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KZXVR,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-KZXWS,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+KZRL6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KZV8P,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KZXVR,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+KZXWS,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 L2B9Y,iom-7-7-coreidae-neididae-nabidae,account,12,Leptocoris lariversi,MH,Kwajalein | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 L2G7D,crop-pests-micronesia,checklist,,,PW,Palau,,,,,checklist,,,,migrate,
 L2G7D,kevan-1997-acridoidea-and-related-orthoptera-grasshopper,mention,8,Oxya japonica,,,,,,,text,machine,,,migrate,2026-11-13
 L2MM8,iom-16-1-elateridae,account,50,Melanoxanthus sannio,PW,Angaur | Palau,,,,,text,machine,,,migrate,2026-11-13
-L2QQB,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-L2QQX,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+L2QQB,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+L2QQX,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 L2QZK,iom-17-2-cerambycidae,account,90,Sybra chamorro,,,,,,,ocr,machine,,,migrate,2026-11-13
 L2QZK,iom-17-2-cerambycidae,mention,88 | 90 | 91,Sybra chamorro,,,,,,,text,machine,,,migrate,2026-11-13
-L2RCN,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+L2RCN,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 L64G8,plazi-ba12cd1a,checklist,,,GU,,,,,,plazi,,,,migrate,
 L64GB,iom-7-7-pentatomoidea,account,11,Adrisa flavomarginata,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 L64GB,iom-7-7-pentatomoidea,mention,3 | 11 | 12,Adrisa flavomarginata,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5556,8 +5546,8 @@ L8G3B,iom-7-7-pentatomoidea,mention,3 | 4 | 46,Alciphron glaucus,,,,,,,text,mach
 L8G3B,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 LB697,iom-17-3-tenebrionidae,account,42,Scotochares insularis,,,,,,,text,machine,,,migrate,2026-11-13
 LB697,iom-17-3-tenebrionidae,mention,4 | 42,Scotochares insularis,,,,,,,text,machine,,,migrate,2026-11-13
-LB697,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 LB697,swezey-1942-misc-coleoptera-guam,account,17,Scotochares insularis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+LB697,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 LB697,swezey-1942-misc-coleoptera-guam,mention,17,Scotochares insularis,,,,,,,text,machine,,,migrate,2026-11-13
 LCFDC,iom-7-8-anthocoridae,account,12,Xylocoris fulvescens,,,,,,,text,machine,,,migrate,2026-11-13
 LCFDC,iom-7-8-anthocoridae,mention,12,Xylocoris fulvescens,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5574,8 +5564,8 @@ LHFZW,iom-7-8-anthocoridae,mention,1 | 13,Buchananiella sodalis,,,,,,,text,machi
 LHFZW,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 LJGHG,iom-17-3-tenebrionidae,account,41,Alphitobius laevigatus,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 LJGHG,iom-17-3-tenebrionidae,mention,4 | 41,Alphitobius laevigatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
-LJGHG,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 LJGHG,swezey-1942-misc-coleoptera-guam,account,16,Alphitobius laevigatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+LJGHG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 LJGHG,swezey-1942-misc-coleoptera-guam,mention,16,Alphitobius laevigatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 LKTX5,iom-17-1-chrysomelidae,account,34,Altica jussiaeae,PW | FM,Babeldaob | Koror | Ngerekebesang | Palau | Peleliu | Yap,,,,,text,machine,,,migrate,2026-11-13
 LKTX5,iom-17-1-chrysomelidae,mention,3 | 34 | 35,Altica jussiaeae,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5587,7 +5577,7 @@ LLBCF,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 LLSY6,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 LM4QF,iom-16-5-anthicidae,account,12,Anthicus insularis,FM,Kosrae,,,,,text,machine,,,migrate,2026-11-13
 LM4QF,iom-16-5-anthicidae,mention,2 | 3 | 4 | 12,Anthicus insularis,,,,,,,text,machine,,,migrate,2026-11-13
-LMG6Q,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+LMG6Q,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 LPXHN,crop-pests-micronesia,checklist,,,PW | FM,Palau | Yap,,,,,checklist,,,,migrate,
 LPXHN,iom-17-1-chrysomelidae,account,28,Galeruca similis,MP | PW,Koror | Palau | Saipan,,,,,text,machine,,,migrate,2026-11-13
 LPXHN,iom-17-1-chrysomelidae,mention,28 | 29,Aulacophora similis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5604,8 +5594,8 @@ LWFYS,iom-7-4-lygaeidae,mention,37 | 38 | 39,Cligenes marianensis,,,,,,,text,mac
 LWFYS,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 LWPJ4,iom-16-5-coccinellidae,account,59,Azya luteipes,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 LWPJ4,iom-16-5-coccinellidae,mention,58 | 59,Azya luteipes,,,,,,,text,machine,,,migrate,2026-11-13
-LWPJ4,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 LWPJ4,swezey-1942-misc-coleoptera-guam,account,11,Azya luteipes,,,,,,,text,machine,,,migrate,2026-11-13
+LWPJ4,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 LWPJ4,swezey-1942-misc-coleoptera-guam,mention,11,Azya luteipes,,,,,,,text,machine,,,migrate,2026-11-13
 LWPJG,iom-16-5-coccinellidae,mention,2 | 4 | 59,Azya orbigera,,,,,,,text,machine,,,migrate,2026-11-13
 LWPJG,nafus-1989-biological-control-activities-in-the-mariana,mention,5 | 15,Azya orbigera,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5616,23 +5606,23 @@ LZS84,plazi-ba12cd1a,checklist,,,GU,,,,,,plazi,,,,migrate,
 LZSBF,plazi-ba12cd1a,checklist,,,GU,,,,,,plazi,,,,migrate,
 M36D5,iom-16-2-lampyridae-cantharidae-malachiidae-prionocerida,account,3,Maltypus marquesanus,FM,Chuuk | Fais | Ngulu,,,,,text,machine,,,migrate,2026-11-13
 M3BP3,nafus-1989-biological-control-activities-in-the-mariana,mention,7 | 22 | 23,Campsomeris annulata,,,,,,,text,machine,,,migrate,2026-11-13
-M3CXR,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3CXR,swezey-1942-misc-coleoptera-guam,account,8,Bitoma siccana,,,,,,,text,machine,,,migrate,2026-11-13
+M3CXR,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3CXR,swezey-1942-misc-coleoptera-guam,mention,8,Bitoma siccana,,,,,,,text,machine,,,migrate,2026-11-13
-M3FNZ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-M3JS7,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+M3FNZ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+M3JS7,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3JSM,iom-17-3-tenebrionidae,account,15,Bradymerus acuticostis,,,,,,,text,machine,,,migrate,2026-11-13
 M3JSM,iom-17-3-tenebrionidae,mention,15 | 16,Bradymerus acuticostis,,,,,,,text,machine,,,migrate,2026-11-13
-M3JSM,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3JSM,swezey-1942-misc-coleoptera-guam,account,16,Bradymerus acuticostis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+M3JSM,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3JSM,swezey-1942-misc-coleoptera-guam,mention,16,Bradymerus acuticostis,,,,,,,text,machine,,,migrate,2026-11-13
 M3X8W,iom-16-4-nitidulidae,account,16,Carpophilus biguttatus,MP | MH,Marshall Is. | Rota,,,,,text,machine,,,migrate,2026-11-13
 M3X8W,iom-16-4-nitidulidae,mention,16,Carpophilus biguttatus,,,,,,,text,machine,,,migrate,2026-11-13
 M3XKM,evenhuis-et-al-2010-pagan-island,mention,58,Carpophilus dimidiatus,,,,,,,text,machine,,,migrate,2026-11-13
 M3XKM,iom-16-4-nitidulidae,account,16,Carpophilus dimidiatus,,,,,,,text,machine,,,migrate,2026-11-13
 M3XKM,iom-16-4-nitidulidae,mention,4 | 16 | 22 | 26,Carpophilus dimidiatus,,,,,,,text,machine,,,migrate,2026-11-13
-M3XKM,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3XKM,swezey-1942-misc-coleoptera-guam,account,6,Carpophilus vittiger,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+M3XKM,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3XKM,swezey-1942-misc-coleoptera-guam,mention,6,Carpophilus vittiger,,,,,,,text,machine,,,migrate,2026-11-13
 M3XKM,terry-2009-cone-insects-and-putative-pollen-vectors-of-t,mention,12,Carpophilus dimidiatus,,,,,,,text,machine,,,migrate,2026-11-13
 M3XLX,iom-16-4-nitidulidae,account,18,Carpophilus maculatus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5670,13 +5660,13 @@ MHPW7,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
 MHX8H,iom-16-5-coccinellidae,account,27,Coelophora inaequalis,,,,,,,text,machine,,,migrate,2026-11-13
 MHX8H,iom-16-5-coccinellidae,mention,4 | 26 | 27,Coelophora inaequalis,,,,,,,text,machine,,,migrate,2026-11-13
 MHX8H,nafus-1989-biological-control-activities-in-the-mariana,mention,12,Coelophora inaequalis,,,,,,,text,machine,,,migrate,2026-11-13
-MHX8H,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 MHX8H,swezey-1942-misc-coleoptera-guam,account,10,Coelophora inaequalis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+MHX8H,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 MHX8H,swezey-1942-misc-coleoptera-guam,mention,10,Coelophora inaequalis,,,,,,,text,machine,,,migrate,2026-11-13
 MHXBJ,iom-16-5-coccinellidae,account,29,Anisolemnia mulsanti,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 MHXBJ,iom-16-5-coccinellidae,mention,29,Anisolemnia mulsanti,,,,,,,text,machine,,,migrate,2026-11-13
-MHXBJ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 MHXBJ,swezey-1942-misc-coleoptera-guam,account,10,Anisolemnia mulsanti,,,,,,,text,machine,,,migrate,2026-11-13
+MHXBJ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 MHXBJ,swezey-1942-misc-coleoptera-guam,mention,10,Anisolemnia mulsanti,,,,,,,text,machine,,,migrate,2026-11-13
 MK5CJ,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 MK5CJ,nafus-1991-movement-of-new-insects-into-the-carolines-an,account,5,Chaetocnema confinis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5700,9 +5690,9 @@ MNZ6L,iom-6-7-coccoidea,account,123 | 124,Asterolecanium miliaris,GU | MP | PW |
 MNZ6L,iom-6-7-coccoidea,mention,123 | 124 | 125,Asterolecanium miliaris,,,,,,,ocr,machine,,,migrate,2026-11-13
 MNZ6X,iom-6-7-coccoidea,account,124,Asterolecanium pseudolanceolatum,FM,Pohnpei,,,,,ocr,machine,,,migrate,2026-11-13
 MNZ6X,iom-6-7-coccoidea,mention,124,Asterolecanium pseudolanceolatum,,,,,,,ocr,machine,,,migrate,2026-11-13
-MPQSL,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-MPQV9,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+MPQSL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 MPQV9,swezey-1942-misc-coleoptera-guam,account,8,Colobicus parilis,,,,,,,text,machine,,,migrate,2026-11-13
+MPQV9,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 MPQV9,swezey-1942-misc-coleoptera-guam,mention,8,Colobicus parilis,,,,,,,text,machine,,,migrate,2026-11-13
 MS92D,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
 MSR42,evenhuis-et-al-2010-pagan-island,mention,58,Menochilus sexmaculatus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5727,7 +5717,7 @@ MZX2K,iom-16-5-coccinellidae,account,61,Cryptognatha nodiceps,,,,,,,text,machine
 MZX2K,iom-16-5-coccinellidae,mention,4 | 61,Cryptognatha nodiceps,,,,,,,text,machine,,,migrate,2026-11-13
 MZX2K,nafus-1989-biological-control-activities-in-the-mariana,account,14,Cryptognatha nodiceps,GU | MP | PW | FM,Guam | Palau | Pohnpei | Rota | Saipan,,,,,text,machine,,,migrate,2026-11-13
 MZX2K,nafus-1989-biological-control-activities-in-the-mariana,mention,3 | 14 | 15,Cryptognatha nodiceps,,,,,,,text,machine,,,migrate,2026-11-13
-N22QJ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+N22QJ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 N22SV,adap-2000-7-green-scale-coccus-viridis,mention,1,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
 N22SV,evenhuis-et-al-2010-pagan-island,mention,58,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
 N22SV,iom-1-introduction,account,246,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5736,15 +5726,15 @@ N22SV,iom-16-5-coccinellidae,account,11,Cryptolaemus montrouzieri,,,,,,,text,mac
 N22SV,iom-16-5-coccinellidae,mention,10 | 11 | 12,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
 N22SV,muniappan-1980-biological-control-of-the-palau-coconut-b,mention,2,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
 N22SV,nafus-1989-biological-control-activities-in-the-mariana,mention,5,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
-N22SV,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 N22SV,swezey-1942-misc-coleoptera-guam,account,10,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
+N22SV,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 N22SV,swezey-1942-misc-coleoptera-guam,mention,10 | 11,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
 N22SV,viraktamath-2002-alien-invasive-insect-and-mite-pests-an,mention,6,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
 N22SV,williams-2006-report-on-the-scale-insect-icerya-imperata,mention,6,Cryptolaemus montrouzieri,,,,,,,text,machine,,,migrate,2026-11-13
 N2KKB,iom-16-5-coccinellidae,account,34,Coccinella repanda,MH,Likiep,,,,,text,machine,,,migrate,2026-11-13
 N2KKB,swezey-1942-misc-coleoptera-guam,account,10,Coccinella repanda,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-N2KX2,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 N2KX2,swezey-1942-misc-coleoptera-guam,account,10,Coccinella transversalis,,,,,,,text,machine,,,migrate,2026-11-13
+N2KX2,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 N2KX2,swezey-1942-misc-coleoptera-guam,mention,10,Coccinella transversalis,,,,,,,text,machine,,,migrate,2026-11-13
 N3QYQ,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
 N3S2S,crop-pests-micronesia,checklist,,,PW | FM,Chuuk | Palau | Yap,,,,,checklist,,,,migrate,
@@ -5772,15 +5762,15 @@ NCT74,iom-7-8-anthocoridae,mention,16,Lasiochilus swezeyi,,,,,,,text,machine,,,m
 NCT74,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 NDJDK,iom-16-3-dermestidae,account,5,Dermestes maculatus,,,,,,,text,machine,,,migrate,2026-11-13
 NDJDK,iom-16-3-dermestidae,mention,2 | 5,Dermestes maculatus,,,,,,,text,machine,,,migrate,2026-11-13
-NDM47,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 NDM47,swezey-1942-misc-coleoptera-guam,account,13,Enochrus rubrocinctus,,,,,,,text,machine,,,migrate,2026-11-13
+NDM47,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NDM47,swezey-1942-misc-coleoptera-guam,mention,13,Enochrus rubrocinctus,,,,,,,text,machine,,,migrate,2026-11-13
-NF4R8,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+NF4R8,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NF4TC,evenhuis-et-al-2010-pagan-island,mention,58,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
 NF4TC,iom-17-3-tenebrionidae,account,49,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
 NF4TC,iom-17-3-tenebrionidae,mention,5 | 49,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
-NF4TC,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 NF4TC,swezey-1942-misc-coleoptera-guam,account,17,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
+NF4TC,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NF4TC,swezey-1942-misc-coleoptera-guam,mention,17,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
 NFDDW,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 NFDFD,iom-16-2-anobiidae,account,6,Dorcatomiella guamensis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
@@ -5796,8 +5786,8 @@ NMK5W,plazi-2930c6b8,checklist,,,GU,,,,,,plazi,,,,migrate,
 NNH8B,plazi-592c9898,checklist,,,GU,,,,,,plazi,,,,migrate,
 NP8QV,iom-7-7-pentatomoidea,account,28,Eysarcoris insularis,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 NV5LX,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
-NV6L7,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 NV6L7,swezey-1942-misc-coleoptera-guam,account,3,Espeson crenicollis,,,,,,,text,machine,,,migrate,2026-11-13
+NV6L7,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NV6L7,swezey-1942-misc-coleoptera-guam,mention,3,Espeson crenicollis,,,,,,,text,machine,,,migrate,2026-11-13
 NV9Q2,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 NV9XL,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -5809,19 +5799,19 @@ NX6XS,schreiner-1991-sources-of-new-insects-established-on-gua,account,4,Epitrix
 NX6XS,schreiner-1991-sources-of-new-insects-established-on-gua,mention,4,Epitrix hirtipennis,,,,,,,text,machine,,,migrate,2026-11-13
 NX7WB,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 NXP37,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
-NXQTM,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+NXQTM,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NXQW6,iom-16-4-nitidulidae,account,44,Haptoncus ocularis,,,,,,,text,machine,,,migrate,2026-11-13
 NXQW6,iom-16-4-nitidulidae,mention,44,Haptoncus ocularis,,,,,,,text,machine,,,migrate,2026-11-13
-NXQW6,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 NXQW6,swezey-1942-misc-coleoptera-guam,account,6,Haptoncus ocularis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+NXQW6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NXQW6,swezey-1942-misc-coleoptera-guam,mention,6,Haptoncus ocularis,,,,,,,text,machine,,,migrate,2026-11-13
 P5J8S,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 P8H66,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
-P97HD,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+P97HD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 P97J9,iom-17-3-tenebrionidae,account,42,Eutochia lateralis,,,,,,,text,machine,,,migrate,2026-11-13
 P97J9,iom-17-3-tenebrionidae,mention,4 | 42,Eutochia lateralis,,,,,,,text,machine,,,migrate,2026-11-13
-P97J9,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 P97J9,swezey-1942-misc-coleoptera-guam,account,16,Eutochia lateralis,,,,,,,text,machine,,,migrate,2026-11-13
+P97J9,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 P97J9,swezey-1942-misc-coleoptera-guam,mention,16,Eutochia lateralis,,,,,,,text,machine,,,migrate,2026-11-13
 P9KMB,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
 PBC7G,crop-pests-micronesia,checklist,,,PW | FM,Chuuk | Kosrae | Palau | Pohnpei,,,,,checklist,,,,migrate,
@@ -5835,8 +5825,8 @@ PBJ4V,iom-17-3-tenebrionidae,account,9,Gonocephalum adpressiforme,,,,,,,text,mac
 PBJ4V,iom-17-3-tenebrionidae,mention,3 | 9,Gonocephalum adpressiforme,,,,,,,text,machine,,,migrate,2026-11-13
 PBJSV,iom-17-3-tenebrionidae,account,10,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
 PBJSV,iom-17-3-tenebrionidae,mention,3 | 9 | 10,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
-PBJSV,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 PBJSV,swezey-1942-misc-coleoptera-guam,account,16,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
+PBJSV,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 PBJSV,swezey-1942-misc-coleoptera-guam,mention,16,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
 PCND5,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 PCNNZ,iom-7-7-pentatomoidea,account,10,Geotomus subtristis,MH,Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
@@ -5864,15 +5854,15 @@ PMMQJ,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
 PMPVX,iom-17-3-tenebrionidae,account,45,Hypophloeus maehleri,GU | PW | FM,Babeldaob | Chuuk | Guam | Koror | Kosrae | Palau | Peleliu | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 PNHTF,iom-16-4-nitidulidae,account,42,Haptoncus luteolus,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 PNHTF,iom-16-4-nitidulidae,mention,42 | 46,Haptoncus luteolus,,,,,,,text,machine,,,migrate,2026-11-13
-PNHTF,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 PNHTF,swezey-1942-misc-coleoptera-guam,account,6,Haptoncus luteolus,,,,,,,text,machine,,,migrate,2026-11-13
+PNHTF,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 PNHTF,swezey-1942-misc-coleoptera-guam,mention,6,Haptoncus luteolus,,,,,,,text,machine,,,migrate,2026-11-13
-PNVXT,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+PNVXT,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 PNW9L,iom-16-5-coccinellidae,account,39,Harmonia arcuata,,,,,,,text,machine,,,migrate,2026-11-13
 PNW9L,iom-16-5-coccinellidae,mention,39,Harmonia arcuata,,,,,,,text,machine,,,migrate,2026-11-13
 PNW9L,nafus-1989-biological-control-activities-in-the-mariana,mention,12,Harmonia arcuata,,,,,,,text,machine,,,migrate,2026-11-13
-PNW9L,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 PNW9L,swezey-1942-misc-coleoptera-guam,account,9,Harmonia arcuata,,,,,,,text,machine,,,migrate,2026-11-13
+PNW9L,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 PNW9L,swezey-1942-misc-coleoptera-guam,mention,9 | 10,Harmonia arcuata,,,,,,,text,machine,,,migrate,2026-11-13
 PNW9L,waterhouse-1991-possibilities-for-the-biological-control,account,3,Harmonia arcuata,,,,,,,text,machine,,,migrate,2026-11-13
 PNW9L,waterhouse-1991-possibilities-for-the-biological-control,mention,3,Harmonia arcuata,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5914,8 +5904,8 @@ Q8Q9T,iom-7-8-anthocoridae,mention,17 | 20 | 21,Lasiochilus ather,,,,,,,text,mac
 Q8SGL,iom-13-2-omphralidae,mention,3,Lasioderma serricorne,,,,,,,text,machine,,,migrate,2026-11-13
 Q8SGL,iom-16-2-anobiidae,account,3,Lasioderma serricorne,GU | PW,Guam | Palau,,,,,text,machine,,,migrate,2026-11-13
 Q8SGL,iom-16-2-anobiidae,mention,1 | 2 | 3,Lasioderma serricorne,,,,,,,text,machine,,,migrate,2026-11-13
-Q8SGL,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 Q8SGL,swezey-1942-misc-coleoptera-guam,account,14,Lasioderma serricorne,,,,,,,text,machine,,,migrate,2026-11-13
+Q8SGL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 Q8SGL,swezey-1942-misc-coleoptera-guam,mention,14,Lasioderma serricorne,,,,,,,text,machine,,,migrate,2026-11-13
 Q94QM,iom-12-8-tipulidae,account,32,Limonia fullawayi fullawayi,,,,,,,ocr,machine,,,migrate,2026-11-13
 Q94QM,iom-12-8-tipulidae,mention,4 | 32,Limonia fullawayi,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5933,9 +5923,9 @@ QJ224,iom-16-1-elateridae,account,33,Conoderus pallipes,,,,,,,text,machine,,,mig
 QJ224,iom-16-1-elateridae,mention,4 | 33,Conoderus pallipes,,,,,,,text,machine,,,migrate,2026-11-13
 QJ224,iom-16-7-elateridae-suppl,account,4,Conoderus pallipes,,,,,,,ocr,machine,,,migrate,2026-11-13
 QJ224,iom-16-7-elateridae-suppl,mention,2 | 4,Conoderus pallipes,,,,,,,ocr,machine,,,migrate,2026-11-13
-QKJJ8,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-QKJLJ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+QKJJ8,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QKJLJ,swezey-1942-misc-coleoptera-guam,account,8,Neotrichus latiusculus,,,,,,,text,machine,,,migrate,2026-11-13
+QKJLJ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QKJLJ,swezey-1942-misc-coleoptera-guam,mention,8,Neotrichus latiusculus,,,,,,,text,machine,,,migrate,2026-11-13
 QKLXT,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 QKM5R,iom-7-7-coreidae-neididae-nabidae,account,31,Nabis capsiformis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5956,12 +5946,12 @@ QLZGN,iom-6-9-cicadellidae-suppl,mention,16,Nephotettix apicalis,,,,,,,text,mach
 QM5KC,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 QM5KC,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
 QM97Q,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
-QMSH6,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+QMSH6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QMSZ7,evenhuis-et-al-2010-pagan-island,mention,58,Nephus roepkei,,,,,,,text,machine,,,migrate,2026-11-13
 QMSZ7,iom-16-5-coccinellidae,account,13,Nephus roepkei,,,,,,,text,machine,,,migrate,2026-11-13
 QMSZ7,iom-16-5-coccinellidae,mention,4 | 13,Nephus roepkei,,,,,,,text,machine,,,migrate,2026-11-13
-QP7BS,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 QP7BS,swezey-1942-misc-coleoptera-guam,account,7,Inopeplus metallescens,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+QP7BS,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QP7BS,swezey-1942-misc-coleoptera-guam,mention,7,Inopeplus metallescens,,,,,,,text,machine,,,migrate,2026-11-13
 QR4SQ,iom-7-4-lygaeidae,account,7,Nysius caledoniae,,,,,,,ocr,machine,,,migrate,2026-11-13
 QR4SQ,iom-7-4-lygaeidae,mention,7,Nysius caledoniae,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -5978,20 +5968,20 @@ QSBYQ,iom-7-7-pentatomoidea,account,45,Nezara viridula,,,,,,,text,machine,,,migr
 QSBYQ,iom-7-7-pentatomoidea,mention,3 | 45,Nezara viridula,,,,,,,text,machine,,,migrate,2026-11-13
 QSBYQ,nafus-1989-biological-control-activities-in-the-mariana,mention,4 | 17,Nezara viridula,,,,,,,text,machine,,,migrate,2026-11-13
 QSBYQ,sands-1991-banana-skipper-erionota-thrax-l-lepidoptera-h,mention,7,Nezara viridula,,,,,,,text,machine,,,migrate,2026-11-13
-QSCFT,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-QSCFY,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+QSCFT,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QSCFY,swezey-1942-misc-coleoptera-guam,account,5,Melambia cordicollis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+QSCFY,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QSCFY,swezey-1942-misc-coleoptera-guam,mention,5,Melambia cordicollis,,,,,,,text,machine,,,migrate,2026-11-13
 QTTRR,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 QTTRR,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
-QV537,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-QV53T,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+QV537,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QV53T,swezey-1942-misc-coleoptera-guam,account,9,Ocholissa humeralis,,,,,,,text,machine,,,migrate,2026-11-13
+QV53T,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QV53T,swezey-1942-misc-coleoptera-guam,mention,9,Ocholissa humeralis,,,,,,,text,machine,,,migrate,2026-11-13
 QWF4G,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
 QWS24,evenhuis-et-al-2010-pagan-island,mention,58,Necrobia rufipes,,,,,,,text,machine,,,migrate,2026-11-13
-QWS24,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 QWS24,swezey-1942-misc-coleoptera-guam,account,14,Necrobia rufipes,,,,,,,text,machine,,,migrate,2026-11-13
+QWS24,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QWS24,swezey-1942-misc-coleoptera-guam,mention,14,Necrobia rufipes,,,,,,,text,machine,,,migrate,2026-11-13
 QXFXK,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
 QXGFZ,iom-16-1-elateridae,account,43,Melanoxanthus guamensis,GU | MP,Guam | Saipan,,,,,text,machine,,,migrate,2026-11-13
@@ -6005,12 +5995,12 @@ QXGND,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
 QXGX9,iom-16-1-elateridae,account,36,Melanoxanthus usingeri,GU | MP | FM,Chuuk | Guam | Lamotrek | Saipan | Tinian | Ulithi,,,,,text,machine,,,migrate,2026-11-13
 QXGX9,iom-16-1-elateridae,mention,36,Melanoxanthus usingeri,,,,,,,text,machine,,,migrate,2026-11-13
 QXGX9,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-QYHC7,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 QYHC7,swezey-1942-misc-coleoptera-guam,account,7,Oryzaephilus surinamensis,,,,,,,text,machine,,,migrate,2026-11-13
+QYHC7,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QYHC7,swezey-1942-misc-coleoptera-guam,mention,7,Oryzaephilus surinamensis,,,,,,,text,machine,,,migrate,2026-11-13
-QZQBF,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-QZQDB,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+QZQBF,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QZQDB,swezey-1942-misc-coleoptera-guam,account,8,Metophthalmus albofasciatus,,,,,,,text,machine,,,migrate,2026-11-13
+QZQDB,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QZQDB,swezey-1942-misc-coleoptera-guam,mention,8,Metophthalmus albofasciatus,,,,,,,text,machine,,,migrate,2026-11-13
 R3Q4N,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 R3QLC,iom-7-3-aradidae,account,50,Mezira marianensis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6058,8 +6048,8 @@ RLD8Z,iom-6-7-coccoidea,mention,178 | 179 | 180,Pinnaspis aspidistrae,,,,,,,ocr,
 RPPBJ,iom-17-3-tenebrionidae,account,35,Palorus subdepressus,MP,Tinian,,,,,text,machine,,,migrate,2026-11-13
 RPPBJ,iom-17-3-tenebrionidae,mention,35,Palorus subdepressus,,,,,,,text,machine,,,migrate,2026-11-13
 RPPBL,iom-17-3-tenebrionidae,account,35,Palorus ratzeburgi,,,,,,,text,machine,,,migrate,2026-11-13
-RPPBL,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 RPPBL,swezey-1942-misc-coleoptera-guam,account,17,Palorus ratzeburgi,,,,,,,text,machine,,,migrate,2026-11-13
+RPPBL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 RPPBL,swezey-1942-misc-coleoptera-guam,mention,17,Palorus ratzeburgi,,,,,,,text,machine,,,migrate,2026-11-13
 RQ7BP,iom-7-7-pentatomoidea,account,34,Pegala laevis,,,,,,,text,machine,,,migrate,2026-11-13
 RQ7BP,iom-7-7-pentatomoidea,mention,3 | 34,Pegala laevis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6079,7 +6069,7 @@ S3GYK,iom-7-8-anthocoridae,mention,21,Cardiastethus mundulus,,,,,,,text,machine,
 S3GYK,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 S4WSQ,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 S4WSQ,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
-S5DZV,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+S5DZV,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 S6BDM,iom-7-4-lygaeidae,account,28,Pachybrachius palauensis,,,,,,,ocr,machine,,,migrate,2026-11-13
 S6BDM,iom-7-4-lygaeidae,mention,28 | 29,Pachybrachius palauensis,,,,,,,ocr,machine,,,migrate,2026-11-13
 S6BFB,evenhuis-et-al-2010-pagan-island,mention,61,Pachybrachius nigriceps,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6089,10 +6079,10 @@ S6BFB,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 S6QP7,iom-7-4-lygaeidae,account,24,Pachybrachius pacificus,GU | PW | MH,Guam | Kayangel | Koror | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 S6QP7,iom-7-4-lygaeidae,mention,24,Pachybrachius pacificus,,,,,,,text,machine,,,migrate,2026-11-13
 S6QP7,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
-S7NVZ,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 S7NVZ,swezey-1942-misc-coleoptera-guam,account,7,Psammoecus insularis,,,,,,,text,machine,,,migrate,2026-11-13
+S7NVZ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 S7NVZ,swezey-1942-misc-coleoptera-guam,mention,7,Psammoecus insularis,,,,,,,text,machine,,,migrate,2026-11-13
-S9834,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+S9834,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 S983C,beardsley-1993-exotic-terrestrial-arthropods-in-the-hawa,account,2,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
 S983C,beardsley-1993-exotic-terrestrial-arthropods-in-the-hawa,mention,2,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
 S983C,iom-16-5-coccinellidae,account,50,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6100,8 +6090,8 @@ S983C,iom-16-5-coccinellidae,mention,49 | 50 | 51,Rodolia cardinalis,,,,,,,text,
 S983C,iom-6-7-coccoidea,mention,23,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
 S983C,nafus-1989-biological-control-activities-in-the-mariana,account,16,Rodolia cardinalis,GU | MP,Guam | Saipan,,,,,text,machine,,,migrate,2026-11-13
 S983C,nafus-1989-biological-control-activities-in-the-mariana,mention,4 | 16 | 35,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
-S983C,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 S983C,swezey-1942-misc-coleoptera-guam,account,11,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
+S983C,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 S983C,swezey-1942-misc-coleoptera-guam,mention,11,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
 S983C,viraktamath-2002-alien-invasive-insect-and-mite-pests-an,mention,2,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
 S983C,waterhouse-1991-possibilities-for-the-biological-control,mention,2 | 3 | 4 | 5,Rodolia cardinalis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6141,9 +6131,9 @@ SRVF2,iom-17-3-tenebrionidae,account,42,Uloma pandanicola,MH,Marshall Is.,,,,,te
 SRVF2,iom-17-3-tenebrionidae,mention,42,Uloma pandanicola,,,,,,,text,machine,,,migrate,2026-11-13
 SRVF2,kaszab-1955-tenebrionidae-fiji,account,14 | 21 | 62,Sciophagus pandanicola,,,,,,,text,machine,,,migrate,2026-11-13
 SRVF2,kaszab-1955-tenebrionidae-somoa,account,7 | 8 | 22,Sciophagus pandanicola,,,,,,,text,machine,,,migrate,2026-11-13
-SS85D,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-SS86S,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+SS85D,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 SS86S,swezey-1942-misc-coleoptera-guam,account,18,Sessinia livida,,,,,,,text,machine,,,migrate,2026-11-13
+SS86S,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 SS86S,swezey-1942-misc-coleoptera-guam,mention,18,Sessinia livida,,,,,,,text,machine,,,migrate,2026-11-13
 SSC4G,plazi-984523ac,checklist,,,,,,,,,plazi,,,,migrate,
 STHKH,iom-2-bibliography,mention,38 | 51,Scolia ruficornis,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -6151,7 +6141,7 @@ STHKH,muniappan-2002-pests-of-coconut-and-their-natural-enemie,mention,3,Scolia 
 STRWD,iom-7-8-anthocoridae,account,22,Scoloposcelis parallelus,,,,,,,text,machine,,,migrate,2026-11-13
 STRWD,iom-7-8-anthocoridae,mention,22,Scoloposcelis parallelus,,,,,,,text,machine,,,migrate,2026-11-13
 STRWD,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
-SVX83,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+SVX83,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 SW7BY,iom-14-5-sphaeroceridae,account,17,Leptocera femorina,GU | PW,Guam | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 SX4YG,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
 SX4Z4,evenhuis-et-al-2010-pagan-island,mention,58,Simodactylus cinnamomeus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6163,12 +6153,12 @@ SX8CW,iom-16-5-coccinellidae,account,18,Scymnus uncinus,MH,Jaluit | Marshall Is.
 T6LL7,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
 T6M9X,iom-7-7-pentatomoidea,account,17,Tetrarthria variegata,,,,,,,text,machine,,,migrate,2026-11-13
 T6M9X,iom-7-7-pentatomoidea,mention,3 | 17,Tetrarthria variegata,,,,,,,text,machine,,,migrate,2026-11-13
-T6XHR,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 T6XHR,swezey-1942-misc-coleoptera-guam,account,14,Tillus notatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+T6XHR,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 T6XHR,swezey-1942-misc-coleoptera-guam,mention,14,Tillus notatus,,,,,,,text,machine,,,migrate,2026-11-13
 T854Q,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
-TCZ7R,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 TCZ7R,swezey-1942-misc-coleoptera-guam,account,11,Sticholotis punctatus,,,,,,,text,machine,,,migrate,2026-11-13
+TCZ7R,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TCZ7R,swezey-1942-misc-coleoptera-guam,mention,11,Sticholotis punctatus,,,,,,,text,machine,,,migrate,2026-11-13
 TCZ8G,iom-16-5-coccinellidae,account,57,Sticholotis ruficeps,,,,,,,text,machine,,,migrate,2026-11-13
 TCZ8G,iom-16-5-coccinellidae,mention,4 | 57,Sticholotis ruficeps,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6176,10 +6166,10 @@ TDFLQ,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 TDFLQ,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 TDKG2,plazi-592c9898,checklist,,,GU,,,,,,plazi,,,,migrate,
 TDWKF,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
-TF9BG,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+TF9BG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TFMRS,nafus-1989-biological-control-activities-in-the-mariana,mention,21,Telenomus remus,,,,,,,text,machine,,,migrate,2026-11-13
-TFPL4,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 TFPL4,swezey-1942-misc-coleoptera-guam,account,4,Stilicopsis setigera,,,,,,,text,machine,,,migrate,2026-11-13
+TFPL4,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TFPL4,swezey-1942-misc-coleoptera-guam,mention,4,Stilicopsis setigera,,,,,,,text,machine,,,migrate,2026-11-13
 TGRFS,adap-2000-5-coconut-scale-aspidiotus-destructor,mention,1,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
 TGRFS,evenhuis-et-al-2010-pagan-island,mention,58,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6188,14 +6178,14 @@ TGRFS,iom-16-5-coccinellidae,account,53,Telsimia nitida,,,,,,,text,machine,,,mig
 TGRFS,iom-16-5-coccinellidae,mention,4 | 53 | 55,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
 TGRFS,muniappan-2002-pests-of-coconut-and-their-natural-enemie,mention,2,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
 TGRFS,nafus-1989-biological-control-activities-in-the-mariana,mention,12 | 14 | 15,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
-TGRFS,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 TGRFS,swezey-1942-misc-coleoptera-guam,account,11,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
+TGRFS,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TGRFS,swezey-1942-misc-coleoptera-guam,mention,11,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
 TGRFS,tauili-ili-1993-history-of-biological-control-in-america,account,3,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
 TGRFS,tauili-ili-1993-history-of-biological-control-in-america,mention,1 | 3,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
 THB96,iom-16-3-dermestidae,account,3,Thorictodes heydeni,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
-THFJG,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 THFJG,swezey-1942-misc-coleoptera-guam,account,5,Tenebroides mauritanicus,,,,,,,text,machine,,,migrate,2026-11-13
+THFJG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 THFJG,swezey-1942-misc-coleoptera-guam,mention,5,Tenebroides mauritanicus,,,,,,,text,machine,,,migrate,2026-11-13
 TKFWT,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 TLNGJ,iom-17-3-tenebrionidae,account,34,Tribolium castaneum,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
@@ -6205,13 +6195,13 @@ TLNGJ,kaszab-1955-tenebrionidae-fiji,mention,4 | 14 | 21 | 58,Tribolium castaneu
 TLNGJ,kaszab-1955-tenebrionidae-somoa,account,7 | 8 | 18,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
 TLNGJ,kaszab-1955-tenebrionidae-somoa,mention,2 | 7 | 8 | 18,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
 TLNGJ,miller-2004-developing-insecticide-management-for-insnes,mention,12,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
-TLNLD,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 TLNLD,swezey-1942-misc-coleoptera-guam,account,17,Tribolium ferrugineum,,,,,,,text,machine,,,migrate,2026-11-13
+TLNLD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TLNLD,swezey-1942-misc-coleoptera-guam,mention,17,Tribolium ferrugineum,,,,,,,text,machine,,,migrate,2026-11-13
 TNWQJ,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
 TPXL6,iom-17-3-tenebrionidae,mention,20,Xyloborus nudus,,,,,,,text,machine,,,migrate,2026-11-13
-TPXL6,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 TPXL6,swezey-1942-misc-coleoptera-guam,account,18,Xyloborus nudus,,,,,,,text,machine,,,migrate,2026-11-13
+TPXL6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TPXL6,swezey-1942-misc-coleoptera-guam,mention,18,Xyloborus nudus,,,,,,,text,machine,,,migrate,2026-11-13
 TQQZT,iom-17-3-tenebrionidae,account,38,Uloma cavicollis ponapensis,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 TQQZT,iom-17-3-tenebrionidae,mention,38,Uloma cavicollis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6222,22 +6212,22 @@ TQQZT,kaszab-1955-tenebrionidae-somoa,mention,3 | 7 | 8 | 21,Uloma cavicollis,,,
 TQQZT,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 TQRBB,iom-17-3-tenebrionidae,account,40,Uloma picicornis,,,,,,,text,machine,,,migrate,2026-11-13
 TQRBB,iom-17-3-tenebrionidae,mention,40,Uloma picicornis,,,,,,,text,machine,,,migrate,2026-11-13
-TQRBB,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+TQRBB,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TQRBB,swezey-1942-misc-coleoptera-guam,mention,17,Uloma picicornis,,,,,,,text,machine,,,migrate,2026-11-13
-TQRDC,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
+TQRDC,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TQRDC,swezey-1942-misc-coleoptera-guam,mention,17,Uloma rufilabris,,,,,,,text,machine,,,migrate,2026-11-13
 TRFT3,evenhuis-et-al-2010-pagan-island,mention,58,Trochoideus desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
 TRFT3,iom-16-2-endomychidae,account,2,Trochoideus desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
 TRFT3,iom-16-2-endomychidae,mention,2,Trochoideus desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
-TRFT3,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 TRFT3,swezey-1942-misc-coleoptera-guam,account,9,Trochoideus desjardinsii,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+TRFT3,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TRFT3,swezey-1942-misc-coleoptera-guam,mention,9,Trochoideus desjardinsii,,,,,,,text,machine,,,migrate,2026-11-13
 TS8PF,iom-16-3-dermestidae,account,17,Trogoderma sternale,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
 TS8PF,iom-16-3-dermestidae,mention,17,Trogoderma sternale,,,,,,,text,machine,,,migrate,2026-11-13
 TW45N,evenhuis-et-al-2010-pagan-island,mention,58,Carpophilus humeralis,,,,,,,text,machine,,,migrate,2026-11-13
 TW45N,iom-16-4-nitidulidae,mention,3,Urophorus humeralis,,,,,,,text,machine,,,migrate,2026-11-13
-TW45N,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 TW45N,swezey-1942-misc-coleoptera-guam,account,6,Nitidula humeralis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+TW45N,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TW45N,swezey-1942-misc-coleoptera-guam,mention,6,Nitidula humeralis,,,,,,,text,machine,,,migrate,2026-11-13
 TWF2J,acythopias-cocciniae-guam,account,2,Bactrocera cucurbitae,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 TWF2J,acythopias-cocciniae-guam,mention,2,Bactrocera cucurbitae,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6260,8 +6250,8 @@ V493V,evenhuis-et-al-2010-pagan-island,mention,63,Polistes olivaceus,,,,,,,text,
 V56DK,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 V56DK,iom-17-1-chrysomelidae,account,19,Phytorus lineolatus,GU | MP,Guam | Tinian,,,,,text,machine,,,migrate,2026-11-13
 V56DK,iom-17-1-chrysomelidae,mention,3 | 19,Phytorus lineolatus,,,,,,,text,machine,,,migrate,2026-11-13
-V56DK,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
 V56DK,swezey-1942-misc-coleoptera-guam,account,22,Phytorus lineolatus,,,,,,,text,machine,,,migrate,2026-11-13
+V56DK,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 V56DK,swezey-1942-misc-coleoptera-guam,mention,22,Phytorus lineolatus,,,,,,,text,machine,,,migrate,2026-11-13
 V5B2X,iom-6-3-fulgoroidea,account,81,Delphax geranor,,,,,,,text,machine,,,migrate,2026-11-13
 V5B2X,iom-6-3-fulgoroidea,mention,81,Delphax geranor,,,,,,,text,machine,,,migrate,2026-11-13

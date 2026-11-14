@@ -176,7 +176,7 @@ def test_plazi_authors_duplicates_and_container():
     out = plazi.clean(ds)
     docs = {d["doc_id"]: d for d in ds["documents"]}
     assert docs["plazi-aaaaaaaa"]["authors"] == "Swezey, O.H."            # the uploader "carolina" is gone
-    assert docs["plazi-bbbbbbbb"]["authors"] == "Swezey, O.H." and out["surname_fixes"] == {"Swezry": "Swezey"}
+    assert docs["plazi-bbbbbbbb"]["authors"] == "Swezey, O.H." and out["surname_fixes"]["Swezry"] == "Swezey"
     assert docs["plazi-cccccccc"]["authors"] == "Swezey, O.H., Williams, F.X."
     assert docs["plazi-bbbbbbbb"]["container"] == "Insects of Guam I"
     assert docs["plazi-dddddddd"]["citation"].startswith("Clouse, R.M., Stierhof, T. 2007. New ants from Micronesia.")

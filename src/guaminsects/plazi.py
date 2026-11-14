@@ -16,6 +16,9 @@ from .dataset import join, split
 from .match import _distance
 
 USERNAME = re.compile(r"^[a-z][a-z0-9_\-]*$")        # an all-lowercase word: an uploader
+# Surnames Plazi misspells (a letter dropped or added), confirmed against the literature.
+KNOWN_FIXES = {"CockerellL": "Cockerell", "SchedL": "Schedl", "Mailoch": "Malloch",
+               "Johannse": "Johannsen", "Swezry": "Swezey"}
 CONTAINER = {"1942": ("Insects of Guam I", "Bernice P. Bishop Museum Bulletin 172"),
              "1946": ("Insects of Guam II", "Bernice P. Bishop Museum Bulletin 189")}
 
@@ -33,8 +36,11 @@ def parse_name(token: str) -> tuple[str, str] | None:
     words = token.replace(".", " ").split()
     if len(words) == 1:
         return words[0].title() if words[0].isupper() else words[0], ""
-    if all(len(w) == 1 for w in words[1:]):                    # Surname I I
-        return (words[0].title() if words[0].isupper() else words[0]), _initials(" ".join(words[1:]))
+    # Surname I I, where the surname can be several words (Van Zwaluwenburg R H)
+    k = next((i for i, w in enumerate(words) if i and len(w) == 1 and all(len(x) == 1 for x in words[i:])), None)
+    if k:
+        sur = " ".join(words[:k])
+        return (sur.title() if sur.isupper() else sur), _initials(" ".join(words[k:]))
     # Given names first: the last word is the surname
     return words[-1], _initials(" ".join(words[:-1]))
 
@@ -76,14 +82,14 @@ def clean(ds, library_surnames: list[str] | None = None) -> dict:
                 m = re.match(r"([A-Z][\w'\-]+),", a.strip())
                 if m:
                     known[m.group(1)] += 1
-    fixes = surname_fixes(list(parsed.values()), known)
+    fixes = KNOWN_FIXES | surname_fixes(list(parsed.values()), known)
     changed = 0
     for d in plazi:
         year = (re.search(r"\((\d{4})\)", d["citation"]) or [None, d["year"]])[1]
         au = [(fixes.get(s, s), i) for s, i in parsed[d["doc_id"]]]
         d["authors"] = format_authors(au)
         d["year"] = year or d["year"]
-        if year in CONTAINER and "Guam" in d["title"] + d["citation"] and not d["container"]:
+        if year in CONTAINER and "guam" in (d["title"] + d["citation"]).lower() and not d["container"]:
             d["container"], d["volume"] = CONTAINER[year][0], ""
             d["pages"] = ""
         doi = d["doi"]
