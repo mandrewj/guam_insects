@@ -192,6 +192,7 @@
     ["natmachine", "Nativity set by a tool (to confirm)", r => !isSyn(r) && r.nativity !== "unknown" && r.nativity_review === "machine"],
     ["natconflict", "Nativity in conflict", r => r.nativityConflict],
     ["unplaced", "Unplaced names (records, no taxon)", null],
+    ["excluded", "Excluded names (kept out on purpose)", null],
     ["unconfirmed", "Species: observations only", r => r.taxonRank === "Species" && !isSyn(r) && r.verificationStatus === "unconfirmed"],
     ["thin", "Species on ≤ 2 GBIF records, nothing else", r => r.taxonRank === "Species" && !isSyn(r) && num(r.gbifRecords) <= 2 && !num(r.literatureRecords) && !num(r.inatObservations)],
     ["lonely", "Families with nothing under them", (r, st) => r.taxonRank === "Family" && !isSyn(r) && !st.children(r.taxonID).length],
@@ -248,11 +249,11 @@
     const el = $("#list");
     if (!app.st) { el.innerHTML = ""; return; }
     const st = app.st;
-    if (app.queue === "unplaced") {
+    if (app.queue === "unplaced" || app.queue === "excluded") {
       const rows = unplacedRows();
       el.innerHTML = `<p class="muted pad">${rows.length.toLocaleString()} names</p>` + rows.slice(0, 400).map((u, i) =>
         `<div class="item${i === app.upl ? " sel" : ""}" data-upl="${i}" role="option"><span class="nm">${esc(u.name)}</span>` +
-        `<span class="meta">${esc(u.source)}${u.records ? " · " + esc(u.records) : ""}</span></div>`).join("");
+        `<span class="meta">${esc(u.rank || "")} ${u.status === "excluded" ? esc(u.note) : esc(u.source) + (u.records ? " · " + esc(u.records) : "")}</span></div>`).join("");
       return;
     }
     if (app.queue === "browse" && !app.q.trim()) {
@@ -330,7 +331,7 @@
   function renderTaxon() {
     const el = $("#tab-taxon");
     if (!app.st) return;
-    if (app.queue === "unplaced") return renderUnplaced();
+    if (app.queue === "unplaced" || app.queue === "excluded") return renderUnplaced();
     const st = app.st, r = row(app.sel);
     if (!r) { el.innerHTML = '<p class="muted">Pick a taxon on the left.</p>'; return; }
     const id = r.taxonID;
@@ -373,8 +374,10 @@
         : '<button type="button" data-act="verify">Confirm…</button>') +
       (r.hidden === "1" ? '<button type="button" data-act="unhide">Show again</button>'
         : '<button type="button" data-act="hide" class="danger">Hide (delete)…</button>') +
+      '<button type="button" data-act="exclude" class="danger">Exclude…</button>' +
       (isIog ? '<button type="button" data-act="remove" class="danger">Delete for good</button>' : "") +
       "</div>";
+    if (r.excludedReason) html += `<div class="notice">Excluded: ${esc(r.excludedReason)}. <a href="#" data-restore="${esc(r.scientificName)}">Restore</a></div>`;
     html += facts(r);
 
     // distribution
@@ -471,14 +474,18 @@
     }
     return html;
   }
-  const unplacedRows = () => (app.st ? app.st.t.unplaced : []).slice().sort((a, b) => (+b.records || 0) - (+a.records || 0) || (a.name < b.name ? -1 : 1));
+  const unplacedRows = () => (app.st ? app.st.t.unplaced : []).filter(u => (u.status === "excluded") === (app.queue === "excluded")).sort((a, b) => (+b.records || 0) - (+a.records || 0) || (a.name < b.name ? -1 : 1));
   function renderUnplaced() {
     const u = unplacedRows()[app.upl];
-    $("#tab-taxon").innerHTML = !u ? '<p class="muted">Pick a name on the left: these have records that no tool could place in the tree.</p>' :
-      `<div class="t-head"><h1>${esc(u.name)}</h1><div class="t-sub">${esc(u.rank || "rank unknown")} · from ${esc(u.source)} · ${esc(u.records || 0)} records</div></div>` +
+    const ex = u && u.status === "excluded";
+    $("#tab-taxon").innerHTML = !u ? '<p class="muted">Pick a name on the left. Unplaced names have records that no tool could place in the tree; excluded names are kept out on purpose.</p>' :
+      `<div class="t-head"><h1>${esc(u.name)}</h1><div class="t-sub">${esc(u.rank || "rank unknown")} · ` +
+      (ex ? `<span class="badge muted">excluded</span> by ${esc(u.added_by)} ${esc(u.added)}` : `from ${esc(u.source)} · ${esc(u.records || 0)} records`) + "</div></div>" +
       (u.note ? `<div class="notice">${esc(u.note)}</div>` : "") +
-      `<div class="toolbar"><button type="button" data-act="place" data-i="${app.upl}">Place under a parent…</button>` +
-      `<button type="button" data-act="placeSynonym" data-i="${app.upl}">Merge into an existing taxon…</button></div>`;
+      (ex ? `<div class="toolbar"><button type="button" data-act="unexclude" data-i="${app.upl}">Restore (no longer excluded)</button></div>` :
+        `<div class="toolbar"><button type="button" data-act="place" data-i="${app.upl}">Place under a parent…</button>` +
+        `<button type="button" data-act="placeSynonym" data-i="${app.upl}">Merge into an existing taxon…</button>` +
+        `<button type="button" data-act="excludeName" data-i="${app.upl}" class="danger">Exclude…</button></div>`);
   }
 
   // ---- tools (buttons and inline forms on the taxon panel)
@@ -503,6 +510,16 @@
         fields: [{ key: "value", label: "Nativity", type: "select", options: S.nativity, value: r.nativity },
                  { key: "source", label: "Source (a document, or leave blank for “editor”)", value: r.nativity_source !== "editor" ? r.nativity_source : "" }],
         submit: "Save", onSubmit: x => addOp("nativity", { id, value: x.value, source: x.source }) });
+    }
+    if (act === "excludeName" || act === "unexclude" || act === "exclude") {
+      if (act === "unexclude") { const u = unplacedRows()[+b.dataset.i]; return addOp("unexclude", { name: u.name }); }
+      const u = act === "excludeName" ? unplacedRows()[+b.dataset.i] : null;
+      return openForm({ title: "Exclude " + (u ? u.name : r.scientificName),
+        intro: u ? "Keep this name out: it leaves the unplaced list, and match, sync and the literature tool will not add it (or its species) again."
+          : `Hides ${esc(r.scientificName)}${st.descendants(id).length ? " and the " + st.descendants(id).length + " taxa under it" : ""} from the site, lists it on the Excluded page, and keeps match, sync and the literature tool from adding it again. <b>Restore</b> there undoes it.`,
+        fields: [{ key: "reason", label: "Why (e.g. extinct fossil taxon; not a hexapod)", required: true }],
+        submit: "Exclude", danger: true,
+        onSubmit: x => addOp("exclude", u ? { name: u.name, rank: u.rank, key: u.key, reason: x.reason } : { id, reason: x.reason }) });
     }
     if (act === "placeSynonym") {
       const u = unplacedRows()[+b.dataset.i];
@@ -1051,6 +1068,8 @@
       if (it) { e.preventDefault(); select(it.dataset.id, app.tab === "changes" ? "taxon" : null); }
     });
     $("#tab-taxon").addEventListener("click", e => {
+      const rs = e.target.closest("a[data-restore]");
+      if (rs) { e.preventDefault(); return addOp("unexclude", { name: rs.dataset.restore }); }
       const a = e.target.closest("a[data-id]");
       if (a) { e.preventDefault(); return select(a.dataset.id); }
       onTaxonClick(e);

@@ -87,6 +87,7 @@ Rows that point at a synonym keep pointing at it after a merge; the build follow
 | reject | the literature / notes / hosts row is deleted |
 | clear flag | `flag` emptied |
 | place | an unplaced name becomes a taxa.csv row; its line leaves review/unplaced.csv |
+| exclude | a taxon in the tree: `hidden` (reason `excluded: ...`) on it and everything under it; the name goes on the Excluded page (unplaced.csv `status excluded`, with the reason, who and when). A bare unplaced name just becomes excluded. `match`, `sync` and `lit` never add an excluded name or its species again. **Restore** undoes it |
 | merge an unplaced name | it becomes a synonym row (`IOG-n`, `accepted_id` = the valid taxon); its line leaves review/unplaced.csv. Later `sync`, `match` and `lit scan` find the name here and file its records under the valid taxon |
 | delete | the `IOG-` row and the rows that point at it go |
 

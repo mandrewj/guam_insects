@@ -115,7 +115,7 @@ Unique key: `doc_id`
 | `doi` | str |  |
 | `url` | url | public address; the site links here, never to the file |
 | `licence` | str |  |
-| `kind` | str | one of monograph, paper, fact sheet, checklist, dataset, other |
+| `kind` | str | one of monograph, paper, fact sheet, checklist, dataset, report, map, other |
 | `region` | bool | the title supports presence in Micronesia |
 | `citation` | str | formatted |
 | `added_by` | str |  |
@@ -137,6 +137,7 @@ Unique key: `taxon_id`, `doc_id`, `kind`
 | `status` | str | one of native, introduced, endemic, invasive, cryptogenic, unknown |
 | `status_area` | list | one of GU, MP, PW, FM, MH |
 | `first_record_year` | int |  |
+| `status_page` | int | page of the status statement |
 | `method` | str | one of text, ocr, plazi, checklist, manual |
 | `review` | str | one of machine, editor; machine: read by a tool; editor: confirmed; empty: from a published checklist |
 | `reviewed_by` | str |  |
@@ -202,7 +203,7 @@ Unique key: `taxon_id`, `system`, `value`
 | column | kind | |
 |---|---|---|
 | `taxon_id` | id | required; a `taxa` key |
-| `system` | str | required; one of inaturalist, wikidata, wikispecies, bugguide, editor |
+| `system` | str | required; one of inaturalist, wikidata, wikispecies, wikipedia, commons, bugguide, editor |
 | `value` | str | required; an id or a URL |
 | `label` | str |  |
 | `confidence` | str | one of high, medium, review |
@@ -238,7 +239,7 @@ Unique key: `taxon_id`, `kind`, `ref`
 | `added_by` | str | required |
 | `added` | date |  |
 
-## `review/unplaced.csv`: names with records that could not be placed
+## `review/unplaced.csv`: names with records that could not be placed, and names excluded
 
 Unique key: `name`, `source`, `key`
 
@@ -246,10 +247,13 @@ Unique key: `name`, `source`, `key`
 |---|---|---|
 | `name` | str | required |
 | `rank` | str |  |
-| `source` | str | one of gbif, inat, literature, checklist, plazi, other |
+| `source` | str | one of gbif, inat, literature, checklist, plazi, editor, other |
 | `key` | str |  |
 | `records` | int |  |
-| `note` | str |  |
+| `note` | str | why it is unplaced, or why it is excluded |
+| `status` | str | one of unplaced, excluded; empty/unplaced: waiting for a person; excluded: deliberately kept out (an extinct fossil, not a hexapod): never added by match, sync or lit |
+| `added_by` | str |  |
+| `added` | date |  |
 
 ## `wikipedia.jsonl`
 

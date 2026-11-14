@@ -975,7 +975,10 @@ window.IOG_SPEC = {
     "source",
     "key",
     "records",
-    "note"
+    "note",
+    "status",
+    "added_by",
+    "added"
    ],
    "key": [
     "name",
@@ -1006,6 +1009,7 @@ window.IOG_SPEC = {
       "literature",
       "checklist",
       "plazi",
+      "editor",
       "other"
      ],
      "ref": "",
@@ -1027,6 +1031,30 @@ window.IOG_SPEC = {
     },
     "note": {
      "kind": "str",
+     "required": false,
+     "enum": [],
+     "ref": "",
+     "maxlen": 0
+    },
+    "status": {
+     "kind": "str",
+     "required": false,
+     "enum": [
+      "unplaced",
+      "excluded"
+     ],
+     "ref": "",
+     "maxlen": 0
+    },
+    "added_by": {
+     "kind": "str",
+     "required": false,
+     "enum": [],
+     "ref": "",
+     "maxlen": 0
+    },
+    "added": {
+     "kind": "date",
      "required": false,
      "enum": [],
      "ref": "",

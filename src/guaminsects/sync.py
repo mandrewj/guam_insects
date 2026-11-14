@@ -215,7 +215,7 @@ def apply(ds, staging: dict, matcher, gbif=None, today: str = "", refresh_new=No
         refresh_new(ds, [t for t in new_ids if t in {r["id"] for r in ds["taxa"] if r["status"] != "synonym"}])
     return {"new_taxa": len(new_ids), "new_ids": new_ids, "counts_changed": len(changed_taxa),
             "statistics_refreshed": refreshed, "vanished": vanished,
-            "unplaced": len(ds["unplaced"]), "matcher": dict(matcher.stats)}
+            "unplaced": sum(u["status"] != "excluded" for u in ds["unplaced"]), "matcher": dict(matcher.stats)}
 
 
 def refresh_statistics(ds, taxa: list[str], gbif, today: str, progress=print) -> int:

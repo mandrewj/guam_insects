@@ -133,3 +133,18 @@ def test_a_genus_col_lacks_is_unplaced_without_a_family():
     ("Oryctes rhinoceros", "Dynastes rhinoceros", False)])
 def test_near(a, b, expect):
     assert match.near(a, b) is expect
+
+
+def test_excluded_names_are_never_added_again():
+    gigas = usage("ORGIG", "Oryctes gigas", "SPECIES")
+    ds, m = matcher({"Oryctes gigas": answer(gigas)})
+    ds["unplaced"] = [{"name": "Lithoptilus", "rank": "Genus", "source": "editor", "key": "x",
+                       "status": "excluded", "note": "extinct fossil taxon"}]
+    m.reindex()
+    assert m.resolve("Lithoptilus", "GENUS", "inat") is None
+    assert m.resolve("Lithoptilus fossilis", "SPECIES", "literature") is None      # its species too
+    assert m.col.asked == [] and not any(r["name"].startswith("Lithoptilus") for r in ds["taxa"])
+    assert [u["name"] for u in ds["unplaced"]] == ["Lithoptilus"]                   # not listed again
+    ds["unplaced"][0]["name"] = "Oryctes gigas"                                     # a COL taxon by key
+    m.reindex()
+    assert m.ensure_col(answer(gigas)) is None

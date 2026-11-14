@@ -101,6 +101,12 @@ class Matcher:
             idx.setdefault((r["name"], r["rank"].upper()), []).append(target)
         self.keys = {(k["source"], k["key"]): k["taxon_id"] for k in self.ds["keys"]}
         self.unplaced = {(u["name"], u["source"], u["key"]) for u in self.ds["unplaced"]}
+        self.excluded = {u["name"] for u in self.ds["unplaced"] if u["status"] == "excluded"}
+
+    def is_excluded(self, name: str) -> bool:
+        """A name an editor excluded, or a species/subspecies of an excluded genus."""
+        words = (name or "").split()
+        return name in self.excluded or (len(words) > 1 and words[0] in self.excluded)
 
     def in_dataset(self, name: str, rank: str) -> str | None:
         rank = rank.upper()
@@ -149,10 +155,13 @@ class Matcher:
     def add_unplaced(self, name: str, rank: str, source: str, key: str, note: str) -> None:
         if (name, source, key) in self.unplaced:
             return
+        if self.is_excluded(name):
+            return
         self.unplaced.add((name, source, key))
         src = source if source in schema.UNPLACED_SOURCES else "other"
         self.ds["unplaced"].append({"name": name, "rank": rank.title(), "source": src,
-                                    "key": key, "records": "", "note": note})
+                                    "key": key, "records": "", "note": note,
+                                    "status": "unplaced", "added_by": self.by, "added": self.today})
         self.stats["unplaced"] += 1
 
     def ensure_col(self, d: dict) -> str | None:
@@ -162,6 +171,8 @@ class Matcher:
         acc = d.get("acceptedUsage") or {}
         target = acc if d.get("synonym") and acc else usage
         if not target.get("key") or not ids.valid(target["key"]):
+            return None
+        if self.is_excluded(target.get("canonicalName") or target.get("name") or ""):
             return None
         if target["key"] in self.taxa:
             return target["key"]
@@ -217,6 +228,9 @@ class Matcher:
         """The taxon this source name is shown as, or None (then it is on the unplaced list)."""
         rank, key = rank.upper(), key if key is not None else name
         origin = origin or source
+        if self.is_excluded(name):
+            self.stats["excluded"] = self.stats.get("excluded", 0) + 1
+            return None
         if (source, key) in self.keys:
             self.stats["known"] += 1
             return self.keys[(source, key)]

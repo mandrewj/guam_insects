@@ -405,3 +405,48 @@ def test_an_unplaced_name_can_be_merged_into_a_taxon(page, world, tmp_path):
     # merging an accepted taxon carries every row that points at it
     merged = run(page, texts, [{"type": "synonymize", "id": "ORRHI", "into": "ORGIG"}])
     assert merged["errors"] == [None] and set(merged["files"]) == {"dataset/taxa.csv"}
+
+
+def test_exclude_a_taxon_and_a_bare_name(page, world, tmp_path):
+    texts = texts_of(world)
+    ops = [{"type": "exclude", "id": "CALIS", "reason": "extinct fossil taxon"},
+           {"type": "exclude", "name": "Zorotypus guineensis", "rank": "Species", "key": "d1",
+            "reason": "not a hexapod record"},
+           {"type": "exclude", "id": "ORYCT"},                       # a reason is required
+           {"type": "exclude", "id": "CALIS", "reason": "again"}]    # already hidden/excluded
+    out = run(page, texts, ops)
+    assert out["errors"][0] is None and out["errors"][1] is None
+    assert "say why" in out["errors"][2] and "already excluded" in out["errors"][3]
+    new = tmp_path / "after"
+    new.mkdir()
+    for rel, text in {**texts, **out["files"]}.items():
+        if text is not None:
+            (new / rel.removeprefix("dataset/")).parent.mkdir(parents=True, exist_ok=True)
+            (new / rel.removeprefix("dataset/")).write_text(text, encoding="utf-8")
+    ds = dataset.load(new)
+    assert dataset.check(ds).items == []
+    taxa = {r["id"]: r for r in ds["taxa"]}
+    assert taxa["CALIS"]["hidden"] == "yes" and taxa["CALIS"]["hidden_reason"].startswith("excluded: ")
+    assert taxa["name-2"]["hidden"] == "yes"                         # the species under it
+    ex = {u["name"]: u for u in ds["unplaced"]}
+    assert ex["Callirhipis"]["status"] == "excluded" and ex["Callirhipis"]["note"] == "extinct fossil taxon"
+    assert ex["Zorotypus guineensis"]["status"] == "excluded" and ex["Zorotypus guineensis"]["added_by"] == "T. Editor"
+    # the site hides it; a restore brings it back and removes the exclusion
+    from conftest import C
+    recs = records.build_records(ds, thumbs=tmp_path)
+    assert recs[C("CALIS")]["hidden"] is True
+    back = run(page, {**texts, **out["files"]}, [{"type": "unexclude", "name": "Callirhipis"}])
+    assert back["errors"] == [None]
+    after = {r["id"]: r for r in dataset.load(_apply(tmp_path, texts, out["files"], back["files"]))["taxa"]}
+    assert after["CALIS"]["hidden"] == "" and after["name-2"]["hidden"] == ""
+
+
+def _apply(tmp_path, *file_sets):
+    root = tmp_path / "restored"
+    merged = {}
+    for fs in file_sets:
+        merged.update({k: v for k, v in fs.items() if v is not None})
+    for rel, text in merged.items():
+        (root / rel.removeprefix("dataset/")).parent.mkdir(parents=True, exist_ok=True)
+        (root / rel.removeprefix("dataset/")).write_text(text, encoding="utf-8")
+    return root

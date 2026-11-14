@@ -39,7 +39,8 @@ CONFIDENCE = ["high", "medium", "review"]
 VOUCHER_KINDS = ["inat_observation", "gbif_occurrence", "photo_file", "photo_url"]
 PHOTO_ROLES = ["own", "inherited"]
 PHOTO_SOURCES = ["inaturalist", "commons", "gbif"]
-UNPLACED_SOURCES = ["gbif", "inat", "literature", "checklist", "plazi", "other"]
+UNPLACED_SOURCES = ["gbif", "inat", "literature", "checklist", "plazi", "editor", "other"]
+UNPLACED_STATUS = ["unplaced", "excluded"]
 KEY_SOURCES = ["gbif", "col", "inat", "literature", "plazi", "checklist"]
 NOTE_MAX = 200
 
@@ -229,8 +230,12 @@ TABLES: list[Table] = [
     Table("unplaced", "review/unplaced.csv", (
         C("name", required=True), C("rank"),
         C("source", enum=UNPLACED_SOURCES), C("key"),
-        C("records", "int"), C("note"),
-    ), key=("name", "source", "key"), title="names with records that could not be placed"),
+        C("records", "int"), C("note", doc="why it is unplaced, or why it is excluded"),
+        C("status", enum=UNPLACED_STATUS,
+          doc="empty/unplaced: waiting for a person; excluded: deliberately kept out (an extinct "
+              "fossil, not a hexapod): never added by match, sync or lit"),
+        C("added_by"), C("added", "date"),
+    ), key=("name", "source", "key"), title="names with records that could not be placed, and names excluded"),
 ]
 
 BY_NAME = {t.name: t for t in TABLES}

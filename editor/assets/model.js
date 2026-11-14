@@ -287,6 +287,7 @@
         return vals.size > 1 || (vals.size === 1 && nat !== "unknown" && !vals.has(nat));
       };
       this.views = new Map();
+      const st_excl = new Map(this.t.unplaced.filter(u => u.status === "excluded").map(u => [u.name, u]));
       for (const id of this.order) {
         const r = this.d.get(id);
         const acc = r.status === SYN ? this.d.get(r.accepted_id) : null;
@@ -326,6 +327,7 @@
           literatureRecords: docsHere.length,
           literatureSources: docsHere.map(d => doc(d).citation + (litRows.some(l => l.doc_id === d && l.review === "machine") ? " [machine-read]" : "")).join(SEP),
           verificationRemarks: machineLit && !litRows.some(l => l.review !== "machine") ? "literature records machine-read only" : "",
+          excludedReason: (st_excl.get(r.name) || {}).note || "",
           machineLit, machineNotes: (notes.get(id) || []).filter(n => n.review === "machine").length,
           noteCount: (notes.get(id) || []).length, nativityConflict: r.status !== SYN && conflict(id),
         });
@@ -627,6 +629,37 @@
       st.t.unplaced = st.t.unplaced.filter(u => u.name !== op.unplacedName);
     },
 
+    // Keep a name out for good (an extinct fossil, not a hexapod, a bad record): a taxon in the
+    // tree is hidden with everything under it; the name goes on the unplaced page as
+    // excluded, and match, sync and lit never add it (or its species) again.
+    exclude(st, op) {
+      const reason = (op.reason || "").trim();
+      need(reason, "say why it is excluded (e.g. extinct fossil taxon)");
+      let name = (op.name || "").trim(), rank = op.rank || "", key = op.key || "";
+      if (op.id) {
+        const r = accepted(st, op.id);
+        OPS.hide(st, Object.assign({}, op, { reason: "excluded: " + reason }));
+        name = r.name; rank = r.rank; key = op.id;
+      }
+      need(name, "which name?");
+      const have = st.t.unplaced.find(u => u.name === name);
+      need(!have || have.status !== "excluded", `${name} is already excluded`);
+      if (have) {
+        Object.assign(have, { status: "excluded", note: reason, added_by: op.by, added: op.date });
+        st.t.unplaced = st.t.unplaced.slice();
+      } else {
+        st.t.unplaced.push(Object.assign(blank("unplaced"), { name, rank, source: "editor", key,
+          note: reason, status: "excluded", added_by: op.by, added: op.date }));
+      }
+    },
+    unexclude(st, op) {
+      const row = st.t.unplaced.find(u => u.name === op.name && u.status === "excluded");
+      need(row, `${op.name} is not excluded`);
+      const id = st.d.has(row.key) ? row.key : null;
+      if (id && /^excluded:/.test(st.r(id).hidden_reason)) OPS.unhide(st, Object.assign({}, op, { id }));
+      st.t.unplaced = st.t.unplaced.filter(u => u !== row);
+    },
+
     // --- review of what a tool wrote: confirm (review = editor) or reject (delete the row)
     review(st, op) {
       need(["literature", "notes", "hosts"].includes(op.table), "review literature, notes or hosts");
@@ -852,6 +885,8 @@
       case "unvoucher": return `${who}: removed voucher ${op.url}`;
       case "link": return `${who}: link ${op.label ? op.label + " " : ""}${op.url}`;
       case "unlink": return `${who}: removed link ${op.url}`;
+      case "exclude": return `${op.id ? n(op.id) : op.name} excluded: ${op.reason}`;
+      case "unexclude": return `${op.name}: no longer excluded`;
       case "placeSynonym": return `${op.unplacedName} merged into ${n(op.into)} as a synonym` + (op.newId ? ` (${op.newId})` : "");
       case "place": return `${op.name} placed under ${n(op.parent)}` + (op.newId ? ` (${op.newId})` : "");
       case "reviewDoc": return `${op.doc}: every machine-read row confirmed${op.nativity ? " (and its nativity values)" : ""}`;
