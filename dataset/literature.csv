@@ -5537,8 +5537,8 @@ L64GB,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 L6L6P,iom-16-1-elateridae,account,6,Agrypnus bifoveatus,GU | MP,Guam | Saipan,,,,,text,machine,,,migrate,2026-11-13
 L6L6P,iom-16-1-elateridae,mention,6,Agrypnus bifoveatus,,,,,,,text,machine,,,migrate,2026-11-13
 L6L6P,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-L783X,iom-17-3-tenebrionidae,account,61,Amarygmus hydrophiloides,PW | MH,Ebon | Marshall Is. | Palau,,,,,text,machine,,,migrate,2026-11-13
-L783X,iom-17-3-tenebrionidae,mention,61,Amarygmus hydrophiloides,,,,,,,text,machine,,,migrate,2026-11-13
+L783X,iom-17-3-tenebrionidae,account,61,Amarygmus hydrophiloides,PW | MH,Ebon | Marshall Is. | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+L783X,iom-17-3-tenebrionidae,mention,61,Amarygmus hydrophiloides,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 L8G39,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 L8G3B,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 L8G3B,iom-7-7-pentatomoidea,account,46,Alciphron glaucus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5820,9 +5820,9 @@ PBC7G,iom-18-1-platypodidae-scolytidae,mention,5 | 66,Xyleborus similis,,,,,,,te
 PBC7G,plazi-c79684a6,checklist,,,GU,,,,,,plazi,,,,migrate,
 PBC7G,rabagliaetal-2020-bark-beetles-american-samoa,account,11,Xyleborus similis,,,,,,,text,machine,,,migrate,2026-11-13
 PBC7G,rabagliaetal-2020-bark-beetles-american-samoa,mention,11 | 18,Euwallacea similis,,,,,,,text,machine,,,migrate,2026-11-13
-PBJ4V,evenhuis-et-al-2010-pagan-island,mention,58,Gonocephalum adpressiforme,,,,,,,text,machine,,,migrate,2026-11-13
-PBJ4V,iom-17-3-tenebrionidae,account,9,Gonocephalum adpressiforme,,,,,,,text,machine,,,migrate,2026-11-13
-PBJ4V,iom-17-3-tenebrionidae,mention,3 | 9,Gonocephalum adpressiforme,,,,,,,text,machine,,,migrate,2026-11-13
+PBJ4V,evenhuis-et-al-2010-pagan-island,mention,58,Gonocephalum adpressiforme,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+PBJ4V,iom-17-3-tenebrionidae,account,9,Gonocephalum adpressiforme,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+PBJ4V,iom-17-3-tenebrionidae,mention,3 | 9,Gonocephalum adpressiforme,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 PBJSV,iom-17-3-tenebrionidae,account,10,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
 PBJSV,iom-17-3-tenebrionidae,mention,3 | 9 | 10,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
 PBJSV,swezey-1942-misc-coleoptera-guam,account,16,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6275,9 +6275,9 @@ V5RF7,iom-6-8-fulgoroidea-suppl,mention,3 | 4,Myndus aphrodite,,,,,,,text,machin
 V7F6R,iom-6-3-fulgoroidea,account,75,Stenocranus agamopsyche,,,,,,,text,machine,,,migrate,2026-11-13
 V7F6R,iom-6-3-fulgoroidea,mention,75,Stenocranus agamopsyche,,,,,,,text,machine,,,migrate,2026-11-13
 V7F6R,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
-V9JFY,evenhuis-et-al-2010-pagan-island,mention,58,Gonocephalum incisum,,,,,,,text,machine,,,migrate,2026-11-13
-V9JFY,iom-17-3-tenebrionidae,account,9 | 10,Gonocephalum incisum,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-V9JFY,iom-17-3-tenebrionidae,mention,3 | 9 | 10,Gonocephalum incisum,,,,,,,text,machine,,,migrate,2026-11-13
+V9JFY,evenhuis-et-al-2010-pagan-island,mention,58,Gonocephalum incisum,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+V9JFY,iom-17-3-tenebrionidae,account,9 | 10,Gonocephalum incisum,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+V9JFY,iom-17-3-tenebrionidae,mention,3 | 9 | 10,Gonocephalum incisum,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 V9JFY,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 V9JG4,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 VBHD6,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
