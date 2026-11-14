@@ -31,6 +31,12 @@ is done, what is waiting, and what needs the user.
   Playwright's Firefox does not start on this Mac (macOS 27), so it is untested here.
 
 ### Waiting on the user
+- **Push**: the editor, workflow and refactor-plan commits are local only. GitHub refuses a
+  push that adds `.github/workflows/` without the `workflow` scope: run
+  `gh auth refresh -h github.com -s workflow`, then `git push`.
+- **Next: the refactor** on the data machine, docs/REFACTOR.md (CLAUDE.md round 7), from
+  Phase 0. It adds a required nativity (native / introduced / unknown) for every taxon, and
+  leaves room for worldwide species maps later.
 - **Vercel secrets** in the GitHub repo: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
   (orgId / projectId in `site/public/.vercel/project.json` on the data machine).
 - **The first snapshot**: on the data machine, `git pull`, then

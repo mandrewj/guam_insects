@@ -214,6 +214,16 @@ Until a phase lands, everything above still describes the code.
 - **The repository stays in iCloud**, with git's object store and the build output in
   `.nosync` folders and the rule: pull before working, commit and push when done, one machine
   at a time.
+- **Every taxon has a nativity**: `native`, `introduced` or `unknown` (required; unknown by
+  default; for Micronesia as a whole, with per-island-group statements kept as literature
+  records). It replaces the five-value `establishment`: endemic → native, invasive →
+  introduced (the original word kept in the note). Tools never overwrite an editor's value;
+  they fill only `unknown`, marked machine. Until Phase 1 lands, the code still uses
+  `establishment`.
+- **Worldwide distribution maps for every species may come later** (not scheduled): a coarse
+  GBIF grid per species drawn by the app over one world basemap (docs/REFACTOR.md,
+  "Possible later"). Keep `gbif_key` and the COL id on species rows and room for a map on the
+  page.
 - Collaborators use the editor; the old pipeline is kept under the tag `pipeline-v1`.
 
 ## Hard rules (inherited from entobase; they exist because something went wrong)

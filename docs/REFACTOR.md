@@ -41,7 +41,14 @@ Micronesia that is more machinery than the data need, and it does not travel:
    taxa's statistics.
 7. **The other sources keep slim refresh commands** (photos, Wikipedia, Wikidata, BugGuide via
    entobase, the Catalogue of Life), run on demand, writing the dataset tables directly.
-8. Unchanged: the site's look, routes and behaviour (file:// and served); taxon ids and URLs
+8. **Every taxon has a nativity**, one of three: **Native, Introduced, Unknown** (Micronesia
+   as a whole; the per-island-group statements stay in literature.csv). It replaces today's
+   five-value `establishment` (native, endemic, introduced, invasive, unknown): endemic
+   becomes Native, invasive becomes Introduced (see Phase 1). A taxon nobody has assessed
+   is Unknown, never blank.
+9. **Worldwide distribution maps for every species** may come later: flagged here, not
+   scheduled (see "Possible later: worldwide maps").
+10. Unchanged: the site's look, routes and behaviour (file:// and served); taxon ids and URLs
    (`#/t/KVC9L`, `gbif:`, `name-`, `IOG-`); the editor's tools and commit flow; the rebuild on
    push; every hard rule in CLAUDE.md (attribution, licences, no PDF text published, BugGuide
    only via entobase's database, polite APIs).
@@ -127,7 +134,8 @@ easy):
 | `name`, `authorship` | |
 | `status` | accepted, synonym, doubtful, morphospecies |
 | `common_name`, `other_common_names` | English (the build still prefers iNat's name in use; see Phase 2) |
-| `establishment` | native, endemic, introduced, invasive, unknown (an editor's value) |
+| `nativity` | **required**: `native`, `introduced` or `unknown` (default). Shown as the Native / Introduced / Unknown badge |
+| `nativity_source`, `nativity_review` | where it came from (a doc_id, `editor`, or empty for unknown); `machine` (set by a tool from a literature statement) or `editor` |
 | `iucn` | Wikidata P141 where it exists |
 | `superfamily`, `subfamily`, `tribe` | COL's intermediate ranks (not shown as tree nodes) |
 | `in_col`, `gbif_key` | yes/no; the GBIF Backbone key where one matches |
@@ -207,7 +215,7 @@ another table's key, max length) and the sort key. From it:
 - `dataset.check()` reports every problem at once, like `curation.load` today: the tree is a
   tree (one root, no cycles, ranks descend), synonyms point at accepted taxa, every reference
   resolves, enums, places (geo.PLACES), licences, URLs, no duplicate keys, the note-copying
-  check.
+  check, and **every accepted taxon has a nativity** (one of the three values).
 - `guaminsects editor-spec` writes `editor/assets/spec.js` (as now).
 - `dataset/README.md` is generated (the column tables above), so the docs never drift.
 
@@ -264,11 +272,14 @@ blank = "the source's value", the IOG-row rules) and becomes plain table edits w
 | move | `parent_id` |
 | add a taxon / a name | a taxa.csv row with the next `IOG-n` |
 | hide / show, confirm | `hidden`, `verified*` |
+| **nativity** (new tool) | `nativity` Native / Introduced / Unknown, `nativity_source` (a document or "editor"), `nativity_review editor` |
 | tag / voucher / link | distribution.csv / vouchers.csv / links.csv rows |
 | **review** (new) | `review = editor` on literature, notes, hosts rows; clear `flag new` on taxa |
 
 New worklists: *new from a tool* (`flag = new`), *literature machine-read* (by document),
-*notes machine-written*, *unplaced names*. The editor loads the tables it edits plus
+*notes machine-written*, *unplaced names*, *nativity unknown* (species first), *nativity set
+by machine* (to confirm), and *nativity in conflict* (a species whose literature statements
+disagree with its nativity, or with each other across island groups). The editor loads the tables it edits plus
 `records.csv`, `literature.csv`, `notes.csv` and `documents.csv` for display (a few MB; not
 `wikipedia.jsonl`). Commit is unchanged (GitHub token, or `guaminsects edit` with git). The
 agreement test becomes simple: what the editor writes, `dataset.check()` accepts, and the build
@@ -294,7 +305,11 @@ commands and does the reading only a model can do. It runs on the data machine.
    literature row and no note) and fills, for each: the islands and areas, status, host plants,
    first-record year, and **one paraphrased note** of at most 200 characters (what the account
    says about biology, habitat or pest status; never a copied sentence), with the page. Names
-   the finder could not match go to step 4. Large monographs are done in batches of sections,
+   the finder could not match go to step 4. A clear statement that a species is native or
+   introduced (in Micronesia, or in an island group) becomes the literature row's `status`;
+   when the taxon's nativity is still `unknown`, `lit apply` sets it from that statement with
+   `nativity_review machine` (an editor's value is never overwritten; a disagreement goes to
+   the *nativity in conflict* worklist). Large monographs are done in batches of sections,
    by page ranges (`--pages`), so a session reads only species accounts, not whole volumes.
 4. **`guaminsects match <names…>`**: Catalogue of Life (GBIF v2 match), then the GBIF Backbone.
    A match goes to keys.csv. A name COL lacks is added under its genus (adding the genus if
@@ -330,8 +345,9 @@ host; rule 2).
    - changed counts: records.csv updated, `refreshed` set;
    - **taxa whose counts changed get their statistics refreshed**: years, the island facet
      (GADM level 1), specimens, and new GBIF photos if the taxon has none;
-   - new keys: matched (`guaminsects match`), added to taxa.csv with `flag new` (adding a
-     missing genus or family under its COL parent), keys.csv rows, their counts;
+   - new keys: matched (`guaminsects match`), added to taxa.csv with `flag new` and nativity
+     `unknown` (adding a missing genus or family under its COL parent), keys.csv rows, their
+     counts. GBIF's `establishmentMeans` is too rarely filled to set nativity from;
    - `refresh photos|wikipedia|wikidata|links --taxa new` for them, with thumbnails;
    - unmatched names go to `review/unplaced.csv`;
    - a taxon whose records vanished is reported, never removed (a person decides; it may be a
@@ -381,7 +397,12 @@ old pipeline: nothing is deleted until Phase 7.
 2. **`guaminsects migrate`** (one time; deleted in Phase 7): the resolved tree
    (`taxa`, `taxon_names`, `taxon_keys`, `name_matches`) + curation/*.csv +
    sources/*.csv + the pipeline tables → the dataset tables, following the mapping below.
-   Every curated value lands in its column, with its editor and date.
+   Every curated value lands in its column, with its editor and date. **Nativity**: the
+   curated `establishment` first (endemic → native, invasive → introduced, with the original
+   word kept in `note` when it was endemic or invasive, so nothing is lost), else the
+   machine-read statements in `establishment` (Guam's first; `nativity_review machine`;
+   statements that disagree → `unknown` + the conflict worklist), else `unknown`. The
+   migration report lists how many taxa got each value and from where.
 
    | today | goes to |
    |---|---|
@@ -401,7 +422,7 @@ old pipeline: nothing is deleted until Phase 7.
    | `pdf_candidates` (unmatched), unplaced `name_matches` | review/unplaced.csv |
    | `gbif_taxa`, `col_taxa`, `col_extinct`, queries, candidates, caches | not carried (re-fetched by `match` when needed) |
 
-3. **Acceptance**: `dataset check` passes; counts reconcile (taxa and synonyms with the
+3. **Acceptance**: `dataset check` passes (every accepted taxon has a nativity); counts reconcile (taxa and synonyms with the
    `taxa`/`taxon_names` tables, records with presence rows, literature with mentions, photos,
    links, every curated row); `dataset/` is under ~60 MB with media; `git diff` of a second
    `migrate` run is empty (deterministic).
@@ -409,7 +430,9 @@ old pipeline: nothing is deleted until Phase 7.
 ### Phase 2: the build from the dataset, same output
 
 1. `model.py` + `build/records.py`, writing the **old** site layout (one file per taxon) first.
-2. **Acceptance**: every record equals the baseline's, apart from `built_at`. Compare
+2. **Acceptance**: every record equals the baseline's, apart from `built_at` and the
+   intended change: the status badge shows Native / Introduced / Unknown from `nativity` (the
+   badge's look is unchanged; "Unknown" is shown, not hidden, on species pages). Compare
    per field with a script; investigate every difference (the only expected ones are bug
    fixes, listed in the commit message). check_site passes; screenshots match.
 3. `taxonomy.csv` export equals the current file in every column (plus `notes`).
@@ -462,6 +485,28 @@ old pipeline: nothing is deleted until Phase 7.
 3. Docs: CLAUDE.md (round 7 as built; pipeline order → the tools and refresh commands; the file
    table), README.md, `dataset/README.md` (generated), docs/EDITOR.md, APP_SPEC.md (the
    loader), STATUS.md. Remove BUILD_PLAN.md, SCHEMA_DRAFT.sql and `curation/README.md`.
+
+## Possible later: worldwide maps
+
+The user may want **a worldwide distribution map on every species page** (about 3,000
+species). Not scheduled; design notes so the refactor does not rule it out:
+
+- **Source**: GBIF occurrences worldwide for the species' key (GBIF's map API or occurrence
+  facets by grid cell), attributed "GBIF.org" with the retrieval date; aggregated counts, no
+  individual records.
+- **Preferred form: a coarse grid, drawn by the app.** One row per species with the occupied
+  cells of a 1° or 2° world grid (a compact string, ~1-5 KB per species, a few MB in all),
+  stored as `dataset/world_grid.csv` (or `.jsonl`) and drawn as SVG or canvas over one world
+  basemap in `webapp/`. It works from file://, keeps git and Vercel small, and matches the
+  island map's look. Micronesia is highlighted on it.
+- Rejected: static images per species (3,000 × 30-60 KB = 100-180 MB: over Vercel's budget and
+  heavy in git); hotlinked GBIF tiles (online only, no file://).
+- **Fetching**: a `refresh worldmap [--taxa new|all|<ids>]` command (one stream to GBIF,
+  ≤ 3 requests/s), and `/sync-records` would refresh the grid of taxa whose counts changed.
+- **Leave room for it now**: keep `gbif_key` and the COL id on every species row (the map
+  query needs one), keep a `map` slot in the record and the taxon page's layout (it is in
+  APP_SPEC.md's record already), and size the chunks without the grids (they would go in
+  their own files, like Wikipedia).
 
 ## Risks and how the plan meets them
 
