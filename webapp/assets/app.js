@@ -518,18 +518,20 @@
       '<p class="land-more"><a href="#orders" data-scroll="orders">All orders</a> · <a href="#about" data-scroll="about">About &amp; tools</a></p></section>');
     h.push('</div><div class="land-right"><section class="land-map">' +
       '<figure class="land-figure">' + islandMap(regions.map(function (x) { return x.key; }), allIsles, false, true) + "</figure>" +
-      '<ul class="region-strip">' + regions.map(function (x) {
-        return '<li class="r-' + esc(x.key) + '" title="' + esc(REGION_BLURB[x.key] || "") + '"><span class="swatch r-' + esc(x.key) + '"></span>' +
-          "<b>" + esc(x.label) + "</b><span>" + (x.species != null ? Number(x.species).toLocaleString() : "") + "</span></li>";
-      }).join("") + "</ul>" +
-      '<p class="strip-note">Species recorded in each island group; every dot is an island with records.</p></section></div></div>');
+      '<ul class="land-regions compact">' + regions.map(function (x) {
+        return '<li class="r-' + esc(x.key) + '"><div><strong><span class="swatch r-' + esc(x.key) + '"></span>' + esc(x.label) + "</strong>" +
+          (x.name !== x.label ? '<span class="rname">' + esc(x.name) + "</span>" : "") + "<p>" + esc(REGION_BLURB[x.key] || "") + "</p>" +
+          (beetles ? '<p class="rc"><a href="' + identifyHref(beetles.id, [x.key]) + '">beetles recorded here</a></p>' : "") + "</div></li>";
+      }).join("") + "</ul></section></div></div>");
     // below the first screen
     h.push('<div class="land-cols" id="about"><section class="land-about"><h2>About this project</h2>' +
-      "<p><b>What it is.</b> An identification and data-aggregation tool for the terrestrial hexapods of Micronesia: insects, springtails, proturans and diplurans. " +
-      "Names and classification follow the Catalogue of Life; names it lacks are added and flagged.</p>" +
-      "<p><b>Where the information comes from.</b> Occurrence records from GBIF (including the University of Guam Insect Collection) and iNaturalist; " +
+      "<p><b>Source data.</b> Occurrence records from GBIF (including the University of Guam Insect Collection) and iNaturalist; " +
       "the <i>Insects of Micronesia</i> monographs, <i>Micronesica</i> papers, University of Guam fact sheets and other literature, cited with page numbers; " +
-      "photographs from iNaturalist, Wikimedia Commons and GBIF, each credited with its licence.</p>" +
+      "photographs from iNaturalist, Wikimedia Commons and GBIF, each credited with its licence. " +
+      "All records are annotated as either human-verified or as yet unverified and derived only from machine reading.</p>" +
+      "<p><b>How this project was built.</b> Claude Code was used to generate this web portal which is built from a human-created list of sources, " +
+      "design specifications, and defined requirements for data attribution, licensing and citations. The portal includes a review tool so that all " +
+      "records can and hopefully eventually will be reviewed by a human entomologist. If you are interested in curating a portion of the checklist, let us know!</p>" +
       "<p><b>How far to trust it.</b> Records read from the literature by software are marked <i>machine-read</i> until a person confirms them; " +
       "each species is labelled native, introduced or unknown for Micronesia as a whole. Beetles (Coleoptera) are the first group being checked by hand; treat the others as a draft.</p></section>" +
       '<section class="land-tools"><h2>Tools</h2><ul>' +
@@ -539,12 +541,6 @@
       "<li><b>Download</b>: the whole checklist, or any group, as a spreadsheet (Darwin Core).</li>" +
       '<li><b>Editor</b>: contributors add records, sources and corrections through a web editor on the <a href="https://github.com/mandrewj/guam_insects" target="_blank" rel="noopener">project repository</a>.</li>' +
       "</ul></section></div>");
-    h.push('<section class="land-regions-box"><h2>The five regions</h2><ul class="land-regions">' + regions.map(function (x) {
-      return '<li class="r-' + esc(x.key) + '"><span class="swatch r-' + esc(x.key) + '"></span><div><strong>' + esc(x.name) + "</strong> " +
-        '<span class="muted">(' + esc(x.label) + ")</span><p>" + esc(REGION_BLURB[x.key] || "") + "</p><p class=\"rc\">" +
-        (x.species != null ? Number(x.species).toLocaleString() + " species recorded" : "") +
-        (beetles ? ' · <a href="' + identifyHref(beetles.id, [x.key]) + '">beetles recorded here</a>' : "") + "</p></div></li>";
-    }).join("") + "</ul></section>");
     h.push('<div id="orders">' + children({ id: meta.root, children: meta.home || [] }) + "</div>");
     h.push(downloadBox(rootCard, true));
     h.push("</section>");

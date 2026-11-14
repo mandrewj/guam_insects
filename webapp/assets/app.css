@@ -419,13 +419,14 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 .isle-map .glabel.r-mh { fill: var(--mh); opacity: 1; }
 .ip-map.ip-isles { background: none; aspect-ratio: 2 / 1; }
 /* landing page: the first screen holds the title, stats, checklist links, the map and the regional counts */
-.landing h2 { font: 700 1.05rem/1.25 var(--font); margin: 14px 0 6px; }
-.land-top { display: grid; grid-template-columns: minmax(280px, 5fr) 7fr; gap: 18px 24px; align-items: start; margin-top: 2px; }
-.land-title { font: 700 1.55rem/1.15 var(--font); margin: 4px 0 6px; }
-.land-lede { margin: 0 0 8px; font-size: 0.95rem; max-width: 52ch; }
-.land-stats { gap: 2px 14px; font-size: 0.85rem; }
-.land-quick h2 { margin-top: 12px; }
-.quick-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+.landing { padding-top: 22px; }
+.landing h2 { font: 700 1.05rem/1.25 var(--font); margin: 20px 0 8px; }
+.land-top { display: grid; grid-template-columns: minmax(280px, 5fr) 7fr; gap: 22px 32px; align-items: start; margin-top: 2px; }
+.land-title { font: 700 1.6rem/1.15 var(--font); margin: 4px 0 10px; }
+.land-lede { margin: 0 0 12px; line-height: 1.5; font-size: 0.95rem; max-width: 52ch; }
+.land-stats { gap: 4px 16px; font-size: 0.85rem; }
+.land-quick h2 { margin-top: 20px; }
+.quick-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
 .quick { display: flex; flex-direction: column; gap: 1px; padding: 8px 10px; border: 1px solid var(--line);
   border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-decoration: none; color: var(--text); min-width: 0; }
 .quick:hover, .quick:focus-visible { border-color: var(--accent); }
@@ -435,20 +436,21 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 .quick-main { background: var(--accent-soft); border-color: var(--accent); padding: 10px 12px; }
 .quick-main strong { font-size: 1.2rem; }
 .quick-main span { font-size: 0.85rem; }
-.land-more { margin: 8px 0 0; font-size: 0.85rem; }
-.land-figure { margin: 0 0 6px; }
+.land-more { margin: 10px 0 0; font-size: 0.85rem; }
+.land-figure { margin: 0 0 10px; }
 .isle-map.large { margin: 0; border: 1px solid var(--line); border-radius: 8px; }
 .isle-map.large .glabel { font: 700 19px var(--font); opacity: 1; }
-.region-strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-.region-strip li { display: flex; flex-wrap: nowrap; white-space: nowrap; align-items: baseline; gap: 2px 6px; padding: 6px 8px; border: 1px solid var(--line);
-  border-radius: 8px; background: var(--surface); font-size: 0.82rem; cursor: help; }
-.region-strip li span:last-child { margin-left: auto; font: 700 1rem var(--font); font-variant-numeric: tabular-nums; }
-.region-strip .swatch { margin: 0; align-self: center; flex: 0 0 10px; height: 10px; }
-.strip-note { margin: 4px 0 0; font-size: 0.75rem; color: var(--muted); }
 .land-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
 .land-regions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
-.land-regions li { display: flex; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.land-regions li { display: flex; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .land-regions p { margin: 2px 0; font-size: 0.9rem; }
+.land-regions.compact { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.land-regions.compact li { padding: 8px 9px; }
+.land-regions.compact strong { display: flex; align-items: center; gap: 6px; }
+.land-regions.compact .swatch { margin: 0; flex: 0 0 10px; height: 10px; }
+.land-regions.compact .rname { display: block; font-size: 0.7rem; color: var(--muted); margin: 1px 0 3px; }
+.land-regions.compact p { font-size: 0.74rem; line-height: 1.35; }
+.land-regions.compact .rc { margin-top: 4px; }
 .land-regions .rc { color: var(--muted); font-size: 0.85rem; }
 .swatch { flex: 0 0 12px; height: 12px; margin-top: 6px; border-radius: 50%; background: var(--muted); }
 .swatch.r-gu { background: var(--gu); } .swatch.r-mp { background: var(--mp); } .swatch.r-pw { background: var(--pw); }
@@ -643,5 +645,5 @@ h1[tabindex="-1"]:focus { outline: none; }
   .quick-row { grid-template-columns: 1fr; }
   .isle-map.large .glabel { font-size: 24px; }
   .land-regions { grid-template-columns: 1fr; }
-  .region-strip { grid-template-columns: repeat(3, 1fr); }
+  .land-regions.compact { grid-template-columns: 1fr 1fr; }
 }
