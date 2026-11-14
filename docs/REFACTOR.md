@@ -4,6 +4,35 @@ To be worked through **on the data machine** (it has `data.nosync/guam.sqlite`, 
 library and the API caches), one phase at a time, committing and pushing after each. The
 decisions are the user's (2026-11-13, CLAUDE.md round 7); this file is the plan.
 
+## As built (2026-11-13): where the code differs from the plan below
+
+The refactor was carried out in one session; the plan below is otherwise followed. Differences:
+
+- **Phase 2 skipped the old layout**: records were proven equal to the baseline
+  (`ops/compare_records.py`, taxonomy.csv export equal too) and the site went straight to the
+  bundled layout of Phase 3. The documented differences from the baseline are in
+  docs/STATUS.md.
+- **photos.csv** also holds the `inherited` rows (a group showing a species' photo: `role
+  inherited`, `from_id`), written by `refresh photos` / `sync apply` (`sources/photos.py
+  inherit`), instead of the build choosing them; own rows carry `thumb_url` (the remote
+  thumbnail, used when no local thumbnail exists).
+- **literature.csv** has `status_page` (the page of the nativity statement) and `review` may be
+  empty (a published checklist: not machine-read). `status_area` and `areas` are lists.
+  **documents.csv** has no `areas`.
+- **links.csv** also holds `wikipedia` (the article Wikidata names, for `refresh wikipedia`) and
+  `commons` (the Wikidata image file, for `refresh photos`); an `inaturalist` row's label is
+  iNaturalist's English name and its note says how it was matched.
+- **names.csv** was kept (GBIF and COL synonyms; the English names live in `taxa.other_common_names`).
+- **keys.csv** keys for names no GBIF key stands for are the printed names (source `inat` or
+  `literature`); `name-<n>` ids are kept as taxon ids.
+- **The editor** loads `taxa`, `distribution`, `vouchers`, `links`, `literature`, `notes`, `hosts`,
+  `unplaced` (editable) and `documents`, `records` (display only); unplaced names are placed from a
+  worklist (`place`); the old IOG rows and override layer are gone.
+- **Retired with the old pipeline**: `scripts/` (including the Micronesica index crawler), `ops/review.py`,
+  the `import`/`taxonomy`/`snapshot`/`restore` commands. Documents now arrive through `lit add`.
+- **Not done, left for the user**: the production deploy, deleting the `data-snapshot` release and
+  `data/raw/`, and the first live runs of `sync` and `lit` (docs/STATUS.md).
+
 ## Why
 
 The project was built like entobase, for a large fauna that is re-harvested over and over: a
