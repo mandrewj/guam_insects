@@ -48,7 +48,7 @@ def check(page, url: str) -> dict[str, bool]:
     page.on("pageerror", lambda e: errors.append(str(e)))
     r = {}
     page.goto(url)
-    page.wait_for_selector(".hero", timeout=10_000)
+    page.wait_for_selector(".landing", timeout=10_000)
     r["home lists orders"] = page.locator("#s-children .card").count() >= 10
     quick = page.locator(".land-quick a.quick")
     names = [t.split("\n")[0] for t in quick.all_inner_texts()]
@@ -224,7 +224,7 @@ def main() -> int:
                     page = ctx.new_page()
                     for label, frag in SHOTS.items():
                         page.goto(url + frag)
-                        page.wait_for_selector(".taxon-head, .search-title, .hero")
+                        page.wait_for_selector(".taxon-head, .search-title, .landing")
                         page.wait_for_timeout(400)
                         page.screenshot(path=args.shots / f"{name}-{size}-{label}.png")
                 ctx.close()
