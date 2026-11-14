@@ -1,4 +1,4 @@
-"""`guaminsects refresh <photos|wikipedia|wikidata|bugguide|col> [--taxa new|all|<ids>]`.
+"""`guaminsects refresh <inat|living|photos|wikipedia|wikidata|bugguide|col> [--taxa new|all|<ids>]`.
 
 Slim refreshes of one outside source each, run on demand (and by `sync apply` for the taxa it
 adds), writing the dataset tables directly. They keep the polite client, the licence filter

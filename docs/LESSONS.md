@@ -75,7 +75,7 @@ Stale rows are deleted per area so a corrected record disappears.
 ## The web app
 
 - `file://` forbids `fetch()`: the data are `<script>` files that call a loader. Record files are
-  sharded `data/t/<id//1000>/<id>.js`; the name index and a sharded full-text index load on demand.
+  sharded `data/t/<id//1000>/<id>.js` (superseded: `data/c/<n>.js` chunk files, see APP_SPEC); the name index and a sharded full-text index load on demand.
 - The **hash is the route**. In-page jumps use `data-*` plus JavaScript (`a.cite`, `a.jump`), never
   `href="#id"`.
 - Sanitise any HTML you copy from a source: relative links made absolute, `#` links unwrapped,

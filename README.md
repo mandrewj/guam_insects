@@ -12,7 +12,18 @@ everywhere:
   and Nafus & Schreiner's list of crop pests. Names and island records are read from the
   text and cited with page numbers.
 - **Pages**: Wikipedia, Wikidata, Commons and iNaturalist photos (with credits), IUCN
-  category, native/introduced statements, and BugGuide links where the species has a page.
+  category where Wikidata records it, native/introduced statements, and BugGuide links where the species has a page.
+
+## Getting started / contributing
+
+```sh
+git clone https://github.com/mandrewj/guam_insects && cd guam_insects
+uv sync && uv run playwright install chromium   # the browser is only for ops/check_site.py
+uv run guaminsects dataset check && uv run guaminsects build && uv run guaminsects serve   # :8765
+uv run guaminsects edit        # the editor on :8766; Commit = commit + push to main (`--no-push` keeps it local)
+```
+
+Or open `editor/index.html` and use a fine-grained GitHub token (Contents: read/write) for this repo. Collaborators need write access to the repository. Every push to `main` that touches `dataset/`, `media/`, `src/`, `webapp/`, `editor/`, `ops/` or `tests/` runs CI (`dataset check`, pytest, build, `ops/check_site.py`) and deploys to Vercel when the owner's `VERCEL_*` secrets are set. A normal clone needs none of the iCloud-specific setup in CLAUDE.md.
 
 ## Use it
 

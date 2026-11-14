@@ -7,8 +7,9 @@
     editor-spec            editor/assets/spec.js from schema.py and geo.py
     match NAME ...         put names on the Catalogue of Life (new taxa flagged new)
     sync check|apply       GBIF and iNaturalist counts against records.csv
-    refresh WHAT           photos, wikipedia, wikidata, bugguide, col for some taxa
-    lit add|cite|scan|apply   the literature tool (the /ingest-literature skill drives it)
+    refresh WHAT           inat, living, photos, wikipedia, wikidata, bugguide, col for some taxa
+    plazi [--dry-run]      clean the Plazi citations (real authors, fixed surnames, merged duplicates)
+    lit add|cite|pages|scan|apply   the literature tool (the /ingest-literature skill drives it)
 """
 
 import argparse

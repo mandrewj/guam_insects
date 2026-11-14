@@ -61,6 +61,7 @@ kbd { font: 0.85em ui-monospace, SFMono-Regular, Menlo, monospace; padding: 1px 
 .logo { display: block; width: 44px; height: 44px; flex: none; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25)); }
 .brand > span > span { color: var(--header-accent); }
 .tagline { color: var(--header-text); opacity: .78; font-size: 0.9rem; }
+main#app { min-height: 80vh; } /* the footer must not jump when content arrives (CLS) */
 .site-footer { border-top: 1px solid var(--line); margin-top: 48px; padding: 18px 0 28px; color: var(--muted); font-size: 0.85rem; }
 
 /* search */
@@ -633,6 +634,11 @@ h1[tabindex="-1"]:focus { outline: none; }
   .side { position: sticky; top: 64px; }
 }
 @media (prefers-color-scheme: dark) { .ip-map img:first-child { filter: brightness(0.82) contrast(0.95); } }
+/* Accessibility (audit 2026-11-14): visible focus on the dark header, contrast of the
+   dark-mode region chips, and 24 px minimum targets for standalone controls. */
+.site-header :focus-visible { outline-color: var(--header-accent); }
+@media (prefers-color-scheme: dark) { .ip-filter .chip.on { color: #10161c; } }
+.dl-link, .checklist button.link { display: inline-flex; align-items: center; min-height: 24px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
   .card:hover, .ip:hover { transform: none !important; }

@@ -3,6 +3,14 @@
 Updated by the build session; newest first. Decisions live in CLAUDE.md; this file is what
 is done, what is waiting, and what needs the user.
 
+## 2026-11-14: after the refactor (the pre-refactor sections further down are history)
+
+- Production is live (https://insects-of-guam.vercel.app); a push to main rebuilds and deploys through GitHub Actions.
+- Public site: landing page with map, region cards and quick links; search suggestions with parent names; header Checklist link.
+- Editor: Review by document, Quick review, merge/exclude for unplaced names, Sources tab with a reference picker, Cite-a-source; favicon (orange).
+- Tools: `match --unplaced`, `refresh inat` (taxonomy archive) and `refresh living`, `plazi` clean-up.
+- Audit of 2026-11-14: see docs/AUDIT-2026-11-14.md (decisions waiting for the owner).
+
 ## 2026-11-13, late night: the refactor is built (docs/REFACTOR.md, CLAUDE.md round 7)
 
 ### Done (phases 0-7, on the data machine)

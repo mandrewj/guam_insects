@@ -4,6 +4,8 @@ To be worked through **on the data machine** (it has `data.nosync/guam.sqlite`, 
 library and the API caches), one phase at a time, committing and pushing after each. The
 decisions are the user's (2026-11-13, CLAUDE.md round 7); this file is the plan.
 
+Sections below the "As built" block are the plan, not the code. For what exists: `dataset/README.md` and `docs/EDITOR.md`. `names.csv`, `keys.csv` and `vouchers` survive; `plazi` and `refresh inat|living` were added later.
+
 ## As built (2026-11-13): where the code differs from the plan below
 
 The refactor was carried out in one session; the plan below is otherwise followed. Differences:

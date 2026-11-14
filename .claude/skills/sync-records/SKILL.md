@@ -21,7 +21,7 @@ reported, never removed.
 
 ## Steps
 
-1. **Check.** `uv run guaminsects sync check` (or `--area GU` ... for some areas). One stream per host,
+1. **Check.** `uv run guaminsects sync check` (or `--area GU --area PW` ... for some areas; the flag repeats). One stream per host,
    at most 3 requests/s to GBIF and 1/s to iNaturalist. It stages the answers in
    `private.nosync/staging/sync-<date>.json` and prints a summary: new keys (Catalogue of Life,
    GBIF Backbone, iNaturalist names), rows added, counts changed (with the ten largest changes), counts
@@ -44,5 +44,5 @@ reported, never removed.
    `Sync <date>: <n> new taxa, <n> counts changed` plus the session's trailer, and `git push`
    (the push rebuilds and redeploys the site).
 
-Other refreshes, when asked: `uv run guaminsects refresh photos|wikipedia|wikidata|bugguide|col
+Other refreshes, when asked: `uv run guaminsects refresh inat|living|photos|wikipedia|wikidata|bugguide|col
 --taxa new|all|<ids>` (same polite client; same commit routine).

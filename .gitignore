@@ -3,7 +3,6 @@
 /pdfs/
 /literature/
 /reference/
-/site/
 site.nosync/
 private.nosync/
 .vercel/
@@ -16,4 +15,4 @@ __pycache__/
 .ruff_cache/
 .env
 /starter/
-exports/
+/exports/

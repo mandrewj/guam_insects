@@ -1,5 +1,7 @@
 # The web app: what to keep, what to change
 
+> Status: the routes, loader and record below are current (the build is `src/guaminsects/build/`; the record is made by `build/records.py`). "Change for Micronesia" and "Density" are the original brief, kept for history; where they differ, the code and CLAUDE.md win. The loader global is `guaminsects` (`meta`, `index`, `chunk`, `wiki`, `names`, `ft`, `taxonomy`), not `entobase`.
+
 `starter/webapp/` is entobase's app exactly as it stands (static, no build step, no framework,
 vanilla JS ≈1,200 lines + CSS ≈500 lines). The user wants Micronesia's view to be "almost
 identical". Keep the structure; change what is listed under **Change**.

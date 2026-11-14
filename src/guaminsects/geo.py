@@ -1,7 +1,7 @@
 """Approximate island positions for the schematic island map (taxon page, identify tiles).
 
 Decimal degrees, to about a tenth of a degree: enough to place a dot on a 330 px map of
-Micronesia, not for anything else. Names match literature.ISLANDS and enrich/islands.py.
+Micronesia, not for anything else. Names match literature/finder.py (ISLANDS).
 Each area also has `anchor` islands, lit faintly when the area has records but no island
 is named.
 """

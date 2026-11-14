@@ -645,12 +645,12 @@
     var first = r.photos[0];
     var thumbs = r.photos.length > 1 ? '<div class="g-thumbs">' + r.photos.map(function (ph, i) {
       return '<button type="button" class="g-thumb' + (i ? "" : " active") + '" data-i="' + i +
-        '" aria-label="Photo ' + (i + 1) + '"><img src="' + esc(ph.thumb) + '" alt="" loading="lazy"></button>';
+        '" aria-label="Photo ' + (i + 1) + '"><img src="' + esc(ph.thumb) + '" alt="" width="56" height="42" decoding="async" loading="lazy"></button>';
     }).join("") + "</div>" : "";
     // A button, not a link to the source: the caption carries the source link, and clicking
     // the picture should enlarge it rather than navigate away from the page.
     return '<figure class="gallery"><button type="button" class="g-main" data-i="0" ' +
-      'title="Click to enlarge"><img src="' + esc(first.display) +
+      'title="Click to enlarge"><img fetchpriority="high" src="' + esc(first.display) +
       '" alt="' + esc(r.name) + '"' + (first.w && first.h ? ' width="' + first.w + '" height="' + first.h + '"' : "") +
       "></button>" +
       thumbs + '<figcaption class="g-cap">' + photoCaption(first) + "</figcaption></figure>";
@@ -662,9 +662,20 @@
 
   var lightboxOpener = null;
 
+  // While the lightbox is open the page behind it is inert (no Tab, no screen-reader reach).
+  function setBackgroundInert(on) {
+    ["app", "site-footer"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.inert = on;
+    });
+    var hdr = document.querySelector(".site-header");
+    if (hdr) hdr.inert = on;
+  }
+
   function closeLightbox() {
     if (lightbox && !lightbox.hidden) {
       lightbox.hidden = true;
+      setBackgroundInert(false);
       if (lightboxOpener && document.contains(lightboxOpener)) lightboxOpener.focus();
     }
     document.body.classList.remove("no-scroll");
@@ -695,6 +706,7 @@
       (many ? '<button type="button" class="lb-step lb-next" aria-label="Next">\u203a</button>' : "");
     if (lightbox.hidden) lightboxOpener = document.activeElement;
     lightbox.hidden = false;
+    setBackgroundInert(true);
     document.body.classList.add("no-scroll");
     var closeBtn = lightbox.querySelector(".lb-close");
     if (closeBtn) closeBtn.focus();
@@ -715,7 +727,15 @@
 
   document.addEventListener("keydown", function (e) {
     if (!lightbox || lightbox.hidden) return;
-    if (e.key === "Escape") closeLightbox();
+    if (e.key === "Tab") {
+      var f = lightbox.querySelectorAll("button, a[href]");
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      else if (!lightbox.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+    }
+    else if (e.key === "Escape") closeLightbox();
     else if (e.key === "ArrowLeft") showLightbox(lightboxAt - 1);
     else if (e.key === "ArrowRight") showLightbox(lightboxAt + 1);
   });
@@ -758,7 +778,7 @@
     if (c.status === "synonym") sub.push("synonym");
     if (c.est && STATUS[c.est]) sub.push('<span class="est-tag est-' + STATUS[c.est][1] + '">' + esc(STATUS[c.est][0].toLowerCase()) + "</span>");
     return '<li><a class="card' + (c.thumb || withTile ? " has-thumb" : "") + '" href="' + href(c.id) + '">' +
-      (c.thumb ? '<img class="card-thumb" src="' + esc(c.thumb) + '" alt="" loading="lazy">'
+      (c.thumb ? '<img class="card-thumb" src="' + esc(c.thumb) + '" alt="" decoding="async" loading="lazy">'
                : withTile ? '<span class="card-thumb tile" aria-hidden="true">' + esc(initials(c.name)) + "</span>" : "") +
       '<span class="card-rank">' + esc(displayRank(c.rank, c.name)) +
       '</span><span class="card-name">' + sciName(c.rank, c.name) + "</span>" +
@@ -1557,7 +1577,7 @@
   }
   // The "/" shortcut hint only makes sense with a keyboard; keep the phone placeholder short.
   if (window.matchMedia("(max-width: 600px)").matches) qInput.placeholder = "Search names & text";
-  qInput.addEventListener("focus", function () { qInput.select(); });
+  qInput.addEventListener("focus", function () { qInput.select(); loadNames(); });
   qInput.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(showSuggest, 60); });
   qInput.addEventListener("keydown", function (e) {
     if (e.key === "ArrowDown") { e.preventDefault(); if (suggest.hidden) showSuggest(); else setActive(active + 1); }

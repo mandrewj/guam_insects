@@ -13,6 +13,8 @@ foundation:
 | Regions | NE / SE / SW / NW (US + Canada) | **islands and island groups** (Guam, CNMI, Palau, FSM, Marshalls) |
 | Output | static `file://` web app | **the same app**, reused from `starter/webapp/` |
 
+**Rounds 1-6 below are history.** The pipeline they describe (SQLite, curation/, sources/, taxonomy.csv in git, the data-snapshot release, resolve, the local build target, BUILD_PLAN.md, scripts/) was replaced by round 7. Still binding from them: scope (Micronesia, Hexapoda only; the 'all terrestrial arthropods' bullet is superseded by round 2), name, licences and attribution, the public-repo rule, hotlinked photos plus thumbnails, English common names, no IUCN token, COL as backbone, main ranks only, spelling variants merged with a note, and 'added by' required. Everything else: see 'Tools and commands' and docs/REFACTOR.md.
+
 Status (2026-11-13, night): **the round-7 refactor is built** (docs/REFACTOR.md): the
 dataset is CSV tables in `dataset/` (in git); `guaminsects build` makes the site from it with no
 database and no network; the editor edits the tables directly; two Claude Code skills
@@ -39,14 +41,18 @@ ops/deploy.sh [--prod]                   # Vercel (public build)
 uv run guaminsects lit add|cite|pages|scan|apply   # /ingest-literature
 uv run guaminsects sync check|apply                # /sync-records
 uv run guaminsects match NAME ...                  # names -> the Catalogue of Life (new taxa flagged new)
-uv run guaminsects refresh photos|wikipedia|wikidata|bugguide|col [--taxa new|all|ID ...]
+uv run guaminsects refresh inat|living|photos|wikipedia|wikidata|bugguide|col [--taxa new|all|ID ...]
+#   inat: links via iNaturalist's published taxonomy archive (~80 MB, cached in private.nosync/inat-taxonomy/), takes its English name
+#   living: prefers living-organism photos over specimen photos
+uv run guaminsects plazi [--dry-run]     # clean Plazi citations (real authors, fixed surnames, merged duplicates)
+uv run guaminsects match --unplaced      # place names in review/unplaced from the GBIF Backbone and Wikipedia redirects
 uv run python ops/compare_records.py     # records vs the pipeline-v1 baseline (Phase 2 proof)
 ```
 
 The dataset (`dataset/README.md` lists every column; `src/guaminsects/schema.py` declares them):
 `taxa` (every taxon and name; nativity, flags, verification), `keys` (source key -> taxon),
 `names`, `records` (counts per taxon x island group x source), `islands`, `documents`,
-`literature`, `notes`, `hosts`, `photos`, `links`, `distribution`, `vouchers`,
+`literature`, `notes`, `hosts`, `photos`, `links`, `distribution`, `vouchers` (`notes` and `vouchers` are written only when they have rows),
 `review/unplaced`, and `wikipedia.jsonl`. Card thumbnails are `media/thumbs/`. The build is
 `dataset.load` + `check` -> `model.py` -> `build/records.py` (the record each page renders)
 -> `build/bundle.py` (chunk files), `build/search.py`, `build/export.py` (taxonomy.js).
