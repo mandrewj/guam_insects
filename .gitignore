@@ -1,10 +1,10 @@
 # Data and literature never go in git (CLAUDE.md rule 6). The repo is public.
-data/
-data.nosync/
-pdfs/
-literature/
-reference/
-site/
+/data/
+/data.nosync/
+/pdfs/
+/literature/
+/reference/
+/site/
 site.nosync/
 private.nosync/
 .vercel/
@@ -16,4 +16,4 @@ __pycache__/
 .DS_Store
 .ruff_cache/
 .env
-starter/
+/starter/
