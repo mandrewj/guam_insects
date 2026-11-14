@@ -193,6 +193,29 @@ every reader goes through `db.keymap(conn)`. External ids: `KVC9L`, `gbif:<key>`
 - Data harvesting continues on the other machine; tool development happens without a
   database (fixtures in `tests/`).
 
+## Decisions, round 7 (2026-11-13; planned, not yet built: docs/REFACTOR.md)
+
+A refactor to be done **on the data machine**, phase by phase, following docs/REFACTOR.md.
+Until a phase lands, everything above still describes the code.
+
+- **The dataset becomes the truth**: CSV tables (+ `wikipedia.jsonl`) in `dataset/`, in git;
+  the taxa table is edited directly (no override layer; git is the history). The build is a
+  function of the repository (no database, no snapshot release). Card thumbnails are files in
+  git (`media/thumbs/`).
+- **The site keeps its look, routes and ids**; its data are bundled into a few hundred
+  chunk files instead of one script per taxon.
+- **Two Claude Code skills, run on the data machine only**: `/ingest-literature <dir>`
+  (names, pages, islands, status, hosts, first-record years and a ≤ 200-character paraphrased
+  note per species account; added without an approval step, flagged machine-read /
+  machine-written) and `/sync-records` (GBIF and iNaturalist counts; new taxa added
+  automatically with `flag new`; changed counts refresh those taxa's statistics).
+- **Slim refresh commands stay** for photos, Wikipedia, Wikidata, BugGuide (via entobase) and
+  the Catalogue of Life.
+- **The repository stays in iCloud**, with git's object store and the build output in
+  `.nosync` folders and the rule: pull before working, commit and push when done, one machine
+  at a time.
+- Collaborators use the editor; the old pipeline is kept under the tag `pipeline-v1`.
+
 ## Hard rules (inherited from entobase; they exist because something went wrong)
 
 1. **Never fetch BugGuide directly** (no curl, WebFetch, httpx, requests). It is behind
