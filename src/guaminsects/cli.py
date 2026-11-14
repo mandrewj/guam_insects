@@ -69,8 +69,8 @@ def cmd_colinfo(args) -> int:
     return 0
 
 
-def cmd_match(args) -> int:
-    """Put every name a source used on the Catalogue of Life (name_matches)."""
+def cmd_match_pipeline(args) -> int:
+    """The pipeline-v1 matcher (database), kept until Phase 7."""
     from . import names
 
     conn = db.connect()
@@ -216,6 +216,100 @@ def cmd_dataset(args) -> int:
     print(f"dataset: {len(ds['taxa'])} taxa rows, {n} problem{'s' if n != 1 else ''}"
           + (" (first 200 shown)" if n > 200 else ""))
     return 1 if n else 0
+
+
+def _today() -> str:
+    from datetime import date
+
+    return date.today().isoformat()
+
+
+def cmd_match(args) -> int:
+    """Put names on the Catalogue of Life: each is matched, added to taxa.csv flagged new when
+    COL lacks it (under its genus), or listed in review/unplaced.csv."""
+    from . import dataset, match
+    from .http import ApiClient
+    from .sources import col as colapi
+    from .sources import gbif as gbifapi
+
+    ds = dataset.load()
+    gbif = ApiClient(gbifapi.GBIF, 0.34)
+    col = ApiClient("https://api.gbif.org", 0.34)
+    m = match.Matcher(ds, col, gbif, by="guaminsects match", today=_today())
+    for name in args.names:
+        got = m.resolve(name, args.rank, args.source)
+        print(f"{name}: {got or 'unplaced (see dataset/review/unplaced.csv)'}")
+    problems = dataset.check(ds)
+    if problems:
+        print("\n".join(problems.items[:20]), file=sys.stderr)
+        return 1
+    dataset.write(ds)
+    print(m.stats)
+    _ = colapi
+    return 0
+
+
+def cmd_sync(args) -> int:
+    """sync check | apply: GBIF and iNaturalist counts against dataset/records.csv. `check`
+    asks the sources and stages the answers (nothing in dataset/ changes); `apply` writes
+    them, adding new taxa flagged new."""
+    import json
+
+    from . import dataset, match, refresh, sync
+    from .http import ApiClient
+    from .sources import gbif as gbifapi
+    from .sources import inat as inatapi
+
+    ds = dataset.load()
+    today = _today()
+    gbif = ApiClient(gbifapi.GBIF, 0.34)
+    if args.what == "check":
+        inat = ApiClient(inatapi.INAT, 1.0)
+        staging = sync.check(ds, gbif, inat, areas=args.area or None, today=today,
+                             progress=lambda m: print(m, file=sys.stderr))
+        path = sync.save(staging, today)
+        print(json.dumps(sync.summarize(ds, staging), indent=1))
+        print(f"staged: {path}; {gbif.requests} GBIF + {inat.requests} iNaturalist requests")
+        return 0
+    path = args.file or sync.latest_staging()
+    if not path:
+        print("nothing staged: run `guaminsects sync check` first", file=sys.stderr)
+        return 1
+    staging = sync.load(__import__("pathlib").Path(path))
+    col = ApiClient("https://api.gbif.org", 0.34)
+    m = match.Matcher(ds, col, gbif, by="guaminsects sync", today=today)
+    report = sync.apply(ds, staging, m, gbif=gbif, today=today,
+                        refresh_new=lambda d, new: refresh.run_new(
+                            d, new, today, lambda x: print(x, file=sys.stderr)),
+                        progress=lambda x: print(x, file=sys.stderr))
+    problems = dataset.check(ds)
+    if problems:
+        print("the result does not pass dataset check; nothing written:\n"
+              + "\n".join(problems.items[:20]), file=sys.stderr)
+        return 1
+    dataset.write(ds)
+    print(json.dumps({k: v for k, v in report.items() if k != "new_ids"}, indent=1))
+    print(f"new taxa: {', '.join(report['new_ids'][:40])}" + (" ..." if len(report["new_ids"]) > 40 else ""))
+    return 0
+
+
+def cmd_refresh(args) -> int:
+    """refresh <photos|wikipedia|wikidata|bugguide|col> [--taxa new|all|ID ...]: one outside
+    source, for the taxa flagged new, all of them, or the ids given."""
+    from . import dataset, refresh
+
+    ds = dataset.load()
+    taxa = refresh.pick(ds, args.taxa[0] if args.taxa in (["new"], ["all"]) else args.taxa)
+    print(f"{args.what}: {len(taxa)} taxa", file=sys.stderr)
+    stats = refresh.run(ds, args.what, taxa, _today(), lambda x: print(x, file=sys.stderr))
+    problems = dataset.check(ds)
+    if problems:
+        print("the result does not pass dataset check; nothing written:\n"
+              + "\n".join(problems.items[:20]), file=sys.stderr)
+        return 1
+    dataset.write(ds)
+    print(stats)
+    return 0
 
 
 def cmd_build(args) -> int:
@@ -472,10 +566,10 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("colinfo", help=cmd_colinfo.__doc__)
     p.add_argument("--extinct-only", action="store_true")
     p.set_defaults(func=cmd_colinfo)
-    p = sub.add_parser("match", help=cmd_match.__doc__)
+    p = sub.add_parser("match-pipeline", help=cmd_match_pipeline.__doc__)
     p.add_argument("--refresh", action="store_true", help="match every name again")
     p.add_argument("--shard", default="0/1", help="i/n: every n-th key (two streams: 0/2, 1/2)")
-    p.set_defaults(func=cmd_match)
+    p.set_defaults(func=cmd_match_pipeline)
     p = sub.add_parser("col", help=cmd_col.__doc__)
     p.add_argument("--refresh", action="store_true", help="refetch cached taxa")
     p.set_defaults(func=cmd_col)
@@ -507,6 +601,20 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("dataset", help=cmd_dataset.__doc__)
     p.add_argument("what", choices=["check", "readme"], nargs="?", default="check")
     p.set_defaults(func=cmd_dataset)
+    p = sub.add_parser("match", help=cmd_match.__doc__)
+    p.add_argument("names", nargs="+")
+    p.add_argument("--rank", default="species", help="species (default), genus, subspecies, family")
+    p.add_argument("--source", default="manual")
+    p.set_defaults(func=cmd_match)
+    p = sub.add_parser("sync", help=cmd_sync.__doc__)
+    p.add_argument("what", choices=["check", "apply"])
+    p.add_argument("--area", action="append", help="GU MP PW FM MH (default: all)")
+    p.add_argument("--file", help="a staged sync file (default: the latest)")
+    p.set_defaults(func=cmd_sync)
+    p = sub.add_parser("refresh", help=cmd_refresh.__doc__)
+    p.add_argument("what", choices=["photos", "wikipedia", "wikidata", "bugguide", "col"])
+    p.add_argument("--taxa", nargs="+", default=["new"], help="new (default), all, or taxon ids")
+    p.set_defaults(func=cmd_refresh)
     p = sub.add_parser("build", help=cmd_build.__doc__)
     p.set_defaults(func=cmd_build)
     p = sub.add_parser("build-pipeline", help=cmd_build_pipeline.__doc__)

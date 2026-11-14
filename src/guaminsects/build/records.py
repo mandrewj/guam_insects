@@ -191,7 +191,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
                                                   "bugguide", "editor")}
     for r in ds["links"]:
         tid = at(r["taxon_id"])
-        if tid is not None:
+        if tid is not None and r["system"] in by_tid:
             by_tid[r["system"]][tid].append(r)
     wiki = {}
     for w in ds.wikipedia:
