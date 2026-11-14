@@ -40,6 +40,13 @@ repository can use it; what they commit rebuilds and redeploys the site.
   delete for good (only taxa added here).
 - **Table**: the taxa columns (or a preset), virtualised (6,600 rows scroll smoothly). White
   cells are editable (double-click, Enter saves); grey ones are computed from the other tables.
+  **Every column has a filter** under its heading (a drop-down for columns with few values, else a
+  box: text = contains, `=text` exact, `!text` without, `=` empty, `!` not empty, `>5`/`<5`
+  numbers); filters combine, apply to the rows chosen ("the list on the left" or all), and
+  "Clear filters" resets them.
+- **Tree filter**: "Only what no editor has confirmed" (above the tree) hides every branch with
+  nothing to confirm and shows how many unconfirmed taxa lie under each child. The worklist
+  "Not confirmed by an editor" lists them flat.
   A list cell is typed in its format (below) and becomes the same operations the tools make.
 - **Sources** (tab, and the pickers): `documents.csv` is the one bibliography. Every literature row,
   note, host plant, distribution tag and nativity value points at a reference by its id, so

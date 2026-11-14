@@ -110,6 +110,10 @@ form.inline input { flex: 1 1 200px; }
 .grid { flex: 1; overflow: auto; position: relative; outline: none; }
 .g-head { position: sticky; top: 0; z-index: 2; display: flex; background: var(--surface); border-bottom: 2px solid var(--line); }
 .g-head .h { flex: none; padding: 4px 6px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-right: 1px solid var(--line); }
+.g-head .h .lab { overflow: hidden; text-overflow: ellipsis; }
+.g-head .h input, .g-head .h select { width: 100%; box-sizing: border-box; margin-top: 3px; font-size: 0.78rem; font-weight: 400; padding: 1px 4px; }
+.tree-opt { display: block; font-size: 0.88rem; }
+.tree-opt input { width: auto; margin: 0 6px 0 0; vertical-align: middle; }
 .g-head .h.ro { color: var(--muted); font-weight: 400; }
 .g-body { position: relative; }
 .g-body .r { position: absolute; left: 0; display: flex; height: 28px; border-bottom: 1px solid var(--line); background: var(--surface); }

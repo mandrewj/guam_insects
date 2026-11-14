@@ -610,3 +610,42 @@ def test_add_a_taxon_linked_to_specific_inat_and_gbif_taxa(page, world):
     links = out["files"]["dataset/links.csv"]
     assert f"{new},inaturalist,999,,high,linked by editor,T. Editor" in links
     assert f"{new}," in out["files"]["dataset/taxa.csv"] and ",8888," in out["files"]["dataset/taxa.csv"]
+
+
+def test_filters_the_tree_to_the_unconfirmed_and_the_table_by_column(browser, world):
+    pg = browser.new_page()
+    errors = []
+    pg.on("pageerror", lambda e: errors.append(str(e)))
+    pg.add_init_script("localStorage.setItem('iog-editor-name', 'UI Tester');")
+    pg.route("**/api.github.com/**", lambda r: r.abort())
+    pg.route("**/raw.githubusercontent.com/**", lambda r: r.abort())
+    pg.goto((config.ROOT / "editor" / "index.html").as_uri())
+    pg.wait_for_selector("#start-load", timeout=10000)
+    pg.click("#start-load")
+    pg.set_input_files(".filepick input", [str(p) for p in world.rglob("*.csv")])
+    pg.wait_for_function("window.IOGApp.st && window.IOGApp.st.rows.length > 5")
+    # the tree: toggle the filter; every shown child has something unconfirmed under it
+    pg.wait_for_selector("#unconf")
+    pg.check("#unconf")
+    pg.wait_for_selector("#unconf:checked")
+    assert "unconfirmed" in pg.inner_text("#list")
+    # the queue lists every accepted taxon an editor has not confirmed
+    pg.select_option("#queue", "unconfirmedall")
+    n_unc = pg.locator("#list .item").count()
+    assert n_unc == pg.evaluate(
+        "IOGApp.st.rows.filter(r => r.taxonomicStatus !== 'synonym' && r.hidden !== '1' && r.verificationStatus !== 'editor confirmed').length")
+    # the table: a filter box on every column
+    pg.click('.tabs button[data-tab="table"]')
+    pg.wait_for_selector(".g-head [data-cf]")
+    total = int(pg.inner_text("#tbl-n").split()[0].replace(",", ""))
+    assert total == n_unc
+    pg.fill('.g-head input[data-cf="scientificName"]', "oryctes")
+    pg.wait_for_function("document.querySelector('#tbl-n').textContent.includes('filter')")
+    assert int(pg.inner_text("#tbl-n").split()[0]) < total
+    pg.fill('.g-head input[data-cf="scientificName"]', "=")        # empty names: none
+    pg.wait_for_function("document.querySelector('#tbl-n').textContent.startsWith('0 ')")
+    pg.click("#clear-f")
+    assert pg.evaluate("Object.keys(IOGApp.colf).length") == 0
+    pg.wait_for_function("!document.querySelector('#tbl-n').textContent.includes('filter')")
+    assert not errors, errors
+    pg.close()

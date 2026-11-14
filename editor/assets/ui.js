@@ -19,7 +19,7 @@
     reviewDoc: null, base: null, loaded: null, ops: [], st: null, sel: null, tab: "taxon", queue: "browse", q: "",
     name: store.get("iog-editor-name") || "", search: new Map(),
     token: store.get("iog-editor-token") || store.get("iog-editor-token", true) || "",
-    preset: store.get("iog-editor-preset") || "core", tableScope: "list", upl: -1,
+    preset: store.get("iog-editor-preset") || "core", tableScope: "list", upl: -1, unconf: false, colf: {},
   };
 
   // ------------------------------------------------------------ small helpers
@@ -197,6 +197,7 @@
     ["thin", "Species on ≤ 2 GBIF records, nothing else", r => r.taxonRank === "Species" && !isSyn(r) && num(r.gbifRecords) <= 2 && !num(r.literatureRecords) && !num(r.inatObservations)],
     ["lonely", "Families with nothing under them", (r, st) => r.taxonRank === "Family" && !isSyn(r) && !st.children(r.taxonID).length],
     ["curated", "Added by hand (IOG-)", r => /^IOG-/.test(r.taxonID)],
+    ["unconfirmedall", "Not confirmed by an editor", r => !isSyn(r) && r.hidden !== "1" && r.verificationStatus !== M.CONFIRMED],
     ["confirmed", "Editor confirmed", r => r.verificationStatus === M.CONFIRMED],
     ["introduced", "Nativity: introduced", r => !isSyn(r) && r.nativity === "introduced"],
     ["native", "Nativity: native", r => !isSyn(r) && r.nativity === "native"],
@@ -238,14 +239,27 @@
     $("#n-changes").className = "count" + (app.ops.some(o => o.error) ? " bad" : "");
     $("#commit-btn").disabled = !good;
   }
-  function item(r) {
+  // taxon id -> accepted, visible taxa at or under it that no editor has confirmed
+  function unconfirmedCounts() {
+    const st = app.st, n = new Map();
+    for (const r of st.rows) {
+      if (isSyn(r) || r.hidden === "1" || r.verificationStatus === M.CONFIRMED) continue;
+      const seen = new Set();
+      for (let x = r; x && !seen.has(x.taxonID); x = x.parentNameUsageID ? row(x.parentNameUsageID) : null) {
+        seen.add(x.taxonID);
+        n.set(x.taxonID, (n.get(x.taxonID) || 0) + 1);
+      }
+    }
+    return n;
+  }
+  function item(r, unc) {
     const st = app.st;
     const ch = st.changed.has(r.taxonID);
     const meta = isSyn(r) ? "= " + esc(st.name(r.acceptedNameUsageID)) : esc(r.taxonRank) + (r.family && r.taxonRank !== "Family" ? " · " + esc(r.family) : "");
     return `<div class="item${r.taxonID === app.sel ? " sel" : ""}${ch ? " chg" : ""}${r.hidden === "1" ? " hid" : ""}" data-id="${esc(r.taxonID)}" role="option">` +
       `<span class="nm">${sci(r.taxonRank, r.scientificName)}</span>` +
       (r.vernacularName ? ` <span class="cn">${esc(r.vernacularName)}</span>` : "") +
-      `<span class="meta">${meta}</span></div>`;
+      `<span class="meta">${meta}${unc && unc.get(r.taxonID) ? ` · ${unc.get(r.taxonID).toLocaleString()} unconfirmed` : ""}</span></div>`;
   }
   function renderList() {
     const el = $("#list");
@@ -263,14 +277,18 @@
       const root = st.rows.find(r => !isSyn(r) && !r.parentNameUsageID);
       const here = cur && row(cur) ? cur : root && root.taxonID;
       if (!here) { el.innerHTML = '<p class="muted pad">Empty taxonomy.</p>'; return; }
+      const unc = app.unconf ? unconfirmedCounts() : null;
       const up = st.lineage(here).map(id => `<a href="#/t/${esc(id)}" class="crumb" data-id="${esc(id)}">${label(id)}</a>`).join(" › ");
-      const kids = st.children(here).map(row);
-      el.innerHTML = (up ? `<div class="crumbs pad">${up}</div>` : "") + item(row(here)) +
-        `<div class="kids">${kids.map(item).join("") || '<p class="muted pad">Nothing under it.</p>'}</div>`;
+      let kids = st.children(here).map(row);
+      if (unc) kids = kids.filter(k => unc.get(k.taxonID));
+      const bar = `<label class="pad tree-opt"><input type="checkbox" id="unconf"${app.unconf ? " checked" : ""}> Only what no editor has confirmed</label>`;
+      el.innerHTML = bar + (up ? `<div class="crumbs pad">${up}</div>` : "") + item(row(here), unc) +
+        `<div class="kids">${kids.map(k => item(k, unc)).join("") ||
+          `<p class="muted pad">${unc ? "Nothing under it is waiting for confirmation." : "Nothing under it."}</p>`}</div>`;
       return;
     }
     const rows = matches(), max = 400;
-    el.innerHTML = `<p class="muted pad">${rows.length.toLocaleString()} taxa</p>` + rows.slice(0, max).map(item).join("") +
+    el.innerHTML = `<p class="muted pad">${rows.length.toLocaleString()} taxa</p>` + rows.slice(0, max).map(r => item(r)).join("") +
       (rows.length > max ? `<p class="muted pad">… ${(rows.length - max).toLocaleString()} more: narrow the search.</p>` : "");
   }
 
@@ -682,20 +700,57 @@
                  scientificNameAuthorship: 160, vernacularName: 160, verificationStatus: 140, verificationRemarks: 200, islands: 180 };
   const RH = 28;
   let tableRows = [], tableCols = [];
+  // Column filters. A box: text = contains; =text exact; !text does not contain; = empty;
+  // ! not empty; >n or <n numeric. A column with few distinct values gets a drop-down instead.
+  function cellMatch(v, f) {
+    v = String(v == null ? "" : v);
+    if (f === "=") return v === "";
+    if (f === "!") return v !== "";
+    if (f[0] === "=") return fold(v) === fold(f.slice(1));
+    if (f[0] === "!") return !fold(v).includes(fold(f.slice(1)));
+    if ((f[0] === ">" || f[0] === "<") && f.length > 1 && !isNaN(+f.slice(1))) return f[0] === ">" ? +v > +f.slice(1) : +v < +f.slice(1) && v !== "";
+    return fold(v).includes(fold(f));
+  }
+  function colFilterRows(rows) {
+    const act = Object.entries(app.colf).filter(([c, f]) => f !== "" && tableCols.includes(c));
+    if (!act.length) return rows;
+    return rows.filter(r => act.every(([c, f]) => f === "\u0002" ? !r[c] : f.startsWith("\u0001") ? r[c] === f.slice(1) : cellMatch(r[c], f)));
+  }
+  const FREE_TEXT = new Set(["taxonID", "scientificName", "scientificNameAuthorship", "vernacularName", "taxonRemarks", "parentNameUsage",
+    "acceptedNameUsage", "acceptedNameUsageID", "matchRemarks", "references", "associatedOccurrences", "associatedReferences", "distributionTags"]);
+  function distinct(rows, c) {
+    if (FREE_TEXT.has(c)) return null;
+    const s = new Set();
+    for (const r of rows) { s.add(r[c] || ""); if (s.size > 16) return null; }
+    return [...s].sort();
+  }
   function renderTable() {
     const el = $("#tab-table");
     if (!app.st) return;
     tableCols = PRESETS[app.preset] || PRESETS.core;
-    tableRows = app.tableScope === "all" || (app.queue === "browse" && !app.q.trim()) ? app.st.rows : matches();
+    scopeRows = app.tableScope === "all" || (app.queue === "browse" && !app.q.trim()) ? app.st.rows : matches();
     const width = tableCols.reduce((s, c) => s + (WIDE[c] || 110), 0);
     if (!el.querySelector(".grid")) {
       el.innerHTML = '<div class="tbl-bar"><label>Columns <select id="preset">' +
         Object.keys(PRESETS).map(k => `<option value="${k}">${k}</option>`).join("") + "</select></label>" +
         '<label>Rows <select id="scope"><option value="list">the list on the left</option><option value="all">all</option></select></label>' +
-        '<span id="tbl-n" class="muted"></span><span class="muted hint">Double-click a white cell to edit (Enter saves, Esc cancels); grey cells are computed.</span></div>' +
+        '<button type="button" id="clear-f">Clear filters</button>' +
+        '<span id="tbl-n" class="muted"></span><span class="muted hint">Filters: text contains; =text exact; !text without; = empty; ! not empty; &gt;5 or &lt;5 numbers. ' +
+        'Double-click a white cell to edit (Enter saves, Esc cancels); grey cells are computed.</span></div>' +
         '<div class="grid" tabindex="0"><div class="g-head"></div><div class="g-body"></div></div>';
       $("#preset").addEventListener("change", e => { app.preset = e.target.value; store.set("iog-editor-preset", app.preset); renderTable(); });
       $("#scope").addEventListener("change", e => { app.tableScope = e.target.value; renderTable(); });
+      $("#clear-f").addEventListener("click", () => { app.colf = {}; renderTable(); });
+      const head = el.querySelector(".g-head");
+      head.addEventListener("input", e => {
+        const c = e.target.dataset.cf;
+        if (!c) return;
+        if (e.target.tagName === "SELECT") app.colf[c] = e.target.value;
+        else app.colf[c] = e.target.value.trim();
+        if (!app.colf[c]) delete app.colf[c];
+        clearTimeout(cfTimer);
+        cfTimer = setTimeout(refilter, 150);
+      });
       el.querySelector(".grid").addEventListener("scroll", paintRows);
       el.querySelector(".g-body").addEventListener("dblclick", startEdit);
       el.querySelector(".g-body").addEventListener("click", e => {
@@ -706,11 +761,25 @@
     }
     $("#preset").value = app.preset;
     $("#scope").value = app.tableScope;
-    $("#tbl-n").textContent = tableRows.length.toLocaleString() + " rows";
     const head = el.querySelector(".g-head");
     head.style.width = width + "px";
-    head.innerHTML = tableCols.map(c => `<div class="h${c in M.EDITABLE || M.LIST.has(c) ? "" : " ro"}" style="width:${WIDE[c] || 110}px" title="${esc(c)}">${esc(c)}</div>`).join("");
-    const body = el.querySelector(".g-body");
+    head.innerHTML = tableCols.map(c => {
+      const opts = distinct(scopeRows, c), cur = app.colf[c] || "";
+      const box = opts && opts.length > 1
+        ? `<select data-cf="${esc(c)}" aria-label="Filter ${esc(c)}"><option value="">(any)</option>` +
+          opts.map(v => `<option value="${v === "" ? "\u0002" : "\u0001" + esc(v)}"${(v === "" ? "\u0002" : "\u0001" + v) === cur ? " selected" : ""}>${v === "" ? "(empty)" : esc(v)}</option>`).join("") + "</select>"
+        : `<input data-cf="${esc(c)}" value="${esc(cur)}" placeholder="filter" aria-label="Filter ${esc(c)}" spellcheck="false">`;
+      return `<div class="h${c in M.EDITABLE || M.LIST.has(c) ? "" : " ro"}" style="width:${WIDE[c] || 110}px"><div class="lab" title="${esc(c)}">${esc(c)}</div>${box}</div>`;
+    }).join("");
+    refilter();
+  }
+  let scopeRows = [], cfTimer = null;
+  function refilter() {
+    tableRows = colFilterRows(scopeRows);
+    const n = Object.keys(app.colf).length;
+    $("#tbl-n").textContent = tableRows.length.toLocaleString() + " rows" + (n ? ` (of ${scopeRows.length.toLocaleString()}; ${n} filter${n > 1 ? "s" : ""})` : "");
+    const width = tableCols.reduce((s, c) => s + (WIDE[c] || 110), 0);
+    const body = $("#tab-table .g-body");
     body.style.height = tableRows.length * RH + "px";
     body.style.width = width + "px";
     paintRows();
@@ -1367,6 +1436,9 @@
     $("#q").addEventListener("input", e => {
       clearTimeout(t);
       t = setTimeout(() => { app.q = e.target.value; renderList(); if (app.tab === "table") renderTable(); }, 120);
+    });
+    $("#list").addEventListener("change", e => {
+      if (e.target.id === "unconf") { app.unconf = e.target.checked; renderList(); }
     });
     $("#list").addEventListener("click", e => {
       const up = e.target.closest("[data-upl]");
