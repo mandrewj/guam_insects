@@ -87,6 +87,7 @@ Rows that point at a synonym keep pointing at it after a merge; the build follow
 | reject | the literature / notes / hosts row is deleted |
 | clear flag | `flag` emptied |
 | place | an unplaced name becomes a taxa.csv row; its line leaves review/unplaced.csv |
+| merge an unplaced name | it becomes a synonym row (`IOG-n`, `accepted_id` = the valid taxon); its line leaves review/unplaced.csv. Later `sync`, `match` and `lit scan` find the name here and file its records under the valid taxon |
 | delete | the `IOG-` row and the rows that point at it go |
 
 **List cells** in the table (items separated by ` | `):

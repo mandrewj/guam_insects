@@ -477,7 +477,8 @@
     $("#tab-taxon").innerHTML = !u ? '<p class="muted">Pick a name on the left: these have records that no tool could place in the tree.</p>' :
       `<div class="t-head"><h1>${esc(u.name)}</h1><div class="t-sub">${esc(u.rank || "rank unknown")} · from ${esc(u.source)} · ${esc(u.records || 0)} records</div></div>` +
       (u.note ? `<div class="notice">${esc(u.note)}</div>` : "") +
-      `<div class="toolbar"><button type="button" data-act="place" data-i="${app.upl}">Place under a parent…</button></div>`;
+      `<div class="toolbar"><button type="button" data-act="place" data-i="${app.upl}">Place under a parent…</button>` +
+      `<button type="button" data-act="placeSynonym" data-i="${app.upl}">Merge into an existing taxon…</button></div>`;
   }
 
   // ---- tools (buttons and inline forms on the taxon panel)
@@ -502,6 +503,15 @@
         fields: [{ key: "value", label: "Nativity", type: "select", options: S.nativity, value: r.nativity },
                  { key: "source", label: "Source (a document, or leave blank for “editor”)", value: r.nativity_source !== "editor" ? r.nativity_source : "" }],
         submit: "Save", onSubmit: x => addOp("nativity", { id, value: x.value, source: x.source }) });
+    }
+    if (act === "placeSynonym") {
+      const u = unplacedRows()[+b.dataset.i];
+      return openForm({ title: "Merge " + u.name + " into a taxon",
+        intro: "It becomes another name of the taxon you pick: searchable, listed on its page, and its records here and in later syncs and ingests count for that taxon.",
+        fields: [{ key: "into", label: "The valid taxon it is the same as", type: "taxon", required: true, filter: x => !isSyn(x) },
+                 { key: "authorship", label: "Authorship" },
+                 { key: "reason", label: "Reason or source" }],
+        submit: "Merge", onSubmit: x => { const op = addOp("placeSynonym", { unplacedName: u.name, into: x.into, authorship: x.authorship, reason: x.reason }); if (op) select(op.into); } });
     }
     if (act === "place") {
       const u = unplacedRows()[+b.dataset.i];

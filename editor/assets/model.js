@@ -616,6 +616,17 @@
       st.t.unplaced = st.t.unplaced.filter(u => u.name !== op.unplacedName);
     },
 
+    // An unplaced name that is another name of a taxon already here: it becomes a synonym row
+    // under it, so every record, literature row and photo that uses the name (now or in a later
+    // sync or ingest, which look names up here first) is the valid taxon's.
+    placeSynonym(st, op) {
+      const row = st.t.unplaced.find(u => u.name === op.unplacedName);
+      need(row, `${op.unplacedName} is not on the unplaced list`);
+      OPS.addName(st, Object.assign(op, { name: op.name || op.unplacedName,
+        reason: op.reason || `from the unplaced list (${row.source})` }));
+      st.t.unplaced = st.t.unplaced.filter(u => u.name !== op.unplacedName);
+    },
+
     // --- review of what a tool wrote: confirm (review = editor) or reject (delete the row)
     review(st, op) {
       need(["literature", "notes", "hosts"].includes(op.table), "review literature, notes or hosts");
@@ -841,6 +852,7 @@
       case "unvoucher": return `${who}: removed voucher ${op.url}`;
       case "link": return `${who}: link ${op.label ? op.label + " " : ""}${op.url}`;
       case "unlink": return `${who}: removed link ${op.url}`;
+      case "placeSynonym": return `${op.unplacedName} merged into ${n(op.into)} as a synonym` + (op.newId ? ` (${op.newId})` : "");
       case "place": return `${op.name} placed under ${n(op.parent)}` + (op.newId ? ` (${op.newId})` : "");
       case "reviewDoc": return `${op.doc}: every machine-read row confirmed${op.nativity ? " (and its nativity values)" : ""}`;
       case "review": return `${who}: ${op.table}${op.doc ? " from " + op.doc : ""} reviewed`;

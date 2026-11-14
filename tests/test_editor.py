@@ -381,3 +381,27 @@ def test_confirm_a_whole_document(page, world, tmp_path):
     # without the box ticked, a nativity value stays machine
     only = run(page, texts, [{"type": "reviewDoc", "doc": "d1"}])
     assert "dataset/taxa.csv" not in only["files"]          # no taxon row changed
+
+
+def test_an_unplaced_name_can_be_merged_into_a_taxon(page, world, tmp_path):
+    texts = texts_of(world)
+    out = run(page, texts, [{"type": "placeSynonym", "unplacedName": "Zorotypus guineensis",
+                             "into": "ORGIG", "authorship": "Silvestri, 1913"}])
+    assert out["errors"] == [None] and out["checks"] == []
+    new = tmp_path / "after"
+    new.mkdir()
+    for rel, text in {**texts, **out["files"]}.items():
+        if text is not None:
+            (new / rel.removeprefix("dataset/")).parent.mkdir(parents=True, exist_ok=True)
+            (new / rel.removeprefix("dataset/")).write_text(text, encoding="utf-8")
+    ds = dataset.load(new)
+    assert dataset.check(ds).items == []
+    syn = next(r for r in ds["taxa"] if r["name"] == "Zorotypus guineensis")
+    assert syn["status"] == "synonym" and syn["accepted_id"] == "ORGIG" and syn["id"] == out["ops"][0]["newId"]
+    assert ds["unplaced"] == []
+    # a later literature scan finds the name and files it under the valid taxon
+    from guaminsects.literature import finder
+    assert finder.Lexicon(ds).names["Zorotypus guineensis"] == "ORGIG"
+    # merging an accepted taxon carries every row that points at it
+    merged = run(page, texts, [{"type": "synonymize", "id": "ORRHI", "into": "ORGIG"}])
+    assert merged["errors"] == [None] and set(merged["files"]) == {"dataset/taxa.csv"}
