@@ -1,12 +1,10 @@
-/* Insects of Guam (and Micronesia): renders taxon pages from data/t/<bucket>/<id>.js records.
+/* Insects of Guam (and Micronesia): renders taxon pages from data/c/<n>.js chunks of records.
  * Works from file:// and from any static host, because data is loaded with <script> tags,
  * not fetch(). Ported from entobase. */
 (function () {
   "use strict";
 
   var app = document.getElementById("app");
-  var records = new Map();   // id -> record
-  var waiting = new Map();   // id -> {resolve, reject}
   var meta = null;
 
   var ITALIC_RANKS = { Genus: 1, Subgenus: 1, Species: 1, Subspecies: 1 };
@@ -35,36 +33,91 @@
   function href(id) { return "#/t/" + extOf(id); }
 
   // ------------------------------------------------------------------ data loading
+  // Records come in chunks (a family and everything under it; src/guaminsects/build/bundle.py).
+  // data/index.js says which chunk holds each taxon; a chunk is one <script> that calls
+  // guaminsects.chunk(n, {id: record}). A few chunks are kept, the one on screen always.
+  var chunkOf = new Map();      // taxon id -> chunk number
+  var chunks = new Map();       // chunk number -> {id: record}, least recently used first
+  var wikis = new Map();        // chunk number -> {id: html}
+  var chunkWait = new Map(), wikiWait = new Map();   // "n" -> {promise, resolve}
+  var KEEP_CHUNKS = 6;
+  var currentId = null;
+
+  function touch(map, n) { var v = map.get(n); map.delete(n); map.set(n, v); return v; }
+  function trim(map, keepN) {
+    while (map.size > KEEP_CHUNKS) {
+      var key = map.keys().next().value;
+      if (key === keepN) { touch(map, key); continue; }
+      map.delete(key);
+    }
+  }
+  function waiter(table, n) {
+    var w = table.get(n);
+    if (!w) {
+      w = {};
+      w.promise = new Promise(function (resolve, reject) { w.resolve = resolve; w.reject = reject; });
+      table.set(n, w);
+    }
+    return w;
+  }
   window.guaminsects = {
     meta: function (m) { meta = m; renderSiteFooter(); route(); },
-    load: function (rec) {
-      records.set(rec.id, rec);
-      if (records.size > 300) {        // search snippets load dozens of records; keep the recent ones
-        var drop = records.size - 200;
-        for (var key of records.keys()) { if (drop-- <= 0) break; if (key !== currentId) records.delete(key); }
-      }
-      var w = waiting.get(rec.id);
-      if (w) { waiting.delete(rec.id); w.resolve(rec); }
+    index: function (d) {
+      Object.keys(d).forEach(function (n) {
+        var id = 0;
+        d[n].split(",").forEach(function (p) { id += parseInt(p, 36); chunkOf.set(id, Number(n)); });
+      });
+    },
+    chunk: function (n, recs) {
+      chunks.set(n, recs);
+      trim(chunks, chunkOf.get(currentId));
+      var w = chunkWait.get(n);
+      if (w) { chunkWait.delete(n); w.resolve(recs); }
+    },
+    wiki: function (n, html) {
+      wikis.set(n, html);
+      trim(wikis, chunkOf.get(currentId));
+      var w = wikiWait.get(n);
+      if (w) { wikiWait.delete(n); w.resolve(html); }
     }
   };
-
-  var pending = new Map();      // id -> the promise of a load in flight, so two callers share it
-  function loadRecord(id) {
-    if (records.has(id)) return Promise.resolve(records.get(id));
-    if (pending.has(id)) return pending.get(id);
-    var p = new Promise(function (resolve, reject) {
-      waiting.set(id, { resolve: resolve, reject: reject });
-      var s = document.createElement("script");
-      s.src = "data/t/" + (id % 1000) + "/" + id + ".js";
-      s.onload = function () { s.remove(); };
-      s.onerror = function () { s.remove(); waiting.delete(id); reject(new Error("missing")); };
-      document.head.appendChild(s);
-    });
-    pending.set(id, p);
-    var done = function () { pending.delete(id); };
-    p.then(done, done);
-    return p;
+  function getRecord(id) {
+    var c = chunks.get(chunkOf.get(id));
+    return c ? c[id] : undefined;
   }
+  function loadChunkScript(table, n, dir) {
+    var w = waiter(table, n);
+    if (!w.started) {
+      w.started = true;
+      var s = document.createElement("script");
+      s.src = "data/" + dir + "/" + n + ".js";
+      s.onload = function () { s.remove(); };
+      s.onerror = function () { s.remove(); table.delete(n); w.reject(new Error("missing")); };
+      document.head.appendChild(s);
+    }
+    return w.promise;
+  }
+  function loadRecord(id) {
+    var n = chunkOf.get(id);
+    if (n === undefined) return Promise.reject(new Error("missing"));
+    if (chunks.has(n)) return Promise.resolve(touch(chunks, n)[id]);
+    return loadChunkScript(chunkWait, n, "c").then(function (recs) { return recs[id]; });
+  }
+  function loadWiki(id) {
+    var n = chunkOf.get(id);
+    if (wikis.has(n)) return Promise.resolve(touch(wikis, n)[id] || "");
+    return loadChunkScript(wikiWait, n, "w").then(function (h) { return h[id] || ""; });
+  }
+  // The Wikipedia text of a chunk loads when its <details> is first opened.
+  document.addEventListener("toggle", function (e) {
+    var d = e.target;
+    if (!d || !d.matches || !d.matches("details.wiki-body") || !d.open) return;
+    var box = d.querySelector(".prose[data-wiki]");
+    if (!box || box.getAttribute("data-loaded")) return;
+    box.setAttribute("data-loaded", "1");
+    loadWiki(Number(box.getAttribute("data-wiki"))).then(function (html) { box.innerHTML = html; },
+      function () { box.removeAttribute("data-loaded"); box.textContent = "The article could not be loaded."; });
+  }, true);
 
   // ------------------------------------------------------------------ helpers
   function esc(v) {
@@ -89,7 +142,8 @@
   }
   function fmtDate(iso) {
     if (!iso) return "";
-    var d = new Date(iso);
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);        // a bare date is that day, not UTC midnight
+    var d = m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(iso);
     return isNaN(d) ? esc(iso) : d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
   }
   var INVARIANT = { species: 1 };
@@ -206,7 +260,6 @@
       "been merged or removed; try searching for its name.</div>";
   }
 
-  var currentId = null;
   // The left column rides down the page with the reading column. Taller than the window, it
   // would otherwise hide its own bottom; so its sticky offset goes negative by the overflow
   // and it parks once its last line is on screen, then waits for the layout to end. No inner
@@ -435,20 +488,29 @@
 
 
   var STATUS = { native: ["Native", "ok"], endemic: ["Endemic", "ok"], introduced: ["Introduced", "warn"],
-                 invasive: ["Invasive", "crit"], unknown: ["Status unknown", "muted"] };
+                 invasive: ["Invasive", "crit"], unknown: ["Nativity unknown", "muted"] };
+  // Nativity (Micronesia as a whole): an editor's confirmed value plainly, a machine-read one
+  // with an asterisk and where it came from; Unknown is shown on species pages.
+  function nativityBadge(r) {
+    var n = r.nativity, st = STATUS[n];
+    if (!st) return "";
+    if (n === "unknown") {
+      return r.rank === "Species" || r.rank === "Subspecies"
+        ? '<span class="badge est-' + st[1] + '" title="Nobody has assessed this yet">' + esc(st[0]) + "</span>" : "";
+    }
+    if (r.nativity_review !== "machine") {
+      return '<span class="badge est-' + st[1] + '" title="Confirmed by an editor' +
+        (r.nativity_source && r.nativity_source !== "editor" ? "; source: " + esc(r.nativity_source) : "") + '">' + esc(st[0]) + "</span>";
+    }
+    var said = (r.status_sources || []).map(function (x) {
+      return regionLabel(x.area.toLowerCase()) + ": " + x.status + (x.year ? " (first noted " + x.year + ")" : "") + " per " + x.citation;
+    }).join("; ") || (r.nativity_source ? "from " + r.nativity_source : "");
+    return '<span class="badge est-' + st[1] + '" title="' + esc(said) + ' (read by machine, not yet checked)">' + esc(st[0]) + "*</span>";
+  }
   function header(r) {
     var badges = [];
-    if (r.establishment && STATUS[r.establishment]) {
-      badges.push('<span class="badge est-' + STATUS[r.establishment][1] + '" title="Curated">' +
-        esc(STATUS[r.establishment][0]) + "</span>");
-    } else if (r.status_sources && r.status_sources.length) {
-      // Not curated: say what the sources say, and that a machine read it.
-      var s0 = r.status_sources[0], st = STATUS[s0.status] || [s0.status, "muted"];
-      badges.push('<span class="badge est-' + st[1] + '" title="' + esc(r.status_sources.map(function (x) {
-        return regionLabel(x.area.toLowerCase()) + ": " + x.status + (x.year ? " (first noted " + x.year + ")" : "") +
-          " per " + x.citation;
-      }).join("; ")) + ' (read by machine, not yet checked)">' + esc(st[0]) + "*</span>");
-    }
+    var nat = nativityBadge(r);
+    if (nat) badges.push(nat);
     if (r.status === "morphospecies") badges.push('<span class="badge morpho" title="Not formally named; recognized from specimens or photos">Morphospecies</span>');
     if (r.status === "synonym") badges.push('<span class="badge warn">Synonym</span>');
     if (r.status === "doubtful") badges.push('<span class="badge warn" title="Marked doubtful">Doubtful name</span>');
@@ -515,7 +577,7 @@
   window.addEventListener("hashchange", closeLightbox);   // Back must not leave it over the next page
 
   function showLightbox(i) {
-    var rec = records.get(currentId);
+    var rec = getRecord(currentId);
     if (!rec || !rec.photos.length) return;
     lightboxAt = (i + rec.photos.length) % rec.photos.length;
     var ph = rec.photos[lightboxAt];
@@ -574,7 +636,7 @@
   app.addEventListener("click", function (e) {
     var b = e.target.closest && e.target.closest("button.g-thumb");
     if (!b) return;
-    var rec = records.get(currentId), ph = rec && rec.photos[Number(b.getAttribute("data-i"))];
+    var rec = getRecord(currentId), ph = rec && rec.photos[Number(b.getAttribute("data-i"))];
     if (!ph) return;
     var fig = b.closest(".gallery"), main = fig.querySelector(".g-main");
     main.setAttribute("data-i", b.getAttribute("data-i"));
@@ -726,7 +788,7 @@
       '<details class="wiki-body"' + (collapsed ? "" : " open") + "><summary>" +
       '<span class="when-closed">Show entire Wikipedia article</span>' +
       '<span class="when-open">Hide Wikipedia article</span></summary>' +
-      '<div class="prose">' + w.html + "</div></details>" +
+      '<div class="prose" data-wiki="' + r.id + '"></div></details>' +
       '<p class="section-note">' + (w.lead_only ? "Introduction only (the full article is very long; read it on Wikipedia). " : "") +
       "Text from the " + wikiCredit(w) + ". References and further " +
       "reading are on Wikipedia.</p></section>";
@@ -1090,7 +1152,7 @@
       var rows = taxonomyRows(key);
       var text = [taxonomyData.columns].concat(rows)
         .map(function (row) { return row.map(csvCell).join(","); }).join("\n") + "\n";
-      var rec = key === "all" ? null : records.get(tidOf(key));
+      var rec = key === "all" ? null : getRecord(tidOf(key));
       var file = "insects-of-guam-taxonomy" + (rec ? "-" + rec.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : "") +
         "-" + (meta.built_at || "").slice(0, 10) + ".csv";
       var url = URL.createObjectURL(new Blob(["\ufeff" + text], { type: "text/csv;charset=utf-8" }));
@@ -1141,7 +1203,7 @@
   function loadNames() { return loadScript("data/s/names.js").then(function () { return names; }); }
   function loadShard(key) {
     if (meta.search.shards.indexOf(key) < 0) return Promise.resolve({});
-    return loadScript("data/s/ft/" + key + ".js").then(function () { return shards.get(key) || {}; });
+    return loadScript("data/s/" + key + ".js").then(function () { return shards.get(key) || {}; });
   }
 
   function fold(s) { return String(s).toLowerCase().normalize("NFKD").replace(/\p{M}/gu, ""); }
@@ -1195,12 +1257,12 @@
     var terms = tokens(q);
     if (!terms.length) return loadNames().then(function () { return { terms: [], hits: [], partial: false }; });
     var prefixLast = !/\s$/.test(q) && terms[terms.length - 1].length >= 3;
-    var keys = Array.from(new Set(terms.map(function (t) { return t.slice(0, 2); })));
+    var keys = Array.from(new Set(terms.map(function (t) { return t.slice(0, 1); })));
     return Promise.all([loadNames()].concat(keys.map(loadShard))).then(function () {
       var hiddenIds = new Set(names.filter(function (n) { return n.hidden; }).map(function (n) { return n.id; }));
       var N = meta.search.docs;
       var perTerm = terms.map(function (t, i) {
-        var shard = shards.get(t.slice(0, 2)) || {}, merged = new Map();
+        var shard = shards.get(t.slice(0, 1)) || {}, merged = new Map();
         var matching = prefixLast && i === terms.length - 1
           ? Object.keys(shard).filter(function (k) { return k.indexOf(t) === 0; })
           : (shard[t] ? [t] : []);
@@ -1348,11 +1410,6 @@
       if (keepY === null) restoreScroll(); else window.scrollTo(0, keepY);
       var more = app.querySelector("button.more");
       if (more) more.addEventListener("click", function () { renderSearch(q, includeHidden, limit + PAGE); });
-      app.querySelectorAll(".results.text li").forEach(function (li) {
-        loadRecord(Number(li.getAttribute("data-id"))).then(function (rec) {
-          li.querySelector(".snip").innerHTML = snippet(rec, res.terms);
-        }, function () {});
-      });
     });
   }
 

@@ -21,6 +21,9 @@ def col_client():
     return ApiClient(GBIF_ROOT, min_interval=0.34)
 
 
+BUDGET_MB = 90            # Vercel Hobby takes 100 MB per CLI deploy
+
+
 def cmd_checklist(args) -> int:
     """GBIF presence sweep: hexapod taxon keys with records in each area (COL keys; with
     --backbone, GBIF Backbone keys, used to find names COL lacks)."""
@@ -216,7 +219,23 @@ def cmd_dataset(args) -> int:
 
 
 def cmd_build(args) -> int:
-    """Write the static site, site.nosync/public: opened locally and deployed as it is."""
+    """Write the static site, site.nosync/public, from dataset/: opened locally and deployed."""
+    from . import build
+
+    try:
+        stats = build.build()
+    except build.BuildError as e:
+        print(e, file=sys.stderr)
+        return 1
+    print("site: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
+    if stats["megabytes"] > BUDGET_MB:
+        print(f"the site is over the {BUDGET_MB} MB deploy budget", file=sys.stderr)
+        return 1
+    return 0
+
+
+def cmd_build_pipeline(args) -> int:
+    """The pipeline-v1 build (database -> site), kept until Phase 7 for comparison."""
     from . import site
 
     try:
@@ -490,6 +509,8 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_dataset)
     p = sub.add_parser("build", help=cmd_build.__doc__)
     p.set_defaults(func=cmd_build)
+    p = sub.add_parser("build-pipeline", help=cmd_build_pipeline.__doc__)
+    p.set_defaults(func=cmd_build_pipeline)
     p = sub.add_parser("serve", help=cmd_serve.__doc__)
     p.add_argument("--port", type=int, default=8765)
     p.set_defaults(func=cmd_serve)

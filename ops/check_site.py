@@ -100,6 +100,31 @@ def check(page, url: str) -> dict[str, bool]:
     page.goto(url + "#/search?q=migration")
     page.wait_for_selector(".results.text li, .muted", timeout=8_000)
     r["full-text search"] = page.locator(".results.text li").count() > 0
+    # Records live in chunk files: walk down from several orders (different chunks).
+    page.goto(url)
+    page.wait_for_selector("#s-children .card")
+    starts = page.locator("#s-children a.card").evaluate_all("els => els.slice(0, 6).map(e => e.href)")
+    walked = 0
+    for start in starts:
+        here = start
+        for _ in range(4):
+            page.goto(here)
+            page.wait_for_selector(".taxon-head h1")
+            walked += 1
+            nxt = page.locator(".cards a.card")
+            if not nxt.count():
+                break
+            here = nxt.first.get_attribute("href")
+            here = here if here.startswith("http") else url + here
+    r["routes across chunks"] = walked >= 12
+    for q in ("beetle", "moth", "ant", "fly", "cockroach"):
+        page.goto(url + f"#/search?q={q}")
+        page.wait_for_selector(".results li, .muted", timeout=8_000)
+        if not page.locator(".results li").count():
+            r["search across shards"] = False
+            break
+    else:
+        r["search across shards"] = True
     page.goto(url + f"#/t/{SPECIES}")
     page.wait_for_selector(".g-main")
     # A DOM click: what matters is that the jump keeps the route (WebKit's hit-testing of
@@ -109,6 +134,19 @@ def check(page, url: str) -> dict[str, bool]:
     r["jump keeps route"] = page.url.endswith(f"#/t/{SPECIES}")
     r["literature listed"] = page.locator("#s-literature li").count() > 0
     r["wikipedia collapsed"] = page.locator(".wiki-body[open]").count() == 0
+    r["nativity badge"] = page.locator(
+        ".badge:has-text('Nativity unknown'), .badge:has-text('Native'), "
+        ".badge:has-text('Introduced')").count() > 0
+    # The article text is a separate file, loaded when the details are first opened.
+    page.evaluate("document.querySelector('.wiki-body summary').click()")
+    try:
+        page.wait_for_function(
+            "document.querySelector('.wiki-body .prose').textContent.trim().length > 200",
+            timeout=5_000)
+        r["wikipedia loads on expand"] = True
+    except PlaywrightError:
+        r["wikipedia loads on expand"] = False
+    page.evaluate("document.querySelector('.wiki-body summary').click()")
     click(page, "button.g-main")
     page.wait_for_selector(".lightbox img", state="visible", timeout=5_000)
     r["lightbox opens"] = page.locator(".lightbox[role=dialog]").first.is_visible()
