@@ -249,28 +249,21 @@ def test_inat_links_from_the_published_taxonomy_without_searching():
     assert {r["id"]: r["common_name"] for r in ds["taxa"]}["ORGIG"] == "Giant Rhino Beetle"
 
 
-def test_inat_common_names_from_the_published_file_with_the_api_only_for_several():
+def test_inat_common_names_come_from_the_published_file_first_name():
     ds = taxa_ds()
     ds["links"] = [{c: "" for c in dataset.schema.table("links").names} | {
         "taxon_id": t, "system": "inaturalist", "value": v, "confidence": "high"}
         for t, v in (("ORRHI", "1"), ("ORGIG", "2"))]
 
     class Inat:
-        asked = []
-
         def get(self, path, params=None):
-            ids = [int(x) for x in path.rsplit("/", 1)[1].split(",")]
-            Inat.asked += ids
-            return {"results": [{"id": i, "name": "Oryctes gigas", "rank": "species",
-                                 "preferred_common_name": "Preferred Giant"} for i in ids]}
+            raise AssertionError("no API request: the common names are in the published file")
 
     tax = inat_api().Taxonomy({}, {1: "Oryctes rhinoceros", 2: "Oryctes gigas"})
     tax.load_commons = lambda wanted, path=None: tax.commons.update({1: ["Rhino Beetle"], 2: ["Giant A", "Giant B"]})
-    stats = refresh.inat_refresh(ds, ["ORRHI", "ORGIG"], Inat(), TODAY, progress=lambda *_: None, index=tax)
+    refresh.inat_refresh(ds, ["ORRHI", "ORGIG"], Inat(), TODAY, progress=lambda *_: None, index=tax)
     taxa = {r["id"]: r for r in ds["taxa"]}
-    assert Inat.asked == [2]                               # one English name needs no request
-    assert taxa["ORRHI"]["common_name"] == "Rhino Beetle" and taxa["ORGIG"]["common_name"] == "Preferred Giant"
-    assert stats["asked_api"] == 1
+    assert taxa["ORRHI"]["common_name"] == "Rhino Beetle" and taxa["ORGIG"]["common_name"] == "Giant A"
 
 
 def inat_api():

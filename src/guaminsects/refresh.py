@@ -102,16 +102,11 @@ def inat_refresh(ds, taxa: list[str], client, today: str, progress=print,
     ids_ = sorted({int(links[t]["value"]) for t in mine if t in links})
     taxonomy = index if hasattr(index, "load_commons") else None
     if taxonomy is not None:
-        # From the published file: the name check, and the English name where there is exactly
-        # one. Only taxa with several English names (which one is preferred is not in the file)
-        # are asked of the API.
+        # From the published file alone: the name check, and the first English name listed
+        # (which one iNaturalist prefers is not in the file; no API request is made).
         taxonomy.load_commons(set(ids_))
-        many = [i for i in ids_ if len(taxonomy.commons.get(i, [])) > 1]
-        info = {i: {"name": taxonomy.names.get(i), "common": (taxonomy.commons.get(i) or [None])[0]
-                    if len(taxonomy.commons.get(i, [])) == 1 else None} for i in ids_}
-        stats["asked_api"] = len(many)
-        for i, got in inatapi.taxa_by_ids(client, many, progress).items():
-            info[i] = got
+        info = {i: {"name": taxonomy.names.get(i), "common": (taxonomy.commons.get(i) or [None])[0]}
+                for i in ids_}
         stats["no_english_name"] = sum(1 for i in ids_ if not taxonomy.commons.get(i))
     else:
         info = inatapi.taxa_by_ids(client, ids_, progress)
