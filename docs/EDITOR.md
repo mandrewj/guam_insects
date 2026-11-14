@@ -41,6 +41,15 @@ repository can use it; what they commit rebuilds and redeploys the site.
 - **Table**: the taxa columns (or a preset), virtualised (6,600 rows scroll smoothly). White
   cells are editable (double-click, Enter saves); grey ones are computed from the other tables.
   A list cell is typed in its format (below) and becomes the same operations the tools make.
+- **Sources** (tab, and the pickers): `documents.csv` is the one bibliography. Every literature row,
+  note, host plant, distribution tag and nativity value points at a reference by its id, so
+  correcting a citation corrects it everywhere. The tab lists every reference with what cites it
+  (search, **Edit…**, **×** for an uncited one, **＋ New reference…**). Wherever a source is asked
+  for (a distribution tag, **Nativity…**, **Cite a source…**) there is a search box over all
+  references ending in **＋ New reference…**, which creates it inline (a reference already there
+  with the same title, year and first author is reused, never duplicated). **Cite a source…** on a
+  taxon adds a confirmed literature row (account, mention or checklist; pages, island groups,
+  islands, status, first-record year).
 - **Review** (tab): every document with machine-read rows. Pick one (it then shows first, with a
   dropdown to switch) to see **every** machine-made row of it, paged and filterable: **Confirm**,
   **Edit…** (correct pages, areas, islands, status, year, or a note's text; saving confirms it) or
@@ -77,7 +86,9 @@ Rows that point at a synonym keep pointing at it after a merge; the build follow
 | operation | writes |
 |---|---|
 | set a field | the cell in taxa.csv (+ `modified_by`, `modified`) |
-| tag | distribution.csv row (place, status, source, added_by) |
+| tag | distribution.csv row (place, status, a note or URL, `doc_id` = a reference, added_by) |
+| new / edit / remove a reference | documents.csv row (the citation is rewritten from its fields); a reference still cited cannot be removed |
+| cite a source | a literature.csv row for the taxon and reference (`method manual`, `review editor`) |
 | voucher | vouchers.csv `inat_observation` / `gbif_occurrence` row |
 | link | links.csv `editor` row (value = URL, label) |
 | nativity | `nativity`, `nativity_source` (a document or `editor`), `nativity_review editor` |

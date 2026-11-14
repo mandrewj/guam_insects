@@ -227,6 +227,7 @@
     if (app.tab === "table") renderTable();
     if (app.tab === "review") renderReview();
     if (app.tab === "quick") renderQuick();
+    if (app.tab === "sources") renderSources();
     if (app.tab === "changes") renderChanges();
   }
   function renderHeader() {
@@ -286,7 +287,7 @@
   function setTab(t) {
     app.tab = t;
     for (const b of document.querySelectorAll(".tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === t));
-    for (const k of ["taxon", "table", "review", "quick", "changes"]) $("#tab-" + k).hidden = k !== t;
+    for (const k of ["taxon", "table", "review", "quick", "sources", "changes"]) $("#tab-" + k).hidden = k !== t;
     render();
   }
 
@@ -369,6 +370,7 @@
       '<button type="button" data-act="add">Add a taxon under it…</button>' +
       '<button type="button" data-act="addName">Add a name…</button>' +
       '<button type="button" data-act="nativity">Nativity…</button>' +
+      '<button type="button" data-act="cite">Cite a source…</button>' +
       (r.nativity !== "unknown" && r.nativity_review === "machine" ? '<button type="button" data-act="confirmNativity">Confirm nativity</button>' : "") +
       (r.flag === "new" ? '<button type="button" data-act="clearFlag">Mark reviewed</button>' : "") +
       (r.verificationStatus === M.CONFIRMED ? '<button type="button" data-act="unverify">Remove confirmation</button>'
@@ -386,13 +388,15 @@
     html += '<section class="sec"><h2>Distribution tags</h2>' +
       (tags.length ? '<ul class="chips">' + tags.map(a =>
         `<li class="chip st-${esc(a.status)}"><b>${esc(a.value)}</b> ${esc(a.status)}` +
+        (a.doc && app.st.lookup.documents.get(a.doc) ? ` <span class="src" title="${esc(app.st.lookup.documents.get(a.doc).citation)}">${esc(shortCite(app.st.lookup.documents.get(a.doc)))}</span>` : "") +
         (a.source ? ` <span class="src">${M.isUrl(a.source) ? `<a href="${esc(a.source)}" target="_blank" rel="noopener">source</a>` : esc(a.source)}</span>` : "") +
         ` <span class="by">${esc(a.added_by)} ${esc(a.added)}</span>` +
         `<button type="button" class="x" data-act="untag" data-v="${esc(a.value)}" aria-label="Remove ${esc(a.value)}">×</button></li>`).join("") + "</ul>"
         : '<p class="muted">None yet. Records from GBIF, iNaturalist and the literature: ' + (esc(r.recordedIn) || "none") + ".</p>") +
       '<form class="inline" data-form="tag"><select name="place" aria-label="Place">' + placeOptions("Guam") + "</select>" +
       '<select name="status" aria-label="Status">' + S.distributionStatus.map(s => `<option>${s}</option>`).join("") + "</select>" +
-      '<input name="source" placeholder="Source: citation or URL (optional)" aria-label="Source">' +
+      '<input name="source" placeholder="Note or URL (optional)" aria-label="Note">' +
+      '<div class="docpick" data-name="doc"></div>' +
       '<button type="submit">Add tag</button></form></section>';
 
     // vouchers
@@ -436,6 +440,7 @@
     }
     html += reviewSections(id);
     el.innerHTML = html;
+    mountDocPickers(el);
   }
 
   // What the literature tool wrote for this taxon, each row to confirm or reject.
@@ -505,11 +510,26 @@
       const d = b.dataset;
       return addOp(act, { id, table: d.table, doc: d.doc || "", kind: d.kind || "", topic: d.topic || "", host: d.host || "" });
     }
+    if (act === "cite") {
+      return openForm({ title: "Cite a source for " + r.scientificName,
+        intro: "What a reference says about this taxon: it appears in the taxon's Literature section and counts as confirmed. Pick the reference, or create it.",
+        fields: [{ key: "doc", label: "Reference", type: "doc", required: true },
+                 { key: "kind", label: "How it treats the taxon", type: "select", options: ["account", "mention", "checklist"], value: "account" },
+                 { key: "pages", label: "Pages (separated by |)" },
+                 { key: "areas", label: "Island groups it records it from (GU | MP | PW | FM | MH)" },
+                 { key: "islands", label: "Islands (separated by |)" },
+                 { key: "status", label: "Native or introduced, if it says", type: "select", options: ["", "native", "introduced", "endemic", "invasive", "cryptogenic"] },
+                 { key: "status_area", label: "…in (areas)" },
+                 { key: "first_record_year", label: "First record (year)" }],
+        submit: "Cite", onSubmit: x => { addOp("citeSource", { id, doc: x.doc, kind: x.kind, pages: x.pages, areas: x.areas, islands: x.islands,
+          status: x.status, status_area: x.status_area, first_record_year: x.first_record_year }); } });
+    }
     if (act === "nativity") {
       return openForm({ title: "Nativity of " + r.scientificName,
         intro: "Native or introduced to Micronesia as a whole (statements for single island groups stay with the literature rows). Unknown clears it.",
         fields: [{ key: "value", label: "Nativity", type: "select", options: S.nativity, value: r.nativity },
-                 { key: "source", label: "Source (a document, or leave blank for “editor”)", value: r.nativity_source !== "editor" ? r.nativity_source : "" }],
+                 { key: "source", label: "Source (pick or create a reference; blank means “editor”)", type: "doc",
+                   value: r.nativity_source !== "editor" && r.nativity_source !== "gbif" ? r.nativity_source : "" }],
         submit: "Save", onSubmit: x => addOp("nativity", { id, value: x.value, source: x.source }) });
     }
     if (act === "excludeName" || act === "unexclude" || act === "exclude") {
@@ -617,7 +637,7 @@
     const v = Object.fromEntries(new FormData(f));
     const kind = f.dataset.form, id = app.sel;
     let op = null;
-    if (kind === "tag") op = addOp("tag", { id, place: v.place, status: v.status, source: v.source });
+    if (kind === "tag") op = addOp("tag", { id, place: v.place, status: v.status, source: v.source, doc: v.doc });
     if (kind === "voucher") op = addOp("voucher", { id, url: v.url, note: v.note });
     if (kind === "link") op = addOp("link", { id, url: v.url, label: v.label });
     if (op) { const again = $(`#tab-taxon form[data-form="${kind}"] input`); if (again) again.focus(); }
@@ -939,6 +959,63 @@
     });
   }
 
+  // ---- sources: the bibliography (documents.csv), what cites each reference, add / correct / remove
+  function refForm(d) {
+    const fields = [["title", "Title", true], ["authors", "Authors (Surname, I.; Surname, I.)"], ["year", "Year"], ["container", "Journal or series"],
+                    ["volume", "Volume"], ["pages", "Pages"], ["doi", "DOI"], ["url", "Public address (URL)"]];
+    return fields.map(([k, label, req]) => ({ key: k, label, required: !!req, value: d ? d[k] : "" })).concat([
+      { key: "kind", label: "Kind", type: "select", options: ["paper", "monograph", "fact sheet", "report", "checklist", "dataset", "map", "other"], value: d ? d.kind || "other" : "paper" }]);
+  }
+  function renderSources() {
+    const el = $("#tab-sources");
+    if (!app.st) return;
+    const st = app.st, use = new Map();
+    const bump = (doc, key, taxon) => { if (!doc) return; if (!use.has(doc)) use.set(doc, { lit: 0, notes: 0, tags: 0, nat: 0, hosts: 0, taxa: new Set() }); const u = use.get(doc); u[key]++; if (taxon) u.taxa.add(st.shownId(taxon)); };
+    for (const r of st.t.literature) bump(r.doc_id, "lit", r.taxon_id);
+    for (const r of st.t.notes) bump(r.doc_id, "notes", r.taxon_id);
+    for (const r of st.t.hosts) bump(r.doc_id, "hosts", r.taxon_id);
+    for (const r of st.t.distribution) bump(r.doc_id, "tags", r.taxon_id);
+    for (const id of st.order) bump(st.d.get(id).nativity_source, "nat", id);
+    const terms = fold(app.srcQ || "").split(/\s+/).filter(Boolean);
+    let docs = allDocs().filter(d => terms.every(t => docText(d).includes(t)));
+    const total = u => u ? u.lit + u.notes + u.tags + u.nat + u.hosts : 0;
+    docs = docs.slice().sort((a, b) => total(use.get(b.doc_id)) - total(use.get(a.doc_id)) || (a.citation < b.citation ? -1 : 1));
+    const PAGE = 40, pages = Math.max(1, Math.ceil(docs.length / PAGE));
+    app.srcPage = Math.min(app.srcPage || 0, pages - 1);
+    el.innerHTML = '<h1>Sources</h1><p class="muted">Every reference the site cites, once. Literature rows, notes, host plants, distribution tags and nativity values point at a reference here by its id, so correcting a citation corrects it everywhere. ' +
+      "Cite a reference on a taxon with <b>Cite a source…</b>, on a distribution tag or on a nativity value; create new ones from any of those pickers or here.</p>" +
+      `<div class="rv-bar"><input id="src-q" type="search" placeholder="Search references" value="${esc(app.srcQ || "")}"><button type="button" class="primary" id="src-new">＋ New reference…</button>` +
+      `<span class="muted">${docs.length} references · page ${app.srcPage + 1} of ${pages}</span> <button type="button" id="src-prev"${app.srcPage ? "" : " disabled"}>‹</button><button type="button" id="src-next"${app.srcPage < pages - 1 ? "" : " disabled"}>›</button></div>` +
+      '<table class="rv src-table"><thead><tr><th>Reference</th><th>Taxa</th><th>Rows</th><th></th></tr></thead><tbody>' +
+      docs.slice(app.srcPage * PAGE, (app.srcPage + 1) * PAGE).map(d => {
+        const u = use.get(d.doc_id);
+        const uses = u ? [u.lit && u.lit + " literature", u.notes && u.notes + " notes", u.tags && u.tags + " tags", u.nat && u.nat + " nativity", u.hosts && u.hosts + " hosts"].filter(Boolean).join(", ") : "";
+        return `<tr><td>${esc(d.citation || d.title)}<div class="muted small"><code>${esc(d.doc_id)}</code> · ${esc(d.kind || "")}` +
+          (d.url ? ` · <a href="${esc(d.url)}" target="_blank" rel="noopener">link</a>` : "") + (d.doi ? ` · doi ${esc(d.doi)}` : "") + (d.file ? " · PDF on the data machine" : "") + "</div></td>" +
+          `<td>${u ? u.taxa.size : 0}</td><td class="muted small">${esc(uses) || "not cited yet"}</td>` +
+          `<td class="rv-act"><button type="button" data-edit-doc="${esc(d.doc_id)}">Edit…</button>` + (u ? "" : ` <button type="button" class="x" data-rm-doc="${esc(d.doc_id)}" aria-label="Remove">×</button>`) + "</td></tr>";
+      }).join("") + "</tbody></table>";
+    const q = $("#src-q");
+    q.addEventListener("input", () => { app.srcQ = q.value; app.srcPage = 0; clearTimeout(q._t); q._t = setTimeout(() => { renderSources(); const n = $("#src-q"); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); });
+    $("#src-prev").addEventListener("click", () => { app.srcPage--; renderSources(); });
+    $("#src-next").addEventListener("click", () => { app.srcPage++; renderSources(); });
+    $("#src-new").addEventListener("click", () => {
+      if (!app.name) return askName();
+      openForm({ title: "New reference", intro: "A paper, report, fact sheet or checklist. If it is already in the list, that one is used instead.",
+        fields: refForm(null), submit: "Create", onSubmit: v => { if (!addOp("newDocument", v)) return false; } });
+    });
+    el.querySelectorAll("button[data-edit-doc]").forEach(b => b.addEventListener("click", () => {
+      if (!app.name) return askName();
+      const d = st.lookup.documents.get(b.dataset.editDoc);
+      openForm({ title: "Edit reference", intro: `<code>${esc(d.doc_id)}</code>: everything that cites it shows the corrected citation.`,
+        fields: refForm(d), submit: "Save", onSubmit: v => { if (!addOp("editDocument", Object.assign({ doc: d.doc_id }, v))) return false; } });
+    }));
+    el.querySelectorAll("button[data-rm-doc]").forEach(b => b.addEventListener("click", () => {
+      if (!app.name) return askName();
+      addOp("removeDocument", { doc: b.dataset.rmDoc });
+    }));
+  }
+
   // ---- changes
   function renderChanges() {
     const el = $("#tab-changes");
@@ -1086,6 +1163,58 @@
     setTimeout(poll, 5000);
   }
 
+  // ------------------------------------------------------------ references (documents.csv)
+  const allDocs = () => (app.st ? app.st.t.documents : []);
+  const shortCite = d => `${(d.authors || d.title || d.doc_id).split(/[,;]/)[0].trim()} ${d.year || ""}`.trim();
+  const docText = d => fold([d.citation, d.title, d.authors, d.year, d.doc_id].join(" "));
+  const docShort = d => { const c = String(d.citation || d.title || d.doc_id); return c.length > 150 ? c.slice(0, 147) + "…" : c; };
+  const NEWREF = [["authors", "Authors", "Surname, I.; Surname, I."], ["year", "Year", "1957"], ["title", "Title *", ""],
+                  ["container", "Journal or series", "Micronesica"], ["volume", "Volume", ""], ["pages", "Pages", "1-12"],
+                  ["doi", "DOI", ""], ["url", "Public address (URL)", "https://"]];
+  // A search-as-you-type box over every reference, ending in "new reference": pick what exists
+  // or create it without leaving the form. The chosen doc_id is in a hidden input named `name`.
+  function mountDocPicker(box, name, value, required) {
+    const cur = value && app.st.lookup.documents.get(value);
+    box.innerHTML = `<input class="picker" autocomplete="off" placeholder="Search references (author, year, title)…" value="${esc(cur ? docShort(cur) : "")}">` +
+      `<input type="hidden" name="${esc(name)}" value="${esc(value || "")}"><div class="picks"></div>` +
+      '<button type="button" class="newref-btn">＋ New reference…</button><div class="newref" hidden></div>';
+    const input = box.querySelector(".picker"), hidden = box.querySelector("input[type=hidden]"),
+          picks = box.querySelector(".picks"), nbtn = box.querySelector(".newref-btn"), nform = box.querySelector(".newref");
+    const choose = d => { hidden.value = d.doc_id; input.value = docShort(d); picks.innerHTML = ""; nform.hidden = true; hidden.dispatchEvent(new Event("change", { bubbles: true })); };
+    const show = () => {
+      const terms = fold(input.value).split(/\s+/).filter(Boolean);
+      if (!terms.length) { picks.innerHTML = ""; return; }
+      const hits = allDocs().filter(d => terms.every(t => docText(d).includes(t))).slice(0, 12);
+      picks.innerHTML = hits.map(d => `<button type="button" data-doc="${esc(d.doc_id)}">${esc(docShort(d))}</button>`).join("") ||
+        '<p class="muted">No such reference. Use “New reference…” to add it.</p>';
+    };
+    input.addEventListener("input", () => { hidden.value = ""; show(); });
+    picks.addEventListener("click", e => { const b = e.target.closest("button[data-doc]"); if (b) choose(app.st.lookup.documents.get(b.dataset.doc)); });
+    nbtn.addEventListener("click", () => {
+      if (!nform.hidden) { nform.hidden = true; return; }
+      nform.innerHTML = '<div class="nr-grid">' + NEWREF.map(([k, lab, ph]) =>
+        `<label>${esc(lab)}<input data-k="${k}" placeholder="${esc(ph)}"></label>`).join("") +
+        '<label>Kind<select data-k="kind">' + ["paper", "monograph", "fact sheet", "report", "checklist", "other"].map(x => `<option>${x}</option>`).join("") + "</select></label></div>" +
+        '<p><button type="button" class="primary nr-go">Create reference</button> <span class="err nr-err"></span></p>';
+      nform.hidden = false;
+      const guess = input.value.trim();
+      if (guess && !hidden.value) nform.querySelector('[data-k="title"]').value = guess;
+      nform.querySelector(".nr-go").addEventListener("click", () => {
+        if (!app.name) return askName();
+        const f = {};
+        nform.querySelectorAll("[data-k]").forEach(el => { f[el.dataset.k] = el.value; });
+        const op = addOp("newDocument", f, true);
+        if (!op) { nform.querySelector(".nr-err").textContent = "Needs a title and a four-digit year (or none), and a URL that starts with http."; return; }
+        choose(app.st.lookup.documents.get(op.newId));
+        toast(op.newId && allDocs().some(d => d.doc_id === op.newId && d.added_by === app.name && d.added === op.date) ? "Reference created: " + op.newId : "That reference already exists: selected it");
+      });
+    });
+    if (required) input.required = false;
+  }
+  function mountDocPickers(root) {
+    root.querySelectorAll(".docpick").forEach(b => { if (!b.dataset.mounted) { b.dataset.mounted = "1"; mountDocPicker(b, b.dataset.name, b.dataset.value || "", false); } });
+  }
+
   // ------------------------------------------------------------ dialogs
   function openForm(o) {
     const dlg = $("#dlg");
@@ -1105,6 +1234,8 @@
           html += `<select id="f-${esc(f.key)}" name="${esc(f.key)}">` + f.options.map(x => `<option${x === f.value ? " selected" : ""}>${esc(x)}</option>`).join("") + "</select>";
         } else if (f.type === "textarea") {
           html += `<textarea id="f-${esc(f.key)}" name="${esc(f.key)}" rows="3">${esc(f.value)}</textarea>`;
+        } else if (f.type === "doc") {
+          html += `<div class="docpick" data-name="${esc(f.key)}" data-value="${esc(f.value || "")}"></div>`;
         } else if (f.type === "taxon") {
           html += `<input id="f-${esc(f.key)}" class="picker" autocomplete="off" placeholder="Type a name…" value="${esc(f.value ? app.st.name(f.value) : "")}">` +
             `<input type="hidden" name="${esc(f.key)}" value="${esc(f.value || "")}"><div class="picks"></div>`;
@@ -1138,6 +1269,7 @@
     };
     form.addEventListener("change", refresh);
     for (const f of (o.fields || []).filter(x => x.type === "taxon")) wirePicker(form, f);
+    mountDocPickers(form);
     const close = () => { if (dlg.open) dlg.close(); };
     if (o.extra) o.extra(form.querySelector(".buttons").parentNode.insertBefore(document.createElement("div"), form.querySelector("#dlg-err")), close);
     const cancel = form.querySelector("#dlg-cancel");

@@ -220,7 +220,8 @@ Unique key: `taxon_id`, `place`
 | `taxon_id` | id | required; a `taxa` key |
 | `place` | str | required; one of 80 values (geo.PLACES) |
 | `status` | str | required; one of present, absent, doubtful |
-| `source` | str |  |
+| `source` | str | a free-text note or URL |
+| `doc_id` | str | a `documents` key; the reference the record comes from (documents.csv) |
 | `added_by` | str | required |
 | `added` | date |  |
 

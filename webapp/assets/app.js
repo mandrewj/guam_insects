@@ -990,6 +990,7 @@
     var notes = tags.length ? '<ul class="dist-tags">' + tags.map(function (t) {
       return '<li class="r-' + esc(t.area.toLowerCase()) + '"><b>' + esc(t.place) + "</b> " +
         '<span class="tag-' + esc(t.status) + '">' + esc(t.status) + "</span>" +
+        (t.doc ? " · " + (t.doc.url ? ext(t.doc.url, esc(stripDot(t.doc.citation))) : esc(stripDot(t.doc.citation))) : "") +
         (t.source ? " · " + (/^https?:\/\//.test(t.source) ? ext(t.source, "source") : esc(t.source)) : "") +
         addedBy(t) + "</li>";
     }).join("") + "</ul>" : "";

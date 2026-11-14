@@ -183,3 +183,14 @@ table.rv-rows td.rv-act { white-space: nowrap; text-align: right; width: auto; }
 .qr-grid dd { margin: 0; }
 table.rv-rows td:nth-child(2), table.rv-rows th:nth-child(2) { text-align: left; width: auto; }
 table.rv-rows td:nth-child(1) { width: 220px; }
+
+/* reference picker */
+.docpick { flex: 1 1 280px; position: relative; }
+.docpick .picker { width: 100%; }
+.docpick .picks button { display: block; width: 100%; text-align: left; font-size: 12.5px; padding: 4px 8px; }
+.docpick .newref-btn { margin-top: 4px; font-size: 12.5px; }
+.docpick .newref { border: 1px solid var(--line); border-radius: 6px; padding: 8px; margin-top: 6px; background: var(--surface, #fff); }
+.nr-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 10px; }
+.nr-grid label { display: flex; flex-direction: column; font-size: 12px; gap: 2px; }
+table.src-table td:nth-child(2), table.src-table th:nth-child(2) { text-align: right; width: 60px; }
+table.src-table td:nth-child(3) { text-align: left; width: 260px; }

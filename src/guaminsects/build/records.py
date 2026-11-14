@@ -112,8 +112,11 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
         area = geo.place_area(r["place"])
         if tid is None or area is None:
             continue
+        d = docs.get(r["doc_id"])
         tags[tid].append({"place": r["place"], "area": area, "status": r["status"] or "present",
-                          "source": r["source"], "added_by": r["added_by"], "added": r["added"]})
+                          "source": r["source"], "added_by": r["added_by"], "added": r["added"],
+                          "doc": {"id": d["doc_id"], "citation": d["citation"], "url": d["url"] or None}
+                          if d else None})
         if (r["status"] or "present") == "present":
             own[tid][area]["editor"] = 1
             if r["place"] not in geo.GROUPS:

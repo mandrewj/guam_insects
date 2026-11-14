@@ -226,8 +226,8 @@ def test_local_commit_credits_the_editor_and_pushes(clone):
     work, remote = clone
     base = git(work, "rev-parse", "HEAD")
     ann = ((work / DIST).read_text(encoding="utf-8")
-           if (work / DIST).exists() else "\ufefftaxon_id,place,status,source,added_by,added\n")
-    good = ann + "ORGIG,Guam,present,,A. Person,2026-11-14\n"
+           if (work / DIST).exists() else "\ufefftaxon_id,place,status,source,doc_id,added_by,added\n")
+    good = ann + "ORGIG,Guam,present,,,A. Person,2026-11-14\n"
     out = editor.commit({DIST: good}, "Editor: 1 change by A. Person", "A. Person", base)
     assert out["ok"] and out["pushed"], out
     assert git(remote, "log", "-1", "--format=%an|%s", "main") == \
@@ -235,7 +235,7 @@ def test_local_commit_credits_the_editor_and_pushes(clone):
     # a stale base, a bad file, a file the editor does not own
     assert editor.commit({}, "x", "A. Person", base)["status"] == 409
     head = git(work, "rev-parse", "HEAD")
-    bad = editor.commit({DIST: good + "ORGIG,Atlantis,present,,A,2026-11-14\n"}, "x", "A. Person", head)
+    bad = editor.commit({DIST: good + "ORGIG,Atlantis,present,,,A,2026-11-14\n"}, "x", "A. Person", head)
     assert bad["status"] == 400 and "Atlantis" in " ".join(bad["errors"])
     assert editor.commit({"src/x.py": "x"}, "x", "A. Person", head)["status"] == 400
     assert editor.commit({"dataset/records.csv": "x"}, "x", "A. Person", head)["status"] == 400   # read-only
@@ -254,7 +254,7 @@ def test_local_commit_replays_onto_a_newer_remote(clone, tmp_path):
     git(other, "push", "-q", "origin", "HEAD:main")
     base = git(work, "rev-parse", "HEAD")
     text = ((work / DIST).read_text(encoding="utf-8") if (work / DIST).exists()
-            else "\ufefftaxon_id,place,status,source,added_by,added\n") + "ORGIG,Rota,present,,A. Person,2026-11-14\n"
+            else "\ufefftaxon_id,place,status,source,doc_id,added_by,added\n") + "ORGIG,Rota,present,,,A. Person,2026-11-14\n"
     out = editor.commit({DIST: text}, "Editor: tag", "A. Person", base)
     assert out["ok"] and out["pushed"], out
     assert git(remote, "log", "--format=%s", "main").splitlines()[:2] == ["Editor: tag", "other"]
@@ -336,7 +336,7 @@ def test_ui_loads_and_edits_from_files(browser, world):
     pg.click('.tabs button[data-tab="table"]')
     pg.wait_for_selector('.g-body .r[data-id="ORGIG"]')
     files_out = pg.evaluate("IOGModel.files(IOGApp.st)")
-    assert "ORGIG,Saipan,present,seen 2026,UI Tester" in files_out["dataset/distribution.csv"]
+    assert "ORGIG,Saipan,present,seen 2026,,UI Tester" in files_out["dataset/distribution.csv"]
     assert ",editor,UI Tester," in files_out["dataset/literature.csv"]
     time.sleep(0.1)
     assert not errors, errors
@@ -363,7 +363,7 @@ def test_local_server_refuses_a_foreign_host_and_cleans_the_author(clone):
         srv.shutdown()
     base = git(work, "rev-parse", "HEAD")
     text = ((work / DIST).read_text(encoding="utf-8") if (work / DIST).exists()
-            else "﻿taxon_id,place,status,source,added_by,added\n") + "ORGIG,Guam,present,,A,2026-11-14\n"
+            else "﻿taxon_id,place,status,source,doc_id,added_by,added\n") + "ORGIG,Guam,present,,,A,2026-11-14\n"
     out = editor.commit({DIST: text}, "m", "Eve <evil@x.org>\nAuthor: x", base)
     assert out["ok"], out
     assert git(remote, "log", "-1", "--format=%an", "main") == "Eve evil@x.orgAuthor: x"
@@ -513,3 +513,82 @@ def test_correct_a_machine_row_and_a_note(page, world, tmp_path):
     lit = after["literature"][0]
     assert (lit["pages"], lit["areas"], lit["status"], lit["review"], lit["reviewed_by"]) == ("4 | 5", "GU | MP", "introduced", "editor", "T. Editor")
     assert (after["notes"][0]["topic"], after["notes"][0]["review"]) == ("habitat", "editor")
+
+
+def test_references_are_one_sheet_cited_from_tags_taxa_and_nativity(page, world, tmp_path):
+    texts = texts_of(world)
+    ops = [
+        {"type": "newDocument", "authors": "Kulzer, H.", "year": "1957", "title": "Beetles of Micronesia",
+         "container": "Micronesica", "volume": "2", "pages": "1-9", "url": "https://example.org/k"},
+        {"type": "newDocument", "authors": "Kulzer, H.", "year": "1957", "title": "Beetles of Micronesia"},     # same: reused
+        {"type": "tag", "id": "ORGIG", "place": "Rota", "status": "present", "doc": "kulzer-1957-beetles-of-micronesia"},
+        {"type": "tag", "id": "ORGIG", "place": "Rota", "status": "doubtful"},                                  # keeps its reference
+        {"type": "citeSource", "id": "ORGIG", "doc": "kulzer-1957-beetles-of-micronesia", "kind": "mention",
+         "pages": "4", "areas": "MP"},
+        {"type": "nativity", "id": "ORGIG", "value": "introduced", "source": "d1"},
+        {"type": "editDocument", "doc": "d1", "year": "1991"},
+        {"type": "nativity", "id": "ORRHI", "value": "native", "source": "not-a-reference"},                    # refused
+        {"type": "tag", "id": "ORRHI", "place": "Guam", "doc": "nope"},                                         # refused
+        {"type": "newDocument", "authors": "X", "year": "19xx", "title": "Bad year"},                           # refused
+        {"type": "removeDocument", "doc": "d1"},                                                                # still cited: refused
+    ]
+    out = run(page, texts, ops)
+    errs = out["errors"]
+    assert errs[:7] == [None] * 7, list(zip(out["describe"], errs, strict=True))
+    assert all(errs[7:]) and "still cited" in errs[10]
+    assert out["ops"][0]["newId"] == out["ops"][1]["newId"] == "kulzer-1957-beetles-of-micronesia"
+    after = _write_after(tmp_path, texts, out["files"])
+    assert dataset.check(after).items == []
+    docs = {d["doc_id"]: d for d in after["documents"]}
+    k = docs["kulzer-1957-beetles-of-micronesia"]
+    assert k["citation"] == "Kulzer, H. 1957. Beetles of Micronesia. Micronesica 2: 1-9." and k["added_by"] == "T. Editor"
+    assert docs["d1"]["year"] == "1991" and docs["d1"]["citation"].startswith("A. Author. 1991.")
+    tag = next(r for r in after["distribution"] if r["taxon_id"] == "ORGIG")
+    assert tag["status"] == "doubtful" and tag["doc_id"] == k["doc_id"]
+    row = next(r for r in after["literature"] if r["doc_id"] == k["doc_id"])
+    assert (row["kind"], row["review"], row["method"], row["areas"]) == ("mention", "editor", "manual", "MP")
+    assert next(r for r in after["taxa"] if r["id"] == "ORGIG")["nativity_source"] == "d1"
+    # the site cites it: the tag shows the reference with its address
+    from conftest import C
+    recs = records.build_records(after, thumbs=tmp_path)
+    t = recs[C("ORGIG")]["distribution"][0]
+    assert t["doc"]["citation"] == k["citation"] and t["doc"]["url"] == "https://example.org/k"
+
+
+def test_the_reference_picker_selects_or_creates(browser, world):
+    pg = browser.new_page(viewport={"width": 1300, "height": 900})
+    errors = []
+    pg.on("pageerror", lambda e: errors.append(str(e)))
+    pg.add_init_script("localStorage.setItem('iog-editor-name', 'UI Tester');")
+    pg.route("**/api.github.com/**", lambda r: r.abort())
+    pg.route("**/raw.githubusercontent.com/**", lambda r: r.abort())
+    pg.goto((config.ROOT / "editor" / "index.html").as_uri())
+    pg.wait_for_selector("#start-load", timeout=10000)
+    pg.click("#start-load")
+    pg.set_input_files(".filepick input", [str(p) for p in world.rglob("*.csv")])
+    pg.wait_for_function("window.IOGApp.st && window.IOGApp.st.rows.length > 5")
+    pg.fill("#q", "gigas")
+    pg.click('#list .item[data-id="ORGIG"]')
+    # pick an existing reference for a tag
+    pg.fill('form[data-form="tag"] .docpick .picker', "author 1990")
+    pg.click('form[data-form="tag"] .docpick .picks button')
+    assert pg.input_value('form[data-form="tag"] input[name="doc"]') == "d1"
+    pg.click('form[data-form="tag"] button[type="submit"]')
+    pg.wait_for_selector(".chip.st-present")
+    assert "A. Author 1990" in pg.inner_text(".chips")
+    # create a new one from the Cite a source dialog
+    pg.click('button[data-act="cite"]')
+    pg.click("#dlg .newref-btn")
+    pg.fill('#dlg .newref [data-k="title"]', "A brand new paper")
+    pg.fill('#dlg .newref [data-k="year"]', "2020")
+    pg.fill('#dlg .newref [data-k="authors"]', "Newman, N.")
+    pg.click("#dlg .nr-go")
+    assert pg.input_value('#dlg input[name="doc"]') == "newman-2020-a-brand-new-paper"
+    pg.fill('#dlg input[name="pages"]', "7")
+    pg.click("#dlg-ok")
+    pg.wait_for_function("window.IOGApp.ops.length === 3")
+    pg.click('.tabs button[data-tab="sources"]')
+    pg.fill("#src-q", "brand new")
+    assert "Newman, N. 2020. A brand new paper." in pg.inner_text("#tab-sources")
+    assert not errors, errors
+    pg.close()

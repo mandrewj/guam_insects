@@ -27,8 +27,9 @@ REPO = "mandrewj/guam_insects"
 BRANCH = "main"
 SITE_URL = "https://insects-of-guam.vercel.app/"
 # Tables the editor changes, and tables it only reads (for display and worklists).
-EDIT_TABLES = ["taxa", "distribution", "vouchers", "links", "literature", "notes", "hosts", "unplaced"]
-READ_TABLES = ["documents", "records", "islands"]
+EDIT_TABLES = ["taxa", "distribution", "vouchers", "links", "literature", "notes", "hosts", "unplaced",
+               "documents"]
+READ_TABLES = ["records", "islands"]
 # The only files the editor reads and writes (paths relative to the repository root).
 FILES = ["dataset/" + schema.table(t).file for t in EDIT_TABLES + READ_TABLES]
 WRITABLE = ["dataset/" + schema.table(t).file for t in EDIT_TABLES]
@@ -108,7 +109,9 @@ def validate(files: dict[str, str]) -> list[str]:
 
 def info() -> dict:
     remote = _git("remote", "get-url", "origin", check=False)
-    dirty = [line[3:] for line in _git("status", "--porcelain", "--", *FILES).splitlines()]
+    status = subprocess.run(["git", "status", "--porcelain", "--", *FILES], cwd=config.ROOT,
+                            capture_output=True, text=True, timeout=120).stdout
+    dirty = [line[3:] for line in status.splitlines()]      # " M path": the status is not trimmed
     return {"mode": "local", "repo": remote, "branch": _git("rev-parse", "--abbrev-ref", "HEAD"),
             "head": _git("rev-parse", "HEAD"), "user": _git("config", "user.name", check=False),
             "dirty": dirty}

@@ -39,6 +39,18 @@
     return 2 ** 62;
   }
 
+  // ------------------------------------------------------------ references
+  const slugOf = s => (s || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 56).replace(/-+$/, "");
+  // literature/stage.py citation(): "Linnavuori, R. 1960. Title. Insects of Micronesia 6(5): 231-344."
+  function citationOf(r) {
+    let head = [(r.authors || "").replace(/\.+$/, ""), r.year].filter(Boolean).join(". ");
+    if (head) head += ". ";
+    const where = r.container ? r.container + (r.volume ? " " + r.volume : "") + (r.pages ? ": " + r.pages : "") : "";
+    return head + (r.title || "").replace(/\.+$/, "") + "." + (where ? ` ${where}.` : "");
+  }
+  const DOC_FIELDS = ["title", "authors", "year", "container", "volume", "pages", "doi", "url", "licence", "kind"];
+
   // ------------------------------------------------------------ cell formats (build/export.py)
   const formatTag = a => `${a.value}: ${a.status || "present"}` + (a.source ? ` (${a.source})` : "");
   function parseTag(text) {
@@ -174,7 +186,7 @@
       this.removed = new Set();
       this.structural = false;
       this._kids = null;
-      this.lookup = { documents: new Map(B.documents.rows.map(r => [r.doc_id, r])) };
+      this.lookup = { documents: new Map(this.t.documents.map(r => [r.doc_id, r])) };
       let max = 0;
       for (const id of this.order) max = Math.max(max, iogNum(id));
       this.nextIog = max + 1;
@@ -243,7 +255,7 @@
     // --- rows of the list tables for a displayed taxon
     mine(name, id) { return this.t[name].filter(r => this.shownId(r.taxon_id) === id); }
     annFor(id, kind) {                   // the shapes the page reads
-      if (kind === "distribution") return this.mine("distribution", id).map(r => ({ value: r.place, status: r.status, source: r.source, added_by: r.added_by, added: r.added }));
+      if (kind === "distribution") return this.mine("distribution", id).map(r => ({ value: r.place, status: r.status, source: r.source, doc: r.doc_id, added_by: r.added_by, added: r.added }));
       return this.mine("links", id).filter(r => r.system === "editor").map(r => ({ value: r.value, note: r.label, added_by: r.added_by, added: r.added }));
     }
     occFor(id) {
@@ -411,6 +423,8 @@
       need(r && !st.isSyn(r), `${st.name(op.id)} is not an accepted taxon`);
       need(S.nativity.includes(op.value), `nativity must be one of ${S.nativity.join(", ")}`);
       const src = (op.source || "").trim();
+      need(!src || src === "editor" || src === "gbif" || st.lookup.documents.has(src),
+           "the source must be a reference from the list (or create one), or left blank");
       st.setCell(op.id, "nativity", op.value);
       st.setCell(op.id, "nativity_source", op.value === "unknown" ? "" : (src || "editor"));
       st.setCell(op.id, "nativity_review", op.value === "unknown" ? "" : "editor");
@@ -568,11 +582,14 @@
       need(PLACE.has(op.place), `"${op.place}" is not a place on the list`);
       const status = op.status || "present";
       need(S.distributionStatus.includes(status), `status must be one of ${S.distributionStatus.join(", ")}`);
+      if (op.doc) need(st.lookup.documents.has(op.doc), "pick a reference from the list, or create one");
       const have = st.t.distribution.findIndex(a => a.place === op.place && st.shownId(a.taxon_id) === op.id);
       const row = Object.assign(blank("distribution"), { taxon_id: op.id, place: op.place, status,
-        source: (op.source || "").trim(), added_by: op.by, added: op.date });
-      if (have >= 0) st.t.distribution[have] = Object.assign({}, st.t.distribution[have], row);
-      else st.t.distribution.push(row);
+        source: (op.source || "").trim(), doc_id: op.doc || "", added_by: op.by, added: op.date });
+      if (have >= 0) {       // a tag edited without a reference keeps the one it had
+        const keep = op.doc || st.t.distribution[have].doc_id;
+        st.t.distribution[have] = Object.assign({}, st.t.distribution[have], row, { doc_id: keep });
+      } else st.t.distribution.push(row);
       st.stamp(op.id, op);
     },
     untag(st, op) {
@@ -665,6 +682,67 @@
       const id = st.d.has(row.key) ? row.key : null;
       if (id && /^excluded:/.test(st.r(id).hidden_reason)) OPS.unhide(st, Object.assign({}, op, { id }));
       st.t.unplaced = st.t.unplaced.filter(u => u !== row);
+    },
+
+    // --- references: documents.csv is the one bibliography every source is cited from
+    newDocument(st, op) {
+      const title = (op.title || "").trim();
+      need(title, "a reference needs a title");
+      const year = (op.year || "").trim();
+      need(!year || /^\d{4}$/.test(year), "the year is four digits");
+      need(!(op.url || "").trim() || isUrl(op.url.trim()), "the address must start with http:// or https://");
+      const surname = ((op.authors || "").split(/[,;]/)[0] || "").trim();
+      const same = [...st.lookup.documents.values()].find(d =>
+        slugOf(d.title) === slugOf(title) && (d.year || "") === year && slugOf((d.authors || "").split(/[,;]/)[0]) === slugOf(surname));
+      if (same) { op.newId = same.doc_id; return; }               // already in the bibliography: use it
+      const base = slugOf(`${surname} ${year} ${title}`) || "reference";
+      let id = op.newId && !st.lookup.documents.has(op.newId) ? op.newId : base, n = 2;
+      while (st.lookup.documents.has(id)) id = `${base}-${n++}`;
+      op.newId = id;
+      const row = Object.assign(blank("documents"), { doc_id: id, added_by: op.by, added: op.date, kind: op.kind || "paper" });
+      for (const f of DOC_FIELDS) if (op[f] != null && f !== "kind") row[f] = String(op[f]).trim();
+      row.citation = citationOf(row);
+      st.t.documents.push(row);
+      st.lookup.documents.set(id, row);
+    },
+    editDocument(st, op) {
+      const i = st.t.documents.findIndex(d => d.doc_id === op.doc);
+      need(i >= 0, `no reference ${op.doc}`);
+      const row = Object.assign({}, st.t.documents[i]);
+      for (const f of DOC_FIELDS) if (op[f] != null) row[f] = String(op[f]).trim();
+      need(row.title, "a reference needs a title");
+      need(!row.year || /^\d{4}$/.test(row.year), "the year is four digits");
+      need(!row.url || isUrl(row.url), "the address must start with http:// or https://");
+      row.citation = citationOf(row);
+      st.t.documents[i] = row;
+      st.lookup.documents.set(op.doc, row);
+    },
+    removeDocument(st, op) {
+      need(st.lookup.documents.has(op.doc), `no reference ${op.doc}`);
+      const used = ["literature", "notes", "hosts", "distribution", "islands"].filter(t => st.t[t] && st.t[t].some(r => r.doc_id === op.doc))
+        .concat(st.order.some(id => st.d.get(id).nativity_source === op.doc) ? ["nativity"] : []);
+      need(!used.length, `it is still cited (${used.join(", ")}): remove those first, or merge it into another reference`);
+      st.t.documents = st.t.documents.filter(d => d.doc_id !== op.doc);
+      st.lookup.documents.delete(op.doc);
+    },
+    // Cite a source for a taxon: a literature row (what the document says about it)
+    citeSource(st, op) {
+      accepted(st, op.id);
+      need(st.lookup.documents.has(op.doc), "pick a reference from the list, or create one");
+      const kind = op.kind || "account";
+      need(["account", "mention", "checklist"].includes(kind), "kind is account, mention or checklist");
+      const fields = {};
+      for (const f of ["pages", "name_printed", "areas", "islands", "status", "status_area", "first_record_year", "status_page"]) {
+        if (op[f] != null && String(op[f]).trim() !== "") fields[f] = String(op[f]).trim();
+      }
+      const i = st.t.literature.findIndex(r => st.shownId(r.taxon_id) === op.id && r.doc_id === op.doc && r.kind === kind);
+      if (i >= 0) {
+        st.t.literature[i] = Object.assign({}, st.t.literature[i], fields, { review: "editor", reviewed_by: op.by, reviewed: op.date });
+      } else {
+        st.t.literature.push(Object.assign(blank("literature"), fields, { taxon_id: op.id, doc_id: op.doc, kind,
+          method: "manual", review: "editor", reviewed_by: op.by, reviewed: op.date, added_by: op.by, added: op.date }));
+      }
+      st.stamp(op.id, op);
     },
 
     // --- review of what a tool wrote: confirm (review = editor) or reject (delete the row)
@@ -818,7 +896,7 @@
     const remap = new Map();
     for (const op of ops) {
       const fn = OPS[op.type];
-      for (const f of ["id", "into", "parent"]) if (remap.has(op[f])) op[f] = remap.get(op[f]);
+      for (const f of ["id", "into", "parent", "doc", "source"]) if (remap.has(op[f])) op[f] = remap.get(op[f]);
       const before = op.newId;
       try {
         if (!fn) throw new Error(`unknown operation ${op.type}`);
@@ -936,7 +1014,7 @@
       case "remove": return `deleted ${op.id}`;
       case "verify": return `${who}: ${op.on ? "confirmed" + (op.source ? ` (${op.source})` : "") : "confirmation removed"}`;
       case "clearFlag": return `${who}: reviewed (flag new cleared)`;
-      case "tag": return `${who}: ${op.place} ${op.status || "present"}${op.source ? ` (${op.source})` : ""}`;
+      case "tag": return `${who}: ${op.place} ${op.status || "present"}${op.doc ? ` (${op.doc})` : op.source ? ` (${op.source})` : ""}`;
       case "untag": return `${who}: removed the ${op.place} tag`;
       case "voucher": return `${who}: voucher ${op.url}`;
       case "unvoucher": return `${who}: removed voucher ${op.url}`;
@@ -949,6 +1027,10 @@
       case "acceptChildren": return `${who}: ${(op.children || []).length} direct children accepted`;
       case "editLit": return `${who}: literature row from ${op.doc} corrected and confirmed`;
       case "editNote": return `${who}: note from ${op.doc} corrected and confirmed`;
+      case "newDocument": return `new reference: ${op.authors ? op.authors + " " : ""}${op.year || ""} ${op.title}` + (op.newId ? ` (${op.newId})` : "");
+      case "editDocument": return `reference ${op.doc} corrected`;
+      case "removeDocument": return `reference ${op.doc} removed`;
+      case "citeSource": return `${who}: cited ${op.doc}${op.pages ? ", p. " + op.pages : ""}`;
       case "reviewDoc": return `${op.doc}: every machine-read row confirmed${op.nativity ? " (and its nativity values)" : ""}`;
       case "review": return `${who}: ${op.table}${op.doc ? " from " + op.doc : ""} reviewed`;
       case "reject": return `${who}: ${op.table} row${op.doc ? " from " + op.doc : ""} rejected`;

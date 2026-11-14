@@ -38,8 +38,15 @@ LOW_RANKS = {"Genus", "Subgenus", "Species", "Subspecies", "Variety", "Form"}
 MACHINE = " [machine-read]"
 
 
-def format_tag(r: dict) -> str:
-    return f"{r['place']}: {r['status'] or 'present'}" + (f" ({r['source']})" if r["source"] else "")
+def short_cite(d: dict) -> str:
+    """'Kulzer 1957' from a document row."""
+    first = (d["authors"].split(",")[0].split(";")[0] if d["authors"] else d["title"][:30]).strip()
+    return f"{first} {d['year']}".strip()
+
+
+def format_tag(r: dict, docs: dict | None = None) -> str:
+    src = r["source"] or (short_cite(docs[r["doc_id"]]) if docs and r.get("doc_id") in docs else "")
+    return f"{r['place']}: {r['status'] or 'present'}" + (f" ({src})" if src else "")
 
 
 def format_link(r: dict) -> str:
@@ -65,10 +72,11 @@ def rows(ds: Dataset, records: dict[int, dict]) -> list[dict]:
         t = m.at(r["taxon_id"])
         if t is not None and r["source"] == "gbif_specimens":
             specimens[t] += int(r["records"] or 0)
+    doc_rows = {d["doc_id"]: d for d in ds["documents"]}
     lists: dict[int, dict[str, list[str]]] = defaultdict(lambda: defaultdict(list))
     for r in ds["distribution"]:
         if (t := m.at(r["taxon_id"])) is not None:
-            lists[t]["distributionTags"].append(format_tag(r))
+            lists[t]["distributionTags"].append(format_tag(r, doc_rows))
     for r in ds["vouchers"]:
         if (t := m.at(r["taxon_id"])) is not None and (u := occurrence_url(r)):
             lists[t]["associatedOccurrences"].append(u)

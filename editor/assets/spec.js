@@ -25,7 +25,8 @@ window.IOG_SPEC = {
   "dataset/literature.csv",
   "dataset/notes.csv",
   "dataset/hosts.csv",
-  "dataset/review/unplaced.csv"
+  "dataset/review/unplaced.csv",
+  "dataset/documents.csv"
  ],
  "editTables": [
   "taxa",
@@ -35,7 +36,8 @@ window.IOG_SPEC = {
   "literature",
   "notes",
   "hosts",
-  "unplaced"
+  "unplaced",
+  "documents"
  ],
  "tables": {
   "taxa": {
@@ -342,6 +344,7 @@ window.IOG_SPEC = {
     "place",
     "status",
     "source",
+    "doc_id",
     "added_by",
     "added"
    ],
@@ -461,6 +464,13 @@ window.IOG_SPEC = {
      "required": false,
      "enum": [],
      "ref": "",
+     "maxlen": 0
+    },
+    "doc_id": {
+     "kind": "str",
+     "required": false,
+     "enum": [],
+     "ref": "documents",
      "maxlen": 0
     },
     "added_by": {

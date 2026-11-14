@@ -216,7 +216,9 @@ TABLES: list[Table] = [
         C("taxon_id", "id", True, ref="taxa"),
         C("place", required=True, enum=sorted(geo.PLACES)),
         C("status", required=True, enum=PLACE_STATUS),
-        C("source"), C("added_by", required=True), C("added", "date"),
+        C("source", doc="a free-text note or URL"),
+        C("doc_id", ref="documents", doc="the reference the record comes from (documents.csv)"),
+        C("added_by", required=True), C("added", "date"),
     ), key=("taxon_id", "place"), title="editors' distribution tags"),
 
     Table("vouchers", "vouchers.csv", (
