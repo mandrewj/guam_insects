@@ -1790,6 +1790,12 @@ M486J,KVV3T,,Genus,Caedius,"Blanchard, 1845",accepted,,,native,editor,editor,,Te
 IOG-16,M486J,,Species,Caedius palauensis,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 MR5B3,KVV3T,,Genus,Chariotheca,"Pascoe, 1860",accepted,,,native,editor,editor,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4724089,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 IOG-10,MR5B3,,Species,Chariotheca yapensis,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-44,KVV3T,,Genus,Corticeus,"Piller & Mitterpacher, 1783",accepted,"Piller & Mitterpacher, 1783",,unknown,,,,,,,no,9417734,,,,,,,,,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+PMPNM,,IOG-44,Genus,Hypophloeus,"Fabricius, 1790",synonym,,,unknown,,,,Tenebrionoidea,Diaperinae,,yes,8358768,curated merge,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
+IOG-46,IOG-44,,Species,Corticeus ater,"(Kulzer, 1957)",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+name-1711,IOG-44,,Species,Corticeus dimidiatus,"(Kulzer, 1957)",accepted,,,native,editor,editor,,Tenebrionoidea,Diaperinae,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-45,IOG-44,,Species,Corticeus filum,"(Fairmaire, 1893)",accepted,,,unknown,,,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+PMPVX,IOG-44,,Species,Corticeus maehleri,"(Kulzer, 1957)",accepted,Darkling beetle,,native,editor,editor,,Tenebrionoidea,Diaperinae,,yes,1045864,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 IOG-22,KVV3T,,Genus,Dechiustes,"Blair, 1940",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 IOG-23,IOG-22,,Species,Dechiustus carolinensis,"Blair, 1940",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 NF4R8,KVV3T,,Genus,Derosphaerus,"J. Thomson, 1858",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4725436,Catalogue of Life,,,,,,,,,,,,,,
@@ -1827,9 +1833,6 @@ VPSRJ,KVC9L,,Species,Gonocephalum pottsi,"Kulzer, 1957",accepted,,,native,editor
 PBJSV,KVC9L,,Species,Gonocephalum seriatum,"(Boisduval, 1835)",accepted,Beetle,,unknown,,,,Tenebrionoidea,Blaptinae,Opatrini,yes,9480574,Catalogue of Life,,,,,,,,,,,,,,
 P96Y3,KVV3T,,Genus,Heterophylus,"Klug, 1833",accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,Diaperini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 name-1677,P96Y3,,Species,Heterophyllus pacificus,"Blair, 1940",accepted,,,native,editor,editor,,Tenebrionoidea,Diaperinae,Diaperini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
-PMPNM,KVV3T,,Genus,Hypophloeus,"Fabricius, 1790",accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,,yes,8358768,Catalogue of Life,,,,,,,,,,,,,,
-name-1711,PMPNM,,Species,Hypophloeus dimidiatus,,accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-PMPVX,PMPNM,,Species,Hypophloeus maehleri,"Kulzer, 1956",accepted,Darkling beetle,,unknown,,,,Tenebrionoidea,Diaperinae,,yes,1045864,Catalogue of Life,,,,,,,,,,,,,,
 PMC3R,KVV3T,,Genus,Iscanus,"Fauvel, 1904",accepted,,,unknown,,,,Tenebrionoidea,Lagriinae,Lupropini,yes,4723752,Catalogue of Life,,,,,,,,,,,,,,
 DDMB6,KVV3T,,Genus,Lagria,,accepted,,,unknown,,,,Tenebrionoidea,Lagriinae,Lagriini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 Q26J8,DDMB6,,Species,Lagria livida,"Fabricius, 1775",accepted,,,unknown,,,,Tenebrionoidea,Lagriinae,Lagriini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,

@@ -5851,7 +5851,7 @@ PKNGN,iom-7-7-pentatomoidea,account,35,Glaucias inornatus,,,,,,,text,machine,,,m
 PKNGN,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 PM2CW,nafus-1989-biological-control-activities-in-the-mariana,mention,18,Haplogonatopus vitiensis,,,,,,,text,machine,,,migrate,2026-11-13
 PMMQJ,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
-PMPVX,iom-17-3-tenebrionidae,account,45,Hypophloeus maehleri,GU | PW | FM,Babeldaob | Chuuk | Guam | Koror | Kosrae | Palau | Peleliu | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
+PMPVX,iom-17-3-tenebrionidae,account,45,Hypophloeus maehleri,GU | PW | FM,Babeldaob | Chuuk | Guam | Koror | Kosrae | Palau | Peleliu | Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 PNHTF,iom-16-4-nitidulidae,account,42,Haptoncus luteolus,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 PNHTF,iom-16-4-nitidulidae,mention,42 | 46,Haptoncus luteolus,,,,,,,text,machine,,,migrate,2026-11-13
 PNHTF,swezey-1942-misc-coleoptera-guam,account,6,Haptoncus luteolus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6460,7 +6460,7 @@ name-1644,iom-16-4-nitidulidae,account,40,Haptoncus epuraeoides,MH,Marshall Is. 
 name-1648,iom-16-4-nitidulidae,account,44,Haptoncus opaculus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-1651,iom-16-4-nitidulidae,account,45,Haptoncus sordidus,GU | MH,Arno | Guam | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 name-1677,iom-17-3-tenebrionidae,account,25,Heterophyllus pacificus,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
-name-1711,iom-17-3-tenebrionidae,account,46,Hypophloeus dimidiatus,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
+name-1711,iom-17-3-tenebrionidae,account,46,Hypophloeus dimidiatus,FM,Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-1732,iom-16-1-elateridae,account,13,Ischiodontus hawaiiensis,FM | MH,Kapingamarangi | Marshall Is. | Pohnpei | Wotje,,,,,text,machine,,,migrate,2026-11-13
 name-1749,iom-16-6-malachiidae-suppl,account,1,Laius palauensis,PW,Babeldaob | Koror | Ngeruktabel | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-1750,iom-16-6-malachiidae-suppl,account,1,Laius yapensis,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
