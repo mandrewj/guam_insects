@@ -5572,15 +5572,11 @@ LGR5H,samuelson-1973-alticinae-oceania,mention,45 | 49 | 95 | 153 | 154,Aphthona
 LHFZW,iom-7-8-anthocoridae,account,13,Cardiastethus sodalis,,,,,,,text,machine,,,migrate,2026-11-13
 LHFZW,iom-7-8-anthocoridae,mention,1 | 13,Buchananiella sodalis,,,,,,,text,machine,,,migrate,2026-11-13
 LHFZW,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
-LJGHG,iom-17-3-tenebrionidae,account,41,Alphitobius laevigatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-LJGHG,iom-17-3-tenebrionidae,mention,4 | 41,Alphitobius laevigatus,,,,,,,text,machine,,,migrate,2026-11-13
-LJGHG,kaszab-1955-tenebrionidae-fiji,account,14 | 17 | 21 | 60,Alphitobius laevigatus,,,,,,,text,machine,,,migrate,2026-11-13
-LJGHG,kaszab-1955-tenebrionidae-fiji,mention,14 | 17 | 21 | 60,Alphitobius laevigatus,,,,,,,text,machine,,,migrate,2026-11-13
-LJGHG,kaszab-1955-tenebrionidae-somoa,account,22,Alphitobius laevigatus,,,,,,,text,machine,,,migrate,2026-11-13
-LJGHG,kaszab-1955-tenebrionidae-somoa,mention,2 | 7 | 8 | 22,Alphitobius laevigatus,,,,,,,text,machine,,,migrate,2026-11-13
+LJGHG,iom-17-3-tenebrionidae,account,41,Alphitobius laevigatus,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+LJGHG,iom-17-3-tenebrionidae,mention,4 | 41,Alphitobius laevigatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 LJGHG,plazi-5f279ac2,checklist,,,GU,,,,,,plazi,,,,migrate,
-LJGHG,swezey-1942-misc-coleoptera-guam,account,16,Alphitobius laevigatus,,,,,,,text,machine,,,migrate,2026-11-13
-LJGHG,swezey-1942-misc-coleoptera-guam,mention,16,Alphitobius laevigatus,,,,,,,text,machine,,,migrate,2026-11-13
+LJGHG,swezey-1942-misc-coleoptera-guam,account,16,Alphitobius laevigatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+LJGHG,swezey-1942-misc-coleoptera-guam,mention,16,Alphitobius laevigatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 LKTX5,iom-17-1-chrysomelidae,account,34,Altica jussiaeae,PW | FM,Babeldaob | Koror | Ngerekebesang | Palau | Peleliu | Yap,,,,,text,machine,,,migrate,2026-11-13
 LKTX5,iom-17-1-chrysomelidae,mention,3 | 34 | 35,Altica jussiaeae,,,,,,,text,machine,,,migrate,2026-11-13
 LKTX5,samuelson-1973-alticinae-oceania,account,38,Altica jussiaeae,,,,,,,text,machine,,,migrate,2026-11-13

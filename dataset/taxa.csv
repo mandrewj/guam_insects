@@ -1415,12 +1415,14 @@ gbif:7432037,,5632V,Species,Thamiaraea insigniventris,"Fauvel, 1878",synonym,,,,
 M3FNZ,8VR4S,,Genus,Trogophloeus,"Mannerheim, 1830",accepted,,,unknown,,,,Staphylinoidea,Oxytelinae,Thinobiini,yes,4715250,Catalogue of Life,,,,,,,,,,,,,,
 KVV3T,C2L,,Family,Tenebrionidae,"Latreille, 1802",accepted,Tenebs,darkling beetles,unknown,,,,Tenebrionoidea,,,yes,7857,Catalogue of Life,,,,,,,,,,,,,,
 KTY3G,KVV3T,,Genus,Alphitobius,"Stephens, 1829",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045873,Catalogue of Life,,,,,,,,,,,,,,
-LJGHG,KTY3G,,Species,Alphitobius laevigatus,"(Fabricius, 1781)",accepted,black fungus beetle,,unknown,,,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045874,Catalogue of Life,,,,,,,,,,,,,,
+IOG-3,KTY3G,,Species,Alphitobius diaperinus,"(Panzer, 1797)",accepted,Lesser Mealworm,,introduced,editor,editor,,,,,no,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+LJGHG,KTY3G,,Species,Alphitobius laevigatus,"(Fabricius, 1781)",accepted,black fungus beetle,,unknown,,,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045874,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
 name-2200,,LJGHG,Species,Opatrum laevigatum,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Alphitobius laevigatus,literature,,,,,,,,,,,,
-KTWSG,KVV3T,,Genus,Amarygmus,"Dalman, 1823",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,1045851,Catalogue of Life,,,,,,,,,,,,,,
-L783X,KTWSG,,Species,Amarygmus hydrophiloides,"Fairmaire, 1849",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,9372104,Catalogue of Life,,,,,,,,,,,,,,
-VPNQD,KTWSG,,Species,Amarygmus micans,,accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,,Catalogue of Life,,,,,,,,,,,,,,
-L785Y,KTWSG,,Species,Amarygmus palauensis,"Bremer, 2004",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,9708638,Catalogue of Life,,,,,,,,,,,,,,
+KTWSG,KVV3T,,Genus,Amarygmus,"Dalman, 1823",accepted,,,native,editor,editor,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,1045851,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+L783X,KTWSG,,Species,Amarygmus hydrophiloides,"Fairmaire, 1849",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,9372104,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-4,KTWSG,,Species,Amarygmus iris,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,At least one specimen in Field Museum.,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+VPNQD,KTWSG,,Species,Amarygmus micans,,accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+L785Y,KTWSG,,Species,Amarygmus palauensis,"Bremer, 2004",accepted,,,native,editor,editor,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,9708638,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 LB688,KVV3T,,Genus,Ammophorus,"Guérin-Méneville, 1831",accepted,,,unknown,,,,Tenebrionoidea,Pimeliinae,,yes,1045826,Catalogue of Life,,,,,,,,,,,,,,
 gbif:1045826,,LB688,Genus,Ammophorus,"Guérin, 1831",synonym,,,,,,,,,,no,,"same name, other author",,,,,,,,,,,,,,
 LB697,LB688,,Species,Ammophorus insularis,"(Boheman, 1858)",accepted,Darkling beetle,,unknown,,,,Tenebrionoidea,Pimeliinae,,yes,1045827,Catalogue of Life,,,,,,,,,,,,,,
