@@ -114,3 +114,117 @@ def test_pick():
     assert refresh.pick(ds, "new") == ["ORRHI"]
     assert len(refresh.pick(ds, "all")) == 5
     assert refresh.pick(ds, ["ORGIG", "nope"]) == ["ORGIG"]
+
+
+def test_inat_refresh_links_and_takes_inaturalist_common_names():
+    ds = taxa_ds()
+    ds["links"] = [{c: "" for c in dataset.schema.table("links").names} | r for r in [
+        {"taxon_id": "ORRHI", "system": "inaturalist", "value": "47001", "confidence": "high", "note": "via Wikidata"}]]
+
+    class Inat:
+        def get(self, path, params=None):
+            if path == "/taxa":
+                if params["q"] != "Oryctes gigas":
+                    return {"results": []}
+                return {"results": [{"id": 9, "name": "Oryctes gigas", "rank": "species", "preferred_common_name": "Giant Rhino Beetle"},
+                                    {"id": 10, "name": "Oryctes gigas", "rank": "genus"}]}
+            ids = [int(x) for x in path.rsplit("/", 1)[1].split(",")]
+            names = {47001: {"name": "Oryctes rhinoceros", "preferred_common_name": "Coconut Rhinoceros Beetle"},
+                     9: {"name": "Oryctes gigas", "preferred_common_name": "Giant Rhino Beetle"}}
+            return {"results": [{"id": i, "rank": "species", **names[i]} for i in ids]}
+
+    stats = refresh.inat_refresh(ds, ["ORRHI", "ORGIG", "ORYCT"], Inat(), TODAY, progress=lambda *_: None)
+    taxa = {r["id"]: r for r in ds["taxa"]}
+    assert taxa["ORRHI"]["common_name"] == "Coconut Rhinoceros Beetle"
+    assert taxa["ORRHI"]["other_common_names"] == ""            # the same name in another case is not kept twice
+    assert taxa["ORGIG"]["common_name"] == "Giant Rhino Beetle"
+    links = {(r["taxon_id"], r["system"]): r for r in ds["links"]}
+    assert links[("ORGIG", "inaturalist")]["value"] == "9" and links[("ORGIG", "inaturalist")]["confidence"] == "high"
+    assert stats["new_links"] == 1 and stats["common_names"] == 1
+    assert dataset.check(ds).items == []
+    # a Wikidata id that points at a different name is marked for review and gives no common name
+    ds["links"][0]["value"] = "9"
+    taxa["ORRHI"]["common_name"] = "Keep me"
+    refresh.inat_refresh(ds, ["ORRHI"], Inat(), TODAY, progress=lambda *_: None)
+    assert taxa["ORRHI"]["common_name"] == "Keep me" and ds["links"][0]["confidence"] == "review"
+
+
+def test_plazi_authors_duplicates_and_container():
+    from guaminsects import plazi
+
+    blank = lambda **kw: {c: "" for c in dataset.schema.table("documents").names} | kw  # noqa: E731
+    cite = lambda a, y, t: f"{a} ({y}). {t}. Plazi.org taxonomic treatments database."    # noqa: E731
+    ds = taxa_ds()
+    ds["documents"] = [
+        blank(doc_id="swezey-1942-coleoptera", file="x.pdf", title="Miscellaneous families of Guam Coleoptera",
+              authors="Swezey, O.H.", year="1942", container="Insects of Guam I", url="https://pub.example/1"),
+        blank(doc_id="plazi-aaaaaaaa", title="Miscellaneous Families Of Guam Coleoptera", year="1942",
+              citation=cite("Swezey O H, carolina", 1942, "Miscellaneous Families Of Guam Coleoptera"), doi="10.5281/z1"),
+        blank(doc_id="plazi-bbbbbbbb", title="Sphingidae Of Guam", year="1942",
+              citation=cite("Swezry O H, carolina", 1942, "Sphingidae Of Guam")),
+        blank(doc_id="plazi-cccccccc", title="Bees of Guam", year="1942",
+              citation=cite("Swezey O H, Williams F X, admin", 1942, "Bees of Guam")),
+        blank(doc_id="plazi-dddddddd", title="New ants from Micronesia", year="2007",
+              citation=cite("Clouse R M, Stierhof T", 2007, "New ants from Micronesia")),
+        blank(doc_id="plazi-eeeeeeee", title="New ants from Micronesia.", year="2007",
+              citation=cite("Clouse R M, plazi", 2007, "New ants from Micronesia.")),
+    ]
+    ds["literature"] = [{c: "" for c in dataset.schema.table("literature").names} | r for r in [
+        {"taxon_id": "ORRHI", "doc_id": "plazi-aaaaaaaa", "kind": "checklist", "areas": "GU", "method": "plazi"},
+        {"taxon_id": "ORRHI", "doc_id": "swezey-1942-coleoptera", "kind": "checklist", "areas": "GU | MP", "review": "editor", "method": "plazi"},
+        {"taxon_id": "ORGIG", "doc_id": "plazi-aaaaaaaa", "kind": "checklist", "areas": "GU", "method": "plazi"}]]
+    out = plazi.clean(ds)
+    docs = {d["doc_id"]: d for d in ds["documents"]}
+    assert docs["plazi-aaaaaaaa"]["authors"] == "Swezey, O.H."            # the uploader "carolina" is gone
+    assert docs["plazi-bbbbbbbb"]["authors"] == "Swezey, O.H." and out["surname_fixes"] == {"Swezry": "Swezey"}
+    assert docs["plazi-cccccccc"]["authors"] == "Swezey, O.H., Williams, F.X."
+    assert docs["plazi-bbbbbbbb"]["container"] == "Insects of Guam I"
+    assert docs["plazi-dddddddd"]["citation"].startswith("Clouse, R.M., Stierhof, T. 2007. New ants from Micronesia.")
+    dups = {(d, k) for d, k, _ in plazi.find_duplicates(ds)}
+    assert dups == {("plazi-aaaaaaaa", "swezey-1942-coleoptera"), ("plazi-eeeeeeee", "plazi-dddddddd")}
+    moved = plazi.merge(ds, "plazi-aaaaaaaa", "swezey-1942-coleoptera")
+    assert moved == 2
+    lit = {(r["taxon_id"], r["doc_id"]): r for r in ds["literature"]}
+    assert set(lit) == {("ORRHI", "swezey-1942-coleoptera"), ("ORGIG", "swezey-1942-coleoptera")}
+    assert lit[("ORRHI", "swezey-1942-coleoptera")]["review"] == "editor"
+    assert docs["swezey-1942-coleoptera"]["doi"] == "10.5281/z1"
+    assert "plazi-aaaaaaaa" not in {d["doc_id"] for d in ds["documents"]}
+    assert dataset.check(ds).items == []
+
+
+def test_living_photos_go_first(tmp_path):
+    ds = taxa_ds()
+    ds["links"] = [{c: "" for c in dataset.schema.table("links").names} | {
+        "taxon_id": "ORGIG", "system": "inaturalist", "value": "9", "confidence": "high"}]
+    ds["photos"] = (photos.own_rows({"ORRHI": [cand("gbif:1:a", 5), cand("inat:7", 20), cand("commons:x.jpg", 30)]}, TODAY)
+                    + photos.own_rows({"ORGIG": [cand("gbif:2:b", 5)]}, TODAY))
+    for p in ds["photos"]:
+        p["thumb"] = p["photo_id"].replace(":", "_") + ".webp"
+
+    class Inat:
+        def get(self, path, params=None):
+            return {"results": [{"id": 9, "taxon_photos": [{"photo": {
+                "id": 55, "license_code": "cc-by", "url": "https://s/square.jpg", "attribution": "© Ann",
+                "original_dimensions": {"width": 900, "height": 600}}}, {"photo": {
+                "id": 56, "license_code": "all-rights-reserved", "url": "https://s/square.jpg"}}]}]}
+
+    class Bytes:
+        def get_bytes(self, url):
+            import io
+
+            from PIL import Image
+            b = io.BytesIO()
+            Image.new("RGB", (400, 300), "green").save(b, "JPEG")
+            return b.getvalue()
+
+    media = tmp_path / "thumbs"
+    stats = photos.prefer_living(ds, Inat(), Bytes(), TODAY, media=media, progress=lambda *_: None)
+    order = lambda t: [p["photo_id"] for p in sorted(  # noqa: E731
+        (p for p in ds["photos"] if p["taxon_id"] == t and p["role"] == "own"), key=lambda p: int(p["position"]))]
+    assert order("ORRHI") == ["inat:7", "commons:x.jpg", "gbif:1:a"]            # tiers, stable
+    assert order("ORGIG") == ["inat:55", "gbif:2:b"]                            # iNaturalist's licensed photo first
+    assert stats["reordered"] == 1 and stats["replaced"] == 1 and stats["thumbs_made"] == 2
+    thumbs = [p for p in ds["photos"] if p.get("thumb")]
+    assert {p["position"] for p in thumbs} == {"0"}                              # only card photos keep a file
+    assert sorted(f.name for f in media.glob("*.webp")) == sorted(p["thumb"] for p in thumbs)
+    assert dataset.check(ds).items == []

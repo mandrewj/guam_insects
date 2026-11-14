@@ -12,6 +12,8 @@ gbif,4684043,Menelaides,gbif:4684043,
 gbif,4775231,Bulbostethus,gbif:4775231,
 gbif,4777597,Coridromoides,gbif:4777597,
 gbif,4781608,Parvacrena,gbif:4781608,
+gbif,4781887,Elasmolomus pallens,gbif:4781887,not in COL
+literature,Aphanus sordidus,Aphanus sordidus,gbif:4781887,GBIF synonym
 gbif,5007531,Cyphon,gbif:5007531,
 gbif,5064139,Chrysomyia,gbif:5064139,
 gbif,5163555,Coccus acuminatum,gbif:5163555,
@@ -35,7 +37,11 @@ gbif,8351412,Mycerinopsis ponapensis,gbif:8351412,
 gbif,8415701,Mycerinopsis convexa,gbif:8415701,
 gbif,9175625,Tarytia flavo-orbitalis,gbif:9175625,
 gbif,9318025,Pachybrachius nietneri,gbif:9318025,
+gbif,10227747,Carpophilus davidsoni,gbif:10227747,not in COL
+literature,Carpophiltts davidsoni,Carpophiltts davidsoni,gbif:10227747,spelling variant
 gbif,10467256,Glaucias amyota,gbif:10467256,
+gbif,10663621,Carabus elevatus,gbif:10663621,not in COL
+gbif,10664636,Capsus stramineus,gbif:10664636,not in COL
 gbif,11111510,Limonia arachnophila,gbif:11111510,
 gbif,11171234,Phloeonomus singularis,gbif:11171234,
 gbif,11229655,Chrysomyza aenea,gbif:11229655,
@@ -348,6 +354,7 @@ gbif,1312361,Camponotus,3GGD,same
 col,3GMC,Campylomma,3GMC,
 gbif,2011326,Campylomma,3GMC,same
 col,3GV3,Cantacader,3GV3,
+gbif,Capsus,Capsus,3H7K,same
 col,3HGH,Carebara,3HGH,
 gbif,1317472,Carebara,3HGH,same
 col,3J43,Cassida,3J43,
@@ -394,6 +401,7 @@ col,3VHN,Crematogaster,3VHN,
 gbif,1324306,Crematogaster,3VHN,same
 col,3VLH,Creontiades,3VLH,
 gbif,2011499,Creontiades,3VLH,same
+gbif,1458061,Crossopalpus,3W6X,same
 col,3WDW,Crypsithyrodes,3WDW,
 gbif,1856197,Crypsithyrodes,3WDW,same
 col,3WRD,Cryptopone,3WRD,
@@ -411,6 +419,7 @@ col,3YZR,Cyrtorhinus,3YZR,
 gbif,2010208,Cyrtorhinus,3YZR,same
 col,3Z2Z,Cysteochila,3Z2Z,
 gbif,4784592,Cysteochila,3Z2Z,same
+gbif,1251434,Dacnusa,3Z92,same
 col,3ZTK,Dappula,3ZTK,
 gbif,1853503,Dappula,3ZTK,same
 col,4248,Dasyproctus,4248,
@@ -445,6 +454,7 @@ col,472Q,Distoleon,472Q,
 gbif,2097989,Distoleon,472Q,same
 col,47X5,Doryctes,47X5,
 gbif,4676033,Ischiogonus,47X5,COL synonym
+gbif,1798478,Dysgonia,4956,same
 col,499G,Earias,499G,
 gbif,1802997,Earias,499G,same
 col,49QG,Echthromorpha,49QG,
@@ -829,6 +839,7 @@ col,89KG,Xylopsocus,89KG,
 gbif,1095703,Xylopsocus,89KG,same
 col,89LJ,Xylothrips,89LJ,
 gbif,4404801,Xylothrips,89LJ,same
+gbif,4398366,Aaroniella trukensis,8HFL,same
 col,8QP8,Acalles amplicollis,8QP8,
 gbif,4291693,Anaballus amplicollis,8QP8,COL synonym
 col,8R6L,Acalles samoanus,8R6L,
@@ -839,6 +850,8 @@ gbif,1117384,Acalolepta antenor,8RDF,same
 inat,Acalolepta antenor,Acalolepta antenor,8RDF,same
 col,8RDY,Acalolepta bennigseni,8RDY,
 gbif,1117699,Acalolepta bennigseni,8RDY,same
+gbif,1117524,Acalolepta hachijoensis,8RGH,same
+literature,Dihammus fulvicornis hachijoensis,Dihammus fulvicornis hachijoensis,8RGH,GBIF synonym
 col,8RH9,Acalolepta korolensis,8RH9,
 literature,Dihammus korolensis,Dihammus korolensis,8RH9,COL synonym
 literature,Dihammus lupinus,Dihammus lupinus,8RH9,COL synonym
@@ -918,6 +931,7 @@ col,B7YD,Agrius convolvuli,B7YD,
 gbif,1861644,Agrius convolvuli,B7YD,same
 gbif,9588330,Herse convolvuli,B7YD,COL synonym
 inat,Agrius convolvuli,Agrius convolvuli,B7YD,same
+gbif,1580468,Aidomyia snyderi,BC9Q,same
 col,BCMC,Aiolopus thalassinus,BCMC,
 gbif,1713317,Aiolopus thalassinus,BCMC,same
 inat,Aiolopus thalassinus,Aiolopus thalassinus,BCMC,same
@@ -927,6 +941,7 @@ col,BF35,Alaptus immaturus,BF35,
 gbif,1367455,Alaptus caecilii,BF35,COL synonym
 col,BLKW,Alebroides flavoniger,BLKW,
 gbif,2043650,Alebroides flavoniger,BLKW,same
+gbif,7984080,Aleurocanthus esakii,BQ7X,same
 col,BQ98,Aleurocanthus palauensis,BQ98,
 gbif,8354964,Aleurocanthus palauensis,BQ98,same
 col,BQ9T,Aleurocanthus spiniferus,BQ9T,
@@ -957,20 +972,27 @@ col,C23B,Allotropa thompsoni,C23B,
 gbif,5048068,Allotropa thompsoni,C23B,same
 col,C27T,Alluaudomyia bipunctata,C27T,
 gbif,1632726,Alluaudomyia bipunctata,C27T,same
+gbif,1632716,Alluaudomyia insulana,C29F,same
 col,C29G,Alluaudomyia insulicola,C29G,
 gbif,1632730,Alluaudomyia insulicola,C29G,same
+gbif,1632703,Alluaudomyia maculosipennis,C29X,same
 col,CN78,Amblypsilopus austerus,CN78,
 gbif,5980082,Chrysosoma austerum,CN78,COL synonym
 literature,Amblypsilopus austerus,Amblypsilopus austerus,CN78,same
 col,CN7Q,Amblypsilopus biprovincialis,CN7Q,
 literature,Amblypsilopus biprovincialis,Amblypsilopus biprovincialis,CN7Q,same
+gbif,1606464,Amblypsilopus sabroskyi,CNB7,same
+gbif,1606445,Amblypsilopus trukensis,CNBW,same
 col,CYXV,Amphiacusta ruizi,CYXV,
 gbif,1718890,Amphiacusta ruizi,CYXV,same
+gbif,1095712,Amphicerus cornutus,CZMM,same
+literature,Bastrichus bicarnutus,Bastrichus bicarnutus,CZMM,GBIF synonym
 col,D6C9,Amphitrichia bipunctata,D6C9,
 gbif,7779308,Amphitrichia bipunctata,D6C9,same
 inat,Holotrichia bipunctata,Holotrichia bipunctata,D6C9,COL synonym
 col,D6CM,Amphitrichia mindanaona,D6CM,
 gbif,11163068,Holotrichia mindanaoana,D6CM,COL synonym
+gbif,2072111,Aphis cynoglossi,D77B,COL synonym
 col,DBK9,Anaciaeschna jaspidea,DBK9,
 gbif,1424926,Anaciaeschna jaspidea,DBK9,same
 inat,Anaciaeschna jaspidea,Anaciaeschna jaspidea,DBK9,same
@@ -986,6 +1008,7 @@ col,DDRB,Anagyrus dactylopii,DDRB,
 gbif,1379860,Anagyrus dactylopii,DDRB,same
 col,DDTH,Anagyrus kamali,DDTH,
 gbif,1380213,Anagyrus kamali,DDTH,same
+gbif,2084067,Anastomoderma palauensis,DH8K,COL synonym
 col,DJX6,Anax guttatus,DJX6,
 gbif,5051762,Anax guttatus,DJX6,same
 inat,Anax guttatus,Anax guttatus,DJX6,same
@@ -1018,6 +1041,9 @@ col,FBB6,Aphanocorynes humeralis,FBB6,
 gbif,1214616,Aphanocorynes humeralis,FBB6,same
 col,FCJ2,Aphelinoidea mariana,FCJ2,
 gbif,1398550,Aphelinoidea mariana,FCJ2,same
+gbif,1269247,Aphidius colemani,FD9T,same
+gbif,1269151,Aphidius matricariae,FDC2,same
+gbif,2072483,Aphis asclepiadis,FDS7,same
 col,FDWX,Aphis gossypii,FDWX,
 gbif,9083295,Aphis gossypii,FDWX,same
 literature,Toxoptera leonuri,Toxoptera leonuri,FDWX,COL synonym
@@ -1051,6 +1077,7 @@ col,G4BH,Araeocorynus cumingii,G4BH,
 gbif,10832704,Araeocorynus cumingii,G4BH,same
 col,G9JR,Archipsocopsis dybasi,G9JR,
 literature,Archipsocus dybasi,Archipsocus dybasi,G9JR,COL synonym
+gbif,4397269,Archipsocus spinosus,G9M7,same
 col,GCG3,Arcystasia godeffroyi,GCG3,
 gbif,7478583,Arcystasia godeffroyi,GCG3,same
 col,GGW8,Argina astrea,GGW8,
@@ -1061,6 +1088,7 @@ col,GRB3,Armacia simaethis,GRB3,
 gbif,5984058,Armacia simaethis,GRB3,same
 col,GTH5,Arnomyia taitensis,GTH5,
 gbif,1572515,Arnomyia taitensis,GTH5,same
+gbif,1577804,Artemita insularis,GX6B,same
 col,HDVF,Aspidiella sacchari,HDVF,
 gbif,2083429,Aspidiella sacchari,HDVF,same
 col,HNMD,Astegopteryx bambusae,HNMD,
@@ -1073,8 +1101,12 @@ col,HNP5,Asteia acrosticalis,HNP5,
 gbif,1675666,Asteia acrosticalis,HNP5,same
 col,HNPH,Asteia atrifacies,HNPH,
 gbif,1675670,Asteia atrifacies,HNPH,same
+gbif,1675668,Asteia australis,HNPJ,same
 col,HNQ5,Asteia kraussi,HNQ5,
 gbif,1675656,Asteia kraussi,HNQ5,same
+gbif,1675692,Asteia sexsetosa,HNR5,same
+gbif,1675680,Asteia societas,HNR6,same
+gbif,1675783,Astiosoma okinawae,HVDB,same
 col,J7HL,Ataenius cognatus,J7HL,
 gbif,1065629,Ataenius cognatus,J7HL,same
 col,J7L8,Ataenius gracilis,J7L8,
@@ -1082,6 +1114,7 @@ gbif,1065870,Ataenius gracilis,J7L8,same
 gbif,4737281,Ataenius nocturnus,J7L8,COL synonym
 col,J7P2,Ataenius liogaster,J7P2,
 gbif,1065623,Ataenius liogaster,J7P2,same
+gbif,1065588,Ataenius pacificus,J7QT,same
 col,J7RB,Ataenius peregrinator,J7RB,
 gbif,1065476,Ataenius peregrinator,J7RB,same
 col,JB2V,Athesapeuta ulvae,JB2V,
@@ -1090,12 +1123,14 @@ col,JGHD,Athysanus ogasawarensis,JGHD,
 gbif,5154875,Athysanus ogasawarensis,JGHD,same
 col,JJPS,Atractomorpha psittacina,JJPS,
 gbif,5101013,Atractomorpha psittacina,JJPS,same
+gbif,1636794,Atrichopogon arciforceps,JKKL,same
 col,JKKR,Atrichopogon armaticaudalis,JKKR,
 gbif,1636786,Atrichopogon armaticaudalis,JKKR,same
 col,JKM4,Atrichopogon brevicornis,JKM4,
 gbif,1636698,Atrichopogon brevicornis,JKM4,same
 col,JKPK,Atrichopogon fenestriscutum,JKPK,
 gbif,1636658,Atrichopogon fenestriscutum,JKPK,same
+gbif,1636642,Atrichopogon flavenicruris,JKPS,same
 col,JKR9,Atrichopogon gressitti,JKR9,
 gbif,1637183,Atrichopogon gressitti,JKR9,same
 col,JKSL,Atrichopogon jacobsoni,JKSL,
@@ -1103,6 +1138,7 @@ gbif,11318870,Atrichopogon rarus,JKSL,COL synonym
 gbif,1637144,Atrichopogon jacobsoni,JKSL,same
 col,JKXF,Atrichopogon raripilipennis,JKXF,
 gbif,1637003,Atrichopogon raripilipennis,JKXF,same
+gbif,1636909,Atrichopogon snyderi,JKYV,same
 col,JKZ3,Atrichopogon spinicaudalis,JKZ3,
 gbif,1636891,Atrichopogon spinicaudalis,JKZ3,same
 col,JNHZ,Atylana farrago,JNHZ,
@@ -1110,6 +1146,8 @@ gbif,8198717,Atylana farrago,JNHZ,same
 col,JQFZ,Aulacaspis madiunensis,JQFZ,
 gbif,2087713,Aulacaspis madiunensis,JQFZ,same
 literature,Chionaspis madiunensis,Chionaspis madiunensis,JQFZ,COL synonym
+gbif,9139578,Aulacaspis rosae,JQHL,same
+literature,Aspidiotus rosae,Aspidiotus rosae,JQHL,GBIF synonym
 col,JQJ3,Aulacaspis tegalensis,JQJ3,
 gbif,8253812,Aulacaspis tegalensis,JQJ3,same
 literature,Chionaspis tegalensis,Chionaspis tegalensis,JQJ3,COL synonym
@@ -1130,6 +1168,8 @@ gbif,1032823,Austromenopon atrofulvum,JXDD,same
 col,K4BS,Axona chalcopyga,K4BS,
 gbif,5070605,Axona chalcopyga,K4BS,same
 inat,Axona chalcopyga,Axona chalcopyga,K4BS,same
+gbif,1747858,Bactra hostilis,K9W8,same
+literature,Bactra leonina,Bactra leonina,K9W8,GBIF synonym
 col,K9WV,Bactra minima,K9WV,
 gbif,1747780,Bactra minima,K9WV,same
 literature,Bactra microtripta,Bactra microtripta,K9WV,COL synonym
@@ -1195,6 +1235,8 @@ gbif,2040948,Batracomorphus evander,L22J,same
 col,L22Q,Batracomorphus harpago,L22Q,
 gbif,2040909,Batracomorphus harpago,L22Q,same
 literature,Batrachomorphus harpago,Batrachomorphus harpago,L22Q,spelling variant
+gbif,2040722,Batracomorphus ogasawarensis,L24T,same
+literature,Batrachomorphus ogasawarensis,Batrachomorphus ogasawarensis,L24T,spelling variant
 col,L27D,Batracomorphus viridoflavidus,L27D,
 gbif,2040927,Batracomorphus viridoflavidus,L27D,same
 literature,Batrachomorphus viridoflavidus,Batrachomorphus viridoflavidus,L27D,spelling variant
@@ -1206,6 +1248,7 @@ gbif,7801607,Berotingis guamensis,LMFW,same
 gbif,8944645,Tingis guamensis,LMFW,COL synonym
 col,LMFX,Berotingis rugiana,LMFX,
 gbif,7696989,Berotingis rugiana,LMFX,same
+gbif,8288039,Berotingis yapensis,LMFY,same
 col,LMWV,Bertsa kusaiensis,LMWV,
 gbif,8354699,Bertsa kusaiensis,LMWV,same
 col,LMWY,Bertsa rotaensis,LMWY,
@@ -1241,8 +1284,11 @@ gbif,4531670,Angustalius malacellus,M6P5,COL synonym
 gbif,4531671,Crambus malacellus,M6P5,COL synonym
 col,M8GF,Bocana manifestalis,M8GF,
 gbif,5109796,Bocana manifestalis,M8GF,same
+gbif,1215031,Boroxylon stephegynis,ML3C,same
 col,MMB4,Bostrichus capucinus,MMB4,
 literature,Bostrichus capuc-inus,Bostrichus capuc-inus,MMB4,spelling variant
+gbif,1242435,Bostrichus carpophagus,MMB6,same
+gbif,5022142,Bostrichus exiguus,MMC5,same
 col,MMF6,Bostrichus testaceus,MMF6,
 gbif,9304012,Xyleborus testaceus,MMF6,COL synonym
 col,MVS5,Brachycyttarus griseus,MVS5,
@@ -1257,10 +1303,13 @@ gbif,1362229,Brachymeria hammari,MXG5,same
 col,MXRL,Brachymyrmex obscurior,MXRL,
 gbif,1317293,Brachymyrmex obscurior,MXRL,same
 inat,Brachymyrmex obscurior,Brachymyrmex obscurior,MXRL,same
+gbif,1638434,Brachytarsina carolinae,N2P4,same
 col,N5HZ,Bradysia bishopi,N5HZ,
 gbif,1488868,Bradysia bishopi,N5HZ,same
+gbif,1488911,Bradysia boninensis,N5J6,same
 col,N5PX,Bradysia kraussi,N5PX,
 gbif,1488512,Bradysia kraussi,N5PX,same
+literature,Bradysia snyderi,Bradysia snyderi,N5PX,GBIF synonym
 col,NBCM,Brinckochrysa scelestes,NBCM,
 gbif,2105111,Brinckochrysa scelestes,NBCM,same
 col,NDND,Brontispa castaneipennis,NDND,
@@ -1301,11 +1350,13 @@ col,QFX5,Camptopteromyia tibialis,QFX5,
 gbif,1580805,Camptopteromyia tibialis,QFX5,same
 col,QFXR,Camptorhinus dorsalis,QFXR,
 gbif,9275399,Camptorhinus dorsalis,QFXR,same
+gbif,8331244,Campylomma boninensis,QGZ7,same
 col,QGZB,Campylomma brunneicollis,QGZB,
 gbif,7536408,Campylomma brunneicollis,QGZB,same
 literature,Campyloma brunneicollis,Campyloma brunneicollis,QGZB,spelling variant
 col,QGZF,Campylomma carolinensis,QGZF,
 gbif,8381929,Campylomma carolinensis,QGZF,same
+gbif,7775106,Campylomma chichijima,QGZH,same
 col,QH2W,Campylomma kororensis,QH2W,
 gbif,8132742,Campylomma kororensis,QH2W,same
 col,QH39,Campylomma lividicornis,QH39,
@@ -1367,6 +1418,7 @@ literature,Phyllodinus sauteri,Phyllodinus sauteri,S553,COL synonym
 col,SCJY,Cephaleta brunniventris,SCJY,
 gbif,1395851,Cephaleta brunniventris,SCJY,same
 inat,Cephaleta brunniventris,Cephaleta brunniventris,SCJY,same
+gbif,1525800,Cephalispa gressitti,SCL7,same
 col,SCV2,Cephalochrysa rugulosa,SCV2,
 gbif,1580750,Cephalochrysa rugulosa,SCV2,same
 col,SFSW,Cephonodes armatus,SFSW,
@@ -1378,12 +1430,15 @@ inat,Cephonodes hylas,Cephonodes hylas,SFSY,same
 col,SFT6,Cephonodes picus,SFT6,
 gbif,1863044,Cephonodes picus,SFT6,same
 inat,Cephonodes picus,Cephonodes picus,SFT6,same
+gbif,2074362,Cerataphis orchidearum,SL5J,same
+literature,Asterolecanium orchidearum,Asterolecanium orchidearum,SL5J,GBIF synonym
 col,SLDN,Ceratina dentipes,SLDN,
 gbif,5040036,Ceratina dentipes,SLDN,same
 inat,Ceratina dentipes,Ceratina dentipes,SLDN,same
 col,SLJC,Ceratina palauensis,SLJC,
 gbif,5039871,Ceratina palauensis,SLJC,same
 inat,Ceratina palauensis,Ceratina palauensis,SLJC,same
+gbif,1104706,Ceresium olidum,SWTV,same
 col,SWTW,Ceresium planatum,SWTW,
 gbif,1104733,Ceresium planatum,SWTW,same
 col,SWTX,Ceresium usingeri,SWTX,
@@ -1398,6 +1453,9 @@ col,SWXP,Ceresium nanyoanum,SWXP,
 literature,Ceresium nanyoanum,Ceresium nanyoanum,SWXP,same
 col,SWYN,Ceresium robustum,SWYN,
 gbif,1104807,Ceresium robustum,SWYN,same
+gbif,1104806,Ceresium signaticolle,SWZ4,same
+gbif,4739451,Ceresium simile,SWZ5,same
+gbif,4908120,Ceresium sinicum,SWZC,same
 col,SWZG,Ceresium sublucidum,SWZG,
 gbif,1104682,Ceresium sublucidum,SWZG,same
 col,SWZM,Ceresium testaceum,SWZM,
@@ -1409,6 +1467,7 @@ gbif,7953279,Ceroplastes ceriferus,T3YM,same
 inat,Ceroplastes ceriferus,Ceroplastes ceriferus,T3YM,same
 col,T3Z2,Ceroplastes cirripediformis,T3Z2,
 literature,Ceroplastes cirripediformis,Ceroplastes cirripediformis,T3Z2,same
+gbif,2092459,Ceroplastes cistudiformis,T3Z5,same
 col,T44K,Ceroplastes pseudoceriferus,T44K,
 literature,Ceroplastes pseudoceriferus,Ceroplastes pseudoceriferus,T44K,same
 col,T452,Ceroplastes rubens,T452,
@@ -1417,6 +1476,8 @@ inat,Ceroplastes rubens,Ceroplastes rubens,T452,same
 col,TBGY,Chaetococcus bambusae,TBGY,
 literature,Chaetococcus bambusae,Chaetococcus bambusae,TBGY,same
 literature,Sphaerococcus bambusae,Sphaerococcus bambusae,TBGY,COL synonym
+gbif,1562128,Chaetocoelopa littoralis,TBHR,same
+literature,Coelopa monstruosa,Coelopa monstruosa,TBHR,GBIF synonym
 col,TCKK,Chaetolabia spicata,TCKK,
 gbif,4393942,Chaetolabia spicata,TCKK,same
 col,TH2T,Chalcura upeensis,TH2T,
@@ -1450,6 +1511,9 @@ gbif,1606073,Chrysotus crosbyi,V2RP,same
 inat,Chrysotus crosbyi,Chrysotus crosbyi,V2RP,same
 col,V7DC,Cicadulina bimaculata,V7DC,
 gbif,5154839,Cicadulina bimaculata,V7DC,same
+gbif,1452396,Clinotanypus guamensis,W72L,same
+gbif,1455536,Clunio pacificus,WCMF,same
+gbif,1455537,Clunio tuthilli,WCMP,same
 col,WGPX,Cnematoplatys cylindrica,WGPX,
 gbif,1067915,Cnematoplatys cylindrica,WGPX,same
 col,WK54,Coboldia fuscipes,WK54,
@@ -1463,8 +1527,10 @@ col,WM2N,Coccotrypes advena,WM2N,
 gbif,1230333,Coccotrypes advena,WM2N,same
 col,WM3F,Coccotrypes carpophagus,WM3F,
 gbif,1230353,Coccotrypes carpophagus,WM3F,same
+gbif,1230222,Coccotrypes integer,WM4V,same
 col,WM5R,Coccotrypes nanus,WM5R,
 gbif,1230258,Coccotrypes nanus,WM5R,same
+gbif,5162723,Coccus bromeliae,WMG9,same
 col,WMM7,Coccus longulus,WMM7,
 gbif,8202676,Coccus longulus,WMM7,same
 col,WMMR,Coccus moestus,WMMR,
@@ -1472,8 +1538,16 @@ gbif,5163234,Coccus moestus,WMMR,same
 col,WMRL,Coccus viridis,WMRL,
 gbif,5163369,Coccus viridis,WMRL,same
 inat,Coccus viridis,Coccus viridis,WMRL,same
+literature,Coceus viridis,Coceus viridis,WMRL,spelling variant
+gbif,1562111,Coelopa africana,WSCB,same
+literature,Coelopa afrieana,Coelopa afrieana,WSCB,spelling variant
+gbif,1562094,Coelopa frigida,WSCF,same
 col,WSCQ,Coelopa palauensis,WSCQ,
 gbif,1562103,Coelopa palauensis,WSCQ,same
+gbif,1562104,Coelopa pilipes,WSCS,same
+gbif,1562101,Coelopa vanduzeei,WSCX,same
+gbif,1562066,Coelopina anomala,WSFS,same
+literature,Coelopa anomala,Coelopa anomala,WSFS,GBIF synonym
 col,X8NP,Colpocephalum angulaticeps,X8NP,
 gbif,4804606,Colpocephalum angulaticeps,X8NP,same
 col,XD8L,Colvanalia apicalis,XD8L,
@@ -1492,6 +1566,7 @@ literature,Xiphidion modestum upoluense,Xiphidion modestum upoluense,XQ24,COL sy
 col,XSWZ,Conosia insularis,XSWZ,
 gbif,11138375,Conosia irrorata insularis,XSWZ,COL synonym
 literature,Conosia insularis,Conosia insularis,XSWZ,same
+gbif,5064667,Conosia irrorata,XSX2,same
 col,Y38Q,Copelatus gentilis,Y38Q,
 gbif,6995694,Bidessus gentilis,Y38Q,COL synonym
 col,Y69M,Coproica ferruginata,Y69M,
@@ -1509,9 +1584,13 @@ literature,Chrysoconops pygmaeus,Chrysoconops pygmaeus,Y92W,COL synonym
 literature,Mansonia crassipes,Mansonia crassipes,Y92W,COL synonym
 literature,Mansonia diaretus,Mansonia diaretus,Y92W,COL synonym
 literature,Taeniorhynchus brevicellulus,Taeniorhynchus brevicellulus,Y92W,COL synonym
+gbif,1648792,Coquillettidia fuscopteron,Y935,same
+literature,Chrysoconops fuscopteron,Chrysoconops fuscopteron,Y935,GBIF synonym
 col,YGY2,Coronacella sinhalana,YGY2,
 gbif,2055114,Liburnia kirkaldyi,YGY2,COL synonym
 gbif,4777461,Coronacella sinhalana,YGY2,same
+gbif,1488008,Corynoptera heterochela,YRL3,same
+gbif,1487872,Corynoptera latistylata,YRLC,same
 col,YT63,Corythucha gossypii,YT63,
 gbif,2020660,Corythucha gossypii,YT63,same
 inat,Corythucha gossypii,Corythucha gossypii,YT63,same
@@ -1532,6 +1611,8 @@ col,ZD27,Creontiades palauensis,ZD27,
 gbif,7997191,Creontiades palauensis,ZD27,same
 col,ZD37,Creontiades yapensis,ZD37,
 gbif,8137691,Creontiades yapensis,ZD37,same
+gbif,1454081,Cricotopus gressitti,ZG4L,same
+gbif,1454033,Cricotopus quadrizonatus,ZG7Y,same
 col,ZJYX,Crocidolomia pavonana,ZJYX,
 gbif,1879340,Crocidolomia pavonana,ZJYX,same
 gbif,1879345,Crocidolomia binotalis,ZJYX,COL synonym
@@ -1551,18 +1632,29 @@ literature,Penthina altheana,Penthina altheana,ZK2Z,COL synonym
 literature,Proteopteryx blackburnii,Proteopteryx blackburnii,ZK2Z,COL synonym
 literature,Steganoptycha obscura,Steganoptycha obscura,ZK2Z,COL synonym
 literature,Steganoptycha signatana,Steganoptycha signatana,ZK2Z,COL synonym
+gbif,1736626,Crocidosema synneurota,ZK35,same
+gbif,7611942,Crossopalpus kraussi,ZMHM,same
+literature,Drapetis kraussi,Drapetis kraussi,ZMHM,GBIF synonym
+gbif,1458106,Crossopalpus simplex,ZMJ5,same
+literature,Drapetis simplex,Drapetis simplex,ZMJ5,GBIF synonym
 col,ZMSR,Crossotarsus externedentatus,ZMSR,
 literature,Crossotarsus externedentatus,Crossotarsus externedentatus,ZMSR,same
 literature,Platypus externedentatus,Platypus externedentatus,ZMSR,COL synonym
+gbif,1185815,Crossotarsus grevilleae,ZMTJ,same
 col,ZSH5,Cryphalomorphus basilaris,ZSH5,
 gbif,1223558,Cryphalomorphus basilaris,ZSH5,same
+gbif,1223583,Cryphalomorphus granulatus,ZSHV,same
+gbif,1223564,Cryphalomorphus nanulus,ZSJB,same
 col,ZSJD,Cryphalomorphus nubilus,ZSJD,
 gbif,1223556,Cryphalomorphus nubilus,ZSJD,same
+gbif,1223561,Cryphalomorphus pumilus,ZSJM,same
+gbif,1212281,Cryphalus longipilus,ZSPW,same
 col,ZSQ5,Cryphalus mangiferae,ZSQ5,
 literature,Cryphalus mangiferae,Cryphalus mangiferae,ZSQ5,same
 literature,Hypocryphalus mangiferae,Hypocryphalus mangiferae,ZSQ5,COL synonym
 col,ZSQD,Cryphalus minimus,ZSQD,
 gbif,1212239,Cryphalus minimus,ZSQD,same
+gbif,1212156,Cryphalus setistriatus,ZST3,same
 col,ZTCX,Crypsithyrodes concolorella,ZTCX,
 gbif,1856200,Crypsithyrodes concolorella,ZTCX,same
 col,ZWG8,Cryptochironomus ponapensis,ZWG8,
@@ -1577,6 +1669,7 @@ col,ZYP9,Cryptophlebia iridosoma,ZYP9,
 gbif,1736988,Cryptophlebia iridosoma,ZYP9,same
 col,ZYPN,Cryptophlebia ombrodelta,ZYPN,
 gbif,1737015,Cryptophlebia ombrodelta,ZYPN,same
+gbif,1736963,Cryptophlebia peltastica,ZYPQ,same
 col,ZYPW,Cryptophlebia rhynchias,ZYPW,
 gbif,1736997,Cryptophlebia rhynchias,ZYPW,same
 literature,Cryptophlebia rhynchias,Cryptophlebia rhynchias,ZYPW,same
@@ -1596,8 +1689,10 @@ gbif,1652734,Culex maplei,32BG9,same
 col,32BGC,Culex marianae,32BGC,
 col,32BKN,Culex nigropunctatus,32BKN,
 gbif,1653765,Culex nigropunctatus,32BKN,same
+gbif,1653188,Culex annulus,32BZD,COL synonym
 col,32C7G,Culicoides ardentissimus,32C7G,
 literature,Culicoides ardentissimus,Culicoides ardentissimus,32C7G,same
+gbif,1631983,Culicoides claggi,32CCX,same
 col,32CHD,Culicoides esakii,32CHD,
 literature,Culicoides esakii,Culicoides esakii,32CHD,same
 col,32CJB,Culicoides flavimaculinotalis,32CJB,
@@ -1608,16 +1703,27 @@ col,32D42,Culicoides palauensis,32D42,
 gbif,1631335,Culicoides palauensis,32D42,same
 col,32D5Q,Culicoides peliliouensis,32D5Q,
 literature,Culicoides peliliouensis,Culicoides peliliouensis,32D5Q,same
+gbif,1631285,Culicoides peregrinus,32D5W,same
+literature,Culicoides esmoneti,Culicoides esmoneti,32D5W,GBIF synonym
+literature,Culicoides judicandus,Culicoides judicandus,32D5W,GBIF synonym
+literature,Culicoides philippensis,Culicoides philippensis,32D5W,GBIF synonym
 col,32D83,Culicoides pungens,32D83,
 gbif,4795902,Culicoides obscurus,32D83,COL synonym
 col,32DJF,Culicoides yasumatsui,32DJF,
 literature,Culicoides yasumatsui,Culicoides yasumatsui,32DJF,same
 col,32DJJ,Culicoides yoshimurai,32DJJ,
 literature,Culicoides yoshimurai,Culicoides yoshimurai,32DJJ,same
+gbif,1151288,Curtomerus flavus,32KXN,same
+literature,Callidium flavum,Callidium flavum,32KXN,GBIF synonym
+literature,Callidium pilicorne,Callidium pilicorne,32KXN,GBIF synonym
+literature,Ceresium impuncticolle,Ceresium impuncticolle,32KXN,GBIF synonym
+literature,Cylindera pallida,Cylindera pallida,32KXN,GBIF synonym
 col,32N5R,Cyamops micronesicus,32N5R,
 gbif,5094220,Cyamops micronesicus,32N5R,same
 col,32RXS,Cybister tripunctatus,32RXS,
 gbif,4470304,Cybister tripunctatus,32RXS,same
+gbif,1639298,Cyclopodia albertisii,32VWN,same
+literature,Cyclopedia albertisii,Cyclopedia albertisii,32VWN,spelling variant
 col,32VXF,Cyclopodia ponapensis,32VXF,
 gbif,1639294,Cyclopodia ponapensis,32VXF,same
 col,32Z4P,Cydalima laticostalis,32Z4P,
@@ -1637,12 +1743,15 @@ gbif,9521141,Cylindrotrypetes suffusus,334HN,same
 col,33F3T,Cyphogastra auripennis,33F3T,
 gbif,9416422,Cyphogastra auripennis,33F3T,same
 inat,Cyphogastra auripennis,Cyphogastra auripennis,33F3T,same
+gbif,4401495,Cyptophania marginata,33JF2,same
+gbif,5152737,Cyrtorhinus fulvus,33NNC,same
 col,33NNF,Cyrtorhinus lividipennis,33NNF,
 gbif,5152736,Cyrtorhinus lividipennis,33NNF,same
 col,33PBV,Cysteochila idonea,33PBV,
 gbif,7823113,Cysteochila idonea,33PBV,same
 col,33SST,Czernyola atrifrons,33SST,
 gbif,4786452,Czernyola atrifrons,33SST,same
+gbif,1550428,Czernyola pleuralis,33STV,same
 col,33STY,Czernyola ponapensis,33STY,
 gbif,5981311,Czernyola ponapensis,33STY,same
 col,33WV6,Dactylosternum abdominale,33WV6,
@@ -1672,8 +1781,11 @@ col,34779,Dasodis microphthora,34779,
 literature,Ancylis microphthora,Ancylis microphthora,34779,COL synonym
 col,348GM,Dasyhelea carolinensis,348GM,
 literature,Dasyhelea carolinensis,Dasyhelea carolinensis,348GM,same
+gbif,1635830,Dasyhelea dupliforceps,348HX,same
 col,348HY,Dasyhelea dybasi,348HY,
 gbif,1635817,Dasyhelea dybasi,348HY,same
+gbif,1635804,Dasyhelea esakii,348J8,same
+literature,Dasyhelea esakti,Dasyhelea esakti,348J8,spelling variant
 col,348JR,Dasyhelea flavescens,348JR,
 gbif,1635792,Dasyhelea flavescens,348JR,same
 col,348JS,Dasyhelea flavibasalis,348JS,
@@ -1688,6 +1800,8 @@ col,348MB,Dasyhelea insularis,348MB,
 literature,Dasyhelea insularis,Dasyhelea insularis,348MB,same
 col,348MC,Dasyhelea insulicola,348MC,
 gbif,1635665,Dasyhelea insulicola,348MC,same
+gbif,1636225,Dasyhelea multifascia,348PR,same
+gbif,1636167,Dasyhelea nigripygma,348Q9,same
 col,348QD,Dasyhelea nigroris,348QD,
 gbif,1636148,Dasyhelea nigroris,348QD,same
 col,348QY,Dasyhelea palauensis,348QY,
@@ -1698,6 +1812,8 @@ col,348RH,Dasyhelea parvistylata,348RH,
 gbif,1636037,Dasyhelea parvistylata,348RH,same
 col,348RM,Dasyhelea peliliouensis,348RM,
 literature,Dasyhelea peliliouensis,Dasyhelea peliliouensis,348RM,same
+gbif,1636145,Dasyhelea perfida,348RR,same
+gbif,1635986,Dasyhelea raripilosa,348SM,same
 col,348ST,Dasyhelea sabroskyi,348ST,
 gbif,1635969,Dasyhelea sabroskyi,348ST,same
 col,348VD,Dasyhelea townesi,348VD,
@@ -1707,6 +1823,9 @@ gbif,1635861,Dasyhelea truncata,348VL,same
 col,3498W,Dasynus fuscescens,3498W,
 literature,Dasynus fuscescens,Dasynus fuscescens,3498W,same
 literature,Pendulinus fuscescens,Pendulinus fuscescens,3498W,COL synonym
+gbif,1586960,Dasyrhicnoessa boninensis,349XC,same
+gbif,1586941,Dasyrhicnoessa insularis,349XL,same
+gbif,1586964,Dasyrhicnoessa phyllodes,349XT,same
 col,349XZ,Dasyrhicnoessa vockerothi,349XZ,
 literature,Dasyrhicnoessa vockerothi,Dasyrhicnoessa vockerothi,349XZ,same
 col,34DXF,Decomioides innotata,34DXF,
@@ -1726,6 +1845,7 @@ gbif,5154773,Deltocephalus problematicus,34K9D,COL synonym
 col,34SJR,Dendrothripoides innoxius,34SJR,
 gbif,1420822,Dendrothripoides innoxius,34SJR,same
 gbif,4800010,Dendrothripoides ipomeae,34SJR,COL synonym
+gbif,1174446,Dendrurgus vulgaris,34SQQ,same
 col,34VDH,Deraeocoris guamensis,34VDH,
 gbif,7756276,Deraeocoris guamensis,34VDH,same
 col,34VHX,Deraeocoris ponapensis,34VHX,
@@ -1750,8 +1870,14 @@ col,35F3L,Diaspis boisduvalii,35F3L,
 gbif,2087459,Diaspis boisduvalii,35F3L,same
 col,35F3Q,Diaspis bromeliae,35F3Q,
 gbif,8075301,Diaspis bromeliae,35F3Q,same
+gbif,1308821,Diatora lissonota,35FYX,same
+gbif,1531558,Dichaetomyia apicalis,35K7P,same
+gbif,1531567,Dichaetomyia carolina,35K8J,same
+gbif,1531804,Dichaetomyia latifrons,35KBN,same
+gbif,1531599,Dichaetomyia mariana,35KC9,same
 col,35KD4,Dichaetomyia nigroscuta,35KD4,
 gbif,1531850,Dichaetomyia nigroscuta,35KD4,same
+gbif,1531827,Dichaetomyia trukensis,35KFQ,same
 col,35KH5,Dichaetophora lindae,35KH5,
 gbif,5073203,Dichaetophora lindae,35KH5,same
 col,35NZB,Dichromothrips corbetti,35NZB,
@@ -1761,6 +1887,7 @@ gbif,5065649,Dicranomyia fullawayi,35RR8,same
 col,35RS4,Dicranomyia guamicola,35RS4,
 gbif,5065021,Dicranomyia guamicola,35RS4,same
 gbif,9164530,Limonia guamicola,35RS4,COL synonym
+gbif,5065438,Dicranomyia guttula,35RS8,same
 col,35S2C,Dicranomyia pectinunguis,35S2C,
 literature,Limonia neomisera,Limonia neomisera,35S2C,COL synonym
 literature,Limonia pectinunguis,Limonia pectinunguis,35S2C,COL synonym
@@ -1772,6 +1899,8 @@ literature,Limonia pontophila,Limonia pontophila,35S3K,COL synonym
 col,35S7L,Dicranomyia swezeyana,35S7L,
 gbif,11134919,Limonia swezeyana,35S7L,COL synonym
 gbif,5065807,Dicranomyia swezeyana,35S7L,same
+gbif,5065640,Dicranomyia saltens,35SBQ,same
+literature,Dicranomyia saltans,Dicranomyia saltans,35SBQ,spelling variant
 col,35SC3,Dicranomyia illingworthi,35SC3,
 gbif,5065347,Dicranomyia illingworthi,35SC3,same
 col,35SCG,Dicranomyia sordida,35SCG,
@@ -1789,6 +1918,8 @@ col,35SGF,Dicranomyia cinereicapilla,35SGF,
 literature,Limonia cinereicapilla,Limonia cinereicapilla,35SGF,COL synonym
 col,35SL9,Dicranomyia ponapensis,35SL9,
 gbif,5065414,Dicranomyia ponapensis,35SL9,same
+gbif,2055185,Dicranotropis hamata,35TFZ,same
+literature,Delphax hamata,Delphax hamata,35TFZ,GBIF synonym
 col,3643B,Diglyphus begini,3643B,
 gbif,5046451,Diglyphus begini,3643B,same
 col,36566,Dilacreon orpheus,36566,
@@ -1836,6 +1967,7 @@ col,36Y3P,Distoleon bistrigatus,36Y3P,
 gbif,2098165,Distoleon perjurus,36Y3P,COL synonym
 gbif,2098213,Distoleon bistrigatus,36Y3P,same
 literature,Myrmeleon striola,Myrmeleon striola,36Y3P,COL synonym
+gbif,2098045,Distoleon boninensis,36Y3R,same
 col,373Z6,Dohrniphora cornuta,373Z6,
 literature,Apocephalus flaviventris,Apocephalus flaviventris,373Z6,COL synonym
 literature,Dohrniphora bequaerti,Dohrniphora bequaerti,373Z6,COL synonym
@@ -1844,8 +1976,12 @@ literature,Phora cleghorni,Phora cleghorni,373Z6,COL synonym
 literature,Phora cornuta,Phora cornuta,373Z6,COL synonym
 literature,Phora mordax,Phora mordax,373Z6,COL synonym
 literature,Phora venusta,Phora venusta,373Z6,COL synonym
+gbif,1549011,Dohrniphora divaricata,373ZL,same
+gbif,1549047,Dohrniphora dohrni,373ZM,same
+gbif,1548866,Dohrniphora setitibia,3745K,same
 col,37F3R,Dorylaea unicolor,37F3R,
 gbif,5151524,Dorylaea unicolor,37F3R,same
+gbif,2053079,Doryphorina stali,37FMY,same
 col,37JLZ,Drabescus flavicollis,37JLZ,
 gbif,2033485,Drabescus flavicollis,37JLZ,same
 literature,Drabescus fiavicollis,Drabescus fiavicollis,37JLZ,spelling variant
@@ -1862,8 +1998,11 @@ col,37RNY,Drosophila fumifera,37RNY,
 gbif,5074462,Drosophila fumifera,37RNY,same
 col,37RT3,Drosophila hypocausta,37RT3,
 gbif,5075102,Drosophila hypocausta,37RT3,same
+gbif,7836194,Drosophila immigrans,37RTG,same
+literature,Drosophila brount,Drosophila brount,37RTG,GBIF synonym
 col,37S92,Drosophila nesoetes,37S92,
 gbif,5074950,Drosophila nesoetes,37S92,same
+gbif,5073481,Drosophila pectinifera,37SG3,same
 col,37V7P,Dryocoetes bengalensis,37V7P,
 gbif,1242975,Dryocoetes bengalensis,37V7P,same
 col,37Y8D,Dryotribodes angularis,37Y8D,
@@ -1954,6 +2093,7 @@ col,38WFC,Elachertus nigricoxatus,38WFC,
 gbif,1384146,Elachertus nigricoxatus,38WFC,same
 col,38WG3,Elachertus ponapensis,38WG3,
 gbif,1384023,Elachertus ponapensis,38WG3,same
+gbif,1456950,Drapetis formosae,393CW,COL synonym
 col,393DT,Elaphropeza pollicata,393DT,
 gbif,1458148,Elaphropeza pollicata,393DT,same
 col,393SY,Elaphropus yunax,393SY,
@@ -2053,6 +2193,8 @@ gbif,1689446,Euconocephalus gracilis,3BXFC,same
 literature,Conocephaloides gracilis,Conocephaloides gracilis,3BXFC,COL synonym
 col,3BXFG,Euconocephalus insulanus,3BXFG,
 gbif,1689410,Euconocephalus insulanus,3BXFG,same
+gbif,1689436,Euconocephalus lineatipes,3BXFH,same
+literature,Conocephalus lineatipes,Conocephalus lineatipes,3BXFH,GBIF synonym
 col,3BXFN,Euconocephalus nasutus,3BXFN,
 gbif,1689407,Euconocephalus nasutus,3BXFN,same
 inat,Euconocephalus nasutus,Euconocephalus nasutus,3BXFN,same
@@ -2067,6 +2209,8 @@ gbif,1648285,Eudorylas mutillatus,3C2Y9,same
 literature,Dorilas hiatus,Dorilas hiatus,3C2Y9,COL synonym
 col,3C924,Euidellana carolinensis,3C924,
 gbif,5983036,Euidellana carolinensis,3C924,same
+gbif,5983034,Euidellana ucalegon,3C927,same
+literature,Dicranotropis ucalegon,Dicranotropis ucalegon,3C927,GBIF synonym
 col,3CDBN,Eumelea ludovicata,3CDBN,
 gbif,1957368,Eumelea ludovicata,3CDBN,same
 inat,Eumelea ludovicata,Eumelea ludovicata,3CDBN,same
@@ -2136,6 +2280,11 @@ col,3DLDK,Exitianus indicus,3DLDK,
 gbif,2048903,Exitianus indicus,3DLDK,same
 col,3DLDM,Exitianus kumaonis,3DLDM,
 gbif,2048935,Exitianus kumaonis,3DLDM,same
+gbif,2048937,Exitianus nanus,3DLDS,same
+gbif,8585008,Athysanus nanus,3DLDS,COL synonym
+literature,Athysanus insularis,Athysanus insularis,3DLDS,GBIF synonym
+literature,Athysanus simillimus,Athysanus simillimus,3DLDS,GBIF synonym
+literature,Athysanus similtimus,Athysanus similtimus,3DLDS,GBIF synonym
 col,3DLZ3,Exocentrus ciliatissimus,3DLZ3,
 gbif,6266364,Exocentrus ciliatissimus,3DLZ3,same
 col,3DTLZ,Falcotoya lyraeformis,3DTLZ,
@@ -2148,6 +2297,8 @@ col,3DXWY,Felisacus ochraceus,3DXWY,
 gbif,7933924,Felisacus ochraceus,3DXWY,same
 col,3DXX4,Felisacus rubricuneus,3DXX4,
 gbif,7657374,Felisacus rubricuneus,3DXX4,same
+gbif,5099512,Gastrimargus subfasciatus,3FCY6,same
+literature,Acridium subfasciatum,Acridium subfasciatum,3FCY6,GBIF synonym
 col,3FJZG,Gelonaetha hirta,3FJZG,
 gbif,1119860,Gelonaetha hirta,3FJZG,same
 col,3FKGD,Genaparlatoria pseudaspidiotus,3FKGD,
@@ -2215,6 +2366,8 @@ gbif,1722299,Gryllodes sigillatus,3HG6Y,same
 inat,Gryllodes sigillatus,Gryllodes sigillatus,3HG6Y,same
 col,3HHZ9,Guamomyia fascipennis,3HHZ9,
 gbif,1679355,Guamomyia fascipennis,3HHZ9,same
+gbif,5070098,Gymnodia tonitrui,3HRN5,same
+literature,Anthomyia tonitrui,Anthomyia tonitrui,3HRN5,GBIF synonym
 col,3HSYY,Gymnopapuaia palau,3HSYY,
 gbif,1528790,Gymnopapuaia palau,3HSYY,same
 col,3HW42,Gynaikothrips uzeli,3HW42,
@@ -2305,6 +2458,8 @@ col,3L7SL,Heterobostrychus aequalis,3L7SL,
 gbif,1095696,Heterobostrychus aequalis,3L7SL,same
 literature,Bostrichus aequalis,Bostrichus aequalis,3L7SL,COL synonym
 literature,Heterobostrychus aequalis,Heterobostrychus aequalis,3L7SL,same
+gbif,5879259,Heterobostrychus hamatipennis,3L7SP,same
+literature,Bostrychus hamatipennis,Bostrychus hamatipennis,3L7SP,GBIF synonym
 col,3L7W5,Heterocaecilius minotus,3L7W5,
 literature,Heterocaecilius minotus,Heterocaecilius minotus,3L7W5,same
 col,3L8H4,Heterochthes brachypterus,3L8H4,
@@ -2324,6 +2479,8 @@ inat,Hippotion rosetta,Hippotion rosetta,3M3C5,same
 col,3M3CC,Hippotion velox,3M3CC,
 gbif,1862370,Hippotion velox,3M3CC,same
 inat,Hippotion velox,Hippotion velox,3M3CC,same
+gbif,1559886,Hirtodrosophila novicia,3M4L2,same
+literature,Drosophila novicia,Drosophila novicia,3M4L2,GBIF synonym
 col,3M7NT,Holcoderus decolor,3M7NT,
 gbif,7423721,Holcoderus decolor,3M7NT,same
 col,3M8DD,Holobus flavicornis,3M8DD,
@@ -2405,6 +2562,8 @@ gbif,11273842,Stephanoderes insularis,3NZJL,COL synonym
 gbif,1226291,Hypothenemus insularis,3NZJL,same
 col,3NZLP,Hypothenemus oahuensis,3NZLP,
 gbif,1226292,Hypothenemus oahuensis,3NZLP,same
+gbif,1562062,Icaridion debile,3P8M2,same
+literature,Coelopa debilis,Coelopa debilis,3P8M2,GBIF synonym
 col,3P8PM,Icelita cirrholepida,3P8PM,
 gbif,1743689,Icelita cirrholepida,3P8PM,same
 col,3P8PP,Icelita monela,3P8PP,
@@ -2475,6 +2634,8 @@ col,3QCZ9,Issarius panope,3QCZ9,
 gbif,8150009,Issarius panope,3QCZ9,same
 col,3QCZC,Issarius troilus,3QCZC,
 gbif,7367314,Issarius troilus,3QCZC,same
+gbif,2032428,Jacobiasca boninensis,3QJKQ,same
+literature,Chlorita boninensis,Chlorita boninensis,3QJKQ,GBIF synonym
 col,3QKYK,Jamides bochus,3QKYK,
 gbif,1928908,Jamides bochus,3QKYK,same
 col,3QLS7,Japanagromyza eucalypti,3QLS7,
@@ -2501,6 +2662,7 @@ col,3R6TC,Kevanophisis ponapensis,3R6TC,
 literature,Kevanophisis ponapensis,Kevanophisis ponapensis,3R6TC,same
 col,3R7MG,Kilifia acuminata,3R7MG,
 gbif,5163553,Kilifia acuminata,3R7MG,same
+literature,Coeccus acuminatus,Coeccus acuminatus,3R7MG,GBIF synonym
 col,3R7MJ,Kilifia deltoides,3R7MJ,
 gbif,5163561,Kilifia deltoides,3R7MJ,same
 col,3RCHR,Kolla polita,3RCHR,
@@ -2712,6 +2874,8 @@ col,3VSZR,Lobocaecilius cynara,3VSZR,
 gbif,4397799,Lobocaecilius cynara,3VSZR,same
 col,3VSZT,Lobocaecilius fennecus,3VSZT,
 gbif,4397794,Lobocaecilius fennecus,3VSZT,same
+gbif,1486325,Lobosciara spinipennis,3VTSB,same
+literature,Bradysia spinipennis,Bradysia spinipennis,3VTSB,GBIF synonym
 col,3VYRZ,Longipalpus guamensis,3VYRZ,
 gbif,1115771,Longipalpus guamensis,3VYRZ,same
 literature,Iphrobrium guamense,Iphrobrium guamense,3VYRZ,COL synonym
@@ -2790,6 +2954,8 @@ col,3XN2W,Mallada basalis,3XN2W,
 gbif,2104839,Mallada basalis,3XN2W,same
 gbif,2104848,Chrysopa tagalica,3XN2W,COL synonym
 inat,Mallada basalis,Mallada basalis,3XN2W,same
+gbif,2104811,Mallada desjardinsi,3XN3Q,same
+literature,Chrysopa boninensis,Chrysopa boninensis,3XN3Q,GBIF synonym
 col,3XN5D,Mallada krakatauensis,3XN5D,
 gbif,2104904,Mallada krakatauensis,3XN5D,same
 col,3XN76,Mallada satilota,3XN76,
@@ -2981,6 +3147,8 @@ gbif,5809885,Mochtherus tetraspilotus,43T23,same
 literature,Dolichoctis tetraspilotus,Dolichoctis tetraspilotus,43T23,COL synonym
 col,43T9S,Modicogryllus conspersus,43T9S,
 gbif,1722200,Modicogryllus conspersus,43T9S,same
+gbif,2010078,Monalocoris filicis,43ZVJ,same
+literature,Cimex filicis,Cimex filicis,43ZVJ,GBIF synonym
 col,447MH,Monohelea albiclavatoris,447MH,
 gbif,1633068,Monohelea albiclavatoris,447MH,same
 col,447Q5,Monohelea palauensis,447Q5,
@@ -3004,6 +3172,8 @@ col,44WNR,Mycodrosophila carola,44WNR,
 gbif,1557619,Mycodrosophila carola,44WNR,same
 col,44WPQ,Mycodrosophila gressitti,44WPQ,
 gbif,1557573,Mycodrosophila gressitti,44WPQ,same
+gbif,1557595,Mycodrosophila poecilogastra,44WR2,same
+literature,Amiota poecilogasira,Amiota poecilogasira,44WR2,GBIF synonym
 col,44WRZ,Mycodrosophila wassermani,44WRZ,
 gbif,1557528,Mycodrosophila wassermani,44WRZ,same
 col,454DD,Mymar taprobanicum,454DD,
@@ -3064,6 +3234,8 @@ col,46C56,Neocaecilius campanula,46C56,
 literature,Heterocaecilius campanula,Heterocaecilius campanula,46C56,COL synonym
 col,46C58,Neocaecilius dybasi,46C58,
 literature,Heterocaecilius dybasi,Heterocaecilius dybasi,46C58,COL synonym
+gbif,5046606,Closterocerus diastatae,46CXJ,COL synonym
+literature,Chrysonotomyia punctiventris,Chrysonotomyia punctiventris,46CXJ,GBIF synonym
 col,46LMM,Neolosbanus gressitti,46LMM,
 gbif,1360882,Neolosbanus gressitti,46LMM,same
 col,46LMR,Neolosbanus palgravei,46LMR,
@@ -3073,6 +3245,8 @@ col,46MV9,Neommatissus batuensis,46MV9,
 gbif,2060645,Neommatissus batuensis,46MV9,same
 col,46QMZ,Neoplatyura palauensis,46QMZ,
 gbif,1564518,Neoplatyura palauensis,46QMZ,same
+gbif,1382425,Neotrichoporoides viridimaculatus,46VVD,spelling variant
+literature,Burksia viridimaculata,Burksia viridimaculata,46VVD,GBIF synonym
 col,46YVM,Nephotettix nigropictus,46YVM,
 gbif,2029379,Nephotettix nigropictus,46YVM,same
 col,473RT,Neptis guamensis,473RT,
@@ -3213,6 +3387,8 @@ gbif,1553148,Ophiomyia phaseoli,49YBG,same
 col,4BC7Z,Oxya hyla,4BC7Z,
 gbif,1700953,Oxya hyla,4BC7Z,same
 col,4BC84,Oxya intricata,4BC84,
+gbif,1700958,Oxya intricata,4BC84,same
+literature,Aeridium intrieatum,Aeridium intrieatum,4BC84,GBIF synonym
 literature,Oxya molueeensis,Oxya molueeensis,4BC84,COL synonym
 col,4BPSG,Pachodynerus nasidens,4BPSG,
 gbif,1328213,Pachodynerus nasidens,4BPSG,same
@@ -3270,6 +3446,8 @@ col,4D46L,Paramycodrosophila parapictula,4D46L,
 gbif,1560213,Paramycodrosophila parapictula,4D46L,same
 col,4D6SC,Parantica phyle,4D6SC,
 gbif,1897754,Parantica phyle,4D6SC,same
+gbif,7866675,Paraphaea binotata,4D7SP,same
+literature,Anchista binotata,Anchista binotata,4D7SP,GBIF synonym
 col,4D8YV,Paraplea liturata,4D8YV,
 gbif,4772568,Paraplea liturata,4D8YV,same
 col,4D8YZ,Paraplea puella,4D8YZ,
@@ -3307,6 +3485,8 @@ gbif,2008090,Paromius gracilis,4DRCP,same
 gbif,4771196,Plociomerus pallidus,4DRCP,COL synonym
 gbif,9395248,Paromius pallidus,4DRCP,COL synonym
 inat,Paromius gracilis,Paromius gracilis,4DRCP,same
+gbif,1702176,Patanga succincta,4DZJX,same
+literature,Acridium assectator,Acridium assectator,4DZJX,GBIF synonym
 col,4F34V,Periplaneta americana,4F34V,
 gbif,2000152,Periplaneta americana,4F34V,same
 inat,Periplaneta americana,Periplaneta americana,4F34V,same
@@ -3433,6 +3613,7 @@ col,4J97G,Pison suspiciosum,4J97G,
 gbif,8051571,Pison lagunae,4J97G,COL synonym
 col,4JK9T,Planococcus citri,4JK9T,
 gbif,5164206,Planococcus citri,4JK9T,same
+literature,Dorthesia citri,Dorthesia citri,4JK9T,GBIF synonym
 col,4JKBC,Planococcus minor,4JKBC,
 gbif,8319203,Planococcus minor,4JKBC,same
 col,4JNWM,Platycaedicia inexpectata,4JNWM,
@@ -3441,6 +3622,8 @@ col,4JSSQ,Platymeris laevicollis,4JSSQ,
 gbif,9808909,Platymeris laevicollis,4JSSQ,same
 col,4JWLW,Platypus acutidentatus,4JWLW,
 literature,Platypus acutidentatus,Platypus acutidentatus,4JWLW,same
+gbif,1205228,Platypus cylindrus,4JWTG,same
+literature,Bostrichus cylindrus,Bostrichus cylindrus,4JWTG,GBIF synonym
 col,4JX2Z,Platypus jansoni,4JX2Z,
 literature,Platypus jansoni,Platypus jansoni,4JX2Z,same
 col,4JXGD,Platypus solidus,4JXGD,
@@ -3465,6 +3648,8 @@ gbif,2105018,Plesiochrysa remota,4K9G3,same
 col,4KG3K,Plinachtus acicularis,4KG3K,
 gbif,4390158,Plinachtus acicularis,4KG3K,same
 inat,Plinachtus acicularis,Plinachtus acicularis,4KG3K,same
+gbif,5757175,Plochionus pallens,4KHB7,same
+literature,Carabus pallens,Carabus pallens,4KHB7,GBIF synonym
 col,4KHKB,Plodia interpunctella,4KHKB,
 gbif,1873079,Plodia interpunctella,4KHKB,same
 col,4KHNZ,Ploiaria halosydne,4KHNZ,
@@ -3579,6 +3764,8 @@ col,4NQG4,Pseudocaecilius tahitiensis,4NQG4,
 gbif,1031767,Pseudocaecilius tahitiensis,4NQG4,same
 literature,Epipsocus tahitiensis,Epipsocus tahitiensis,4NQG4,COL synonym
 literature,Pseudocaecilius tahitiensis,Pseudocaecilius tahitiensis,4NQG4,same
+gbif,2097859,Pseudoformicaleo nubecula,4NWXB,same
+literature,Creagris matsuokae,Creagris matsuokae,4NWXB,GBIF synonym
 col,4NZHT,Pseudoligosita kusaiensis,4NZHT,
 gbif,1399485,Pseudoligosita kusaiensis,4NZHT,same
 col,4NZJH,Pseudoligosita utilis,4NZJH,
@@ -3738,8 +3925,14 @@ gbif,9462787,Rhinanisodes planicollis,4S77D,same
 col,4SLTL,Rhopalosiphum maidis,4SLTL,
 gbif,2069572,Rhopalosiphum maidis,4SLTL,same
 gbif,8432191,Aphis maidis,4SLTL,COL synonym
+gbif,1739003,Rhopobota clivosa,4SMH9,same
+literature,Acroclita clivesa,Acroclita clivesa,4SMH9,GBIF synonym
 col,4SMHH,Rhopobota leucognoma,4SMHH,
 gbif,1739024,Rhopobota leucognoma,4SMHH,same
+gbif,1739023,Rhopobota scleropa,4SMHT,same
+literature,Acroclita scleropa,Acroclita scleropa,4SMHT,GBIF synonym
+gbif,1739015,Rhopobota symbolias,4SMHW,same
+literature,Acroclita symbolias,Acroclita symbolias,4SMHW,GBIF synonym
 col,4SRF2,Rhynchium brunneum,4SRF2,
 gbif,5036284,Rhynchium brunneum,4SRF2,same
 inat,Rhynchium brunneum,Rhynchium brunneum,4SRF2,same
@@ -3750,6 +3943,8 @@ col,4SXCG,Rhytiphora murina,4SXCG,
 gbif,8420851,Rhytiphora marianarum,4SXCG,spelling variant
 col,4SXXF,Rhyzodiastes maritimus,4SXXF,
 gbif,8361442,Rhyzodiastes maritimus,4SXXF,same
+gbif,7551436,Rhyzodiastes sulcicollis,4SXXX,same
+literature,Clinidium sulcicolle,Clinidium sulcicolle,4SXXX,GBIF synonym
 col,4SXY5,Rhyzopertha dominica,4SXY5,
 inat,Rhyzopertha dominica,Rhyzopertha dominica,4SXY5,same
 literature,Rhizopertha dominica,Rhizopertha dominica,4SXY5,COL synonym
@@ -3892,6 +4087,8 @@ inat,Statilia nemoralis,Statilia nemoralis,4ZLTH,same
 col,4ZLTM,Statilia pallida,4ZLTM,
 gbif,1405382,Statilia pallida,4ZLTM,same
 inat,Statilia pallida,Statilia pallida,4ZLTM,same
+gbif,1560417,Stegana furta,4ZN9P,same
+literature,Drosophila curvipennis,Drosophila curvipennis,4ZN9P,GBIF synonym
 col,4ZT8R,Stempellina gressitti,4ZT8R,
 literature,Tanytarsus gressitti,Tanytarsus gressitti,4ZT8R,COL synonym
 col,4ZW65,Stenocaecilius analis,4ZW65,
@@ -3900,6 +4097,8 @@ col,4ZW6F,Stenocaecilius casarum,4ZW6F,
 gbif,1031700,Stenocaecilius casarum,4ZW6F,same
 literature,Caecilius casarum,Caecilius casarum,4ZW6F,COL synonym
 literature,Caecilius palmarum,Caecilius palmarum,4ZW6F,COL synonym
+gbif,4395620,Stenocaecilius marianus,4ZW73,same
+literature,Caecilius marianus,Caecilius marianus,4ZW73,GBIF synonym
 col,4ZWR6,Stenochironomus longilobatus,4ZWR6,
 gbif,1451625,Stenochironomus longilobatus,4ZWR6,same
 col,4ZWRY,Stenochironomus sabroskyi,4ZWRY,
@@ -3924,6 +4123,8 @@ col,52C5Q,Stephanoderes castaneus,52C5Q,
 gbif,1228605,Stephanoderes castaneus,52C5Q,same
 col,52C7N,Stephanoderes lebronneci,52C7N,
 gbif,1228508,Stephanoderes lebronneci,52C7N,same
+gbif,4427602,Stephanopachys substriatus,52CG7,same
+literature,Dinoderus substriatus,Dinoderus substriatus,52CG7,GBIF synonym
 col,52FKK,Sternochetus mangiferae,52FKK,
 gbif,4292415,Sternochetus mangiferae,52FKK,same
 inat,Sternochetus mangiferae,Sternochetus mangiferae,52FKK,same
@@ -3978,6 +4179,8 @@ inat,Strepsicrates ejectana,Strepsicrates ejectana,52XBW,same
 col,53229,Striglina scitaria,53229,
 gbif,1993496,Striglina scitaria,53229,same
 inat,Striglina scitaria,Striglina scitaria,53229,same
+gbif,1098597,Stromatium longicorne,533QK,same
+literature,Arhopalus longicornis,Arhopalus longicornis,533QK,GBIF synonym
 col,536CW,Strumigenys frivaldszkyi,536CW,
 gbif,1320363,Strumigenys frivaldszkyi,536CW,same
 literature,Strumigenys frivaldskyi,Strumigenys frivaldskyi,536CW,spelling variant
@@ -4036,6 +4239,8 @@ col,53V9V,Syndelphax disonymos,53V9V,
 gbif,5982453,Syndelphax disonymos,53V9V,same
 col,53VM8,Synecdoche dimidiata,53VM8,
 literature,Catana dimidiata,Catana dimidiata,53VM8,COL synonym
+gbif,1529724,Synthesiomyia nudiseta,53YXV,same
+literature,Cyrtoneurina nudiseta,Cyrtoneurina nudiseta,53YXV,GBIF synonym
 col,5439X,Syrphophagus aphidivorus,5439X,
 gbif,1377532,Syrphophagus aphidivorus,5439X,same
 col,54956,Tabanus striatus,54956,
@@ -4153,6 +4358,8 @@ col,55T9Y,Tetrastichus palauensis,55T9Y,
 gbif,1381721,Tetrastichus palauensis,55T9Y,same
 col,55TJH,Tetrastichus yapensis,55TJH,
 gbif,1381637,Tetrastichus yapensis,55TJH,same
+gbif,2042650,Thagria fuscovenosa,55YMM,same
+literature,Coelidia fuscovenosa,Coelidia fuscovenosa,55YMM,GBIF synonym
 col,55ZKW,Thalassodes pilaria,55ZKW,
 gbif,11197755,Thallassodes pilaria,55ZKW,COL synonym
 gbif,1964305,Thalassodes pilaria,55ZKW,same
@@ -4207,6 +4414,8 @@ col,56PDC,Thyas miniacea,56PDC,
 gbif,11282159,Lagoptera regia,56PDC,COL synonym
 gbif,5113387,Thyas miniacea,56PDC,same
 inat,Thyas miniacea,Thyas miniacea,56PDC,same
+gbif,1578152,Tinda javana,56ZX6,same
+literature,Beris javana,Beris javana,56ZX6,GBIF synonym
 col,5777X,Tiracola plagiata,5777X,
 gbif,1762657,Tiracola plagiata,5777X,same
 col,57DZY,Tomosvaryella micronesiae,57DZY,
@@ -4357,9 +4566,13 @@ col,5CL2P,Xylocopa tranquebarorum,5CL2P,
 gbif,1342349,Xylocopa tranquebarorum,5CL2P,same
 col,5CL39,Xylocopa varipuncta,5CL39,
 gbif,1342284,Xylocopa varipuncta,5CL39,same
+gbif,5743454,Xylopertha retusa,5CLMZ,same
+literature,Apate sinuata,Apate sinuata,5CLMZ,GBIF synonym
 col,5CMB4,Xylopsocus capucinus,5CMB4,
 gbif,1095705,Xylopsocus capucinus,5CMB4,same
 literature,Apate capucina,Apate capucina,5CMB4,COL synonym
+gbif,1095704,Xylopsocus castanoptera,5CMB5,same
+literature,Apate castanoptera,Apate castanoptera,5CMB5,GBIF synonym
 col,5CMJ9,Xylosandrus compactus,5CMJ9,
 gbif,1216917,Xylosandrus compactus,5CMJ9,same
 inat,Xylosandrus compactus,Xylosandrus compactus,5CMJ9,same
@@ -4387,6 +4600,8 @@ col,5GR5Z,Cybister tripunctatus temnenkii,5GR5Z,
 gbif,11219985,Cybister tripunctatus hamatus,5GR5Z,COL synonym
 col,5J3CX,Hypolimnas octocula marianensis,5J3CX,
 gbif,6233034,Hypolimnas octocula marianensis,5J3CX,same
+gbif,6256607,Oxya japonica vitticollis,5K43L,same
+literature,Acridium vitticolle,Acridium vitticolle,5K43L,GBIF synonym
 col,5LQ83,Valanga nigricornis carolinensis,5LQ83,
 gbif,6255405,Valanga nigricornis carolinensis,5LQ83,same
 literature,Valanga irregularis carolinensis,Valanga irregularis carolinensis,5LQ83,COL synonym
@@ -4402,6 +4617,7 @@ col,5TY9D,Altekon marpessa,5TY9D,
 gbif,5982825,Altekon marpessa,5TY9D,same
 col,5V2X4,Anisops cleopatra,5V2X4,
 gbif,7381585,Anisops cleopatra,5V2X4,same
+gbif,1419902,Anisolabis maritima,5V3KJ,same
 col,5V3KP,Anisolabis minutissima,5V3KP,
 gbif,4392392,Anisolabis minutissima,5V3KP,same
 col,5V49Q,Anochetus graeffei,5V49Q,
@@ -4415,6 +4631,8 @@ col,5V8YV,Anoplolepis gracilipes,5V8YV,
 gbif,1317433,Anoplolepis gracilipes,5V8YV,same
 gbif,1317434,Anoplolepis longipes,5V8YV,COL synonym
 inat,Anoplolepis gracilipes,Anoplolepis gracilipes,5V8YV,same
+gbif,1573387,Anthomyia illocata,5VDJ8,same
+literature,Anthomyia bisetosa,Anthomyia bisetosa,5VDJ8,GBIF synonym
 col,5VKZ6,Antonina graminis,5VKZ6,
 gbif,8082584,Antonina graminis,5VKZ6,same
 literature,Antonina indica,Antonina indica,5VKZ6,COL synonym
@@ -4434,6 +4652,8 @@ col,5VX8B,Atherigona vita,5VX8B,
 gbif,1530808,Atherigona vita,5VX8B,same
 col,5VX8W,Atherigona punctata,5VX8W,
 gbif,1530765,Atherigona punctata,5VX8W,same
+gbif,1714236,Austracris guttulosa,5VXLF,same
+literature,Cyrtaeanthaeris guttulosa,Cyrtaeanthaeris guttulosa,5VXLF,GBIF synonym
 col,5VYJ6,Bactra angulata,5VYJ6,
 gbif,1747724,Bactra angulata,5VYJ6,same
 col,5VZCR,Autoba abrupta,5VZCR,
@@ -4445,6 +4665,9 @@ gbif,7930834,Bactrocera dorsalis,5VZPW,same
 col,5VZRQ,Bactrocera frauenfeldi,5VZRQ,
 gbif,5087454,Bactrocera frauenfeldi,5VZRQ,same
 inat,Bactrocera frauenfeldi,Bactrocera frauenfeldi,5VZRQ,same
+gbif,5087606,Bactrocera musae,5VZTG,same
+gbif,8326933,Bactrocera matsumurai,5VZTK,same
+literature,Dacus boninensis,Dacus boninensis,5VZTK,GBIF synonym
 col,5W2T5,Argeleusa rhanis,5W2T5,
 gbif,2064521,Argeleusa rhanis,5W2T5,same
 col,5W3MW,Arcte coerula,5W3MW,
@@ -4455,11 +4678,14 @@ gbif,7927609,Aspidiotus destructor,5W5DZ,same
 inat,Aspidiotus destructor,Aspidiotus destructor,5W5DZ,same
 col,5W6LW,Astenus horni,5W6LW,
 gbif,6131690,Astenus horni,5W6LW,same
+gbif,1530676,Atherigona boninensis,5W7DN,same
 col,5W8WD,Atherigona trukensis,5W8WD,
 gbif,1530820,Atherigona trukensis,5W8WD,same
 col,5W98Q,Atherigona orientalis,5W98Q,
 gbif,1530777,Atherigona orientalis,5W98Q,same
 literature,Acritochaeta pulviniata,Acritochaeta pulviniata,5W98Q,COL synonym
+literature,Athiwigona orientalis,Athiwigona orientalis,5W98Q,spelling variant
+gbif,1530813,Atherigona oryzae,5W992,same
 col,5W9KJ,Austalis calliphoroides,5W9KJ,
 gbif,1539770,Austalis calliphoroides,5W9KJ,same
 col,5WKM5,Bindahara phocides,5WKM5,
@@ -4469,6 +4695,7 @@ gbif,1997215,Blattella germanica,5WLVY,same
 col,5WMZG,Bolacothrips striatopennatus,5WMZG,
 gbif,1420781,Bolacothrips striatopennatus,5WMZG,same
 gbif,9912651,Bolacidothrips orizae,5WMZG,COL synonym
+gbif,10900496,Bostrichus areccae,5WP3W,same
 col,5WPL3,Boninella degenerata,5WPL3,
 gbif,5004927,Boninella degenerata,5WPL3,same
 col,5WPVV,Brachycara ventralis,5WPVV,
@@ -4484,6 +4711,7 @@ col,5X5QV,Buprestis aurulenta,5X5QV,
 gbif,1049530,Buprestis aurulenta,5X5QV,same
 col,5XDL7,Caroliniella aenescens,5XDL7,
 gbif,1143224,Caroliniella aenescens,5XDL7,same
+gbif,1682309,Carolinotettix palauensis,5XDMJ,same
 col,5XFBF,Catopsilia pyranthe,5XFBF,
 gbif,1919348,Catopsilia pyranthe,5XFBF,same
 col,5XFNH,Catochrysops amasea,5XFNH,
@@ -4494,6 +4722,8 @@ col,5XJ7T,Cephalochrysa gracilis,5XJ7T,
 gbif,1580757,Cephalochrysa gracilis,5XJ7T,same
 col,5XJ7Z,Cephalochrysa nigra,5XJ7Z,
 gbif,1580760,Cephalochrysa nigra,5XJ7Z,same
+gbif,1034454,Cercyon lateralis,5XLMH,same
+literature,Dermestes lateralis,Dermestes lateralis,5XLMH,GBIF synonym
 col,5XLQ6,Ceresium adamsi,5XLQ6,
 gbif,1104772,Ceresium adamsi,5XLQ6,same
 col,5XM2Y,Ceresium unicolor,5XM2Y,
@@ -4512,6 +4742,9 @@ col,5XX8L,Chlorichaeta albipennis,5XX8L,
 gbif,1619566,Chlorichaeta albipennis,5XX8L,same
 col,5XZ52,Choerorrhinodes constricticeps,5XZ52,
 gbif,9515455,Choerorrhinodes constricticeps,5XZ52,same
+gbif,1448125,Chironomus calipterus,5Y4WP,same
+literature,Chironomus pallidinubeculosus,Chironomus pallidinubeculosus,5Y4WP,GBIF synonym
+gbif,1448402,Chironomus claggi,5Y4Y9,same
 col,5Y4YC,Chironomus crassicaudus,5Y4YC,
 gbif,1448316,Chironomus crassicaudus,5Y4YC,same
 col,5Y647,Chionaspis salicis,5Y647,
@@ -4525,6 +4758,10 @@ gbif,1448412,Chironomus samoensis,5Y768,same
 gbif,1448414,Chironomus eximius,5Y768,COL synonym
 col,5Y7LM,Chlaenius tetragonoderus,5Y7LM,
 gbif,8068710,Chlaenius tetragonoderus,5Y7LM,same
+gbif,1111855,Chlorophorus boninensis,5Y9KP,same
+gbif,1111886,Chlorophorus muscosus,5Y9MK,same
+literature,Chlorophorus bifasciatus,Chlorophorus bifasciatus,5Y9MK,GBIF synonym
+literature,Clytanthus muscosus,Clytanthus muscosus,5Y9MK,GBIF synonym
 col,5YB5V,Chonocephalus subglaber,5YB5V,
 gbif,1545199,Chonocephalus subglaber,5YB5V,same
 col,5YBCW,Chonocephalus aduncus,5YBCW,
@@ -4540,19 +4777,29 @@ inat,Chrysodeixis eriosoma,Chrysodeixis eriosoma,5YNJ9,same
 col,5YPFC,Chrysodema ventralis,5YPFC,
 gbif,9249685,Chrysodema ventralis,5YPFC,same
 inat,Chrysodema ventralis,Chrysodema ventralis,5YPFC,same
+gbif,5064183,Chrysomya putoria,5YPS4,same
+literature,Chrysomyia putoria,Chrysomyia putoria,5YPS4,spelling variant
 col,5YQ36,Chrysomphalus dictyospermi,5YQ36,
 gbif,2083463,Chrysomphalus dictyospermi,5YQ36,same
 literature,Aspidiotus dictyospermt,Aspidiotus dictyospermt,5YQ36,COL synonym
+gbif,5064140,Chrysomya albiceps,5YQ3X,same
+literature,Chrysomyia albiceps,Chrysomyia albiceps,5YQ3X,spelling variant
 col,5YR8X,Chrysopera combinans,5YR8X,
 gbif,1774003,Chrysopera combinans,5YR8X,same
 inat,Chrysopera combinans,Chrysopera combinans,5YR8X,same
+gbif,5979751,Chrysosoma complicatum,5YRSV,same
+gbif,5979986,Chrysosoma agrihan,5YS4D,same
+gbif,5980017,Chrysosoma guamense,5YS55,same
 col,5YTGZ,Chrysosoma leucopogon,5YTGZ,
 gbif,5979866,Chrysosoma leucopogon,5YTGZ,same
 literature,Chrysosoma leucopogon,Chrysosoma leucopogon,5YTGZ,same
 literature,Chrysosoma loewi,Chrysosoma loewi,5YTGZ,COL synonym
 literature,Dolichopus leucopogon,Dolichopus leucopogon,5YTGZ,COL synonym
+gbif,5979910,Chrysosoma patellifer,5YTJB,spelling variant
+gbif,5979960,Chrysosoma molestum,5YTJK,same
 col,5YTJL,Chrysosoma mutilatum,5YTJL,
 gbif,5979955,Chrysosoma mutilatum,5YTJL,same
+gbif,5980000,Chrysosoma townesi,5YTM5,same
 col,5YVX5,Clasiopella uncinata,5YVX5,
 gbif,1619202,Clasiopella uncinata,5YVX5,same
 col,5Z22C,Chrysomphalus aonidum,5Z22C,
@@ -4573,6 +4820,8 @@ gbif,5064155,Lucilia rufifacies,5Z23S,COL synonym
 inat,Chrysomya rufifacies,Chrysomya rufifacies,5Z23S,same
 literature,Chrysomyia cordieri,Chrysomyia cordieri,5Z23S,COL synonym
 literature,Somomyia melanifera,Somomyia melanifera,5Z23S,COL synonym
+gbif,2105352,Chrysoperla furcifera,5Z396,same
+literature,Chrysopa furcifera,Chrysopa furcifera,5Z396,GBIF synonym
 col,5Z3RX,Chrysorithrum flavomaculata,5Z3RX,
 gbif,1773815,Chrysorithrum flavomaculata,5Z3RX,same
 gbif,1788643,Catephia sericea,5Z3RX,COL synonym
@@ -4582,8 +4831,12 @@ gbif,8319968,Chrysorrhanis hyalinus,5Z3RY,same
 literature,Macrolonidea hyalinus,Macrolonidea hyalinus,5Z3RY,COL synonym
 col,5Z43N,Chrysosoma chromatipes,5Z43N,
 literature,Chrysosoma leucochirum,Chrysosoma leucochirum,5Z43N,COL synonym
+gbif,5979993,Chrysosoma kusaiense,5Z5HR,same
+gbif,5979978,Chrysosoma mariana,5Z5J5,same
 col,5Z5J9,Chrysosoma ludens,5Z5J9,
 gbif,5980001,Chrysosoma ludens,5Z5J9,same
+gbif,5979965,Chrysosoma pelagica,5Z5JC,same
+gbif,5980009,Chrysosoma yapense,5Z5LF,same
 col,5ZBPF,Clonaria voluptaria,5ZBPF,
 gbif,1410719,Clonaria voluptaria,5ZBPF,same
 col,5ZCG8,Clivina fasciata,5ZCG8,
@@ -4593,12 +4846,17 @@ gbif,11363694,Marasmia venilialis,5ZGKW,COL synonym
 gbif,1890335,Cnaphalocrocis poeyalis,5ZGKW,same
 col,5ZGL3,Cnaphalocrocis trapezalis,5ZGL3,
 gbif,7543006,Marasmia trapezalis,5ZGL3,COL synonym
+gbif,1562107,Coelopa stejnegeri,5ZJ3N,same
+gbif,1562112,Coelopa aequatorialis,5ZJ45,same
+gbif,1562102,Coelopa dasypoda,5ZJ46,same
 col,5ZKVG,Coenosia bimorpha,5ZKVG,
 gbif,1528357,Coenosia bimorpha,5ZKVG,same
 col,5ZKWZ,Coenosia townesi,5ZKWZ,
 gbif,1528285,Coenosia townesi,5ZKWZ,same
 col,5ZPZK,Columbicola cavifrons,5ZPZK,
 gbif,4804666,Columbicola cavifrons,5ZPZK,same
+gbif,1588282,Coproica vagans,5ZYG6,same
+literature,Borborus vagans,Borborus vagans,5ZYG6,GBIF synonym
 col,5ZZP2,Corallocoris marksae,5ZZP2,
 literature,Omania marksae,Omania marksae,5ZZP2,COL synonym
 col,622G8,Bostrichidae,622G8,
@@ -4854,6 +5112,9 @@ col,63VXN,Uroplata,63VXN,
 gbif,4990859,Uroplata,63VXN,same
 col,63W99,Tytthus,63W99,
 gbif,2009951,Tytthus,63W99,same
+gbif,4398359,Aaroniella gressitti,63YYP,same
+gbif,4398350,Aaroniella guttulata,63YZ3,same
+literature,Caecilius guttulatus,Caecilius guttulatus,63YZ3,GBIF synonym
 col,642NP,Rhantus,642NP,
 gbif,4989381,Rhantus,642NP,same
 col,643TZ,Romblonella,643TZ,
@@ -4899,6 +5160,7 @@ col,64VST,Aedes saipanensis,64VST,
 gbif,1651812,Aedes saipanensis,64VST,same
 col,64VY2,Aedes dorseyi,64VY2,
 gbif,1651012,Aedes dorseyi,64VY2,same
+gbif,1651045,Aedes hebrideus,64VYH,same
 col,64VYW,Aedes hakanssoni,64VYW,
 gbif,1651480,Aedes hakanssoni,64VYW,same
 col,64VZ7,Aedes guamensis,64VZ7,
@@ -4919,6 +5181,8 @@ col,657PL,Aedes lewelleni,657PL,
 gbif,1651937,Aedes lewelleni,657PL,same
 col,657T3,Aedes rotanus,657T3,
 gbif,1651461,Aedes rotanus,657T3,same
+gbif,1651467,Aedes togoi,657TW,same
+literature,Culicelsa togoi,Culicelsa togoi,657TW,GBIF synonym
 col,657YL,Aedes hensilli,657YL,
 gbif,1651765,Aedes hensilli,657YL,same
 col,6584V,Aedes scutellaris,6584V,
@@ -4927,6 +5191,7 @@ col,65857,Aedes scutoscriptus,65857,
 gbif,1650926,Aedes scutoscriptus,65857,same
 col,659S3,Aenasius advena,659S3,
 gbif,1378838,Aenasius advena,659S3,same
+gbif,2089521,Africonidia macdanieli,65F83,same
 col,65HJM,Afrosteles distans,65HJM,
 gbif,2033439,Afrosteles distans,65HJM,same
 col,65KCY,Agallia oceanides,65KCY,
@@ -4943,10 +5208,13 @@ col,65W6H,Alcedoecus minor,65W6H,
 gbif,6937874,Alcedoecus minor,65W6H,same
 col,65WSB,Alluaudomyia monopunctata,65WSB,
 gbif,1632772,Alluaudomyia monopunctata,65WSB,same
+gbif,1536954,Allobaccha apicalis,65X9Q,same
+literature,Baccha apicenotata,Baccha apicenotata,65X9Q,GBIF synonym
 col,65ZM2,Amblypsilopus pallidicornis,65ZM2,
 gbif,1606517,Amblypsilopus pallidicornis,65ZM2,same
 literature,Amblypsilopus pallidicornis,Amblypsilopus pallidicornis,65ZM2,same
 literature,Gnamptopsilopus pallidicornis,Gnamptopsilopus pallidicornis,65ZM2,COL synonym
+gbif,1606495,Amblypsilopus ponapensis,65ZM8,same
 col,65ZY3,Amblycnemus dentipes,65ZY3,
 gbif,9277187,Amblycnemus dentipes,65ZY3,same
 col,662V6,Agathodes ostentalis,662V6,
@@ -4954,6 +5222,8 @@ gbif,5127097,Agathodes ostentalis,662V6,same
 col,6682X,Aleurocanthus woglumi,6682X,
 gbif,2012157,Aleurocanthus woglumi,6682X,same
 inat,Aleurocanthus woglumi,Aleurocanthus woglumi,6682X,same
+gbif,1536917,Allobaccha pulchrifrons,6699B,same
+literature,Baccha pulchrifrons,Baccha pulchrifrons,6699B,GBIF synonym
 col,66DR7,Amorphoidea lata,66DR7,
 gbif,9270993,Amorphoidea lata,66DR7,same
 inat,Amorphoidea lata,Amorphoidea lata,66DR7,same
@@ -4986,6 +5256,8 @@ gbif,5988462,Anomala sulcatula,676PZ,same
 inat,Anomala sulcatula,Anomala sulcatula,676PZ,same
 col,6792Q,Anoronotum rufum,6792Q,
 gbif,1075692,Anoronotum rufum,6792Q,same
+gbif,1573381,Anthomyia vicarians,67DMN,same
+literature,Anthomyia vicaricans,Anthomyia vicaricans,67DMN,spelling variant
 col,67GLW,Anthrax koshunensis,67GLW,
 gbif,1666863,Anthrax koshunensis,67GLW,same
 inat,Anthrax koshunensis,Anthrax koshunensis,67GLW,same
@@ -5010,6 +5282,7 @@ gbif,1626713,Dacus ochrosiae,67ZFL,COL synonym
 gbif,8353826,Bactrocera ochrosiae,67ZFL,same
 col,67ZP8,Bactrocera calophylli,67ZP8,
 gbif,5087197,Bactrocera calophylli,67ZP8,same
+gbif,1747830,Bactra cerata,67ZV6,same
 col,684H3,Arrhenophagus chionaspidis,684H3,
 gbif,1373586,Arrhenophagus chionaspidis,684H3,same
 col,6852V,Armacia clara,6852V,
@@ -5020,6 +5293,7 @@ gbif,1615891,Aspidionia palauensis,685PK,same
 col,685PR,Aspidimorpha deusta,685PR,
 gbif,4733640,Aspidimorpha deusta,685PR,same
 inat,Aspidomorpha deusta,Aspidomorpha deusta,685PR,spelling variant
+gbif,1530702,Atherigona dybasi,687D6,same
 col,688WZ,Atherigona tobi,688WZ,
 gbif,1530833,Atherigona tobi,688WZ,same
 col,68999,Atherigona pottsi,68999,
@@ -5083,6 +5357,7 @@ gbif,9324347,Choerorrhinodes marshalli,69YT2,same
 col,6B7T9,Cosmopolites sordidus,6B7T9,
 gbif,1169988,Cosmopolites sordidus,6B7T9,same
 inat,Cosmopolites sordidus,Cosmopolites sordidus,6B7T9,same
+gbif,1454363,Cricotopus sabroskyi,6BH28,same
 col,6BJKX,Cryptaspasma achlyoptera,6BJKX,
 gbif,1745290,Cryptaspasma achlyoptera,6BJKX,same
 col,6BJL2,Cryptaspasma brachyptycha,6BJL2,
@@ -5099,6 +5374,7 @@ col,6BLC5,Cryptaspasma triopis,6BLC5,
 gbif,1745286,Cryptaspasma triopis,6BLC5,same
 col,6BLCB,Cryptaspasma polysticta,6BLCB,
 gbif,1745295,Cryptaspasma polysticta,6BLCB,same
+gbif,1454718,Cryptochironomus javae,6BLYC,same
 col,6BMXB,Ctenocephalides felis,6BMXB,
 gbif,1419472,Ctenocephalides felis,6BMXB,same
 inat,Ctenocephalides felis,Ctenocephalides felis,6BMXB,same
@@ -5118,6 +5394,7 @@ col,6CB8P,Danaus plexippus,6CB8P,
 gbif,11407553,Danaida plexippus,6CB8P,COL synonym
 gbif,5133088,Danaus plexippus,6CB8P,same
 inat,Danaus plexippus,Danaus plexippus,6CB8P,same
+gbif,1635941,Dasyhelea striipennis,6CBXF,same
 col,6CBY4,Dasyhelea flavicaudalis,6CBY4,
 gbif,1635768,Dasyhelea flavicaudalis,6CBY4,same
 col,6CBZB,Dasyhelea subperfida,6CBZB,
@@ -5145,6 +5422,7 @@ col,6CNG5,Deretiosus ficae,6CNG5,
 gbif,9347624,Deretiosus ficae,6CNG5,same
 col,6CQXS,Diasemia accalis,6CQXS,
 gbif,1887691,Diasemia accalis,6CQXS,same
+gbif,1531677,Dichaetomyia rota,6CSD8,same
 col,6CSPP,Dicamptus giganteus,6CSPP,
 gbif,1292371,Dicamptus giganteus,6CSPP,same
 col,6CWH7,Dipara palauensis,6CWH7,
@@ -5153,8 +5431,13 @@ col,6CXF3,Diploptera punctata,6CXF3,
 gbif,1995277,Diploptera punctata,6CXF3,same
 col,6CZPT,Discothyrea clavicornis,6CZPT,
 gbif,1315322,Discothyrea clavicornis,6CZPT,same
+gbif,1231456,Diapus pusillimus,6D3D5,same
+gbif,5064814,Dicranomyia basifusca,6D48Y,same
+literature,Dicranomyia atripleura,Dicranomyia atripleura,6D48Y,GBIF synonym
 col,6D49G,Dicranomyia leptomera,6D49G,
 gbif,5065705,Dicranomyia leptomera,6D49G,same
+gbif,1531745,Dichaetomyia yapensis,6D4CS,same
+gbif,1531638,Dichaetomyia sabroskyi,6D4CX,same
 col,6D4D9,Dichaetomyia saperoi,6D4D9,
 gbif,1531623,Dichaetomyia saperoi,6D4D9,same
 col,6D4M9,Dibelonetes formosae,6D4M9,
@@ -5177,6 +5460,8 @@ literature,Drosophila spinofemora,Drosophila spinofemora,6DM8M,COL synonym
 literature,Drosophila sulfurigaster,Drosophila sulfurigaster,6DM8M,same
 col,6DNHT,Dryotribodes denticulatus,6DNHT,
 gbif,9369021,Dryotribodes denticulatus,6DNHT,same
+gbif,1740832,Dudua charadraea,6DPHB,same
+literature,Dudua ptarmicopa,Dudua ptarmicopa,6DPHB,GBIF synonym
 col,6DQG9,Duplaspidiotus claviger,6DQG9,
 gbif,8160147,Duplaspidiotus claviger,6DQG9,same
 literature,Duplaspidiotus claviger,Duplaspidiotus claviger,6DQG9,same
@@ -5219,6 +5504,8 @@ gbif,1297440,Enicospilus merdarius,6FCJD,same
 gbif,4509199,Ophion merdarius,6FCJD,COL synonym
 col,6FQG8,Epicypta palauensis,6FQG8,
 gbif,1617108,Epicypta palauensis,6FQG8,same
+gbif,1487183,Epidapus atomarius,6G2H8,same
+literature,Chionea venatica,Chionea venatica,6G2H8,GBIF synonym
 col,6GD4K,Erechthias minuscula,6GD4K,
 gbif,1857395,Erechthias minuscula,6GD4K,same
 col,6GH6V,Eretes sticticus,6GH6V,
@@ -5254,6 +5541,8 @@ col,6HMZY,Famegana alsulus,6HMZY,
 gbif,1928436,Famegana alsulus,6HMZY,same
 col,6HP2L,Fannia exilis,6HP2L,
 literature,Limnophora exilis,Limnophora exilis,6HP2L,COL synonym
+gbif,5094552,Fannia leucosticta,6HP4C,same
+literature,Anthomyia leucosticta,Anthomyia leucosticta,6HP4C,GBIF synonym
 col,6HQ7X,Fannia pusio,6HQ7X,
 gbif,5094525,Fannia pusio,6HQ7X,same
 col,6HQD6,Ferrisia virgata,6HQD6,
@@ -5274,6 +5563,7 @@ gbif,5809319,Figulus sulcicollis,6HZVJ,same
 col,6HZZV,Figulus integricollis,6HZZV,
 gbif,7971962,Figulus integricollis,6HZZV,same
 inat,Figulus integricollis,Figulus integricollis,6HZZV,same
+gbif,2084603,Diaspis fioriniae,6J3FZ,COL synonym
 col,6J6FW,Flaccia dione,6J6FW,
 gbif,2061914,Flaccia dione,6J6FW,same
 col,6JF2Q,Forcipomyia carolinea,6JF2Q,
@@ -5396,6 +5686,8 @@ col,6LCY6,Haplothrips phyllanthi,6LCY6,
 gbif,9869350,Haplothrips phyllanthi,6LCY6,same
 col,6LH4J,Hecamedoides hepatica,6LH4J,
 gbif,1619224,Hecamedoides hepatica,6LH4J,same
+gbif,7936811,Hemiberlesia rapax,6LNRZ,same
+literature,Aspidiotus rapax,Aspidiotus rapax,6LNRZ,GBIF synonym
 col,6LNT2,Hemiberlesia palmae,6LNT2,
 gbif,2083914,Hemiberlesia palmae,6LNT2,same
 literature,Aspidiotus jaranensis,Aspidiotus jaranensis,6LNT2,COL synonym
@@ -5425,6 +5717,11 @@ col,6MDWL,Horcoma coloratum,6MDWL,
 gbif,5867191,Horcoma colorata,6MDWL,spelling variant
 col,6MGJ3,Hyalopeplus lineifer,6MGJ3,
 literature,Hyalopeplus amboinae,Hyalopeplus amboinae,6MGJ3,COL synonym
+gbif,1555749,Hydromyza livens,6MK2S,same
+literature,Coelopa glabra,Coelopa glabra,6MK2S,GBIF synonym
+gbif,1528980,Hydrotaea aenescens,6MKVT,same
+literature,Anthomyia aenescens,Anthomyia aenescens,6MKVT,GBIF synonym
+literature,Anthomyia setia,Anthomyia setia,6MKVT,GBIF synonym
 col,6ML7C,Hydrotaea chalcogaster,6ML7C,
 gbif,1529184,Hydrotaea chalcogaster,6ML7C,same
 col,6MNTJ,Hylephila phylaeus,6MNTJ,
@@ -5633,6 +5930,7 @@ col,6SG86,Ocica ponapensis,6SG86,
 gbif,1690194,Ocica ponapensis,6SG86,same
 col,6SHM4,Odonaspis saccharicaulis,6SHM4,
 gbif,7825135,Odonaspis saccharicaulis,6SHM4,same
+literature,Aspidtotus sacchari-caulis,Aspidtotus sacchari-caulis,6SHM4,GBIF synonym
 col,6SKN3,Oliarus carolinensis,6SKN3,
 gbif,2058497,Oliarus carolinensis,6SKN3,same
 col,6SLNK,Omiodes diemenalis,6SLNK,
@@ -5645,6 +5943,9 @@ col,6SQSR,Opiconsiva albicollis,6SQSR,
 gbif,5982984,Opiconsiva albicollis,6SQSR,same
 literature,Delphacodes sameshimae,Delphacodes sameshimae,6SQSR,COL synonym
 literature,Kakuna sameshimae,Kakuna sameshimae,6SQSR,COL synonym
+gbif,1529847,Orchisia costata,6ST9Z,same
+literature,Coenosia marginata,Coenosia marginata,6ST9Z,GBIF synonym
+literature,Coenosia pictipennis,Coenosia pictipennis,6ST9Z,GBIF synonym
 col,6SVDH,Orimarga palauiana,6SVDH,
 gbif,1517776,Orimarga palauiana,6SVDH,same
 col,6SZQ6,Oryctes rhinoceros,6SZQ6,
@@ -5672,6 +5973,8 @@ gbif,11291141,Oxydema longulum,6TG59,same
 col,6THCJ,Oxyodes scrobiculata,6THCJ,
 gbif,1777166,Oxyodes scrobiculata,6THCJ,same
 inat,Oxyodes scrobiculata,Oxyodes scrobiculata,6THCJ,same
+gbif,7743952,Pachyosa hirtiventris,6THZN,same
+literature,Coptops hirtiventris,Coptops hirtiventris,6THZN,GBIF synonym
 col,6TLXW,Papilio demoleus,6TLXW,
 inat,Papilio demoleus,Papilio demoleus,6TLXW,same
 col,6TPMN,Parallorhogas pallidiceps,6TPMN,
@@ -5745,6 +6048,7 @@ col,6WDDC,Pseudococcus dybasi,6WDDC,
 gbif,2095299,Pseudococcus dybasi,6WDDC,same
 col,6WDG2,Pseudococcus kusaiensis,6WDG2,
 gbif,2095323,Pseudococcus kusaiensis,6WDG2,same
+gbif,5164200,Coccus adonidum,6WDPW,COL synonym
 col,6WDST,Pseudocaecilius citricolus,6WDST,
 gbif,1031768,Pseudocaecilius citricola,6WDST,spelling variant
 literature,Elipsocus criniger,Elipsocus criniger,6WDST,COL synonym
@@ -5791,6 +6095,9 @@ col,6X2QF,Pygophora alaseta,6X2QF,
 gbif,5068015,Pygophora alaseta,6X2QF,same
 col,6X3MG,Raivuna nakanonis,6X3MG,
 gbif,2052601,Raivuna nakanonis,6X3MG,same
+gbif,1739022,Rhopobota grypodes,6X7VY,same
+literature,Acroclita grypodes,Acroclita grypodes,6X7VY,GBIF synonym
+literature,Acroclita vulturina,Acroclita vulturina,6X7VY,GBIF synonym
 col,6X8MT,Romblonella townesi,6X8MT,
 gbif,1318677,Romblonella townesi,6X8MT,same
 col,6X928,Ripersiella carolinensis,6X928,
@@ -5813,6 +6120,8 @@ gbif,1693885,Salomona truncata,6XF93,same
 inat,Salomona truncata,Salomona truncata,6XF93,same
 col,6XLL2,Sarcophaga gressitti,6XLL2,
 gbif,5061677,Sarcophaga gressitti,6XLL2,same
+gbif,5061779,Sarcophaga septentrionalis,6XMRN,same
+literature,Boettcherisca septentrionalis,Boettcherisca septentrionalis,6XMRN,GBIF synonym
 col,6XN2W,Sarcophaga variabilis,6XN2W,
 gbif,5061732,Sarcophaga variabilis,6XN2W,same
 col,6XN49,Sarcophaga stricklandi,6XN49,
@@ -5879,6 +6188,8 @@ col,6ZTSD,Stilobezzia truncata,6ZTSD,
 gbif,1636298,Stilobezzia truncata,6ZTSD,same
 col,6ZTSG,Stilobezzia unifascidorsalis,6ZTSG,
 gbif,1636282,Stilobezzia unifascidorsalis,6ZTSG,same
+gbif,2048533,Stirellus bicolor,6ZW2Z,same
+literature,Athysanus bicolor,Athysanus bicolor,6ZW2Z,GBIF synonym
 col,6ZWLX,Stonychophora palauensis,6ZWLX,
 gbif,1729231,Stonychophora palauensis,6ZWLX,same
 col,6ZX4Q,Stomorhina discolor,6ZX4Q,
@@ -5979,12 +6290,15 @@ col,73S2V,Myndus fusciterminalis,73S2V,
 gbif,8304595,Myndus fusciterminalis,73S2V,same
 col,73WF5,Neoconocephalus ensiger,73WF5,
 gbif,1692043,Neoconocephalus ensiger,73WF5,same
+gbif,9814762,Neotermes rainbowi,73XDP,same
+literature,Calotermes rainbowi,Calotermes rainbowi,73XDP,GBIF synonym
 col,73Z4X,Nocticanace peculiaris,73Z4X,
 gbif,1556432,Nocticanace peculiaris,73Z4X,same
 col,73ZKD,Nippoptilia cinctipedalis,73ZKD,
 gbif,9749806,Nippoptilia cinctipedalis,73ZKD,same
 col,73ZPN,Nilaparvata lugens,73ZPN,
 gbif,2056628,Nilaparvata lugens,73ZPN,same
+literature,Delphax lttgens,Delphax lttgens,73ZPN,GBIF synonym
 col,73ZRZ,Ninus insignis,73ZRZ,
 gbif,5152475,Ninus insignis,73ZRZ,same
 col,744DX,Mycetocylapus pacificus,744DX,
@@ -5999,6 +6313,16 @@ col,749J2,Neosimmondsia esakii,749J2,
 gbif,2093388,Neosimmondsia esakii,749J2,same
 col,74BL9,Notioxenus nitidus,74BL9,
 gbif,9291755,Notioxenus nitidus,74BL9,same
+gbif,8281826,Nysina boninensis,74D5K,same
+literature,Allotraeus boninensis,Allotraeus boninensis,74D5K,GBIF synonym
+gbif,2086550,Odonaspis secreta,74HLR,same
+literature,Aspidiotus secretus,Aspidiotus secretus,74HLR,GBIF synonym
+gbif,2029838,Olidiana boninensis,74KNB,same
+gbif,2029972,Coelidia insularis,74KNB,COL synonym
+literature,Coelidia boninensis,Coelidia boninensis,74KNB,GBIF synonym
+literature,Coelidia nigrifrons,Coelidia nigrifrons,74KNB,GBIF synonym
+literature,Coelidia ogasawarensis,Coelidia ogasawarensis,74KNB,GBIF synonym
+literature,Coelidia virescens,Coelidia virescens,74KNB,GBIF synonym
 col,74M5W,Omoglymmius oceanicus,74M5W,
 gbif,7764512,Omoglymmius oceanicus,74M5W,same
 col,74NRX,Ooencyrtus pallidipes,74NRX,
@@ -6147,6 +6471,8 @@ gbif,1691340,Phaulula carolinensis,77947,same
 inat,Phaulula carolinensis,Phaulula carolinensis,77947,same
 col,779TK,Philonthus discoideus,779TK,
 gbif,1040170,Philonthus discoideus,779TK,same
+gbif,1560993,Phorticella annulipes,77D9V,same
+literature,Drosophila annulipes,Drosophila annulipes,77D9V,GBIF synonym
 col,77HMK,Physoderes minor,77HMK,
 gbif,9665330,Physoderes minor,77HMK,same
 col,77MT5,Plagiozopelma flavipodex,77MT5,
@@ -6325,6 +6651,8 @@ col,7CN9T,Tramea limbata,7CN9T,
 gbif,1428488,Tramea limbata,7CN9T,same
 col,7CXF4,Turbinococcus pandanicola,7CXF4,
 gbif,2095026,Turbinococcus pandanicola,7CXF4,same
+gbif,1244634,Trypodendron domesticum,7CXT2,same
+literature,Dermestes domesticus,Dermestes domesticus,7CXT2,GBIF synonym
 col,7D24X,Trichochaeta recedens,7D24X,
 gbif,5078222,Trichochaeta recedens,7D24X,same
 literature,Tinda recedens,Tinda recedens,7D24X,COL synonym
@@ -6376,17 +6704,32 @@ gbif,1803197,Utetheisa pulchelloides,7F5P4,same
 inat,Utetheisa pulchelloides,Utetheisa pulchelloides,7F5P4,same
 col,7F5P5,Utetheisa pulchella,7F5P5,
 gbif,1803163,Utetheisa pulchella,7F5P5,same
+gbif,4395780,Valenzuela apicatus,7F9K8,same
+literature,Caecilius apicatus,Caecilius apicatus,7F9K8,GBIF synonym
 col,7F9KD,Valanga nigricornis,7F9KD,
 gbif,1707497,Valanga nigricornis,7F9KD,same
 inat,Valanga nigricornis,Valanga nigricornis,7F9KD,same
 col,7F9LS,Valanga gohieri,7F9LS,
 gbif,1707453,Valanga gohieri,7F9LS,same
+literature,Acridium carenicolle,Acridium carenicolle,7F9LS,GBIF synonym
 literature,Cyrtacanthacris nigrovaria,Cyrtacanthacris nigrovaria,7F9LS,COL synonym
+gbif,1707473,Valanga geniculata,7F9LT,same
+literature,Acridium geniculatum,Acridium geniculatum,7F9LT,GBIF synonym
 col,7F9LV,Valanga excavata,7F9LV,
 gbif,1707539,Valanga excavata,7F9LV,same
 inat,Valanga excavata,Valanga excavata,7F9LV,same
+gbif,4395655,Valenzuela trukensis,7FBB4,same
+literature,Caecilius trukensis,Caecilius trukensis,7FBB4,GBIF synonym
+gbif,4395766,Valenzuela fuscipennis,7FBF8,same
+literature,Caecilius fuscipennis,Caecilius fuscipennis,7FBF8,GBIF synonym
+gbif,4395953,Valenzuela marginatus,7FBFW,same
+literature,Caecilius marginatus,Caecilius marginatus,7FBFW,GBIF synonym
 col,7FBHD,Valenzuela kraussi,7FBHD,
 gbif,4395848,Valenzuela kraussi,7FBHD,same
+gbif,4395810,Valenzuela leuroceps,7FBHH,same
+literature,Caecilius leuroceps,Caecilius leuroceps,7FBHH,GBIF synonym
+gbif,4395703,Valenzuela pseudanalis,7FBLB,same
+literature,Caecilius pseudanalis,Caecilius pseudanalis,7FBLB,GBIF synonym
 col,7FFBC,Vanessa indica,7FFBC,
 gbif,5129293,Vanessa indica,7FFBC,same
 col,7FL4W,Velia hoberlandti,7FL4W,
@@ -6425,6 +6768,7 @@ col,7GBLZ,Zaischnopsis usingeri,7GBLZ,
 gbif,1389763,Zaischnopsis usingeri,7GBLZ,same
 col,7GBMB,Zaischnopsis viridiceps,7GBMB,
 gbif,1389810,Zaischnopsis viridiceps,7GBMB,same
+gbif,6255622,Aiolopus thalassinus dubius,7J9BG,same
 col,7J9BK,Aiolopus thalassinus tamulus,7J9BK,
 gbif,1713347,Aiolopus tamulus,7J9BK,COL synonym
 gbif,6255627,Aiolopus thalassinus tamulus,7J9BK,same
@@ -6501,6 +6845,7 @@ col,898G7,Tanytarsus maritimus,898G7,
 literature,Tanytarsus maritimus,Tanytarsus maritimus,898G7,same
 col,89PX7,Clogmia,89PX7,
 gbif,1640729,Clogmia,89PX7,same
+gbif,4405904,Cosmosciara,89PY8,same
 col,89V8K,Aedeomyia catasticta,89V8K,
 gbif,1649396,Aedeomyia catasticta,89V8K,same
 literature,Aedomyia catasticta,Aedomyia catasticta,89V8K,spelling variant
@@ -6528,12 +6873,25 @@ gbif,1652386,Aedes pandani,89W9Y,same
 inat,Aedes pandani,Aedes pandani,89W9Y,same
 col,8B3DD,Archimicrodon purpurescens,8B3DD,
 gbif,11164533,Archimicrodon purpurescens,8B3DD,same
+gbif,10704180,Austrosciara multispinosa,8B5TN,same
+gbif,4520719,Bradysia ocellaris,8B9BB,same
+literature,Bradysia tritici,Bradysia tritici,8B9BB,GBIF synonym
+gbif,1552609,Cerodontha piliseta,8BF3N,same
+literature,Agromyza pubicornis,Agromyza pubicornis,8BF3N,GBIF synonym
 col,8BG9Z,Chironomus bicoloris,8BG9Z,
 gbif,1448389,Chironomus bicoloris,8BG9Z,same
+gbif,1448526,Chironomus plumatisetigerus,8BGD8,same
+gbif,1562091,Coelopa alluaudi,8BJKX,same
+gbif,9780152,Cosmosciara hartii,8BLH2,same
+gbif,10702779,Cratyna musicola,8BLLW,same
+gbif,10812635,Cratyna brevipalpis,8BLMR,same
+literature,Corynoptera brevipalpis,Corynoptera brevipalpis,8BLMR,GBIF synonym
 col,8BLYJ,Crosa yapensis,8BLYJ,
 col,8BMGY,Culex annulirostris,8BMGY,
 gbif,1652660,Culex annulirostris,8BMGY,same
 literature,Culex somerseti,Culex somerseti,8BMGY,COL synonym
+gbif,1653337,Culex bitaeniorhynchus,8BMHQ,same
+gbif,1653272,Culex palpalis,8BMLY,same
 col,8BMMQ,Culex quinquefasciatus,8BMMQ,
 gbif,1652950,Culex quinquefasciatus,8BMMQ,same
 col,8BMND,Culex sitiens,8BMND,
@@ -6547,9 +6905,13 @@ col,8BMXN,Culex kusaiensis,8BMXN,
 gbif,1653464,Culex kusaiensis,8BMXN,same
 col,8BN7F,Culex symbletos,8BN7F,
 literature,Culex simplex,Culex simplex,8BN7F,spelling variant
+gbif,7727821,Cymatopus femoralis,8BPZS,same
+gbif,7770341,Cymatopus ventralis,8BPZT,same
 col,8BSX5,Diplonevra peregrina,8BSX5,
 gbif,1548549,Diplonevra peregrina,8BSX5,same
 literature,Phora conventa,Phora conventa,8BSX5,COL synonym
+gbif,5074534,Drosophila hydei,8BWDJ,same
+gbif,5074632,Drosophila nasuta,8BWM6,same
 col,8BXBM,Drosophila kikkawai,8BXBM,
 gbif,5073749,Drosophila kikkawai,8BXBM,same
 col,8BXCZ,Drosophila melanogaster,8BXCZ,
@@ -6599,9 +6961,13 @@ gbif,1618701,Paralimna fusca,8D6T5,same
 col,8DG5T,Polypedilum elongatum,8DG5T,
 literature,Polypedilum elongatus,Polypedilum elongatus,8DG5T,spelling variant
 col,8DGRQ,Prochaetops setosa,8DGRQ,
+gbif,10854103,Pseudolycoriella ponapensis,8DJ5W,same
+literature,Corynoptera ponapensis,Corynoptera ponapensis,8DJ5W,GBIF synonym
 col,8DJ68,Pseudolycoriella sabroskyi,8DJ68,
 gbif,10769893,Pseudolycoriella sabroskyi,8DJ68,same
 literature,Corynoptera sabroskyi,Corynoptera sabroskyi,8DJ68,COL synonym
+gbif,10745581,Pseudolycoriella sylviae,8DJ6M,same
+literature,Corynoptera sylviae,Corynoptera sylviae,8DJ6M,GBIF synonym
 col,8DK39,Psychoda aponesos,8DK39,
 gbif,8967451,Psychoda aponesos,8DK39,same
 col,8DPQW,Sarcophaga peregrina,8DPQW,
@@ -6911,6 +7277,8 @@ gbif,11296473,Nephotettix bipunctatus,8JWWK,COL synonym
 gbif,4775727,Nephotettix virescens,8JWWK,same
 col,8JWXP,Nesoclutha declivata,8JWXP,
 gbif,11210968,Nesoclutha declivata,8JWXP,same
+gbif,9182619,Stirellus grandis,8JZC6,same
+literature,Aconura grandis,Aconura grandis,8JZC6,GBIF synonym
 col,8K2TB,Nephotettix nigropictus nigropictus,8K2TB,
 literature,Pediopsis nigromaculatus,Pediopsis nigromaculatus,8K2TB,COL synonym
 literature,Thamnotettiz nigropicta,Thamnotettiz nigropicta,8K2TB,COL synonym
@@ -6922,6 +7290,7 @@ col,8KTLM,Elenchidae,8KTLM,
 gbif,7948,Elenchidae,8KTLM,same
 col,8KV4F,Anaulacus,8KV4F,
 gbif,3259920,Anaulacus,8KV4F,same
+gbif,Carabus,Carabus,8KVGQ,same
 col,8KVJR,Chlaenius,8KVJR,
 gbif,4988973,Chlaenius,8KVJR,same
 col,8KVKT,Clivina,8KVKT,
@@ -7438,6 +7807,7 @@ col,8P2N2,Valanga,8P2N2,
 gbif,1707447,Valanga,8P2N2,same
 col,8P2XH,Xiphidiopsis,8P2XH,
 col,8P2Y6,Xya,8P2Y6,
+gbif,2072228,Aphis dianthi,8P5PN,same
 col,8P5SH,Aphis citricidus,8P5SH,
 gbif,2075864,Aphis citricidus,8P5SH,same
 literature,Toxoptera citricida,Toxoptera citricida,8P5SH,COL synonym
@@ -7473,8 +7843,10 @@ gbif,11375691,Trolicaphyllium,8QQJ4,same
 col,8QRK4,Trolicaphyllium brachysoma,8QRK4,
 gbif,11377451,Trolicaphyllium brachysoma,8QRK4,same
 inat,Trolicaphyllium brachysoma,Trolicaphyllium brachysoma,8QRK4,same
+gbif,2070148,Aphis arundinis,8R2M2,same
 col,8R3FD,Athysanus,8R3FD,
 gbif,2025789,Athysanus,8R3FD,same
+gbif,2039205,Bhatia,8R46B,same
 col,8R48S,Cybocephalus,8R48S,
 gbif,3263056,Cybocephalus,8R48S,same
 col,8R4B3,Deltocephalus,8R4B3,
@@ -7517,6 +7889,8 @@ col,8RLTV,Maiestas hospes,8RLTV,
 gbif,11795092,Maiestas hospes,8RLTV,same
 col,8RLV6,Maiestas knighti,8RLV6,
 gbif,9924840,Maiestas knighti,8RLV6,same
+gbif,7701575,Maiestas oryzae,8RLVK,same
+literature,Deltocephalus oryzae,Deltocephalus oryzae,8RLVK,GBIF synonym
 col,8RLVL,Maiestas pacifica,8RLVL,
 gbif,11673175,Maiestas pacifica,8RLVL,same
 col,8RLWF,Maiestas subviridis,8RLWF,
@@ -7529,6 +7903,9 @@ col,8RN53,Recilia coronifer,8RN53,
 gbif,7487997,Recilia coronifer,8RN53,same
 col,8RP3M,Thomsonia gressitti,8RP3M,
 gbif,11388050,Thomsonia gressitti,8RP3M,same
+gbif,11373342,Pacicephalus gressitti,8RPN6,same
+literature,Cybocephalus gressitti,Cybocephalus gressitti,8RPN6,GBIF synonym
+gbif,11376130,Cybocephalus politissimus palauanus,8RXZS,same
 col,8S23H,Lepidiota,8S23H,
 gbif,1064804,Lepidiota,8S23H,same
 col,8TLBR,Pterophoridae,8TLBR,
@@ -7651,6 +8028,7 @@ gbif,1774778,Amyna,8ZZQB,same
 col,8ZZX8,Ancylosis,8ZZX8,
 gbif,1874624,Ancylosis,8ZZX8,same
 gbif,4687201,Heterographis,8ZZX8,COL synonym
+gbif,1887640,Angustalius,9222T,same
 col,9228M,Anticarsia,9228M,
 gbif,1777925,Anticarsia,9228M,same
 col,922SL,Arcte,922SL,
@@ -8077,6 +8455,12 @@ col,958MS,Euploea eunice kadu,958MS,
 gbif,5137146,Euploea kadu,958MS,COL synonym
 gbif,6133944,Euploea eunice kadu,958MS,same
 gbif,6223783,Euploea leucostictos kadu,958MS,COL synonym
+gbif,11606791,Amyna crocosticta,95V79,same
+gbif,1736989,Cryptophlebia lasiandra,96HLX,same
+literature,Argyroploce lasiandra,Argyroploce lasiandra,96HLX,GBIF synonym
+gbif,10148453,Dinumma spiculata,96LKG,same
+gbif,10694665,Eucosmogastra aeraria,96SML,same
+literature,Argyroploce aeraria,Argyroploce aeraria,96SML,GBIF synonym
 col,9742R,Helictophanes argillacea,9742R,
 gbif,11890546,Helictophanes argillacea,9742R,same
 col,977MD,Hypena quinqualis,977MD,
@@ -8144,6 +8528,8 @@ col,9GM24,Dasyphleps,9GM24,
 col,9H92P,Clogmia albipunctata,9H92P,
 gbif,4522049,Clogmia albipunctatus,9H92P,spelling variant
 inat,Clogmia albipunctata,Clogmia albipunctata,9H92P,same
+gbif,1454278,Cricotopus trifasciatus,9H98W,same
+literature,Chironomus trifasciatus,Chironomus trifasciatus,9H98W,GBIF synonym
 col,9HL8W,Oxycarenus bicolor,9HL8W,
 gbif,4771134,Oxycarenus bicolor,9HL8W,same
 col,9JBQH,Microdota,9JBQH,
@@ -8199,6 +8585,7 @@ col,9WNB7,Zyxomma,9WNB7,
 gbif,1429425,Zyxomma,9WNB7,same
 col,9WQJ3,Erythemis simplicicollis,9WQJ3,
 gbif,1429340,Erythemis simplicicollis,9WQJ3,same
+gbif,5051759,Anax parthenope julius,9WT5R,COL synonym
 col,9WT7Y,Tramea loewii,9WT7Y,
 gbif,1428476,Tramea loewii,9WT7Y,same
 literature,Tramea loewi,Tramea loewi,9WT7Y,spelling variant
@@ -8287,6 +8674,7 @@ gbif,9717,Nolidae,BJ5XK,same
 col,BJ7SG,Acalolepta,BJ7SG,
 gbif,1105631,Dihammus,BJ7SG,COL synonym
 gbif,1117302,Acalolepta,BJ7SG,same
+gbif,1160873,Aeolesthes,BJ7WY,same
 col,BJ8GW,Batocera,BJ8GW,
 gbif,1133595,Batocera,BJ8GW,same
 col,BJ8KD,Boninella,BJ8KD,
@@ -8535,6 +8923,7 @@ col,BXYRD,Atrichopogon,BXYRD,
 gbif,1636637,Atrichopogon,BXYRD,same
 col,BXYRK,Austalis,BXYRK,
 gbif,1539742,Austalis,BXYRK,same
+gbif,1488196,Austrosciara,BXYTH,same
 col,BXYTX,Axona,BXYTX,
 gbif,1534424,Axona,BXYTX,same
 col,BXYV8,Baeodrosophila,BXYV8,
@@ -8554,6 +8943,8 @@ gbif,1635267,Brachypogon,BXYZ5,same
 col,BXZ24,Brunettia,BXZ24,
 col,BXZ2P,Cadrema,BXZ2P,
 gbif,1491007,Cadrema,BXZ2P,same
+gbif,9617085,Camptocladius,BXZ3Y,same
+literature,Camptocladius van der,Camptocladius van der,BXZ3Y,spelling variant
 col,BXZ4N,Cardiastethus,BXZ4N,
 gbif,2020796,Cardiastethus,BXZ4N,same
 col,BXZ7W,Chlorichaeta,BXZ7W,
@@ -8576,10 +8967,13 @@ gbif,1512348,Conosia,BXZFF,same
 col,BXZFR,Coproica,BXZFR,
 gbif,1588281,Coproica,BXZFR,same
 col,BXZFV,Coquillettidia,BXZFV,
+gbif,1487847,Corynoptera,BXZGH,same
+gbif,1487339,Cratyna,BXZGW,same
 col,BXZJ2,Cyamops,BXZJ2,
 gbif,1673252,Cyamops,BXZJ2,same
 col,BXZJ9,Cyclopodia,BXZJ9,
 gbif,1639268,Cyclopodia,BXZJ9,same
+gbif,1608609,Cymatopus,BXZJP,same
 col,BXZK2,Czernyola,BXZK2,
 gbif,1550464,Czernyola,BXZK2,same
 gbif,8346464,Czernyola,BXZK2,same
@@ -8897,6 +9291,8 @@ col,BYT48,Yaetanytarsus,BYT48,
 gbif,1455516,Yaetanytarsus,BYT48,same
 col,BYY9B,Sarcophaga knabi,BYY9B,
 literature,Sarcophaga knabi,Sarcophaga knabi,BYY9B,same
+gbif,11151133,Aedes vexans nocturnus,BYZT8,COL synonym
+literature,Culex nocturnus,Culex nocturnus,BYZT8,GBIF synonym
 col,BZ7F3,Dasyhelea vittula,BZ7F3,
 gbif,1635845,Dasyhelea vittula,BZ7F3,same
 col,C22RM,Tachardiidae,C22RM,
@@ -8905,6 +9301,8 @@ col,C2924,Prochaetops,C2924,
 col,C2KV4,Dasyhelea quarternihamata,C2KV4,
 gbif,1636004,Dasyhelea quaternihamata,C2KV4,spelling variant
 literature,Dasyhelea quarternihamata,Dasyhelea quarternihamata,C2KV4,same
+gbif,1650218,Anopheles ludlowae,C2PCX,COL synonym
+literature,Anopheles ludlowi,Anopheles ludlowi,C2PCX,spelling variant
 col,C2R8S,Pectiniseta prominens,C2R8S,
 literature,Caricea prominens,Caricea prominens,C2R8S,COL synonym
 literature,Pectiniseta prominens,Pectiniseta prominens,C2R8S,same
@@ -9107,6 +9505,9 @@ col,CBM3T,Mymar,CBM3T,
 gbif,1249635,Mymar,CBM3T,same
 col,CBM4Z,Mymaridae,CBM4Z,
 gbif,9444,Mymaridae,CBM4Z,same
+gbif,5046584,Closterocerus formosus,CBMYF,COL synonym
+literature,Derostenus fullawayi,Derostenus fullawayi,CBMYF,GBIF synonym
+literature,Derostenus fullowayi,Derostenus fullowayi,CBMYF,GBIF synonym
 col,CBNVK,Otitesella,CBNVK,
 gbif,1359448,Otitesella,CBNVK,same
 col,CBP34,Paratetrastichus,CBP34,
@@ -9225,9 +9626,15 @@ gbif,1458,Orthoptera,CJBKK,same
 col,CJMQH,Pacifimusotima,CJMQH,
 col,CJMQL,Pacifimusotima rectangulalis,CJMQL,
 gbif,1883109,Parthenodes rectangulalis,CJMQL,COL synonym
+gbif,8997693,Armacia clara kusaieana,CJSNM,same
+literature,Armada clara kusaieana,Armada clara kusaieana,CJSNM,spelling variant
 col,CK5DK,Echthromorpha agrestoria conopleura,CK5DK,
 gbif,11376289,Echthromorpha conopleura,CK5DK,COL synonym
 literature,Echthromorpha immaculata,Echthromorpha immaculata,CK5DK,COL synonym
+gbif,6251662,Echthromorpha agrestoria samoana,CK5F5,same
+literature,Echthromqrpha agrestoria samoana,Echthromqrpha agrestoria samoana,CK5F5,spelling variant
+gbif,6251672,Echthromorpha agrestoria semperi,CK5F6,same
+literature,Echthrbmorpha semperi,Echthrbmorpha semperi,CK5F6,GBIF synonym
 col,CKBY2,Horcoma coloratum lacteipenne,CKBY2,
 gbif,7590362,Delphacodes celaeno,CKBY2,COL synonym
 literature,Delphacodes lacteipennis,Delphacodes lacteipennis,CKBY2,COL synonym
@@ -9422,6 +9829,7 @@ col,DQN84,Pseudozaena orientalis opaca,DQN84,
 literature,Pseudozaena orientalis opaca,Pseudozaena orientalis opaca,DQN84,same
 col,FJ58D,Elaeonoma adeneia,FJ58D,
 literature,Elaeonoma adeneia,Elaeonoma adeneia,FJ58D,same
+gbif,1448336,Chironomus longilobus,G5SSB,COL synonym
 col,KPMGS,Chrysomyia megacephala,KPMGS,
 col,KPNGQ,Taractrocera luzonensis,KPNGQ,
 inat,Taractrocera luzonensis,Taractrocera luzonensis,KPNGQ,same
@@ -9626,6 +10034,16 @@ col,KXBLC,Ropalidia,KXBLC,
 gbif,1311012,Ropalidia,KXBLC,same
 col,KZG3T,Vespidae,KZG3T,
 gbif,4490,Vespidae,KZG3T,same
+gbif,7044774,Aphis craccivora craccivora,KZNXC,same
+literature,Aphis oxalina,Aphis oxalina,KZNXC,GBIF synonym
+gbif,7199251,Aphis gossypii gossypii,KZNYB,same
+literature,Aphis bauhinia,Aphis bauhinia,KZNYB,GBIF synonym
+literature,Aphis citrulli,Aphis citrulli,KZNYB,GBIF synonym
+literature,Aphis cucumeris,Aphis cucumeris,KZNYB,GBIF synonym
+literature,Aphis heliotropii,Aphis heliotropii,KZNYB,GBIF synonym
+literature,Aphis oxalis,Aphis oxalis,KZNYB,GBIF synonym
+literature,Aphis parvus,Aphis parvus,KZNYB,GBIF synonym
+literature,Aphis shirakii,Aphis shirakii,KZNYB,GBIF synonym
 col,KZP2V,Aphis aurantii aurantii,KZP2V,
 literature,Aphis camelliae,Aphis camelliae,KZP2V,COL synonym
 col,KZRL6,Azya,KZRL6,
@@ -9650,6 +10068,8 @@ gbif,7782,Coccinellidae,KZXW3,same
 col,KZXWS,Scymnus,KZXWS,
 gbif,1043204,Scymnus,KZXWS,same
 gbif,9755712,Pullus,KZXWS,COL synonym
+gbif,7198708,Ctenocephalides felis felis,KZYHR,same
+literature,Ctenocephalus musculi,Ctenocephalus musculi,KZYHR,GBIF synonym
 col,L237Z,Diplura,L237Z,
 col,L24PH,Eureum pacificum,L24PH,
 gbif,6934911,Eureum pacificum,L24PH,same
@@ -9697,11 +10117,13 @@ inat,Amarygmus hydrophiloides,Amarygmus hydrophiloides,L783X,same
 col,L785Y,Amarygmus palauensis,L785Y,
 gbif,9708638,Amarygmus palauensis,L785Y,same
 inat,Amarygmus palauensis,Amarygmus palauensis,L785Y,same
+gbif,1095948,Attagenus undulatus,L7WPJ,COL synonym
 col,L8G39,Alciphron,L8G39,
 gbif,4782384,Alciphron,L8G39,same
 col,L8G3B,Alciphron glaucus,L8G3B,
 gbif,4782385,Alciphron glaucus,L8G3B,same
 gbif,4782386,Cimex glaucus,L8G3B,COL synonym
+gbif,11158431,Alema paradoxa,L93C5,same
 col,L9PF9,Aneurus,L9PF9,
 gbif,2020152,Aneurus,L9PF9,same
 col,LB688,Ammophorus,LB688,
@@ -9721,6 +10143,7 @@ col,LFMK2,Armacia,LFMK2,
 gbif,2057559,Armacia,LFMK2,same
 col,LGP8V,Aphrophoridae,LGP8V,
 gbif,3764,Aphrophoridae,LGP8V,same
+gbif,6132057,Aphthona formosana,LGQN5,same
 col,LGR2X,Aphthona scutellata,LGR2X,
 gbif,4734991,Aphthona scutellata,LGR2X,same
 inat,Aphthona bicolorata,Aphthona bicolorata,LGR2X,COL synonym
@@ -9732,6 +10155,7 @@ gbif,2020901,Alofa sodalis,LHFZW,same
 col,LHWRZ,Asymphorodes aporia,LHWRZ,
 gbif,9118707,Asymphorodes aporia,LHWRZ,same
 col,LJ2LB,Amyotea,LJ2LB,
+gbif,1045875,Alphitobius diaperinus,LJGG5,same
 col,LJGHG,Alphitobius laevigatus,LJGHG,
 gbif,1045874,Alphitobius laevigatus,LJGHG,same
 literature,Opatrum laevigatum,Opatrum laevigatum,LJGHG,COL synonym
@@ -9739,6 +10163,8 @@ col,LKCCT,Altekon,LKCCT,
 gbif,4780049,Altekon,LKCCT,same
 col,LKTX5,Altica aenea,LKTX5,
 gbif,8438148,Altica aenea,LKTX5,same
+gbif,4462315,Altica oleracea,LKVM7,same
+literature,Chrysomela oleracea,Chrysomela oleracea,LKVM7,GBIF synonym
 col,LKX9M,Antestia,LKX9M,
 col,LL33Z,Ananca,LL33Z,
 col,LL349,Ananca bicolor,LL349,
@@ -9753,6 +10179,7 @@ col,LM3CQ,Anthicomorphus,LM3CQ,
 gbif,4720605,Anthicomorphus,LM3CQ,same
 col,LM4QF,Anthicus insularis,LM4QF,
 gbif,1046963,Anthicus insularis,LM4QF,same
+gbif,1046934,Anthicus vexator,LM6LD,same
 col,LMG6Q,Apsectus,LMG6Q,
 gbif,1095911,Apsectus,LMG6Q,same
 col,LMR23,Apterophenus,LMR23,
@@ -9760,8 +10187,13 @@ gbif,4725690,Apterophenus,LMR23,same
 col,LN369,Anchastus,LN369,
 col,LNZ49,Atylana,LNZ49,
 gbif,2051325,Atylana,LNZ49,same
+gbif,9029048,Aradus membraceus,LP6TL,same
+literature,Aradus membranaceus,Aradus membranaceus,LP6TL,spelling variant
+gbif,1095903,Anthrenus fuscus,LPB4P,same
+literature,Anthrenus claviger,Anthrenus claviger,LPB4P,GBIF synonym
 col,LPM8R,Aulacaspis,LPM8R,
 gbif,2087546,Aulacaspis,LPM8R,same
+gbif,7908703,Asiothrixus,LPP3N,same
 col,LPXHN,Aulacophora indica,LPXHN,
 gbif,5876578,Aulacophora indica,LPXHN,same
 inat,Aulacophora indica,Aulacophora indica,LPXHN,same
@@ -9783,6 +10215,18 @@ col,LRHHM,Odonaspis,LRHHM,
 gbif,2086528,Odonaspis,LRHHM,same
 col,LV7Z4,Argeleusa,LV7Z4,
 gbif,2064519,Argeleusa,LV7Z4,same
+gbif,6947113,Bostrichus migrator,LVJF8,same
+literature,Bastrichus migrator,Bastrichus migrator,LVJF8,spelling variant
+gbif,9599703,Argopistes coccinea,LVPQ3,same
+literature,Dibolia coccinea,Dibolia coccinea,LVPQ3,GBIF synonym
+gbif,6132000,Argopistes coccinelliformis,LVPQ9,same
+gbif,8563380,Argopistes coccinelloides,LVPQG,same
+gbif,9289127,Argopistes dichroa,LVPQQ,same
+literature,Dibolia dichroa,Dibolia dichroa,LVPQQ,GBIF synonym
+gbif,9405214,Argopistes gagates,LVPQT,same
+literature,Dibolia gagates,Dibolia gagates,LVPQT,GBIF synonym
+gbif,9478712,Argopistes thomassini,LVPTB,same
+literature,Dibolia thomassini,Dibolia thomassini,LVPTB,GBIF synonym
 col,LWFYS,Botocudo marianensis,LWFYS,
 gbif,2008114,Botocudo marianensis,LWFYS,same
 gbif,9482752,Cligenes marianensis,LWFYS,COL synonym
@@ -9812,6 +10256,7 @@ col,M2PT6,Cixiidae,M2PT6,
 gbif,8470,Cixiidae,M2PT6,same
 col,M36D5,Caccodes marquesanus,M36D5,
 gbif,9423487,Caccodes marquesanus,M36D5,same
+literature,Caecodes marquesanus,Caecodes marquesanus,M36D5,spelling variant
 literature,Maltypus marquesanus,Maltypus marquesanus,M36D5,COL synonym
 col,M3BLD,Campsomeris,M3BLD,
 gbif,4681428,Campsomeris,M3BLD,same
@@ -9828,6 +10273,15 @@ col,M3JSM,Bradymerus acuticostis,M3JSM,
 gbif,11207683,Bradymerus acuticostis,M3JSM,same
 col,M3X8W,Carpophilus biguttatus,M3X8W,
 gbif,9430485,Carpophilus biguttatus,M3X8W,same
+gbif,1044111,Carpophilus hemipterus,M3X9J,same
+literature,Cateretes pictus,Cateretes pictus,M3X9J,GBIF synonym
+literature,Dermestes hemipterus,Dermestes hemipterus,M3X9J,GBIF synonym
+gbif,4453195,Carpophilus obsoletus,M3X9T,same
+gbif,9549823,Carpophilus funereus,M3X9T,COL synonym
+literature,Carpophilus cribellatus,Carpophilus cribellatus,M3X9T,GBIF synonym
+literature,Carpophilus strigipennis,Carpophilus strigipennis,M3X9T,GBIF synonym
+gbif,4453190,Carpophilus quadrisignatus,M3X9Z,same
+literature,Carpophilus quadrisignata,Carpophilus quadrisignata,M3X9Z,spelling variant
 col,M3XKM,Carpophilus dimidiatus,M3XKM,
 gbif,1044114,Carpophilus dimidiatus,M3XKM,same
 gbif,7833634,Carpophilus vittiger,M3XKM,COL synonym
@@ -9840,6 +10294,8 @@ col,M3XM5,Carpophilus mutilatus,M3XM5,
 gbif,1044106,Carpophilus mutilatus,M3XM5,same
 col,M3XMB,Carpophilus oculatus,M3XMB,
 literature,Carpophilus oculatus,Carpophilus oculatus,M3XMB,same
+gbif,4453205,Carpophilus pilosellus,M3XMM,same
+literature,Carpophilus floridanus,Carpophilus floridanus,M3XMM,GBIF synonym
 col,M3XN8,Carpophilus marginellus,M3XN8,
 gbif,1044109,Carpophilus marginellus,M3XN8,same
 literature,Carpophilus marginellus,Carpophilus marginellus,M3XN8,same
@@ -9868,6 +10324,8 @@ col,MBVF3,Calliphara munda,MBVF3,
 gbif,11170114,Calliphara munda,MBVF3,same
 col,MCHVJ,Cercopidae,MCHVJ,
 gbif,3763,Cercopidae,MCHVJ,same
+gbif,4777094,Cardiastethus brounianus,MD4H8,same
+literature,Cardiastcthus brounianus,Cardiastcthus brounianus,MD4H8,spelling variant
 col,MD4JD,Cardiastethus fulvescens,MD4JD,
 gbif,2020803,Cardiastethus fulvescens,MD4JD,same
 col,MD4KC,Cardiastethus minutissimus,MD4KC,
@@ -9904,6 +10362,8 @@ col,MJHJ8,Coenobius,MJHJ8,
 gbif,4734957,Coenobius,MJHJ8,same
 col,MK5CJ,Chaetocnema confinis,MK5CJ,
 gbif,4990564,Chaetocnema confinis,MK5CJ,same
+gbif,5876822,Chaetocnema basalis,MK5L7,same
+gbif,9383493,Chaetocnema allardi,MK5SV,same
 col,MK7L3,Chaetococcus,MK7L3,
 col,ML9H9,Chondria,ML9H9,
 col,MM7FS,Coleotichus,MM7FS,
@@ -9912,6 +10372,7 @@ col,MM7G6,Coleotichus marianensis,MM7G6,
 gbif,11189920,Coleotichus marianensis,MM7G6,same
 col,MM7GF,Coleotichus breddini,MM7GF,
 gbif,11168935,Coleotichus breddini,MM7GF,same
+gbif,7691195,Cephalonomia stephanoderis,MMSPY,same
 col,MN8WK,Coronacella,MN8WK,
 gbif,4777460,Coronacella,MN8WK,same
 col,MNYDF,Ceracis,MNYDF,
@@ -9956,6 +10417,7 @@ col,MXVLK,Cothonaspis,MXVLK,
 gbif,8762706,Cothonaspis,MXVLK,same
 col,MXVLP,Cothonaspis pacifica,MXVLP,
 gbif,8855980,Cothonaspis pacifica,MXVLP,same
+gbif,2080191,Crypticerya,MXZ4R,same
 col,MY8P7,Xiphidion,MY8P7,
 gbif,1687921,Xiphidion,MY8P7,same
 col,MZ9Z9,Cylas,MZ9Z9,
@@ -9969,6 +10431,7 @@ inat,Conotelus mexicanus,Conotelus mexicanus,MZQDJ,same
 col,MZX2K,Cryptognatha nodiceps,MZX2K,
 gbif,1043702,Cryptognatha nodiceps,MZX2K,same
 col,MZXJ7,Daulis,MZXJ7,
+gbif,1043182,Cryptogonus orbiculus,MZXYR,same
 col,N22QJ,Cryptolaemus,N22QJ,
 gbif,1043716,Cryptolaemus,N22QJ,same
 col,N22SV,Cryptolaemus montrouzieri,N22SV,
@@ -9979,6 +10442,7 @@ col,N273D,Cryptolestes,N273D,
 gbif,1042943,Cryptolestes,N273D,same
 col,N27CF,Cryptolestes ferrugineus,N27CF,
 gbif,4989835,Cryptolestes ferrugineus,N27CF,same
+gbif,11164009,Coccinella orbicula,N2KB4,same
 col,N2KKB,Coccinella repanda,N2KKB,
 literature,Coccinella repanda,Coccinella repanda,N2KKB,same
 col,N2KX2,Coccinella transversalis,N2KX2,
@@ -10001,12 +10465,15 @@ col,N5923,Delphacidae,N5923,
 gbif,8498,Delphacidae,N5923,same
 col,N5BL4,Delphacodes,N5BL4,
 gbif,8254004,Delphacodes,N5BL4,same
+gbif,1043667,Delphastus pusillus,N5FYV,same
 col,N5KJ9,Cremastus flavo-orbitalis,N5KJ9,
 gbif,11371856,Cremastus flavo-orbitalis,N5KJ9,same
 col,N6BBV,Dicranotropis,N6BBV,
 gbif,8306726,Dicranotropis,N6BBV,same
+gbif,9438512,Crepidodera brullei,N6NR2,same
 col,N6SM8,Coptosoma,N6SM8,
 gbif,3265959,Coptosoma,N6SM8,same
+gbif,6130535,Coptosoma variegata,N6T69,same
 col,N7N43,Dystheatias,N7N43,
 gbif,2059815,Dystheatias,N7N43,same
 col,N7NY6,Dictyopharidae,N7NY6,
@@ -10018,6 +10485,7 @@ gbif,1043473,Curinus,NBMK2,same
 col,NBMKP,Curinus coeruleus,NBMKP,
 gbif,1043474,Curinus coeruleus,NBMKP,same
 inat,Curinus coeruleus,Curinus coeruleus,NBMKP,same
+gbif,10757415,Cyrtobagous salviniae,NBSQQ,same
 col,NCRRS,Dilacreon,NCRRS,
 gbif,2059674,Dilacreon,NCRRS,same
 col,NCT4Q,Dilasia marianensis,NCT4Q,
@@ -10028,6 +10496,10 @@ col,NCV43,Derbidae,NCV43,
 gbif,4247,Derbidae,NCV43,same
 col,ND38L,Enigmatica,ND38L,
 gbif,3262165,Enigmatica,ND38L,same
+gbif,1095855,Dermestes ater,NDJC9,same
+gbif,4740040,Dermestes felinus,NDJC9,COL synonym
+literature,Dermestes cadaverinus,Dermestes cadaverinus,NDJC9,GBIF synonym
+literature,Dermestes hispidulus,Dermestes hispidulus,NDJC9,GBIF synonym
 col,NDJDK,Dermestes maculatus,NDJDK,
 gbif,1095863,Dermestes maculatus,NDJDK,same
 literature,Dermestes lupinus,Dermestes lupinus,NDJDK,COL synonym
@@ -10087,6 +10559,8 @@ col,NV9Q2,Glipa,NV9Q2,
 gbif,1046030,Glipa,NV9Q2,same
 col,NV9XL,Glipa guamensis,NV9XL,
 gbif,7003189,Glipa guamensis,NV9XL,same
+gbif,4427346,Globicornis emarginata,NVL24,same
+literature,Dermestes marginatus,Dermestes marginatus,NVL24,GBIF synonym
 col,NVNTT,Ferrisia,NVNTT,
 gbif,8268438,Ferrisia,NVNTT,same
 col,NVS76,Dysdercus,NVS76,
@@ -10129,6 +10603,8 @@ col,P53QM,Euryphlepsia,P53QM,
 gbif,2058401,Euryphlepsia,P53QM,same
 col,P5J8S,Eurystylus costalis unicolor,P5J8S,
 gbif,11113327,Eurystylus costalis unicolor,P5J8S,same
+gbif,4428077,Heterocerus marginatus,P6YWV,same
+literature,Apate marginata,Apate marginata,P6YWV,GBIF synonym
 col,P7DCG,Genaparlatoria,P7DCG,
 col,P7LB9,Heteroderes,P7LB9,
 gbif,4408201,Heteroderes,P7LB9,same
@@ -10221,6 +10697,8 @@ gbif,1044154,Haptoncus luteolus,PNHTF,same
 col,PNQJ5,Haritalodes kosralis,PNQJ5,
 col,PNVXT,Harmonia,PNVXT,
 gbif,1043111,Harmonia,PNVXT,same
+gbif,4989904,Harmonia axyridis,PNVYQ,same
+literature,Coccinella axyridis,Coccinella axyridis,PNVYQ,GBIF synonym
 col,PNW9L,Harmonia octomaculata,PNW9L,
 gbif,4989901,Harmonia octomaculata,PNW9L,same
 gbif,4989902,Harmonia arcuata,PNW9L,COL synonym
@@ -10243,6 +10721,8 @@ col,PSP7V,Icerya seychellarum,PSP7V,
 gbif,4484675,Icerya seychellarum,PSP7V,same
 inat,Icerya seychellarum,Icerya seychellarum,PSP7V,same
 literature,Coccus sacchari,Coccus sacchari,PSP7V,COL synonym
+gbif,6129960,Icerya seychellarum seychellarum,PSP8G,same
+literature,Dorthesia seychellarum,Dorthesia seychellarum,PSP8G,GBIF synonym
 col,PVT9G,Lacon modestus,PVT9G,
 gbif,1162068,Lacon modestus,PVT9G,same
 literature,Agrypnus nigroplagiatus,Agrypnus nigroplagiatus,PVT9G,COL synonym
@@ -10330,6 +10810,7 @@ col,QKJJ8,Neotrichus,QKJJ8,
 gbif,1045264,Neotrichus,QKJJ8,same
 col,QKJLJ,Neotrichus latiusculus,QKJLJ,
 gbif,1045265,Neotrichus latiusculus,QKJLJ,same
+literature,Ditoma latiusculus,Ditoma latiusculus,QKJLJ,GBIF synonym
 col,QKLXT,Nabis,QKLXT,
 gbif,2020976,Nabis,QKLXT,same
 col,QKM5R,Nabis capsiformis,QKM5R,
@@ -10398,6 +10879,8 @@ col,QSCFT,Melambia,QSCFT,
 gbif,4762933,Melambia,QSCFT,same
 col,QSCFY,Melambia cordicollis,QSCFY,
 gbif,11203405,Melambia cordicollis,QSCFY,same
+gbif,1095270,Nicobium castaneum,QSNK5,same
+literature,Anobium castaneum,Anobium castaneum,QSNK5,GBIF synonym
 col,QT6H6,Melanaspis,QT6H6,
 gbif,2083167,Melanaspis,QT6H6,same
 col,QTBD8,Oceanaspidiotus,QTBD8,
@@ -10497,6 +10980,8 @@ literature,Rodolia breviuscula,Rodolia breviuscula,RCWH9,COL synonym
 col,RCWQP,Novius pumilus,RCWQP,
 gbif,10776727,Novius pumilus,RCWQP,same
 inat,Novius pumilus,Novius pumilus,RCWQP,same
+gbif,1046843,Omonadus formicarius,RCYMJ,same
+literature,Anthicus formicarius,Anthicus formicarius,RCYMJ,GBIF synonym
 col,RD25C,Orius tantillus,RD25C,
 literature,Orius niobe,Orius niobe,RD25C,COL synonym
 col,RFN5M,Parthenolecanium,RFN5M,
@@ -10594,6 +11079,8 @@ gbif,1033486,Postelichus productus,S2VFY,same
 col,S3GYK,Physopleurella mundula,S3GYK,
 gbif,2020906,Physopleurella mundula,S3GYK,same
 gbif,2020907,Cardiastethus mundulus,S3GYK,COL synonym
+gbif,1045891,Platydema subfascia,S3SYK,same
+literature,Alphitophagus subfascia,Alphitophagus subfascia,S3SYK,GBIF synonym
 col,S4WSQ,Proutista,S4WSQ,
 gbif,2062851,Proutista,S4WSQ,same
 col,S573Z,Purohita,S573Z,
@@ -10655,6 +11142,8 @@ col,SCPSQ,Pseudococcus,SCPSQ,
 gbif,2081087,Pseudococcus,SCPSQ,same
 col,SGZ9G,Psylliodes brettinghami,SGZ9G,
 gbif,4731403,Psylliodes brettinghami,SGZ9G,same
+gbif,1048471,Psylliodes chrysocephalus,SGZB3,same
+literature,Chrysomela chrysocephala,Chrysomela chrysocephala,SGZB3,GBIF synonym
 col,SHJ7K,Radionaspis,SHJ7K,
 col,SJ3KW,Raivuna,SJ3KW,
 gbif,2052552,Raivuna,SJ3KW,same
@@ -10723,12 +11212,16 @@ col,SX8CW,Scymnus uncinatus,SX8CW,
 literature,Scymnus uncinus,Scymnus uncinus,SX8CW,spelling variant
 col,SXY4Z,Sphaeroderma,SXY4Z,
 col,SZYQ6,Semelaspidus,SZYQ6,
+gbif,1095652,Stegobium paniceum,T4GBT,same
+literature,Dermestes paniceus,Dermestes paniceus,T4GBT,GBIF synonym
 col,T4GG5,Szekessya,T4GG5,
 gbif,4723385,Szekessya,T4GG5,same
 col,T4JCR,Thripidae,T4JCR,
 gbif,4387,Thripidae,T4JCR,same
 col,T4SB7,Stelidota,T4SB7,
 gbif,1043977,Stelidota,T4SB7,same
+gbif,6997654,Stricticollis tobias,T6H8B,COL synonym
+literature,Anthicus tobias,Anthicus tobias,T6H8B,GBIF synonym
 col,T6LL7,Stenocranus,T6LL7,
 gbif,2053208,Stenocranus,T6LL7,same
 col,T6M9J,Tetrarthria,T6M9J,
@@ -10780,6 +11273,8 @@ col,TFPL4,Stilicopsis setigera,TFPL4,
 gbif,6131581,Stilicopsis setigera,TFPL4,same
 col,TFPY7,Toya,TFPY7,
 gbif,2054427,Toya,TFPY7,same
+gbif,9523136,Trachyaphthona lifuana,TGBT7,same
+literature,Altica lifuana,Altica lifuana,TGBT7,GBIF synonym
 col,TGRFS,Telsimia nitida,TGRFS,
 gbif,1043198,Telsimia nitida,TGRFS,same
 col,THB96,Thorictodes heydeni,THB96,
@@ -10804,6 +11299,8 @@ col,TLNGJ,Tribolium castaneum,TLNGJ,
 gbif,4990338,Tribolium castaneum,TLNGJ,same
 col,TLNLD,Tribolium ferrugineum,TLNLD,
 gbif,9172186,Tribolium ferrugineum,TLNLD,same
+gbif,1045506,Typhaea stercorea,TNQBQ,same
+literature,Dermestes fumata,Dermestes fumata,TNQBQ,GBIF synonym
 col,TNWQJ,Trionymus,TNWQJ,
 gbif,2096452,Trionymus,TNWQJ,same
 col,TPXL6,Xyloborus nudus,TPXL6,
@@ -10845,6 +11342,7 @@ gbif,2092999,Saccharicoccus,TYX7X,same
 col,TYX9S,Saccharodite,TYX9S,
 gbif,2062641,Saccharodite,TYX9S,same
 gbif,2062889,Muiralyricen,TYX9S,COL synonym
+gbif,11815545,Brachypeplus planus,TZ8C8,COL synonym
 col,V2TG2,Gigantococcus pattersoni,V2TG2,
 gbif,2080570,Icerya pattersoni,V2TG2,COL synonym
 col,V34C5,Hylaeus chuukensis,V34C5,
@@ -10864,6 +11362,7 @@ inat,Strongylium cultellatum,Strongylium cultellatum,V4R65,same
 col,V56DK,Phytorus lineolatus,V56DK,
 gbif,11195226,Phytorus lineolatus,V56DK,same
 inat,Phytorus lineolatus,Phytorus lineolatus,V56DK,same
+gbif,2015858,Ogaphora bizonalis,V572F,COL synonym
 col,V5B2X,Sogatellana geranor,V5B2X,
 gbif,4777381,Sogatella geranor,V5B2X,COL synonym
 literature,Chloriona geranor,Chloriona geranor,V5B2X,COL synonym
@@ -10888,16 +11387,22 @@ col,V7F6R,Ceratocranus agamopsyche,V7F6R,
 gbif,2056672,Stenocranus agamopsyche,V7F6R,COL synonym
 literature,Stenocranus philippinensis,Stenocranus philippinensis,V7F6R,COL synonym
 col,V7G4H,Ceratocranus,V7G4H,
+gbif,10688326,Catopsilia pomona pomona,V8XXQ,same
 col,V9JFY,Gonocephalum incisum,V9JFY,
 gbif,11179697,Gonocephalum incisum,V9JFY,same
 col,V9JG4,Micropelecotoides fulvosericans,V9JG4,
 gbif,11167411,Micropelecotoides fulvosericans,V9JG4,same
+gbif,7526471,Meimuna boninensis,V9XTQ,COL synonym
+literature,Cosmopsaltria ogasawarensis,Cosmopsaltria ogasawarensis,V9XTQ,GBIF synonym
+literature,Diceropyga boninensis,Diceropyga boninensis,V9XTQ,GBIF synonym
 col,VBHD6,Camponotus chloroticus irritans,VBHD6,
 gbif,11130982,Camponotus chloroticus irritans,VBHD6,same
 col,VBL33,Bythoscopus viridofiavidus,VBL33,
 gbif,11262595,Bythoscopus viridofiavidus,VBL33,same
 col,VBW9K,Psyllobora luctuosa,VBW9K,
 literature,Psyllobora luctuosa,Psyllobora luctuosa,VBW9K,same
+gbif,10331210,Argopistes biplagiatus,VCHTX,same
+literature,Argopistes biplagwtus,Argopistes biplagwtus,VCHTX,spelling variant
 col,VCX6C,Paranerius lineolatus,VCX6C,
 gbif,1675471,Telostylinus lineolatus,VCX6C,COL synonym
 inat,Telostylinus lineolatus,Telostylinus lineolatus,VCX6C,COL synonym
@@ -10906,6 +11411,7 @@ literature,Telostylinus luridus,Telostylinus luridus,VCZ9H,COL synonym
 col,VD2MV,Paranerius gressitti,VD2MV,
 gbif,1675482,Telostylinus gressitti,VD2MV,COL synonym
 inat,Telostylinus gressitti,Telostylinus gressitti,VD2MV,COL synonym
+gbif,8795195,Bedunia insularis,VDZKZ,same
 col,VDZSL,Botocudo longicornis,VDZSL,
 gbif,8864261,Botocudo longicornis,VDZSL,same
 col,VDZXJ,Horridipamera nietneri,VDZXJ,
@@ -10967,6 +11473,8 @@ col,VHNYB,Icerya samaraia,VHNYB,
 gbif,2079883,Steatococcus samaraius,VHNYB,COL synonym
 gbif,9582106,Icerya samaraia,VHNYB,same
 inat,Icerya samaraia,Icerya samaraia,VHNYB,same
+gbif,4449463,Nemozoma elongatum,VJ348,same
+literature,Dermestes elongatus,Dermestes elongatus,VJ348,GBIF synonym
 col,VJ6Y9,Everes,VJ6Y9,
 gbif,4709100,Everes,VJ6Y9,same
 col,VJ7CN,Entephria,VJ7CN,
@@ -11039,6 +11547,7 @@ gbif,11215990,Jamitettix guamensis,VSFGD,COL synonym
 gbif,2039213,Bhatia guamensis,VSFGD,COL synonym
 col,VSFK8,Koreanopsis metcalfi,VSFK8,
 gbif,2039209,Bhatia metcalfi,VSFK8,COL synonym
+gbif,1638279,Crataerina hirundinis,VSH5K,COL synonym
 inat,Allomerus auropunctatus,Allomerus auropunctatus,name-25,
 inat,Callirhipis onoi,Callirhipis onoi,name-67,
 inat,Coptosoma xanthogramma,Coptosoma xanthogramma,name-114,

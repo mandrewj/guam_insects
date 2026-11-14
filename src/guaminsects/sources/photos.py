@@ -399,3 +399,54 @@ def refresh(ds, taxa: list[str], clients: dict, today: str, make_thumbs: bool = 
         stats |= {f"thumbs_{k}": v for k, v in thumbnails(ds, clients["bytes"]).items()}
     return stats
 
+
+
+# --- living organisms first ----------------------------------------------------------------------
+
+def tier(photo_id: str) -> int:
+    """0: an iNaturalist photo (a live organism in the field); 1: Wikimedia Commons (mixed:
+    often good, sometimes a plate); 2: a GBIF specimen image (museum drawers, slides, labels,
+    colour cards)."""
+    return 0 if photo_id.startswith("inat:") else 1 if photo_id.startswith("commons:") else 2
+
+
+def prefer_living(ds, inat_client, bytes_client, today: str, media: Path = THUMB_DIR,
+                  progress=print) -> dict[str, int]:
+    """Put living photos first. For a taxon whose best photo is a specimen image, iNaturalist's
+    taxon photos (through its iNaturalist link) are added ahead of it; then every taxon's own
+    photos are ordered by tier (stable inside a tier), borrowed photos are chosen again, and
+    the card thumbnails that changed are made."""
+    own: dict[str, list[dict]] = {}
+    for p in ds["photos"]:
+        if p["role"] == "own":
+            own.setdefault(p["taxon_id"], []).append(p)
+    for v in own.values():
+        v.sort(key=lambda p: int(p["position"]))
+    stats = {"taxa": len(own), "reordered": 0, "replaced": 0, "still_specimens": 0, "thumbs_made": 0}
+    needy = [t for t, v in own.items() if min(tier(p["photo_id"]) for p in v) == 2]
+    got = inat_candidates(ds, needy, inat_client)
+    progress(f"  {len(needy)} taxa with only specimen images; iNaturalist photos for {len(got)}")
+    fresh = {t: own_rows({t: lst}, today) for t, lst in got.items()}
+    for t, rows in fresh.items():
+        if rows:
+            have = {p["photo_id"] for p in rows}
+            own[t] = rows + [p for p in own[t] if p["photo_id"] not in have]
+            stats["replaced"] += 1
+    ds["photos"] = [p for p in ds["photos"] if p["role"] != "own" or p["taxon_id"] not in own]
+    for t, v in own.items():
+        before = v[0]["photo_id"]
+        v.sort(key=lambda p: tier(p["photo_id"]))          # stable: iNaturalist, Commons, GBIF
+        stats["reordered"] += v[0]["photo_id"] != before and t not in fresh
+        stats["still_specimens"] += tier(v[0]["photo_id"]) == 2
+        for i, p in enumerate(v):
+            p["position"] = str(i)
+            if i:
+                p["thumb"] = ""                              # only a card photo has a thumbnail file
+        ds["photos"].extend(v)
+    inherit(ds)
+    stats["thumbs_made"] = thumbnails(ds, bytes_client, media)["made"]
+    used = {p["thumb"] for p in ds["photos"] if p.get("thumb")}
+    for f in media.glob("*.webp"):
+        if f.name not in used:
+            f.unlink()
+    return stats

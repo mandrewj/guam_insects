@@ -9,11 +9,12 @@ delete). `bugguide` reads ../entobase's database read-only and nothing else (CLA
 from . import config, ids
 from .http import ApiClient
 from .sources import bugguide, photos, wikidata, wikipedia
+from .sources import inat as inatapi
 from .sources import col as colapi
 from .sources import gbif as gbifapi
 
-WHAT = ["wikidata", "wikipedia", "bugguide", "photos", "col"]
-ORDER = ["wikidata", "bugguide", "wikipedia", "photos", "col"]       # wikipedia needs wikidata's link
+WHAT = ["wikidata", "inat", "wikipedia", "bugguide", "photos", "living", "col"]
+ORDER = ["wikidata", "inat", "bugguide", "wikipedia", "photos", "col"]   # wikipedia and photos need the links
 
 
 def pick(ds, taxa: str | list[str]) -> list[str]:
@@ -58,6 +59,70 @@ def col_info(ds, taxa: list[str], clb, today: str, progress=print) -> dict[str, 
     return {"asked": len(mine), "info": n}
 
 
+SEARCH_RANKS = {"Species": "species", "Subspecies": "subspecies", "Genus": "genus",
+                "Family": "family", "Order": "order"}
+
+
+def inat_refresh(ds, taxa: list[str], client, today: str, progress=print) -> dict[str, int]:
+    """Link each taxon to iNaturalist (an id from Wikidata or an earlier match, else a search
+    for the exact name) and take iNaturalist's English name as the common name; the old common
+    name moves to other_common_names. A name is taken only when iNaturalist's own taxon name
+    agrees with ours (an id from Wikidata that points at another name is marked `review`)."""
+    by_id = {r["id"]: r for r in ds["taxa"] if r["status"] != "synonym"}
+    mine = [t for t in taxa if t in by_id]
+    links: dict[str, dict] = {}
+    for r in ds["links"]:
+        if r["system"] == "inaturalist" and r["taxon_id"] in by_id and r["value"].isdigit():
+            if r["taxon_id"] not in links or r["confidence"] == "high":
+                links[r["taxon_id"]] = r
+    stats = {"asked": len(mine), "linked_before": sum(t in links for t in mine), "searched": 0,
+             "new_links": 0, "common_names": 0, "mismatch": 0}
+    for n, t in enumerate(mine, 1):
+        row = by_id[t]
+        if t in links or row["rank"] not in SEARCH_RANKS or row["status"] == "morphospecies":
+            continue
+        stats["searched"] += 1
+        found = inatapi.search(client, row["name"], SEARCH_RANKS[row["rank"]])
+        if found:
+            link = {"taxon_id": t, "system": "inaturalist", "value": str(found["id"]),
+                    "label": found["common"] or "", "confidence": "high",
+                    "note": "matched by name (iNaturalist)", "added_by": "refresh inat",
+                    "added": today}
+            ds["links"].append(link)
+            links[t] = link
+            stats["new_links"] += 1
+        if n % 100 == 0:
+            progress(f"  iNaturalist search: {n}/{len(mine)} ({stats['new_links']} new links)")
+    ids_ = sorted({int(links[t]["value"]) for t in mine if t in links})
+    info = inatapi.taxa_by_ids(client, ids_)
+    progress(f"  iNaturalist taxa read: {len(info)}")
+    for t in mine:
+        link = links.get(t)
+        got = info.get(int(link["value"])) if link else None
+        if not got:
+            continue
+        row = by_id[t]
+        if (got["name"] or "").lower() != row["name"].lower():
+            stats["mismatch"] += 1
+            link["confidence"] = "review"
+            link["note"] = f"iNaturalist names it {got['name']}"
+            continue
+        if got["common"]:
+            link["label"] = got["common"]
+            old = row["common_name"]
+            if old != got["common"]:
+                if old and old.lower() != got["common"].lower():
+                    others = [x for x in row["other_common_names"].split(" | ") if x]
+                    if old not in others:
+                        row["other_common_names"] = " | ".join(sorted(others + [old]))
+                row["common_name"] = got["common"]
+                row["other_common_names"] = " | ".join(
+                    x for x in row["other_common_names"].split(" | ")
+                    if x and x.lower() != got["common"].lower())
+                stats["common_names"] += 1
+    return stats
+
+
 def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:
     """One refresh over these taxa; returns its statistics."""
     if what == "wikidata":
@@ -66,6 +131,12 @@ def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:
             return wikidata.refresh(ds, taxa, http, today, progress)
         finally:
             http.close()
+    if what == "inat":
+        client = ApiClient(inatapi.INAT, 1.0)
+        try:
+            return inat_refresh(ds, taxa, client, today, progress)
+        finally:
+            client.close()
     if what == "wikipedia":
         client = ApiClient(wikipedia.ENWIKI, 1.0)
         try:
@@ -79,6 +150,13 @@ def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:
                    "gbif": ApiClient(gbifapi.GBIF, 0.34), "bytes": ApiClient("", 0.5)}
         try:
             return photos.refresh(ds, taxa, clients, today, progress=progress)
+        finally:
+            for c in clients.values():
+                c.close()
+    if what == "living":
+        clients = {"inat": ApiClient(photos.INAT, 1.0), "bytes": ApiClient("", 0.5)}
+        try:
+            return photos.prefer_living(ds, clients["inat"], clients["bytes"], today, progress=progress)
         finally:
             for c in clients.values():
                 c.close()

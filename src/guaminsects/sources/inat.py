@@ -46,3 +46,26 @@ def place_counts(client, place_id: int) -> list[dict]:
         if len(out) >= d.get("total_results", 0) or not d.get("results"):
             return out
         page += 1
+
+
+def taxa_by_ids(client, inat_ids: list[int]) -> dict[int, dict]:
+    """iNaturalist taxa by id, 30 a request: {id: {name, rank, common, active}}."""
+    out: dict[int, dict] = {}
+    for i in range(0, len(inat_ids), 30):
+        d = patient_get(client, "/taxa/" + ",".join(map(str, inat_ids[i:i + 30])), {})
+        for t in d.get("results", []):
+            out[t["id"]] = {"name": t.get("name"), "rank": t.get("rank"),
+                            "common": t.get("preferred_common_name"),
+                            "active": t.get("is_active", True)}
+    return out
+
+
+def search(client, name: str, rank: str) -> dict | None:
+    """The active iNaturalist taxon with exactly this name and rank, or None."""
+    d = patient_get(client, "/taxa", {"q": name, "rank": rank.lower(), "is_active": "true",
+                                      "per_page": 10})
+    for t in d.get("results", []):
+        if (t.get("name") or "").lower() == name.lower() and (t.get("rank") or "") == rank.lower():
+            return {"id": t["id"], "name": t["name"], "rank": t["rank"],
+                    "common": t.get("preferred_common_name")}
+    return None

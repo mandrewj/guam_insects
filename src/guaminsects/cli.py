@@ -259,6 +259,28 @@ def cmd_lit(args) -> int:
         return 1
 
 
+def cmd_plazi(args) -> int:
+    """Clean the Plazi documents: real authors out of the citations (no uploader names),
+    misspelt surnames fixed, duplicate documents merged (their rows filed under the one kept)."""
+    from . import dataset, plazi
+
+    ds = dataset.load()
+    print(plazi.clean(ds))
+    dups = plazi.find_duplicates(ds)
+    for drop, keep, r in dups:
+        print(f"  {drop} -> {keep} (titles {r:.0%} alike)")
+        if not args.dry_run:
+            plazi.merge(ds, drop, keep)
+    problems = dataset.check(ds)
+    if problems:
+        print("\n".join(problems.items[:20]), file=sys.stderr)
+        return 1
+    if not args.dry_run:
+        dataset.write(ds)
+    print(f"{len(dups)} duplicate documents" + (" (dry run)" if args.dry_run else " merged"))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="guaminsects", description=__doc__.split("\n\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -290,9 +312,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--file", help="a staged sync file (default: the latest)")
     p.set_defaults(func=cmd_sync)
     p = sub.add_parser("refresh", help=cmd_refresh.__doc__)
-    p.add_argument("what", choices=["photos", "wikipedia", "wikidata", "bugguide", "col"])
+    p.add_argument("what", choices=["inat", "living", "photos", "wikipedia", "wikidata", "bugguide", "col"])
     p.add_argument("--taxa", nargs="+", default=["new"], help="new (default), all, or taxon ids")
     p.set_defaults(func=cmd_refresh)
+    p = sub.add_parser("plazi", help=cmd_plazi.__doc__)
+    p.add_argument("--dry-run", action="store_true")
+    p.set_defaults(func=cmd_plazi)
     p = sub.add_parser("lit", help=cmd_lit.__doc__)
     p.add_argument("what", choices=["add", "cite", "pages", "scan", "apply"])
     p.add_argument("target", help="add: a directory of PDFs; cite|pages|scan: a doc_id; apply: an apply file")
