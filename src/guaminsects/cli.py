@@ -187,6 +187,34 @@ def cmd_documents(args) -> int:
     return 0
 
 
+def cmd_migrate(args) -> int:
+    """One time (refactor Phase 1): the database -> dataset/ (CSV tables, in git)."""
+    from . import migrate
+
+    rep = migrate.migrate(db.connect(), copy_media=not args.no_media)
+    for k, v in rep.items():
+        print(f"{k}: {v}")
+    return 0
+
+
+def cmd_dataset(args) -> int:
+    """dataset check | readme: validate dataset/ (every problem at once), or write its README."""
+    from . import dataset, schema
+
+    if args.what == "readme":
+        dataset.write_text(dataset.DATASET_DIR / "README.md", schema.readme(), bom=False)
+        print("dataset/README.md written")
+        return 0
+    ds = dataset.load()
+    problems = dataset.check(ds)
+    for line in problems.items[:200]:
+        print(line)
+    n = len(problems.items)
+    print(f"dataset: {len(ds['taxa'])} taxa rows, {n} problem{'s' if n != 1 else ''}"
+          + (" (first 200 shown)" if n > 200 else ""))
+    return 1 if n else 0
+
+
 def cmd_build(args) -> int:
     """Write the static site, site.nosync/public: opened locally and deployed as it is."""
     from . import site
@@ -454,6 +482,12 @@ def main(argv: list[str] | None = None) -> int:
     p.set_defaults(func=cmd_specimens)
     p = sub.add_parser("documents", help=cmd_documents.__doc__)
     p.set_defaults(func=cmd_documents)
+    p = sub.add_parser("migrate", help=cmd_migrate.__doc__)
+    p.add_argument("--no-media", action="store_true", help="do not copy thumbnails")
+    p.set_defaults(func=cmd_migrate)
+    p = sub.add_parser("dataset", help=cmd_dataset.__doc__)
+    p.add_argument("what", choices=["check", "readme"], nargs="?", default="check")
+    p.set_defaults(func=cmd_dataset)
     p = sub.add_parser("build", help=cmd_build.__doc__)
     p.set_defaults(func=cmd_build)
     p = sub.add_parser("serve", help=cmd_serve.__doc__)
