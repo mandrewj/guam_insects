@@ -297,7 +297,7 @@ The old pipeline is the tag `pipeline-v1`; `data.nosync/guam-pipeline-v1.sqlite`
 | `private.nosync/` | never synced or committed: API cache (`api/`), PDF text, staging files, the Phase 0 baseline |
 | `site.nosync/public/` | build output (never synced or committed) |
 | `data.nosync/` | the pipeline-v1 archive (`guam-pipeline-v1.sqlite`) |
-| `data/`, `reference/`, `starter/` | git-ignored leftovers of the old pipeline and the entobase snapshot |
+| `reference/`, `starter/` | git-ignored snapshots of entobase (read-only references) |
 
 Commands you will use: `uv run pytest -q`, `uvx ruff@0.14.0 check src tests ops`,
 `uv run python ops/check_site.py`, `uv run guaminsects dataset check`. Python's `urllib`

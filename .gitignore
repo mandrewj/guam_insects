@@ -1,5 +1,4 @@
 # Data and literature never go in git (CLAUDE.md rule 6). The repo is public.
-/data/
 /data.nosync/
 /pdfs/
 /literature/

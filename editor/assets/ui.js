@@ -16,7 +16,7 @@
   const DRAFT = "iog-editor-draft";
 
   const app = {
-    base: null, loaded: null, ops: [], st: null, sel: null, tab: "taxon", queue: "browse", q: "",
+    reviewDoc: null, base: null, loaded: null, ops: [], st: null, sel: null, tab: "taxon", queue: "browse", q: "",
     name: store.get("iog-editor-name") || "", search: new Map(),
     token: store.get("iog-editor-token") || store.get("iog-editor-token", true) || "",
     preset: store.get("iog-editor-preset") || "core", tableScope: "list", upl: -1,
@@ -224,6 +224,7 @@
     renderList();
     if (app.tab === "taxon") renderTaxon();
     if (app.tab === "table") renderTable();
+    if (app.tab === "review") renderReview();
     if (app.tab === "changes") renderChanges();
   }
   function renderHeader() {
@@ -283,7 +284,7 @@
   function setTab(t) {
     app.tab = t;
     for (const b of document.querySelectorAll(".tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === t));
-    for (const k of ["taxon", "table", "changes"]) $("#tab-" + k).hidden = k !== t;
+    for (const k of ["taxon", "table", "review", "changes"]) $("#tab-" + k).hidden = k !== t;
     render();
   }
 
@@ -707,6 +708,69 @@
       if (k.key === "Escape") { k.preventDefault(); finish(false); }
     });
     input.addEventListener("blur", () => finish(false));
+  }
+
+  // ---- review by document: confirm everything a tool read from one document, after a spot check
+  function machineByDoc() {
+    const st = app.st, by = new Map();
+    const get = d => { if (!by.has(d)) by.set(d, { lit: 0, notes: 0, hosts: 0, nat: 0, taxa: new Set() }); return by.get(d); };
+    for (const [table, key] of [["literature", "lit"], ["notes", "notes"], ["hosts", "hosts"]]) {
+      for (const r of st.t[table]) if (r.review === "machine" && r.doc_id) { const e = get(r.doc_id); e[key]++; e.taxa.add(st.shownId(r.taxon_id)); }
+    }
+    for (const id of st.order) {
+      const r = st.d.get(id);
+      if (r.nativity_review === "machine" && r.nativity_source && st.lookup.documents.has(r.nativity_source)) get(r.nativity_source).nat++;
+    }
+    return by;
+  }
+  function sample(rows, n) {              // evenly spread, so it is not just the first pages
+    if (rows.length <= n) return rows;
+    return Array.from({ length: n }, (_, i) => rows[Math.floor(i * rows.length / n)]);
+  }
+  function renderReview() {
+    const el = $("#tab-review");
+    if (!app.st) return;
+    const st = app.st, by = machineByDoc();
+    const docs = [...by.entries()].sort((a, b) => (b[1].lit + b[1].notes + b[1].hosts) - (a[1].lit + a[1].notes + a[1].hosts));
+    if (app.reviewDoc && !by.has(app.reviewDoc)) app.reviewDoc = null;
+    const doc = app.reviewDoc;
+    const name = id => { const r = st.r(st.shownId(id)); return r ? sci(r.rank, r.name) : esc(id); };
+    let html = '<h1>Review by document</h1><p class="muted">Everything a tool read from a document is <b>machine-read</b> until someone confirms it. ' +
+      "Spot-check a document's rows below (they are spread across it), then confirm it all in one step. Reject single wrong rows on the taxon's own page first.</p>";
+    html += '<div class="rv-docs">' + (docs.length ? '<table class="rv"><thead><tr><th>Document</th><th>Literature</th><th>Notes</th><th>Hosts</th><th>Nativity</th><th>Taxa</th></tr></thead><tbody>' +
+      docs.map(([d, e]) => `<tr class="${d === doc ? "sel" : ""}" data-doc="${esc(d)}"><td>${esc((st.lookup.documents.get(d) || {}).citation || d)}</td>` +
+        `<td>${e.lit}</td><td>${e.notes}</td><td>${e.hosts}</td><td>${e.nat}</td><td>${e.taxa.size}</td></tr>`).join("") + "</tbody></table>"
+      : '<p class="ok">Nothing is waiting for review.</p>') + "</div>";
+    if (doc) {
+      const e = by.get(doc);
+      const lit = st.t.literature.filter(r => r.doc_id === doc && r.review === "machine");
+      const notes = st.t.notes.filter(r => r.doc_id === doc && r.review === "machine");
+      html += `<h2>${esc((st.lookup.documents.get(doc) || {}).citation || doc)}</h2>` +
+        `<p>${e.lit} literature rows, ${e.notes} notes, ${e.hosts} host plants` + (e.nat ? `, ${e.nat} nativity values` : "") + ` on ${e.taxa.size} taxa.</p>`;
+      if (lit.length) {
+        html += "<h3>Literature rows (a spread of " + Math.min(12, lit.length) + ")</h3><ul class='plain small'>" + sample(lit, 12).map(r =>
+          `<li><a href="#/t/${esc(st.shownId(r.taxon_id))}" data-id="${esc(st.shownId(r.taxon_id))}">${name(r.taxon_id)}</a> <span class="muted">${esc(r.kind)}` +
+          (r.pages ? ", p. " + esc(r.pages.replace(/ \| /g, ", ")) : "") + (r.areas ? " · " + esc(r.areas) : "") + (r.islands ? " · " + esc(r.islands) : "") +
+          (r.status ? " · " + esc(r.status) : "") + (r.first_record_year ? " · " + esc(r.first_record_year) : "") + "</span></li>").join("") + "</ul>";
+      }
+      if (notes.length) {
+        html += "<h3>Notes (a spread of " + Math.min(8, notes.length) + ")</h3><ul class='plain small'>" + sample(notes, 8).map(r =>
+          `<li><a href="#/t/${esc(st.shownId(r.taxon_id))}" data-id="${esc(st.shownId(r.taxon_id))}">${name(r.taxon_id)}</a>: ${esc(r.note)} <span class="muted">${esc(r.topic)}, p. ${esc(r.pages)}</span></li>`).join("") + "</ul>";
+      }
+      html += '<div class="rv-confirm"><label><input type="checkbox" id="rv-nat"' + (e.nat ? " checked" : " disabled") + '> also confirm the ' + e.nat + ' nativity values this document set</label>' +
+        `<p><button type="button" class="primary" id="rv-go">Confirm all ${e.lit + e.notes + e.hosts + (e.nat ? e.nat : 0)} machine-made rows from this document…</button></p></div>`;
+    }
+    el.innerHTML = html;
+    el.querySelectorAll("tr[data-doc]").forEach(tr => tr.addEventListener("click", () => { app.reviewDoc = tr.dataset.doc; renderReview(); }));
+    el.querySelectorAll("a[data-id]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); select(a.dataset.id, "taxon"); }));
+    const go = $("#rv-go");
+    if (go) go.addEventListener("click", () => {
+      if (!app.name) return askName();
+      const nat = $("#rv-nat").checked;
+      openForm({ title: "Confirm every machine-read row from this document?",
+        intro: "You have spot-checked it. The rows become <b>editor</b>-confirmed, credited to " + esc(app.name) + ". Nothing is removed; reject wrong rows first.",
+        submit: "Confirm all", onSubmit: () => { addOp("reviewDoc", { doc: app.reviewDoc, nativity: nat }); } });
+    });
   }
 
   // ---- changes

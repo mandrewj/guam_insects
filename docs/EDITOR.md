@@ -41,6 +41,10 @@ repository can use it; what they commit rebuilds and redeploys the site.
 - **Table**: the taxa columns (or a preset), virtualised (6,600 rows scroll smoothly). White
   cells are editable (double-click, Enter saves); grey ones are computed from the other tables.
   A list cell is typed in its format (below) and becomes the same operations the tools make.
+- **Review** (tab): every document with machine-read rows, with counts of literature rows, notes,
+  host plants and nativity values. Pick one, spot-check the rows shown (spread across the
+  document; each links to its taxon), then **Confirm all** (optionally with the nativity values it
+  set). It is one operation (`reviewDoc`). Reject wrong rows on the taxon's page first.
 - **Changes** lists every operation with its author and an Undo. They are kept in the
   browser (localStorage) until committed, and offered again after a reload.
 - **Commit** warns that it triggers a rebuild, then:
@@ -79,6 +83,7 @@ Rows that point at a synonym keep pointing at it after a merge; the build follow
 | hide / show | `hidden` (+ reason) on it and everything under it |
 | confirm | `verified`, `verified_by`, `verified_date`, `verification_source` |
 | review | literature / notes / hosts rows `review = editor` (+ `reviewed_by`, `reviewed`) |
+| review a document | the same for every machine-made row from one document (and, if ticked, the nativity values it set) |
 | reject | the literature / notes / hosts row is deleted |
 | clear flag | `flag` emptied |
 | place | an unplaced name becomes a taxa.csv row; its line leaves review/unplaced.csv |

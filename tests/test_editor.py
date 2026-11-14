@@ -317,6 +317,8 @@ def test_ui_loads_and_edits_from_files(browser, world):
     pg.click('button[data-act="review"][data-table="literature"]')
     pg.wait_for_selector("text=checked")
     assert pg.inner_text("#n-changes") == "2"
+    pg.click('.tabs button[data-tab="review"]')
+    assert "A paper" in pg.inner_text("#tab-review") or "A. Author" in pg.inner_text("#tab-review")
     pg.click("#changes-btn")
     assert "Saipan present" in pg.inner_text("#tab-changes")
     pg.click('.tabs button[data-tab="table"]')
@@ -353,3 +355,29 @@ def test_local_server_refuses_a_foreign_host_and_cleans_the_author(clone):
     out = editor.commit({DIST: text}, "m", "Eve <evil@x.org>\nAuthor: x", base)
     assert out["ok"], out
     assert git(remote, "log", "-1", "--format=%an", "main") == "Eve evil@x.orgAuthor: x"
+
+
+def test_confirm_a_whole_document(page, world, tmp_path):
+    ds = dataset.load(world)
+    ds["hosts"] = [{"taxon_id": "ORGIG", "host": "coconut palm", "doc_id": "d1", "pages": "4", "review": "machine"}]
+    gigas = next(r for r in ds["taxa"] if r["id"] == "ORGIG")
+    gigas.update(nativity="introduced", nativity_source="d1", nativity_review="machine")
+    dataset.write(ds, world)
+    texts = texts_of(world)
+    out = run(page, texts, [{"type": "reviewDoc", "doc": "d1", "nativity": True},
+                            {"type": "reviewDoc", "doc": "d1"}])
+    assert out["errors"][0] is None and "nothing machine-made" in out["errors"][1]
+    new = tmp_path / "after"
+    new.mkdir()
+    for rel, text in {**texts, **out["files"]}.items():
+        if text is not None:
+            (new / rel.removeprefix("dataset/")).parent.mkdir(parents=True, exist_ok=True)
+            (new / rel.removeprefix("dataset/")).write_text(text, encoding="utf-8")
+    after = dataset.load(new)
+    assert dataset.check(after).items == []
+    assert {r["review"] for r in after["literature"] + after["notes"] + after["hosts"]} == {"editor"}
+    assert after["literature"][0]["reviewed_by"] == "T. Editor"
+    assert next(r for r in after["taxa"] if r["id"] == "ORGIG")["nativity_review"] == "editor"
+    # without the box ticked, a nativity value stays machine
+    only = run(page, texts, [{"type": "reviewDoc", "doc": "d1"}])
+    assert "dataset/taxa.csv" not in only["files"]          # no taxon row changed

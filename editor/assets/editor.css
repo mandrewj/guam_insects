@@ -158,3 +158,11 @@ dialog::backdrop { background: rgba(15, 30, 45, .45); }
   .facts { grid-template-columns: 1fr; }
   .facts dt { margin-top: 4px; }
 }
+
+/* review by document */
+table.rv { border-collapse: collapse; width: 100%; font-size: 13px; }
+table.rv th, table.rv td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+table.rv td:nth-child(n+2), table.rv th:nth-child(n+2) { text-align: right; width: 70px; }
+table.rv tbody tr { cursor: pointer; }
+table.rv tbody tr:hover, table.rv tr.sel { background: var(--hover, rgba(0, 0, 0, .05)); }
+.rv-confirm { margin-top: 16px; }

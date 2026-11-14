@@ -631,6 +631,32 @@
       need(n, "nothing machine-made to review there");
       st.stamp(op.id, op);
     },
+    // Confirm everything a tool read from one document (literature, notes, host plants, and
+    // with op.nativity the nativity values it set), after the editor has spot-checked it.
+    reviewDoc(st, op) {
+      need(st.lookup.documents.has(op.doc), `no document ${op.doc}`);
+      let n = 0;
+      for (const table of ["literature", "notes", "hosts"]) {
+        st.t[table] = st.t[table].map(r => {
+          if (r.doc_id !== op.doc || r.review !== "machine") return r;
+          n++;
+          const out = Object.assign({}, r, { review: "editor" });
+          if ("reviewed_by" in r) Object.assign(out, { reviewed_by: op.by, reviewed: op.date });
+          return out;
+        });
+      }
+      if (op.nativity) {
+        for (const id of st.order) {
+          const r = st.d.get(id);
+          if (r.nativity_source === op.doc && r.nativity_review === "machine") {
+            st.setCell(id, "nativity_review", "editor");
+            st.stamp(id, op);
+            n++;
+          }
+        }
+      }
+      need(n, "nothing machine-made from that document");
+    },
     reject(st, op) {
       need(["literature", "notes", "hosts"].includes(op.table), "reject literature, notes or hosts");
       const before = st.t[op.table].length;
@@ -816,6 +842,7 @@
       case "link": return `${who}: link ${op.label ? op.label + " " : ""}${op.url}`;
       case "unlink": return `${who}: removed link ${op.url}`;
       case "place": return `${op.name} placed under ${n(op.parent)}` + (op.newId ? ` (${op.newId})` : "");
+      case "reviewDoc": return `${op.doc}: every machine-read row confirmed${op.nativity ? " (and its nativity values)" : ""}`;
       case "review": return `${who}: ${op.table}${op.doc ? " from " + op.doc : ""} reviewed`;
       case "reject": return `${who}: ${op.table} row${op.doc ? " from " + op.doc : ""} rejected`;
       default: return op.type;

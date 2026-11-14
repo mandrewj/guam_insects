@@ -38,9 +38,8 @@ is done, what is waiting, and what needs the user.
 - **Vercel secrets** in the GitHub repo: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
   (orgId / projectId in `site.nosync/public/.vercel/project.json`). Until then CI checks every
   push and stops with a notice instead of deploying.
-- **Delete the `data-snapshot` release** on GitHub (unused now): `gh release delete data-snapshot`.
-- **`data/raw/`** (459 MB of API answers) is still there; the tag and the dataset hold everything
-  needed. Delete it, or archive it (`tar` + `zstd`) into `private.nosync/`.
+- (Done) the old `data/` (API cache, PDF text copy, media) and the duplicate database are deleted; the
+  PDF text lives in `private.nosync/pdf_text/`; `data.nosync/guam-pipeline-v1.sqlite` is the archive.
 - **First live runs**, reviewed with you: `uv run guaminsects sync check` (look at the summary
   before `sync apply`), and `/ingest-literature` on one short fact sheet before a monograph.
 - A taxonomy editor session on the real data, from a browser, to see the new tools.
