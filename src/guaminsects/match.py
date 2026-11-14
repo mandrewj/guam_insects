@@ -285,6 +285,9 @@ class Matcher:
         elif above and above.get("key") and ids.valid(above["key"]):
             parent = self.ensure_col({"usage": above, "classification": d.get("classification"),
                                       "diagnostics": d.get("diagnostics")})
+        if parent is not None and schema.RANK_ORDER.get(self.taxa[parent]["rank"], 99) >= \
+                schema.RANK_ORDER.get(RANK_TITLE.get(rank, rank.title()), 0):
+            parent = None                       # a parent must rank above what goes under it
         if origin == "literature" and (parent is None or not plausible(name, rank)):
             self.add_unplaced(name, rank, source, key,
                               (note or "Not in the Catalogue of Life; its genus is not either")
@@ -418,7 +421,9 @@ def run_unplaced(ds, matcher: Matcher, wiki=None, limit: int | None = None, prog
     todo = [u for u in ds["unplaced"] if u["status"] != "excluded"
             and not u["note"].startswith(Matcher.TRIED)][:limit]
     out = {"asked": len(todo), "placed": 0, "merged": 0, "none": 0, "errors": 0}
-    gone: set[int] = set()
+    ident = lambda u: (u["name"], u["source"], u["key"])           # noqa: E731  (a write replaces the row objects)
+    gone: set[tuple] = set()
+    tried: dict[tuple, str] = {}
     for i, row in enumerate(todo, 1):
         n0 = len(ds["unplaced"])
         try:
@@ -430,15 +435,27 @@ def run_unplaced(ds, matcher: Matcher, wiki=None, limit: int | None = None, prog
         del ds["unplaced"][n0:]                      # rows a failed attempt listed along the way
         if got in ("placed", "merged"):
             out[got] += 1
-            gone.add(id(row))
+            gone.add(ident(row))
         elif got == "none":
             out["none"] += 1
-            row["note"] = f"{Matcher.TRIED} ({matcher.today})"
+            tried[ident(row)] = f"{Matcher.TRIED} ({matcher.today})"
         if i % every == 0:
-            ds["unplaced"] = [u for u in ds["unplaced"] if id(u) not in gone]
-            gone.clear()
+            _settle(ds, gone, tried)
             progress(f"  {i}/{len(todo)}: placed {out['placed']}, merged {out['merged']}, none {out['none']}")
             if checkpoint:
                 checkpoint(ds)
-    ds["unplaced"] = [u for u in ds["unplaced"] if id(u) not in gone]
+    _settle(ds, gone, tried)
     return out
+
+
+def _settle(ds, gone: set, tried: dict) -> None:
+    """Take the placed rows off the unplaced list and mark the ones that found no match."""
+    rows = []
+    for u in ds["unplaced"]:
+        k = (u["name"], u["source"], u["key"])
+        if k in gone:
+            continue
+        if k in tried:
+            u["note"] = tried[k]
+        rows.append(u)
+    ds["unplaced"] = rows

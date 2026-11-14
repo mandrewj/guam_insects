@@ -199,3 +199,25 @@ def test_unplaced_names_are_placed_from_the_backbone_or_wikipedia():
     assert m.place_unplaced(row("Oryctes nasicornis var"), Wiki()) == "merged"    # a Wikipedia redirect
     assert m.place_unplaced(row("Nothing here")) == "none"
     assert dataset.check(ds).items == []
+
+
+def test_a_parent_must_rank_above_the_new_taxon():
+    other = usage("OTHGN", "Otheria", "GENUS")
+    ds, m = matcher({"Newgenus": answer(other, mt="HIGHERRANK")})
+    assert m.resolve("Newgenus", "GENUS", "inat") is None          # COL matched a genus: not a parent for a genus
+    assert not any(r["name"] == "Newgenus" for r in ds["taxa"])
+
+
+def test_run_unplaced_survives_the_dataset_being_rewritten(tmp_path):
+    """A checkpoint rewrites the row objects; placed rows must still leave the list."""
+    ds, m = matcher({})
+    m.gbif = FakeGbifBackbone({"Oryctes sagittarius": bb("Oryctes sagittarius", 4),
+                               "Oryctes boas": bb("Oryctes boas", 5)})
+    ds["unplaced"] = [{"name": n, "rank": "Species", "source": "literature", "key": n, "status": "unplaced",
+                       "note": "", "records": ""} for n in ("Oryctes sagittarius", "Nothing here", "Oryctes boas")]
+    ds.root = tmp_path
+    stats = match.run_unplaced(ds, m, None, progress=lambda *_: None, every=1,
+                               checkpoint=lambda d: dataset.write(d, tmp_path))
+    assert stats["placed"] == 2 and stats["none"] == 1
+    assert [u["name"] for u in ds["unplaced"]] == ["Nothing here"]
+    assert ds["unplaced"][0]["note"].startswith(match.Matcher.TRIED)
