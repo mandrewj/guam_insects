@@ -52,6 +52,19 @@ def surname(authorship: str) -> str:
     return re.sub(r"[^a-z]", "", a.split()[-1]) if a.split() else ""
 
 
+def evidence_of(ds) -> dict[str, dict]:
+    """Per taxon id: how much is recorded (records, literature rows, own photos)."""
+    ev: dict[str, dict] = defaultdict(lambda: {"records": 0, "literature": 0, "photos": 0})
+    for r in ds["records"]:
+        ev[r["taxon_id"]]["records"] += int(r.get("records") or 0)
+    for r in ds["literature"]:
+        ev[r["taxon_id"]]["literature"] += 1
+    for r in ds["photos"]:
+        if r.get("role") == "own":
+            ev[r["taxon_id"]]["photos"] += 1
+    return ev
+
+
 def find(ds) -> list[dict]:
     taxa = [r for r in ds["taxa"] if r["status"] != "synonym" and not r.get("hidden")]
     by_id = {r["id"]: r for r in ds["taxa"]}
@@ -165,3 +178,212 @@ def find(ds) -> list[dict]:
 
     # higher names filed under two different parents
     return sorted(out, key=lambda r: (-r["score"], r["kind"], r["name_a"]))
+
+
+# ---------------------------------------------------------------------------------------
+# Evidence from the authorities, and the merge itself
+
+def authority(client, name: str, rank: str) -> dict | None:
+    """What the GBIF Backbone (which includes the Catalogue of Life) says of one name: its
+    status and, for a synonym, the accepted name. Exact name matches only."""
+    d = client.get_cached("/species/match", {"name": name, "rank": rank.upper(), "kingdom": "Animalia"})
+    if d.get("matchType") != "EXACT" or fold(d.get("canonicalName")) != fold(name):
+        return None
+    out = {"status": d.get("status", ""), "key": d.get("usageKey"), "accepted": name}
+    if d.get("synonym") or d.get("status") == "SYNONYM":
+        key = d.get("acceptedUsageKey")
+        if key:
+            out["accepted"] = client.get_cached(f"/species/{key}").get("canonicalName") or ""
+        else:
+            out["accepted"] = ""
+    return out
+
+
+def year(authorship: str) -> str:
+    m = re.search(r"\b(1[6-9]\d\d|20\d\d)\b", authorship or "")
+    return m.group(1) if m else ""
+
+
+# ---------------------------------------------------------------------------------------
+# Deciding and merging
+
+BY = "guaminsects dupes"
+GOOD = {"ACCEPTED"}
+
+
+def _norm_author(s: str) -> str:
+    return re.sub(r"[()\s.]", "", (s or "").lower())
+
+
+def _moved(a: dict, b: dict) -> bool:
+    return a["authorship"].startswith("(") != b["authorship"].startswith("(")
+
+
+def _gstat(e: dict | None) -> str:
+    g = (e or {}).get("gbif")
+    if not g:
+        return "none"
+    return "syn" if "SYNONYM" in g["status"] else g["status"].lower()
+
+
+def decide(rows: list[dict], by_id: dict, ev: dict, evidence: dict) -> tuple[list[dict], list[dict]]:
+    """Split the probable-duplicate pairs into merges (winner, loser, reason, uncertain) and
+    pairs kept apart (with the reason). Evidence, in the order the project trusts it: the
+    Catalogue of Life (in_col, a COL id), the GBIF Backbone's status and synonym links, and
+    iNaturalist's taxonomy; then the original author's parentheses (the later combination is
+    the current one), then how much is recorded about each."""
+
+    def link(a, b) -> str:
+        """Why these two names are one taxon, or '' (they may be two species)."""
+        ea, eb = ev[a["id"]], ev[b["id"]]
+        for x, y, e in ((a, b, ea), (b, a, eb)):
+            g = e.get("gbif")
+            if g and "SYNONYM" in g["status"] and fold(g["accepted"]) == fold(y["name"]):
+                return f"GBIF Backbone: {x['name']} is a synonym of {y['name']}"
+        if ea.get("inat") and ea.get("inat") == eb.get("inat"):
+            return f"both are iNaturalist taxon {ea['inat']}"
+        return ""
+
+    def votes(a, b) -> tuple[int, int, list[str]]:
+        sa = sb = 0
+        why = []
+        ea, eb = ev[a["id"]], ev[b["id"]]
+        if (a["in_col"] == "yes") != (b["in_col"] == "yes"):
+            if a["in_col"] == "yes":
+                sa += 1
+            else:
+                sb += 1
+            why.append("Catalogue of Life")
+        ga, gb = _gstat(ea), _gstat(eb)
+        if ga != gb and "accepted" in (ga, gb):
+            if ga == "accepted":
+                sa += 1
+            else:
+                sb += 1
+            why.append("GBIF Backbone")
+        if bool(ea.get("inat")) != bool(eb.get("inat")):
+            if ea.get("inat"):
+                sa += 1
+            else:
+                sb += 1
+            why.append("iNaturalist")
+        return sa, sb, why
+
+    def pick(a, b, kind) -> tuple[dict, dict, str, bool]:
+        sa, sb, why = votes(a, b)
+        basis = ", ".join(why)
+        if sa != sb:
+            w, lo = (a, b) if sa > sb else (b, a)
+            return w, lo, basis, False
+        pa, pb = a["authorship"].startswith("("), b["authorship"].startswith("(")
+        if kind in ("recombination",) and pa != pb:
+            w, lo = (a, b) if pa else (b, a)
+            return w, lo, "the parenthesised author marks the later combination", True
+        ea = evidence[a["id"]]["records"] + 5 * evidence[a["id"]]["literature"] + bool(a["authorship"]) * 3
+        eb = evidence[b["id"]]["records"] + 5 * evidence[b["id"]]["literature"] + bool(b["authorship"]) * 3
+        w, lo = (a, b) if ea >= eb else (b, a)
+        return w, lo, "the better documented name", True
+
+    # a name that pairs with more than one other cannot be settled by pairs
+    count: dict[str, int] = defaultdict(int)
+    for r in rows:
+        if r["kind"] == "recombination":
+            count[r["id_a"]] += 1
+            count[r["id_b"]] += 1
+
+    merges, kept = [], []
+    for r in rows:
+        a, b = by_id[r["id_a"]], by_id[r["id_b"]]
+        kind = r["kind"]
+        why = link(a, b)
+        ea, eb = ev[a["id"]], ev[b["id"]]
+        if kind == "two-families":
+            kept.append({**r, "decision": "kept apart",
+                         "reason": "a genus name used twice (homonyms), with different species under each"})
+            continue
+        if kind == "variant":
+            if ea.get("inat") and eb.get("inat") and ea["inat"] != eb["inat"]:
+                kept.append({**r, "decision": "kept apart", "reason": "iNaturalist has both as different taxa"})
+                continue
+            w, lo, basis, unsure = pick(a, b, kind)
+            merges.append({"winner": w["id"], "loser": lo["id"], "kind": kind, "uncertain": unsure,
+                           "reason": f"spelling variant; {basis}"})
+            continue
+        if kind in ("same-name", "same-key"):
+            w, lo, basis, unsure = pick(a, b, kind)
+            merges.append({"winner": w["id"], "loser": lo["id"], "kind": kind, "uncertain": unsure,
+                           "reason": f"the same name twice; {basis}"})
+            continue
+        # recombination: two genera, one epithet
+        if why:
+            w, lo, basis, unsure = pick(a, b, kind)
+            if "synonym of" in why:                      # the Backbone names the accepted one
+                loser_name = why.split(": ")[1].split(" is a synonym")[0]
+                w, lo = (b, a) if a["name"] == loser_name else (a, b)
+                basis = why
+                # COL (the project's backbone) accepting the synonym's side outweighs the Backbone
+                sa, sb, _ = votes(a, b)
+                col_side = a if a["in_col"] == "yes" and b["in_col"] != "yes" else (
+                    b if b["in_col"] == "yes" and a["in_col"] != "yes" else None)
+                if sa != sb:
+                    w, lo = (a, b) if sa > sb else (b, a)
+                    basis = f"{why}; resolved by majority of COL, GBIF and iNaturalist"
+                elif col_side is not None:               # a tie: the project's backbone is COL
+                    w, lo = (col_side, b if col_side is a else a)
+                    basis = f"{why}; the Catalogue of Life accepts {w['name']}"
+            merges.append({"winner": w["id"], "loser": lo["id"], "kind": kind, "uncertain": False,
+                           "reason": basis})
+            continue
+        same = _norm_author(a["authorship"]) == _norm_author(b["authorship"]) and a["authorship"]
+        if (_moved(a, b) and same and year(a["authorship"]) == year(b["authorship"]) != ""
+                and count[a["id"]] == 1 and count[b["id"]] == 1):
+            w, lo, basis, unsure = pick(a, b, kind)
+            merges.append({"winner": w["id"], "loser": lo["id"], "kind": kind, "uncertain": True,
+                           "reason": f"same author and year, one in parentheses; {basis}"})
+            continue
+        kept.append({**r, "decision": "kept apart",
+                     "reason": "same epithet in two genera but nothing says they are one species "
+                               "(often two species named in one paper)"})
+    return merges, kept
+
+
+def merge(ds, loser_id: str, winner_id: str, reason: str, uncertain: bool, today: str) -> bool:
+    """Make `loser` a name of `winner`: its other names, its sub-taxa and every row that points
+    at it follow (the build follows accepted_id). The winner keeps what a person set; it takes
+    from the loser only what it lacks. An uncertain choice leaves a note on the winner."""
+    taxa = {r["id"]: r for r in ds["taxa"]}
+    lo, w = taxa.get(loser_id), taxa.get(winner_id)
+    if not lo or not w or lo["status"] == "synonym" or w["status"] == "synonym" or lo["rank"] != w["rank"]:
+        return False
+    empty = ("", "unknown")
+    if w["nativity"] in empty and lo["nativity"] not in empty:
+        w["nativity"], w["nativity_source"], w["nativity_review"] = (
+            lo["nativity"], lo["nativity_source"], lo["nativity_review"])
+    if lo["verified"] and not w["verified"] and fold(lo["name"]) == fold(w["name"]):
+        for c in ("verified", "verified_by", "verified_date", "verification_source"):
+            w[c] = lo[c]
+    for c in ("iucn", "gbif_key"):
+        if not w[c] and lo[c]:
+            w[c] = lo[c]
+    names = [x for x in (lo["common_name"], *lo["other_common_names"].split(" | ")) if x]
+    if names and not w["common_name"]:
+        w["common_name"], names = names[0], names[1:]
+    others = [x for x in w["other_common_names"].split(" | ") if x]
+    for x in names:
+        if x.lower() not in {y.lower() for y in others + [w["common_name"]]}:
+            others.append(x)
+    w["other_common_names"] = " | ".join(sorted(others))
+    lo.update(status="synonym", accepted_id=winner_id, parent_id="", name_match="curated merge",
+              match_note=reason[:240], hidden="", hidden_reason="")
+    for r in ds["taxa"]:
+        if r["id"] != loser_id and r["accepted_id"] == loser_id:
+            r["accepted_id"] = winner_id
+        elif r["parent_id"] == loser_id and r["status"] != "synonym":
+            r["parent_id"] = winner_id
+    if uncertain:
+        add = f"Merged with {lo['name']}{' ' + lo['authorship'] if lo['authorship'] else ''} ({reason.split(';')[0]})."
+        w["note"] = (w["note"] + " " + add).strip() if add not in w["note"] else w["note"]
+    if not w["modified_by"] or not (w["modified_by"].lower().startswith(("guaminsects", "refresh", "build"))):
+        if not w["modified_by"]:
+            w["modified_by"], w["modified"] = BY, today
+    return True
