@@ -29,6 +29,22 @@
   <noscript><p>This reference needs JavaScript enabled.</p></noscript>
 </main>
 <footer class="site-footer"><div class="wrap" id="site-footer"></div></footer>
+<script>
+/* Vercel Web Analytics (cookie-free page views). Only on the deployed site: file:// and
+   localhost never load it. The routes are hashes (#/t/<id>), so each is sent as a page view. */
+(function () {
+  if (!/^https:$/.test(location.protocol) || /^(localhost|127\.)/.test(location.hostname)) return;
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  var s = document.createElement("script");
+  s.defer = true;
+  s.src = "/_vercel/insights/script.js";
+  s.setAttribute("data-disable-auto-track", "1");
+  document.head.appendChild(s);
+  function view() { window.va("pageview", { path: location.pathname + location.hash }); }
+  view();
+  window.addEventListener("hashchange", view);
+})();
+</script>
 <script src="assets/app.js"></script>
 <script src="data/index.js"></script>
 <script src="data/meta.js"></script>
