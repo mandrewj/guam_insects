@@ -28,7 +28,7 @@ BRANCH = "main"
 SITE_URL = "https://insects-of-guam.vercel.app/"
 # Tables the editor changes, and tables it only reads (for display and worklists).
 EDIT_TABLES = ["taxa", "distribution", "vouchers", "links", "literature", "notes", "hosts", "unplaced"]
-READ_TABLES = ["documents", "records"]
+READ_TABLES = ["documents", "records", "islands"]
 # The only files the editor reads and writes (paths relative to the repository root).
 FILES = ["dataset/" + schema.table(t).file for t in EDIT_TABLES + READ_TABLES]
 WRITABLE = ["dataset/" + schema.table(t).file for t in EDIT_TABLES]

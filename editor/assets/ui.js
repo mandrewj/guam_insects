@@ -226,6 +226,7 @@
     if (app.tab === "taxon") renderTaxon();
     if (app.tab === "table") renderTable();
     if (app.tab === "review") renderReview();
+    if (app.tab === "quick") renderQuick();
     if (app.tab === "changes") renderChanges();
   }
   function renderHeader() {
@@ -285,7 +286,7 @@
   function setTab(t) {
     app.tab = t;
     for (const b of document.querySelectorAll(".tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === t));
-    for (const k of ["taxon", "table", "review", "changes"]) $("#tab-" + k).hidden = k !== t;
+    for (const k of ["taxon", "table", "review", "quick", "changes"]) $("#tab-" + k).hidden = k !== t;
     render();
   }
 
@@ -750,7 +751,7 @@
     }
     return by;
   }
-  function sample(rows, n) {              // evenly spread, so it is not just the first pages
+  function sample(rows, n) {   // (kept for the quick views)              // evenly spread, so it is not just the first pages
     if (rows.length <= n) return rows;
     return Array.from({ length: n }, (_, i) => rows[Math.floor(i * rows.length / n)]);
   }
@@ -763,32 +764,72 @@
     const doc = app.reviewDoc;
     const name = id => { const r = st.r(st.shownId(id)); return r ? sci(r.rank, r.name) : esc(id); };
     let html = '<h1>Review by document</h1><p class="muted">Everything a tool read from a document is <b>machine-read</b> until someone confirms it. ' +
-      "Spot-check a document's rows below (they are spread across it), then confirm it all in one step. Reject single wrong rows on the taxon's own page first.</p>";
-    html += '<div class="rv-docs">' + (docs.length ? '<table class="rv"><thead><tr><th>Document</th><th>Literature</th><th>Notes</th><th>Hosts</th><th>Nativity</th><th>Taxa</th></tr></thead><tbody>' +
+      "Pick a document to see every machine-made row of it: confirm, correct (Edit) or reject each one, or confirm the whole document in one step after checking.</p>";
+    const tableHtml = '<div class="rv-docs">' + (docs.length ? '<table class="rv"><thead><tr><th>Document</th><th>Literature</th><th>Notes</th><th>Hosts</th><th>Nativity</th><th>Taxa</th></tr></thead><tbody>' +
       docs.map(([d, e]) => `<tr class="${d === doc ? "sel" : ""}" data-doc="${esc(d)}"><td>${esc((st.lookup.documents.get(d) || {}).citation || d)}</td>` +
         `<td>${e.lit}</td><td>${e.notes}</td><td>${e.hosts}</td><td>${e.nat}</td><td>${e.taxa.size}</td></tr>`).join("") + "</tbody></table>"
       : '<p class="ok">Nothing is waiting for review.</p>') + "</div>";
     if (doc) {
+      html += '<p><label>Document: <select id="rv-pick">' + docs.map(([d, e]) => `<option value="${esc(d)}"${d === doc ? " selected" : ""}>` +
+        esc(short((st.lookup.documents.get(d) || {}).citation || d)) + ` (${e.lit + e.notes + e.hosts + e.nat})</option>`).join("") + "</select></label> " +
+        '<button type="button" id="rv-back">All documents</button></p>';
+    } else html += tableHtml;
+    if (doc) {
       const e = by.get(doc);
-      const lit = st.t.literature.filter(r => r.doc_id === doc && r.review === "machine");
-      const notes = st.t.notes.filter(r => r.doc_id === doc && r.review === "machine");
       html += `<h2>${esc((st.lookup.documents.get(doc) || {}).citation || doc)}</h2>` +
-        `<p>${e.lit} literature rows, ${e.notes} notes, ${e.hosts} host plants` + (e.nat ? `, ${e.nat} nativity values` : "") + ` on ${e.taxa.size} taxa.</p>`;
-      if (lit.length) {
-        html += "<h3>Literature rows (a spread of " + Math.min(12, lit.length) + ")</h3><ul class='plain small'>" + sample(lit, 12).map(r =>
-          `<li><a href="#/t/${esc(st.shownId(r.taxon_id))}" data-id="${esc(st.shownId(r.taxon_id))}">${name(r.taxon_id)}</a> <span class="muted">${esc(r.kind)}` +
-          (r.pages ? ", p. " + esc(r.pages.replace(/ \| /g, ", ")) : "") + (r.areas ? " · " + esc(r.areas) : "") + (r.islands ? " · " + esc(r.islands) : "") +
-          (r.status ? " · " + esc(r.status) : "") + (r.first_record_year ? " · " + esc(r.first_record_year) : "") + "</span></li>").join("") + "</ul>";
-      }
-      if (notes.length) {
-        html += "<h3>Notes (a spread of " + Math.min(8, notes.length) + ")</h3><ul class='plain small'>" + sample(notes, 8).map(r =>
-          `<li><a href="#/t/${esc(st.shownId(r.taxon_id))}" data-id="${esc(st.shownId(r.taxon_id))}">${name(r.taxon_id)}</a>: ${esc(r.note)} <span class="muted">${esc(r.topic)}, p. ${esc(r.pages)}</span></li>`).join("") + "</ul>";
-      }
-      html += '<div class="rv-confirm"><label><input type="checkbox" id="rv-nat"' + (e.nat ? " checked" : " disabled") + '> also confirm the ' + e.nat + ' nativity values this document set</label>' +
-        `<p><button type="button" class="primary" id="rv-go">Confirm all ${e.lit + e.notes + e.hosts + (e.nat ? e.nat : 0)} machine-made rows from this document…</button></p></div>`;
+        `<p>${e.lit} literature rows, ${e.notes} notes, ${e.hosts} host plants` + (e.nat ? `, ${e.nat} nativity values` : "") + ` waiting, on ${e.taxa.size} taxa.</p>` +
+        '<div class="rv-confirm"><label><input type="checkbox" id="rv-nat"' + (e.nat ? " checked" : " disabled") + '> also confirm the ' + e.nat + ' nativity values this document set</label> ' +
+        `<button type="button" class="primary" id="rv-go">Confirm all ${e.lit + e.notes + e.hosts + e.nat} machine-made rows from this document…</button></div>`;
+      // every machine-made row of the document, to confirm, correct or reject one by one
+      const rows = [];
+      for (const r of st.t.literature) if (r.doc_id === doc && r.review === "machine") rows.push({ table: "literature", r });
+      for (const r of st.t.notes) if (r.doc_id === doc && r.review === "machine") rows.push({ table: "notes", r });
+      for (const r of st.t.hosts) if (r.doc_id === doc && r.review === "machine") rows.push({ table: "hosts", r });
+      const key = x => (st.r(st.shownId(x.r.taxon_id)) || {}).name || "";
+      rows.sort((p, q) => key(p).localeCompare(key(q)));
+      const q = (app.rvFilter || "").toLowerCase();
+      const shown = q ? rows.filter(x => (key(x) + " " + x.table + " " + Object.values(x.r).join(" ")).toLowerCase().includes(q)) : rows;
+      const PAGE = 25, pages = Math.max(1, Math.ceil(shown.length / PAGE));
+      app.rvPage = Math.min(app.rvPage || 0, pages - 1);
+      html += `<div class="rv-bar"><input id="rv-filter" type="search" placeholder="Filter these rows (taxon, page, island, text)" value="${esc(app.rvFilter || "")}">` +
+        `<span class="muted">${shown.length} rows · page ${app.rvPage + 1} of ${pages}</span> ` +
+        `<button type="button" id="rv-prev"${app.rvPage ? "" : " disabled"}>‹ Prev</button><button type="button" id="rv-next"${app.rvPage < pages - 1 ? "" : " disabled"}>Next ›</button></div>`;
+      html += '<table class="rv rv-rows"><thead><tr><th>Taxon</th><th>Row</th><th></th></tr></thead><tbody>' +
+        shown.slice(app.rvPage * PAGE, (app.rvPage + 1) * PAGE).map((x, i) => {
+          const r = x.r, id = st.shownId(r.taxon_id), t = st.r(id) || {};
+          const attrs = `data-table="${x.table}" data-id="${esc(id)}" data-doc="${esc(r.doc_id)}" data-kind="${esc(r.kind || "")}" data-topic="${esc(r.topic || "")}" data-host="${esc(r.host || "")}"`;
+          let what;
+          if (x.table === "literature") {
+            what = `<b>${esc(r.kind)}</b>` + (r.pages ? ", p. " + esc(r.pages.replace(/ \| /g, ", ")) : "") + (r.areas ? " · " + esc(r.areas) : "") +
+              (r.islands ? " · " + esc(r.islands) : "") + (r.status ? " · " + esc(r.status) + (r.status_area ? " in " + esc(r.status_area) : "") : "") +
+              (r.first_record_year ? " · first record " + esc(r.first_record_year) : "") + (r.name_printed && r.name_printed !== t.name ? ` · printed “${esc(r.name_printed)}”` : "");
+          } else if (x.table === "notes") {
+            what = `<b>note (${esc(r.topic)})</b>, p. ${esc(r.pages)}: ${esc(r.note)}`;
+          } else {
+            what = `<b>host plant</b>: ${esc(r.host)}` + (r.pages ? ", p. " + esc(r.pages) : "");
+          }
+          return `<tr><td><a href="#/t/${esc(id)}" data-id="${esc(id)}">${t.name ? sci(t.rank, t.name) : esc(id)}</a><div class="muted small">${esc(t.rank || "")}${t.family && t.rank !== "Family" ? " · " + esc(t.family) : ""}</div></td>` +
+            `<td>${what}</td><td class="rv-act"><button type="button" data-act="review" ${attrs}>Confirm</button>` +
+            (x.table !== "hosts" ? ` <button type="button" data-act="editrow" ${attrs}>Edit…</button>` : "") +
+            ` <button type="button" class="x" data-act="reject" ${attrs} aria-label="Reject">×</button></td></tr>`;
+        }).join("") + "</tbody></table>";
     }
     el.innerHTML = html;
-    el.querySelectorAll("tr[data-doc]").forEach(tr => tr.addEventListener("click", () => { app.reviewDoc = tr.dataset.doc; renderReview(); }));
+    const pick = $("#rv-pick"), back = $("#rv-back");
+    if (pick) pick.addEventListener("change", () => { app.reviewDoc = pick.value; app.rvPage = 0; app.rvFilter = ""; renderReview(); });
+    if (back) back.addEventListener("click", () => { app.reviewDoc = null; renderReview(); });
+    el.querySelectorAll("tr[data-doc]").forEach(tr => tr.addEventListener("click", () => { app.reviewDoc = tr.dataset.doc; app.rvPage = 0; app.rvFilter = ""; renderReview(); }));
+    const rvf = $("#rv-filter");
+    if (rvf) rvf.addEventListener("input", () => { app.rvFilter = rvf.value; app.rvPage = 0; clearTimeout(rvf._t); rvf._t = setTimeout(() => { renderReview(); const n = $("#rv-filter"); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); });
+    const pv = $("#rv-prev"), nx = $("#rv-next");
+    if (pv) pv.addEventListener("click", () => { app.rvPage--; renderReview(); });
+    if (nx) nx.addEventListener("click", () => { app.rvPage++; renderReview(); });
+    el.querySelectorAll(".rv-rows button[data-act]").forEach(b => b.addEventListener("click", () => {
+      if (!app.name) return askName();
+      const d = b.dataset, base = { id: d.id, table: d.table, doc: d.doc, kind: d.kind, topic: d.topic, host: d.host };
+      if (d.act === "review" || d.act === "reject") return addOp(d.act, base);
+      editRow(base);
+    }));
     el.querySelectorAll("a[data-id]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); select(a.dataset.id, "taxon"); }));
     const go = $("#rv-go");
     if (go) go.addEventListener("click", () => {
@@ -797,6 +838,104 @@
       openForm({ title: "Confirm every machine-read row from this document?",
         intro: "You have spot-checked it. The rows become <b>editor</b>-confirmed, credited to " + esc(app.name) + ". Nothing is removed; reject wrong rows first.",
         submit: "Confirm all", onSubmit: () => { addOp("reviewDoc", { doc: app.reviewDoc, nativity: nat }); } });
+    });
+  }
+
+  // Correct one machine-made row, then it counts as confirmed.
+  function editRow(b) {
+    const st = app.st;
+    if (b.table === "literature") {
+      const r = st.t.literature.find(x => st.shownId(x.taxon_id) === b.id && x.doc_id === b.doc && x.kind === b.kind);
+      if (!r) return;
+      const f = ["pages", "areas", "islands", "status", "status_area", "first_record_year", "status_page", "name_printed"];
+      return openForm({ title: `Correct this ${r.kind} row for ${st.name(b.id)}`,
+        intro: "Pages, areas and island groups are separated by <code>|</code> (areas: GU | MP | PW | FM | MH). Saving confirms the row.",
+        fields: [{ key: "pages", label: "Pages", value: r.pages }, { key: "areas", label: "Island groups the document records it from", value: r.areas },
+                 { key: "islands", label: "Islands", value: r.islands },
+                 { key: "status", label: "Status stated", type: "select", options: ["", "native", "introduced", "endemic", "invasive", "cryptogenic", "unknown"], value: r.status },
+                 { key: "status_area", label: "Status applies to (areas)", value: r.status_area },
+                 { key: "first_record_year", label: "First record (year)", value: r.first_record_year },
+                 { key: "status_page", label: "Status page", value: r.status_page },
+                 { key: "name_printed", label: "Name as printed", value: r.name_printed }],
+        submit: "Save and confirm",
+        onSubmit: v => { const o = { id: b.id, doc: b.doc, kind: b.kind }; for (const k of f) o[k] = v[k]; addOp("editLit", o); } });
+    }
+    const n = st.t.notes.find(x => st.shownId(x.taxon_id) === b.id && x.doc_id === b.doc && x.topic === b.topic);
+    if (!n) return;
+    openForm({ title: `Correct this note for ${st.name(b.id)}`, intro: `Your own words, at most ${S.noteMax} characters. Saving confirms it.`,
+      fields: [{ key: "note", label: "Note", type: "textarea", value: n.note, required: true },
+               { key: "topic", label: "Topic", type: "select", options: ["biology", "habitat", "pest", "distribution", "identification"], value: n.topic },
+               { key: "pages", label: "Pages", value: n.pages }],
+      submit: "Save and confirm",
+      onSubmit: v => { addOp("editNote", { id: b.id, doc: b.doc, topic: b.topic, note: v.note, newTopic: v.topic, pages: v.pages }); } });
+  }
+
+  // ---- quick review: a taxon's direct children, everything on one screen, accepted in one step
+  const short = c => { const s = String(c || ""); return s.length > 110 ? s.slice(0, 107) + "…" : s; };
+  function childCard(id, picked) {
+    const st = app.st, r = st.r(id), v = st.row(id);
+    const lit = st.mine("literature", id), notes = st.mine("notes", id), hosts = st.mine("hosts", id);
+    const recs = (st.recordsBy.get(id) || []);
+    const areas = S.areas.map(a => {
+      const g = recs.filter(x => x.area === a.code);
+      const n = src => g.filter(x => x.source === src).reduce((s, x) => s + +x.records, 0);
+      return n("gbif") || n("inat") || n("gbif_specimens") ? `<b>${esc(a.short)}</b> ${n("gbif")} GBIF · ${n("inat")} iNat · ${n("gbif_specimens")} spec.` : "";
+    }).filter(Boolean);
+    const pending = r.flag === "new" || (r.nativity !== "unknown" && r.nativity_review === "machine") ||
+      lit.some(x => x.review === "machine") || notes.some(x => x.review === "machine") || hosts.some(x => x.review === "machine");
+    const kids = st.children(id).length, syns = st.synonymsOf(id).map(x => st.r(x));
+    const links = st.mine("links", id), dist = st.mine("distribution", id);
+    const badge = (t, k) => `<span class="badge ${k || "muted"}">${esc(t)}</span>`;
+    return `<article class="qr-card${pending ? " pending" : " done"}" data-id="${esc(id)}">` +
+      `<header><label class="qr-pick"><input type="checkbox" data-pick="${esc(id)}"${picked ? " checked" : ""}${pending ? "" : " disabled"}> </label>` +
+      `<span class="qr-name">${sci(r.rank, r.name)}</span> <span class="auth">${esc(r.authorship)}</span> ` +
+      `<span class="muted">${esc(r.rank)} · ${esc(r.status)}</span> ` + (r.common_name ? `<span class="cn">${esc(r.common_name)}</span> ` : "") +
+      (r.flag === "new" ? badge("new from a tool", "new") : "") + (r.in_col === "no" ? badge("not in COL", "warn") : "") + (r.hidden === "yes" ? badge("hidden") : "") +
+      (!pending ? badge("reviewed", "ok") : "") +
+      ` <a href="#/t/${esc(id)}" data-open="${esc(id)}">open</a>` + (kids ? ` · <a href="#/t/${esc(id)}" data-drill="${esc(id)}">${kids} below ›</a>` : "") + "</header>" +
+      '<dl class="qr-grid">' +
+      `<dt>Nativity</dt><dd>${esc(r.nativity)}${r.nativity !== "unknown" ? ` <span class="muted">${esc(r.nativity_review === "machine" ? "set by a tool" : "confirmed")}${r.nativity_source ? ", " + esc(r.nativity_source) : ""}</span>` : ""}${v && v.nativityConflict ? " " + badge("statements disagree", "warn") : ""}</dd>` +
+      `<dt>Records</dt><dd>${areas.join("<br>") || '<span class="muted">none</span>'}</dd>` +
+      `<dt>Islands</dt><dd>${esc(v ? v.islands : "") || '<span class="muted">none named</span>'}</dd>` +
+      `<dt>Literature</dt><dd>${lit.length ? lit.map(x => `<div>${esc(short((st.lookup.documents.get(x.doc_id) || {}).citation || x.doc_id))} <span class="muted">${esc(x.kind)}${x.pages ? ", p. " + esc(x.pages.replace(/ \| /g, ", ")) : ""}${x.areas ? " · " + esc(x.areas) : ""}${x.status ? " · " + esc(x.status) : ""}</span>${x.review === "machine" ? " " + badge("machine-read", "warn") : ""}</div>`).join("") : '<span class="muted">none</span>'}</dd>` +
+      (notes.length ? `<dt>Notes</dt><dd>${notes.map(x => `<div>${esc(x.note)} <span class="muted">${esc(x.topic)}</span>${x.review === "machine" ? " " + badge("machine-written", "warn") : ""}</div>`).join("")}</dd>` : "") +
+      (hosts.length ? `<dt>Hosts</dt><dd>${hosts.map(x => esc(x.host)).join("; ")}</dd>` : "") +
+      (syns.length ? `<dt>Other names</dt><dd>${syns.map(x => `${esc(x.name)} <span class="muted">${esc(x.name_match)}</span>`).join("; ")}</dd>` : "") +
+      `<dt>Links</dt><dd>${links.map(x => esc(x.system) + ":" + esc(x.value)).join(" · ") || '<span class="muted">none</span>'}${dist.length ? "<br>Tags: " + dist.map(x => esc(x.place) + " " + esc(x.status)).join(", ") : ""}</dd>` +
+      (r.note ? `<dt>Note</dt><dd>${esc(r.note)}</dd>` : "") +
+      `<dt>Source</dt><dd class="muted">${esc(r.name_match)}${r.match_note ? " · " + esc(r.match_note) : ""}${r.gbif_key ? " · GBIF " + esc(r.gbif_key) : ""}${r.added_by ? " · added by " + esc(r.added_by) + " " + esc(r.added) : ""}</dd></dl></article>`;
+  }
+  function renderQuick() {
+    const el = $("#tab-quick");
+    if (!app.st) return;
+    const st = app.st;
+    let id = app.sel && st.r(app.sel) ? st.shownId(app.sel) : null;
+    if (!id) { el.innerHTML = '<p class="muted">Pick a taxon on the left: its direct children are shown here.</p>'; return; }
+    const kids = st.children(id);
+    if (!app.qrPicked || app.qrFor !== id) { app.qrFor = id; app.qrPicked = new Set(kids.filter(c => { const r = st.r(c); return r.flag === "new" || (r.nativity !== "unknown" && r.nativity_review === "machine") ||
+      st.mine("literature", c).some(x => x.review === "machine") || st.mine("notes", c).some(x => x.review === "machine") || st.mine("hosts", c).some(x => x.review === "machine"); })); }
+    const crumbs = st.lineage(id).map(x => `<a href="#/t/${esc(x)}" data-id="${esc(x)}">${label(x)}</a>`).join(" › ");
+    const t = st.r(id);
+    const live = kids.filter(c => app.qrPicked.has(c) && (st.r(c) ? true : false));
+    el.innerHTML = (crumbs ? `<div class="crumbs">${crumbs}</div>` : "") +
+      `<h1>Quick review: ${sci(t.rank, t.name)} <span class="muted">${kids.length} direct children</span></h1>` +
+      '<p class="muted">Everything about each direct child is on this screen. Tick the ones to accept (those with something waiting are ticked); <b>Accept</b> clears the “new” flag and confirms their machine-read rows and machine-set nativity. Nothing underneath them is touched. Use “below ›” to go down a level.</p>' +
+      (kids.length ? `<div class="qr-bar"><button type="button" class="primary" id="qr-accept"${live.length ? "" : " disabled"}>Accept ${live.length} checked children…</button> ` +
+        '<button type="button" id="qr-all">Tick all waiting</button> <button type="button" id="qr-none">Tick none</button></div>' +
+        kids.map(c => childCard(c, app.qrPicked.has(c))).join("") : '<p class="muted">No children under this taxon.</p>');
+    el.querySelectorAll("input[data-pick]").forEach(cb => cb.addEventListener("change", () => { cb.checked ? app.qrPicked.add(cb.dataset.pick) : app.qrPicked.delete(cb.dataset.pick); renderQuick(); }));
+    el.querySelectorAll("a[data-open]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); select(a.dataset.open, "taxon"); }));
+    el.querySelectorAll("a[data-drill]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); select(a.dataset.drill); }));
+    el.querySelectorAll(".crumbs a[data-id]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); select(a.dataset.id); }));
+    const all = $("#qr-all"), none = $("#qr-none"), go = $("#qr-accept");
+    if (all) all.addEventListener("click", () => { app.qrPicked = null; renderQuick(); });
+    if (none) none.addEventListener("click", () => { app.qrPicked = new Set(); renderQuick(); });
+    if (go) go.addEventListener("click", () => {
+      if (!app.name) return askName();
+      const chosen = kids.filter(c => app.qrPicked.has(c));
+      openForm({ title: `Accept ${chosen.length} direct children of ${t.name}?`,
+        intro: "Their “new” flags are cleared and their machine-read literature, notes, host plants and machine-set nativity are confirmed, credited to " + esc(app.name) + ". Taxa below them are not touched.",
+        submit: "Accept", onSubmit: () => { addOp("acceptChildren", { id, children: chosen }); app.qrPicked = null; } });
     });
   }
 

@@ -277,6 +277,13 @@
         if (!records.has(id)) records.set(id, []);
         records.get(id).push(r);
       }
+      this.recordsBy = records;
+      this.islandsBy = new Map();
+      for (const r of B.islands.rows) {
+        const id = this.shownId(r.taxon_id);
+        if (!this.islandsBy.has(id)) this.islandsBy.set(id, []);
+        this.islandsBy.get(id).push(r);
+      }
       const lits = own("literature"), notes = own("notes"), dists = own("distribution"),
             vouchers = own("vouchers"), links = own("links");
       const doc = id => this.lookup.documents.get(id) || { citation: id, title: id };
@@ -319,7 +326,7 @@
           nameAccordingTo: /^IOG-/.test(id) ? "Insects of Guam curator" : r.in_col === "yes" ? "Catalogue of Life" : "source name",
           references: r.in_col === "yes" && /^[0-9A-Z]{1,7}$/.test(id) ? "https://www.catalogueoflife.org/data/taxon/" + id : (r.gbif_key ? "https://www.gbif.org/species/" + r.gbif_key : ""),
           recordedIn: AREA_ORDER.filter(a => areas.has(a)).join(SEP),
-          islands: "",
+          islands: [...new Set((this.islandsBy.get(id) || []).map(x => x.island))].sort().join(SEP),
           distributionTags: (dists.get(id) || []).map(x => formatTag({ value: x.place, status: x.status, source: x.source })).join(SEP),
           associatedOccurrences: (vouchers.get(id) || []).map(occurrenceUrl).filter(Boolean).join(SEP),
           associatedReferences: (links.get(id) || []).filter(x => x.system === "editor").map(x => formatLink({ value: x.value, note: x.label })).join(SEP),
@@ -701,6 +708,56 @@
       }
       need(n, "nothing machine-made from that document");
     },
+    // Accept the direct children of a taxon as they are: clear a tool's `new` flag, confirm the
+    // machine-read literature, notes and host rows and a machine-set nativity of each. Only the
+    // children listed (all of them direct children of op.id); nothing underneath, no other field.
+    acceptChildren(st, op) {
+      const parent = accepted(st, op.id);
+      const kids = new Set(op.children || []);
+      need(kids.size, "no children chosen");
+      for (const c of kids) need(st.r(c) && st.r(c).parent_id === op.id, `${st.name(c)} is not a direct child of ${parent.name}`);
+      let n = 0;
+      for (const c of kids) {
+        const r = st.r(c);
+        if (r.flag === "new") { st.setCell(c, "flag", ""); n++; }
+        if (r.nativity !== "unknown" && r.nativity_review === "machine") { st.setCell(c, "nativity_review", "editor"); n++; }
+        st.stamp(c, op);
+      }
+      for (const table of ["literature", "notes", "hosts"]) {
+        st.t[table] = st.t[table].map(r => {
+          if (r.review !== "machine" || !kids.has(st.shownId(r.taxon_id))) return r;
+          n++;
+          const out = Object.assign({}, r, { review: "editor" });
+          if ("reviewed_by" in r) Object.assign(out, { reviewed_by: op.by, reviewed: op.date });
+          return out;
+        });
+      }
+      need(n, "nothing to accept: those children are already reviewed");
+    },
+    // Correct a literature row or a note a tool wrote; editing it confirms it.
+    editLit(st, op) {
+      const i = st.t.literature.findIndex(r => st.shownId(r.taxon_id) === op.id && r.doc_id === op.doc && r.kind === op.kind);
+      need(i >= 0, "no such literature row");
+      const fields = {};
+      for (const f of ["pages", "name_printed", "areas", "islands", "status", "status_area", "first_record_year", "status_page"]) {
+        if (op[f] != null) fields[f] = String(op[f]).trim();
+      }
+      st.t.literature[i] = Object.assign({}, st.t.literature[i], fields, { review: "editor", reviewed_by: op.by, reviewed: op.date });
+      st.stamp(op.id, op);
+    },
+    editNote(st, op) {
+      const i = st.t.notes.findIndex(r => st.shownId(r.taxon_id) === op.id && r.doc_id === op.doc && r.topic === op.topic);
+      need(i >= 0, "no such note");
+      const fields = {};
+      for (const f of ["note", "pages"]) if (op[f] != null) fields[f] = String(op[f]).trim();
+      if (op.newTopic && op.newTopic !== op.topic) {
+        need(!st.t.notes.some(r => st.shownId(r.taxon_id) === op.id && r.doc_id === op.doc && r.topic === op.newTopic), "that taxon already has a note on that topic from this document");
+        fields.topic = op.newTopic;
+      }
+      need(!("note" in fields) || fields.note, "a note cannot be empty");
+      st.t.notes[i] = Object.assign({}, st.t.notes[i], fields, { review: "editor" });
+      st.stamp(op.id, op);
+    },
     reject(st, op) {
       need(["literature", "notes", "hosts"].includes(op.table), "reject literature, notes or hosts");
       const before = st.t[op.table].length;
@@ -889,6 +946,9 @@
       case "unexclude": return `${op.name}: no longer excluded`;
       case "placeSynonym": return `${op.unplacedName} merged into ${n(op.into)} as a synonym` + (op.newId ? ` (${op.newId})` : "");
       case "place": return `${op.name} placed under ${n(op.parent)}` + (op.newId ? ` (${op.newId})` : "");
+      case "acceptChildren": return `${who}: ${(op.children || []).length} direct children accepted`;
+      case "editLit": return `${who}: literature row from ${op.doc} corrected and confirmed`;
+      case "editNote": return `${who}: note from ${op.doc} corrected and confirmed`;
       case "reviewDoc": return `${op.doc}: every machine-read row confirmed${op.nativity ? " (and its nativity values)" : ""}`;
       case "review": return `${who}: ${op.table}${op.doc ? " from " + op.doc : ""} reviewed`;
       case "reject": return `${who}: ${op.table} row${op.doc ? " from " + op.doc : ""} rejected`;

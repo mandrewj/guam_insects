@@ -319,6 +319,18 @@ def test_ui_loads_and_edits_from_files(browser, world):
     assert pg.inner_text("#n-changes") == "2"
     pg.click('.tabs button[data-tab="review"]')
     assert "A paper" in pg.inner_text("#tab-review") or "A. Author" in pg.inner_text("#tab-review")
+    pg.click("table.rv tbody tr")                         # the document: every machine-made row, with actions
+    pg.wait_for_selector(".rv-rows button[data-act=review]")
+    assert "Oryctes gigas" in pg.inner_text("#tab-review")
+    pg.click('.rv-rows button[data-act="editrow"]')
+    pg.wait_for_selector("#dlg form")
+    pg.keyboard.press("Escape")
+    pg.click('.tabs button[data-tab="quick"]')
+    pg.fill("#q", "Oryctes")
+    pg.wait_for_selector('#list .item[data-id="ORYCT"]')
+    pg.click('#list .item[data-id="ORYCT"]')
+    pg.wait_for_selector(".qr-card")
+    assert pg.locator(".qr-card").count() == 3 and "Oryctes gigas" in pg.inner_text("#tab-quick")
     pg.click("#changes-btn")
     assert "Saipan present" in pg.inner_text("#tab-changes")
     pg.click('.tabs button[data-tab="table"]')
@@ -450,3 +462,54 @@ def _apply(tmp_path, *file_sets):
         (root / rel.removeprefix("dataset/")).parent.mkdir(parents=True, exist_ok=True)
         (root / rel.removeprefix("dataset/")).write_text(text, encoding="utf-8")
     return root
+
+
+def _write_after(tmp_path, texts, files, name="after"):
+    root = tmp_path / name
+    for rel, text in {**texts, **files}.items():
+        if text is not None:
+            (root / rel.removeprefix("dataset/")).parent.mkdir(parents=True, exist_ok=True)
+            (root / rel.removeprefix("dataset/")).write_text(text, encoding="utf-8")
+    return dataset.load(root)
+
+
+def test_accept_the_direct_children_only(page, world, tmp_path):
+    ds = dataset.load(world)
+    taxa = {r["id"]: r for r in ds["taxa"]}
+    taxa["ORGIG"]["flag"] = "new"
+    taxa["ORGIG"].update(nativity="introduced", nativity_source="d1", nativity_review="machine")
+    taxa["ORRHI"]["flag"] = "new"                  # a child that is not ticked
+    ds["literature"].append({**{c: "" for c in dataset.schema.table("literature").names},
+                             "taxon_id": "CALIS", "doc_id": "d1", "kind": "mention", "pages": "9",
+                             "method": "text", "review": "machine"})      # a row under another parent
+    dataset.write(ds, world)
+    texts = texts_of(world)
+    out = run(page, texts, [
+        {"type": "acceptChildren", "id": "ORYCT", "children": ["ORGIG"]},
+        {"type": "acceptChildren", "id": "ORYCT", "children": ["CALIS"]},          # not a child of ORYCT
+        {"type": "acceptChildren", "id": "ORYCT", "children": ["ORGIG"]}])         # nothing left to accept
+    assert out["errors"][0] is None and "not a direct child" in out["errors"][1] and "already reviewed" in out["errors"][2]
+    after = _write_after(tmp_path, texts, out["files"])
+    assert dataset.check(after).items == []
+    t = {r["id"]: r for r in after["taxa"]}
+    assert t["ORGIG"]["flag"] == "" and t["ORGIG"]["nativity_review"] == "editor" and t["ORGIG"]["nativity"] == "introduced"
+    assert t["ORRHI"]["flag"] == "new"                                         # not chosen: untouched
+    lit = {(r["taxon_id"], r["kind"]): r["review"] for r in after["literature"]}
+    assert lit[("ORGIG", "account")] == "editor" and lit[("CALIS", "mention")] == "machine"
+    assert all(n["review"] == "editor" for n in after["notes"])
+
+
+def test_correct_a_machine_row_and_a_note(page, world, tmp_path):
+    texts = texts_of(world)
+    out = run(page, texts, [
+        {"type": "editLit", "id": "ORGIG", "doc": "d1", "kind": "account", "pages": "4 | 5", "areas": "GU | MP",
+         "islands": "Guam | Rota", "status": "introduced", "status_area": "GU", "first_record_year": "1984"},
+        {"type": "editNote", "id": "ORGIG", "doc": "d1", "topic": "biology", "note": "Larvae develop in palm trunks.",
+         "newTopic": "habitat"},
+        {"type": "editNote", "id": "ORGIG", "doc": "d1", "topic": "biology", "note": ""}])
+    assert out["errors"][0] is None and out["errors"][1] is None and out["errors"][2] is not None
+    after = _write_after(tmp_path, texts, out["files"])
+    assert dataset.check(after).items == []
+    lit = after["literature"][0]
+    assert (lit["pages"], lit["areas"], lit["status"], lit["review"], lit["reviewed_by"]) == ("4 | 5", "GU | MP", "introduced", "editor", "T. Editor")
+    assert (after["notes"][0]["topic"], after["notes"][0]["review"]) == ("habitat", "editor")

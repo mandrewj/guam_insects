@@ -41,10 +41,17 @@ repository can use it; what they commit rebuilds and redeploys the site.
 - **Table**: the taxa columns (or a preset), virtualised (6,600 rows scroll smoothly). White
   cells are editable (double-click, Enter saves); grey ones are computed from the other tables.
   A list cell is typed in its format (below) and becomes the same operations the tools make.
-- **Review** (tab): every document with machine-read rows, with counts of literature rows, notes,
-  host plants and nativity values. Pick one, spot-check the rows shown (spread across the
-  document; each links to its taxon), then **Confirm all** (optionally with the nativity values it
-  set). It is one operation (`reviewDoc`). Reject wrong rows on the taxon's page first.
+- **Review** (tab): every document with machine-read rows. Pick one (it then shows first, with a
+  dropdown to switch) to see **every** machine-made row of it, paged and filterable: **Confirm**,
+  **Edit…** (correct pages, areas, islands, status, year, or a note's text; saving confirms it) or
+  **×** (reject) each row, or **Confirm all** for the document (optionally with the nativity values
+  it set) after checking.
+- **Quick review** (tab): the **direct children** of the selected taxon, one card each with all
+  they hold (nativity and its source, records per island group, islands, literature with
+  machine-read marks, notes, hosts, other names, links, tags, source). Tick the ones to accept (those
+  with something waiting start ticked) and press **Accept**: the `new` flag is cleared and their
+  machine-read rows and machine-set nativity are confirmed. Only the children ticked, nothing
+  underneath. "below ›" goes down a level; the tree on the left changes the parent.
 - **Changes** lists every operation with its author and an Undo. They are kept in the
   browser (localStorage) until committed, and offered again after a reload.
 - **Commit** warns that it triggers a rebuild, then:
@@ -83,6 +90,8 @@ Rows that point at a synonym keep pointing at it after a merge; the build follow
 | hide / show | `hidden` (+ reason) on it and everything under it |
 | confirm | `verified`, `verified_by`, `verified_date`, `verification_source` |
 | review | literature / notes / hosts rows `review = editor` (+ `reviewed_by`, `reviewed`) |
+| accept children | each ticked direct child: `flag` cleared, `nativity_review editor` where a tool set it, its machine-read literature/notes/hosts rows confirmed |
+| correct a row | a literature row or note edited in place and confirmed |
 | review a document | the same for every machine-made row from one document (and, if ticked, the nativity values it set) |
 | reject | the literature / notes / hosts row is deleted |
 | clear flag | `flag` emptied |

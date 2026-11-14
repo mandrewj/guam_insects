@@ -14,7 +14,8 @@ window.IOG_SPEC = {
   "dataset/hosts.csv",
   "dataset/review/unplaced.csv",
   "dataset/documents.csv",
-  "dataset/records.csv"
+  "dataset/records.csv",
+  "dataset/islands.csv"
  ],
  "writable": [
   "dataset/taxa.csv",
@@ -1291,6 +1292,78 @@ window.IOG_SPEC = {
      "required": false,
      "enum": [],
      "ref": "",
+     "maxlen": 0
+    }
+   }
+  },
+  "islands": {
+   "file": "dataset/islands.csv",
+   "columns": [
+    "taxon_id",
+    "area",
+    "island",
+    "source",
+    "records",
+    "doc_id"
+   ],
+   "key": [
+    "taxon_id",
+    "area",
+    "island",
+    "source",
+    "doc_id"
+   ],
+   "cols": {
+    "taxon_id": {
+     "kind": "id",
+     "required": true,
+     "enum": [],
+     "ref": "taxa",
+     "maxlen": 0
+    },
+    "area": {
+     "kind": "str",
+     "required": true,
+     "enum": [
+      "GU",
+      "MP",
+      "PW",
+      "FM",
+      "MH"
+     ],
+     "ref": "",
+     "maxlen": 0
+    },
+    "island": {
+     "kind": "str",
+     "required": true,
+     "enum": [],
+     "ref": "",
+     "maxlen": 0
+    },
+    "source": {
+     "kind": "str",
+     "required": true,
+     "enum": [
+      "gbif",
+      "literature",
+      "editor"
+     ],
+     "ref": "",
+     "maxlen": 0
+    },
+    "records": {
+     "kind": "int",
+     "required": false,
+     "enum": [],
+     "ref": "",
+     "maxlen": 0
+    },
+    "doc_id": {
+     "kind": "str",
+     "required": false,
+     "enum": [],
+     "ref": "documents",
      "maxlen": 0
     }
    }

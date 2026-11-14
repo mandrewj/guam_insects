@@ -166,3 +166,20 @@ table.rv td:nth-child(n+2), table.rv th:nth-child(n+2) { text-align: right; widt
 table.rv tbody tr { cursor: pointer; }
 table.rv tbody tr:hover, table.rv tr.sel { background: var(--hover, rgba(0, 0, 0, .05)); }
 .rv-confirm { margin-top: 16px; }
+
+/* review rows, quick review */
+.rv-bar { display: flex; gap: 10px; align-items: center; margin: 10px 0; }
+.rv-bar input { flex: 1; max-width: 420px; }
+table.rv-rows td { vertical-align: top; }
+table.rv-rows td.rv-act { white-space: nowrap; text-align: right; width: auto; }
+.qr-bar { position: sticky; top: 0; background: var(--bg, #fff); padding: 8px 0; z-index: 2; display: flex; gap: 8px; }
+.qr-card { border: 1px solid var(--line); border-radius: 6px; margin: 10px 0; padding: 8px 12px; }
+.qr-card.pending { border-left: 4px solid #d98a00; }
+.qr-card.done { opacity: .75; }
+.qr-card header { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.qr-name { font-size: 1.1em; font-weight: 600; }
+.qr-grid { display: grid; grid-template-columns: 110px 1fr; gap: 3px 12px; margin: 8px 0 2px; font-size: 13px; }
+.qr-grid dt { color: var(--muted, #666); }
+.qr-grid dd { margin: 0; }
+table.rv-rows td:nth-child(2), table.rv-rows th:nth-child(2) { text-align: left; width: auto; }
+table.rv-rows td:nth-child(1) { width: 220px; }
