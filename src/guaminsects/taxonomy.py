@@ -36,11 +36,12 @@ COLUMNS = ["taxonID", "parentNameUsageID", "parentNameUsage", "acceptedNameUsage
            "acceptedNameUsage", "scientificName", "scientificNameAuthorship", "taxonRank",
            "taxonomicStatus", "vernacularName", "kingdom", "phylum", "class", "order",
            "superfamily", "family", "subfamily", "tribe", "genus", "establishmentMeans",
-           "recordedIn", "islands", "inCatalogueOfLife", "nameMatch", "matchRemarks",
+           "recordedIn", "islands", "distributionTags", "inCatalogueOfLife", "nameMatch", "matchRemarks",
            "nameSources", "verificationStatus", "verificationRemarks", "verifiedBy",
            "verifiedDate", "verificationSource", "literatureRecords", "literatureSources",
            "specimenRecords", "gbifRecords", "inatObservations", "nameAccordingTo", "references",
-           "taxonRemarks", "hidden", "curatedFields"]
+           "associatedOccurrences", "associatedReferences", "taxonRemarks", "hidden",
+           "curatedFields", "modifiedBy", "modified"]
 # Editable column -> curation/taxa.csv column. Everything else is computed and read-only.
 EDITABLE = {"parentNameUsageID": "parent_id", "parentNameUsage": "parent_name",
             "acceptedNameUsageID": "accepted_id", "scientificName": "name",
@@ -48,6 +49,14 @@ EDITABLE = {"parentNameUsageID": "parent_id", "parentNameUsage": "parent_name",
             "taxonomicStatus": "status", "vernacularName": "common_name",
             "establishmentMeans": "establishment", "verificationStatus": "verified",
             "verificationSource": "citation", "taxonRemarks": "note", "hidden": "hidden"}
+# Editable lists, filed into curation/annotations.csv and evidence.csv (one item per row):
+# distributionTags "Rota: present (Buden 2004) | Yap: doubtful"; associatedOccurrences
+# iNaturalist observation and GBIF occurrence URLs (vouchers); associatedReferences other
+# links, "Label <https://...>" or a bare URL. webapp/../editor/assets/model.js reads and
+# writes the same formats.
+LIST_COLUMNS = ["distributionTags", "associatedOccurrences", "associatedReferences"]
+INAT_OBS = "https://www.inaturalist.org/observations/"
+GBIF_OCC = "https://www.gbif.org/occurrence/"
 LEVELS = ["unconfirmed", "specimen records", "literature records", "editor confirmed"]
 CONFIRMED = LEVELS[-1]
 LOW_RANKS = {"Genus", "Subgenus", "Species", "Subspecies", "Variety", "Form"}   # island lists
@@ -70,9 +79,9 @@ def rows(conn, records: dict[int, dict] | None = None) -> list[dict]:
         t = keys.get(r["taxon_id"])
         if t is not None and (t == r["taxon_id"] or not specimens.get(t)):
             specimens[t] += r["n"]
-    curated = {ids.to_int(r["taxon_id"]): r for r in
-               curation.load(curation.TAXA_CSV, curation.EVIDENCE_CSV, assign_ids=False).rows
-               if r["taxon_id"]}
+    cur_all = curation.load(curation.TAXA_CSV, curation.EVIDENCE_CSV, assign_ids=False)
+    curated = {ids.to_int(r["taxon_id"]): r for r in cur_all.rows if r["taxon_id"]}
+    lists, touched = annotation_cells(cur_all, keys)
 
     def lit_kind(rec: dict) -> tuple[bool, bool]:
         """(checked literature, machine-read literature) placing the taxon in Micronesia."""
@@ -169,6 +178,9 @@ def rows(conn, records: dict[int, dict] | None = None) -> list[dict]:
                 GBIF_SPECIES + str(tid) if r["origin"] == "gbif" else ""),
             "taxonRemarks": r["note"] or "", "hidden": int(r["hidden"]),
             "curatedFields": ",".join(r["curated"]),
+            **{c: SEP.join(lists[tid][c]) for c in LIST_COLUMNS},
+            "modifiedBy": touched.get(tid, ("", ""))[1],
+            "modified": touched.get(tid, ("", ""))[0],
         })
         for nm in r["names"]:            # the names shown as this taxon
             out.append({c: "" for c in COLUMNS} | classification | {
@@ -182,8 +194,82 @@ def rows(conn, records: dict[int, dict] | None = None) -> list[dict]:
                 "nameAccordingTo": "GBIF Backbone Taxonomy" if nm["id"] < ids.COL_BASE
                 else "source name",
                 "references": GBIF_SPECIES + str(nm["id"]) if nm["id"] < ids.COL_BASE else "",
-                "hidden": int(r["hidden"])})
+                "hidden": int(r["hidden"]),
+                "modifiedBy": touched.get(nm["id"], ("", ""))[1],
+                "modified": touched.get(nm["id"], ("", ""))[0]})
     return out
+
+
+def format_tag(a: dict) -> str:
+    return f"{a['value']}: {a['status'] or 'present'}" + (f" ({a['source']})" if a["source"]
+                                                          else "")
+
+
+def parse_tag(text: str) -> dict:
+    """'Rota: present (Buden 2004)' -> {value, status, source}; ValueError if malformed."""
+    place, sep, rest = text.partition(":")
+    status, _, source = rest.strip().partition(" ")
+    source = source.strip()
+    if not sep or status not in curation.DISTRIBUTION_STATUS or (
+            source and not (source.startswith("(") and source.endswith(")"))):
+        raise ValueError(f"{text!r} is not 'Place: present|absent|doubtful (source)'")
+    return {"value": place.strip(), "status": status, "source": source[1:-1].strip()}
+
+
+def occurrence_url(e: dict) -> str | None:
+    return (INAT_OBS + e["ref"] if e["kind"] == "inat_observation" else
+            GBIF_OCC + e["ref"] if e["kind"] == "gbif_occurrence" else None)
+
+
+def parse_occurrence(text: str) -> tuple[str, str]:
+    """An iNaturalist observation or GBIF occurrence URL -> (evidence kind, number)."""
+    t = text.strip().split("?")[0].split("#")[0].rstrip("/")
+    for prefix, kind in ((INAT_OBS, "inat_observation"), (GBIF_OCC, "gbif_occurrence")):
+        for p in (prefix, prefix.replace("https://www.", "https://"),
+                  prefix.replace("https://", "http://")):
+            if t.startswith(p) and t[len(p):].isdigit():
+                return kind, t[len(p):]
+    raise ValueError(f"{text!r} is not an iNaturalist observation or GBIF occurrence URL")
+
+
+def format_link(a: dict) -> str:
+    return f"{a['note']} <{a['value']}>" if a["note"] else a["value"]
+
+
+def parse_link(text: str) -> dict:
+    t = text.strip()
+    if t.endswith(">") and " <" in t:
+        label, _, url = t[:-1].rpartition(" <")
+        return {"value": url.strip(), "note": label.strip()}
+    return {"value": t, "note": ""}
+
+
+def annotation_cells(cur, keys: dict[int, int]) -> tuple[dict, dict]:
+    """The list cells of each displayed taxon, and who last touched it: ({tid: {column:
+    [items]}}, {tid or name id: (date, editor)})."""
+    lists: dict[int, dict[str, list[str]]] = defaultdict(lambda: {c: [] for c in LIST_COLUMNS})
+    touched: dict[int, tuple[str, str]] = {}
+
+    def touch(ext: str, date: str, who: str) -> None:
+        if not (who or date) or not ids.valid(ext):
+            return
+        for t in {ids.to_int(ext), keys.get(ids.to_int(ext), ids.to_int(ext))}:
+            if (date, who) > touched.get(t, ("", "")):
+                touched[t] = (date, who)
+
+    for a in cur.annotations:
+        tid = keys.get(ids.to_int(a["taxon_id"]), ids.to_int(a["taxon_id"]))
+        col = "distributionTags" if a["kind"] == "distribution" else "associatedReferences"
+        lists[tid][col].append(format_tag(a) if a["kind"] == "distribution" else format_link(a))
+        touch(a["taxon_id"], a["added"], a["added_by"])
+    for e in cur.evidence:
+        tid = keys.get(ids.to_int(e["taxon_id"]), ids.to_int(e["taxon_id"]))
+        if url := occurrence_url(e):
+            lists[tid]["associatedOccurrences"].append(url)
+        touch(e["taxon_id"], e["edited"], e["editor"])
+    for r in cur.rows:
+        touch(r["taxon_id"], r["edited"], r["editor"])
+    return lists, touched
 
 
 def _cite(e: dict) -> str:
@@ -273,6 +359,10 @@ def import_edits(conn, path: Path, editor: str, baseline: dict[str, dict] | None
     if baseline is None:
         baseline = {str(r["taxonID"]): {k: str(v) for k, v in r.items()} for r in rows(conn)}
     cur = curation.load(curation.TAXA_CSV, curation.EVIDENCE_CSV, assign_ids=False)
+    keys = db.keymap(conn)
+    annotations = [dict(a) for a in cur.annotations]
+    evidence = [dict(e) for e in cur.evidence]
+    lists_changed = False
     by_id = {r["taxon_id"]: dict(r) for r in cur.rows if r["taxon_id"]}
     new_rows = [dict(r) for r in cur.rows if not r["taxon_id"]]
     stamp = db.now()[:10]
@@ -300,6 +390,18 @@ def import_edits(conn, path: Path, editor: str, baseline: dict[str, dict] | None
         diffs: dict[str, str] = {}
         for col, value in r.items():
             if col not in base or value == base[col]:
+                continue
+            if col in LIST_COLUMNS:
+                try:
+                    n = _import_list(col, tid, base[col], value, annotations, evidence, keys,
+                                     editor, stamp)
+                except ValueError as e:
+                    errors.append(f"{path.name} line {line}: {e}")
+                    continue
+                if n:
+                    lists_changed = True
+                    stats["changed"] += 1
+                    changes.append(f"{base['scientificName']} ({tid}): {col} {value!r}")
                 continue
             if col not in EDITABLE:
                 stats["ignored"] += 1
@@ -336,6 +438,8 @@ def import_edits(conn, path: Path, editor: str, baseline: dict[str, dict] | None
             if not diffs.get("parent_id") and not diffs.get("parent_name"):
                 acc = baseline.get(base["acceptedNameUsageID"]) or {}
                 diffs["parent_id"] = acc.get("parentNameUsageID", "")
+        current = by_id.get(tid, {})
+        diffs = {k: v for k, v in diffs.items() if current.get(k, "") != v or not current}
         if not diffs:
             continue
         row = by_id.setdefault(tid, {c: "" for c in curation.TAXA_COLUMNS} | {"taxon_id": tid})
@@ -350,14 +454,89 @@ def import_edits(conn, path: Path, editor: str, baseline: dict[str, dict] | None
     kept = [r for r in by_id.values() if ids.kind(ids.to_int(r["taxon_id"])) == "curated" or
             any(r[c] for c in curation.OVERRIDE_FIELDS + ["parent_name"])]
     if (stats["changed"] or stats["new"]) and not dry_run:
-        curation._apply(conn, kept + new_rows, cur.evidence)
+        curation._apply(conn, kept + new_rows, evidence, annotations if lists_changed else None)
     return {**stats, "changes": changes}
 
 
+def _import_list(col: str, tid: str, old: str, new: str, annotations: list[dict],
+                 evidence: list[dict], keys: dict[int, int], editor: str, stamp: str) -> int:
+    """Turn a changed list cell into added and removed annotation / evidence rows (in place).
+    Returns how many rows changed; items already filed (or already gone) change nothing."""
+    split = lambda v: [x.strip() for x in v.split("|") if x.strip()]  # noqa: E731
+    before, after = split(old), split(new)
+    shown = keys.get(ids.to_int(tid), ids.to_int(tid))
+
+    def mine(row: dict) -> bool:
+        return ids.valid(row["taxon_id"]) and keys.get(
+            ids.to_int(row["taxon_id"]), ids.to_int(row["taxon_id"])) == shown
+
+    n = 0
+    if col == "associatedOccurrences":
+        parse = parse_occurrence
+        have = {(e["kind"], e["ref"]) for e in evidence if mine(e)}
+        for item in set(after) - set(before):
+            kind, ref = parse(item)
+            if (kind, ref) not in have:
+                evidence.append({c: "" for c in curation.EVIDENCE_COLUMNS} | {
+                    "taxon_id": tid, "kind": kind, "ref": ref, "editor": editor,
+                    "edited": stamp})
+                n += 1
+        gone = {parse(item) for item in set(before) - set(after)}
+        keep = [e for e in evidence if not (mine(e) and (e["kind"], e["ref"]) in gone)]
+        n += len(evidence) - len(keep)
+        evidence[:] = keep
+        return n
+    kind = "distribution" if col == "distributionTags" else "link"
+    parse = parse_tag if kind == "distribution" else parse_link
+    old_items = {parse(x)["value"]: parse(x) for x in before}
+    new_items = {parse(x)["value"]: parse(x) for x in after}
+    for value, item in new_items.items():
+        row = next((a for a in annotations if mine(a) and a["kind"] == kind and
+                    a["value"] == value), None)
+        fields = {k: item.get(k, "") for k in ("status", "source", "note") if k in item}
+        if row is None:
+            annotations.append({c: "" for c in curation.ANNOTATION_COLUMNS} | fields | {
+                "taxon_id": tid, "kind": kind, "value": value, "added_by": editor,
+                "added": stamp})
+            n += 1
+        elif any(row.get(k, "") != v for k, v in fields.items()):
+            row.update(fields, added_by=editor, added=stamp)
+            n += 1
+    for value in set(old_items) - set(new_items):
+        keep = [a for a in annotations if not (mine(a) and a["kind"] == kind and
+                                              a["value"] == value)]
+        n += len(annotations) - len(keep)
+        annotations[:] = keep
+    return n
+
+
+def _as_committed(path: Path) -> bool:
+    """True when `path` is tracked by git and unchanged since the last commit."""
+    try:
+        rel = path.resolve().relative_to(config.ROOT.resolve())
+    except ValueError:
+        return False
+    try:
+        tracked = subprocess.run(["git", "ls-files", "--error-unmatch", "--", str(rel)],
+                                 cwd=config.ROOT, capture_output=True, timeout=30)
+        same = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", str(rel)],
+                              cwd=config.ROOT, capture_output=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return tracked.returncode == 0 and same.returncode == 0
+
+
 def sync(conn, editor: str | None = None) -> dict | None:
-    """Apply edits made to taxonomy.csv since it was last written; None when there are none.
+    """Apply edits made to taxonomy.csv since it was last written and not yet committed;
+    None when there are none.
     Raises curation.CurationError (and changes nothing) when an edit does not fit the tree."""
     if not REPO_CSV.exists():
+        return None
+    if _as_committed(REPO_CSV):
+        # The file is what git has: it came from a commit (the editor's, which carries its
+        # curation rows; CI's or another machine's regeneration), not from a hand edit here.
+        # Only uncommitted edits are imported, so a pulled regeneration is never mistaken
+        # for edits.
         return None
     if not SNAPSHOT.exists():
         # No record of what was written (a fresh clone): keep a copy rather than guess.

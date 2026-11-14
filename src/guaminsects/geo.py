@@ -46,6 +46,18 @@ BOUNDS = {"west": 130.0, "east": 173.0, "south": 0.0, "north": 21.5}
 SKIP = {"Palau", "Marshall Is.", "Ngeaur", "Northern Islands (CNMI)"}
 
 
+# The places a distribution tag can name (curation/annotations.csv, the editor): the five
+# island groups by their short names, then every island. Name -> area code.
+GROUPS = {"Guam": "GU", "CNMI": "MP", "Palau": "PW", "FSM": "FM", "Marshalls": "MH"}
+PLACES = {**GROUPS, **{name: a for a, d in ISLAND_COORDS.items() for name in d
+                       if name not in SKIP}}
+
+
+def place_area(name: str) -> str | None:
+    """The area code of a place a distribution tag names, or None if it is not a place."""
+    return PLACES.get(name)
+
+
 def for_meta() -> dict:
     return {"bounds": BOUNDS, "anchors": ANCHORS,
             "islands": [[a, name, lat, lon] for a, d in ISLAND_COORDS.items()

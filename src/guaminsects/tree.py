@@ -56,6 +56,8 @@ def build(conn, cur) -> dict[str, int]:
         "SELECT gbif_key, canonical_name, authorship, vernacular_name FROM gbif_taxa")}
     curated = {ids.to_int(r["taxon_id"]): r for r in cur.rows if r["taxon_id"]}
     evidence_ids = {ids.to_int(e["taxon_id"]) for e in cur.evidence}
+    # A distribution tag or a link puts a taxon on the list too (an editor's record).
+    evidence_ids |= {ids.to_int(a["taxon_id"]) for a in cur.annotations}
     presence: dict[int, set[str]] = defaultdict(set)
     for r in conn.execute("SELECT DISTINCT taxon_id, source FROM taxon_presence"):
         presence[r[0]].add(r[1])
@@ -228,6 +230,22 @@ def build(conn, cur) -> dict[str, int]:
                     auto[a] = (b, f"matched by spelling: {na} → {nb}")
                 if a in auto:
                     break
+    # A name a curator merged into another taxon takes its spelling variants along: the
+    # sibling it would have absorbed is not left behind as a taxon of its own.
+    for k, into in merge.items():
+        m = matches.get(k)
+        if ids.kind(k) not in ("gbif", "name") or not m or m["taxon"] or not m["parent"]:
+            continue
+        kp, kr, dest = target(m["parent"]), TITLE.get(m["rank"]), target(into)
+        if dest not in nodes:
+            continue
+        for a, n in nodes.items():
+            if a in auto or a in curated or n["in_col"] or a == dest or \
+                    n["parent_id"] != kp or n["rank"] != kr:
+                continue
+            if n["name"] == m["name"] or names.near(n["name"], m["name"]):
+                auto[a] = (dest, f"matched by spelling: {n['name']} → {m['name']}, merged "
+                                 f"into {nodes[dest]['name']}")
     for a, (b, _) in auto.items():
         for n in nodes.values():
             if n["parent_id"] == a:
@@ -270,6 +288,18 @@ def build(conn, cur) -> dict[str, int]:
     for t in drop:
         del nodes[t]
     stats["fossils_removed"] = len(drop)
+
+    # A taxon merged by hand into another is not shown itself, even when taxa under it put
+    # it in the tree (a COL genus whose species have records): what was under it moves to
+    # the taxon it was merged into.
+    for tid in [t for t in nodes if t in merge]:
+        into = shown(merge[tid])
+        if into is None or into == tid:
+            continue                      # reported below as "not in the tree"
+        for n in nodes.values():
+            if n["parent_id"] == tid:
+                n["parent_id"] = into
+        del nodes[tid]
 
     # ---------------------------------------------------------------- curated overrides
     by_name: dict[str, list[int]] = defaultdict(list)
@@ -338,6 +368,9 @@ def build(conn, cur) -> dict[str, int]:
     for e in cur.evidence:
         if shown(ids.to_int(e["taxon_id"])) is None:
             errors.append(f"evidence.csv: taxon_id {e['taxon_id']} is not in the tree")
+    for a in cur.annotations:
+        if shown(ids.to_int(a["taxon_id"])) is None:
+            errors.append(f"annotations.csv: taxon_id {a['taxon_id']} is not in the tree")
     if errors:
         raise CurationError("\n".join(errors))
 
@@ -370,7 +403,7 @@ def build(conn, cur) -> dict[str, int]:
             m = {"name": col[k]["name"], "authorship": col[k]["authorship"],
                  "rank": col[k]["rank"]} if k in col else {}
         nm = m.get("name") or (curated.get(k) or {}).get("name") or ""
-        auth = m.get("authorship") or None
+        auth = m.get("authorship") or (curated.get(k) or {}).get("authorship") or None
         target_node = nodes[t]
         differs = nm and nm != target_node["name"]
         other_author = ids.kind(k) == "gbif" and auth and target_node["authorship"] and \
@@ -417,10 +450,18 @@ def build(conn, cur) -> dict[str, int]:
             "sources) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", name_rows)
         conn.execute("DELETE FROM taxon_evidence")
         conn.executemany(
-            "INSERT OR REPLACE INTO taxon_evidence (taxon_id, kind, ref, license, credit, note) "
-            "VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT OR REPLACE INTO taxon_evidence (taxon_id, kind, ref, license, credit, note, "
+            "editor, edited) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [(shown(ids.to_int(e["taxon_id"])), e["kind"], e["ref"], e["license"] or None,
-              e["credit"] or None, e["note"] or None) for e in cur.evidence])
+              e["credit"] or None, e["note"] or None, e["editor"] or None, e["edited"] or None)
+             for e in cur.evidence])
+        conn.execute("DELETE FROM taxon_annotations")
+        conn.executemany(
+            "INSERT OR REPLACE INTO taxon_annotations (taxon_id, kind, value, status, source, "
+            "note, added_by, added) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [(shown(ids.to_int(a["taxon_id"])), a["kind"], a["value"], a["status"] or None,
+              a["source"] or None, a["note"] or None, a["added_by"], a["added"] or None)
+             for a in cur.annotations])
     stats["taxa"] = len(nodes)
     stats["hidden"] = sum(n["hidden"] for n in nodes.values())
     stats["root"] = ids.to_ext(root) if root else None

@@ -9,7 +9,12 @@ adds a taxon (a morphospecies, a genus no source has); it gets an IOG- id on the
 `resolve`, written back into the file, so links to it are stable.
 
 curation/evidence.csv: what supports a curated taxon (or adds to a GBIF one): iNaturalist
-observations, GBIF occurrences, the curator's own photo files, or a photo URL.
+observations (identified or not: a photo voucher), GBIF occurrences, the curator's own photo
+files, or a photo URL. `editor` is who added it.
+
+curation/annotations.csv: public notes an editor attached to a taxon: distribution tags (a
+place from geo.PLACES with present / absent / doubtful and an optional source) and other
+links. `added_by` is required.
 
 `resolve` derives the `taxa` table from COL + the name matches + these files (tree.py). Nothing here writes to the
 pipeline tables, and nothing in the pipeline writes to these files.
@@ -33,6 +38,10 @@ OVERRIDE_FIELDS = ["rank", "name", "authorship", "parent_id", "status", "accepte
 # Columns added after files were first written: a file without them still reads (as blank).
 OPTIONAL_COLUMNS = {"verified"}
 EVIDENCE_COLUMNS = ["taxon_id", "kind", "ref", "license", "credit", "note", "editor", "edited"]
+ANNOTATION_COLUMNS = ["taxon_id", "kind", "value", "status", "source", "note", "added_by",
+                      "added"]
+ANNOTATION_KINDS = {"distribution", "link"}
+DISTRIBUTION_STATUS = ["present", "absent", "doubtful"]
 
 STATUSES = {"accepted", "synonym", "doubtful", "morphospecies"}
 ESTABLISHMENT = {"native", "endemic", "introduced", "invasive", "unknown"}
@@ -50,6 +59,7 @@ class CurationError(ValueError):
 class Curation:
     rows: list[dict] = field(default_factory=list)
     evidence: list[dict] = field(default_factory=list)
+    annotations: list[dict] = field(default_factory=list)
     assigned: int = 0           # new ids handed out by this load
 
 
@@ -76,8 +86,9 @@ def write_csv(path: Path, columns: list[str], rows: list[dict]) -> None:
 
 
 def load(taxa_csv: Path = TAXA_CSV, evidence_csv: Path = EVIDENCE_CSV,
-         assign_ids: bool = True) -> Curation:
-    """Read and check both files; give new taxa ids (and save them) when `assign_ids`."""
+         assign_ids: bool = True, annotations_csv: Path | None = None) -> Curation:
+    """Read and check the files; give new taxa ids (and save them) when `assign_ids`.
+    `annotations_csv` defaults to the annotations.csv next to `taxa_csv`."""
     rows = _read(taxa_csv, TAXA_COLUMNS)
     errors = []
     seen: set[int] = set()
@@ -136,11 +147,47 @@ def load(taxa_csv: Path = TAXA_CSV, evidence_csv: Path = EVIDENCE_CSV,
         if e["kind"] == "photo_file" and e["ref"] and not (config.CURATED_PHOTOS_DIR /
                                                            e["ref"]).exists():
             errors.append(f"{where}: no file data/curated_photos/{e['ref']}")
+        if e["kind"] in ("inat_observation", "gbif_occurrence") and e["ref"] and \
+                not e["ref"].isdigit():
+            errors.append(f"{where}: ref for {e['kind']} is the record's number, not "
+                          f"{e['ref']!r}")
+    if annotations_csv is None:
+        annotations_csv = taxa_csv.with_name("annotations.csv")
+    annotations = _read(annotations_csv, ANNOTATION_COLUMNS)
+    errors += check_annotations(annotations)
     if errors:
         raise CurationError("\n".join(errors))
     if assigned:
         write_csv(taxa_csv, TAXA_COLUMNS, rows)
-    return Curation(rows=rows, evidence=evidence, assigned=assigned)
+    return Curation(rows=rows, evidence=evidence, annotations=annotations, assigned=assigned)
+
+
+def check_annotations(annotations: list[dict]) -> list[str]:
+    from .geo import PLACES
+
+    errors, seen = [], set()
+    for i, a in enumerate(annotations, start=2):
+        where = f"annotations.csv line {i}"
+        if not ids.valid(a["taxon_id"]):
+            errors.append(f"{where}: taxon_id {a['taxon_id']!r} is not an id")
+        if a["kind"] not in ANNOTATION_KINDS:
+            errors.append(f"{where}: kind {a['kind']!r} is not one of {sorted(ANNOTATION_KINDS)}")
+        elif a["kind"] == "distribution":
+            if a["value"] not in PLACES:
+                errors.append(f"{where}: {a['value']!r} is not a place on the list (an island "
+                              "group, Guam, CNMI, Palau, FSM, Marshalls, or an island)")
+            if a["status"] not in DISTRIBUTION_STATUS:
+                errors.append(f"{where}: status {a['status']!r} is not one of "
+                              f"{', '.join(DISTRIBUTION_STATUS)}")
+        elif not a["value"].startswith(("https://", "http://")):
+            errors.append(f"{where}: a link needs a URL (https://...), not {a['value']!r}")
+        if not a["added_by"]:
+            errors.append(f"{where}: added_by is empty (who added it)")
+        key = (a["taxon_id"], a["kind"], a["value"])
+        if key in seen:
+            errors.append(f"{where}: {a['kind']} {a['value']} appears twice for {a['taxon_id']}")
+        seen.add(key)
+    return errors
 
 
 def resolve(conn, cur: Curation) -> dict[str, int]:
@@ -153,27 +200,35 @@ def resolve(conn, cur: Curation) -> dict[str, int]:
 
 # ---------------------------------------------------------------- editing (curation API, import)
 
-def _apply(conn, rows: list[dict], evidence: list[dict]) -> dict[str, int]:
-    """Validate a whole new state of both files, resolve it, and only then save it.
+def _apply(conn, rows: list[dict], evidence: list[dict],
+           annotations: list[dict] | None = None) -> dict[str, int]:
+    """Validate a whole new state of the files, resolve it, and only then save it.
 
     The files are written to temporary copies first; `load` and `resolve` raise before
     anything is replaced, so a bad edit never reaches curation/*.csv or the tree.
+    `annotations` None keeps annotations.csv as it is.
     """
     taxa_csv, evidence_csv = TAXA_CSV, EVIDENCE_CSV     # read at call time (tests patch them)
+    ann_csv = taxa_csv.with_name("annotations.csv")
+    if annotations is None:
+        annotations = _read(ann_csv, ANNOTATION_COLUMNS)
     tmp_taxa = taxa_csv.with_suffix(".pending.csv")
     tmp_ev = evidence_csv.with_suffix(".pending.csv")
+    tmp_ann = ann_csv.with_suffix(".pending.csv")
     write_csv(tmp_taxa, TAXA_COLUMNS, rows)
     write_csv(tmp_ev, EVIDENCE_COLUMNS, evidence)
+    write_csv(tmp_ann, ANNOTATION_COLUMNS, annotations)
     try:
-        cur = load(tmp_taxa, tmp_ev)
+        cur = load(tmp_taxa, tmp_ev, annotations_csv=tmp_ann)
         stats = resolve(conn, cur)
     except CurationError:
-        tmp_taxa.unlink(missing_ok=True)
-        tmp_ev.unlink(missing_ok=True)
+        for t in (tmp_taxa, tmp_ev, tmp_ann):
+            t.unlink(missing_ok=True)
         resolve(conn, load(taxa_csv, evidence_csv))     # put the tree back as it was
         raise
     tmp_taxa.replace(taxa_csv)
     tmp_ev.replace(evidence_csv)
+    tmp_ann.replace(ann_csv)
     stats["assigned"] = cur.assigned
     return stats
 

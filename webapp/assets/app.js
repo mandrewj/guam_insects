@@ -798,8 +798,13 @@
         var url = kind[1] ? kind[1] + encodeURIComponent(e.ref) : (e.kind === "photo_url" ? e.ref : null);
         return "<li>" + (url ? ext(url, esc(kind[0]) + " " + esc(e.kind === "photo_url" ? "" : e.ref)) : esc(kind[0])) +
           (e.credit ? " · " + esc(e.credit) : "") + (e.license ? " · " + esc(e.license.toUpperCase()) : "") +
-          (e.note ? ' <span class="muted">' + esc(e.note) + "</span>" : "") + "</li>";
+          (e.note ? ' <span class="muted">' + esc(e.note) + "</span>" : "") + addedBy(e) + "</li>";
       }).join("") + "</ul></section>";
+  }
+
+  function addedBy(x) {
+    return x.added_by ? ' <span class="added-by">added by ' + esc(x.added_by) +
+      (x.added ? ", " + esc(x.added) : "") + "</span>" : "";
   }
 
   function curatedNote(r) {
@@ -891,17 +896,22 @@
 
   // Where it is recorded, island group by island group, Guam first; each source in its own
   // column because the counts overlap (research-grade iNat observations flow into GBIF).
+  var ED_MARK = { present: '<span title="present">✓</span>', doubtful: '<span title="doubtful">?</span>',
+                  absent: '<span title="absent">✗</span>' };
   function presenceBox(r) {
     var rows = r.presence || [];
     var higher = r.rank !== "Species" && r.rank !== "Subspecies";
-    if (!rows.length) {
+    var tags = r.distribution || [];
+    var edCol = rows.some(function (p) { return p.editor; });
+    if (!rows.length && !tags.length) {
       return r.rank === "Subphylum" ? "" : '<div class="box presence-box"><h3>Recorded from</h3><p class="muted">' +
         "No dated records from Micronesia in GBIF, iNaturalist or the digitized checklists yet.</p></div>";
     }
     var cell = function (n) { return n ? Number(n).toLocaleString() : '<span class="muted">–</span>'; };
     var head = "<tr><th></th>" + (higher ? '<th title="Species recorded there, any source">spp.</th>' : "") +
       '<th class="t-gbif" title="GBIF records">GBIF</th><th class="t-inat" title="iNaturalist research-grade observations">iNat</th>' +
-      '<th title="' + (higher ? "Species recorded in the literature" : "Documents recording it") + '">Lit.</th></tr>';
+      '<th title="' + (higher ? "Species recorded in the literature" : "Documents recording it") + '">Lit.</th>' +
+      (edCol ? '<th title="An editor\'s distribution tag">Ed.</th>' : "") + "</tr>";
     // A literature count resting on machine-read records gets an asterisk.
     var machine = higher ? [] : (r.machine_lit || []);
     var body = rows.map(function (p) {
@@ -910,8 +920,15 @@
       return '<tr class="r-' + esc(p.area.toLowerCase()) + '"><th><abbr title="' + esc(regionTip(p.area)) + '">' +
         esc(p.label) + "</abbr></th>" +
         (higher ? "<td>" + cell(p.species) + "</td>" : "") + "<td>" + cell(p.gbif) + "</td><td>" +
-        cell(p.inat) + "</td><td>" + lit + "</td></tr>";
+        cell(p.inat) + "</td><td>" + lit + "</td>" +
+        (edCol ? '<td class="ed-' + esc(p.editor || "none") + '">' + (ED_MARK[p.editor] || cell(0)) + "</td>" : "") + "</tr>";
     }).join("");
+    var notes = tags.length ? '<ul class="dist-tags">' + tags.map(function (t) {
+      return '<li class="r-' + esc(t.area.toLowerCase()) + '"><b>' + esc(t.place) + "</b> " +
+        '<span class="tag-' + esc(t.status) + '">' + esc(t.status) + "</span>" +
+        (t.source ? " · " + (/^https?:\/\//.test(t.source) ? ext(t.source, "source") : esc(t.source)) : "") +
+        addedBy(t) + "</li>";
+    }).join("") + "</ul>" : "";
     // The list of island names under the map: genus and below (higher up the map says it).
     var low = { Genus: 1, Subgenus: 1, Species: 1, Subspecies: 1 };
     var isles = low[r.rank] ? (r.islands || []).filter(function (x) { return x.islands.length; }) : [];
@@ -921,7 +938,8 @@
     }).join("; ") + "</p>" : "";
     return '<div class="box presence-box"><h3>Recorded from</h3>' +
       islandMap((r.regions || []), [].concat.apply([], (r.islands || []).map(function (x) { return x.islands; }))) +
-      '<table class="presence">' + head + body + "</table>" + named +
+      (rows.length ? '<table class="presence">' + head + body + "</table>" : "") + named +
+      (notes ? '<p class="dist-head">Editors\' distribution tags</p>' + notes : "") +
       '<p class="cs-src">Record counts per source, sources often overlap. ' +
       (machine.length ? "* includes literature records read by machine from the PDF library, not yet checked. " : "") +
       "Map positions are approximate.</p></div>";

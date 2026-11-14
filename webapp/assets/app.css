@@ -378,6 +378,13 @@ table.presence tr th:first-child { text-align: left; font-weight: 600; }
 table.presence tr.r-gu th:first-child { color: var(--gu); } table.presence tr.r-mp th:first-child { color: var(--mp); }
 table.presence tr.r-pw th:first-child { color: var(--pw); } table.presence tr.r-fm th:first-child { color: var(--fm); }
 table.presence tr.r-mh th:first-child { color: var(--mh); }
+table.presence td.ed-present { color: var(--ok, #2e7d4f); } table.presence td.ed-absent { color: var(--muted); }
+.dist-head { margin: 10px 0 2px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+ul.dist-tags { list-style: none; margin: 0; padding: 0; font-size: 0.86rem; }
+ul.dist-tags li { padding: 2px 0; border-bottom: 1px solid var(--line); }
+ul.dist-tags .tag-present { color: var(--ok, #2e7d4f); } ul.dist-tags .tag-absent { color: var(--muted); }
+ul.dist-tags .tag-doubtful { font-style: italic; }
+.added-by { color: var(--muted); font-size: 0.82em; }
 .badge.est-ok { background: #e3f2e6; color: #2e6b3a; } .badge.est-warn { background: var(--warn-soft); color: var(--warn); }
 .badge.est-crit { background: #fbe3e0; color: #9b2c1f; } .badge.est-muted { background: var(--line); color: var(--muted); }
 .badge.morpho { background: var(--fossil-soft); color: var(--fossil); }

@@ -3,9 +3,9 @@
 The site's tree is the **Catalogue of Life** (COL eXtended Release, through GBIF), restricted
 to taxa with records in Micronesia, **plus the names COL lacks** that a record has (flagged),
 **plus the edits in this folder**. `uv run guaminsects resolve` applies them on every build,
-so a pipeline re-run never loses them. Edit these files in a spreadsheet, a text editor, or
-through `taxonomy.csv` (below); all of them end up here, and git keeps
-the history.
+so a pipeline re-run never loses them. Edit these files with **the editor**
+(`editor/index.html`, [docs/EDITOR.md](../docs/EDITOR.md)), in a spreadsheet, a text editor, or
+through `taxonomy.csv` (below); all of them end up here, and git keeps the history.
 
 ## Ids
 
@@ -67,9 +67,28 @@ merged, with a note. Every merged name is a row in `taxonomy.csv` and listed on 
 page under "Names merged here". `ops/review.py` lists the merges, the names held for review,
 names that could not be placed, and families with family-level records only.
 
+## `annotations.csv`: editors' public notes
+
+One row per distribution tag or link. All of it is shown on the site.
+
+| column | meaning |
+|---|---|
+| `taxon_id` | the taxon (any id; a merged name's id counts for the taxon it is shown as) |
+| `kind` | `distribution` or `link` |
+| `value` | distribution: a place, one of the island groups (`Guam`, `CNMI`, `Palau`, `FSM`, `Marshalls`) or an island in `src/guaminsects/geo.py` (`Rota`, `Yap`, `Pohnpei`...); link: the URL |
+| `status` | distribution: `present`, `absent` or `doubtful` |
+| `source` | distribution: a citation or a URL (optional) |
+| `note` | link: its label |
+| `added_by`, `added` | who added it (required), when (YYYY-MM-DD) |
+
+A **present** tag is a record: the taxon is listed for that island group (and its genus and
+family with it) and the island is lit on the map. **Absent** and **doubtful** tags are shown on
+the page and count for nothing.
+
 ## `evidence.csv`: what supports a taxon
 
-One row per piece of evidence. Several rows with the same `taxon_id` make a set.
+One row per piece of evidence. Several rows with the same `taxon_id` make a set. An
+iNaturalist observation may be unidentified there (a photo voucher); `editor` is who added it.
 
 | `kind` | `ref` | notes |
 |---|---|---|
@@ -92,7 +111,9 @@ synonym): COL synonyms, spelling variants and duplicate entries the sources used
 they were matched. The site shows them as one taxon.
 
 **Editing it.** Change cells in the editable columns, or add a row with a blank `taxonID`,
-save it as CSV, then build (or run `uv run guaminsects taxonomy`). The build compares the file
+save it as CSV, then build (or run `uv run guaminsects taxonomy`) **before you commit**: only
+uncommitted edits are taken in (a taxonomy.csv that matches its commit came from git, so a
+pulled regeneration is never read as edits). The editor's table needs none of this. The build compares the file
 with the copy it last wrote (`data.nosync/taxonomy.last.csv`), turns each changed cell into a
 `curation/taxa.csv` row (editor: your git name, or `GUAMINSECTS_EDITOR`), and only then
 rewrites the file. A change that would break the tree (a cycle, an unknown parent) stops the
@@ -131,8 +152,12 @@ so blanking a cell does not clear it.
 | `specimenRecords` | | no | GBIF preserved specimens and material samples in Micronesia |
 | `gbifRecords`, `inatObservations` | | no | all GBIF records; iNaturalist research-grade observations |
 | `nameAccordingTo`, `references` | yes | no | Catalogue of Life (or GBIF Backbone / source name / curator); the COL or GBIF page |
+| `distributionTags` | | yes | editors' tags, `Rota: present (Buden 2004) \| Yap: doubtful` (annotations.csv) |
+| `associatedOccurrences` | yes | yes | vouchers: iNaturalist observation and GBIF occurrence URLs (evidence.csv) |
+| `associatedReferences` | yes | yes | other links, `Label <https://...>` or a bare URL (annotations.csv) |
 | `taxonRemarks` | yes | yes | note shown on the taxon page |
 | `hidden`, `curatedFields` | | hidden only | 1 = hidden from the site; which fields were set by hand |
+| `modifiedBy`, `modified` | | no | who last edited the taxon in curation/, and when |
 
 Lists inside a cell are separated by ` | `.
 

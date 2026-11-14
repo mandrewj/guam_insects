@@ -95,6 +95,12 @@ def card_thumb(photos: list[dict], look: int = 4, ratio: float = 1.2) -> str | N
     return first["thumb"]
 
 
+def _host(url: str) -> str:
+    """A link's label when the editor gave none: its site, without www."""
+    host = re.sub(r"^https?://", "", url).split("/")[0]
+    return host.removeprefix("www.") or url
+
+
 def _postorder(children: dict[int, list[int]], roots: list[int]) -> list[int]:
     order, seen, stack = [], set(), [(r, False) for r in roots]
     while stack:
@@ -145,6 +151,32 @@ def build_records(conn) -> dict[int, dict]:
             machine_lit[tid].add(r["area"])
     # Curated evidence (an iNat observation, a GBIF record) puts a taxon on the list even
     # with no area yet; the curator gives the area in the note until evidence is fetched.
+    # An editor's distribution tag "present" is a record of its own ("editor" source);
+    # "absent" and "doubtful" tags are shown on the page but count for nothing.
+    tags: dict[int, list[dict]] = defaultdict(list)
+    extra_links: dict[int, list[dict]] = defaultdict(list)
+    tagged_isles: dict[int, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
+    for r in conn.execute("SELECT * FROM taxon_annotations ORDER BY taxon_id, kind, value"):
+        tid = r["taxon_id"]
+        if tid not in taxa:
+            continue
+        if r["kind"] == "link":
+            extra_links[tid].append({"system": "editor", "label": r["note"] or _host(r["value"]),
+                                     "url": r["value"], "confidence": "high",
+                                     "note": f"added by {r['added_by']}"})
+            continue
+        area = geo.place_area(r["value"])
+        if area is None:
+            continue
+        tags[tid].append({"place": r["value"], "area": area, "status": r["status"] or "present",
+                          "source": r["source"], "added_by": r["added_by"], "added": r["added"]})
+        if (r["status"] or "present") == "present":
+            own[tid][area]["editor"] = 1
+            if r["value"] not in geo.GROUPS:
+                tagged_isles[tid][area].add(r["value"])
+    for t in tags.values():
+        t.sort(key=lambda x: (config.AREA_CODES.index(x["area"]), x["place"] not in geo.GROUPS,
+                              x["place"]))
 
     # Roll-ups, leaves first: species per area (a species counts in an area when any source
     # records it there), iNat observations summed (iNat counts are per leaf taxon), visible
@@ -192,8 +224,13 @@ def build_records(conn) -> dict[int, dict]:
                    "literature": len(lit_in[tid].get(area, ())) if t["rank"] not in
                    SPECIES_RANKS else srcs.get("literature", 0),
                    "species": len(species_in[tid].get(area, ())) if t["rank"] not in
-                   SPECIES_RANKS else None}
-            if row["gbif"] or row["inat"] or row["literature"] or row["species"]:
+                   SPECIES_RANKS else None,
+                   # The editors' word on this area for this taxon itself: present wins.
+                   "editor": next((s for s in ("present", "doubtful", "absent")
+                                   if any(x["area"] == area and x["status"] == s
+                                          for x in tags.get(tid, []))), None)}
+            if row["gbif"] or row["inat"] or row["literature"] or row["species"] or \
+                    row["editor"]:
                 rows.append(row)
         return rows
 
@@ -294,6 +331,9 @@ def build_records(conn) -> dict[int, dict]:
         tid = keys.get(r["taxon_id"])
         if tid in taxa:
             islands[tid][r["area"]].add(r["island"])
+    for tid, by_area in tagged_isles.items():
+        for a, isl in by_area.items():
+            islands[tid][a] |= isl
     for tid in order:                    # leaves first: a genus takes its species' islands
         for c in children[tid]:
             for a, isl in islands.get(c, {}).items():
@@ -327,7 +367,8 @@ def build_records(conn) -> dict[int, dict]:
     evidence: dict[int, list[dict]] = defaultdict(list)
     for r in conn.execute("SELECT * FROM taxon_evidence ORDER BY taxon_id, kind, ref"):
         evidence[r["taxon_id"]].append({"kind": r["kind"], "ref": r["ref"], "license": r["license"],
-                                        "credit": r["credit"], "note": r["note"]})
+                                        "credit": r["credit"], "note": r["note"],
+                                        "added_by": r["editor"], "added": r["edited"]})
     wd = {r["taxon_id"]: dict(r) for r in conn.execute(
         "SELECT * FROM taxon_wikidata WHERE qid IS NOT NULL")}
     bugguide: dict[int, int] = {}
@@ -436,6 +477,7 @@ def build_records(conn) -> dict[int, dict]:
                           "confidence": w["confidence"],
                           "note": None if w["confidence"] == "high" else
                           f"Wikidata names it {w['name']}"})
+        links.extend(extra_links.get(tid, []))
         records[tid] = {
             "id": tid, "ext": t["ext_id"] or ids.to_ext(tid), "in_col": bool(t["in_col"]),
             "match_note": t["match_note"], "names": other_names.get(tid, []),
@@ -469,6 +511,7 @@ def build_records(conn) -> dict[int, dict]:
             "regions": regions_of(tid),
             "literature": lit.get(tid, []),
             "evidence": evidence.get(tid, []),
+            "distribution": tags.get(tid, []),
             "hosts": hosts.get(tid, []),
             "synonyms": [n for n in synonyms.get(tid, []) if n != t["name"]][:40],
             # Other English names (Wikidata), for search: "globe skimmer" finds Pantala

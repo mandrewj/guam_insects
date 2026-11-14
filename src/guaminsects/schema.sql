@@ -121,7 +121,14 @@ CREATE INDEX IF NOT EXISTS taxa_gbif ON taxa(gbif_key);
 -- Photos and records a curator attached to a taxon (from curation/evidence.csv).
 CREATE TABLE IF NOT EXISTS taxon_evidence (
   taxon_id INTEGER, kind TEXT, ref TEXT, license TEXT, credit TEXT, note TEXT,
+  editor TEXT, edited TEXT,                -- who added it, when (YYYY-MM-DD)
   PRIMARY KEY (taxon_id, kind, ref));
+-- Editors' public notes (from curation/annotations.csv): distribution tags (a place from
+-- geo.PLACES, present | absent | doubtful, a source) and other links (value = URL, note =
+-- label). taxon_id is the displayed taxon.
+CREATE TABLE IF NOT EXISTS taxon_annotations (
+  taxon_id INTEGER, kind TEXT, value TEXT, status TEXT, source TEXT, note TEXT,
+  added_by TEXT, added TEXT, PRIMARY KEY (taxon_id, kind, value));
 
 CREATE TABLE IF NOT EXISTS taxon_synonyms (
   taxon_id INTEGER, synonym TEXT, source TEXT, PRIMARY KEY (taxon_id, synonym));

@@ -21,6 +21,8 @@ ADDED_COLUMNS: list[tuple[str, str, str]] = [
     ("taxa", "match_note", "TEXT"),
     ("taxa", "extra", "TEXT"),
     ("wikidata_taxa", "wikispecies", "TEXT"),
+    ("taxon_evidence", "editor", "TEXT"),
+    ("taxon_evidence", "edited", "TEXT"),
 ]
 
 
