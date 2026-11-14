@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # The rebuild after a push to main (.github/workflows/rebuild.yml): check the dataset, build
 # the site from it, check the site, deploy. Needs nothing but the repository and the Vercel
-# variables (see deploy.sh); it never needs the data machine.
+# variables (see deploy.sh); it never needs the data machine. A push to main starts it.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 uv run guaminsects dataset check
