@@ -269,3 +269,19 @@ def test_inat_common_names_come_from_the_published_file_first_name():
 def inat_api():
     from guaminsects.sources import inat
     return inat
+
+
+def test_wikipedia_clean_drops_hostile_top_level_markup():
+    html, _ = wikipedia.clean(
+        '<img src=x onerror="alert(1)"><script>alert(1)</script><style>p{}</style>'
+        '<p onclick="x()">Fine <a href="javascript:alert(1)">link</a> <img src=y></p>')
+    low = html.lower()
+    for bad in ("onerror", "onclick", "<script", "<style", "javascript:", "<img"):
+        assert bad not in low
+    assert "Fine" in html
+
+
+def test_bugguide_missing_database_raises_instead_of_wiping_links(tmp_path):
+    import pytest
+    with pytest.raises(FileNotFoundError):
+        bugguide.entobase_rows(tmp_path / "nope.sqlite")

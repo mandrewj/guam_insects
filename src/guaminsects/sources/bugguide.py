@@ -16,7 +16,8 @@ ENTOBASE_DB = config.ROOT.parent / "entobase" / "data.nosync" / "entobase.sqlite
 
 def entobase_rows(path: Path = ENTOBASE_DB) -> list[tuple]:
     if not path.exists():
-        return []
+        # An empty list would make refresh() delete every tool-made BugGuide link.
+        raise FileNotFoundError(f"entobase database not found: {path} (BugGuide links are read from it)")
     src = sqlite3.connect(f"file:{path}?mode=ro", uri=True, timeout=60)
     try:
         return src.execute(

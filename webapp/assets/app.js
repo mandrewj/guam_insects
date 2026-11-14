@@ -156,6 +156,7 @@
   function plural(n, word) { return n + " " + word + (n === 1 || INVARIANT[word] ? "" : "s"); }
   function stripDot(s) { return String(s).replace(/\.\s*$/, ""); }
   function ext(url, label) {
+    if (!/^https?:\/\//i.test(String(url))) return label;      // only web links, never javascript: or data:
     return '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + label + "</a>";
   }
 

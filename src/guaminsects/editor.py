@@ -127,6 +127,10 @@ def commit(files: dict[str, str], message: str, author: str, base: str,
     if not author:
         return {"ok": False, "status": 400, "errors": ["a name (added by) is required"]}
     state = info()
+    if state["branch"] != BRANCH:
+        return {"ok": False, "status": 409, "errors": [
+            f"the checkout is on '{state['branch']}', not '{BRANCH}': switch to {BRANCH} first "
+            "(the editor publishes straight to main)"]}
     if state["head"] != base:
         return {"ok": False, "status": 409, "head": state["head"],
                 "errors": ["the repository moved on since the editor loaded it; reload"]}
@@ -145,7 +149,7 @@ def commit(files: dict[str, str], message: str, author: str, base: str,
         tmp.replace(path)
     email = _git("config", "user.email", check=False)
     _git("add", "--", *files)
-    _git("commit", "-q", "-m", message, f"--author={author} <{email}>")
+    _git("commit", "-q", "-m", message, f"--author={author} <{email}>", "--only", "--", *files)
     sha = _git("rev-parse", "HEAD")
     out = {"ok": True, "sha": sha, "pushed": False}
     if push:

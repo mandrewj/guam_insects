@@ -50,7 +50,16 @@ def clean(html: str) -> tuple[str, str]:
             continue
         if el.name == "p" and not el.get_text(strip=True):
             continue
-        for t in el.find_all(True):
+        # The element itself gets the same rules as its descendants (a top-level <img onerror>
+        # or <a href="javascript:"> must not pass).
+        if el.name not in KEEP_TAGS and el.name != "p":
+            continue
+        for t in el.find_all(("script", "style", "img", "iframe", "object", "embed", "svg")):
+            t.decompose()
+        for t in [el] + el.find_all(True):
+            if t is el and t.name not in ("a",):
+                t.attrs = {}
+                continue
             if t.name not in KEEP_TAGS:
                 t.unwrap()
                 continue
