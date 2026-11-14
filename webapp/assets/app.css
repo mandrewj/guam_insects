@@ -79,6 +79,9 @@ kbd { font: 0.85em ui-monospace, SFMono-Regular, Menlo, monospace; padding: 1px 
 .s-common { color: var(--muted); }
 .s-ctx { color: var(--muted); font-size: 0.85rem; }
 .s-ctx::before { content: "· "; }
+/* the direct parent: lighter and smaller than the name and its common name */
+.s-parent { color: var(--muted); opacity: 0.62; font-size: 0.82rem; }
+.s-parent::before { content: "· "; }
 .search-title { font: 600 1.6rem/1.2 var(--serif); margin: 6px 0; }
 .search-opts { font-size: 0.9rem; margin: 0 0 8px; }
 .results { list-style: none; padding: 0; margin: 0; }

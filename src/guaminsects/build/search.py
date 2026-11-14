@@ -14,8 +14,11 @@ from .bundle import write_if_changed
 
 def build(records: dict[int, dict], out) -> dict:
     data = out / "data" / "s"
+    # [id, name, every name for matching, rank, order > family, hidden, the common name shown,
+    #  the direct parent shown]: matching uses all the names, the list shows only these two.
     rows = [[tid, r["name"], " | ".join(s._names(r)), r["rank"], s._context(r),
-             int(r["hidden"] or r["status"] == "synonym")] for tid, r in sorted(records.items())]
+             int(r["hidden"] or r["status"] == "synonym"), r["common"] or "",
+             r["lineage"][-1]["name"] if r["lineage"] else ""] for tid, r in sorted(records.items())]
     write_if_changed(data / "names.js", f"{s.JS_GLOBAL}.names("
                      + json.dumps(rows, ensure_ascii=False, separators=(",", ":")) + ");\n")
     docs = s.documents(None, records)

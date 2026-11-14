@@ -1182,6 +1182,7 @@
     names = rows.map(function (r) {
       var fname = fold(r[1]), fcommons = r[2] ? r[2].split(" | ").map(fold) : [];
       return { id: r[0], name: r[1], commons: r[2], rank: r[3], ctx: r[4], hidden: !!r[5],
+               common: r[6] || "", parent: r[7] || "",
                fname: fname, fcommons: fcommons,
                words: (fname + " " + fcommons.join(" ")).split(/[^a-z0-9]+/).filter(Boolean) };
     });
@@ -1337,10 +1338,15 @@
     return found.slice(0, 5);
   }
 
+  // What a suggestion or result shows: the scientific name, its common name, and the direct
+  // parent in a lighter colour. (Matching also uses synonyms and other names; they are not shown.)
+  function nameLabel(n) {
+    return sciName(n.rank, n.name) + (n.common ? ' <span class="s-common">' + esc(n.common) + "</span>" : "") +
+      (n.parent ? ' <span class="s-parent">' + esc(n.parent) + "</span>" : "");
+  }
   function nameRow(n) {
     return '<li><a href="' + href(n.id) + '"><span class="s-rank">' + esc(n.rank) + "</span> " +
-      sciName(n.rank, n.name) + (n.commons ? ' <span class="s-common">' + esc(n.commons) + "</span>" : "") +
-      (n.ctx ? ' <span class="s-ctx">' + esc(n.ctx) + "</span>" : "") +
+      nameLabel(n) +
       (n.hidden ? ' <span class="badge warn">hidden</span>' : "") + "</a></li>";
   }
 
@@ -1403,8 +1409,8 @@
       html.push('<ul class="results text">' + text.slice(0, limit).map(function (h) {
         var n = byId.get(h.id);
         return '<li data-id="' + h.id + '"><a href="' + href(h.id) + '">' + (n ? sciName(n.rank, n.name) : h.id) + "</a>" +
-          (n && n.commons ? ' <span class="s-common">' + esc(n.commons) + "</span>" : "") +
-          (n && n.ctx ? ' <span class="s-ctx">' + esc(n.ctx) + "</span>" : "") + '<p class="snip"></p></li>';
+          (n && n.common ? ' <span class="s-common">' + esc(n.common) + "</span>" : "") +
+          (n && n.parent ? ' <span class="s-parent">' + esc(n.parent) + "</span>" : "") + '<p class="snip"></p></li>';
       }).join("") + "</ul>");
       if (text.length > limit) html.push('<button class="more" type="button">Show more (' + (text.length - limit) + " left)</button>");
       html.push("</section>");
@@ -1434,9 +1440,8 @@
       var hits = nameMatches(q, false, 8);
       qInput.setAttribute("aria-expanded", "true");
       suggest.innerHTML = hits.map(function (n, i) {
-        return '<li role="option" id="sg-' + i + '" data-id="' + n.id + '">' + sciName(n.rank, n.name) +
-          (n.commons ? ' <span class="s-common">' + esc(n.commons) + "</span>" : "") +
-          ' <span class="s-rank">' + esc(n.rank) + "</span></li>";
+        return '<li role="option" id="sg-' + i + '" data-id="' + n.id + '"><span class="s-rank">' + esc(n.rank) + "</span> " +
+          nameLabel(n) + "</li>";
       }).join("") + '<li role="option" class="all' + (hits.length ? "" : " only") +
         '" data-all="1">Search all text for “' + esc(q) + "”</li>";
       suggest.hidden = false;
