@@ -42,5 +42,10 @@ run build build
 echo "$(date +%H:%M) check"; uv run python ops/check_site.py 2>&1 | tail -6
 uv run python ops/review.py | tail -1
 uv run guaminsects stats 2>&1 | tail -12
-if [ "${1:-}" != "--no-deploy" ]; then echo "$(date +%H:%M) deploy"; ops/deploy.sh --prod 2>&1 | grep -E "Aliased|ready|error|FAILED|https://" | tail -4; fi
+if [ "${1:-}" != "--no-deploy" ]; then
+  # The snapshot first: the rebuild after the next push (an editor's commit) reads it, and it
+  # must not be older than the taxonomy.csv this machine commits.
+  echo "$(date +%H:%M) snapshot"; uv run guaminsects snapshot --upload 2>&1 | tail -2
+  echo "$(date +%H:%M) deploy"; ops/deploy.sh --prod 2>&1 | grep -E "Aliased|ready|error|FAILED|https://" | tail -4
+fi
 echo "$(date +%H:%M) harvest done"

@@ -204,6 +204,45 @@ def cmd_build(args) -> int:
     return 0
 
 
+def cmd_edit(args) -> int:
+    """The taxonomy editor for this clone: serve it, commit and push its changes with your git
+    (no database needed; the push triggers the rebuild)."""
+    from . import editor
+
+    editor.write_spec()
+    return editor.serve(args.port, push=not args.no_push)
+
+
+def cmd_editor_spec(args) -> int:
+    """Write editor/assets/spec.js (the editor's columns, ranks, places) from the Python code."""
+    from . import editor
+
+    print("editor/assets/spec.js " + ("written" if editor.write_spec() else "unchanged"))
+    return 0
+
+
+def cmd_snapshot(args) -> int:
+    """The build's data (database without PDF text, thumbnails) as a public release asset."""
+    from . import snapshot
+
+    info = snapshot.make()
+    print(f"snapshot: {info['sizes_mb']} MB, {info['thumbs']} thumbnails, emptied "
+          + ", ".join(f"{k} {v}" for k, v in info["emptied"].items()))
+    if args.upload:
+        snapshot.upload()
+        print(f"uploaded to the GitHub release {snapshot.TAG}")
+    return 0
+
+
+def cmd_restore(args) -> int:
+    """Fetch the data snapshot (for CI or a new machine) into data.nosync and data/media."""
+    from . import snapshot
+
+    out = snapshot.restore(force=args.force)
+    print(f"restored the snapshot made {out['made']}: {out['db']}, {out['thumbs']} thumbnails")
+    return 0
+
+
 def cmd_serve(args) -> int:
     """Serve the built site on localhost (file:// works too)."""
     from . import server
@@ -420,6 +459,18 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("serve", help=cmd_serve.__doc__)
     p.add_argument("--port", type=int, default=8765)
     p.set_defaults(func=cmd_serve)
+    p = sub.add_parser("edit", help=cmd_edit.__doc__)
+    p.add_argument("--port", type=int, default=8766)
+    p.add_argument("--no-push", action="store_true", help="commit locally only")
+    p.set_defaults(func=cmd_edit)
+    p = sub.add_parser("editor-spec", help=cmd_editor_spec.__doc__)
+    p.set_defaults(func=cmd_editor_spec)
+    p = sub.add_parser("snapshot", help=cmd_snapshot.__doc__)
+    p.add_argument("--upload", action="store_true")
+    p.set_defaults(func=cmd_snapshot)
+    p = sub.add_parser("restore", help=cmd_restore.__doc__)
+    p.add_argument("--force", action="store_true")
+    p.set_defaults(func=cmd_restore)
     p = sub.add_parser("library", help=cmd_library.__doc__)
     p.set_defaults(func=cmd_library)
     p = sub.add_parser("pdftext", help=cmd_pdftext.__doc__)

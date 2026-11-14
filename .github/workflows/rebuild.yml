@@ -1,0 +1,88 @@
+# Rebuild and redeploy the site after every push to main that can change it: the taxonomy
+# editor's commits (curation/*.csv + taxonomy.csv), code, the web app. See docs/EDITOR.md.
+#
+# Needs: the data snapshot release (`uv run guaminsects snapshot --upload` on the data
+# machine) and three repository secrets: VERCEL_TOKEN (vercel.com/account/tokens),
+# VERCEL_ORG_ID and VERCEL_PROJECT_ID (site/public/.vercel/project.json on the data machine).
+# Without them the job checks the edits and stops with a notice instead of failing.
+name: Rebuild the site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - taxonomy.csv
+      - curation/**
+      - sources/**
+      - src/**
+      - webapp/**
+      - ops/**
+      - pyproject.toml
+      - uv.lock
+      - .github/workflows/rebuild.yml
+  workflow_dispatch:
+
+# One rebuild at a time; a push during a rebuild queues the next (the newest wins).
+concurrency:
+  group: rebuild-site
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      VERCEL: npx --yes vercel@65.4.0
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: astral-sh/setup-uv@v10.3.2
+
+      - name: Install
+        run: uv sync
+
+      - name: Check the curation files and the code
+        run: |
+          uv run python -c "from guaminsects import curation; c = curation.load(assign_ids=False); print(len(c.rows), 'curated rows,', len(c.evidence), 'evidence,', len(c.annotations), 'annotations')"
+          uv run pytest -q
+
+      - name: Ready to deploy?
+        id: ready
+        run: |
+          ok=true
+          if ! gh release view data-snapshot --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "::notice::No data snapshot yet: run 'uv run guaminsects snapshot --upload' on the data machine. Edits are checked and committed; the site is not rebuilt."
+            ok=false
+          fi
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "::notice::VERCEL_TOKEN, VERCEL_ORG_ID or VERCEL_PROJECT_ID is not set in the repository's secrets: not deploying."
+            ok=false
+          fi
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+
+      - name: Browser for the site check
+        if: steps.ready.outputs.ok == 'true'
+        run: uv run playwright install --with-deps chromium
+
+      - name: Rebuild, check and deploy
+        if: steps.ready.outputs.ok == 'true'
+        run: ops/ci_rebuild.sh
+
+      - name: Commit the regenerated taxonomy.csv
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          git add taxonomy.csv curation/
+          if git diff --cached --quiet; then echo "taxonomy.csv unchanged"; exit 0; fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "Rebuild: taxonomy.csv regenerated after ${GITHUB_SHA::7}"
+          # A push from this job starts no new run. If main moved meanwhile, the next
+          # rebuild regenerates it.
+          git push -q origin HEAD:main || echo "::notice::main moved on; the next rebuild regenerates taxonomy.csv"

@@ -30,11 +30,16 @@ cat > site/public/vercel.json <<'JSON'
 }
 JSON
 
-if [ ! -d site/public/.vercel ]; then
-  vercel link --yes --project "$PROJECT" --cwd site/public
+# CI (.github/workflows/rebuild.yml) passes VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID,
+# and a pinned CLI in VERCEL; on a machine, `vercel login` once and the link below suffice.
+VERCEL_CMD=${VERCEL:-vercel}
+token=()
+[ -n "${VERCEL_TOKEN:-}" ] && token=(--token "$VERCEL_TOKEN")
+if [ ! -d site/public/.vercel ] && [ -z "${VERCEL_PROJECT_ID:-}" ]; then
+  $VERCEL_CMD link --yes --project "$PROJECT" --cwd site/public ${token[@]+"${token[@]}"}
 fi
 # Always one archive: Hobby counts each uploaded file against 5,000 uploads a day
 # ("api-upload-free"), and the site is ~8,000 files.
-args=(deploy --yes --cwd site/public --archive=tgz)
+args=(deploy --yes --cwd site/public --archive=tgz ${token[@]+"${token[@]}"})
 [ "${1:-}" = "--prod" ] && args+=(--prod)
-vercel "${args[@]}"
+$VERCEL_CMD "${args[@]}"

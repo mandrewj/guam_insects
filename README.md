@@ -27,16 +27,24 @@ There is one build, `site/public`: the site you open here is the one deployed
 
 ## Curate
 
-The tree is GBIF's backbone plus the hand edits in `curation/` (add a morphospecies, rename,
-move, hide, set native/introduced, attach iNaturalist observations, GBIF records or your own
-photos). Two ways in, both writing the same files:
+The tree is the Catalogue of Life plus the hand edits in `curation/` (add a morphospecies,
+rename, move, merge, hide, set native/introduced, tag islands, attach iNaturalist
+observations, GBIF records, links or your own photos). Three ways in, all writing the same
+files:
 
+- **The editor** (`editor/index.html`; [how it works](docs/EDITOR.md)): open it in a browser,
+  from a clone or anywhere. It loads the latest taxonomy from GitHub, has tools for tags,
+  vouchers, links, synonyms and new taxa, and a table of every value. Its **Commit** button
+  commits to `main` (with your GitHub token, or with your git through
+  `uv run guaminsects edit`), which rebuilds and redeploys the site. Everything you add is
+  credited to the name you give it.
 - **`taxonomy.csv`** at the top of this folder: the whole taxonomy in Darwin Core columns
   (with family on every row, the island groups, sources and a verification level). Every
   build rewrites it, and edits made to it are taken in first. The site's "Download taxonomy"
   box gives the same file for the whole tree or for the taxon on screen and everything
   under it; an edited download goes back in with `uv run guaminsects import <file>`;
-- `curation/taxa.csv` and `curation/evidence.csv` directly ([format](curation/README.md)).
+- `curation/taxa.csv`, `curation/evidence.csv` and `curation/annotations.csv` directly
+  ([format](curation/README.md)).
 
 Every change is checked against the whole tree before it is saved, and
 `uv run python ops/review.py` writes a review page of doubtful records and unmatched names.

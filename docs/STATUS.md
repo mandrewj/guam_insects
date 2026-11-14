@@ -3,6 +3,41 @@
 Updated by the build session; newest first. Decisions live in CLAUDE.md; this file is what
 is done, what is waiting, and what needs the user.
 
+## 2026-11-13, night: the taxonomy editor (on the new machine, no database)
+
+### Done
+- **Editor** (`editor/`, docs/EDITOR.md): static, opens from `file://`, `guaminsects edit`
+  or anywhere; loads the latest taxonomy from GitHub. Tools for distribution tags, vouchers
+  (iNat / GBIF), links, synonymize / split, move, add taxa and names, confirm, hide, delete;
+  a virtualised table of every column; a change list kept in the browser; Commit with a
+  GitHub token or through `guaminsects edit` (your git), warning that it rebuilds the site.
+  Name required, credited on every row and in the commit.
+- **Annotations**: `curation/annotations.csv` (distribution tags, links) and evidence.csv
+  (vouchers, with `editor`); taxonomy.csv columns `distributionTags`,
+  `associatedOccurrences`, `associatedReferences`, `modifiedBy`, `modified` (both ways: a
+  spreadsheet edit to them is filed too). On the site: an "Ed." column and the editors' tags
+  in the presence box, present tags as records (rolled up, islands lit), added-by on
+  evidence and links.
+- **Rebuild on push**: `.github/workflows/rebuild.yml` + `ops/ci_rebuild.sh`; data from the
+  public release `data-snapshot` (`guaminsects snapshot --upload`, PDF text removed;
+  `guaminsects restore`). `ops/harvest.sh` uploads the snapshot before deploying.
+- **Tree fixes** found by the editor tests: a taxon merged by hand leaves the tree even when
+  taxa under it put it there (they move to the taxon it was merged into); a name merged by
+  hand takes its spelling variants along; a hand-added name keeps its authorship.
+- taxonomy.sync takes in only *uncommitted* edits to taxonomy.csv, so a pulled regeneration
+  is never mistaken for edits.
+- pytest: 63 passed (Chromium runs the editor's JavaScript against the fixture world and
+  checks it agrees with `resolve`). Screenshots in Chromium and WebKit, desktop and phone;
+  Playwright's Firefox does not start on this Mac (macOS 27), so it is untested here.
+
+### Waiting on the user
+- **Vercel secrets** in the GitHub repo: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+  (orgId / projectId in `site/public/.vercel/project.json` on the data machine).
+- **The first snapshot**: on the data machine, `git pull`, then
+  `uv run guaminsects snapshot --upload` (needs `gh auth login`). Until both exist, the
+  workflow checks each push and stops with a notice instead of deploying.
+- The first editor commit rewrites taxonomy.csv once (the five new columns).
+
 ## 2026-11-13, evening: one build, GBIF images; development moves to another machine
 
 ### Done

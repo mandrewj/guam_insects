@@ -13,11 +13,12 @@ foundation:
 | Regions | NE / SE / SW / NW (US + Canada) | **islands and island groups** (Guam, CNMI, Palau, FSM, Marshalls) |
 | Output | static `file://` web app | **the same app**, reused from `starter/webapp/` |
 
-Status (2026-11-13): one build (round 5), moving to another machine (see docs/STATUS.md,
-"Moving to another machine"); the tree is the Catalogue of Life (round 4 below); the pipeline runs end
-to end and the site builds and passes `ops/check_site.py` in all three engines. Live at https://insects-of-guam.vercel.app
-(`ops/deploy.sh --prod`). Start with the decisions below (they override
-`BUILD_PLAN.md`), then "Pipeline order".
+Status (2026-11-13, night): one build (round 5); the taxonomy editor, annotations and the
+rebuild-on-push workflow are in (round 6, docs/EDITOR.md); development continues on a machine
+without the database, harvesting on the other one (docs/STATUS.md). The tree is the
+Catalogue of Life (round 4); the site builds and passes `ops/check_site.py`. Live at
+https://insects-of-guam.vercel.app (`ops/deploy.sh --prod`, or a push once CI is set up).
+Start with the decisions below (they override `BUILD_PLAN.md`), then "Pipeline order".
 
 ## Pipeline order (each step resumable; one stream per host)
 
@@ -46,8 +47,15 @@ uv run guaminsects resolve && uv run guaminsects build   # site/public; also tax
 uv run python ops/check_site.py  # Chrome/WebKit/Firefox x desktop/phone
 uv run python ops/review.py      # data/exports/review.html for the curator (local only)
 uv run guaminsects serve         # http://localhost:8765 (+ the curation /api)
+uv run guaminsects snapshot --upload  # build data (no PDF text) -> release data-snapshot  gh
 ops/deploy.sh [--prod]           # Vercel (public build)
+uv run guaminsects edit          # the taxonomy editor for a clone: localhost:8766 (no DB needed)
+uv run guaminsects restore       # fetch the data snapshot (CI; a new machine)
 ```
+
+The editor (`editor/`, docs/EDITOR.md) commits to main; `.github/workflows/rebuild.yml`
+restores the snapshot, resolves, builds, checks and deploys. After changing curation.py,
+taxonomy.py or geo.py vocabulary, run `uv run guaminsects editor-spec`.
 
 Presence sources in `taxon_presence.source`: gbif (COL keys), gbif_backbone (Backbone keys;
 counted only for taxa COL lacks), inat, plazi, pdf, checklist. The site shows GBIF and iNat
@@ -157,6 +165,34 @@ every reader goes through `db.keymap(conn)`. External ids: `KVC9L`, `gbif:<key>`
 - **Photos from GBIF occurrences** too (iNat observations, museum specimens, BOLD), with the
   image's licence or else the record's; the same five licences only.
 
+## Decisions, round 6 (2026-11-13; these override anything above)
+
+- **The editor** (`editor/`) replaces the review-page plan: a static HTML/JS app (no install,
+  no build step, works from `file://`, a local server, or hosted) for anyone with GitHub
+  rights. It reads `taxonomy.csv` and `curation/*.csv` (from GitHub or a local clone), has a
+  table editor for every value, but defaults to tools: distribution tags, voucher links,
+  other links, synonymize, move, add, delete (hide), verify.
+- **Annotations, all public:** distribution tags from a fixed list (island groups and islands,
+  `geo.ISLAND_COORDS`) with a status (present / absent / doubtful) and an optional source;
+  iNaturalist observations (they may be unidentified records used as photo vouchers) and
+  GBIF occurrences as vouchers; other links. Stored as `taxonomy.csv` columns
+  (`distributionTags`, `associatedOccurrences`, `associatedReferences`, `modifiedBy`,
+  `modified`), filed into `curation/annotations.csv` and `curation/evidence.csv` so a
+  pipeline re-run never loses them.
+- **"Added by" is required:** the editor asks for the user's name; every row it writes
+  carries it (`editor` / `added_by`), and the git commit credits it.
+- **Commit = save + rebuild.** The Commit button warns that it triggers a rebuild, then makes
+  one commit **straight to main**, either through the GitHub API with the user's own token
+  (no install) or through `guaminsects edit` (a small local server that commits and pushes
+  with the user's git). Both.
+- **Rebuild on push: GitHub Actions + the Vercel CLI** (`.github/workflows/rebuild.yml`,
+  secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`). The build data come from a
+  **public GitHub release asset** (`data-snapshot`): `guaminsects snapshot --upload` on the data
+  machine publishes guam.sqlite **with every PDF snippet removed** (rule 4) plus the
+  thumbnails; `guaminsects restore` fetches it (CI, or a new machine).
+- Data harvesting continues on the other machine; tool development happens without a
+  database (fixtures in `tests/`).
+
 ## Hard rules (inherited from entobase; they exist because something went wrong)
 
 1. **Never fetch BugGuide directly** (no curl, WebFetch, httpx, requests). It is behind
@@ -209,7 +245,9 @@ every reader goes through `db.keymap(conn)`. External ids: `KVC9L`, `gbif:<key>`
 |---|---|
 | `BUILD_PLAN.md` | the phased build plan: start here |
 | `src/guaminsects/` | the package: `cli.py` (one subcommand per job), `curation.py`, `enrich/` (gbif_checklist, inat_counts, plazi, http), `documents.py`, `schema.sql` |
-| `curation/` | hand edits to the tree (git-tracked CSV; see its README) |
+| `curation/` | hand edits to the tree (git-tracked CSV; see its README): taxa, evidence, annotations |
+| `editor/` | the taxonomy editor (static; docs/EDITOR.md); `src/guaminsects/editor.py` is its server and spec |
+| `.github/workflows/rebuild.yml` | rebuild + deploy after a push (needs the snapshot release and Vercel secrets) |
 | `sources/documents.csv` | manifest of downloaded documents in `literature/` |
 | `webapp/` | the site's front end (from `starter/webapp/`, rebranded, blue palette) |
 | `literature/` | the PDF library: IOM volumes, UOG fact sheets, Micronesica papers (git-ignored) |

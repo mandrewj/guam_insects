@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor · Insects of Guam</title>
+<link rel="stylesheet" href="assets/editor.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><b>Insects of Guam</b> <span>taxonomy editor</span></div>
+  <div class="src" id="src" title="Where the files were loaded from">nothing loaded</div>
+  <div class="spacer"></div>
+  <button class="me" id="me-btn" type="button" title="Your name, recorded as 'added by' on every change">Your name…</button>
+  <button id="changes-btn" type="button" class="ghost">Changes <span class="count" id="n-changes">0</span></button>
+  <button id="commit-btn" type="button" class="primary" disabled>Commit…</button>
+</header>
+
+<div class="layout">
+  <aside class="side" aria-label="Find a taxon">
+    <input id="q" type="search" placeholder="Search name, common name or id  ( / )" autocomplete="off" spellcheck="false">
+    <select id="queue" aria-label="Show"></select>
+    <div id="list" class="list" role="listbox" aria-label="Taxa"></div>
+  </aside>
+  <main class="work">
+    <nav class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="taxon" aria-selected="true">Taxon</button>
+      <button type="button" role="tab" data-tab="table" aria-selected="false">Table</button>
+      <button type="button" role="tab" data-tab="changes" aria-selected="false">Changes</button>
+    </nav>
+    <section id="tab-taxon" class="tab"></section>
+    <section id="tab-table" class="tab" hidden></section>
+    <section id="tab-changes" class="tab" hidden></section>
+  </main>
+</div>
+
+<dialog id="dlg"></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="assets/spec.js"></script>
+<script src="assets/csv.js"></script>
+<script src="assets/model.js"></script>
+<script src="assets/io.js"></script>
+<script src="assets/ui.js"></script>
+</body>
+</html>
