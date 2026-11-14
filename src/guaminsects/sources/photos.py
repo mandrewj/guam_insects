@@ -243,7 +243,7 @@ def own_rows(cands: dict[str, list[dict]], today: str, per_taxon: int = PER_TAXO
                 "display_url": c["display_url"] or "", "thumb": "", "thumb_url": c["thumb_url"] or "",
                 "width": str(c.get("width") or ""), "height": str(c.get("height") or ""),
                 "licence": c["licence"], "licence_url": c["licence_url"] or "",
-                "attribution": c["attribution"] or "", "retrieved": today})
+                "attribution": " ".join((c["attribution"] or "").split()), "retrieved": today})
             if len(seen) == per_taxon:
                 break
     return rows
