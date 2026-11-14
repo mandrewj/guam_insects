@@ -44,6 +44,7 @@ uv run guaminsects match NAME ...                  # names -> the Catalogue of L
 uv run guaminsects refresh inat|living|photos|wikipedia|wikidata|bugguide|col [--taxa new|all|ID ...]
 #   inat: links via iNaturalist's published taxonomy archive (~80 MB, cached in private.nosync/inat-taxonomy/), takes its English name
 #   living: prefers living-organism photos over specimen photos
+#   preferred: iNaturalist's own choice of photos (taxon-page default first, any origin), 4 per taxon, unused thumbnails deleted
 uv run guaminsects plazi [--dry-run]     # clean Plazi citations (real authors, fixed surnames, merged duplicates)
 uv run guaminsects dupes                 # probable duplicate taxa -> private.nosync/exports/probable-duplicates.csv (merges nothing)
 uv run guaminsects match --unplaced      # place names in review/unplaced from the GBIF Backbone and Wikipedia redirects
@@ -221,6 +222,13 @@ round replaced it.
   "Possible later"). Keep `gbif_key` and the COL id on species rows and room for a map on the
   page.
 - Collaborators use the editor; the old pipeline is kept under the tag `pipeline-v1`.
+
+## Decision, round 8 (2026-11-14)
+
+- **Photos:** the taxon must be regional, the photo need not be. iNaturalist's preferred photos
+  (taxon-page default, then its curated photos) lead for every taxon linked to iNaturalist,
+  genera and higher groups included (captioned as representative photos); at most **4 photos per
+  taxon**; unused thumbnails are deleted. `refresh preferred` does it.
 
 ## Working rule for the iCloud-synced repository (refactor Phase 0, 2026-11-13)
 

@@ -306,3 +306,61 @@ def test_inat_refresh_fills_empty_names_but_keeps_an_editors():
     refresh.inat_refresh(ds, ["ORRHI", "ORGIG"], Inat(), TODAY, progress=lambda *_: None)
     assert taxa["ORRHI"]["common_name"] == "My Beetle"
     assert taxa["ORGIG"]["common_name"] == "Giant Rhino Beetle"
+
+
+def test_preferred_photos_lead_from_anywhere_and_are_capped_at_four(tmp_path):
+    ds = taxa_ds()
+    ds["links"] = [{c: "" for c in dataset.schema.table("links").names} | {
+        "taxon_id": t, "system": "inaturalist", "value": v, "confidence": "high"}
+        for t, v in (("ORRHI", "47001"), ("ORYCT", "500"))]
+    blankp = {c: "" for c in dataset.schema.table("photos").names}
+    ds["photos"] = [blankp | {"taxon_id": "ORRHI", "position": str(i), "photo_id": pid, "role": "own",
+                              "source": "gbif", "page_url": "https://x/" + pid, "display_url": "https://x/d",
+                              "thumb_url": "https://x/t", "width": "100", "height": "80", "licence": "cc-by",
+                              "attribution": "A", "retrieved": TODAY}
+                    for i, pid in enumerate(["gbif:1", "gbif:2", "gbif:3"])]
+
+    def photo(i, lic="cc-by", w=2000):
+        return {"id": i, "license_code": lic, "url": f"https://static.inaturalist.org/photos/{i}/square.jpg",
+                "attribution": "(c) B", "original_dimensions": {"width": w, "height": w}}
+
+    class Inat:
+        def get(self, path, params=None):
+            return {"results": [
+                {"id": 47001, "default_photo": photo(9), "taxon_photos": [
+                    {"photo": photo(9)}, {"photo": photo(8, lic="")}, {"photo": photo(7, w=300)},
+                    {"photo": photo(6)}, {"photo": photo(5)}]},
+                {"id": 500, "default_photo": photo(50), "taxon_photos": [{"photo": photo(50)}]}]}
+
+    class Bytes:
+        def get_bytes(self, url):
+            import io
+
+            from PIL import Image
+            b = io.BytesIO()
+            Image.new("RGB", (240, 160), "green").save(b, "JPEG")
+            return b.getvalue()
+
+    stats = photos.prefer_preferred(ds, Inat(), Bytes(), TODAY, media=tmp_path, progress=lambda *_: None)
+    own = {t: sorted((p for p in ds["photos"] if p["taxon_id"] == t and p["role"] == "own"),
+                     key=lambda p: int(p["position"])) for t in ("ORRHI", "ORYCT")}
+    ids_ = [p["photo_id"] for p in own["ORRHI"]]
+    assert ids_[0] == "inat:9" and len(ids_) == 4                       # the default photo leads; four at most
+    assert "inat:8" not in ids_ and ids_.index("inat:7") > ids_.index("inat:5") if "inat:7" in ids_ else True
+    assert [p["photo_id"] for p in own["ORYCT"]] == ["inat:50"]          # a genus has its own photo
+    assert own["ORYCT"][0]["thumb"] and (tmp_path / own["ORYCT"][0]["thumb"]).exists()
+    assert stats["preferred"] == 2 and dataset.check(ds).items == []
+
+
+def test_a_merged_names_photos_move_to_the_accepted_taxon():
+    ds = taxa_ds()
+    ds["taxa"].append({c: "" for c in dataset.schema.table("taxa").names} | {
+        "id": "ORSYN", "rank": "Species", "name": "Oryctes synonymus", "status": "synonym",
+        "accepted_id": "ORRHI", "nativity": "unknown"})
+    base = {c: "" for c in dataset.schema.table("photos").names} | {"role": "own", "source": "inaturalist"}
+    ds["photos"] = [base | {"taxon_id": "ORRHI", "position": "0", "photo_id": "inat:1"},
+                    base | {"taxon_id": "ORSYN", "position": "0", "photo_id": "inat:1"},
+                    base | {"taxon_id": "ORSYN", "position": "1", "photo_id": "inat:2"}]
+    assert photos.adopt_merged_photos(ds) == 2
+    assert sorted((p["taxon_id"], p["photo_id"], p["position"]) for p in ds["photos"]) == [
+        ("ORRHI", "inat:1", "0"), ("ORRHI", "inat:2", "1")]

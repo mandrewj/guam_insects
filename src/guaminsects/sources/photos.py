@@ -9,11 +9,12 @@ inside the 100 MB deploy.
 Allowed licences: CC0 (and public domain), CC BY, CC BY-SA, CC BY-NC, CC BY-NC-SA. No ND,
 no all-rights-reserved, no GFDL-only.
 
-Selection: a species shows its own photos (iNaturalist observations from Micronesia, then
-iNat's taxon photos, then Commons, then specimens from anywhere). A genus, family or order
-shows up to three of the species under it that are recorded here, Guam's best-recorded first,
-and says whose pictures they are (`from_id`); its own Wikidata image comes after. A borrowed
-photo is never lent on.
+Selection (`prefer_preferred`, 2026-11-14): a taxon linked to iNaturalist shows iNaturalist's
+own choice of photos first (the default photo of its taxon page, then the page's curated
+photos), from anywhere: the taxon is regional, the photo need not be. What it had before fills
+the places left, up to PER_TAXON (4); the links out lead to more. A genus, family or order
+takes its own preferred photo too and borrows up to three species' photos (`from_id`) only
+when it has none. A borrowed photo is never lent on.
 """
 
 import hashlib
@@ -38,7 +39,8 @@ COMMONS_DISPLAY, COMMONS_THUMB = 960, 330     # standard widths Wikimedia serves
 GBIF_CACHE = "https://api.gbif.org/v1/image/cache"
 INAT_DATASET = "50c9509d-22c7-4a22-a47d-8c48425ef4a7"
 NOT_A_PHOTO = re.compile(r"waveform|spectrogram|sonogram|oscillogram|label", re.I)
-PER_TAXON = 6
+PER_TAXON = 4            # photos kept per taxon; the links out lead to more
+MIN_LONG_SIDE = 800      # an iNaturalist photo smaller than this ranks after the larger ones
 
 
 def commons_license(meta: dict) -> tuple[str, str] | None:
@@ -147,19 +149,31 @@ def inat_candidates(ds, taxa: list[str], client) -> dict[str, list[dict]]:
     for i in range(0, len(keys), 30):
         d = patient_get(client, "/taxa/" + ",".join(map(str, keys[i:i + 30])), {})
         for t in d.get("results", []):
-            for pos, tp in enumerate(t.get("taxon_photos") or []):
-                ph = tp.get("photo") or {}
-                lic = (ph.get("license_code") or "").lower()
-                if lic not in INAT_OK:
+            # iNaturalist's preferred photo of the taxon first (its default photo, the lead of
+            # the taxon page), then the curated taxon photos in the order the page shows them.
+            # Whether an observation was made in Micronesia does not matter: the taxon is ours.
+            listed = [(tp.get("photo") or {}) for tp in t.get("taxon_photos") or []]
+            dflt = t.get("default_photo") or {}
+            order = ([dflt] if dflt.get("id") else []) + listed
+            seen_ids: set = set()
+            dims_of = {ph.get("id"): ph.get("original_dimensions") or {} for ph in listed}
+            for pos, ph in enumerate(order):
+                if not ph.get("id") or ph["id"] in seen_ids:
                     continue
+                seen_ids.add(ph["id"])
+                lic = (ph.get("license_code") or "").lower()
                 url = ph.get("url") or ""
-                dims = ph.get("original_dimensions") or {}
+                if lic not in INAT_OK or not url:
+                    continue
+                dims = ph.get("original_dimensions") or dims_of.get(ph["id"]) or {}
+                small = bool(dims.get("width")) and max(dims["width"], dims.get("height") or 0) < MIN_LONG_SIDE
                 cand = {"photo_id": f"inat:{ph['id']}", "source": "inaturalist",
                         "page_url": f"https://www.inaturalist.org/photos/{ph['id']}",
                         "display_url": url.replace("/square.", "/large."),
                         "thumb_url": url.replace("/square.", "/small."), "licence": lic,
                         "licence_url": cc_url(lic), "attribution": ph.get("attribution") or "",
-                        "width": dims.get("width"), "height": dims.get("height"), "hint": 20 + pos}
+                        "width": dims.get("width"), "height": dims.get("height"),
+                        "hint": pos - 100 + (50 if small else 0)}      # before any other source
                 for tid in by_inat.get(t["id"], []):
                     out.setdefault(tid, []).append(cand)
     return out
@@ -250,7 +264,8 @@ def own_rows(cands: dict[str, list[dict]], today: str, per_taxon: int = PER_TAXO
 
 
 def inherit(ds) -> int:
-    """Recompute the `inherited` rows: a group with no photo of its own shows up to three
+    """Recompute the `inherited` rows: a group with no photo of its own (a genus's own photos are
+    iNaturalist's preferred ones, see `prefer_preferred`) shows up to three
     species under it that are recorded here (Guam's best-recorded first, landscape preferred);
     one still without takes the first photo of each child that has one, deepest first."""
     taxa = {r["id"]: r for r in ds["taxa"] if r["status"] != "synonym"}
@@ -291,6 +306,9 @@ def inherit(ds) -> int:
         if r["rank"] in ("Species", "Subspecies"):
             if t in own:
                 first[t] = (own[t][0]["photo_id"], t)
+            continue
+        if t in own:                       # the group's own (iNaturalist's preferred) photos lead
+            first[t] = (own[t][0]["photo_id"], t)
             continue
         below = set(under(t))
         borrowed = []
@@ -450,3 +468,94 @@ def prefer_living(ds, inat_client, bytes_client, today: str, media: Path = THUMB
         if f.name not in used:
             f.unlink()
     return stats
+
+
+# --- iNaturalist's preferred photos, from anywhere --------------------------------------------
+
+def prefer_preferred(ds, inat_client, bytes_client, today: str, media: Path = THUMB_DIR,
+                     progress=print) -> dict[str, int]:
+    """Every taxon linked to iNaturalist gets iNaturalist's own choice of photos first: the
+    default photo of its taxon page, then the page's curated photos in order (open licences
+    only; small ones last). They need not come from Micronesia: the taxon does. What the taxon
+    had before fills any of the PER_TAXON places left (living organisms, then Commons, then
+    specimens); a taxon iNaturalist has no usable photo for keeps what it had, cut to
+    PER_TAXON. Groups (genus and above) take their own preferred photo instead of borrowing a
+    species'; they borrow only when they have none. Photo files no longer used are deleted."""
+    taxa = {r["id"]: r for r in ds["taxa"] if r["status"] != "synonym" and not r["hidden"]}
+    adopt_merged_photos(ds)
+    own: dict[str, list[dict]] = {}
+    for p in ds["photos"]:
+        if p["role"] == "own" and p["taxon_id"] in taxa:
+            own.setdefault(p["taxon_id"], []).append(p)
+    for v in own.values():
+        v.sort(key=lambda p: int(p["position"]))
+    linked = sorted({r["taxon_id"] for r in ds["links"]
+                     if r["system"] == "inaturalist" and r["taxon_id"] in taxa
+                     and r["confidence"] in ("high", "medium")})
+    progress(f"  asking iNaturalist for the preferred photos of {len(linked)} taxa")
+    got = inat_candidates(ds, linked, inat_client)
+    fresh = {t: own_rows({t: lst}, today) for t, lst in got.items()}
+    stats = {"taxa": len(taxa), "preferred": 0, "kept_old": 0, "no_photo": 0, "changed_lead": 0,
+             "trimmed": 0, "thumbs_made": 0, "files_removed": 0}
+    out: list[dict] = []
+    for t in taxa:
+        old = own.get(t, [])
+        new = fresh.get(t) or []
+        lead_before = old[0]["photo_id"] if old else None
+        rows = list(new)
+        have = {p["photo_id"] for p in rows}
+        for p in sorted(old, key=lambda p: (tier(p["photo_id"]), int(p["position"]))):
+            if p["photo_id"] not in have:
+                rows.append(p)
+                have.add(p["photo_id"])
+        stats["trimmed"] += max(0, len(rows) - PER_TAXON)
+        rows = rows[:PER_TAXON]
+        if new:
+            stats["preferred"] += 1
+        elif rows:
+            stats["kept_old"] += 1
+        else:
+            stats["no_photo"] += 1
+        if rows and rows[0]["photo_id"] != lead_before:
+            stats["changed_lead"] += 1
+        for i, p in enumerate(rows):
+            p["position"] = str(i)
+            if i:
+                p["thumb"] = ""                       # only a card photo has a thumbnail file
+        out.extend(rows)
+    ds["photos"] = [p for p in ds["photos"] if p["role"] == "own" and p["taxon_id"] not in taxa] + out
+    inherit(ds)
+    progress(f"  thumbnails for {sum(1 for p in ds['photos'] if p['role'] == 'own' and p['position'] == '0')} card photos")
+    stats["thumbs_made"] = thumbnails(ds, bytes_client, media)["made"]
+    used = {p["thumb"] for p in ds["photos"] if p.get("thumb")}
+    for f in media.glob("*.webp"):
+        if f.name not in used:
+            f.unlink()
+            stats["files_removed"] += 1
+    return stats
+
+
+def adopt_merged_photos(ds) -> int:
+    """A name merged into another taxon (a synonym) shows no photos of its own: the build
+    would add them to the accepted taxon's, ahead of or beside its own. Its photo rows move to
+    the accepted taxon (after the ones it has), and the rows left over are not kept twice."""
+    acc = {r["id"]: r["accepted_id"] for r in ds["taxa"] if r["status"] == "synonym" and r["accepted_id"]}
+    moved = 0
+    have = {(p["taxon_id"], p["photo_id"]) for p in ds["photos"] if p["role"] == "own"}
+    top: dict[str, int] = {}
+    for p in ds["photos"]:
+        if p["role"] == "own":
+            top[p["taxon_id"]] = max(top.get(p["taxon_id"], -1), int(p["position"]))
+    keep = []
+    for p in ds["photos"]:
+        if p["role"] == "own" and p["taxon_id"] in acc:
+            to = acc[p["taxon_id"]]
+            moved += 1
+            if (to, p["photo_id"]) in have:
+                continue                              # the accepted taxon already shows it
+            have.add((to, p["photo_id"]))
+            top[to] = top.get(to, -1) + 1
+            p = {**p, "taxon_id": to, "position": str(top[to]), "thumb": ""}
+        keep.append(p)
+    ds["photos"] = keep
+    return moved

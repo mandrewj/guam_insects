@@ -630,12 +630,15 @@
         href(r.accepted_id) + '">accepted name</a>.</p>' : "") + "</header>";
   }
 
+  var captionGroup = false;      // the page is a genus or above: its own photos are representative ones
+
   function photoCaption(ph) {
     // A photo borrowed from a taxon below says so first: a tribe page showing one of its
     // species must not read as a picture of the tribe.
     var of = ph.of ? '<a href="' + href(ph.of_id) + '">' + esc(ph.of) + "</a>" : "";
     return (ph.of ? (ITALIC_RANKS[ph.of_rank] ? "<i>" + of + "</i>" : of) + ", " +
-            "an included taxon · " : "") +
+            "an included taxon · " : captionGroup && ph.source === "inaturalist" ?
+            "Representative photo from iNaturalist; the species shown may not occur in Micronesia · " : "") +
       esc(ph.attribution || "") + " · " +
       (ph.license_url ? ext(ph.license_url, esc(ph.license)) : esc(ph.license)) + " · " +
       '<span class="cap-flag">Source</span> ' + ext(ph.page, esc(ph.source) + " ↗");
@@ -643,6 +646,7 @@
 
   function gallery(r) {
     if (!r.photos.length) return "";
+    captionGroup = r.rank !== "Species" && r.rank !== "Subspecies";
     var first = r.photos[0];
     var thumbs = r.photos.length > 1 ? '<div class="g-thumbs">' + r.photos.map(function (ph, i) {
       return '<button type="button" class="g-thumb' + (i ? "" : " active") + '" data-i="' + i +

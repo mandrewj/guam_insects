@@ -13,7 +13,7 @@ from .sources import inat as inatapi
 from .sources import col as colapi
 from .sources import gbif as gbifapi
 
-WHAT = ["wikidata", "inat", "wikipedia", "bugguide", "photos", "living", "col"]
+WHAT = ["wikidata", "inat", "wikipedia", "bugguide", "photos", "living", "preferred", "col"]
 ORDER = ["wikidata", "inat", "bugguide", "wikipedia", "photos", "col"]   # wikipedia and photos need the links
 
 
@@ -191,6 +191,13 @@ def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:
         clients = {"inat": ApiClient(photos.INAT, 1.0), "bytes": ApiClient("", 0.5)}
         try:
             return photos.prefer_living(ds, clients["inat"], clients["bytes"], today, progress=progress)
+        finally:
+            for c in clients.values():
+                c.close()
+    if what == "preferred":
+        clients = {"inat": ApiClient(photos.INAT, 1.0), "bytes": ApiClient("", 0.5)}
+        try:
+            return photos.prefer_preferred(ds, clients["inat"], clients["bytes"], today, progress=progress)
         finally:
             for c in clients.values():
                 c.close()
