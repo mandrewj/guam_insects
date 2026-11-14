@@ -135,7 +135,7 @@ def find(ds) -> list[dict]:
         g, ep = fold(r["name"]).split()
         by_genus[g].append((ep, r))
         by_fam_ep[(family(r), EPITHET_END.sub("", ep))].append((g, r))
-    for g, rows in by_genus.items():
+    for rows in by_genus.values():
         rows.sort(key=lambda x: x[0])
         for i, (ea, a) in enumerate(rows):
             for eb, b in rows[i + 1:]:
