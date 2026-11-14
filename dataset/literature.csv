@@ -6047,10 +6047,10 @@ RLD8Z,iom-6-7-coccoidea,account,178,Pinnaspis aspidistrae,PW | FM,Koror | Pohnpe
 RLD8Z,iom-6-7-coccoidea,mention,178 | 179 | 180,Pinnaspis aspidistrae,,,,,,,ocr,machine,,,migrate,2026-11-13
 RPPBJ,iom-17-3-tenebrionidae,account,35,Palorus subdepressus,MP,Tinian,,,,,text,machine,,,migrate,2026-11-13
 RPPBJ,iom-17-3-tenebrionidae,mention,35,Palorus subdepressus,,,,,,,text,machine,,,migrate,2026-11-13
-RPPBL,iom-17-3-tenebrionidae,account,35,Palorus ratzeburgi,,,,,,,text,machine,,,migrate,2026-11-13
-RPPBL,swezey-1942-misc-coleoptera-guam,account,17,Palorus ratzeburgi,,,,,,,text,machine,,,migrate,2026-11-13
+RPPBL,iom-17-3-tenebrionidae,account,35,Palorus ratzeburgi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+RPPBL,swezey-1942-misc-coleoptera-guam,account,17,Palorus ratzeburgi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 RPPBL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-RPPBL,swezey-1942-misc-coleoptera-guam,mention,17,Palorus ratzeburgi,,,,,,,text,machine,,,migrate,2026-11-13
+RPPBL,swezey-1942-misc-coleoptera-guam,mention,17,Palorus ratzeburgi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 RQ7BP,iom-7-7-pentatomoidea,account,34,Pegala laevis,,,,,,,text,machine,,,migrate,2026-11-13
 RQ7BP,iom-7-7-pentatomoidea,mention,3 | 34,Pegala laevis,,,,,,,text,machine,,,migrate,2026-11-13
 RQQNR,iom-7-4-lygaeidae,account,26,Pachybrachius chinai,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6127,10 +6127,8 @@ SR894,nafus-1989-biological-control-activities-in-the-mariana,mention,3 | 12 | 1
 SR894,nandwani-2003-biological-control-of-insect-and-plant-pes,mention,1 | 3 | 4 | 5 | 6,Pseudoscymnus anomalus,,,,,,,text,machine,,,migrate,2026-11-13
 SR894,tauili-ili-1993-history-of-biological-control-in-america,mention,1 | 3,Pseudoscymnus anomalus,,,,,,,text,machine,,,migrate,2026-11-13
 SR8GD,iom-16-5-coccinellidae,account,23,Scymnus sylvaticus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-SRVF2,iom-17-3-tenebrionidae,account,42,Uloma pandanicola,MH,Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
-SRVF2,iom-17-3-tenebrionidae,mention,42,Uloma pandanicola,,,,,,,text,machine,,,migrate,2026-11-13
-SRVF2,kaszab-1955-tenebrionidae-fiji,account,14 | 21 | 62,Sciophagus pandanicola,,,,,,,text,machine,,,migrate,2026-11-13
-SRVF2,kaszab-1955-tenebrionidae-somoa,account,7 | 8 | 22,Sciophagus pandanicola,,,,,,,text,machine,,,migrate,2026-11-13
+SRVF2,iom-17-3-tenebrionidae,account,42,Uloma pandanicola,MH,Marshall Is.,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+SRVF2,iom-17-3-tenebrionidae,mention,42,Uloma pandanicola,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 SS85D,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 SS86S,swezey-1942-misc-coleoptera-guam,account,18,Sessinia livida,,,,,,,text,machine,,,migrate,2026-11-13
 SS86S,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -6188,13 +6186,9 @@ THFJG,swezey-1942-misc-coleoptera-guam,account,5,Tenebroides mauritanicus,,,,,,,
 THFJG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 THFJG,swezey-1942-misc-coleoptera-guam,mention,5,Tenebroides mauritanicus,,,,,,,text,machine,,,migrate,2026-11-13
 TKFWT,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
-TLNGJ,iom-17-3-tenebrionidae,account,34,Tribolium castaneum,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-TLNGJ,iom-17-3-tenebrionidae,mention,4 | 34,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
-TLNGJ,kaszab-1955-tenebrionidae-fiji,account,14 | 21 | 58,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
-TLNGJ,kaszab-1955-tenebrionidae-fiji,mention,4 | 14 | 21 | 58,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
-TLNGJ,kaszab-1955-tenebrionidae-somoa,account,7 | 8 | 18,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
-TLNGJ,kaszab-1955-tenebrionidae-somoa,mention,2 | 7 | 8 | 18,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
-TLNGJ,miller-2004-developing-insecticide-management-for-insnes,mention,12,Tribolium castaneum,,,,,,,text,machine,,,migrate,2026-11-13
+TLNGJ,iom-17-3-tenebrionidae,account,34,Tribolium castaneum,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+TLNGJ,iom-17-3-tenebrionidae,mention,4 | 34,Tribolium castaneum,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+TLNGJ,miller-2004-developing-insecticide-management-for-insnes,mention,12,Tribolium castaneum,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 TLNLD,swezey-1942-misc-coleoptera-guam,account,17,Tribolium ferrugineum,,,,,,,text,machine,,,migrate,2026-11-13
 TLNLD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TLNLD,swezey-1942-misc-coleoptera-guam,mention,17,Tribolium ferrugineum,,,,,,,text,machine,,,migrate,2026-11-13
