@@ -19,7 +19,7 @@ here change the in-memory dataset; the caller writes it.
 
 import re
 
-from . import ids, schema
+from . import config, ids, schema
 from .sources import col as colapi
 from .sources import gbif as gbifapi
 
@@ -307,6 +307,96 @@ class Matcher:
         self.stats["not_in_col"] += 1
         return tid
 
+    # --- the unplaced list: GBIF Backbone, then Wikipedia -------------------------------------
+    TRIED = "tried GBIF Backbone and Wikipedia: no match"
+
+    def backbone(self, name: str) -> dict | None:
+        """GBIF's Backbone answer for a name, if it is a hexapod GBIF is sure of (exact, or a
+        spelling within two letters); a synonym is followed to its accepted name."""
+        d = self.gbif.get_cached("/species/match", {"name": name, "kingdom": "Animalia"})
+        mt, canon = d.get("matchType"), d.get("canonicalName") or ""
+        if mt not in ("EXACT", "FUZZY") or d.get("classKey") not in config.HEXAPOD_CLASSES:
+            return None
+        if mt == "FUZZY" and _distance(name.lower(), canon.lower()) > 2:
+            return None
+        rank = (d.get("rank") or "").upper()
+        if rank not in ("SPECIES", "SUBSPECIES", "GENUS") or d.get("status") == "DOUBTFUL":
+            return None
+        key, accepted = d["usageKey"], d.get("canonicalName")
+        if d.get("status") == "SYNONYM":
+            if not d.get("acceptedUsageKey"):
+                return None
+            a = gbifapi.species(self.gbif, d["acceptedUsageKey"])
+            key, accepted, rank = a["key"], a.get("canonicalName"), (a.get("rank") or "").upper()
+        if not accepted:
+            return None
+        return {"name": accepted, "rank": rank, "key": key, "match": mt,
+                "synonym": d.get("status") == "SYNONYM", "family": d.get("family"),
+                "canonical": canon}
+
+    def wikipedia_redirect(self, wiki, name: str) -> str | None:
+        """The title Wikipedia redirects a taxon name to (an old combination to the current
+        one), if the page is about a species or genus; else None."""
+        d = wiki.get_cached("", {"action": "query", "format": "json", "formatversion": 2,
+                                 "redirects": 1, "titles": name, "prop": "extracts",
+                                 "exintro": 1, "explaintext": 1})
+        page = (d.get("query", {}).get("pages") or [{}])[0]
+        text = (page.get("extract") or "")[:400].lower()
+        if page.get("missing") or not text or ("species of" not in text and "genus of" not in text):
+            return None
+        title = page.get("title") or ""
+        return title if title and title != name and re.fullmatch(r"[A-Z][a-z]+( [a-z\-]+){0,2}", title) else None
+
+    def place_unplaced(self, row: dict, wiki=None) -> str:
+        """Try to place one unplaced row; returns 'placed', 'merged' (a synonym or spelling of
+        a taxon here) or 'none'. A placed row is removed from the list by the caller."""
+        name = " ".join(row["name"].split())
+        got = self.backbone(name)
+        how = "GBIF Backbone"
+        if got is None and wiki is not None:
+            title = self.wikipedia_redirect(wiki, name)
+            got = self.backbone(title) if title else None
+            how = "Wikipedia redirect, then GBIF Backbone"
+        if got is None:
+            return "none"
+        if self.is_excluded(got["name"]):
+            return "none"
+        tid = self.resolve(got["name"], got["rank"], "gbif", key=str(got["key"]), origin="gbif")
+        if tid is None and got["rank"] == "GENUS":
+            tid = self.place_genus(got)
+        elif tid is None and got["rank"] in ("SPECIES", "SUBSPECIES"):
+            g = self.backbone(_genus(got["name"]))          # the genus COL lacks: via its family
+            if g and g["rank"] == "GENUS" and not self.in_dataset(g["name"], "GENUS") \
+                    and self.place_genus(g):
+                tid = self.resolve(got["name"], got["rank"], "gbif", key=str(got["key"]), origin="gbif")
+        if tid is None:
+            return "none"
+        if name != got["name"] and not any(r["name"] == name and r["status"] == "synonym"
+                                           for r in self.ds["taxa"]) and self.in_dataset(name, got["rank"]) is None:
+            kind = "GBIF synonym" if got["synonym"] else "spelling variant"
+            self.add_taxon(self.new_row(
+                id=self.next_name_id(), accepted_id=tid, rank=self.taxa[tid]["rank"], name=name,
+                status="synonym", in_col="no", name_match=kind, flag="",
+                match_note=f"{how}: {name} → {got['name']}"))
+            self.add_key("literature", name, name, tid, kind)
+        self.stats["backbone"] = self.stats.get("backbone", 0) + 1
+        return "merged" if name != got["name"] else "placed"
+
+    def place_genus(self, got: dict) -> str | None:
+        """A genus COL lacks goes under its Backbone family, only if that family is already
+        in the tree (a fossil family is not, and stays unplaced)."""
+        fam = self.in_dataset(got["family"] or "", "FAMILY")
+        if not fam or self.taxa[fam]["hidden"]:
+            return None
+        tid = self.alloc("gbif", str(got["key"]))
+        self.add_taxon(self.new_row(
+            id=tid, parent_id=fam, rank="Genus", name=got["name"], in_col="no",
+            gbif_key=str(got["key"]), name_match="not in Catalogue of Life",
+            match_note="Not in the Catalogue of Life; placed by its GBIF Backbone family"))
+        self.add_key("gbif", str(got["key"]), got["name"], tid, "not in COL")
+        self.stats["not_in_col"] += 1
+        return tid
+
     def parent_for(self, name: str, rank: str, source: str, origin: str,
                    above: dict | None, answer: dict) -> str | None:
         """The genus (or species) a name COL lacks goes under: the dataset's, COL's, or the
@@ -318,3 +408,37 @@ class Matcher:
             return self.ensure_col({"usage": above, "classification": answer.get("classification"),
                                     "diagnostics": answer.get("diagnostics")})
         return self.resolve(name, rank, source, key=name, origin=origin)
+
+
+def run_unplaced(ds, matcher: Matcher, wiki=None, limit: int | None = None, progress=print,
+                 checkpoint=None, every: int = 100) -> dict:
+    """Try every unplaced row (not excluded, not tried before) against the GBIF Backbone and
+    Wikipedia. A placed row leaves the list; one that did not match is marked as tried (so a
+    rerun skips it). `checkpoint(ds)` is called every `every` rows."""
+    todo = [u for u in ds["unplaced"] if u["status"] != "excluded"
+            and not u["note"].startswith(Matcher.TRIED)][:limit]
+    out = {"asked": len(todo), "placed": 0, "merged": 0, "none": 0, "errors": 0}
+    gone: set[int] = set()
+    for i, row in enumerate(todo, 1):
+        n0 = len(ds["unplaced"])
+        try:
+            got = matcher.place_unplaced(row, wiki)
+        except Exception as e:                       # one bad name must not stop the run
+            progress(f"  {row['name']}: {e}")
+            out["errors"] += 1
+            got = "error"
+        del ds["unplaced"][n0:]                      # rows a failed attempt listed along the way
+        if got in ("placed", "merged"):
+            out[got] += 1
+            gone.add(id(row))
+        elif got == "none":
+            out["none"] += 1
+            row["note"] = f"{Matcher.TRIED} ({matcher.today})"
+        if i % every == 0:
+            ds["unplaced"] = [u for u in ds["unplaced"] if id(u) not in gone]
+            gone.clear()
+            progress(f"  {i}/{len(todo)}: placed {out['placed']}, merged {out['merged']}, none {out['none']}")
+            if checkpoint:
+                checkpoint(ds)
+    ds["unplaced"] = [u for u in ds["unplaced"] if id(u) not in gone]
+    return out

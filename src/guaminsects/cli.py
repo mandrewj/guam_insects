@@ -55,6 +55,22 @@ def cmd_match(args) -> int:
     gbif = ApiClient(gbifapi.GBIF, 0.34)
     col = ApiClient("https://api.gbif.org", 0.34)
     m = match.Matcher(ds, col, gbif, by="guaminsects match", today=_today())
+    if args.unplaced:
+        wiki = None if args.no_wikipedia else ApiClient("https://en.wikipedia.org/w/api.php", 1.0)
+
+        def save(d):
+            if not dataset.check(d):
+                dataset.write(d)
+
+        stats = match.run_unplaced(ds, m, wiki, args.limit, lambda x: print(x, file=sys.stderr),
+                                   checkpoint=save)
+        problems = dataset.check(ds)
+        if problems:
+            print("\n".join(problems.items[:20]), file=sys.stderr)
+            return 1
+        dataset.write(ds)
+        print(stats, m.stats)
+        return 0
     for name in args.names:
         got = m.resolve(name, args.rank, args.source)
         print(f"{name}: {got or 'unplaced (see dataset/review/unplaced.csv)'}")
@@ -261,7 +277,10 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("editor-spec", help=cmd_editor_spec.__doc__)
     p.set_defaults(func=cmd_editor_spec)
     p = sub.add_parser("match", help=cmd_match.__doc__)
-    p.add_argument("names", nargs="+")
+    p.add_argument("names", nargs="*")
+    p.add_argument("--unplaced", action="store_true", help="try every name on the unplaced list against the GBIF Backbone and Wikipedia")
+    p.add_argument("--no-wikipedia", action="store_true")
+    p.add_argument("--limit", type=int)
     p.add_argument("--rank", default="species", help="species (default), genus, subspecies, family")
     p.add_argument("--source", default="manual")
     p.set_defaults(func=cmd_match)

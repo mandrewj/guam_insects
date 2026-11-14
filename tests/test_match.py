@@ -148,3 +148,54 @@ def test_excluded_names_are_never_added_again():
     ds["unplaced"][0]["name"] = "Oryctes gigas"                                     # a COL taxon by key
     m.reindex()
     assert m.ensure_col(answer(gigas)) is None
+
+
+class FakeGbifBackbone:
+    """/species/match by name and /species/<key>, canned."""
+
+    def __init__(self, matches, species=None):
+        self.matches, self.species = matches, species or {}
+
+    def get_cached(self, path, params=None, refresh=False):
+        if path == "/species/match":
+            return self.matches.get(params["name"], {"matchType": "NONE"})
+        return self.species[int(path.rsplit("/", 1)[1])]
+
+
+def bb(name, key, rank="SPECIES", mt="EXACT", status="ACCEPTED", family="Scarabaeidae", **kw):
+    return {"matchType": mt, "canonicalName": name, "usageKey": key, "rank": rank,
+            "status": status, "classKey": 216, "family": family, **kw}
+
+
+def test_unplaced_names_are_placed_from_the_backbone_or_wikipedia():
+    ds, m = matcher({})
+    m.gbif = FakeGbifBackbone({
+        "Oryctes rhinoceras": bb("Oryctes rhinoceros", 1, mt="FUZZY"),             # a misspelling
+        "Dynastes marianus": bb("Dynastes marianus", 2, status="SYNONYM", acceptedUsageKey=3),
+        "Oryctes sagittarius": bb("Oryctes sagittarius", 4),                       # not in COL: genus is here
+        "Newgenus fooensis": bb("Newgenus fooensis", 6, family="Scarabaeidae"),    # genus COL lacks, family here
+        "Newgenus": bb("Newgenus", 5, rank="GENUS"),
+        "Fossilgenus ancientis": bb("Fossilgenus ancientis", 8, family="Megaptilidae"),
+        "Fossilgenus": bb("Fossilgenus", 7, rank="GENUS", family="Megaptilidae"),
+        "Oryctes sp": {"matchType": "NONE"}},
+        {3: {"key": 3, "canonicalName": "Oryctes boas", "rank": "SPECIES"}})
+    class Wiki:
+        def get_cached(self, path, params=None, refresh=False):
+            t = params["titles"]
+            if t == "Oryctes nasicornis var":
+                return {"query": {"pages": [{"title": "Oryctes rhinoceros", "extract": "Oryctes rhinoceros is a species of beetle"}]}}
+            return {"query": {"pages": [{"title": t, "missing": True}]}}
+    m.gbif.matches["Oryctes rhinoceros"] = bb("Oryctes rhinoceros", 1)
+    row = lambda n: {"name": n}    # noqa: E731
+    assert m.place_unplaced(row("Oryctes rhinoceras")) == "merged"
+    syn = next(r for r in ds["taxa"] if r["name"] == "Oryctes rhinoceras")
+    assert syn["status"] == "synonym" and syn["accepted_id"] == "ORRHI" and syn["name_match"] == "spelling variant"
+    assert m.place_unplaced(row("Oryctes sagittarius")) == "placed"
+    sag = next(r for r in ds["taxa"] if r["name"] == "Oryctes sagittarius")
+    assert sag["parent_id"] == "ORYCT" and sag["flag"] == "new" and sag["gbif_key"] == "4"
+    assert m.place_unplaced(row("Newgenus fooensis")) == "placed"
+    assert next(r for r in ds["taxa"] if r["name"] == "Newgenus")["parent_id"] == "SCARB"
+    assert m.place_unplaced(row("Fossilgenus ancientis")) == "none"               # its family is not in the tree
+    assert m.place_unplaced(row("Oryctes nasicornis var"), Wiki()) == "merged"    # a Wikipedia redirect
+    assert m.place_unplaced(row("Nothing here")) == "none"
+    assert dataset.check(ds).items == []
