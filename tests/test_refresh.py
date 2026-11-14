@@ -285,3 +285,24 @@ def test_bugguide_missing_database_raises_instead_of_wiping_links(tmp_path):
     import pytest
     with pytest.raises(FileNotFoundError):
         bugguide.entobase_rows(tmp_path / "nope.sqlite")
+
+
+def test_inat_refresh_fills_empty_names_but_keeps_an_editors():
+    ds = taxa_ds()
+    ds["links"] = [{c: "" for c in dataset.schema.table("links").names} | {
+        "taxon_id": t, "system": "inaturalist", "value": v, "confidence": "high"}
+        for t, v in (("ORRHI", "47001"), ("ORGIG", "9"))]
+    taxa = {r["id"]: r for r in ds["taxa"]}
+    taxa["ORRHI"].update(common_name="My Beetle", modified_by="A. Person", modified=TODAY)
+    taxa["ORGIG"]["common_name"] = ""
+
+    class Inat:
+        def get(self, path, params=None):
+            ids = [int(x) for x in path.rsplit("/", 1)[1].split(",")]
+            names = {47001: {"name": "Oryctes rhinoceros", "preferred_common_name": "Coconut Rhinoceros Beetle"},
+                     9: {"name": "Oryctes gigas", "preferred_common_name": "Giant Rhino Beetle"}}
+            return {"results": [{"id": i, "rank": "species", **names[i]} for i in ids]}
+
+    refresh.inat_refresh(ds, ["ORRHI", "ORGIG"], Inat(), TODAY, progress=lambda *_: None)
+    assert taxa["ORRHI"]["common_name"] == "My Beetle"
+    assert taxa["ORGIG"]["common_name"] == "Giant Rhino Beetle"

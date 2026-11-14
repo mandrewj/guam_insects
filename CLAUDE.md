@@ -45,6 +45,7 @@ uv run guaminsects refresh inat|living|photos|wikipedia|wikidata|bugguide|col [-
 #   inat: links via iNaturalist's published taxonomy archive (~80 MB, cached in private.nosync/inat-taxonomy/), takes its English name
 #   living: prefers living-organism photos over specimen photos
 uv run guaminsects plazi [--dry-run]     # clean Plazi citations (real authors, fixed surnames, merged duplicates)
+uv run guaminsects dupes                 # probable duplicate taxa -> private.nosync/exports/probable-duplicates.csv (merges nothing)
 uv run guaminsects match --unplaced      # place names in review/unplaced from the GBIF Backbone and Wikipedia redirects
 uv run python ops/compare_records.py     # records vs the pipeline-v1 baseline (Phase 2 proof)
 ```

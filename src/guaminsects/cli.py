@@ -8,6 +8,7 @@
     match NAME ...         put names on the Catalogue of Life (new taxa flagged new)
     sync check|apply       GBIF and iNaturalist counts against records.csv
     refresh WHAT           inat, living, photos, wikipedia, wikidata, bugguide, col for some taxa
+    dupes                  probable duplicate taxa (fuzzy match; a worklist, merges nothing)
     plazi [--dry-run]      clean the Plazi citations (real authors, fixed surnames, merged duplicates)
     lit add|cite|pages|scan|apply   the literature tool (the /ingest-literature skill drives it)
 """
@@ -260,6 +261,26 @@ def cmd_lit(args) -> int:
         return 1
 
 
+def cmd_dupes(args) -> int:
+    """Probable duplicate taxa (fuzzy match): writes a worklist CSV, merges nothing."""
+    import csv
+
+    from . import config, dataset, dupes
+
+    rows = dupes.find(dataset.load())
+    out = config.ROOT / "private.nosync" / "exports" / "probable-duplicates.csv"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with out.open("w", newline="", encoding="utf-8-sig") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]) if rows else ["kind"])
+        w.writeheader()
+        w.writerows(rows)
+    kinds: dict[str, int] = {}
+    for r in rows:
+        kinds[r["kind"]] = kinds.get(r["kind"], 0) + 1
+    print(f"{len(rows)} probable duplicates {kinds} -> {out}")
+    return 0
+
+
 def cmd_plazi(args) -> int:
     """Clean the Plazi documents: real authors out of the citations (no uploader names),
     misspelt surnames fixed, duplicate documents merged (their rows filed under the one kept)."""
@@ -316,6 +337,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("what", choices=["inat", "living", "photos", "wikipedia", "wikidata", "bugguide", "col"])
     p.add_argument("--taxa", nargs="+", default=["new"], help="new (default), all, or taxon ids")
     p.set_defaults(func=cmd_refresh)
+    p = sub.add_parser("dupes", help=cmd_dupes.__doc__)
+    p.set_defaults(func=cmd_dupes)
     p = sub.add_parser("plazi", help=cmd_plazi.__doc__)
     p.add_argument("--dry-run", action="store_true")
     p.set_defaults(func=cmd_plazi)

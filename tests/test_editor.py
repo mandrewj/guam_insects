@@ -592,3 +592,21 @@ def test_the_reference_picker_selects_or_creates(browser, world):
     assert "Newman, N. 2020. A brand new paper." in pg.inner_text("#tab-sources")
     assert not errors, errors
     pg.close()
+
+
+def test_add_a_taxon_linked_to_specific_inat_and_gbif_taxa(page, world):
+    texts = texts_of(world)
+    ops = [
+        {"type": "add", "parent": "ORYCT", "rank": "Species", "name": "Oryctes novus",
+         "inat": "https://www.inaturalist.org/taxa/999-Oryctes-novus", "gbif": "https://www.gbif.org/species/8888"},
+        {"type": "add", "parent": "ORYCT", "rank": "Species", "name": "Oryctes alter", "inat": "1"},     # ORRHI's
+        {"type": "add", "parent": "ORYCT", "rank": "Species", "name": "Oryctes bad", "gbif": "https://example.org/x"},
+    ]
+    out = run(page, texts, ops)
+    assert out["errors"][0] is None and out["errors"][1] and out["errors"][2], out["errors"]
+    assert "already" in out["errors"][1]
+    new = out["ops"][0]["newId"]
+    assert out["rows"][new]["gbifKey"] == "8888" if "gbifKey" in out["rows"][new] else True
+    links = out["files"]["dataset/links.csv"]
+    assert f"{new},inaturalist,999,,high,linked by editor,T. Editor" in links
+    assert f"{new}," in out["files"]["dataset/taxa.csv"] and ",8888," in out["files"]["dataset/taxa.csv"]

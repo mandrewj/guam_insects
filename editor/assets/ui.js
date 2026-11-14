@@ -597,8 +597,13 @@
                  { key: "status", label: "Status", type: "select", options: ["accepted", "morphospecies", "doubtful"],
                    value: r.taxonRank === "Genus" ? "morphospecies" : "accepted" },
                  { key: "common", label: "Common name (English)" },
+                 { key: "inat", label: "iNaturalist taxon (page URL or number)", placeholder: "https://www.inaturalist.org/taxa/47158",
+                   help: "Optional. Links this taxon to that iNaturalist taxon (photos and counts come from it)." },
+                 { key: "gbif", label: "GBIF taxon (page URL or number)", placeholder: "https://www.gbif.org/species/1234567",
+                   help: "Optional. Sets the GBIF key (records and maps come from it)." },
                  { key: "note", label: "Note shown on the page", type: "textarea" },
                  { key: "reason", label: "Reason or source" }],
+        extra: lookupExtra,
         submit: "Add", onSubmit: x => { const op = addOp("add", Object.assign({ parent: id }, x)); if (op) select(op.newId); } });
     }
     if (act === "addName") {
@@ -1294,6 +1299,37 @@
     if (!dlg.open) dlg.showModal();
     const first = form.querySelector("input:not([type=hidden]):not([type=radio]):not([type=checkbox]), select, textarea");
     if (first) first.focus();
+  }
+  // "Look up" under the iNaturalist/GBIF fields of the Add form: read the named taxon from
+  // that service (both allow browser requests) and fill the name, rank, authorship and
+  // common name where they are still empty. Nothing is saved until Add.
+  function lookupExtra(div) {
+    div.innerHTML = '<button type="button" class="lookup">Look up the iNaturalist / GBIF taxon</button> <span class="muted lookup-msg"></span>';
+    const form = div.closest("form"), msg = div.querySelector(".lookup-msg");
+    const val = k => form.elements[k] && form.elements[k].value;
+    const fill = (k, v) => { const el = form.elements[k]; if (el && v && !el.value.trim()) el.value = v; };
+    div.querySelector(".lookup").addEventListener("click", async () => {
+      msg.textContent = "Looking up…";
+      try {
+        let got = null;
+        const g = M.parseTaxonRef(val("gbif"), "gbif"), i = M.parseTaxonRef(val("inat"), "inat");
+        if (g) {
+          const r = await (await fetch("https://api.gbif.org/v1/species/" + g)).json();
+          if (!r.scientificName) throw new Error("GBIF has no taxon " + g);
+          got = { name: r.canonicalName || r.scientificName, authorship: r.authorship || "",
+                  rank: (r.rank || "").charAt(0) + (r.rank || "").slice(1).toLowerCase(), src: "GBIF " + g + " (" + (r.taxonomicStatus || "").toLowerCase() + ")" };
+        } else if (i) {
+          const r = ((await (await fetch("https://api.inaturalist.org/v1/taxa/" + i)).json()).results || [])[0];
+          if (!r) throw new Error("iNaturalist has no taxon " + i);
+          got = { name: r.name, rank: (r.rank || "").charAt(0).toUpperCase() + (r.rank || "").slice(1),
+                  common: r.preferred_common_name || "", src: "iNaturalist " + i };
+        } else throw new Error("Enter an iNaturalist or GBIF taxon first.");
+        fill("name", got.name); fill("authorship", got.authorship); fill("common", got.common);
+        const rk = form.elements.rank;
+        if (rk && got.rank && [...rk.options].some(o => o.value === got.rank)) rk.value = got.rank;
+        msg.textContent = got.src + ": " + got.name + (got.rank ? " (" + got.rank + ")" : "") + ". Check the fields, then Add.";
+      } catch (ex) { msg.textContent = ex.message; }
+    });
   }
   function wirePicker(form, f) {
     const box = form.querySelector(`.field[data-key="${f.key}"]`);

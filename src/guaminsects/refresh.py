@@ -125,6 +125,8 @@ def inat_refresh(ds, taxa: list[str], client, today: str, progress=print,
         if got["common"]:
             link["label"] = got["common"]
             old = row["common_name"]
+            if old and _editor_owned(row):
+                continue                  # a person's common name is never replaced (rule 7)
             if old != got["common"]:
                 if old and old.lower() != got["common"].lower():
                     others = [x for x in row["other_common_names"].split(" | ") if x]
@@ -136,6 +138,19 @@ def inat_refresh(ds, taxa: list[str], client, today: str, progress=print,
                     if x and x.lower() != got["common"].lower())
                 stats["common_names"] += 1
     return stats
+
+
+TOOL_NAMES = ("guaminsects", "refresh", "migrate", "build", "sync", "match", "plazi", "lit")
+
+
+def _person(name: str) -> bool:
+    return bool(name) and not name.lower().startswith(TOOL_NAMES)
+
+
+def _editor_owned(row) -> bool:
+    """A taxon a person added or edited: its common name is theirs (the table keeps no
+    per-column history, so any edit by a person protects the name)."""
+    return _person(row.get("modified_by", "")) or _person(row.get("added_by", ""))
 
 
 def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:

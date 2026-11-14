@@ -79,6 +79,18 @@
     throw new Error(`"${text}" is not an iNaturalist observation or GBIF occurrence URL ` +
                     "(https://www.inaturalist.org/observations/123, https://www.gbif.org/occurrence/123)");
   }
+  // A taxon page on iNaturalist or GBIF (or its bare number) -> the number as a string.
+  function parseTaxonRef(text, kind) {
+    const t = (text || "").trim().split("?")[0].split("#")[0].replace(/\/+$/, "");
+    if (!t) return "";
+    if (/^\d+$/.test(t)) return t;
+    const re = kind === "inat" ? /^https?:\/\/(www\.)?inaturalist\.org\/taxa\/(\d+)(-[^/]*)?$/
+                               : /^https?:\/\/(www\.)?gbif\.org\/(?:[a-z-]+\/)?species\/(\d+)$/;
+    const m = re.exec(t);
+    if (!m) throw new Error(`"${text}" is not ${kind === "inat" ? "an iNaturalist taxon" : "a GBIF species"} page or number ` +
+      (kind === "inat" ? "(https://www.inaturalist.org/taxa/47158)" : "(https://www.gbif.org/species/1234567)"));
+    return m[2];
+  }
   const formatLink = a => a.note ? `${a.note} <${a.value}>` : a.value;
   function parseLink(text) {
     const t = text.trim();
@@ -491,12 +503,25 @@
       need(["accepted", "morphospecies", "doubtful"].includes(status), "a new taxon is accepted, doubtful or a morphospecies");
       const p = checkParent(st, null, op.parent, op.rank);
       need(!st.children(op.parent).some(c => st.name(c) === name), `${p.name} already has ${name}`);
+      // A specific iNaturalist and/or GBIF taxon: refuse one that is already a taxon here.
+      const inat = parseTaxonRef(op.inat, "inat"), gbif = parseTaxonRef(op.gbif, "gbif");
+      if (gbif) {
+        const dup = [...st.d.values()].find(x => x.status !== SYN && String(x.gbif_key) === gbif);
+        need(!dup, `GBIF ${gbif} is already ${dup && dup.name} (${dup && dup.id}): link to it instead of adding a duplicate`);
+      }
+      if (inat) {
+        const dup = st.t.links.find(l => l.system === "inaturalist" && l.value === inat);
+        const who = dup && st.d.get(st.shownId(dup.taxon_id));
+        need(!dup, `iNaturalist ${inat} is already ${who ? who.name + " (" + who.id + ")" : "linked to a taxon"}: link to it instead of adding a duplicate`);
+      }
       const id = op.newId && !st.d.has(op.newId) ? op.newId : st.newId();
       op.newId = id;
       st.nextIog = Math.max(st.nextIog, iogNum(id) + 1);
+      if (inat) st.t.links.push(Object.assign(blank("links"), { taxon_id: id, system: "inaturalist", value: inat,
+        confidence: "high", note: "linked by editor", added_by: op.by, added: op.date }));
       const r = Object.assign(blank("taxa"), {
         id, parent_id: op.parent, rank: op.rank, name, authorship: op.authorship || "", status,
-        common_name: op.common || "", nativity: "unknown", in_col: "no", note: op.note || "",
+        gbif_key: gbif, common_name: op.common || "", nativity: "unknown", in_col: "no", note: op.note || "",
         added_by: op.by, added: op.date, modified_by: op.by, modified: op.date });
       st.own.add(r);
       st.d.set(id, r);
@@ -1060,7 +1085,7 @@
 
   window.IOGModel = {
     makeBase, replay, check, files, describe, commitMessage, op, sortRows, tid,
-    validId, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
+    validId, parseTaxonRef, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
     splitList, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
     LEGACY,
   };
