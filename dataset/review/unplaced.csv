@@ -73,7 +73,7 @@ Attica cyparissiae,Species,literature,300000004346,,tried GBIF Backbone and Wiki
 Aulacophora marginalis,Species,literature,300000000721,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Austrolfersia ferrisi,,literature,iom-14-7-hippoboscidae-streblidae,1,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Baccha apicalis,Species,literature,300000000725,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
-Baker collection,Species,literature,300000000734,2,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
+Baker collection,Species,literature,300000000734,2,not a real species,excluded,M. Andrew Johnston,2026-11-14
 Balclutha nifofasciata,Species,literature,300000000736,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Barringtonia edulis,,literature,leblanc-2004-host-fruit-of-mango-fly-bactrocera-frauenfe,1,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Bdellolarynx carabao,Species,literature,300000000744,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
@@ -182,7 +182,7 @@ Crepidodera oceanica,Species,literature,300000001117,,tried GBIF Backbone and Wi
 Crepidodera rotunda,Species,literature,300000001118,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Crepidodera seminulum,Species,literature,300000001119,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Crioceris quadrimaculata,Species,literature,300000001124,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
-Crustacea,Genus,gbif,10996236,48,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
+Crustacea,Genus,gbif,10996236,48,not aa hexapod,excluded,M. Andrew Johnston,2026-11-14
 Cryphalomorphus pacificus,Species,literature,300000001132,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Cryptus notulatorius,Species,literature,300000001155,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Ctenocephalus felis orientis,,literature,iom-14-4-siphonaptera,1,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
@@ -256,7 +256,6 @@ Eumarissa clivosa,Species,literature,300000001486,,tried GBIF Backbone and Wikip
 Eumarissa grypodes,Species,literature,300000001487,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Eumarissa microphthora,Species,literature,300000001488,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Eumarissa scleropa,Species,literature,300000001489,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
-Eumenidae,Family,gbif,4240,608,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Eupatorium odoratum,,literature,viraktamath-2002-alien-invasive-insect-and-mite-pests-an,1,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Eupelmus aeneus,Species,literature,300000001492,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Eupelmus papa,Species,literature,300000001497,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
@@ -724,7 +723,6 @@ Upis sulcigera,Species,literature,300000003248,,tried GBIF Backbone and Wikipedi
 Widely distributed,,literature,iom-15-1-carabidae-incl-cicindelinae,1,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Wien einschliessen der,,literature,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,1,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Xestocephalus ininutus,Species,literature,300000003259,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
-Xylocopidae,Family,gbif,4797888,88,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Xylopertha religiosa,Species,literature,300000003298,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Xylothrips llavipes,Species,literature,300000003303,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,
 Xylotrechus boninensis,Species,literature,300000003305,,tried GBIF Backbone and Wikipedia: no match (2026-11-13),unplaced,,

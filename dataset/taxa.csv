@@ -1762,34 +1762,38 @@ gbif:1039986,,8VS59,Genus,Thamiaraea,"C.G.Thomson, 1858",synonym,,,,,,,,,,no,,"s
 gbif:7432037,,5632V,Species,Thamiaraea insigniventris,"Fauvel, 1878",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Thamiaraea scapularis,Plazi,,,,,,,,,,,,
 M3FNZ,8VR4S,,Genus,Trogophloeus,"Mannerheim, 1830",accepted,,,unknown,,,,Staphylinoidea,Oxytelinae,Thinobiini,yes,4715250,Catalogue of Life,,,,,,,,,,,,,,
 KVV3T,C2L,,Family,Tenebrionidae,"Latreille, 1802",accepted,Tenebs,darkling beetles,unknown,,,,Tenebrionoidea,,,yes,7857,Catalogue of Life,,,,,,,,,,,,,,
-KTY3G,KVV3T,,Genus,Alphitobius,"Stephens, 1829",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045873,Catalogue of Life,,,,,,,,,,,,,,
+KTY3G,KVV3T,,Genus,Alphitobius,"Stephens, 1829",accepted,,,introduced,editor,editor,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045873,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 LJGG5,KTY3G,,Species,Alphitobius diaperinus,"(Panzer, 1797)",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4914,,LJGG5,Species,Tenebrio diaperinus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Tenebrio diaperinus → Alphitobius diaperinus,,,,,,,,,,guaminsects match,2026-11-13,,
-LJGHG,KTY3G,,Species,Alphitobius laevigatus,"(Fabricius, 1781)",accepted,black fungus beetle,,unknown,,,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045874,Catalogue of Life,,,,,,,,,,,,,,
+IOG-3,KTY3G,,Species,Alphitobius diaperinus,"(Panzer, 1797)",accepted,Lesser Mealworm,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+LJGHG,KTY3G,,Species,Alphitobius laevigatus,"(Fabricius, 1781)",accepted,black fungus beetle,,introduced,editor,editor,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045874,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 name-2200,,LJGHG,Species,Opatrum laevigatum,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Alphitobius laevigatus,literature,,,,,,,,,,,,
-KTWSG,KVV3T,,Genus,Amarygmus,"Dalman, 1823",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,1045851,Catalogue of Life,,,,,,,,,,,,,,
-L783X,KTWSG,,Species,Amarygmus hydrophiloides,"Fairmaire, 1849",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,9372104,Catalogue of Life,,,,,,,,,,,,,,
-VPNQD,KTWSG,,Species,Amarygmus micans,,accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,,Catalogue of Life,,,,,,,,,,,,,,
-L785Y,KTWSG,,Species,Amarygmus palauensis,"Bremer, 2004",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,9708638,Catalogue of Life,,,,,,,,,,,,,,
-LB688,KVV3T,,Genus,Ammophorus,"Guérin-Méneville, 1831",accepted,,,unknown,,,,Tenebrionoidea,Pimeliinae,,yes,1045826,Catalogue of Life,,,,,,,,,,,,,,
+KTWSG,KVV3T,,Genus,Amarygmus,"Dalman, 1823",accepted,,,native,editor,editor,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,1045851,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+L783X,KTWSG,,Species,Amarygmus hydrophiloides,"Fairmaire, 1849",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,9372104,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-4,KTWSG,,Species,Amarygmus iris,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,At least one specimen in Field Museum.,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+VPNQD,KTWSG,,Species,Amarygmus micans,,accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+L785Y,KTWSG,,Species,Amarygmus palauensis,"Bremer, 2004",accepted,,,native,editor,editor,,Tenebrionoidea,Tenebrioninae,Amarygmini,yes,9708638,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+LB688,KVV3T,,Genus,Ammophorus,"Guérin-Méneville, 1831",accepted,,,unknown,,,,Tenebrionoidea,Pimeliinae,,yes,1045826,Catalogue of Life,,,yes,not present in Micronesia,,,,,,,,,M. Andrew Johnston,2026-11-14
 gbif:1045826,,LB688,Genus,Ammophorus,"Guérin, 1831",synonym,,,,,,,,,,no,,"same name, other author",,,,,,,,,,,,,,
-LB697,LB688,,Species,Ammophorus insularis,"(Boheman, 1858)",accepted,Darkling beetle,,unknown,,,,Tenebrionoidea,Pimeliinae,,yes,1045827,Catalogue of Life,,,,,,,,,,,,,,
-gbif:11262870,,LB697,Species,Scotochares insularis,"Boheman, 1858",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Ammophorus insularis,Plazi,,,,,,,,,,,,
-LMR23,KVV3T,,Genus,Apterophenus,"Gebien, 1921",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4725690,Catalogue of Life,,,,,,,,,,,,,,
+LMR23,KVV3T,,Genus,Apterophenus,"Gebien, 1921",accepted,,,native,editor,editor,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4725690,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 gbif:4725690,,LMR23,Genus,Apterophenus,"Gebien, 1920",synonym,,,,,,,,,,no,,"same name, other author",,GBIF Backbone,,,,,,,,,,,,
-VPRGX,LMR23,,Species,Apterophenus dybasi,,accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,,Catalogue of Life,,,,,,,,,,,,,,
+VPRGX,LMR23,,Species,Apterophenus dybasi,,accepted,,,native,editor,editor,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 M3JS7,KVV3T,,Genus,Bradymerus,"Perroud & Montrouzier, 1865",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4723874,Catalogue of Life,,,,,,,,,,,,,,
 gbif:4723874,,M3JS7,Genus,Bradymerus,"Perroud, 1864",synonym,,,,,,,,,,no,,"same name, other author",,"GBIF Backbone, Plazi",,,,,,,,,,,,
 M3JSM,M3JS7,,Species,Bradymerus acuticostis,"Gebien, 1864",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,11207683,Catalogue of Life,,,,,,,,,,,,,,
 VPPPC,M3JS7,,Species,Bradymerus diversepunctatus,,accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 VPSNR,M3JS7,,Species,Bradymerus oakleyi,,accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 M486J,KVV3T,,Genus,Caedius,"Blanchard, 1845",accepted,,,unknown,,,,Tenebrionoidea,Blaptinae,Opatrini,yes,11234845,Catalogue of Life,,,,,,,,,,,,,,
-MR5B3,KVV3T,,Genus,Chariotheca,"Pascoe, 1860",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4724089,Catalogue of Life,,,,,,,,,,,,,,
+MR5B3,KVV3T,,Genus,Chariotheca,"Pascoe, 1860",accepted,,,native,editor,editor,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4724089,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-10,MR5B3,,Species,Chariotheca yapensis,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 NF4R8,KVV3T,,Genus,Derosphaerus,"J. Thomson, 1858",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4725436,Catalogue of Life,,,,,,,,,,,,,,
 gbif:4725436,,NF4R8,Genus,Derosphaerus,"Thomson, 1858",synonym,,,,,,,,,,no,,"same name, other author",,"GBIF Backbone, Plazi",,,,,,,,,,,,
 NF4TC,NF4R8,,Species,Derosphaerus rotundicollis,"(Laporte de Castelnau, 1840)",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,6130582,Catalogue of Life,,,,,,,,,,,,,,
-NJHBV,KVV3T,,Genus,Diachoriops,"Ando, 2020",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,12296448,Catalogue of Life,,,,,,,,,,,,,,
-name-2747,NJHBV,,Species,Schizomma neckeri,,accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
+NJHBV,KVV3T,,Genus,Diachoriops,"Ando, 2020",accepted,,,native,editor,editor,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,12296448,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-6,,NJHBV,Genus,Schizomma,"Gebien, 1921",synonym,,,,,,,,,,no,,curated merge,"Junior homonym, replaced by Diachoriops Ando, 2020",,,,,,,,,,M. Andrew Johnston,2026-11-14,,
+IOG-7,NJHBV,,Species,Diachoriops gressitti,"(Kulzer, 1957)",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-8,NJHBV,,Species,Diachoriops minor,"(Kulzer, 1957)",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,Original combination Schizomma minor Kulzer.,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+name-2747,NJHBV,,Species,Diachoriops neckeri,"(Kulzer, 1957)",accepted,,,native,editor,editor,,Tenebrionoidea,Stenochiinae,Cnodalonini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-14,,,Original combination Schizomma neckeri Kulzer,,,M. Andrew Johnston,2026-11-14
 NGCGV,KVV3T,,Genus,Dioedus,"LeConte, 1862",accepted,,,unknown,,,,Tenebrionoidea,Phrenapatinae,Penetini,yes,4724809,Catalogue of Life,,,,,,,,,,,,,,
 NJMZ7,KVV3T,,Genus,Diphyrrhynchus,"Fairmaire, 1849",accepted,,,unknown,,,,Tenebrionoidea,Blaptinae,Opatrini,yes,4722620,Catalogue of Life,,,,,,,,,,,,,,
 NPM8M,KVV3T,,Genus,Ellipsodes,,accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,Crypticini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
@@ -1831,9 +1835,12 @@ KVPYB,KVV3T,,Genus,Platydema,"Laporte & Brullé, 1831",accepted,,,unknown,,,,Ten
 S3SCY,KVPYB,,Species,Platydema marseuli,"Lewis, 1894",accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,Diaperini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 S3SYK,KVPYB,,Species,Platydema subfascia,"(Walker, 1858)",accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,Diaperini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4475,,S3SYK,Species,Alphitophagus subfascia,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Alphitophagus subfascia → Platydema subfascia,,,,,,,,,,guaminsects match,2026-11-13,,
-RVZG9,KVV3T,,Genus,Ponapeida,"Kulzer, 1957",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4722164,Catalogue of Life,,,,,,,,,,,,,,
+RVZG9,KVV3T,,Genus,Ponapeida,"Kulzer, 1957",accepted,,,native,editor,editor,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4722164,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-9,RVZG9,,Species,Ponapeida rufitarsis,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 RV6P3,KVV3T,,Genus,Promethis,"Pascoe, 1869",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4724936,Catalogue of Life,,,,,,,,,,,,,,
 RV6YR,RV6P3,,Species,Promethis sulcigera,"(Boisduval, 1835)",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Cnodalonini,yes,4724964,Catalogue of Life,,,,,,,,,,,,,,
+IOG-11,KVV3T,,Genus,Pseudisopus,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-12,IOG-11,,Species,Pseudisopus gressitti,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 DDMXG,KVV3T,,Genus,Rhipidandrus,"J.L. LeConte, 1862",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Bolitophagini,yes,3262198,Catalogue of Life,,,,,,,,,,,,,,
 gbif:3262198,,DDMXG,Genus,Rhipidandrus,"LeConte, 1862",synonym,,,,,,,,,,no,,"same name, other author",,GBIF Backbone,,,,,,,,,,,,
 VPNM5,DDMXG,,Species,Rhipidandrus crenipennis,,accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Bolitophagini,yes,,Catalogue of Life,,,,,,,,,,,,,,
@@ -1844,6 +1851,9 @@ SRVDX,KVV3T,,Genus,Sciophagus,"Sharp, 1885",accepted,,,unknown,,,,Tenebrionoidea
 SRVF2,SRVDX,,Species,Sciophagus pandanicola,"Boisduval, 1835",accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,Diaperini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 gbif:8961892,,SRVF2,Species,Uloma pandanicola,"Boisduval, 1835",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Sciophagus pandanicola,,,,,,,,,,,,,
 SVX83,KVV3T,,Genus,Scotochares,"Boheman, 1858",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Ulomini,yes,4763502,Catalogue of Life,,,,,,,,,,,,,,
+IOG-5,SVX83,,Species,Scotochares insularis,"Boheman, 1858",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+LB697,,IOG-5,Species,Ammophorus insularis,"(Boheman, 1858)",synonym,Darkling beetle,,unknown,,,,Tenebrionoidea,Pimeliinae,,yes,1045827,curated merge,"Catalog of Life has these two synonymized - they are not synonyms, but records are wrongly attributed in online databases.",,,,,,,,,,,,M. Andrew Johnston,2026-11-14
+gbif:11262870,,IOG-5,Species,Scotochares insularis,"Boheman, 1858",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Ammophorus insularis,Plazi,,,,,,,,,,,,
 DDMH5,KVV3T,,Genus,Stenosis,"Herbst, 1799",accepted,,,unknown,,,,Tenebrionoidea,Pimeliinae,Stenosini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 name-2855,DDMH5,,Species,Stenosis carinata,,accepted,,,unknown,,,,Tenebrionoidea,Pimeliinae,Stenosini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 DDMPL,KVV3T,,Genus,Strongylium,"W. Kirby, 1819",accepted,,,unknown,,,,Tenebrionoidea,Stenochiinae,Stenochiini,yes,3262018,Catalogue of Life,,,,,,,,,,,,,,
@@ -5764,7 +5774,8 @@ C9MMS,C8V7J,,Genus,Encarsia,"Förster, 1878",accepted,,,unknown,,,,Chalcidoidea,
 39MX9,C9MMS,,Species,Encarsia haitiensis,"Dozier, 1932",accepted,,,unknown,,,,Chalcidoidea,Coccophaginae,Prospaltellini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 CBWP9,C8V7J,,Genus,Proaphelinoides,"Girault, 1917",accepted,,,unknown,,,,Chalcidoidea,Aphelininae,Aphytini,yes,1364126,Catalogue of Life,,,,,,,,,,,,,,
 4ML7Z,CBWP9,,Species,Proaphelinoides elongatiformis,"Girault, 1917",accepted,Parasitoid wasp,,unknown,,,,Chalcidoidea,Aphelininae,Aphytini,yes,1364129,Catalogue of Life,,,,,,,,,,,,,,
-6KD,HYM,,Family,Apidae,"Leach, 1815",accepted,Cuckoo,"Cuckoo, Carpenter, Digger, Bumble, and Honey Bees | Indet. Bee | euglossine | euglossines | honey bees | stingless bees",unknown,,,,Apoidea,,,yes,4334,Catalogue of Life,,,,,,,,,,,,,,
+6KD,HYM,,Family,Apidae,"Leach, 1815",accepted,Cuckoo,"Cuckoo, Carpenter, Digger, Bumble, and Honey Bees | Indet. Bee | euglossine | euglossines | honey bees | stingless bees",unknown,,,,Apoidea,,,yes,4334,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
+IOG-2,,6KD,Family,Xylocopidae,,synonym,,,,,,,,,,no,,curated merge,subfamily,,,,,,,,,,M. Andrew Johnston,2026-11-14,,
 YNV,6KD,,Genus,Apis,"Linnaeus, 1758",accepted,honey bees,Honey Bees,unknown,,,,Apoidea,Apinae,Apini,yes,1334757,Catalogue of Life,,,,,,,,,,,,,,
 FN46,YNV,,Species,Apis mellifera,"Linnaeus, 1758",accepted,Western Honey Bee,Africanized honey bee | Domestic Honey Bee | Drone-bee | European Honey Bee | Honey bee | Killer Bee | honey bee,unknown,,,Data Deficient,Apoidea,Apinae,Apini,yes,1341976,Catalogue of Life,,,,,,,,,,,,,,
 3KPT,6KD,,Genus,Ceratina,"Latreille, 1802",accepted,Small Carpenter Bees,Ceratina apicola | Little Carpenter Bees,unknown,,,,Apoidea,Xylocopinae,Ceratinini,yes,1341198,Catalogue of Life,,,,,,,,,,,,,,
@@ -6641,7 +6652,8 @@ CCDXT,CCDW2,,Genus,Trichogrammatomyia,"Girault, 1916",accepted,,,unknown,,,,Chal
 CCF7T,CCDW2,,Genus,Uscana,,accepted,,,unknown,,,,Chalcidoidea,Oligositinae,Chaetostrichini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 7F37J,CCF7T,,Species,Uscana pacifica,"(Doutt, 1955)",accepted,,,unknown,,,,Chalcidoidea,Oligositinae,Chaetostrichini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4703,,7F37J,Species,Lathromeris pacifica,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Lathromeris pacifica → Uscana pacifica,,,,,,,,,,guaminsects match,2026-11-13,,
-KZG3T,HYM,,Family,Vespidae,"Latreille, 1802",accepted,Social Wasps,Indet. Wasp | Social Wasps and Allies | Wasps | hornets | paper wasps | potter wasps | stikkevepser | true wasps | yellowjackets,unknown,,,,Vespoidea,,,yes,4490,Catalogue of Life,,,,,,,,,,,,,,
+KZG3T,HYM,,Family,Vespidae,"Latreille, 1802",accepted,Social Wasps,Indet. Wasp | Social Wasps and Allies | Wasps | hornets | paper wasps | potter wasps | stikkevepser | true wasps | yellowjackets,unknown,,,,Vespoidea,,,yes,4490,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
+IOG-1,,KZG3T,Family,Eumenidae,,synonym,,,,,,,,,,no,,curated merge,subfamily of vespidae,,,,,,,,,,M. Andrew Johnston,2026-11-14,,
 42RD,KZG3T,,Genus,Delta,"de Saussure, 1855",accepted,,,unknown,,,,Vespoidea,Eumeninae,,yes,1330315,Catalogue of Life,,,,,,,,,,,,,,
 gbif:1330315,,42RD,Genus,Delta,"Saussure, 1855",synonym,,,,,,,,,,no,,"same name, other author",,GBIF Backbone,,,,,,,,,,,,
 34K35,42RD,,Species,Delta esuriens,"(Fabricius, 1787)",accepted,Okinawa Mud Wasp,,unknown,,,,Vespoidea,Eumeninae,,yes,5036741,Catalogue of Life,,,,,,,,,,,,,,

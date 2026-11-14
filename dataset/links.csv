@@ -8918,6 +8918,8 @@ LGR2X,wikidata,Q110884716,,high,,,
 LHFZW,wikidata,Q49556939,,review,Wikidata names it Alfoa sodalis,,
 LHWRZ,wikidata,Q4812101,,high,,,
 LJGHG,bugguide,622906,,high,North American guide,,
+LJGHG,editor,https://www.bugguide.net/node/view/622906,BugGuide,high,,M. Andrew Johnston,2026-11-14
+LJGHG,editor,https://www.inaturalist.org/taxa/179014-Alphitobius-laevigatus,iNaturalist,high,,M. Andrew Johnston,2026-11-14
 LJGHG,inaturalist,179014,,high,via Wikidata,,
 LJGHG,wikidata,Q4762548,,high,,,
 LKCCT,wikidata,Q110086920,,high,,,
@@ -9748,3 +9750,4 @@ name-228,inaturalist,1700885,Orange-tipped Pea-blue,medium,matched by name,,
 name-232,inaturalist,483891,,medium,matched by name,,
 name-333,inaturalist,490496,Sineguelas Leaf Beetle,medium,matched by name,,
 name-448,inaturalist,1629230,,medium,matched by name,,
+IOG-3,editor,https://www.inaturalist.org/taxa/53926-Alphitobius-diaperinus,iNaturalist,high,,M. Andrew Johnston,2026-11-14
