@@ -5544,8 +5544,8 @@ L8G3B,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 L8G3B,iom-7-7-pentatomoidea,account,46,Alciphron glaucus,,,,,,,text,machine,,,migrate,2026-11-13
 L8G3B,iom-7-7-pentatomoidea,mention,3 | 4 | 46,Alciphron glaucus,,,,,,,text,machine,,,migrate,2026-11-13
 L8G3B,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
-LB697,iom-17-3-tenebrionidae,account,42,Scotochares insularis,,,,,,,text,machine,,,migrate,2026-11-13
-LB697,iom-17-3-tenebrionidae,mention,4 | 42,Scotochares insularis,,,,,,,text,machine,,,migrate,2026-11-13
+LB697,iom-17-3-tenebrionidae,account,42,Scotochares insularis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+LB697,iom-17-3-tenebrionidae,mention,4 | 42,Scotochares insularis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 LB697,swezey-1942-misc-coleoptera-guam,account,17,Scotochares insularis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 LB697,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 LB697,swezey-1942-misc-coleoptera-guam,mention,17,Scotochares insularis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5767,8 +5767,8 @@ NDM47,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NDM47,swezey-1942-misc-coleoptera-guam,mention,13,Enochrus rubrocinctus,,,,,,,text,machine,,,migrate,2026-11-13
 NF4R8,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NF4TC,evenhuis-et-al-2010-pagan-island,mention,58,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
-NF4TC,iom-17-3-tenebrionidae,account,49,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
-NF4TC,iom-17-3-tenebrionidae,mention,5 | 49,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
+NF4TC,iom-17-3-tenebrionidae,account,49,Derosphaerus rotundicollis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+NF4TC,iom-17-3-tenebrionidae,mention,5 | 49,Derosphaerus rotundicollis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 NF4TC,swezey-1942-misc-coleoptera-guam,account,17,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
 NF4TC,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NF4TC,swezey-1942-misc-coleoptera-guam,mention,17,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5808,8 +5808,8 @@ NXQW6,swezey-1942-misc-coleoptera-guam,mention,6,Haptoncus ocularis,,,,,,,text,m
 P5J8S,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 P8H66,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 P97HD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-P97J9,iom-17-3-tenebrionidae,account,42,Eutochia lateralis,,,,,,,text,machine,,,migrate,2026-11-13
-P97J9,iom-17-3-tenebrionidae,mention,4 | 42,Eutochia lateralis,,,,,,,text,machine,,,migrate,2026-11-13
+P97J9,iom-17-3-tenebrionidae,account,42,Eutochia lateralis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+P97J9,iom-17-3-tenebrionidae,mention,4 | 42,Eutochia lateralis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 P97J9,swezey-1942-misc-coleoptera-guam,account,16,Eutochia lateralis,,,,,,,text,machine,,,migrate,2026-11-13
 P97J9,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 P97J9,swezey-1942-misc-coleoptera-guam,mention,16,Eutochia lateralis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5823,8 +5823,8 @@ PBC7G,rabagliaetal-2020-bark-beetles-american-samoa,mention,11 | 18,Euwallacea s
 PBJ4V,evenhuis-et-al-2010-pagan-island,mention,58,Gonocephalum adpressiforme,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 PBJ4V,iom-17-3-tenebrionidae,account,9,Gonocephalum adpressiforme,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 PBJ4V,iom-17-3-tenebrionidae,mention,3 | 9,Gonocephalum adpressiforme,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
-PBJSV,iom-17-3-tenebrionidae,account,10,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
-PBJSV,iom-17-3-tenebrionidae,mention,3 | 9 | 10,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
+PBJSV,iom-17-3-tenebrionidae,account,10,Gonocephalum seriatum,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+PBJSV,iom-17-3-tenebrionidae,mention,3 | 9 | 10,Gonocephalum seriatum,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 PBJSV,swezey-1942-misc-coleoptera-guam,account,16,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
 PBJSV,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 PBJSV,swezey-1942-misc-coleoptera-guam,mention,16,Gonocephalum seriatum,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6045,8 +6045,8 @@ RLD7Q,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
 RLD8Z,crop-pests-micronesia,checklist,,,PW | FM,Palau | Pohnpei,,,,,checklist,,,,migrate,
 RLD8Z,iom-6-7-coccoidea,account,178,Pinnaspis aspidistrae,PW | FM,Koror | Pohnpei,,,,,ocr,machine,,,migrate,2026-11-13
 RLD8Z,iom-6-7-coccoidea,mention,178 | 179 | 180,Pinnaspis aspidistrae,,,,,,,ocr,machine,,,migrate,2026-11-13
-RPPBJ,iom-17-3-tenebrionidae,account,35,Palorus subdepressus,MP,Tinian,,,,,text,machine,,,migrate,2026-11-13
-RPPBJ,iom-17-3-tenebrionidae,mention,35,Palorus subdepressus,,,,,,,text,machine,,,migrate,2026-11-13
+RPPBJ,iom-17-3-tenebrionidae,account,35,Palorus subdepressus,MP,Tinian,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+RPPBJ,iom-17-3-tenebrionidae,mention,35,Palorus subdepressus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 RPPBL,iom-17-3-tenebrionidae,account,35,Palorus ratzeburgi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 RPPBL,swezey-1942-misc-coleoptera-guam,account,17,Palorus ratzeburgi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 RPPBL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -6193,19 +6193,19 @@ TLNLD,swezey-1942-misc-coleoptera-guam,account,17,Tribolium ferrugineum,,,,,,,te
 TLNLD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TLNLD,swezey-1942-misc-coleoptera-guam,mention,17,Tribolium ferrugineum,,,,,,,text,machine,,,migrate,2026-11-13
 TNWQJ,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
-TPXL6,iom-17-3-tenebrionidae,mention,20,Xyloborus nudus,,,,,,,text,machine,,,migrate,2026-11-13
+TPXL6,iom-17-3-tenebrionidae,mention,20,Xyloborus nudus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 TPXL6,swezey-1942-misc-coleoptera-guam,account,18,Xyloborus nudus,,,,,,,text,machine,,,migrate,2026-11-13
 TPXL6,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TPXL6,swezey-1942-misc-coleoptera-guam,mention,18,Xyloborus nudus,,,,,,,text,machine,,,migrate,2026-11-13
-TQQZT,iom-17-3-tenebrionidae,account,38,Uloma cavicollis ponapensis,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-TQQZT,iom-17-3-tenebrionidae,mention,38,Uloma cavicollis,,,,,,,text,machine,,,migrate,2026-11-13
+TQQZT,iom-17-3-tenebrionidae,account,38,Uloma cavicollis ponapensis,FM,Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+TQQZT,iom-17-3-tenebrionidae,mention,38,Uloma cavicollis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 TQQZT,kaszab-1955-tenebrionidae-fiji,account,5 | 14 | 19 | 21 | 58 | 59,Uloma cavicollis,,,,,,,text,machine,,,migrate,2026-11-13
 TQQZT,kaszab-1955-tenebrionidae-fiji,mention,5 | 14 | 18 | 19 | 21 | 58 | 59 | 60,Uloma cavicollis,,,,,,,text,machine,,,migrate,2026-11-13
 TQQZT,kaszab-1955-tenebrionidae-somoa,account,7 | 8 | 21,Uloma cavicollis,,,,,,,text,machine,,,migrate,2026-11-13
 TQQZT,kaszab-1955-tenebrionidae-somoa,mention,3 | 7 | 8 | 21,Uloma cavicollis,,,,,,,text,machine,,,migrate,2026-11-13
 TQQZT,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
-TQRBB,iom-17-3-tenebrionidae,account,40,Uloma picicornis,,,,,,,text,machine,,,migrate,2026-11-13
-TQRBB,iom-17-3-tenebrionidae,mention,40,Uloma picicornis,,,,,,,text,machine,,,migrate,2026-11-13
+TQRBB,iom-17-3-tenebrionidae,account,40,Uloma picicornis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+TQRBB,iom-17-3-tenebrionidae,mention,40,Uloma picicornis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 TQRBB,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 TQRBB,swezey-1942-misc-coleoptera-guam,mention,17,Uloma picicornis,,,,,,,text,machine,,,migrate,2026-11-13
 TQRDC,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -6357,14 +6357,14 @@ VPNM5,iom-17-3-tenebrionidae,account,22,Rhipidandrus crenipennis,,,,,,,text,edit
 VPNM5,iom-17-3-tenebrionidae,mention,3 | 22,Rhipidandrus crenipennis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VPPPC,iom-17-3-tenebrionidae,account,16,Bradymerus diversepunctatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VPPPC,iom-17-3-tenebrionidae,mention,16 | 17,Bradymerus diversepunctatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
-VPRGX,iom-17-3-tenebrionidae,account,52,Apterophenus dybasi,,,,,,,text,machine,,,migrate,2026-11-13
-VPRGX,iom-17-3-tenebrionidae,mention,5 | 52 | 53,Apterophenus dybasi,,,,,,,text,machine,,,migrate,2026-11-13
+VPRGX,iom-17-3-tenebrionidae,account,52,Apterophenus dybasi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+VPRGX,iom-17-3-tenebrionidae,mention,5 | 52 | 53,Apterophenus dybasi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VPRV3,iom-17-3-tenebrionidae,account,20,Rhipidandrus dybasi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VPRV3,iom-17-3-tenebrionidae,mention,3 | 20 | 21 | 22,Rhipidandrus dybasi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VPSNR,iom-17-3-tenebrionidae,account,18,Bradymerus oakleyi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VPSNR,iom-17-3-tenebrionidae,mention,18,Bradymerus oakleyi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
-VPSRJ,iom-17-3-tenebrionidae,account,10,Gonocephalum pottsi,,,,,,,text,machine,,,migrate,2026-11-13
-VPSRJ,iom-17-3-tenebrionidae,mention,3 | 10 | 11,Gonocephalum pottsi,,,,,,,text,machine,,,migrate,2026-11-13
+VPSRJ,iom-17-3-tenebrionidae,account,10,Gonocephalum pottsi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+VPSRJ,iom-17-3-tenebrionidae,mention,3 | 10 | 11,Gonocephalum pottsi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VQ4D7,iom-9-2-gelechioidea,account,1,Elaeonoma moira,,,,,,,text,machine,,,migrate,2026-11-13
 VQ4D7,iom-9-2-gelechioidea,mention,1 | 3,Elaeonoma moira,,,,,,,text,machine,,,migrate,2026-11-13
 VQ4HK,iom-9-2-gelechioidea,account,7,Elaeonoma swezeyi,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6459,7 +6459,7 @@ name-1643,iom-16-4-nitidulidae,account,40,Haptoncus dispersus,PW,Palau,,,,,text,
 name-1644,iom-16-4-nitidulidae,account,40,Haptoncus epuraeoides,MH,Marshall Is. | Wotho,,,,,text,machine,,,migrate,2026-11-13
 name-1648,iom-16-4-nitidulidae,account,44,Haptoncus opaculus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-1651,iom-16-4-nitidulidae,account,45,Haptoncus sordidus,GU | MH,Arno | Guam | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
-name-1677,iom-17-3-tenebrionidae,account,25,Heterophyllus pacificus,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
+name-1677,iom-17-3-tenebrionidae,account,25,Heterophyllus pacificus,FM,Chuuk,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-1711,iom-17-3-tenebrionidae,account,46,Hypophloeus dimidiatus,FM,Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-1732,iom-16-1-elateridae,account,13,Ischiodontus hawaiiensis,FM | MH,Kapingamarangi | Marshall Is. | Pohnpei | Wotje,,,,,text,machine,,,migrate,2026-11-13
 name-1749,iom-16-6-malachiidae-suppl,account,1,Laius palauensis,PW,Babeldaob | Koror | Ngeruktabel | Palau,,,,,text,machine,,,migrate,2026-11-13
@@ -6520,7 +6520,7 @@ name-2741,iom-17-1-chrysomelidae,account,40,Schenklingia yasumatsui,FM,Chuuk,,,,
 name-2741,samuelson-1973-alticinae-oceania,account,66,Schenklingia yasumatsui,,,,,,,text,machine,,,migrate,2026-11-13
 name-2742,iom-17-1-chrysomelidae,account,40,Schenklingia yoshimurai,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 name-2742,samuelson-1973-alticinae-oceania,account,67,Schenklingia yoshimurai,,,,,,,text,machine,,,migrate,2026-11-13
-name-2747,iom-17-3-tenebrionidae,account,55,Schizomma neckeri,GU | MP,Guam | Rota | Saipan | Tinian,,,,,text,machine,,,migrate,2026-11-13
+name-2747,iom-17-3-tenebrionidae,account,55,Schizomma neckeri,GU | MP,Guam | Rota | Saipan | Tinian,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-2750,iom-17-2-cerambycidae,account,113,Sciadella subcylindrica,PW,Angaur | Babeldaob | Koror | Ngeruktabel | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
 name-2773,iom-16-5-coccinellidae,account,19,Scymnus ebeninus,PW,Babeldaob | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-2777,iom-16-5-coccinellidae,account,18,Scymnus trukensis,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
@@ -6538,7 +6538,7 @@ name-2826,iom-14-1-tephritidae,account,24,Spathulina parca,GU,Guam,,,,,text,mach
 name-2831,iom-17-1-chrysomelidae,account,37,Sphaeroderma wedeliae,FM,Chuuk | Kosrae,,,,,text,machine,,,migrate,2026-11-13
 name-2831,samuelson-1973-alticinae-oceania,account,63,Sphaeroderma wedeliae,,,,,,,text,machine,,,migrate,2026-11-13
 name-2836,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,account,60,Sphegigaster tiqkensis,PW | FM,Chuuk | Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
-name-2855,iom-17-3-tenebrionidae,account,8,Stenosis carinata,MH,Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
+name-2855,iom-17-3-tenebrionidae,account,8,Stenosis carinata,MH,Marshall Is.,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-2879,iom-12-3-ceratopogonidae,account,265,Stilobezzia esakit,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 name-3076,iom-15-1-carabidae-incl-cicindelinae,account,29,Tachys nigriceps,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
 name-3103,iom-12-5-chironomidae,account,87 | 94 | 119 | 139,Tanytarsus subgenus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
