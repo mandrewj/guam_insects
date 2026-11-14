@@ -84,7 +84,8 @@ def inat_refresh(ds, taxa: list[str], client, today: str, progress=print,
             continue
         stats["searched"] += 1
         if index is not None:             # iNaturalist's published taxonomy: no request
-            hit = index.get((row["name"], SEARCH_RANKS[row["rank"]]))
+            table = index.index if hasattr(index, "load_commons") else index
+            hit = table.get((row["name"], SEARCH_RANKS[row["rank"]]))
             found = {"id": hit, "common": ""} if hit else None
         else:
             found = inatapi.search(client, row["name"], SEARCH_RANKS[row["rank"]])
@@ -99,12 +100,26 @@ def inat_refresh(ds, taxa: list[str], client, today: str, progress=print,
         if n % 100 == 0:
             progress(f"  iNaturalist search: {n}/{len(mine)} ({stats['new_links']} new links)")
     ids_ = sorted({int(links[t]["value"]) for t in mine if t in links})
-    info = inatapi.taxa_by_ids(client, ids_)
+    taxonomy = index if hasattr(index, "load_commons") else None
+    if taxonomy is not None:
+        # From the published file: the name check, and the English name where there is exactly
+        # one. Only taxa with several English names (which one is preferred is not in the file)
+        # are asked of the API.
+        taxonomy.load_commons(set(ids_))
+        many = [i for i in ids_ if len(taxonomy.commons.get(i, [])) > 1]
+        info = {i: {"name": taxonomy.names.get(i), "common": (taxonomy.commons.get(i) or [None])[0]
+                    if len(taxonomy.commons.get(i, [])) == 1 else None} for i in ids_}
+        stats["asked_api"] = len(many)
+        for i, got in inatapi.taxa_by_ids(client, many, progress).items():
+            info[i] = got
+        stats["no_english_name"] = sum(1 for i in ids_ if not taxonomy.commons.get(i))
+    else:
+        info = inatapi.taxa_by_ids(client, ids_, progress)
     progress(f"  iNaturalist taxa read: {len(info)}")
     for t in mine:
         link = links.get(t)
         got = info.get(int(link["value"])) if link else None
-        if not got:
+        if not got or not got.get("name"):
             continue
         row = by_id[t]
         if (got["name"] or "").lower() != row["name"].lower():
@@ -143,7 +158,7 @@ def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:
                 progress("  downloading iNaturalist's taxonomy (80 MB, once)")
                 inatapi.download_taxonomy()
             progress("  reading the taxonomy")
-            return inat_refresh(ds, taxa, client, today, progress, index=inatapi.taxonomy_index())
+            return inat_refresh(ds, taxa, client, today, progress, index=inatapi.read_taxonomy())
         finally:
             client.close()
     if what == "wikipedia":

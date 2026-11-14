@@ -48,10 +48,12 @@ def place_counts(client, place_id: int) -> list[dict]:
         page += 1
 
 
-def taxa_by_ids(client, inat_ids: list[int]) -> dict[int, dict]:
+def taxa_by_ids(client, inat_ids: list[int], progress=None) -> dict[int, dict]:
     """iNaturalist taxa by id, 30 a request: {id: {name, rank, common, active}}."""
     out: dict[int, dict] = {}
     for i in range(0, len(inat_ids), 30):
+        if progress and i and i % 300 == 0:
+            progress(f"  iNaturalist taxa: {i}/{len(inat_ids)}")
         d = patient_get(client, "/taxa/" + ",".join(map(str, inat_ids[i:i + 30])), {})
         for t in d.get("results", []):
             out[t["id"]] = {"name": t.get("name"), "rank": t.get("rank"),
@@ -90,19 +92,45 @@ def download_taxonomy(path=TAXONOMY_ZIP) -> None:
         tmp.rename(path)
 
 
-def taxonomy_index(path=TAXONOMY_ZIP, phylum: str = "Arthropoda") -> dict[tuple[str, str], int | None]:
-    """{(scientific name, rank): iNaturalist id} for every arthropod taxon in the archive; a
-    name and rank that two taxa share (a homonym within the phylum) maps to None."""
+class Taxonomy:
+    """iNaturalist's taxonomy as published: name -> id for arthropods, id -> name, and the
+    English names of the ids asked for (`load_commons`)."""
+
+    def __init__(self, index: dict, names: dict[int, str]):
+        self.index, self.names = index, names
+        self.commons: dict[int, list[str]] = {}
+
+    def load_commons(self, wanted: set[int], path=TAXONOMY_ZIP) -> None:
+        import csv
+        import io
+        import zipfile
+
+        with zipfile.ZipFile(path) as z, z.open("VernacularNames-english.csv") as raw:
+            for r in csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline="")):
+                if r["id"].isdigit() and int(r["id"]) in wanted and r["vernacularName"].strip():
+                    names = self.commons.setdefault(int(r["id"]), [])
+                    if r["vernacularName"].strip() not in names:
+                        names.append(r["vernacularName"].strip())
+
+
+def read_taxonomy(path=TAXONOMY_ZIP, phylum: str = "Arthropoda") -> Taxonomy:
+    """Every arthropod taxon in the archive: {(scientific name, rank): iNaturalist id}, where a
+    name and rank two taxa share (a homonym within the phylum) maps to None, and {id: name}."""
     import csv
     import io
     import zipfile
 
-    out: dict[tuple[str, str], int | None] = {}
+    index: dict[tuple[str, str], int | None] = {}
+    names: dict[int, str] = {}
     with zipfile.ZipFile(path) as z, z.open("taxa.csv") as raw:
-        rows = csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline=""))
-        for r in rows:
+        for r in csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline="")):
             if r["phylum"] != phylum:
                 continue
             key = (r["scientificName"], r["taxonRank"])
-            out[key] = int(r["id"]) if key not in out else None
-    return out
+            index[key] = int(r["id"]) if key not in index else None
+            names[int(r["id"])] = r["scientificName"]
+    return Taxonomy(index, names)
+
+
+def taxonomy_index(path=TAXONOMY_ZIP, phylum: str = "Arthropoda") -> dict[tuple[str, str], int | None]:
+    return read_taxonomy(path, phylum).index
