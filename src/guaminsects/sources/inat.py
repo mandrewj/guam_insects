@@ -69,3 +69,40 @@ def search(client, name: str, rank: str) -> dict | None:
             return {"id": t["id"], "name": t["name"], "rank": t["rank"],
                     "common": t.get("preferred_common_name")}
     return None
+
+
+# --- iNaturalist's published taxonomy (a Darwin Core Archive), for linking without searching -------
+
+TAXONOMY_URL = "https://www.inaturalist.org/taxa/inaturalist-taxonomy.dwca.zip"
+TAXONOMY_ZIP = config.PRIVATE_DIR / "inat-taxonomy" / "dwca.zip"
+
+
+def download_taxonomy(path=TAXONOMY_ZIP) -> None:
+    """One 80 MB download of the whole taxonomy (iNaturalist publishes it for this)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with httpx.stream("GET", TAXONOMY_URL, headers={"User-Agent": config.USER_AGENT},
+                      follow_redirects=True, timeout=600) as r:
+        r.raise_for_status()
+        tmp = path.with_suffix(".part")
+        with tmp.open("wb") as f:
+            for chunk in r.iter_bytes(1 << 20):
+                f.write(chunk)
+        tmp.rename(path)
+
+
+def taxonomy_index(path=TAXONOMY_ZIP, phylum: str = "Arthropoda") -> dict[tuple[str, str], int | None]:
+    """{(scientific name, rank): iNaturalist id} for every arthropod taxon in the archive; a
+    name and rank that two taxa share (a homonym within the phylum) maps to None."""
+    import csv
+    import io
+    import zipfile
+
+    out: dict[tuple[str, str], int | None] = {}
+    with zipfile.ZipFile(path) as z, z.open("taxa.csv") as raw:
+        rows = csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline=""))
+        for r in rows:
+            if r["phylum"] != phylum:
+                continue
+            key = (r["scientificName"], r["taxonRank"])
+            out[key] = int(r["id"]) if key not in out else None
+    return out

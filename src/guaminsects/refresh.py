@@ -63,7 +63,8 @@ SEARCH_RANKS = {"Species": "species", "Subspecies": "subspecies", "Genus": "genu
                 "Family": "family", "Order": "order"}
 
 
-def inat_refresh(ds, taxa: list[str], client, today: str, progress=print) -> dict[str, int]:
+def inat_refresh(ds, taxa: list[str], client, today: str, progress=print,
+                 index: dict | None = None) -> dict[str, int]:
     """Link each taxon to iNaturalist (an id from Wikidata or an earlier match, else a search
     for the exact name) and take iNaturalist's English name as the common name; the old common
     name moves to other_common_names. A name is taken only when iNaturalist's own taxon name
@@ -82,7 +83,11 @@ def inat_refresh(ds, taxa: list[str], client, today: str, progress=print) -> dic
         if t in links or row["rank"] not in SEARCH_RANKS or row["status"] == "morphospecies":
             continue
         stats["searched"] += 1
-        found = inatapi.search(client, row["name"], SEARCH_RANKS[row["rank"]])
+        if index is not None:             # iNaturalist's published taxonomy: no request
+            hit = index.get((row["name"], SEARCH_RANKS[row["rank"]]))
+            found = {"id": hit, "common": ""} if hit else None
+        else:
+            found = inatapi.search(client, row["name"], SEARCH_RANKS[row["rank"]])
         if found:
             link = {"taxon_id": t, "system": "inaturalist", "value": str(found["id"]),
                     "label": found["common"] or "", "confidence": "high",
@@ -134,7 +139,11 @@ def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:
     if what == "inat":
         client = ApiClient(inatapi.INAT, 1.0)
         try:
-            return inat_refresh(ds, taxa, client, today, progress)
+            if not inatapi.TAXONOMY_ZIP.exists():
+                progress("  downloading iNaturalist's taxonomy (80 MB, once)")
+                inatapi.download_taxonomy()
+            progress("  reading the taxonomy")
+            return inat_refresh(ds, taxa, client, today, progress, index=inatapi.taxonomy_index())
         finally:
             client.close()
     if what == "wikipedia":

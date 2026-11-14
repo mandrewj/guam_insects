@@ -228,3 +228,22 @@ def test_living_photos_go_first(tmp_path):
     assert {p["position"] for p in thumbs} == {"0"}                              # only card photos keep a file
     assert sorted(f.name for f in media.glob("*.webp")) == sorted(p["thumb"] for p in thumbs)
     assert dataset.check(ds).items == []
+
+
+def test_inat_links_from_the_published_taxonomy_without_searching():
+    ds = taxa_ds()
+
+    class Inat:
+        searched = 0
+
+        def get(self, path, params=None):
+            assert path != "/taxa", "no search when the taxonomy index is given"
+            ids = [int(x) for x in path.rsplit("/", 1)[1].split(",")]
+            return {"results": [{"id": i, "name": "Oryctes gigas", "rank": "species",
+                                 "preferred_common_name": "Giant Rhino Beetle"} for i in ids]}
+
+    index = {("Oryctes gigas", "species"): 9, ("Oryctes", "genus"): None}      # a homonym in the phylum: skipped
+    stats = refresh.inat_refresh(ds, ["ORGIG", "ORYCT"], Inat(), TODAY, progress=lambda *_: None, index=index)
+    assert stats["new_links"] == 1
+    assert [(r["taxon_id"], r["value"]) for r in ds["links"] if r["system"] == "inaturalist"] == [("ORGIG", "9")]
+    assert {r["id"]: r["common_name"] for r in ds["taxa"]}["ORGIG"] == "Giant Rhino Beetle"
