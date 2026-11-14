@@ -2,12 +2,12 @@
 //   GitHub   read (no token needed: the repository is public), commit with a token
 //   local    `guaminsects edit` in a clone: read the working tree, commit + push with git
 //   folder   a clone opened in Chrome/Edge (File System Access): read, save the files back
-//   files    any browser: pick the CSV files; save = download the changed ones
+//   files    any browser: pick the CSV files (dataset/*.csv); save = download the changed ones
 (function () {
   "use strict";
   const S = window.IOG_SPEC;
   const API = "https://api.github.com";
-  // Keep a byte-order mark (taxonomy.csv has one): Response.text() and File.text() drop it,
+  // Keep a byte-order mark (the dataset files have one): Response.text() and File.text() drop it,
   // and then every file would look changed.
   const decode = buf => new TextDecoder("utf-8", { ignoreBOM: true }).decode(buf);
 
@@ -137,7 +137,7 @@
       try { texts[path] = decode(await (await (await fileIn(dir, path)).getFile()).arrayBuffer()); }
       catch (e) { texts[path] = null; }
     }
-    if (texts["taxonomy.csv"] == null) throw new Error(`no taxonomy.csv in the folder "${dir.name}": pick the top of the clone`);
+    if (texts[S.tables.taxa.file] == null) throw new Error(`no ${S.tables.taxa.file} in the folder "${dir.name}": pick the top of the clone`);
     return { texts, dir, source: { kind: "folder", label: `folder ${dir.name}`, sha: "folder:" + dir.name } };
   }
   async function saveFolder(dir, files) {
@@ -157,7 +157,7 @@
       const f = byName[path.split("/").pop()];
       texts[path] = f ? decode(await f.arrayBuffer()) : null;
     }
-    if (texts["taxonomy.csv"] == null) throw new Error("taxonomy.csv was not among the files");
+    if (texts[S.tables.taxa.file] == null) throw new Error("taxa.csv was not among the files");
     return { texts, source: { kind: "files", label: Object.keys(byName).join(", "), sha: "files" } };
   }
   function download(files) {

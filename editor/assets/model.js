@@ -1,36 +1,45 @@
-// The editor's model: the files as loaded (the base) plus a list of operations (the edits),
-// replayed in order to give the current state. Nothing here touches the page.
+// The editor's model: the dataset tables as loaded (the base) plus a list of operations (the
+// edits), replayed in order to give the current state. Nothing here touches the page.
 //
-// Every operation writes what `resolve` reads (curation/taxa.csv, evidence.csv,
-// annotations.csv: the same rules as curation.py and taxonomy.import_edits) and updates
-// taxonomy.csv to match, so the table shows the edit at once. Computed columns (records,
-// verification levels, literature) are refreshed by the rebuild after a commit.
+// The tables are dataset/*.csv (schema.py): the taxa table is edited directly, one cell per
+// field; distribution, vouchers, links, literature, notes and hosts are lists of rows. Writing
+// them back gives the same bytes Python's dataset.write would (sorted rows, BOM, "\n"), so a
+// commit changes only what was edited. Rows that point at a synonym still point at it after a
+// merge; the build follows accepted_id (docs/REFACTOR.md).
 (function () {
   "use strict";
   const S = window.IOG_SPEC;
   const CSV = window.IOGCSV;
-  const CONFIRMED = S.levels[S.levels.length - 1];
-  const RANK_ORDER = ["Subphylum", "Class", "Order", "Family", "Genus", "Subgenus", "Species",
-                      "Subspecies", "Variety", "Form"];
+  const T = S.tables;
+  const SEP = S.sep;
+  const RANK = S.rankOrder;
+  const CONFIRMED = "editor confirmed";
   const PLACE = new Map(S.places.map(p => [p[0], { area: p[1], group: p[2] }]));
   const AREA_ORDER = S.areas.map(a => a.code);
+  const COL_BASE = 1e11, NAME_BASE = 3e11, LOCAL_BASE = 5e11;
   const ID_RE = /^([0-9A-Z]{1,7}|gbif:\d+|name-\d+|IOG-\d+)$/;
-  const EDITABLE = S.editable;                 // taxonomy column -> curation/taxa.csv column
-  const LIST = new Set(S.listColumns);
-  const FILES = { taxonomy: "taxonomy.csv", taxa: "curation/taxa.csv",
-                  evidence: "curation/evidence.csv", annotations: "curation/annotations.csv" };
-  const COLUMNS_OF = { taxonomy: S.columns, taxa: S.taxaColumns, evidence: S.evidenceColumns,
-                       annotations: S.annotationColumns };
-  const CLASSIFICATION = { Class: "class", Order: "order", Family: "family", Genus: "genus" };
+  const SYN = "synonym";
 
   const validId = s => ID_RE.test(s || "");
   const iogNum = s => { const m = /^IOG-(\d+)$/.exec(s || ""); return m ? +m[1] : 0; };
   const today = () => new Date().toISOString().slice(0, 10);
-  const blank = cols => Object.fromEntries(cols.map(c => [c, ""]));
-  const rankIndex = r => { const i = RANK_ORDER.indexOf(r); return i < 0 ? 99 : i; };
+  const blank = name => Object.fromEntries(T[name].columns.map(c => [c, ""]));
+  const rankIdx = r => (r in RANK ? RANK[r] : 99);
   const fold = s => (s || "").toLowerCase();
+  const splitList = v => (v || "").split("|").map(x => x.trim()).filter(Boolean);
+  const isUrl = v => /^https?:\/\/\S+$/.test(v || "");
 
-  // ------------------------------------------------------------ cell formats (taxonomy.py)
+  // ids.to_int: the order rows are filed in
+  function tid(ext) {
+    let m;
+    if ((m = /^gbif:(\d+)$/.exec(ext))) return +m[1];
+    if ((m = /^name-(\d+)$/.exec(ext))) return NAME_BASE + +m[1];
+    if ((m = /^IOG-(\d+)$/.exec(ext))) return LOCAL_BASE + +m[1];
+    if (/^[0-9A-Z]{1,7}$/.test(ext)) return COL_BASE + parseInt(ext, 36);
+    return 2 ** 62;
+  }
+
+  // ------------------------------------------------------------ cell formats (build/export.py)
   const formatTag = a => `${a.value}: ${a.status || "present"}` + (a.source ? ` (${a.source})` : "");
   function parseTag(text) {
     const t = text.trim(), i = t.indexOf(":");
@@ -67,67 +76,121 @@
     }
     return { value: t, note: "" };
   }
-  const splitList = v => (v || "").split("|").map(x => x.trim()).filter(Boolean);
-  const isUrl = v => /^https?:\/\/\S+$/.test(v || "");
+
+  // ------------------------------------------------------------ writing the tables like Python
+  // dataset.sort_rows: taxa depth first (children by name, a taxon's names after it); the
+  // others by the taxon's id order, then their own key columns.
+  function cmpKey(a, b) {
+    for (let i = 0; i < Math.min(a.length, b.length); i++) {
+      const x = a[i], y = b[i];
+      if (Array.isArray(x)) {
+        const c = cmpKey(x, y);
+        if (c) return c;
+      } else if (x !== y) return x < y ? -1 : 1;
+    }
+    return a.length - b.length;
+  }
+  function sortTaxa(rows) {
+    const accepted = rows.filter(r => r.status !== SYN);
+    const byId = new Map(accepted.map(r => [r.id, r]));
+    const kids = new Map(), names = new Map();
+    for (const r of accepted) { if (!kids.has(r.parent_id)) kids.set(r.parent_id, []); kids.get(r.parent_id).push(r); }
+    for (const r of rows) if (r.status === SYN) { if (!names.has(r.accepted_id)) names.set(r.accepted_id, []); names.get(r.accepted_id).push(r); }
+    const byName = (a, b) => cmpKey([fold(a.name), tid(a.id)], [fold(b.name), tid(b.id)]);
+    const out = [], seen = new Set();
+    const roots = accepted.filter(r => !r.parent_id || !byId.has(r.parent_id));
+    roots.sort((a, b) => cmpKey([a.parent_id !== "" ? 1 : 0, fold(a.name), tid(a.id)], [b.parent_id !== "" ? 1 : 0, fold(b.name), tid(b.id)]));
+    const stack = roots.slice().reverse();
+    while (stack.length) {
+      const r = stack.pop();
+      if (seen.has(r.id)) continue;
+      seen.add(r.id);
+      out.push(r);
+      for (const n of (names.get(r.id) || []).slice().sort(byName)) out.push(n);
+      for (const k of (kids.get(r.id) || []).slice().sort(byName).reverse()) stack.push(k);
+    }
+    for (const r of rows) if (r.status === SYN && !byId.has(r.accepted_id)) out.push(r);
+    for (const r of accepted) if (!seen.has(r.id)) out.push(r);
+    return out;
+  }
+  function sortRows(name, rows) {
+    if (name === "taxa") return sortTaxa(rows);
+    const t = T[name], hasTaxon = t.columns.includes("taxon_id");
+    const key = r => {
+      const parts = hasTaxon ? [tid(r.taxon_id)] : [];
+      for (const c of t.key) {
+        if (c === "taxon_id") continue;
+        const v = r[c] || "";
+        parts.push(/^\d+$/.test(v) && (c === "position" || c === "year") ? [0, +v, ""] : [1, 0, fold(v), v]);
+      }
+      return parts;
+    };
+    return rows.map(r => [key(r), r]).sort((a, b) => cmpKey(a[0], b[0])).map(x => x[1]);
+  }
 
   // ------------------------------------------------------------ the base (files as loaded)
   // texts: {path: text or null (absent)}; source: {kind, label, sha}
   function makeBase(texts, source) {
     const tables = {};
-    for (const [key, path] of Object.entries(FILES)) {
-      const text = texts[path];
-      const t = CSV.readTable(text || "", COLUMNS_OF[key]);
-      if (text == null || text === "") {        // a file not there yet: Python's defaults
-        t.bom = false;
-        t.eol = key === "taxonomy" ? "\n" : "\r\n";
-      }
-      if (key === "taxonomy") t.bom = true;
-      // Columns in the order the Python code writes them, then any others the file had.
-      t.columns = COLUMNS_OF[key].concat(t.columns.filter(c => !COLUMNS_OF[key].includes(c)));
-      tables[key] = t;
+    for (const name of Object.keys(T)) {
+      const t = CSV.readTable(texts[T[name].file] || "", T[name].columns);
+      t.bom = true;
+      t.eol = "\n";
+      t.columns = T[name].columns;
+      tables[name] = t;
     }
     return { texts, tables, source: source || { kind: "files", label: "files" } };
   }
+
+  // ------------------------------------------------------------ view rows (what the page shows)
+  // The old taxonomy.csv field names, so the page's table and panels keep their words.
+  const LEGACY = {
+    scientificName: "name", scientificNameAuthorship: "authorship", taxonRank: "rank",
+    taxonomicStatus: "status", vernacularName: "common_name", establishmentMeans: "nativity",
+    taxonRemarks: "note", parentNameUsageID: "parent_id", acceptedNameUsageID: "accepted_id",
+    inCatalogueOfLife: "in_col", nameMatch: "name_match", matchRemarks: "match_note",
+    nameSources: "name_sources", modifiedBy: "modified_by", verifiedBy: "verified_by",
+    verifiedDate: "verified_date", verificationSource: "verification_source", taxonID: "id",
+  };
+  const BACK = Object.fromEntries(Object.entries(LEGACY).map(([k, v]) => [v, k]));
 
   // ------------------------------------------------------------ state = base + operations
   class State {
     constructor(base) {
       this.base = base;
-      const T = base.tables;
-      this.byId = new Map();
+      const B = base.tables;
+      this.d = new Map();                // id -> taxa row (copied before its first change)
       this.order = [];
-      for (const r of T.taxonomy.rows) {
-        if (!r.taxonID || this.byId.has(r.taxonID)) continue;
-        this.byId.set(r.taxonID, r);
-        this.order.push(r.taxonID);
+      for (const r of B.taxa.rows) {
+        if (!r.id || this.d.has(r.id)) continue;
+        this.d.set(r.id, r);
+        this.order.push(r.id);
       }
-      this.cur = T.taxa.rows.slice();
-      this.evidence = T.evidence.rows.slice();
-      this.annotations = T.annotations.rows.slice();
-      this.own = new Set();              // objects this state may change (copies)
-      this.changed = new Map();          // taxonID -> Set of columns changed
-      this.structural = false;
-      this.touched = new Set();          // ids whose list cells are recomputed at the end
-      this.added = new Set();            // taxonIDs added by an operation
+      this.t = {};                       // the other editable tables, as row arrays
+      for (const name of S.editTables) if (name !== "taxa") this.t[name] = B[name].rows.slice();
+      this.own = new Set();
+      this.changed = new Map();          // id -> Set of columns changed
+      this.added = new Set();
       this.removed = new Set();
+      this.structural = false;
       this._kids = null;
+      this.lookup = { documents: new Map(B.documents.rows.map(r => [r.doc_id, r])) };
       let max = 0;
       for (const id of this.order) max = Math.max(max, iogNum(id));
-      for (const r of this.cur) max = Math.max(max, iogNum(r.taxon_id));
       this.nextIog = max + 1;
     }
-
-    row(id) { return this.byId.get(id); }
-    name(id) { const r = this.row(id); return r ? r.scientificName : id; }
-    isSynonym(r) { return r && r.taxonomicStatus === "synonym"; }
+    // --- dataset rows, for the operations
+    r(id) { return this.d.get(id); }
+    name(id) { const r = this.d.get(id); return r ? r.name : id; }
+    isSyn(r) { return r && r.status === SYN; }
     shownId(id) {
-      const r = this.row(id);
-      return r && this.isSynonym(r) && r.acceptedNameUsageID ? r.acceptedNameUsageID : id;
+      const r = this.d.get(id);
+      return r && r.status === SYN && r.accepted_id ? r.accepted_id : id;
     }
-    mrow(id) {                           // the row, copied before its first change
-      let r = this.byId.get(id);
+    mrow(id) {
+      let r = this.d.get(id);
       if (!r) throw new Error(`no taxon ${id}`);
-      if (!this.own.has(r)) { r = Object.assign({}, r); this.own.add(r); this.byId.set(id, r); }
+      if (!this.own.has(r)) { r = Object.assign({}, r); this.own.add(r); this.d.set(id, r); }
       return r;
     }
     setCell(id, col, value) {
@@ -137,32 +200,33 @@
       if (!this.changed.has(id)) this.changed.set(id, new Set());
       this.changed.get(id).add(col);
     }
-    kids() {                             // parent id -> accepted child ids
+    stamp(id, op) {
+      if (!this.d.has(id) || this.removed.has(id)) return;
+      this.setCell(id, "modified_by", op.by);
+      this.setCell(id, "modified", op.date);
+    }
+    kids() {
       if (!this._kids) {
         this._kids = new Map();
         for (const id of this.order) {
-          const r = this.byId.get(id);
-          if (this.isSynonym(r) || !r.parentNameUsageID) continue;
-          if (!this._kids.has(r.parentNameUsageID)) this._kids.set(r.parentNameUsageID, []);
-          this._kids.get(r.parentNameUsageID).push(id);
+          const r = this.d.get(id);
+          if (r.status === SYN || !r.parent_id) continue;
+          if (!this._kids.has(r.parent_id)) this._kids.set(r.parent_id, []);
+          this._kids.get(r.parent_id).push(id);
         }
       }
       return this._kids;
     }
     children(id) { return this.kids().get(id) || []; }
-    synonymsOf(id) {
-      return this.order.filter(x => { const r = this.byId.get(x); return this.isSynonym(r) && r.acceptedNameUsageID === id; });
-    }
+    synonymsOf(id) { return this.order.filter(x => { const r = this.d.get(x); return r.status === SYN && r.accepted_id === id; }); }
     descendants(id) {
       const out = [], stack = [id];
-      while (stack.length) {
-        for (const c of this.children(stack.pop())) { out.push(c); stack.push(c); }
-      }
+      while (stack.length) for (const c of this.children(stack.pop())) { out.push(c); stack.push(c); }
       return out;
     }
-    isUnder(id, ancestor) {              // is `id` at or below `ancestor`?
+    isUnder(id, ancestor) {
       const seen = new Set();
-      for (let x = id; x && !seen.has(x); x = (this.row(x) || {}).parentNameUsageID) {
+      for (let x = id; x && !seen.has(x); x = (this.d.get(x) || {}).parent_id) {
         if (x === ancestor) return true;
         seen.add(x);
       }
@@ -170,268 +234,229 @@
     }
     lineage(id) {
       const out = [], seen = new Set();
-      for (let x = (this.row(id) || {}).parentNameUsageID; x && !seen.has(x); x = (this.row(x) || {}).parentNameUsageID) {
-        seen.add(x); out.unshift(x);
-      }
+      for (let x = (this.d.get(id) || {}).parent_id; x && !seen.has(x); x = (this.d.get(x) || {}).parent_id) { seen.add(x); out.unshift(x); }
       return out;
     }
     structure() { this.structural = true; this._kids = null; }
-
-    // curation/taxa.csv rows ---------------------------------------------------------
-    curRow(id, create) {
-      let i = this.cur.findIndex(r => r.taxon_id === id);
-      if (i < 0) {
-        if (!create) return null;
-        this.cur.push(Object.assign(blank(this.base.tables.taxa.columns), { taxon_id: id }));
-        i = this.cur.length - 1;
-        this.own.add(this.cur[i]);
-      } else if (!this.own.has(this.cur[i])) {
-        this.cur[i] = Object.assign({}, this.cur[i]);
-        this.own.add(this.cur[i]);
-      }
-      return this.cur[i];
-    }
-    curate(id, fields, op) {
-      const r = this.curRow(id, true);
-      Object.assign(r, fields, { editor: op.by, edited: op.date });
-      if (op.reason) r.reason = op.reason;
-      // A source taxon's row with nothing left to override goes (as curation.upsert does).
-      const overrides = S.overrideFields.concat(["parent_name"]);
-      if (!/^IOG-/.test(id) && !overrides.some(f => r[f])) this.cur.splice(this.cur.indexOf(r), 1);
-      const shown = this.shownId(id);
-      if (this.row(shown)) {
-        const cf = new Set((this.row(shown).curatedFields || "").split(",").filter(Boolean));
-        for (const f of Object.keys(fields)) if (S.overrideFields.includes(f) && fields[f] !== "") cf.add(f);
-        this.setCell(shown, "curatedFields", [...cf].join(","));
-      }
-      this.stamp(id, op);
-    }
-    stamp(id, op) {
-      if (!this.row(id) || this.removed.has(id)) return;
-      this.setCell(id, "modifiedBy", op.by);
-      this.setCell(id, "modified", op.date);
-    }
     newId() { return "IOG-" + this.nextIog++; }
 
-    // annotations and evidence for a displayed taxon --------------------------------------
-    annFor(id, kind) {
-      return this.annotations.filter(a => a.kind === kind && this.shownId(a.taxon_id) === id);
+    // --- rows of the list tables for a displayed taxon
+    mine(name, id) { return this.t[name].filter(r => this.shownId(r.taxon_id) === id); }
+    annFor(id, kind) {                   // the shapes the page reads
+      if (kind === "distribution") return this.mine("distribution", id).map(r => ({ value: r.place, status: r.status, source: r.source, added_by: r.added_by, added: r.added }));
+      return this.mine("links", id).filter(r => r.system === "editor").map(r => ({ value: r.value, note: r.label, added_by: r.added_by, added: r.added }));
     }
     occFor(id) {
-      return this.evidence.filter(e => occurrenceUrl(e) && this.shownId(e.taxon_id) === id);
-    }
-    listsChanged(id, op) {               // a tag, voucher or link was added or removed
-      this.touched.add(id);
-      this.recomputeLists(id);
-      this.stamp(id, op);
-    }
-    recomputeLists(id) {
-      if (!this.row(id) || this.isSynonym(this.row(id))) return;
-      this.setCell(id, "distributionTags", this.annFor(id, "distribution").map(formatTag).join(S.sep));
-      this.setCell(id, "associatedReferences", this.annFor(id, "link").map(formatLink).join(S.sep));
-      this.setCell(id, "associatedOccurrences", this.occFor(id).map(occurrenceUrl).join(S.sep));
+      return this.mine("vouchers", id).filter(e => occurrenceUrl(e)).map(e => ({ kind: e.kind, ref: e.ref, note: e.note, editor: e.added_by, edited: e.added }));
     }
 
     // ------------------------------------------------------------ at the end of a replay
     finish() {
       if (this.structural) this.reorder();
-      for (const id of this.touched) {
-        this.recomputeLists(id);
-        const r = this.row(id);
-        if (!r || this.isSynonym(r)) continue;
-        const present = new Set(this.annFor(id, "distribution").filter(a => (a.status || "present") === "present")
-          .map(a => PLACE.get(a.value).area));
-        if (present.size) {
-          const areas = new Set(splitList(r.recordedIn).concat([...present]));
-          this.setCell(id, "recordedIn", AREA_ORDER.filter(a => areas.has(a)).join(S.sep));
-        }
-      }
-      this.rows = this.order.map(id => this.byId.get(id));
+      this.buildViews();
     }
     reorder() {
+      const sorted = sortTaxa(this.order.map(id => this.d.get(id)));
+      this.order = sorted.map(r => r.id);
       this._kids = null;
-      const kids = this.kids(), syn = new Map(), roots = [];
-      for (const id of this.order) {
-        const r = this.byId.get(id);
-        if (this.isSynonym(r)) {
-          const a = r.acceptedNameUsageID;
-          if (!syn.has(a)) syn.set(a, []);
-          syn.get(a).push(id);
-        } else if (!r.parentNameUsageID || !this.byId.has(r.parentNameUsageID)) roots.push(id);
-      }
-      const byName = (a, b) => { const x = fold(this.name(a)), y = fold(this.name(b)); return x < y ? -1 : x > y ? 1 : 0; };
-      const out = [], seen = new Set();
-      const visit = (id, cls) => {
-        if (seen.has(id)) return;
-        seen.add(id);
-        out.push(id);
-        const r = this.byId.get(id);
-        const mine = Object.assign({}, cls);
-        if (CLASSIFICATION[r.taxonRank]) mine[CLASSIFICATION[r.taxonRank]] = r.scientificName;
-        this.classify(id, mine);
-        const p = r.parentNameUsageID ? this.byId.get(r.parentNameUsageID) : null;
-        if (p && r.parentNameUsage !== p.scientificName) this.setCell(id, "parentNameUsage", p.scientificName);
-        // Other names by name, as resolve writes them (taxon_names ORDER BY name).
-        const names = (syn.get(id) || []).slice().sort((x, y) => {
-          const p = this.name(x), q = this.name(y); return p < q ? -1 : p > q ? 1 : 0; });
-        for (const s of names) {
-          seen.add(s); out.push(s);
-          this.classify(s, mine);
-          if (this.row(s).acceptedNameUsage !== r.scientificName) this.setCell(s, "acceptedNameUsage", r.scientificName);
+    }
+    buildViews() {
+      const B = this.base.tables;
+      const own = name => {
+        const m = new Map();
+        for (const r of (this.t[name] || B[name].rows)) {
+          const id = this.shownId(r.taxon_id);
+          if (!m.has(id)) m.set(id, []);
+          m.get(id).push(r);
         }
-        for (const c of (kids.get(id) || []).slice().sort(byName)) visit(c, mine);
+        return m;
       };
-      for (const id of roots) visit(id, {});
-      for (const id of this.order) if (!seen.has(id)) out.push(id);   // orphans (shown last)
-      this.order = out;
-    }
-    classify(id, cls) {
-      const r = this.byId.get(id);
-      const ranked = rankIndex(r.taxonRank);
-      for (const [rank, col] of Object.entries(CLASSIFICATION)) {
-        // A column names the taxon of that rank above (or at) this one; below family the
-        // family is always filled (taxonomy.py), so an empty value means none in the chain.
-        const want = rankIndex(rank) <= ranked ? (cls[col] || "") : "";
-        if ((r[col] || "") !== want) {
-          if (col === "family" && r.family !== want) {
-            if (r.subfamily) this.setCell(id, "subfamily", "");
-            if (r.tribe) this.setCell(id, "tribe", "");
-          }
-          this.setCell(id, col, want);
-        }
+      const records = new Map();
+      for (const r of B.records.rows) {
+        const id = this.shownId(r.taxon_id);
+        if (!records.has(id)) records.set(id, []);
+        records.get(id).push(r);
       }
+      const lits = own("literature"), notes = own("notes"), dists = own("distribution"),
+            vouchers = own("vouchers"), links = own("links");
+      const doc = id => this.lookup.documents.get(id) || { citation: id, title: id };
+      const conflict = id => {
+        const vals = new Set((lits.get(id) || []).filter(r => r.status).map(r => r.status === "endemic" ? "native" : r.status === "invasive" ? "introduced" : r.status));
+        vals.delete("unknown"); vals.delete("cryptogenic");
+        const nat = this.d.get(id).nativity;
+        return vals.size > 1 || (vals.size === 1 && nat !== "unknown" && !vals.has(nat));
+      };
+      this.views = new Map();
+      for (const id of this.order) {
+        const r = this.d.get(id);
+        const acc = r.status === SYN ? this.d.get(r.accepted_id) : null;
+        const par = r.parent_id ? this.d.get(r.parent_id) : null;
+        const base = acc || r;
+        const chain = this.lineage(acc ? acc.id : id).map(x => this.d.get(x)).concat(acc ? [acc] : [r]);
+        const by = {};
+        for (const a of chain) by[a.rank] = a.name;
+        const ownRecs = records.get(id) || [];
+        const sum = src => ownRecs.filter(x => x.source === src).reduce((n, x) => n + +x.records, 0);
+        const areas = new Set(ownRecs.filter(x => x.source !== "gbif_specimens" && +x.records).map(x => x.area));
+        for (const l of (lits.get(id) || [])) if (l.kind !== "mention") splitList(l.areas).forEach(a => areas.add(a));
+        for (const x of (dists.get(id) || [])) if (x.status === "present") areas.add(PLACE.get(x.place).area);
+        const litRows = lits.get(id) || [];
+        const docsHere = [...new Set(litRows.map(l => l.doc_id))];
+        const machineLit = litRows.filter(l => l.review === "machine").length;
+        const v = Object.assign({}, r, {
+          taxonID: r.id, parentNameUsageID: r.parent_id, parentNameUsage: par ? par.name : "",
+          acceptedNameUsageID: r.accepted_id, acceptedNameUsage: acc ? acc.name : "",
+          scientificName: r.name, scientificNameAuthorship: r.authorship, taxonRank: r.rank,
+          taxonomicStatus: r.status, vernacularName: r.common_name, taxonRemarks: r.note,
+          establishmentMeans: r.nativity === "unknown" ? "" : r.nativity,
+          inCatalogueOfLife: r.in_col, nameMatch: r.name_match, matchRemarks: r.match_note,
+          nameSources: r.name_sources, hidden: r.hidden === "yes" ? "1" : "0",
+          modifiedBy: r.modified_by, verifiedBy: r.verified_by, verifiedDate: r.verified_date,
+          verificationSource: r.verification_source,
+          verificationStatus: r.verified === "yes" ? CONFIRMED : "",
+          class: by.Class || "", order: by.Order || "", family: by.Family || "", genus: by.Genus || "",
+          nameAccordingTo: /^IOG-/.test(id) ? "Insects of Guam curator" : r.in_col === "yes" ? "Catalogue of Life" : "source name",
+          references: r.in_col === "yes" && /^[0-9A-Z]{1,7}$/.test(id) ? "https://www.catalogueoflife.org/data/taxon/" + id : (r.gbif_key ? "https://www.gbif.org/species/" + r.gbif_key : ""),
+          recordedIn: AREA_ORDER.filter(a => areas.has(a)).join(SEP),
+          islands: "",
+          distributionTags: (dists.get(id) || []).map(x => formatTag({ value: x.place, status: x.status, source: x.source })).join(SEP),
+          associatedOccurrences: (vouchers.get(id) || []).map(occurrenceUrl).filter(Boolean).join(SEP),
+          associatedReferences: (links.get(id) || []).filter(x => x.system === "editor").map(x => formatLink({ value: x.value, note: x.label })).join(SEP),
+          gbifRecords: sum("gbif"), specimenRecords: sum("gbif_specimens"), inatObservations: sum("inat"),
+          literatureRecords: docsHere.length,
+          literatureSources: docsHere.map(d => doc(d).citation + (litRows.some(l => l.doc_id === d && l.review === "machine") ? " [machine-read]" : "")).join(SEP),
+          verificationRemarks: machineLit && !litRows.some(l => l.review !== "machine") ? "literature records machine-read only" : "",
+          machineLit, machineNotes: (notes.get(id) || []).filter(n => n.review === "machine").length,
+          noteCount: (notes.get(id) || []).length, nativityConflict: r.status !== SYN && conflict(id),
+        });
+        this.views.set(id, v);
+      }
+      this.rows = this.order.map(id => this.views.get(id));
     }
+    row(id) { return this.views ? this.views.get(id) : undefined; }
   }
 
   // ------------------------------------------------------------ operations
-  // Each: (state, op) -> void; throws Error with a message for the user when it cannot apply.
   const need = (cond, msg) => { if (!cond) throw new Error(msg); };
   function accepted(st, id, what) {
-    const r = st.row(id);
+    const r = st.r(id);
     need(r, `${what || "taxon"} ${id} is not in the taxonomy`);
-    need(!st.isSynonym(r), `${r.scientificName} (${id}) is a synonym: work on ${st.name(r.acceptedNameUsageID)} instead`);
+    need(!st.isSyn(r), `${r.name} (${id}) is a synonym: work on ${st.name(r.accepted_id)} instead`);
     return r;
   }
   function checkParent(st, id, parentId, rank) {
     const p = accepted(st, parentId, "parent");
     need(!id || !st.isUnder(parentId, id), `${st.name(parentId)} is under ${st.name(id)}: that would be a cycle`);
-    need(rankIndex(p.taxonRank) < rankIndex(rank),
-         `a ${rank} cannot go under a ${p.taxonRank} (${p.scientificName})`);
+    need(rankIdx(p.rank) < rankIdx(rank), `a ${rank} cannot go under a ${p.rank} (${p.name})`);
     return p;
   }
-
+  const column = c => LEGACY[c] || c;
+  const EDITABLE = new Set(["name", "authorship", "rank", "status", "common_name", "other_common_names",
+    "nativity", "nativity_source", "iucn", "superfamily", "subfamily", "tribe", "in_col", "gbif_key",
+    "name_match", "match_note", "name_sources", "hidden", "hidden_reason", "note", "flag",
+    "parent_id", "accepted_id", "verified"]);
   const OPS = {
     set(st, op) {
-      const col = op.column, v = (op.value == null ? "" : String(op.value)).trim();
-      const r = st.row(op.id);
+      let col = column(op.column);
+      const v = (op.value == null ? "" : String(op.value)).trim();
+      const r = st.r(op.id);
       need(r, `no taxon ${op.id}`);
-      if (LIST.has(col)) return setList(st, op, r, col, v);
-      need(col in EDITABLE, `${col} is computed from the sources and cannot be edited`);
-      if (col === "parentNameUsageID") return OPS.move(st, Object.assign({}, op, { parent: v }));
-      if (col === "parentNameUsage") {
-        const hits = st.order.filter(x => { const y = st.row(x); return !st.isSynonym(y) && y.scientificName === v; });
+      if (op.column === "verificationStatus") {
+        need(v === CONFIRMED || v === "", "only 'editor confirmed' can be set by hand");
+        return OPS.verify(st, Object.assign({}, op, { on: v === CONFIRMED }));
+      }
+      if (col === "parent_id") return OPS.move(st, Object.assign({}, op, { parent: v }));
+      if (op.column === "parentNameUsage") {
+        const hits = st.order.filter(x => { const y = st.r(x); return y.status !== SYN && y.name === v; });
         need(hits.length === 1, `${hits.length} taxa are named "${v}": pick the parent by id`);
         return OPS.move(st, Object.assign({}, op, { parent: hits[0] }));
       }
-      if (col === "acceptedNameUsageID") {
-        if (!v) return OPS.split(st, op);
-        return OPS.synonymize(st, Object.assign({}, op, { into: v }));
-      }
-      if (col === "taxonomicStatus") {
+      if (col === "accepted_id") return v ? OPS.synonymize(st, Object.assign({}, op, { into: v })) : OPS.split(st, op);
+      if (col === "nativity") return OPS.nativity(st, Object.assign({}, op, { value: v || "unknown" }));
+      if (col === "hidden") return (v === "1" || v === "yes") ? OPS.hide(st, op) : OPS.unhide(st, op);
+      need(EDITABLE.has(col), `${op.column} is computed and cannot be edited`);
+      if (col === "status") {
         need(S.statuses.includes(v), `status must be one of ${S.statuses.join(", ")}`);
-        if (v === "synonym") { need(st.isSynonym(r), "use Synonymize (or acceptedNameUsageID) to merge a taxon into another"); return; }
-        if (st.isSynonym(r)) return OPS.split(st, op);
-        st.curate(op.id, { status: v === "accepted" ? "" : v }, op);
-        st.setCell(op.id, "taxonomicStatus", v);
-        return;
+        if (v === SYN) { need(st.isSyn(r), "use Synonymize to merge a taxon into another"); return; }
+        if (st.isSyn(r)) return OPS.split(st, op);
       }
-      if (col === "hidden") return v === "1" ? OPS.hide(st, op) : OPS.unhide(st, op);
-      if (col === "verificationStatus") {
-        need(S.levels.includes(v), `verificationStatus must be one of ${S.levels.join(", ")}`);
-        if (v === CONFIRMED) return OPS.verify(st, Object.assign({}, op, { on: true }));
-        need(r.verificationStatus === CONFIRMED, "only 'editor confirmed' can be set by hand; the other levels follow from the sources");
-        return OPS.verify(st, Object.assign({}, op, { on: false }));
-      }
-      // A merged name's row overrides the taxon it is shown as (tree.py), so a synonym's own
-      // cells are not edited: split it out first.
-      need(!st.isSynonym(r), `${r.scientificName} is a synonym of ${st.name(r.acceptedNameUsageID)}: ` +
-           "edit that taxon, or split this name out first");
-      if (col === "taxonRank") {
+      need(!st.isSyn(r) || col === "name" || col === "authorship" || col === "match_note" || col === "name_match" || col === "name_sources",
+           `${r.name} is a name of ${st.name(r.accepted_id)}: edit that taxon, or split this name out first`);
+      if (col === "rank") {
         need(S.ranks.includes(v), `rank must be one of ${S.ranks.join(", ")}`);
-        const p = r.parentNameUsageID && st.row(r.parentNameUsageID);
-        need(!p || rankIndex(p.taxonRank) < rankIndex(v), `a ${v} cannot be under a ${p && p.taxonRank}`);
-        need(st.children(op.id).every(c => rankIndex(st.row(c).taxonRank) > rankIndex(v)),
-             `taxa under ${r.scientificName} would rank at or above it`);
+        const p = r.parent_id && st.r(r.parent_id);
+        need(!p || rankIdx(p.rank) < rankIdx(v), `a ${v} cannot be under a ${p && p.rank}`);
+        need(st.children(op.id).every(c => rankIdx(st.r(c).rank) > rankIdx(v)), `taxa under ${r.name} would rank at or above it`);
       }
-      if (col === "establishmentMeans") need(!v || S.establishment.includes(v), `establishment must be one of ${S.establishment.join(", ")}`);
-      if (col === "scientificName" || col === "taxonRank") need(v || !/^IOG-/.test(op.id), "a taxon added here needs a name and a rank");
-      st.curate(op.id, { [EDITABLE[col]]: v }, op);
+      if (col === "name" || col === "rank") need(v, "a name and a rank are required");
+      if (col === "in_col") need(v === "yes" || v === "no", "in_col is yes or no");
+      if (col === "flag") need(v === "" || v === "new", "flag is new or empty");
+      if (col === "gbif_key") need(v === "" || /^\d+$/.test(v), "the GBIF key is a number");
       st.setCell(op.id, col, v);
-      if (col === "scientificName" || col === "taxonRank") st.structure();
+      st.stamp(op.id, op);
+      if (col === "name" || col === "rank") st.structure();
+    },
+
+    nativity(st, op) {
+      const r = st.r(op.id);
+      need(r && !st.isSyn(r), `${st.name(op.id)} is not an accepted taxon`);
+      need(S.nativity.includes(op.value), `nativity must be one of ${S.nativity.join(", ")}`);
+      const src = (op.source || "").trim();
+      st.setCell(op.id, "nativity", op.value);
+      st.setCell(op.id, "nativity_source", op.value === "unknown" ? "" : (src || "editor"));
+      st.setCell(op.id, "nativity_review", op.value === "unknown" ? "" : "editor");
+      st.stamp(op.id, op);
+    },
+    // An editor agrees with a value a tool set.
+    confirmNativity(st, op) {
+      const r = st.r(op.id);
+      need(r && r.nativity !== "unknown", "nothing to confirm: the nativity is unknown");
+      st.setCell(op.id, "nativity_review", "editor");
+      st.stamp(op.id, op);
     },
 
     move(st, op) {
       const r = accepted(st, op.id);
       need(op.parent, "choose the parent");
-      checkParent(st, op.id, op.parent, r.taxonRank);
-      if (r.parentNameUsageID === op.parent) return;
-      st.curate(op.id, { parent_id: op.parent, parent_name: "" }, op);
-      st.setCell(op.id, "parentNameUsageID", op.parent);
-      st.setCell(op.id, "parentNameUsage", st.name(op.parent));
+      checkParent(st, op.id, op.parent, r.rank);
+      if (r.parent_id === op.parent) return;
+      st.setCell(op.id, "parent_id", op.parent);
+      st.stamp(op.id, op);
       st.structure();
     },
 
     synonymize(st, op) {
       const r = accepted(st, op.id), into = accepted(st, op.into, "accepted taxon");
       need(op.id !== op.into, "a taxon cannot be a synonym of itself");
-      need(r.taxonRank === into.taxonRank, `${r.scientificName} is a ${r.taxonRank}, ${into.scientificName} a ${into.taxonRank}: merge taxa of the same rank`);
-      need(!st.isUnder(op.into, op.id), `${into.scientificName} is under ${r.scientificName}`);
-      st.curate(op.id, { status: "synonym", accepted_id: op.into }, op);
-      st.setCell(op.id, "taxonomicStatus", "synonym");
-      st.setCell(op.id, "acceptedNameUsageID", op.into);
-      st.setCell(op.id, "acceptedNameUsage", into.scientificName);
-      st.setCell(op.id, "parentNameUsageID", "");
-      st.setCell(op.id, "parentNameUsage", "");
-      st.setCell(op.id, "nameMatch", "curated merge");
-      if (op.reason) st.setCell(op.id, "matchRemarks", op.reason);
-      for (const s of st.synonymsOf(op.id)) {           // its own other names follow it
-        st.setCell(s, "acceptedNameUsageID", op.into);
-        st.setCell(s, "acceptedNameUsage", into.scientificName);
-      }
-      for (const c of st.children(op.id)) {             // resolve moves them the same way
-        st.setCell(c, "parentNameUsageID", op.into);
-        st.setCell(c, "parentNameUsage", into.scientificName);
-      }
-      st.touched.add(op.id); st.touched.add(op.into);
+      need(r.rank === into.rank, `${r.name} is a ${r.rank}, ${into.name} a ${into.rank}: merge taxa of the same rank`);
+      need(!st.isUnder(op.into, op.id), `${into.name} is under ${r.name}`);
+      st.setCell(op.id, "status", SYN);
+      st.setCell(op.id, "accepted_id", op.into);
+      st.setCell(op.id, "parent_id", "");
+      st.setCell(op.id, "name_match", "curated merge");
+      if (op.reason) st.setCell(op.id, "match_note", op.reason);
+      st.stamp(op.id, op);
+      for (const s of st.synonymsOf(op.id)) st.setCell(s, "accepted_id", op.into);   // its other names follow
+      for (const c of st.children(op.id)) st.setCell(c, "parent_id", op.into);       // and the taxa under it
       st.stamp(op.into, op);
       st.structure();
     },
 
     split(st, op) {
-      const r = st.row(op.id);
-      need(r && st.isSynonym(r), `${st.name(op.id)} is not a synonym`);
-      const acc = st.row(r.acceptedNameUsageID);
-      const parent = op.parent || (acc && acc.parentNameUsageID) || "";
-      const cur = st.curRow(op.id, false);
-      const kind = /^IOG-/.test(op.id) ? "curated" : /^(gbif:|name-)/.test(op.id) ? "source" : "col";
-      if (kind === "col" && cur && cur.status === "synonym") {
-        st.curate(op.id, Object.assign({ status: "", accepted_id: "" }, op.parent ? { parent_id: op.parent } : {}), op);
-      } else {
-        need(kind !== "col", `${r.scientificName} is a Catalogue of Life synonym; it cannot be split here`);
-        need(parent, "choose the parent it goes under");
-        checkParent(st, op.id, parent, r.taxonRank || (acc && acc.taxonRank));
-        st.curate(op.id, { status: "accepted", accepted_id: "", parent_id: parent }, op);
-      }
-      st.setCell(op.id, "taxonomicStatus", "accepted");
-      st.setCell(op.id, "acceptedNameUsageID", "");
-      st.setCell(op.id, "acceptedNameUsage", "");
-      if (parent) {
-        st.setCell(op.id, "parentNameUsageID", parent);
-        st.setCell(op.id, "parentNameUsage", st.name(parent));
-      }
-      st.setCell(op.id, "nameMatch", "curated split");
-      if (acc) { st.touched.add(acc.taxonID); st.stamp(acc.taxonID, op); }
-      st.touched.add(op.id);
+      const r = st.r(op.id);
+      need(r && st.isSyn(r), `${st.name(op.id)} is not a synonym`);
+      const acc = st.r(r.accepted_id);
+      const parent = op.parent || (acc && acc.parent_id) || "";
+      need(r.name_match !== "COL synonym", `${r.name} is a Catalogue of Life synonym; it cannot be split here`);
+      need(parent, "choose the parent it goes under");
+      checkParent(st, op.id, parent, r.rank || (acc && acc.rank));
+      st.setCell(op.id, "status", "accepted");
+      st.setCell(op.id, "accepted_id", "");
+      st.setCell(op.id, "parent_id", parent);
+      st.setCell(op.id, "name_match", "curated split");
+      if (!r.nativity) st.setCell(op.id, "nativity", "unknown");
+      st.stamp(op.id, op);
+      if (acc) st.stamp(acc.id, op);
       st.structure();
     },
 
@@ -440,24 +465,18 @@
       need(name, "a new taxon needs a name");
       need(S.ranks.includes(op.rank), `rank must be one of ${S.ranks.join(", ")}`);
       const status = op.status || "accepted";
-      need(status === "accepted" || status === "morphospecies" || status === "doubtful", "a new taxon is accepted, doubtful or a morphospecies");
+      need(["accepted", "morphospecies", "doubtful"].includes(status), "a new taxon is accepted, doubtful or a morphospecies");
       const p = checkParent(st, null, op.parent, op.rank);
-      need(!st.children(op.parent).some(c => st.name(c) === name), `${p.scientificName} already has ${name}`);
-      const id = op.newId && !st.byId.has(op.newId) && !st.curRow(op.newId, false) ? op.newId : st.newId();
+      need(!st.children(op.parent).some(c => st.name(c) === name), `${p.name} already has ${name}`);
+      const id = op.newId && !st.d.has(op.newId) ? op.newId : st.newId();
       op.newId = id;
       st.nextIog = Math.max(st.nextIog, iogNum(id) + 1);
-      st.curate(id, { rank: op.rank, name, authorship: op.authorship || "", parent_id: op.parent,
-                      status, common_name: op.common || "", note: op.note || "" }, op);
-      const r = Object.assign(blank(st.base.tables.taxonomy.columns), {
-        taxonID: id, parentNameUsageID: op.parent, parentNameUsage: p.scientificName,
-        scientificName: name, scientificNameAuthorship: op.authorship || "", taxonRank: op.rank,
-        taxonomicStatus: status, vernacularName: op.common || "", kingdom: "Animalia",
-        phylum: "Arthropoda", inCatalogueOfLife: "no", verificationStatus: "unconfirmed",
-        literatureRecords: "0", specimenRecords: "0", gbifRecords: "0", inatObservations: "0",
-        nameAccordingTo: "Insects of Guam curator", taxonRemarks: op.note || "", hidden: "0",
-        curatedFields: "", modifiedBy: op.by, modified: op.date });
+      const r = Object.assign(blank("taxa"), {
+        id, parent_id: op.parent, rank: op.rank, name, authorship: op.authorship || "", status,
+        common_name: op.common || "", nativity: "unknown", in_col: "no", note: op.note || "",
+        added_by: op.by, added: op.date, modified_by: op.by, modified: op.date });
       st.own.add(r);
-      st.byId.set(id, r);
+      st.d.set(id, r);
       st.order.push(id);
       st.added.add(id);
       st.changed.set(id, new Set(["*"]));
@@ -468,20 +487,17 @@
       const acc = accepted(st, op.into, "accepted taxon");
       const name = (op.name || "").trim();
       need(name, "the name is empty");
-      need(![op.into].concat(st.synonymsOf(op.into)).some(x => st.name(x) === name && (st.row(x).scientificNameAuthorship || "") === (op.authorship || "")),
-           `${name} is already a name of ${acc.scientificName}`);
-      const id = op.newId && !st.byId.has(op.newId) && !st.curRow(op.newId, false) ? op.newId : st.newId();
+      need(![op.into].concat(st.synonymsOf(op.into)).some(x => st.name(x) === name && (st.r(x).authorship || "") === (op.authorship || "")),
+           `${name} is already a name of ${acc.name}`);
+      const id = op.newId && !st.d.has(op.newId) ? op.newId : st.newId();
       op.newId = id;
       st.nextIog = Math.max(st.nextIog, iogNum(id) + 1);
-      st.curate(id, { rank: acc.taxonRank, name, authorship: op.authorship || "", status: "synonym",
-                      accepted_id: op.into }, op);
-      const r = Object.assign(blank(st.base.tables.taxonomy.columns), {
-        taxonID: id, acceptedNameUsageID: op.into, acceptedNameUsage: acc.scientificName,
-        scientificName: name, scientificNameAuthorship: op.authorship || "", taxonRank: acc.taxonRank,
-        taxonomicStatus: "synonym", inCatalogueOfLife: "no", nameMatch: "curated merge",
-        matchRemarks: op.reason || "", hidden: acc.hidden || "0", modifiedBy: op.by, modified: op.date });
+      const r = Object.assign(blank("taxa"), {
+        id, accepted_id: op.into, rank: acc.rank, name, authorship: op.authorship || "", status: SYN,
+        in_col: "no", name_match: "curated merge", match_note: op.reason || "",
+        added_by: op.by, added: op.date });
       st.own.add(r);
-      st.byId.set(id, r);
+      st.d.set(id, r);
       st.order.push(id);
       st.added.add(id);
       st.changed.set(id, new Set(["*"]));
@@ -491,47 +507,51 @@
 
     hide(st, op) {
       accepted(st, op.id);
-      st.curate(op.id, { hidden: "1" }, op);
-      for (const x of [op.id].concat(st.descendants(op.id))) {
-        st.setCell(x, "hidden", "1");
-        for (const s of st.synonymsOf(x)) st.setCell(s, "hidden", "1");
+      st.setCell(op.id, "hidden", "yes");
+      st.setCell(op.id, "hidden_reason", op.reason || "");
+      for (const x of st.descendants(op.id)) {
+        if (st.r(x).hidden === "yes") continue;
+        st.setCell(x, "hidden", "yes");
+        st.setCell(x, "hidden_reason", `under ${op.id}`);
       }
+      st.stamp(op.id, op);
     },
     unhide(st, op) {
       accepted(st, op.id);
-      st.curate(op.id, { hidden: "" }, op);
-      for (const x of [op.id].concat(st.descendants(op.id))) {
-        const own = st.curRow(x, false);
-        if (x !== op.id && own && own.hidden === "1") continue;
-        st.setCell(x, "hidden", "0");
-        for (const s of st.synonymsOf(x)) st.setCell(s, "hidden", "0");
+      st.setCell(op.id, "hidden", "");
+      st.setCell(op.id, "hidden_reason", "");
+      for (const x of st.descendants(op.id)) {
+        if (st.r(x).hidden_reason === `under ${op.id}`) { st.setCell(x, "hidden", ""); st.setCell(x, "hidden_reason", ""); }
       }
+      st.stamp(op.id, op);
     },
     // Delete for good: only a taxon added here (IOG-), with nothing under it.
     remove(st, op) {
-      const r = st.row(op.id);
+      const r = st.r(op.id);
       need(r && /^IOG-/.test(op.id), "only a taxon added in this editor (IOG-) can be deleted; hide others");
-      need(!st.children(op.id).length, `${r.scientificName} has taxa under it: move or delete them first`);
+      need(!st.children(op.id).length, `${r.name} has taxa under it: move or delete them first`);
       const gone = new Set([op.id].concat(st.synonymsOf(op.id).filter(s => /^IOG-/.test(s))));
-      st.cur = st.cur.filter(c => !gone.has(c.taxon_id));
-      st.evidence = st.evidence.filter(e => !gone.has(e.taxon_id));
-      st.annotations = st.annotations.filter(a => !gone.has(a.taxon_id));
-      for (const s of st.synonymsOf(op.id)) if (!gone.has(s)) {     // source names it held
-        st.setCell(s, "acceptedNameUsageID", r.parentNameUsageID);
-      }
-      for (const x of gone) { st.byId.delete(x); st.removed.add(x); }
+      for (const name of Object.keys(st.t)) st.t[name] = st.t[name].filter(x => !gone.has(x.taxon_id));
+      for (const s of st.synonymsOf(op.id)) if (!gone.has(s)) st.setCell(s, "accepted_id", r.parent_id);   // source names it held
+      for (const x of gone) { st.d.delete(x); st.removed.add(x); }
       st.order = st.order.filter(x => !gone.has(x));
-      if (r.acceptedNameUsageID) { st.touched.add(r.acceptedNameUsageID); st.stamp(r.acceptedNameUsageID, op); }
+      if (r.accepted_id) st.stamp(r.accepted_id, op);
       st.structure();
     },
 
     verify(st, op) {
-      const r = accepted(st, op.id);
-      st.curate(op.id, op.on ? { verified: "1", citation: op.source || "" } : { verified: "", citation: "" }, op);
-      st.setCell(op.id, "verificationStatus", op.on ? CONFIRMED : (r.verificationStatus === CONFIRMED ? "unconfirmed" : r.verificationStatus));
-      st.setCell(op.id, "verificationSource", op.on ? (op.source || "") : "");
-      st.setCell(op.id, "verifiedBy", op.on ? op.by : "");
-      st.setCell(op.id, "verifiedDate", op.on ? op.date : "");
+      accepted(st, op.id);
+      st.setCell(op.id, "verified", op.on ? "yes" : "");
+      st.setCell(op.id, "verified_by", op.on ? op.by : "");
+      st.setCell(op.id, "verified_date", op.on ? op.date : "");
+      st.setCell(op.id, "verification_source", op.on ? (op.source || "") : "");
+      st.stamp(op.id, op);
+    },
+    // A reviewed tool-made taxon no longer needs a second look.
+    clearFlag(st, op) {
+      need(st.r(op.id) && st.r(op.id).flag === "new", "that taxon is not flagged new");
+      st.setCell(op.id, "flag", "");
+      st.stamp(op.id, op);
     },
 
     tag(st, op) {
@@ -539,55 +559,85 @@
       need(PLACE.has(op.place), `"${op.place}" is not a place on the list`);
       const status = op.status || "present";
       need(S.distributionStatus.includes(status), `status must be one of ${S.distributionStatus.join(", ")}`);
-      const have = st.annFor(op.id, "distribution").find(a => a.value === op.place);
-      const fields = { status, source: (op.source || "").trim(), note: (op.note || "").trim(), added_by: op.by, added: op.date };
-      if (have) {
-        const i = st.annotations.indexOf(have);
-        st.annotations[i] = Object.assign({}, have, fields);
-      } else {
-        st.annotations.push(Object.assign(blank(st.base.tables.annotations.columns),
-          { taxon_id: op.id, kind: "distribution", value: op.place }, fields));
-      }
-      st.listsChanged(op.id, op);
+      const have = st.t.distribution.findIndex(a => a.place === op.place && st.shownId(a.taxon_id) === op.id);
+      const row = Object.assign(blank("distribution"), { taxon_id: op.id, place: op.place, status,
+        source: (op.source || "").trim(), added_by: op.by, added: op.date });
+      if (have >= 0) st.t.distribution[have] = Object.assign({}, st.t.distribution[have], row);
+      else st.t.distribution.push(row);
+      st.stamp(op.id, op);
     },
     untag(st, op) {
-      const before = st.annotations.length;
-      st.annotations = st.annotations.filter(a => !(a.kind === "distribution" && a.value === op.place && st.shownId(a.taxon_id) === op.id));
-      need(st.annotations.length < before, `${st.name(op.id)} has no tag for ${op.place}`);
-      st.listsChanged(op.id, op);
+      const before = st.t.distribution.length;
+      st.t.distribution = st.t.distribution.filter(a => !(a.place === op.place && st.shownId(a.taxon_id) === op.id));
+      need(st.t.distribution.length < before, `${st.name(op.id)} has no tag for ${op.place}`);
+      st.stamp(op.id, op);
     },
     voucher(st, op) {
       accepted(st, op.id);
       const { kind, ref } = parseOccurrence(op.url || "");
-      need(!st.evidence.some(e => e.kind === kind && e.ref === ref && st.shownId(e.taxon_id) === op.id), "that record is already a voucher here");
-      const other = st.evidence.find(e => e.kind === kind && e.ref === ref);
-      need(!other, `that record is already a voucher for ${other && st.name(st.shownId(other.taxon_id))}`);
-      st.evidence.push(Object.assign(blank(st.base.tables.evidence.columns),
-        { taxon_id: op.id, kind, ref, note: (op.note || "").trim(), editor: op.by, edited: op.date }));
-      st.listsChanged(op.id, op);
+      const other = st.t.vouchers.find(e => e.kind === kind && e.ref === ref);
+      need(!other, other && st.shownId(other.taxon_id) === op.id ? "that record is already a voucher here" :
+           `that record is already a voucher for ${other && st.name(st.shownId(other.taxon_id))}`);
+      st.t.vouchers.push(Object.assign(blank("vouchers"), { taxon_id: op.id, kind, ref,
+        note: (op.note || "").trim(), added_by: op.by, added: op.date }));
+      st.stamp(op.id, op);
     },
     unvoucher(st, op) {
       const { kind, ref } = parseOccurrence(op.url || "");
-      const before = st.evidence.length;
-      st.evidence = st.evidence.filter(e => !(e.kind === kind && e.ref === ref && st.shownId(e.taxon_id) === op.id));
-      need(st.evidence.length < before, "no such voucher");
-      st.listsChanged(op.id, op);
+      const before = st.t.vouchers.length;
+      st.t.vouchers = st.t.vouchers.filter(e => !(e.kind === kind && e.ref === ref && st.shownId(e.taxon_id) === op.id));
+      need(st.t.vouchers.length < before, "no such voucher");
+      st.stamp(op.id, op);
     },
     link(st, op) {
       accepted(st, op.id);
       const url = (op.url || "").trim();
       need(isUrl(url), `a link needs a URL (https://...), not "${url}"`);
-      const have = st.annFor(op.id, "link").find(a => a.value === url);
-      const fields = { note: (op.label || "").trim(), added_by: op.by, added: op.date };
-      if (have) st.annotations[st.annotations.indexOf(have)] = Object.assign({}, have, fields);
-      else st.annotations.push(Object.assign(blank(st.base.tables.annotations.columns), { taxon_id: op.id, kind: "link", value: url }, fields));
-      st.listsChanged(op.id, op);
+      const have = st.t.links.findIndex(a => a.system === "editor" && a.value === url && st.shownId(a.taxon_id) === op.id);
+      const row = Object.assign(blank("links"), { taxon_id: op.id, system: "editor", value: url,
+        label: (op.label || "").trim(), confidence: "high", added_by: op.by, added: op.date });
+      if (have >= 0) st.t.links[have] = Object.assign({}, st.t.links[have], row);
+      else st.t.links.push(row);
+      st.stamp(op.id, op);
     },
     unlink(st, op) {
-      const before = st.annotations.length;
-      st.annotations = st.annotations.filter(a => !(a.kind === "link" && a.value === op.url && st.shownId(a.taxon_id) === op.id));
-      need(st.annotations.length < before, "no such link");
-      st.listsChanged(op.id, op);
+      const before = st.t.links.length;
+      st.t.links = st.t.links.filter(a => !(a.system === "editor" && a.value === op.url && st.shownId(a.taxon_id) === op.id));
+      need(st.t.links.length < before, "no such link");
+      st.stamp(op.id, op);
+    },
+
+    // A name with records that no tool could place: put it under a parent (a new taxon),
+    // and take it off the worklist.
+    place(st, op) {
+      const row = st.t.unplaced.find(u => u.name === op.unplacedName);
+      need(row, `${op.unplacedName} is not on the unplaced list`);
+      OPS.add(st, op);
+      st.t.unplaced = st.t.unplaced.filter(u => u.name !== op.unplacedName);
+    },
+
+    // --- review of what a tool wrote: confirm (review = editor) or reject (delete the row)
+    review(st, op) {
+      need(["literature", "notes", "hosts"].includes(op.table), "review literature, notes or hosts");
+      let n = 0;
+      st.t[op.table] = st.t[op.table].map(r => {
+        if (st.shownId(r.taxon_id) !== op.id || (op.doc && r.doc_id !== op.doc) ||
+            (op.kind && r.kind !== op.kind) || r.review !== "machine") return r;
+        n++;
+        const out = Object.assign({}, r, { review: "editor" });
+        if ("reviewed_by" in r) Object.assign(out, { reviewed_by: op.by, reviewed: op.date });
+        return out;
+      });
+      need(n, "nothing machine-made to review there");
+      st.stamp(op.id, op);
+    },
+    reject(st, op) {
+      need(["literature", "notes", "hosts"].includes(op.table), "reject literature, notes or hosts");
+      const before = st.t[op.table].length;
+      st.t[op.table] = st.t[op.table].filter(r => !(st.shownId(r.taxon_id) === op.id && (!op.doc || r.doc_id === op.doc) &&
+        (!op.kind || r.kind === op.kind) && (!op.topic || r.topic === op.topic) && (!op.host || r.host === op.host)));
+      need(st.t[op.table].length < before, "no such row");
+      st.stamp(op.id, op);
     },
   };
 
@@ -618,6 +668,21 @@
       }
     }
   }
+  const LIST = new Set(["distributionTags", "associatedOccurrences", "associatedReferences"]);
+  const origSet = OPS.set;
+  OPS.set = function (st, op) {
+    if (LIST.has(op.column)) {
+      need(st.r(op.id), `no taxon ${op.id}`);
+      const cur = currentList(st, op.id, op.column);
+      return setList(st, op, { [op.column]: cur }, op.column, (op.value == null ? "" : String(op.value)).trim());
+    }
+    return origSet(st, op);
+  };
+  function currentList(st, id, col) {
+    if (col === "distributionTags") return st.annFor(id, "distribution").map(formatTag).join(SEP);
+    if (col === "associatedOccurrences") return st.occFor(id).map(occurrenceUrl).join(SEP);
+    return st.annFor(id, "link").map(formatLink).join(SEP);
+  }
 
   function replay(base, ops) {
     const st = new State(base);
@@ -630,8 +695,7 @@
       const before = op.newId;
       try {
         if (!fn) throw new Error(`unknown operation ${op.type}`);
-        // An operation that throws half way must leave nothing behind.
-        const snap = snapshot(st);
+        const snap = snapshot(st);                 // an operation that throws half way leaves nothing
         try { fn(st, op); op.error = null; } catch (e) { restore(st, snap); throw e; }
       } catch (e) {
         op.error = e.message;
@@ -642,84 +706,86 @@
     return st;
   }
   function snapshot(st) {
-    return { byId: new Map(st.byId), order: st.order.slice(), cur: st.cur.slice(),
-             evidence: st.evidence.slice(), annotations: st.annotations.slice(),
-             changed: new Map([...st.changed].map(([k, v]) => [k, new Set(v)])),
-             structural: st.structural, touched: new Set(st.touched), added: new Set(st.added),
-             removed: new Set(st.removed), nextIog: st.nextIog,
-             // rows changed in place by this op: keep their values
-             rows: new Map([...st.byId].filter(([, r]) => st.own.has(r)).map(([k, r]) => [k, Object.assign({}, r)])),
-             curRows: st.cur.filter(r => st.own.has(r)).map(r => [r, Object.assign({}, r)]) };
+    return { d: new Map(st.d), order: st.order.slice(), t: Object.fromEntries(Object.entries(st.t).map(([k, v]) => [k, v.slice()])),
+             changed: new Map([...st.changed].map(([k, v]) => [k, new Set(v)])), structural: st.structural,
+             added: new Set(st.added), removed: new Set(st.removed), nextIog: st.nextIog,
+             rows: new Map([...st.d].filter(([, r]) => st.own.has(r)).map(([k, r]) => [k, Object.assign({}, r)])) };
   }
   function restore(st, s) {
-    Object.assign(st, { byId: s.byId, order: s.order, cur: s.cur, evidence: s.evidence,
-                        annotations: s.annotations, changed: s.changed, structural: s.structural,
-                        touched: s.touched, added: s.added, removed: s.removed, nextIog: s.nextIog });
-    for (const [k, vals] of s.rows) { const r = st.byId.get(k); if (r) Object.assign(r, vals); }
-    for (const [r, vals] of s.curRows) Object.assign(r, vals);
+    Object.assign(st, { d: s.d, order: s.order, t: s.t, changed: s.changed, structural: s.structural,
+                        added: s.added, removed: s.removed, nextIog: s.nextIog });
+    for (const [k, vals] of s.rows) { const r = st.d.get(k); if (r) Object.assign(r, vals); }
     st._kids = null;
   }
 
   // ------------------------------------------------------------ checks before a commit
-  // The same checks curation.load makes, so a commit never breaks the rebuild on them.
+  // The same checks dataset.check makes on what the editor writes, so a commit never breaks
+  // the rebuild: required cells, enums, kinds, references, unique keys, the tree.
+  const KIND = {
+    int: v => /^-?\d+$/.test(v), date: v => /^\d{4}-\d{2}-\d{2}$/.test(v), url: isUrl,
+    bool: v => v === "yes" || v === "no", id: validId,
+  };
   function check(st) {
-    const errors = [], seen = new Set();
-    st.cur.forEach((r, i) => {
-      const where = `curation/taxa.csv line ${i + 2}`;
-      if (!r.taxon_id) { if (!(r.name && r.rank)) errors.push(`${where}: a new taxon needs a name and a rank`); return; }
-      if (!validId(r.taxon_id)) errors.push(`${where}: ${r.taxon_id} is not an id`);
-      if (seen.has(r.taxon_id)) errors.push(`${where}: ${r.taxon_id} appears twice`);
-      seen.add(r.taxon_id);
-      if (/^IOG-/.test(r.taxon_id) && !(r.name && r.rank)) errors.push(`${where}: ${r.taxon_id} needs a name and a rank`);
-      if (r.rank && !S.ranks.includes(r.rank)) errors.push(`${where}: rank ${r.rank}`);
-      if (r.status && !S.statuses.includes(r.status)) errors.push(`${where}: status ${r.status}`);
-      if (r.status === "synonym" && !r.accepted_id) errors.push(`${where}: a synonym needs accepted_id`);
-      if (r.establishment && !S.establishment.includes(r.establishment)) errors.push(`${where}: establishment ${r.establishment}`);
-      for (const f of ["hidden", "verified"]) if (r[f] && r[f] !== "0" && r[f] !== "1") errors.push(`${where}: ${f} must be 0 or 1`);
-      for (const f of ["parent_id", "accepted_id"]) if (r[f] && !validId(r[f])) errors.push(`${where}: ${f} ${r[f]} is not an id`);
-      for (const f of ["parent_id", "accepted_id"]) if (r[f] && !st.row(r[f])) errors.push(`${where}: ${f} ${r[f]} is not in the taxonomy`);
-    });
-    st.evidence.forEach((e, i) => {
-      const where = `curation/evidence.csv line ${i + 2}`;
-      if (!validId(e.taxon_id)) errors.push(`${where}: ${e.taxon_id} is not an id`);
-      if (!S.evidenceKinds.includes(e.kind)) errors.push(`${where}: kind ${e.kind}`);
-      if (!e.ref) errors.push(`${where}: ref is empty`);
-      if ((e.kind === "photo_file" || e.kind === "photo_url") && !S.licenses.includes(e.license)) errors.push(`${where}: a photo needs a licence`);
-      if ((e.kind === "inat_observation" || e.kind === "gbif_occurrence") && !/^\d+$/.test(e.ref)) errors.push(`${where}: ref must be the record's number`);
-      if (!st.row(st.shownId(e.taxon_id))) errors.push(`${where}: ${e.taxon_id} is not in the taxonomy`);
-    });
-    const ann = new Set();
-    st.annotations.forEach((a, i) => {
-      const where = `curation/annotations.csv line ${i + 2}`;
-      if (!validId(a.taxon_id)) errors.push(`${where}: ${a.taxon_id} is not an id`);
-      if (a.kind === "distribution") {
-        if (!PLACE.has(a.value)) errors.push(`${where}: ${a.value} is not a place on the list`);
-        if (!S.distributionStatus.includes(a.status)) errors.push(`${where}: status ${a.status}`);
-      } else if (a.kind === "link") {
-        if (!isUrl(a.value)) errors.push(`${where}: a link needs a URL`);
-      } else errors.push(`${where}: kind ${a.kind}`);
-      if (!a.added_by) errors.push(`${where}: added_by is empty`);
-      const k = a.taxon_id + "|" + a.kind + "|" + a.value;
-      if (ann.has(k)) errors.push(`${where}: ${a.kind} ${a.value} twice`);
-      ann.add(k);
-      if (!st.row(st.shownId(a.taxon_id))) errors.push(`${where}: ${a.taxon_id} is not in the taxonomy`);
-    });
+    const errors = [], taxa = new Map(st.order.map(id => [id, st.d.get(id)]));
+    const tables = Object.assign({ taxa: st.order.map(id => st.d.get(id)) }, st.t);
+    for (const [name, rows] of Object.entries(tables)) {
+      const t = T[name], seen = new Set();
+      rows.forEach((r, i) => {
+        const where = `${t.file} line ${i + 2}`;
+        for (const [c, spec] of Object.entries(t.cols)) {
+          const v = r[c] || "";
+          if (v !== v.trim() || /\n/.test(v)) errors.push(`${where}: ${c} has stray whitespace or a newline`);
+          if (!v) { if (spec.required) errors.push(`${where}: ${c} is required`); continue; }
+          if (spec.enum.length) {
+            const items = spec.kind === "list" ? splitList(v) : [v];
+            for (const it of items) if (!spec.enum.includes(it)) errors.push(`${where}: ${c} ${JSON.stringify(it)} is not one of ${spec.enum.slice(0, 8).join(", ")}`);
+          }
+          if (KIND[spec.kind] && !KIND[spec.kind](v)) errors.push(`${where}: ${c} ${JSON.stringify(v)} is not a valid ${spec.kind}`);
+          if (spec.maxlen && v.length > spec.maxlen) errors.push(`${where}: ${c} is ${v.length} characters (at most ${spec.maxlen})`);
+          if (spec.ref === "taxa" && !taxa.has(v)) errors.push(`${where}: ${c} ${v} is not in the taxonomy`);
+        }
+        const key = t.key.map(c => r[c] || "").join("\u0001");
+        if (seen.has(key)) errors.push(`${where}: duplicate key ${t.key.map(c => r[c] || "").join(" / ")}`);
+        seen.add(key);
+      });
+    }
+    const roots = [...taxa.values()].filter(r => r.status !== SYN && !r.parent_id);
+    if (roots.length !== 1) errors.push(`taxa: expected one root, found ${roots.length}`);
+    for (const r of taxa.values()) {
+      const where = `${r.name} (${r.id})`;
+      if (r.status === SYN) {
+        const a = taxa.get(r.accepted_id);
+        if (!r.accepted_id) errors.push(`${where}: a synonym needs accepted_id`);
+        else if (a && a.status === SYN) errors.push(`${where}: accepted_id points at another synonym`);
+        if (r.parent_id) errors.push(`${where}: a synonym has no parent`);
+        continue;
+      }
+      if (r.accepted_id) errors.push(`${where}: only a synonym has accepted_id`);
+      if (!r.nativity) errors.push(`${where}: no nativity`);
+      const p = r.parent_id && taxa.get(r.parent_id);
+      if (p) {
+        if (p.status === SYN) errors.push(`${where}: its parent is a synonym`);
+        else if (rankIdx(p.rank) >= rankIdx(r.rank)) errors.push(`${where}: rank ${r.rank} does not descend from ${p.rank}`);
+      }
+      const seen = new Set();
+      for (let x = r; x && x.parent_id; x = taxa.get(x.parent_id)) {
+        if (seen.has(x.id)) { errors.push(`${where}: a cycle in the tree`); break; }
+        seen.add(x.id);
+      }
+    }
+    for (const a of st.t.distribution) if (!PLACE.has(a.place)) errors.push(`distribution: ${a.place} is not a place`);
+    for (const e of st.t.vouchers) if ((e.kind === "photo_file" || e.kind === "photo_url") && !S.licenses.includes(e.licence)) errors.push(`vouchers: a photo needs a licence`);
     return errors;
   }
 
   // ------------------------------------------------------------ the files to commit
   function files(st) {
-    const T = st.base.tables, out = {};
-    const tables = {
-      taxonomy: Object.assign({}, T.taxonomy, { rows: st.rows }),
-      taxa: Object.assign({}, T.taxa, { rows: st.cur }),
-      evidence: Object.assign({}, T.evidence, { rows: st.evidence }),
-      annotations: Object.assign({}, T.annotations, { rows: st.annotations }),
-    };
-    for (const [key, path] of Object.entries(FILES)) {
-      const old = st.base.texts[path];
-      if (old == null && !tables[key].rows.length) continue;     // still absent, still empty
-      const text = CSV.writeTable(tables[key]);
+    const B = st.base.tables, out = {};
+    for (const name of S.editTables) {
+      const rows = name === "taxa" ? st.order.map(id => st.d.get(id)) : st.t[name];
+      const path = T[name].file, old = st.base.texts[path];
+      if (old == null && !rows.length) continue;
+      const text = CSV.writeTable(Object.assign({}, B[name], { rows: sortRows(name, rows) }));
       if (text !== (old == null ? "" : old)) out[path] = text;
     }
     return out;
@@ -727,10 +793,12 @@
 
   // ------------------------------------------------------------ words for the change list
   function describe(op, st) {
-    const n = id => (st && st.row(id) ? st.name(id) : id);
+    const n = id => (st && st.r(id) ? st.name(id) : id);
     const who = n(op.id || op.into);
     switch (op.type) {
       case "set": return `${who}: ${op.column} → "${op.value}"`;
+      case "nativity": return `${who}: ${op.value}${op.source ? ` (${op.source})` : ""}`;
+      case "confirmNativity": return `${who}: nativity confirmed`;
       case "move": return `${who}: moved under ${n(op.parent)}`;
       case "synonymize": return `${n(op.id)} merged into ${n(op.into)} (synonym)`;
       case "split": return `${who}: split out as its own taxon` + (op.parent ? ` under ${n(op.parent)}` : "");
@@ -740,12 +808,16 @@
       case "unhide": return `${who}: shown again`;
       case "remove": return `deleted ${op.id}`;
       case "verify": return `${who}: ${op.on ? "confirmed" + (op.source ? ` (${op.source})` : "") : "confirmation removed"}`;
+      case "clearFlag": return `${who}: reviewed (flag new cleared)`;
       case "tag": return `${who}: ${op.place} ${op.status || "present"}${op.source ? ` (${op.source})` : ""}`;
       case "untag": return `${who}: removed the ${op.place} tag`;
       case "voucher": return `${who}: voucher ${op.url}`;
       case "unvoucher": return `${who}: removed voucher ${op.url}`;
       case "link": return `${who}: link ${op.label ? op.label + " " : ""}${op.url}`;
       case "unlink": return `${who}: removed link ${op.url}`;
+      case "place": return `${op.name} placed under ${n(op.parent)}` + (op.newId ? ` (${op.newId})` : "");
+      case "review": return `${who}: ${op.table}${op.doc ? " from " + op.doc : ""} reviewed`;
+      case "reject": return `${who}: ${op.table} row${op.doc ? " from " + op.doc : ""} rejected`;
       default: return op.type;
     }
   }
@@ -764,9 +836,16 @@
     return Object.assign({ type, by, date: today(), at: new Date().toISOString() }, fields);
   }
 
+  // The view-row columns a person may edit in the table, and the dataset column each is.
+  const EDITABLE_VIEW = {};
+  for (const c of EDITABLE) { EDITABLE_VIEW[c] = c; EDITABLE_VIEW[BACK[c] || c] = c; }
+  EDITABLE_VIEW.verificationStatus = "verified";
+  EDITABLE_VIEW.parentNameUsage = "parent_id";
+
   window.IOGModel = {
-    makeBase, replay, check, files, describe, commitMessage, op, FILES,
+    makeBase, replay, check, files, describe, commitMessage, op, sortRows, tid,
     validId, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
-    splitList, isUrl, PLACE, RANK_ORDER, CONFIRMED, rankIndex, EDITABLE, LIST,
+    splitList, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
+    LEGACY,
   };
 })();

@@ -19,7 +19,7 @@
     base: null, loaded: null, ops: [], st: null, sel: null, tab: "taxon", queue: "browse", q: "",
     name: store.get("iog-editor-name") || "", search: new Map(),
     token: store.get("iog-editor-token") || store.get("iog-editor-token", true) || "",
-    preset: store.get("iog-editor-preset") || "core", tableScope: "list",
+    preset: store.get("iog-editor-preset") || "core", tableScope: "list", upl: -1,
   };
 
   // ------------------------------------------------------------ small helpers
@@ -185,11 +185,20 @@
     ["spelling", "Merged by spelling", r => isSyn(r) && r.nameMatch === "spelling variant"],
     ["merged", "All merged names (synonyms)", r => isSyn(r)],
     ["machine", "Literature machine-read only", r => r.verificationRemarks === "literature records machine-read only"],
+    ["new", "New from a tool (to review)", r => r.flag === "new"],
+    ["litmachine", "Literature: machine-read rows to check", r => !isSyn(r) && r.machineLit > 0],
+    ["notesmachine", "Notes: machine-written, to check", r => !isSyn(r) && r.machineNotes > 0],
+    ["natunknown", "Species: nativity unknown", r => r.taxonRank === "Species" && !isSyn(r) && r.nativity === "unknown"],
+    ["natmachine", "Nativity set by a tool (to confirm)", r => !isSyn(r) && r.nativity !== "unknown" && r.nativity_review === "machine"],
+    ["natconflict", "Nativity in conflict", r => r.nativityConflict],
+    ["unplaced", "Unplaced names (records, no taxon)", null],
     ["unconfirmed", "Species: observations only", r => r.taxonRank === "Species" && !isSyn(r) && r.verificationStatus === "unconfirmed"],
     ["thin", "Species on ≤ 2 GBIF records, nothing else", r => r.taxonRank === "Species" && !isSyn(r) && num(r.gbifRecords) <= 2 && !num(r.literatureRecords) && !num(r.inatObservations)],
     ["lonely", "Families with nothing under them", (r, st) => r.taxonRank === "Family" && !isSyn(r) && !st.children(r.taxonID).length],
     ["curated", "Added by hand (IOG-)", r => /^IOG-/.test(r.taxonID)],
     ["confirmed", "Editor confirmed", r => r.verificationStatus === M.CONFIRMED],
+    ["introduced", "Nativity: introduced", r => !isSyn(r) && r.nativity === "introduced"],
+    ["native", "Nativity: native", r => !isSyn(r) && r.nativity === "native"],
     ["hidden", "Hidden", r => r.hidden === "1" && !isSyn(r)],
   ];
   function matches() {
@@ -238,6 +247,13 @@
     const el = $("#list");
     if (!app.st) { el.innerHTML = ""; return; }
     const st = app.st;
+    if (app.queue === "unplaced") {
+      const rows = unplacedRows();
+      el.innerHTML = `<p class="muted pad">${rows.length.toLocaleString()} names</p>` + rows.slice(0, 400).map((u, i) =>
+        `<div class="item${i === app.upl ? " sel" : ""}" data-upl="${i}" role="option"><span class="nm">${esc(u.name)}</span>` +
+        `<span class="meta">${esc(u.source)}${u.records ? " · " + esc(u.records) : ""}</span></div>`).join("");
+      return;
+    }
     if (app.queue === "browse" && !app.q.trim()) {
       const cur = row(app.sel) && !isSyn(row(app.sel)) ? app.sel : (row(app.sel) ? row(app.sel).acceptedNameUsageID : null);
       const root = st.rows.find(r => !isSyn(r) && !r.parentNameUsageID);
@@ -283,7 +299,9 @@
   // ---- the taxon panel
   function facts(r) {
     const f = [
-      ["Common name", esc(r.vernacularName)], ["Establishment", esc(r.establishmentMeans)],
+      ["Common name", esc(r.vernacularName)],
+      ["Nativity", esc(r.nativity) + (r.nativity !== "unknown" ? ` <span class="muted">${esc(r.nativity_review === "machine" ? "set by a tool, not yet confirmed" : "confirmed")}${r.nativity_source ? ", source: " + esc(r.nativity_source) : ""}</span>` : "") +
+        (r.nativityConflict ? ' <span class="badge warn">statements disagree</span>' : "")],
       ["Recorded in", esc(r.recordedIn)], ["Islands", esc(r.islands)],
       ["Verification", esc(r.verificationStatus) + (r.verificationRemarks ? ` <span class="muted">(${esc(r.verificationRemarks)})</span>` : "") +
         (r.verifiedBy ? ` <span class="muted">by ${esc(r.verifiedBy)} ${esc(r.verifiedDate)}</span>` : "")],
@@ -292,7 +310,7 @@
       ["Name source", esc(r.nameAccordingTo) + (r.matchRemarks ? ` <span class="muted">${esc(r.matchRemarks)}</span>` : "")],
       ["Note on the page", esc(r.taxonRemarks)],
       ["Last edited", r.modifiedBy ? `${esc(r.modifiedBy)}, ${esc(r.modified)}` : ""],
-      ["Set by hand", esc((r.curatedFields || "").replace(/_/g, " ").replace(/,/g, ", "))],
+      ["Flag", r.flag ? '<span class="badge new">new: added by a tool, not yet reviewed</span>' : ""],
     ].filter(x => x[1]);
     return '<dl class="facts">' + f.map(x => `<dt>${x[0]}</dt><dd>${x[1]}</dd>`).join("") + "</dl>";
   }
@@ -311,6 +329,7 @@
   function renderTaxon() {
     const el = $("#tab-taxon");
     if (!app.st) return;
+    if (app.queue === "unplaced") return renderUnplaced();
     const st = app.st, r = row(app.sel);
     if (!r) { el.innerHTML = '<p class="muted">Pick a taxon on the left.</p>'; return; }
     const id = r.taxonID;
@@ -346,6 +365,9 @@
       '<button type="button" data-act="move">Move…</button>' +
       '<button type="button" data-act="add">Add a taxon under it…</button>' +
       '<button type="button" data-act="addName">Add a name…</button>' +
+      '<button type="button" data-act="nativity">Nativity…</button>' +
+      (r.nativity !== "unknown" && r.nativity_review === "machine" ? '<button type="button" data-act="confirmNativity">Confirm nativity</button>' : "") +
+      (r.flag === "new" ? '<button type="button" data-act="clearFlag">Mark reviewed</button>' : "") +
       (r.verificationStatus === M.CONFIRMED ? '<button type="button" data-act="unverify">Remove confirmation</button>'
         : '<button type="button" data-act="verify">Confirm…</button>') +
       (r.hidden === "1" ? '<button type="button" data-act="unhide">Show again</button>'
@@ -407,11 +429,54 @@
       html += `<section class="sec"><h2>Under it (${kids.length})</h2><ul class="cols">` + kids.map(k =>
         `<li><a href="#/t/${esc(k)}" data-id="${esc(k)}">${label(k)}</a></li>`).join("") + "</ul></section>";
     }
-    if (r.literatureSources) {
-      html += '<section class="sec"><h2>Literature</h2><ul class="plain small">' +
-        M.splitList(r.literatureSources).map(x => `<li>${esc(x)}</li>`).join("") + "</ul></section>";
-    }
+    html += reviewSections(id);
     el.innerHTML = html;
+  }
+
+  // What the literature tool wrote for this taxon, each row to confirm or reject.
+  function reviewButtons(table, attrs) {
+    const a = Object.entries(attrs).map(([k, v]) => `data-${k}="${esc(v)}"`).join(" ");
+    return ` <button type="button" data-act="review" data-table="${table}" ${a}>Confirm</button>` +
+      ` <button type="button" class="x" data-act="reject" data-table="${table}" ${a} aria-label="Reject">×</button>`;
+  }
+  const doc = d => (app.st.lookup.documents.get(d) || {});
+  function reviewSections(id) {
+    const st = app.st;
+    let html = "";
+    const lit = st.mine("literature", id);
+    if (lit.length) {
+      html += '<section class="sec"><h2>Literature</h2><ul class="plain small">' + lit.map(l => {
+        const machine = l.review === "machine";
+        return `<li>${esc(doc(l.doc_id).citation || l.doc_id)} <span class="muted">${esc(l.kind)}` +
+          (l.pages ? ", p. " + esc(l.pages.replace(/ \| /g, ", ")) : "") + (l.areas ? " · " + esc(l.areas) : "") +
+          (l.status ? " · " + esc(l.status) + (l.status_area ? " in " + esc(l.status_area) : "") : "") +
+          (l.first_record_year ? " · first record " + esc(l.first_record_year) : "") + "</span> " +
+          (machine ? '<span class="badge warn">machine-read</span>' + reviewButtons("literature", { doc: l.doc_id, kind: l.kind })
+            : `<span class="badge ok">checked${l.reviewed_by ? " by " + esc(l.reviewed_by) : ""}</span>`) + "</li>";
+      }).join("") + "</ul></section>";
+    }
+    const notes = st.mine("notes", id);
+    if (notes.length) {
+      html += '<section class="sec"><h2>Notes <span class="muted">paraphrased, shown on the site</span></h2><ul class="plain small">' + notes.map(n =>
+        `<li>${esc(n.note)} <span class="muted">${esc(n.topic)} · ${esc(doc(n.doc_id).citation || n.doc_id)}${n.pages ? ", p. " + esc(n.pages) : ""} · ${esc(n.written_by)}</span> ` +
+        (n.review === "machine" ? '<span class="badge warn">machine-written</span>' + reviewButtons("notes", { doc: n.doc_id, topic: n.topic })
+          : '<span class="badge ok">checked</span>') + "</li>").join("") + "</ul></section>";
+    }
+    const hosts = st.mine("hosts", id);
+    if (hosts.length) {
+      html += '<section class="sec"><h2>Host plants</h2><ul class="plain small">' + hosts.map(h =>
+        `<li>${esc(h.host)} <span class="muted">${esc(doc(h.doc_id).citation || h.doc_id || "")}</span>` +
+        (h.review === "machine" ? ' <span class="badge warn">machine-read</span>' + reviewButtons("hosts", { doc: h.doc_id, host: h.host }) : "") + "</li>").join("") + "</ul></section>";
+    }
+    return html;
+  }
+  const unplacedRows = () => (app.st ? app.st.t.unplaced : []).slice().sort((a, b) => (+b.records || 0) - (+a.records || 0) || (a.name < b.name ? -1 : 1));
+  function renderUnplaced() {
+    const u = unplacedRows()[app.upl];
+    $("#tab-taxon").innerHTML = !u ? '<p class="muted">Pick a name on the left: these have records that no tool could place in the tree.</p>' :
+      `<div class="t-head"><h1>${esc(u.name)}</h1><div class="t-sub">${esc(u.rank || "rank unknown")} · from ${esc(u.source)} · ${esc(u.records || 0)} records</div></div>` +
+      (u.note ? `<div class="notice">${esc(u.note)}</div>` : "") +
+      `<div class="toolbar"><button type="button" data-act="place" data-i="${app.upl}">Place under a parent…</button></div>`;
   }
 
   // ---- tools (buttons and inline forms on the taxon panel)
@@ -424,6 +489,29 @@
     if (act === "unvoucher") return addOp("unvoucher", { id, url: v });
     if (act === "unlink") return addOp("unlink", { id, url: v });
     if (act === "unhide") return addOp("unhide", { id });
+    if (act === "confirmNativity") return addOp("confirmNativity", { id });
+    if (act === "clearFlag") return addOp("clearFlag", { id });
+    if (act === "review" || act === "reject") {
+      const d = b.dataset;
+      return addOp(act, { id, table: d.table, doc: d.doc || "", kind: d.kind || "", topic: d.topic || "", host: d.host || "" });
+    }
+    if (act === "nativity") {
+      return openForm({ title: "Nativity of " + r.scientificName,
+        intro: "Native or introduced to Micronesia as a whole (statements for single island groups stay with the literature rows). Unknown clears it.",
+        fields: [{ key: "value", label: "Nativity", type: "select", options: S.nativity, value: r.nativity },
+                 { key: "source", label: "Source (a document, or leave blank for “editor”)", value: r.nativity_source !== "editor" ? r.nativity_source : "" }],
+        submit: "Save", onSubmit: x => addOp("nativity", { id, value: x.value, source: x.source }) });
+    }
+    if (act === "place") {
+      const u = unplacedRows()[+b.dataset.i];
+      return openForm({ title: "Place " + u.name,
+        intro: "Put this name under a parent as a new taxon (IOG- id), taking it off the list.",
+        fields: [{ key: "rank", label: "Rank", type: "select", options: S.ranks, value: (u.rank || "Species").replace(/^./, c => c.toUpperCase()) },
+                 { key: "name", label: "Scientific name", value: u.name, required: true },
+                 { key: "parent", label: "Under", type: "taxon", required: true, filter: x => !isSyn(x) },
+                 { key: "note", label: "Note shown on the page", type: "textarea" }],
+        submit: "Place", onSubmit: x => { const op = addOp("place", { unplacedName: u.name, key: u.key, name: x.name, rank: x.rank, parent: x.parent, note: x.note }); if (op) select(op.newId); } });
+    }
     if (act === "unverify") return addOp("verify", { id, on: false });
     if (act === "edit") return editFields(r);
     if (act === "verify") {
@@ -509,11 +597,11 @@
     const fields = [
       ["scientificName", "Scientific name"], ["scientificNameAuthorship", "Authorship"],
       ["taxonRank", "Rank", S.ranks], ["taxonomicStatus", "Status", ["accepted", "doubtful", "morphospecies"]],
-      ["vernacularName", "Common name (English)"], ["establishmentMeans", "Establishment", [""].concat(S.establishment)],
+      ["vernacularName", "Common name (English)"], ["other_common_names", "Other English names (separated by |)"],
       ["taxonRemarks", "Note shown on the page", "textarea"],
     ];
     openForm({ title: "Edit " + r.scientificName,
-      intro: "A blank cell means “the source's value”. Every field is in the table too.",
+      intro: "Every field is in the table too. Nativity has its own tool.",
       fields: fields.map(([k, lab, t]) => ({ key: k, label: lab, value: r[k], type: Array.isArray(t) ? "select" : t || "text", options: Array.isArray(t) ? t : null }))
         .concat([{ key: "reason", label: "Reason or source" }]),
       submit: "Save",
@@ -528,11 +616,12 @@
 
   // ---- the table
   const PRESETS = {
-    core: ["taxonID", "scientificName", "scientificNameAuthorship", "taxonRank", "taxonomicStatus", "parentNameUsage", "vernacularName", "family", "establishmentMeans", "recordedIn", "verificationStatus", "hidden"],
+    core: ["taxonID", "scientificName", "scientificNameAuthorship", "taxonRank", "taxonomicStatus", "parentNameUsage", "vernacularName", "family", "nativity", "recordedIn", "verificationStatus", "hidden"],
+    nativity: ["taxonID", "scientificName", "taxonRank", "family", "nativity", "nativity_source", "nativity_review", "flag", "recordedIn", "literatureRecords"],
     distribution: ["taxonID", "scientificName", "taxonRank", "family", "recordedIn", "islands", "distributionTags", "associatedOccurrences", "gbifRecords", "inatObservations", "literatureRecords", "specimenRecords"],
     links: ["taxonID", "scientificName", "associatedOccurrences", "associatedReferences", "references", "taxonRemarks", "modifiedBy", "modified"],
     names: ["taxonID", "scientificName", "scientificNameAuthorship", "taxonomicStatus", "acceptedNameUsageID", "acceptedNameUsage", "nameMatch", "matchRemarks", "nameSources", "inCatalogueOfLife"],
-    all: S.columns,
+    all: S.tables.taxa.columns,
   };
   const WIDE = { scientificName: 230, parentNameUsage: 170, acceptedNameUsage: 170, distributionTags: 260, associatedOccurrences: 280,
                  associatedReferences: 260, literatureSources: 320, matchRemarks: 240, taxonRemarks: 240, references: 240, nameSources: 160,
@@ -599,7 +688,7 @@
     }
     if (!app.name) return askName();
     const id = c.parentNode.dataset.id, col = c.dataset.col, r = row(id);
-    const input = document.createElement(col === "taxonRemarks" ? "textarea" : "input");
+    const input = document.createElement(col === "taxonRemarks" || col === "note" ? "textarea" : "input");
     input.className = "cell-edit";
     input.value = r[col] || "";
     c.textContent = "";
@@ -875,13 +964,15 @@
   // ------------------------------------------------------------ wiring
   function init() {
     $("#queue").innerHTML = QUEUES.map(([k, lab]) => `<option value="${k}">${esc(lab)}</option>`).join("");
-    $("#queue").addEventListener("change", e => { app.queue = e.target.value; renderList(); if (app.tab === "table") renderTable(); });
+    $("#queue").addEventListener("change", e => { app.queue = e.target.value; render(); });
     let t = null;
     $("#q").addEventListener("input", e => {
       clearTimeout(t);
       t = setTimeout(() => { app.q = e.target.value; renderList(); if (app.tab === "table") renderTable(); }, 120);
     });
     $("#list").addEventListener("click", e => {
+      const up = e.target.closest("[data-upl]");
+      if (up) { app.upl = +up.dataset.upl; setTab("taxon"); return; }
       const it = e.target.closest("[data-id]");
       if (it) { e.preventDefault(); select(it.dataset.id, app.tab === "changes" ? "taxon" : null); }
     });

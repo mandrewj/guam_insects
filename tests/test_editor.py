@@ -1,15 +1,15 @@
 """The taxonomy editor (editor/): its vocabulary is the Python code's, its CSV files are
-byte-identical to Python's, and what it predicts for an edit is what `resolve` makes of it.
-Browser tests run the editor's own JavaScript in Chromium (Playwright) and are skipped when
-no browser is installed (`uv run playwright install chromium`)."""
+byte-identical to what Python's dataset.write makes, and what it commits passes dataset.check
+and builds. Browser tests run the editor's own JavaScript in Chromium (Playwright) and are
+skipped when no browser is installed (`uv run playwright install chromium`)."""
 
 import subprocess
 import time
 
 import pytest
-from conftest import C
 
-from guaminsects import config, curation, editor, ids, snapshot, taxonomy
+from guaminsects import config, dataset, editor, migrate, snapshot
+from guaminsects.build import records
 
 ASSETS = config.ROOT / "editor" / "assets"
 
@@ -54,32 +54,45 @@ def run(page, texts, ops, name="T. Editor"):
       const rows = {};
       for (const id of st.changed.keys()) if (st.row(id)) rows[id] = st.row(id);
       return {files: IOGModel.files(st), rows, errors: all.map(o => o.error), checks: IOGModel.check(st),
-              ops: all, describe: all.map(o => IOGModel.describe(o, st))};
+              ops: all, describe: all.map(o => IOGModel.describe(o, st)), order: st.rows.map(r => r.taxonID)};
     }""", [texts, ops, name])
 
 
-def repo_texts():
-    return {p: (config.ROOT / p).read_text(encoding="utf-8") if (config.ROOT / p).exists() else None
-            for p in editor.FILES}
+@pytest.fixture
+def world(conn, tmp_path):
+    """The fixture world as a dataset, with a document, a machine-read literature row, a
+    machine-written note and an unplaced name added so the review tools have something to do."""
+    out = tmp_path / "dataset"
+    migrate.migrate(conn, out, copy_media=False)
+    ds = dataset.load(out)
+    ds["documents"] = [{"doc_id": "d1", "title": "A paper", "kind": "paper", "citation": "A. Author. 1990. A paper."}]
+    ds["literature"] = [{"taxon_id": "ORGIG", "doc_id": "d1", "kind": "account", "pages": "4", "areas": "GU",
+                         "method": "text", "review": "machine"}]
+    ds["notes"] = [{"taxon_id": "ORGIG", "doc_id": "d1", "pages": "4", "topic": "biology",
+                    "note": "Breeds in rotting palm logs.", "review": "machine", "written_by": "a model"}]
+    ds["unplaced"] = [{"name": "Zorotypus guineensis", "rank": "Species", "source": "literature",
+                       "key": "d1", "records": "2"}]
+    dataset.write(ds, out)
+    return out
+
+
+def texts_of(root):
+    return {"dataset/" + t.file: (root / t.file).read_text(encoding="utf-8")
+            if (root / t.file).exists() else None
+            for t in (dataset.schema.table(n) for n in editor.EDIT_TABLES + editor.READ_TABLES)}
 
 
 def test_repo_files_round_trip_byte_for_byte(page):
-    texts = repo_texts()
-    same = page.evaluate("""(texts) => Object.fromEntries(Object.entries(texts).filter(([, t]) => t != null)
+    texts = {p: (config.ROOT / p).read_text(encoding="utf-8")
+             for p in editor.FILES if (config.ROOT / p).exists()}
+    assert texts
+    same = page.evaluate("""(texts) => Object.fromEntries(Object.entries(texts)
         .map(([p, t]) => [p, IOGCSV.writeTable(IOGCSV.readTable(t)) === t]))""", texts)
-    assert same and all(same.values()), same
+    assert all(same.values()), same
 
 
-def fixture_texts(conn, files):
-    taxonomy.write(taxonomy.rows(conn))
-    paths = {"taxonomy.csv": taxonomy.REPO_CSV, "curation/taxa.csv": files[0],
-             "curation/evidence.csv": files[1],
-             "curation/annotations.csv": files[0].with_name("annotations.csv")}
-    return {k: p.read_text(encoding="utf-8") if p.exists() else None for k, p in paths.items()}, paths
-
-
-def test_the_editor_and_resolve_agree(page, conn, files):
-    texts, paths = fixture_texts(conn, files)
+def test_the_editor_and_python_agree(page, world, tmp_path):
+    texts = texts_of(world)
     ops = [
         {"type": "tag", "id": "ORGIG", "place": "Rota", "status": "present", "source": "Buden 2004"},
         {"type": "tag", "id": "ORGIG", "place": "Yap", "status": "doubtful"},
@@ -88,74 +101,81 @@ def test_the_editor_and_resolve_agree(page, conn, files):
         {"type": "link", "id": "ORRHI", "url": "https://example.org/crb", "label": "CRB fact sheet"},
         {"type": "set", "id": "ORGIG", "column": "vernacularName", "value": "giant rhinoceros beetle"},
         {"type": "verify", "id": "ORRHI", "on": True, "source": "UOG specimen 12"},
-        # a name COL lacks, merged into a COL species
+        {"type": "nativity", "id": "ORRHI", "value": "introduced", "source": "d1"},
+        # a name COL lacks, merged into a COL species: its records follow through accepted_id
         {"type": "synonymize", "id": "gbif:777", "into": "ORGIG", "reason": "same species"},
-        # a COL synonym split out as its own species under Oryctes
-        {"type": "split", "id": "gbif:2080570", "parent": "ORYCT", "reason": "a test"},
+        # a COL-synonym is not split here, but a hand-made name is
         {"type": "add", "parent": "ORYCT", "rank": "Species", "name": "Oryctes sp. GU-1",
          "status": "morphospecies", "note": "Ritidian"},
         {"type": "addName", "into": "ORRHI", "name": "Oryctes rhinoceras", "authorship": "Typo, 1900"},
         {"type": "move", "id": "CALIS", "parent": "SCARB"},
         {"type": "hide", "id": "CALLI", "reason": "nothing left in it"},
+        {"type": "review", "id": "ORGIG", "table": "literature", "doc": "d1", "kind": "account"},
+        {"type": "reject", "id": "ORGIG", "table": "notes", "doc": "d1", "topic": "biology"},
+        {"type": "place", "unplacedName": "Zorotypus guineensis", "name": "Zorotypus guineensis",
+         "rank": "Species", "parent": "ORYCT"},
     ]
     out = run(page, texts, ops)
     assert out["errors"] == [None] * len(ops), list(zip(out["describe"], out["errors"], strict=True))
     assert out["checks"] == []
-    assert set(out["files"]) == {"taxonomy.csv", "curation/taxa.csv", "curation/evidence.csv",
-                                 "curation/annotations.csv"}
-    new_id = out["ops"][8]["newId"]
-    assert new_id == "IOG-1" and out["ops"][9]["newId"] == "IOG-2"
-    # What the editor commits is what resolve reads ...
-    for rel, path in paths.items():
-        if rel != "taxonomy.csv":
-            path.write_text(out["files"][rel], encoding="utf-8")
-    cur = curation.load(*files)
-    assert {r["taxon_id"]: r["editor"] for r in cur.rows if r["editor"] != "build"}.keys() >= {
-        "ORGIG", "ORRHI", "gbif:777", "gbif:2080570", "IOG-1", "IOG-2", "CALIS", "CALLI"}
-    assert all(a["added_by"] == "T. Editor" for a in cur.annotations)
-    curation.resolve(conn, cur)
-    after = {r["taxonID"]: r for r in taxonomy.rows(conn)}
-    # ... and the rows it shows are the rows the rebuild writes, in every column it edits.
-    cols = list(taxonomy.EDITABLE) + taxonomy.LIST_COLUMNS + ["taxonomicStatus", "modifiedBy"]
-    for tid, mine in out["rows"].items():
-        assert tid in after, f"{tid} is not in the rebuilt taxonomy"
-        for c in cols:
-            if c == "verificationStatus" and mine[c] != taxonomy.CONFIRMED:
-                continue                       # computed levels: the rebuild decides
-            assert str(after[tid][c]) == mine[c], (tid, c, after[tid][c], mine[c])
-    assert after["gbif:777"]["acceptedNameUsageID"] == "ORGIG"
-    assert after[new_id]["parentNameUsageID"] == "ORYCT"
-    assert after["IOG-2"]["acceptedNameUsageID"] == "ORRHI"
-    assert after["IOG-2"]["scientificNameAuthorship"] == "Typo, 1900"
-    assert after["CALIS"]["family"] == "Scarabaeidae" == out["rows"]["CALIS"]["family"]
-    # The order of the rows is the rebuild's too (depth first, children by name).
-    js_order = page.evaluate("""([texts, ops]) => {
-      const st = IOGModel.replay(IOGModel.makeBase(texts, {}), ops.map(o => IOGModel.op(o.type, o, "x")));
-      return st.rows.map(r => r.taxonID); }""", [texts, ops])
-    assert js_order == list(after)
+    assert set(out["files"]) == {"dataset/taxa.csv", "dataset/distribution.csv", "dataset/vouchers.csv",
+                                 "dataset/links.csv", "dataset/literature.csv", "dataset/notes.csv",
+                                 "dataset/unplaced.csv".replace("dataset/", "dataset/review/")}
+    assert out["ops"][8]["newId"] == "IOG-1" and out["ops"][9]["newId"] == "IOG-2"
+    assert out["ops"][14]["newId"] == "IOG-3"
+    # What the editor commits is what Python reads: it passes the checks ...
+    new = tmp_path / "after"
+    new.mkdir()
+    for rel, text in {**texts, **out["files"]}.items():
+        if text is not None:
+            (new / rel.removeprefix("dataset/")).parent.mkdir(parents=True, exist_ok=True)
+            (new / rel.removeprefix("dataset/")).write_text(text, encoding="utf-8")
+    ds = dataset.load(new)
+    assert dataset.check(ds).items == []
+    # ... is canonical (Python writing it again changes nothing, so rows are in Python's order) ...
+    import shutil
+
+    again = tmp_path / "again"
+    shutil.copytree(new, again)                  # a table that exists is written even when empty
+    dataset.write(ds, again)
+    for f in new.rglob("*.csv"):
+        assert f.read_bytes() == (again / f.relative_to(new)).read_bytes(), f.name
+    # ... and builds, showing the edits.
+    recs = records.build_records(ds, thumbs=tmp_path)
+    from conftest import C
+    gigas = recs[C("ORGIG")]
+    assert [d["place"] for d in gigas["distribution"]] == ["Rota", "Yap"]
+    assert gigas["common"] == "giant rhinoceros beetle" and gigas["evidence"][0]["ref"] == "987654"
+    assert gigas["literature"][0]["machine_read"] is False and gigas["synonyms"].count("Oryctes marianus") == 1
+    assert recs[C("ORRHI")]["nativity"] == "introduced" and recs[C("ORRHI")]["nativity_review"] == "editor"
+    assert recs[C("CALIS")]["lineage"][-1]["name"] == "Scarabaeidae"
+    assert recs[C("CALLI")]["hidden"] is True
+    assert any(r["name"] == "Zorotypus guineensis" for r in recs.values())
+    # The row order the editor shows is the rebuild's.
+    assert out["order"] == [r["id"] for r in ds["taxa"]]
 
 
-def test_bad_edits_are_refused_and_leave_nothing(page, conn, files):
-    texts, _ = fixture_texts(conn, files)
+def test_bad_edits_are_refused_and_leave_nothing(page, world):
+    texts = texts_of(world)
     ops = [
         {"type": "tag", "id": "ORGIG", "place": "Atlantis"},
         {"type": "synonymize", "id": "ORYCT", "into": "ORGIG"},        # genus into a species
         {"type": "move", "id": "ORYCT", "parent": "ORRHI"},            # under its own species
         {"type": "voucher", "id": "ORGIG", "url": "https://example.org/obs/1"},
         {"type": "set", "id": "ORGIG", "column": "gbifRecords", "value": "5"},
-        {"type": "set", "id": "gbif:2080570", "column": "scientificName", "value": "X"},  # synonym
+        {"type": "set", "id": "gbif:2080570", "column": "vernacularName", "value": "X"},  # a synonym
         {"type": "remove", "id": "ORGIG"},
         {"type": "link", "id": "ORGIG", "url": "ftp://x"},
+        {"type": "nativity", "id": "ORGIG", "value": "alien"},
+        {"type": "review", "id": "ORRHI", "table": "literature"},      # nothing machine-made there
     ]
     out = run(page, texts, ops)
     assert all(out["errors"]), list(zip(out["describe"], out["errors"], strict=True))
-    assert "taxonomy.csv" not in out["files"] or set(out["files"]) == {"taxonomy.csv"}
-    assert not {k for k in out["files"] if k.startswith("curation/")}
+    assert out["files"] == {}
 
 
-def test_list_cells_typed_in_the_table(page, conn, files):
-    texts, _ = fixture_texts(conn, files)
-    out = run(page, texts, [
+def test_list_cells_typed_in_the_table(page, world):
+    out = run(page, texts_of(world), [
         {"type": "set", "id": "ORGIG", "column": "distributionTags",
          "value": "Guam: present | Palau: absent (Nafus 1994)"},
         {"type": "set", "id": "ORGIG", "column": "associatedOccurrences",
@@ -168,35 +188,33 @@ def test_list_cells_typed_in_the_table(page, conn, files):
     assert out["rows"]["ORGIG"]["associatedOccurrences"] == "https://www.gbif.org/occurrence/42"
 
 
-def test_new_ids_follow_when_taken_meanwhile(page, conn, files):
-    texts, _ = fixture_texts(conn, files)
+def test_a_merge_and_its_undo_lose_nothing(page, world):
+    """Rows keep pointing at the synonym; accepted_id is the whole merge."""
+    texts = texts_of(world)
+    out = run(page, texts, [{"type": "synonymize", "id": "gbif:777", "into": "ORGIG"}])
+    assert out["errors"] == [None]
+    taxa = out["files"]["dataset/taxa.csv"]
+    assert "gbif:777," in taxa and ",ORGIG," in taxa
+    assert set(out["files"]) == {"dataset/taxa.csv"}              # no other table changed
+    back = run(page, {**texts, **out["files"]}, [{"type": "split", "id": "gbif:777", "parent": "ORYCT"}])
+    assert back["errors"] == [None] and back["checks"] == []
+
+
+def test_new_ids_follow_when_taken_meanwhile(page, world):
     ops = [{"type": "add", "parent": "ORYCT", "rank": "Species", "name": "Oryctes sp. A",
             "status": "morphospecies", "newId": "IOG-1"},
            {"type": "tag", "id": "IOG-1", "place": "Guam", "status": "present"}]
     # Someone else committed IOG-1 first.
-    rows = curation.load(*files).rows + [{c: "" for c in curation.TAXA_COLUMNS} | {
-        "taxon_id": "IOG-1", "rank": "Genus", "name": "Novus", "parent_id": "SCARB"}]
-    curation.write_csv(files[0], curation.TAXA_COLUMNS, rows)
-    curation.resolve(conn, curation.load(*files))
-    texts, _ = fixture_texts(conn, files)
-    out = run(page, texts, ops)
+    ds = dataset.load(world)
+    ds["taxa"].append({"id": "IOG-1", "parent_id": "SCARB", "rank": "Genus", "name": "Novus",
+                       "status": "accepted", "nativity": "unknown", "in_col": "no"})
+    dataset.write(ds, world)
+    out = run(page, texts_of(world), ops)
     assert out["errors"] == [None, None]
     assert out["ops"][0]["newId"] == "IOG-2" and out["ops"][1]["id"] == "IOG-2"
 
 
 # ---------------------------------------------------------------- the backend for the editor
-
-def test_a_merged_genus_takes_its_species_along(conn, files):
-    rows = curation.load(*files).rows + [{c: "" for c in curation.TAXA_COLUMNS} | {
-        "taxon_id": "ORYCT", "status": "synonym", "accepted_id": "CALIS"}]
-    curation.write_csv(files[0], curation.TAXA_COLUMNS, rows)
-    curation.resolve(conn, curation.load(*files))
-    t = {r["ext_id"]: dict(r) for r in conn.execute("SELECT * FROM taxa")}
-    assert "ORYCT" not in t
-    assert ids.to_ext(t["ORRHI"]["parent_id"]) == "CALIS"
-    assert conn.execute("SELECT 1 FROM taxon_names WHERE name_id = ? AND taxon_id = ?",
-                        (C("ORYCT"), C("CALIS"))).fetchone()
-
 
 def git(cwd, *args):
     return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True,
@@ -204,17 +222,14 @@ def git(cwd, *args):
 
 
 @pytest.fixture
-def clone(tmp_path, monkeypatch):
+def clone(tmp_path, monkeypatch, world):
     remote, work = tmp_path / "remote.git", tmp_path / "work"
     git(tmp_path, "init", "-q", "--bare", "-b", "main", str(remote))
     git(tmp_path, "clone", "-q", str(remote), str(work))
     git(work, "config", "user.name", "Local Git")
     git(work, "config", "user.email", "local@example.org")
-    (work / "curation").mkdir()
-    for rel in editor.FILES:
-        src = config.ROOT / rel
-        (work / rel).write_text(src.read_text(encoding="utf-8") if src.exists() else
-                                ",".join(curation.ANNOTATION_COLUMNS) + "\r\n", encoding="utf-8")
+    ds = dataset.load(world)
+    dataset.write(ds, work / "dataset")
     git(work, "add", "-A")
     git(work, "commit", "-q", "-m", "base")
     git(work, "push", "-q", "origin", "HEAD:main")
@@ -222,23 +237,26 @@ def clone(tmp_path, monkeypatch):
     return work, remote
 
 
+DIST = "dataset/distribution.csv"
+
+
 def test_local_commit_credits_the_editor_and_pushes(clone):
     work, remote = clone
     base = git(work, "rev-parse", "HEAD")
-    ann = (work / "curation/annotations.csv").read_text() + \
-        "L2655,distribution,Guam,present,,,A. Person,2026-11-14\r\n"
-    out = editor.commit({"curation/annotations.csv": ann}, "Editor: 1 change by A. Person",
-                        "A. Person", base)
+    ann = ((work / DIST).read_text(encoding="utf-8")
+           if (work / DIST).exists() else "\ufefftaxon_id,place,status,source,added_by,added\n")
+    good = ann + "ORGIG,Guam,present,,A. Person,2026-11-14\n"
+    out = editor.commit({DIST: good}, "Editor: 1 change by A. Person", "A. Person", base)
     assert out["ok"] and out["pushed"], out
     assert git(remote, "log", "-1", "--format=%an|%s", "main") == \
         "A. Person|Editor: 1 change by A. Person"
     # a stale base, a bad file, a file the editor does not own
     assert editor.commit({}, "x", "A. Person", base)["status"] == 409
     head = git(work, "rev-parse", "HEAD")
-    bad = editor.commit({"curation/annotations.csv": ann + "L2655,distribution,Atlantis,present,,,A,\r\n"},
-                        "x", "A. Person", head)
+    bad = editor.commit({DIST: good + "ORGIG,Atlantis,present,,A,2026-11-14\n"}, "x", "A. Person", head)
     assert bad["status"] == 400 and "Atlantis" in " ".join(bad["errors"])
     assert editor.commit({"src/x.py": "x"}, "x", "A. Person", head)["status"] == 400
+    assert editor.commit({"dataset/records.csv": "x"}, "x", "A. Person", head)["status"] == 400   # read-only
     assert editor.commit({}, "x", " ", head)["status"] == 400
 
 
@@ -253,11 +271,11 @@ def test_local_commit_replays_onto_a_newer_remote(clone, tmp_path):
     git(other, "commit", "-q", "-m", "other")
     git(other, "push", "-q", "origin", "HEAD:main")
     base = git(work, "rev-parse", "HEAD")
-    ann = (work / "curation/annotations.csv").read_text() + \
-        "L2655,link,https://example.org,,,,A. Person,2026-11-14\r\n"
-    out = editor.commit({"curation/annotations.csv": ann}, "Editor: link", "A. Person", base)
+    text = ((work / DIST).read_text(encoding="utf-8") if (work / DIST).exists()
+            else "\ufefftaxon_id,place,status,source,added_by,added\n") + "ORGIG,Rota,present,,A. Person,2026-11-14\n"
+    out = editor.commit({DIST: text}, "Editor: tag", "A. Person", base)
     assert out["ok"] and out["pushed"], out
-    assert git(remote, "log", "--format=%s", "main").splitlines()[:2] == ["Editor: link", "other"]
+    assert git(remote, "log", "--format=%s", "main").splitlines()[:2] == ["Editor: tag", "other"]
 
 
 def test_local_server_serves_only_the_editor_and_its_files(clone):
@@ -279,7 +297,7 @@ def test_local_server_serves_only_the_editor_and_its_files(clone):
             r = c.getresponse()
             return r.status, r.read()
         assert get("/editor/index.html")[0] == 200
-        assert get("/taxonomy.csv")[0] == 200
+        assert get("/dataset/taxa.csv")[0] == 200
         assert get("/secret.txt")[0] == 404
         assert get("/editor/../secret.txt")[0] == 404
         status, body = get("/api/editor/info")
@@ -305,10 +323,9 @@ def test_snapshot_strips_pdf_text(tmp_path):
     assert conn.execute("SELECT context, name FROM later_table").fetchone() == (None, "Oryctes")
 
 
-def test_ui_loads_and_edits_from_files(browser, conn, files, tmp_path):
+def test_ui_loads_and_edits_from_files(browser, world):
     """The whole page from file://: load the CSV files, tag a taxon with the form, see the
-    change listed, and get the files to commit."""
-    texts, paths = fixture_texts(conn, files)
+    change listed, review a machine-read row, and get the files to commit."""
     pg = browser.new_page()
     errors = []
     pg.on("pageerror", lambda e: errors.append(str(e)))
@@ -318,7 +335,7 @@ def test_ui_loads_and_edits_from_files(browser, conn, files, tmp_path):
     pg.goto((config.ROOT / "editor" / "index.html").as_uri())
     pg.wait_for_selector("#start-load", timeout=10000)        # GitHub unreachable here
     pg.click("#start-load")
-    pg.set_input_files(".filepick input", [str(p) for p in paths.values() if p.exists()])
+    pg.set_input_files(".filepick input", [str(p) for p in world.rglob("*.csv")])
     pg.wait_for_function("window.IOGApp.st && window.IOGApp.st.rows.length > 5")
     pg.fill("#q", "gigas")
     pg.wait_for_selector('#list .item[data-id="ORGIG"]')
@@ -328,13 +345,17 @@ def test_ui_loads_and_edits_from_files(browser, conn, files, tmp_path):
     pg.click('form[data-form="tag"] button[type="submit"]')
     pg.wait_for_selector(".chip.st-present")
     assert "Saipan" in pg.inner_text(".chips")
-    assert pg.inner_text("#n-changes") == "1"
+    assert "machine-read" in pg.inner_text("#tab-taxon")
+    pg.click('button[data-act="review"][data-table="literature"]')
+    pg.wait_for_selector("text=checked")
+    assert pg.inner_text("#n-changes") == "2"
     pg.click("#changes-btn")
     assert "Saipan present" in pg.inner_text("#tab-changes")
     pg.click('.tabs button[data-tab="table"]')
     pg.wait_for_selector('.g-body .r[data-id="ORGIG"]')
     files_out = pg.evaluate("IOGModel.files(IOGApp.st)")
-    assert "Saipan,present,seen 2026,,UI Tester" in files_out["curation/annotations.csv"]
+    assert "ORGIG,Saipan,present,seen 2026,UI Tester" in files_out["dataset/distribution.csv"]
+    assert ",editor,UI Tester," in files_out["dataset/literature.csv"]
     time.sleep(0.1)
     assert not errors, errors
     pg.close()
