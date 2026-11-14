@@ -62,7 +62,12 @@
     return w;
   }
   window.guaminsects = {
-    meta: function (m) { meta = m; renderSiteFooter(); route(); },
+    meta: function (m) {
+      meta = m; renderSiteFooter();
+      var cl = document.getElementById("checklist-link");
+      if (cl && m.root) cl.setAttribute("href", href(m.root));
+      route();
+    },
     index: function (d) {
       Object.keys(d).forEach(function (n) {
         var id = 0;
@@ -481,6 +486,12 @@
     fm: "Yap, Chuuk, Pohnpei and Kosrae, with many outer atolls spread along the Caroline Islands.",
     mh: "Twenty-nine atolls and five islands in the east, including Majuro and Kwajalein."
   };
+  function countsLine(genera, species) {
+    var parts = [];
+    if (genera) parts.push(Number(genera).toLocaleString() + " genera");
+    if (species != null) parts.push(Number(species).toLocaleString() + " species");
+    return parts.join(" · ");
+  }
   function topOrders() {
     var orders = (meta.home || []).filter(function (c) { return !c.hidden && c.status !== "synonym"; })
       .sort(function (a, b) { return b.species_count - a.species_count; });
@@ -495,33 +506,34 @@
     document.title = SITE;
     var c = meta.counts, regions = meta.regions || [], orders = topOrders();
     var rootCard = { id: meta.root };
-    var beetles = (meta.home || []).filter(function (x) { return x.name === "Coleoptera"; })[0];
     var allIsles = (meta.geo ? meta.geo.islands : []).map(function (i) { return i[1]; });
     var stats = [[c.species, "species"], [c.guam, "on Guam"], [c.literature, "in the literature"],
                  [c.photos || null, "with photos"]];
     var h = ['<section class="landing"><div class="land-top"><div class="land-left">'];
     h.push('<h1 class="land-title">' + esc(meta.title) + ' <span class="hero-sub">' + esc(meta.subtitle) + "</span></h1>" +
       '<p class="land-lede">A free reference to the insects and other hexapods of Guam and the rest of Micronesia. ' +
-      "Records, literature and photographs are pooled onto one checklist, with Guam first.</p>" +
+      "Records, literature and photographs are pooled onto one checklist. " +
+      "Browse the checklist on the website or download the names as a spreadsheet.</p>" +
       '<ul class="stats land-stats">' + stats.filter(function (x) { return x[0] != null; }).map(function (x) {
         return "<li><strong>" + Number(x[0]).toLocaleString() + "</strong> " + esc(x[1]) + "</li>";
       }).join("") + "</ul>");
     // quick links into the checklist
     h.push('<section class="land-quick"><h2>Start with the checklist</h2>' +
-      '<a class="quick quick-main" href="' + href(meta.root) + '"><strong>Hexapoda</strong><span>Everything: every order, family and species' +
-      (c.species ? " · " + Number(c.species).toLocaleString() : "") + "</span></a>" +
+      '<a class="quick quick-main" href="' + href(meta.root) + '"><strong>Hexapoda</strong><span>Every order, family and species: ' +
+      countsLine(c.genera, c.species) + "</span></a>" +
       '<div class="quick-row">' + orders.map(function (o) {
         return '<a class="quick" href="' + href(o.id) + '"><strong>' + esc(o.name) + "</strong><span>" +
-          (o.common ? esc(o.common) + " · " : "") + Number(o.species_count).toLocaleString() + "</span>" +
+          (o.common ? esc(o.common) + "<br>" : "") + countsLine(o.genus_count, o.species_count) + "</span>" +
           (o.name === "Coleoptera" ? '<em>first group being verified</em>' : "") + "</a>";
       }).join("") + "</div>" +
-      '<p class="land-more"><a href="#orders" data-scroll="orders">All orders</a> · <a href="#about" data-scroll="about">About &amp; tools</a></p></section>');
+      '<p class="land-more"><a href="#orders" data-scroll="orders">All orders</a> · <a href="#about" data-scroll="about">About &amp; tools</a> · ' +
+      '<span class="dl-box dl-inline"><button type="button" class="dl-link" data-dl="all">Download the checklist (spreadsheet)</button> <span class="dl-status" role="status"></span></span></p></section>');
     h.push('</div><div class="land-right"><section class="land-map">' +
       '<figure class="land-figure">' + islandMap(regions.map(function (x) { return x.key; }), allIsles, false, true) + "</figure>" +
       '<ul class="land-regions compact">' + regions.map(function (x) {
         return '<li class="r-' + esc(x.key) + '"><div><strong><span class="swatch r-' + esc(x.key) + '"></span>' + esc(x.label) + "</strong>" +
           (x.name !== x.label ? '<span class="rname">' + esc(x.name) + "</span>" : "") + "<p>" + esc(REGION_BLURB[x.key] || "") + "</p>" +
-          (beetles ? '<p class="rc"><a href="' + identifyHref(beetles.id, [x.key]) + '">beetles recorded here</a></p>' : "") + "</div></li>";
+          "</div></li>";
       }).join("") + "</ul></section></div></div>");
     // below the first screen
     h.push('<div class="land-cols" id="about"><section class="land-about"><h2>About this project</h2>' +

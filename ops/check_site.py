@@ -54,6 +54,9 @@ def check(page, url: str) -> dict[str, bool]:
     names = [t.split("\n")[0] for t in quick.all_inner_texts()]
     r["landing quick links"] = names[:2] == ["Hexapoda", "Coleoptera"] and len(names) == 4 and \
         quick.first.get_attribute("href").startswith("#/t/")
+    r["header checklist link"] = (page.locator("#checklist-link").get_attribute("href") or "").startswith("#/t/")
+    r["landing counts genera and species"] = "genera" in quick.first.inner_text() and "species" in quick.first.inner_text()
+    r["landing download link"] = page.locator(".land-more button[data-dl=all]").count() == 1
     r["landing map and regions"] = page.locator(".land-map svg.isle-map.large").count() == 1 and \
         page.locator(".land-regions li").count() == 5
     r["tokenizer parity"] = all(page.evaluate("s => guaminsects.tokens(s)", s) == tokens(s)

@@ -85,6 +85,7 @@ def build(ds: dataset.Dataset | None = None, out: Path | None = None, check: boo
         "search": {"docs": idx["docs"], "shards": idx["shards"], "stopwords": idx["stopwords"]},
         "counts": {
             "taxa": len(recs), "species": len(species),
+            "genera": recs[root]["genus_count"] if root else 0,
             "guam": sum("gu" in (r["regions"] or []) for r in species),
             "morphospecies": sum(r["status"] == "morphospecies" for r in recs.values()),
             "not_in_col": sum(not r["in_col"] and r["origin"] != "curated" for r in species),

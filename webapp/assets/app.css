@@ -314,6 +314,10 @@ section[id] { scroll-margin-top: 80px; }
   border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 5px 14px; cursor: pointer;
   transition: background-color .15s, color .15s; }
 .identify-toggle:hover { background: rgba(255,255,255,.22); }
+.nav-link { display: inline-block; text-decoration: none; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); line-height: 1.2; }
+.dl-inline { display: inline; }
+.dl-link { font: inherit; background: none; border: 0; padding: 0; color: var(--link, var(--accent)); text-decoration: underline; cursor: pointer; }
+.dl-inline .dl-status { font-size: 0.8rem; color: var(--muted); }
 .identify-toggle.on { background: var(--header-text); color: var(--header); border-color: var(--header-text); }
 /* Two to a row, so the photograph is big enough to identify from; the map is the
    supporting evidence beside it, not the other way round. */

@@ -130,6 +130,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
     inat_sum: dict[int, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     lit_in: dict[int, dict[str, set[int]]] = defaultdict(lambda: defaultdict(set))
     n_species: dict[int, int] = {}
+    n_genera: dict[int, int] = {}
     gbif_n: dict[int, dict[str, int]] = defaultdict(dict)
     for tid in order:
         for area in config.AREA_CODES:
@@ -138,6 +139,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
     for tid in order:
         t = taxa[tid]
         n = int(t["rank"] in SPECIES_RANKS and not t["hidden"])
+        g = int(t["rank"] == "Genus" and not t["hidden"])
         for area, srcs in own[tid].items():
             if t["rank"] in SPECIES_RANKS or t["rank"] == "Subspecies":
                 species_in[tid][area].add(tid if t["rank"] == "Species" else m.parent(tid))
@@ -146,6 +148,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
                 lit_in[tid][area].add(tid)
         for c in children[tid]:
             n += n_species[c]
+            g += n_genera[c]
             for area, s in species_in[c].items():
                 species_in[tid][area] |= s
             for area, v in inat_sum[c].items():
@@ -153,6 +156,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
             for area, s in lit_in[c].items():
                 lit_in[tid][area] |= s
         n_species[tid] = n
+        n_genera[tid] = g
 
     def presence_of(tid: int) -> list[dict]:
         t = taxa[tid]
@@ -389,11 +393,12 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
             "nativity_review": t["nativity_review"] or None,
             "hidden": bool(t["hidden"]), "hidden_reason": t["hidden_reason"] or None,
             "note": t["note"] or None, "curated": [],
-            "species_count": n_species[tid],
+            "species_count": n_species[tid], "genus_count": n_genera[tid],
             "lineage": [brief(a) for a in m.ancestors(tid)],
             "children": [{**brief(ids.to_int(k["id"])), "hidden": bool(k["hidden"]),
                           "status": k["status"],
                           "species_count": n_species[ids.to_int(k["id"])],
+                          "genus_count": n_genera[ids.to_int(k["id"])],
                           "kids": len(children[ids.to_int(k["id"])]), "map": None,
                           "regions": regions_of(ids.to_int(k["id"])),
                           "est": nativity_tag(ids.to_int(k["id"])),
