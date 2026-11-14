@@ -188,6 +188,9 @@ class Matcher:
         t = colapi.usage_row(target)
         if not t["rank"]:
             return None
+        order = schema.RANK_ORDER
+        while parent_id and order.get(self.taxa[parent_id]["rank"], 99) >= order.get(t["rank"], 0):
+            parent_id = self.taxa[parent_id]["parent_id"]      # COL files a "genus" under a genus (a subgenus)
         extras = colapi.classification_extras(d)
         self.add_taxon(self.new_row(
             id=t["id"], parent_id=parent_id, rank=t["rank"], name=t["name"],

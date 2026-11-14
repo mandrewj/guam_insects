@@ -221,3 +221,12 @@ def test_run_unplaced_survives_the_dataset_being_rewritten(tmp_path):
     assert stats["placed"] == 2 and stats["none"] == 1
     assert [u["name"] for u in ds["unplaced"]] == ["Nothing here"]
     assert ds["unplaced"][0]["note"].startswith(match.Matcher.TRIED)
+
+
+def test_a_col_genus_filed_under_a_genus_goes_up_a_level():
+    sub = usage("HALTI", "Haltica", "GENUS")
+    classification = CLASSIFICATION + [usage("PSYLL", "Psylliodes", "GENUS")]
+    ds, m = matcher({"Haltica": answer(sub, classification=classification)})
+    tid = m.resolve("Haltica", "GENUS", "inat")
+    assert next(r for r in ds["taxa"] if r["id"] == tid)["parent_id"] == "SCARB"
+    assert dataset.check(ds).items == []
