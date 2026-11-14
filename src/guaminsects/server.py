@@ -1,4 +1,4 @@
-"""`guaminsects serve`: the built site (site/public) on http://localhost, plus a curation API.
+"""`guaminsects serve`: the built site (site.nosync/public) on http://localhost, plus a curation API.
 
 The site itself is static (it also works from file://) and is the same one deployed. The JSON
 endpoints below write curation/taxa.csv and curation/evidence.csv through curation.py, the

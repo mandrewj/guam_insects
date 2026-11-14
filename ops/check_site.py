@@ -149,7 +149,7 @@ def main() -> int:
     ap.add_argument("--browsers", default="chrome,webkit,firefox")
     ap.add_argument("--shots", type=Path, help="directory for screenshots")
     args = ap.parse_args()
-    site = ROOT / "site" / "public" / "index.html"
+    site = ROOT / "site.nosync" / "public" / "index.html"
     if not site.exists():
         print(f"no build at {site}; run `uv run guaminsects build`")
         return 1

@@ -7,7 +7,7 @@
 # The one build (the local site is the same): openly licensed content, no PDF text. Vercel Hobby
 # accepts 100 MB and 15,000 files per CLI deploy (site.PUBLIC_BUDGET_MB keeps us under the
 # first; --archive=tgz uploads one file, so the 15,000-file
-# limit and the 5,000-uploads-a-day limit never bite). The project link lives in site/public/.vercel,
+# limit and the 5,000-uploads-a-day limit never bite). The project link lives in site.nosync/public/.vercel,
 # which the build leaves alone and git never sees.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -15,12 +15,12 @@ PROJECT=insects-of-guam
 
 uv run guaminsects build
 uv run python ops/check_site.py --browsers chrome
-files=$(find site/public -type f -not -path '*/.vercel/*' | wc -l | tr -d ' ')
-size=$(du -sm site/public | cut -f1)
-echo "site/public: ${files} files, ${size} MB"
+files=$(find site.nosync/public -type f -not -path '*/.vercel/*' | wc -l | tr -d ' ')
+size=$(du -sm site.nosync/public | cut -f1)
+echo "site.nosync/public: ${files} files, ${size} MB"
 
 # Static files only: no framework, no build step on Vercel's side.
-cat > site/public/vercel.json <<'JSON'
+cat > site.nosync/public/vercel.json <<'JSON'
 {
   "cleanUrls": false,
   "headers": [
@@ -35,11 +35,11 @@ JSON
 VERCEL_CMD=${VERCEL:-vercel}
 token=()
 [ -n "${VERCEL_TOKEN:-}" ] && token=(--token "$VERCEL_TOKEN")
-if [ ! -d site/public/.vercel ] && [ -z "${VERCEL_PROJECT_ID:-}" ]; then
-  $VERCEL_CMD link --yes --project "$PROJECT" --cwd site/public ${token[@]+"${token[@]}"}
+if [ ! -d site.nosync/public/.vercel ] && [ -z "${VERCEL_PROJECT_ID:-}" ]; then
+  $VERCEL_CMD link --yes --project "$PROJECT" --cwd site.nosync/public ${token[@]+"${token[@]}"}
 fi
 # Always one archive: Hobby counts each uploaded file against 5,000 uploads a day
 # ("api-upload-free"), and the site is ~8,000 files.
-args=(deploy --yes --cwd site/public --archive=tgz ${token[@]+"${token[@]}"})
+args=(deploy --yes --cwd site.nosync/public --archive=tgz ${token[@]+"${token[@]}"})
 [ "${1:-}" = "--prod" ] && args+=(--prod)
 $VERCEL_CMD "${args[@]}"

@@ -226,6 +226,18 @@ Until a phase lands, everything above still describes the code.
   page.
 - Collaborators use the editor; the old pipeline is kept under the tag `pipeline-v1`.
 
+## Working rule for the iCloud-synced repository (refactor Phase 0, 2026-11-13)
+
+The repository lives in iCloud (~/Documents). **Pull before working; commit and push when
+done; one machine at a time.** iCloud syncs the working tree, git is the record. Git's
+object store is outside the tree: `.git` is a pointer file to
+`../guam_insects.git.nosync` (iCloud skips `.nosync`). On another machine, if that folder is
+missing, run `git clone --bare https://github.com/mandrewj/guam_insects.git
+../guam_insects.git.nosync` (same user name, so the pointer's path is valid). Build output is
+`site.nosync/`; caches, staging and scratch files go in `private.nosync/` (never committed).
+The old pipeline is the tag `pipeline-v1`; `data.nosync/guam-pipeline-v1.sqlite` is its archive.
+
+
 ## Hard rules (inherited from entobase; they exist because something went wrong)
 
 1. **Never fetch BugGuide directly** (no curl, WebFetch, httpx, requests). It is behind

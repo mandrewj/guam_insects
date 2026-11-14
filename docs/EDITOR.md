@@ -126,7 +126,7 @@ curation, sources, code or web app:
 
 **Secrets** (repository settings → Secrets and variables → Actions): `VERCEL_TOKEN`
 (vercel.com/account/tokens), `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` (from
-`site/public/.vercel/project.json` on the data machine: `orgId`, `projectId`).
+`site.nosync/public/.vercel/project.json` on the data machine: `orgId`, `projectId`).
 
 **The snapshot** must be current: `ops/harvest.sh` runs `guaminsects snapshot --upload` before
 it deploys. Run it by hand after any other change to the database. It empties every column

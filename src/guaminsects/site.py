@@ -1,4 +1,4 @@
-"""Export the database into the static web app (site/public).
+"""Export the database into the static web app (site.nosync/public).
 
 The app is one page (index.html) that renders any taxon from a small data file:
 data/t/<id // 1000>/<id>.js, which calls guaminsects.load(<record>). Browsers allow

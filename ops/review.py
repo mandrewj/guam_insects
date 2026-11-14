@@ -6,7 +6,7 @@ Sections: totals by source; a random sample of species with what each source say
 records (one or two GBIF records and nothing else, fossil groups, Wikidata name mismatches);
 taxa that are in the tree only because of the literature; heading names in the PDFs that
 GBIF could not match (old names, OCR errors, undescribed species). Links open the built
-site (site/public), so `uv run guaminsects build` first.
+site (site.nosync/public), so `uv run guaminsects build` first.
 """
 
 import argparse
@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from guaminsects import config, db, ids  # noqa: E402
 
 OUT = config.DATA_DIR / "exports" / "review.html"
-SITE = "../../site/public/index.html"
+SITE = "../../site.nosync/public/index.html"
 AREAS = config.AREA_CODES
 FOSSIL_ORDERS = {"Palaeodictyoptera", "Megasecoptera", "Protodonata", "Meganisoptera"}
 

@@ -188,7 +188,7 @@ def cmd_documents(args) -> int:
 
 
 def cmd_build(args) -> int:
-    """Write the static site, site/public: opened locally and deployed as it is."""
+    """Write the static site, site.nosync/public: opened locally and deployed as it is."""
     from . import site
 
     try:

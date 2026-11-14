@@ -17,7 +17,7 @@ LITERATURE_DIR = ROOT / "literature"       # the PDF library (git-ignored; copyr
 # Hand curation lives in git: it is the one thing a pipeline re-run must never overwrite.
 CURATION_DIR = ROOT / "curation"
 SOURCES_DIR = ROOT / "sources"             # manifests of downloaded documents (git-tracked)
-SITE_DIR = ROOT / "site"                   # built output: site/public (opened locally and deployed)
+SITE_DIR = ROOT / "site.nosync"                 # built output: site.nosync/public (opened locally and deployed)
 
 CONTACT = "m.andrew.johnston@gmail.com"
 USER_AGENT = f"guam-insects-research ({CONTACT})"

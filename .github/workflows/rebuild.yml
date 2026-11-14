@@ -3,7 +3,7 @@
 #
 # Needs: the data snapshot release (`uv run guaminsects snapshot --upload` on the data
 # machine) and three repository secrets: VERCEL_TOKEN (vercel.com/account/tokens),
-# VERCEL_ORG_ID and VERCEL_PROJECT_ID (site/public/.vercel/project.json on the data machine).
+# VERCEL_ORG_ID and VERCEL_PROJECT_ID (site.nosync/public/.vercel/project.json on the data machine).
 # Without them the job checks the edits and stops with a notice instead of failing.
 name: Rebuild the site
 

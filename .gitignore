@@ -5,6 +5,8 @@ pdfs/
 literature/
 reference/
 site/
+site.nosync/
+private.nosync/
 .vercel/
 .venv
 venv.nosync/
