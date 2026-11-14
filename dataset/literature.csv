@@ -5611,11 +5611,11 @@ M3CXR,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3CXR,swezey-1942-misc-coleoptera-guam,mention,8,Bitoma siccana,,,,,,,text,machine,,,migrate,2026-11-13
 M3FNZ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 M3JS7,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-M3JSM,iom-17-3-tenebrionidae,account,15,Bradymerus acuticostis,,,,,,,text,machine,,,migrate,2026-11-13
-M3JSM,iom-17-3-tenebrionidae,mention,15 | 16,Bradymerus acuticostis,,,,,,,text,machine,,,migrate,2026-11-13
-M3JSM,swezey-1942-misc-coleoptera-guam,account,16,Bradymerus acuticostis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+M3JSM,iom-17-3-tenebrionidae,account,15,Bradymerus acuticostis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+M3JSM,iom-17-3-tenebrionidae,mention,15 | 16,Bradymerus acuticostis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+M3JSM,swezey-1942-misc-coleoptera-guam,account,16,Bradymerus acuticostis,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 M3JSM,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-M3JSM,swezey-1942-misc-coleoptera-guam,mention,16,Bradymerus acuticostis,,,,,,,text,machine,,,migrate,2026-11-13
+M3JSM,swezey-1942-misc-coleoptera-guam,mention,16,Bradymerus acuticostis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 M3X8W,iom-16-4-nitidulidae,account,16,Carpophilus biguttatus,MP | MH,Marshall Is. | Rota,,,,,text,machine,,,migrate,2026-11-13
 M3X8W,iom-16-4-nitidulidae,mention,16,Carpophilus biguttatus,,,,,,,text,machine,,,migrate,2026-11-13
 M3XKM,evenhuis-et-al-2010-pagan-island,mention,58,Carpophilus dimidiatus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6359,16 +6359,16 @@ VL4QT,iom-6-7-coccoidea,account,144,Hemiberlesia cyanophylli,GU,Guam,,,,,text,ma
 VPCT2,evenhuis-et-al-2010-pagan-island,mention,57,Periplaneta australasiae,,,,,,,text,machine,,,migrate,2026-11-13
 VPCT2,iom-19-2-ichneumonidae-stephanidae-evaniidae,mention,45,Periplaneta australasiae,,,,,,,text,machine,,,migrate,2026-11-13
 VPCT2,kevan-1997-an-annotated-provisional-list-of-non-saltator,mention,9,Periplaneta australasiae,,,,,,,text,machine,,,migrate,2026-11-13
-VPNM5,iom-17-3-tenebrionidae,account,22,Rhipidandrus crenipennis,,,,,,,text,machine,,,migrate,2026-11-13
-VPNM5,iom-17-3-tenebrionidae,mention,3 | 22,Rhipidandrus crenipennis,,,,,,,text,machine,,,migrate,2026-11-13
-VPPPC,iom-17-3-tenebrionidae,account,16,Bradymerus diversepunctatus,,,,,,,text,machine,,,migrate,2026-11-13
-VPPPC,iom-17-3-tenebrionidae,mention,16 | 17,Bradymerus diversepunctatus,,,,,,,text,machine,,,migrate,2026-11-13
+VPNM5,iom-17-3-tenebrionidae,account,22,Rhipidandrus crenipennis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+VPNM5,iom-17-3-tenebrionidae,mention,3 | 22,Rhipidandrus crenipennis,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+VPPPC,iom-17-3-tenebrionidae,account,16,Bradymerus diversepunctatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+VPPPC,iom-17-3-tenebrionidae,mention,16 | 17,Bradymerus diversepunctatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VPRGX,iom-17-3-tenebrionidae,account,52,Apterophenus dybasi,,,,,,,text,machine,,,migrate,2026-11-13
 VPRGX,iom-17-3-tenebrionidae,mention,5 | 52 | 53,Apterophenus dybasi,,,,,,,text,machine,,,migrate,2026-11-13
-VPRV3,iom-17-3-tenebrionidae,account,20,Rhipidandrus dybasi,,,,,,,text,machine,,,migrate,2026-11-13
-VPRV3,iom-17-3-tenebrionidae,mention,3 | 20 | 21 | 22,Rhipidandrus dybasi,,,,,,,text,machine,,,migrate,2026-11-13
-VPSNR,iom-17-3-tenebrionidae,account,18,Bradymerus oakleyi,,,,,,,text,machine,,,migrate,2026-11-13
-VPSNR,iom-17-3-tenebrionidae,mention,18,Bradymerus oakleyi,,,,,,,text,machine,,,migrate,2026-11-13
+VPRV3,iom-17-3-tenebrionidae,account,20,Rhipidandrus dybasi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+VPRV3,iom-17-3-tenebrionidae,mention,3 | 20 | 21 | 22,Rhipidandrus dybasi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+VPSNR,iom-17-3-tenebrionidae,account,18,Bradymerus oakleyi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+VPSNR,iom-17-3-tenebrionidae,mention,18,Bradymerus oakleyi,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 VPSRJ,iom-17-3-tenebrionidae,account,10,Gonocephalum pottsi,,,,,,,text,machine,,,migrate,2026-11-13
 VPSRJ,iom-17-3-tenebrionidae,mention,3 | 10 | 11,Gonocephalum pottsi,,,,,,,text,machine,,,migrate,2026-11-13
 VQ4D7,iom-9-2-gelechioidea,account,1,Elaeonoma moira,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6475,7 +6475,7 @@ name-1764,iom-18-1-platypodidae-scolytidae,account,28,Leperisinus pacificus,GU |
 name-1826,iom-12-8-tipulidae,account,34,Limonia gutiula,GU | PW | FM,Guam | Koror | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 name-1832,iom-12-8-tipulidae,account,93,Limonia microstigma carolinensis,PW | FM,Kosrae | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-1887,iom-7-7-coreidae-neididae-nabidae,account,30,Lorichius umbonatus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
-name-1919,iom-17-3-tenebrionidae,account,33,Lyphia laeviceps,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
+name-1919,iom-17-3-tenebrionidae,account,33,Lyphia laeviceps,FM,Yap,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-1944,guam-pest-series-88-10-bean-pod-borer,account,1,Maruca caterpillar,GU | PW,Guam | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-1950,iom-16-1-elateridae,account,37,Megapenthes carinifrons,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-1952,iom-16-1-elateridae,account,38,Megapenthes subinconditus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6515,7 +6515,7 @@ name-2480,iom-17-1-chrysomelidae,account,53,Plesispa spaethi,PW,Angaur | Babelda
 name-2518,iom-16-2-lampyridae-cantharidae-malachiidae-prionocerida,account,8,Prionocerus forticornis,FM,Fais,,,,,text,machine,,,migrate,2026-11-13
 name-2672,iom-7-7-coreidae-neididae-nabidae,account,32,Reduviolus capsiformis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-2675,iom-12-2-bibionidae-scatopsidae,account,11,Rhexoza magnipalpus,PW | FM,Kosrae | Palau | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-name-2683,iom-17-3-tenebrionidae,account,22,Rhipidandrus sodalis,GU | MP,Guam | Rota,,,,,text,machine,,,migrate,2026-11-13
+name-2683,iom-17-3-tenebrionidae,account,22,Rhipidandrus sodalis,GU | MP,Guam | Rota,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-2691,iom-17-1-chrysomelidae,account,16 | 17,Rhyparida carolina,FM,Kosrae | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 name-2695,iom-17-1-chrysomelidae,account,15,Rhyparida dybasi,PW,Babeldaob | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-2696,iom-17-1-chrysomelidae,account,13,Rhyparida esakii,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
