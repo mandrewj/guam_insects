@@ -591,6 +591,8 @@ window.IOG_SPEC = {
       "inaturalist",
       "wikidata",
       "wikispecies",
+      "wikipedia",
+      "commons",
       "bugguide",
       "editor"
      ],
