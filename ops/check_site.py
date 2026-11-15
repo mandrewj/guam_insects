@@ -52,7 +52,7 @@ def check(page, url: str) -> dict[str, bool]:
     r["home lists orders"] = page.locator("#s-children .card").count() >= 10
     quick = page.locator(".land-quick a.quick")
     names = [t.split("\n")[0] for t in quick.all_inner_texts()]
-    r["landing quick links"] = names[:2] == ["Hexapoda", "Coleoptera"] and len(names) == 4 and \
+    r["landing quick links"] = names[:2] == ["Hexapoda", "Coleoptera"] and len(names) == 7 and \
         quick.first.get_attribute("href").startswith("#/t/")
     r["header checklist link"] = (page.locator("#checklist-link").get_attribute("href") or "").startswith("#/t/")
     r["landing counts genera and species"] = "genera" in quick.first.inner_text() and "species" in quick.first.inner_text()

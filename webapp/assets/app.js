@@ -528,9 +528,10 @@
   function topOrders() {
     var orders = (meta.home || []).filter(function (c) { return !c.hidden && c.status !== "synonym"; })
       .sort(function (a, b) { return b.species_count - a.species_count; });
-    var top = orders.slice(0, 3);
+    var top = orders.slice(0, 6); top.rest = orders.slice(6);
     var beetles = orders.filter(function (c) { return c.name === "Coleoptera"; })[0];
-    if (beetles) top = [beetles].concat(top.filter(function (c) { return c !== beetles; })).slice(0, 3);
+    if (beetles) top = [beetles].concat(top.filter(function (c) { return c !== beetles; })).slice(0, 6);
+    top.rest = orders.filter(function (c) { return top.indexOf(c) < 0; });
     return top;
   }
   function renderLanding() {
@@ -550,14 +551,22 @@
       '<ul class="stats land-stats">' + stats.filter(function (x) { return x[0] != null; }).map(function (x) {
         return "<li><strong>" + Number(x[0]).toLocaleString() + "</strong> " + esc(x[1]) + "</li>";
       }).join("") + "</ul>");
-    // quick links into the checklist
+    // quick links into the checklist: photo tiles (the order's own card photo), the whole of
+    // Hexapoda first as a wide tile over a strip of four of them
+    var tiles = (orders.rest || []).filter(function (o) { return o.thumb; });
+    var strip = tiles.slice(0, 4).map(function (o) {
+      return '<img src="' + esc(o.thumb) + '" alt="" decoding="async" loading="eager">';
+    }).join("");
     h.push('<section class="land-quick"><h2>Start with the checklist</h2>' +
-      '<a class="quick quick-main" href="' + href(meta.root) + '"><strong>Hexapoda</strong><span>Every order, family and species: ' +
-      countsLine(c.genera, c.species) + "</span></a>" +
+      '<a class="quick quick-main" href="' + href(meta.root) + '"><span class="q-strip" aria-hidden="true">' + strip + "</span>" +
+      '<span class="q-text"><strong>Hexapoda</strong><span>Every order, family and species: ' +
+      countsLine(c.genera, c.species) + "</span></span></a>" +
       '<div class="quick-row">' + orders.map(function (o) {
-        return '<a class="quick" href="' + href(o.id) + '"><strong>' + esc(o.name) + "</strong><span>" +
-          (o.common ? esc(o.common) + "<br>" : "") + countsLine(o.genus_count, o.species_count) + "</span>" +
-          (o.name === "Coleoptera" ? '<em>first group being verified</em>' : "") + "</a>";
+        return '<a class="quick quick-photo' + (o.thumb ? "" : " no-photo") + '" href="' + href(o.id) + '">' +
+          (o.thumb ? '<img src="' + esc(o.thumb) + '" alt="" decoding="async" loading="lazy">' : "") +
+          '<span class="q-text"><strong>' + esc(o.name) + "</strong><span>" +
+          (o.common ? esc(o.common) + " · " : "") + countsLine(o.genus_count, o.species_count) + "</span>" +
+          (o.name === "Coleoptera" ? "<em>first group being verified</em>" : "") + "</span></a>";
       }).join("") + "</div>" +
       '<p class="land-more"><a href="#orders" data-scroll="orders">All orders</a> · <a href="#about" data-scroll="about">About &amp; tools</a> · ' +
       '<span class="dl-box dl-inline"><button type="button" class="dl-link" data-dl="all">Download the checklist (spreadsheet)</button> <span class="dl-status" role="status"></span></span></p></section>');
