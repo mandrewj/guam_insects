@@ -22,7 +22,7 @@
 
   const validId = s => ID_RE.test(s || "");
   const iogNum = s => { const m = /^IOG-(\d+)$/.exec(s || ""); return m ? +m[1] : 0; };
-  const today = () => new Date().toISOString().slice(0, 10);
+  const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };   // the editor's own date
   const blank = name => Object.fromEntries(T[name].columns.map(c => [c, ""]));
   const rankIdx = r => (r in RANK ? RANK[r] : 99);
   const fold = s => (s || "").toLowerCase();

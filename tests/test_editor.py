@@ -675,3 +675,29 @@ def test_identifiers_can_be_added_to_an_existing_taxon(page, world):
       .map(u => IOGModel.classifyUrl(u).kind + ':' + (IOGModel.classifyUrl(u).system || ''))""")
     assert kinds == ["voucher:", "identify:gbif", "identify:inat", "identify:col", "link:"]
     assert not out["checks"], out["checks"]
+
+
+def test_table_double_click_edits_and_undo_works_from_the_toast(browser, world):
+    pg = browser.new_page()
+    errors = []
+    pg.on("pageerror", lambda e: errors.append(str(e)))
+    pg.add_init_script("localStorage.setItem('iog-editor-name', 'UI Tester');")
+    pg.route("**/api.github.com/**", lambda r: r.abort())
+    pg.route("**/raw.githubusercontent.com/**", lambda r: r.abort())
+    pg.goto((config.ROOT / "editor" / "index.html").as_uri())
+    pg.wait_for_selector("#start-load", timeout=10000)
+    pg.click("#start-load")
+    pg.set_input_files(".filepick input", [str(p) for p in world.rglob("*.csv")])
+    pg.wait_for_function("window.IOGApp.st && window.IOGApp.st.rows.length > 5")
+    pg.click('.tabs button[data-tab="table"]')
+    pg.wait_for_selector('.g-body .r .c[data-col="vernacularName"]')
+    cell = pg.locator('.g-body .r .c[data-col="vernacularName"]').first
+    cell.dblclick()                                   # a real double-click must open the editor
+    pg.wait_for_selector(".cell-edit")
+    pg.fill(".cell-edit", "A New Common Name")
+    pg.keyboard.press("Enter")
+    pg.wait_for_function("window.IOGApp.ops.length === 1")
+    pg.click(".toast-undo")                           # undo from the toast
+    pg.wait_for_function("window.IOGApp.ops.length === 0")
+    assert not errors, errors
+    pg.close()

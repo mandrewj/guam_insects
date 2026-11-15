@@ -657,3 +657,9 @@ h1[tabindex="-1"]:focus { outline: none; }
   .land-regions { grid-template-columns: 1fr; }
   .land-regions.compact { grid-template-columns: 1fr 1fr; }
 }
+
+/* Phones: two identify tiles to a row, photo first; the island chips say where it occurs. */
+@media (max-width: 640px) {
+  .ip-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ip-map { display: none; }
+}

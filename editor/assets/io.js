@@ -158,7 +158,12 @@
       texts[path] = f ? decode(await f.arrayBuffer()) : null;
     }
     if (texts[S.tables.taxa.file] == null) throw new Error("taxa.csv was not among the files");
-    return { texts, source: { kind: "files", label: Object.keys(byName).join(", "), sha: "files" } };
+    // A table that was not loaded would be written back from the changes alone, losing the rest.
+    const missing = ["distribution", "links", "literature", "documents"].filter(t => texts[S.tables[t].file] == null);
+    const warn = missing.length ? "These files were not loaded: " + missing.map(t => S.tables[t].file.split("/").pop()).join(", ") +
+      ". Changes to those tables would be written without the rest of them: pick every file of the dataset folder (or use GitHub or the folder picker) before committing." : "";
+    const names = Object.keys(byName);
+    return { warn, texts, source: { kind: "files", label: names.length > 3 ? names.length + " files" : names.join(", "), sha: "files" } };
   }
   function download(files) {
     for (const [path, text] of Object.entries(files)) {

@@ -24,13 +24,19 @@
 
   // ------------------------------------------------------------ small helpers
   let toastTimer = null;
-  function toast(msg, kind) {
+  function toast(msg, kind, undoOp) {
     const t = $("#toast");
     t.textContent = msg;
+    if (undoOp) {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = "Undo"; b.className = "toast-undo";
+      b.addEventListener("click", () => { const i = app.ops.indexOf(undoOp); if (i >= 0) { undo(i); toast("Undone"); } });
+      t.append(" ", b);
+    }
     t.className = kind || "";
     t.hidden = false;
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => { t.hidden = true; }, kind === "error" ? 9000 : 3500);
+    toastTimer = setTimeout(() => { t.hidden = true; }, kind === "error" ? 9000 : undoOp ? 7000 : 3500);
   }
   const row = id => app.st && app.st.row(id);
   const isSyn = r => r && r.taxonomicStatus === "synonym";
@@ -44,7 +50,7 @@
     app.st = M.replay(app.base, app.ops);
     app.search = new Map();
     for (const r of app.st.rows) {
-      app.search.set(r.taxonID, fold([r.scientificName, r.vernacularName, r.taxonID, r.scientificNameAuthorship].join(" ")));
+      app.search.set(r.taxonID, fold([r.scientificName, r.vernacularName, r.taxonID, r.scientificNameAuthorship, r.order, r.family, r.genus].join(" ")));
     }
     saveDraft();
     render();
@@ -60,7 +66,7 @@
       toast(op.error, "error");
       return null;
     }
-    if (!quiet) toast(M.describe(op, app.st));
+    if (!quiet) toast(M.describe(op, app.st), "", op);
     return op;
   }
   function undo(i) {
@@ -68,7 +74,7 @@
     recompute();
   }
   function saveDraft() {
-    if (!app.base) return;
+    if (!app.base || app.pending) return;          // a saved draft waits for a Restore or Discard answer
     if (!app.ops.length) { store.del(DRAFT); return; }
     store.set(DRAFT, JSON.stringify({ source: app.base.source, ops: app.ops, saved: new Date().toISOString() }));
   }
@@ -94,6 +100,8 @@
     if (!app.sel || !row(app.sel)) app.sel = (app.st.rows[0] || {}).taxonID || null;
     fromHash();
     render();
+    if (app.pending && !app.ops.length && !$("#dlg").open && app.name) setTimeout(() => offerDraft(app.pending), 0);
+    if (res.warn) toast(res.warn, "error");
     if (res.info && res.info.dirty && res.info.dirty.length) {
       toast("Uncommitted changes in " + res.info.dirty.join(", ") + ": commit or discard them with git before committing here.", "error");
     }
@@ -102,10 +110,11 @@
   async function start() {
     renderStart();
     const draft = readDraft();
+    if (draft && draft.ops && draft.ops.length) app.pending = draft;
     const info = await IO.localInfo();
     const ok = await load(info ? IO.loadLocal : () => IO.loadGitHub({ token: app.token }));
-    const restore = ok && draft && draft.ops && draft.ops.length ? () => offerDraft(draft) : null;
-    if (!app.name) askName(restore); else if (restore) restore();
+    const restore = ok && app.pending ? () => offerDraft(app.pending) : null;
+    if (!app.name) askName(restore);          // with a name, load() offers the draft itself
   }
   function offerDraft(draft) {
     openForm({
@@ -113,8 +122,9 @@
       intro: `${draft.ops.length} change${draft.ops.length === 1 ? "" : "s"} from ${new Date(draft.saved).toLocaleString()} ` +
         `(on ${esc(draft.source && draft.source.label)}) were not committed. Restore them onto what is loaded now?`,
       submit: "Restore", cancel: "Discard them",
-      onCancel: () => store.del(DRAFT),
+      onCancel: () => { app.pending = null; store.del(DRAFT); },
       onSubmit: () => {
+        app.pending = null;
         app.ops = draft.ops;
         recompute();
         const bad = app.ops.filter(o => o.error).length;
@@ -288,14 +298,14 @@
       return;
     }
     const rows = matches(), max = 400;
-    el.innerHTML = `<p class="muted pad">${rows.length.toLocaleString()} taxa</p>` + rows.slice(0, max).map(r => item(r)).join("") +
+    el.innerHTML = `<p class="muted pad">${rows.length.toLocaleString()} ${rows.length === 1 ? "taxon" : "taxa"}${app.q.trim() && app.queue !== "browse" ? ` matching “${esc(app.q.trim())}” <a href="#" id="clear-q">clear search</a>` : ""}</p>` + rows.slice(0, max).map(r => item(r)).join("") +
       (rows.length > max ? `<p class="muted pad">… ${(rows.length - max).toLocaleString()} more: narrow the search.</p>` : "");
   }
 
   function select(id, tab) {
     if (!row(id)) return;
     app.sel = id;
-    try { history.replaceState(null, "", "#/t/" + id); } catch (e) { /* file:// in some browsers */ }
+    try { if (location.hash !== "#/t/" + id) history.pushState(null, "", "#/t/" + id); } catch (e) { /* file:// in some browsers */ }
     if (tab) setTab(tab); else render();
   }
   function fromHash() {
@@ -429,7 +439,7 @@
   function recordsBox(r) {
     const st = app.st, id = r.taxonID;
     const tags = st.annFor(id, "distribution");
-    const lit = st.mine("literature", id).filter(l => l.areas || l.islands || l.status || l.first_record_year);
+    const lit = st.mine("literature", id);
     const machineLit = lit.filter(l => l.review === "machine");
     let html = '<section class="sec rbox"><h2>Records and links</h2>';
 
@@ -445,7 +455,7 @@
       html += `<p class="rb-sub">From the literature${machineLit.length ? ` <span class="badge warn">${machineLit.length} machine-read</span> <button type="button" data-act="reviewAllLit">Confirm all ${machineLit.length}</button>` : ""}</p>` +
         '<ul class="plain small">' + lit.map(l => {
           const machine = l.review === "machine";
-          return `<li><b>${esc((l.islands || l.areas || "").replace(/ \| /g, ", ")) || "no island named"}</b> ` +
+          return `<li><b>${esc((l.islands || l.areas || "").replace(/ \| /g, ", ")) || "mentioned, no island"}</b> ` +
             `<span class="muted">${esc(doc(l.doc_id).citation || l.doc_id)}` +
             (l.pages ? ", p. " + esc(l.pages.replace(/ \| /g, ", ")) : "") + (l.kind ? " · " + esc(l.kind) : "") +
             (l.status ? " · " + esc(l.status) + (l.status_area ? " in " + esc(l.status_area) : "") : "") +
@@ -786,7 +796,12 @@
       el.querySelector(".g-body").addEventListener("click", e => {
         const c = e.target.closest(".c");
         if (c && c.dataset.col === "taxonID") select(c.parentNode.dataset.id, "taxon");
-        else if (c) { app.sel = c.parentNode.dataset.id; renderList(); paintRows(); }
+        else if (c) {      // no repaint: replacing the cell would swallow the second click of a double-click
+          app.sel = c.parentNode.dataset.id;
+          el.querySelectorAll(".g-body .r.sel").forEach(x => x.classList.remove("sel"));
+          c.parentNode.classList.add("sel");
+          renderList();
+        }
       });
     }
     $("#preset").value = app.preset;
@@ -1144,7 +1159,7 @@
     const d = $("#ch-download"); if (d) d.addEventListener("click", () => IO.download(M.files(app.st)));
     const x = $("#ch-discard"); if (x) x.addEventListener("click", () => openForm({
       title: "Discard every change?", intro: "This cannot be undone.", submit: "Discard", danger: true,
-      onSubmit: () => { app.ops = []; recompute(); } }));
+      onSubmit: () => { app.ops = []; app.pending = null; recompute(); } }));
   }
 
   // ---- commit
@@ -1212,7 +1227,7 @@
       const texts = Object.assign({}, app.base.texts, M.files(app.st));
       app.base = M.makeBase(texts, Object.assign({}, app.base.source, { sha: res.sha, label: `${repo}@${branch} ${res.sha.slice(0, 7)}` }));
       app.loaded = { texts, source: app.base.source };
-      app.ops = [];
+      app.ops = []; app.pending = null;
       recompute();
       afterCommit(res.sha, "", repo, token);
     } catch (e) {
@@ -1467,6 +1482,9 @@
       clearTimeout(t);
       t = setTimeout(() => { app.q = e.target.value; renderList(); if (app.tab === "table") renderTable(); }, 120);
     });
+    $("#list").addEventListener("click", e => {
+      if (e.target.id === "clear-q") { e.preventDefault(); $("#q").value = ""; app.q = ""; renderList(); if (app.tab === "table") renderTable(); }
+    });
     $("#list").addEventListener("change", e => {
       if (e.target.id === "unconf") { app.unconf = e.target.checked; renderList(); }
     });
@@ -1495,6 +1513,8 @@
     $("#src").addEventListener("click", chooseSource);
     window.addEventListener("hashchange", () => { fromHash(); render(); });
     document.addEventListener("keydown", e => {
+      if ((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.toLowerCase() === "z" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) &&
+          !$("#dlg").open && app.ops.length) { e.preventDefault(); const o = app.ops[app.ops.length - 1]; undo(app.ops.length - 1); toast("Undone: " + M.describe(o, app.st)); return; }
       if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && !$("#dlg").open) { e.preventDefault(); $("#q").focus(); }
     });
     window.addEventListener("beforeunload", e => { if (app.ops.length) { e.preventDefault(); e.returnValue = ""; } });

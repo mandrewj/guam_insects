@@ -42,7 +42,7 @@
   var wikis = new Map();        // chunk number -> {id: html}
   var chunkWait = new Map(), wikiWait = new Map();   // "n" -> {promise, resolve}
   var KEEP_CHUNKS = 6;
-  var currentId = null;
+  var currentId = null, currentRec = null, lastRegions = [];
 
   function touch(map, n) { var v = map.get(n); map.delete(n); map.set(n, v); return v; }
   function trim(map, keepN) {
@@ -153,7 +153,7 @@
     return isNaN(d) ? esc(iso) : d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
   }
   var INVARIANT = { species: 1 };
-  function plural(n, word) { return n + " " + word + (n === 1 || INVARIANT[word] ? "" : "s"); }
+  function plural(n, word) { return Number(n).toLocaleString("en-US") + " " + word + (n === 1 || INVARIANT[word] ? "" : "s"); }
   function stripDot(s) { return String(s).replace(/\.\s*$/, ""); }
   function ext(url, label) {
     if (!/^https?:\/\//i.test(String(url))) return label;      // only web links, never javascript: or data:
@@ -235,7 +235,15 @@
     identifyBtn.addEventListener("click", function () {
       var id = currentId || meta.root;
       if (!id) return;
-      location.hash = (identifyBtn.classList.contains("on") ? "#/t/" : "#/id/") + extOf(id);
+      if (identifyBtn.classList.contains("on")) { location.hash = "#/t/" + extOf(id); return; }
+      // Identify compares what is below a taxon: from a species (nothing below) it compares the
+      // siblings, from the top it starts at the largest class; Guam unless the reader chose otherwise.
+      var rec = currentRec && currentRec.id === id ? currentRec : null, kids = rec ? (rec.children || []).filter(function (c) { return !c.hidden && c.status !== "synonym"; }) : [];
+      if (rec && !kids.length && rec.lineage && rec.lineage.length) id = rec.lineage[rec.lineage.length - 1].id;
+      else if (rec && id === meta.root && kids.length)
+        id = kids.slice().sort(function (a, b) { return (b.species_count || 0) - (a.species_count || 0); })[0].id;
+      var keys = lastRegions.length ? lastRegions : ((meta.regions || []).some(function (x) { return x.key === "gu"; }) ? ["gu"] : []);
+      location.hash = "#/id/" + extOf(id) + (keys.length ? "?r=" + keys.join(",") : "");
     });
   }
 
@@ -265,7 +273,9 @@
 
   function renderMissing(id) {
     setIdentify(false);
-    app.innerHTML = '<div class="notice">Taxon ' + esc(id) + " isn't in this build. It may have " +
+    var typed = (location.hash.match(/^#\/(?:t|id)\/([^/?]+)/) || [])[1];
+    document.title = "Not found · " + SITE;
+    app.innerHTML = '<div class="notice">Taxon ' + esc(decodeURIComponent(typed || id)) + " isn't in this build. It may have " +
       "been merged or removed; try searching for its name.</div>";
   }
 
@@ -289,7 +299,7 @@
 
 
   function renderTaxon(r, isHome) {
-    currentId = r.id;
+    currentId = r.id; currentRec = r;
     setIdentify(false);
     document.title = (isHome ? "" : r.name + (r.common ? " – " + r.common : "") + " · ") + SITE;
     // The home page lists the orders straight away: Hexapoda's own children are four
@@ -413,7 +423,7 @@
 
 
   function renderIdentify(r, keys) {
-    currentId = r.id;
+    currentId = r.id; currentRec = r; lastRegions = keys;
     document.title = "Identify: " + r.name + " · " + SITE;
     var kids = r.children.filter(function (c) { return !c.hidden && c.status !== "synonym"; });
     var counts = { hit: 0, unknown: 0, out: 0 };
@@ -839,7 +849,7 @@
       return list.map(function (c) { return childCard(c, any); }).join("");
     };
     var out = '<section class="browse" id="s-children"><h2>' +
-      (r.id === meta.root ? "Orders" : "Included taxa") + "</h2>";
+      (r.id === meta.root ? "Classes" : "Included taxa") + "</h2>";
     if (shown.length) out += '<ul class="cards">' + tiles(shown) + "</ul>";
     if (hidden.length) {
       out += '<details class="hidden-pages"><summary>Hidden pages and synonyms (' + hidden.length +
@@ -1178,7 +1188,7 @@
     if (c.id) {
       rows.push("<li><strong>Name and classification</strong>: " +
         ext("https://www.catalogueoflife.org/data/taxon/" + c.id, "Catalogue of Life") + " (eXtended Release, " +
-        "through GBIF), taxon " + esc(c.id) + ", retrieved " + fmtDate(c.fetched_at) + edits + ".</li>");
+        "through GBIF), taxon " + esc(c.id) + (c.fetched_at ? ", retrieved " + fmtDate(c.fetched_at) : "") + edits + ".</li>");
     } else if (r.origin !== "curated") {
       rows.push("<li><strong>Name</strong>: not in the Catalogue of Life; " + esc(r.match_note || "") +
         (g && g.key ? " The name is from the " + ext("https://www.gbif.org/species/" + g.key, "GBIF Backbone Taxonomy") +
@@ -1190,7 +1200,7 @@
     }
     if ((r.presence || []).some(function (p) { return p.gbif; })) {
       rows.push("<li><strong>Record counts</strong>: Occurrence data: " + ext("https://www.gbif.org/", "GBIF.org") +
-        ", accessed " + fmtDate(g && g.presence_fetched_at) + ", from published datasets including the " +
+        (g && g.presence_fetched_at ? ", accessed " + fmtDate(g.presence_fetched_at) : "") + ", from published datasets including the " +
         ext("https://doi.org/10.15468/8z7axw", "University of Guam Insect Collection") +
         "; fossils, captive collections and records with location problems left out.</li>");
     }
@@ -1219,7 +1229,7 @@
       rows.push("<li><strong>Cross-links</strong>: Wikidata (CC0) matched by GBIF key, with the name checked; " +
         "BugGuide pages via the author's entobase index of BugGuide. Links below high confidence are labeled.</li>");
     }
-    rows.push("<li><strong>This page</strong>: data built " + fmtDate(r.built_at) + ".</li>");
+    rows.push("<li><strong>This page</strong>: data built " + fmtDate(r.built_at || meta.built_at) + ".</li>");
     return '<section class="attribution" id="s-sources"><h2>Sources &amp; attribution</h2><ul>' + rows.join("") +
       "</ul></section>";
   }

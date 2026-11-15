@@ -86,6 +86,7 @@ def documents(conn, records: dict[int, dict]) -> dict[int, Counter]:
         text = [r.get("note") or ""]
         text += [TAG_RE.sub(" ", s["html"]) for s in r.get("sections", [])]
         text += [w["title"] for w in r.get("literature", [])]
+        text += [h for h in r.get("hosts", []) if isinstance(h, str)]      # "taro" finds its pests
         if r.get("wikipedia"):
             text.append(TAG_RE.sub(" ", r["wikipedia"].get("html") or ""))
         for t in tokens(" ".join(text)):

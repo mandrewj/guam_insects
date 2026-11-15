@@ -84,12 +84,15 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
 
     # --- presence: what each source says per area ---------------------------------------------
     own: dict[int, dict[str, dict[str, int]]] = defaultdict(lambda: defaultdict(dict))
+    gbif_date: dict[int, str] = {}
     for r in ds["records"]:
         tid = at(r["taxon_id"])
         if tid is None or r["source"] not in ("gbif", "inat"):
             continue
         cell = own[tid][r["area"]]
         cell[r["source"]] = cell.get(r["source"], 0) + int(r["records"] or 0)
+        if r["source"] == "gbif" and r["refreshed"]:
+            gbif_date[tid] = max(gbif_date.get(tid, ""), r["refreshed"])
     docs = {d["doc_id"]: d for d in ds["documents"]}
     lit_docs: dict[tuple[int, str], set[str]] = defaultdict(set)
     machine_lit: dict[int, set[str]] = defaultdict(set)
@@ -206,7 +209,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
         if tid is not None:
             wiki[tid] = {"title": w["title"], "url": w["url"], "revid": w["revid"],
                          "rev_timestamp": w["rev_timestamp"], "retrieved": w["retrieved"],
-                         "preview": preview(htmllib.unescape(TAG.sub(" ", w["html"] or ""))),
+                         "preview": preview(re.sub(r"\s+([,.;:)])", r"\1", htmllib.unescape(TAG.sub(" ", w["html"] or "")))),
                          "lead_only": bool(w["lead_only"]), "html": w["html"]}
 
     # --- literature -----------------------------------------------------------------------------
@@ -433,6 +436,6 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
                      "observations": inat_obs} if by_name else None,
             "sources": {"col": {"id": col_id if in_col else None, "fetched_at": None},
                         "gbif": {"key": _int(t["gbif_key"]), "fetched_at": None,
-                                 "presence_fetched_at": None}},
+                                 "presence_fetched_at": gbif_date.get(tid) or None}},
         }
     return records
