@@ -3921,7 +3921,7 @@ name-639,,FVH5,Species,Aposthonia oceanica,,synonym,,,,,,,,,,no,,spelling varian
 6ZG,372,,Family,Baetidae,"Leach, 1815",accepted,Small Mayflies,Olives (Baetidae) | Small Minnow Mayflies,unknown,,,,Baetoidea,,,yes,7865,Catalogue of Life,,,,,,,,,,,,,,
 3R5Y,6ZG,,Genus,Cloeon,"Leach, 1815",accepted,Double-gilled Pond Creepers,,unknown,,,,Baetoidea,,,yes,1407878,Catalogue of Life,,,,,,,,,,,,,,
 6ZNG,6ZG,,Genus,Pseudocloeon,"Klapalek, 1905",accepted,,,unknown,,,,Baetoidea,,,yes,4683392,Catalogue of Life,,,,,,,,,,,,,,
-BXVWV,H6,,Order,Hemiptera,"Linnaeus, 1758",accepted,hemipteran,true bug,unknown,,,,,,,yes,809,Catalogue of Life,,,,,,,,,,,,,,
+BXVWV,H6,,Order,Hemiptera,"Linnaeus, 1758",accepted,True Bugs,true bug,unknown,,,,,,,yes,809,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
 M246F,BXVWV,,Family,Achilidae,"Stål, 1866",accepted,Achilid Planthoppers,,unknown,,,,Fulgoroidea,,,yes,3312,Catalogue of Life,,,,,,,,,,,,,,
 LV7Z4,M246F,,Genus,Argeleusa,"Kirkaldy, 1906",accepted,,,unknown,,,,Fulgoroidea,Myconinae,Plectoderini,yes,2064519,Catalogue of Life,,,,,,,,,,,,,,
 5W2T5,LV7Z4,,Species,Argeleusa rhanis,"Fennah, 1956",accepted,,,unknown,,,,Fulgoroidea,Myconinae,Plectoderini,yes,2064521,Catalogue of Life,,,,,,,,,,,,,,
@@ -5833,7 +5833,7 @@ gbif:9349109,,7VVJX,Species,Microvelia samoana,"Esaki, 1928",synonym,,,,,,,,,,ye
 gbif:6130047,,439QK,Species,Microvelia diluta,"Distant, 1906",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Microvelia leveillei,Plazi,,,,,,,,,,,,
 8669,HSH,,Genus,Velia,"Latreille, 1804",accepted,Water Crickets,,unknown,,,,Gerroidea,Veliinae,,yes,2020395,Catalogue of Life,,,,,,,,,,,,,,
 7FL4W,8669,,Species,Velia hoberlandti,"Tamanini, 1951",accepted,,,unknown,,,,Gerroidea,Veliinae,,yes,4485336,Catalogue of Life,,,,,,,,,,,,,,
-HYM,H6,,Order,Hymenoptera,,accepted,Hymenopterans,"Ants | Ants, Bees, Wasps and Sawflies | ants | bees | hymenopterans | wasps",unknown,,,,,,,yes,1457,Catalogue of Life,,,,,,,,,,,,,,
+HYM,H6,,Order,Hymenoptera,,accepted,"Ants, Bees, and Wasps","Ants | Ants, Bees, Wasps and Sawflies | ants | bees | hymenopterans | wasps",unknown,,,,,,,yes,1457,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
 C8SMC,HYM,,Family,Agaonidae,"Walker, 1846",accepted,Fig wasps,fig wasps | pollinating fig wasps,unknown,,,,Chalcidoidea,,,yes,9438,Catalogue of Life,,,,,,,,,,,,,,
 C9436,C8SMC,,Genus,Blastophaga,"Gravenhorst, 1829",accepted,,,unknown,,,,Chalcidoidea,Blastophaginae,,yes,1359532,Catalogue of Life,,,,,,,,,,,,,,
 CBTD6,C8SMC,,Genus,Platyscapa,"Motschulsky, 1863",accepted,,,unknown,,,,Chalcidoidea,Agaoninae,,yes,1359477,Catalogue of Life,,,,,,,,,,,,,,

@@ -548,10 +548,7 @@
     h.push('<h1 class="land-title">' + esc(meta.title) + ' <span class="hero-sub">' + esc(meta.subtitle) + "</span></h1>" +
       '<p class="land-lede">A free reference to the insects and other hexapods of Guam and the rest of Micronesia. ' +
       "Records, literature and photographs are pooled onto one checklist. " +
-      "Browse the checklist on the website or download the names as a spreadsheet.</p>" +
-      '<ul class="stats land-stats">' + stats.filter(function (x) { return x[0] != null; }).map(function (x) {
-        return "<li><strong>" + Number(x[0]).toLocaleString() + "</strong> " + esc(x[1]) + "</li>";
-      }).join("") + "</ul>");
+      "Browse the checklist on the website or download the names as a spreadsheet.</p>");
     // quick links into the checklist: photo tiles (the order's own card photo), the whole of
     // Hexapoda first as a wide tile over a strip of four of them
     var tiles = (orders.rest || []).filter(function (o) { return o.thumb; });
@@ -573,6 +570,9 @@
       '<span class="dl-box dl-inline"><button type="button" class="dl-link" data-dl="all">Download the checklist (spreadsheet)</button> <span class="dl-status" role="status"></span></span></p></section>');
     h.push('</div><div class="land-right"><section class="land-map">' +
       '<figure class="land-figure">' + islandMap(regions.map(function (x) { return x.key; }), allIsles, false, true) + "</figure>" +
+      '<ul class="stats land-stats">' + stats.filter(function (x) { return x[0] != null; }).map(function (x) {
+        return "<li><strong>" + Number(x[0]).toLocaleString() + "</strong> " + esc(x[1]) + "</li>";
+      }).join("") + "</ul>" +
       '<ul class="land-regions compact">' + regions.map(function (x) {
         return '<li class="r-' + esc(x.key) + '"><div><strong><span class="swatch r-' + esc(x.key) + '"></span>' + esc(x.label) + "</strong>" +
           (x.name !== x.label ? '<span class="rname">' + esc(x.name) + "</span>" : "") + "<p>" + esc(REGION_BLURB[x.key] || "") + "</p>" +
