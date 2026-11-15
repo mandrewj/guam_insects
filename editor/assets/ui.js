@@ -148,13 +148,16 @@
   async function load(loader, keepOps) {
     $("#src").textContent = "loading…";
     let res;
+    IO.state.staleToken = false;
     try { res = await loader(); }
     catch (e) {
+      noticeStaleToken();
       $("#src").textContent = app.base ? app.base.source.label : "nothing loaded";
       toast(e.message, "error");
       if (!app.base) renderStart(e.message);
       return false;
     }
+    noticeStaleToken();
     app.loaded = res;
     app.base = M.makeBase(res.texts, res.source);
     if (!keepOps) app.ops = [];
@@ -171,6 +174,43 @@
       toast("Uncommitted changes in " + res.info.dirty.join(", ") + ": commit or discard them with git before committing here.", "error");
     }
     return true;
+  }
+  // GitHub answered "bad credentials" to a saved token (it was reset, expired or revoked):
+  // forget it so it stops being sent, and say how to enter a new one.
+  function forgetToken() { app.token = ""; store.del("iog-editor-token"); }
+  function noticeStaleToken() {
+    if (!IO.state.staleToken) return;
+    IO.state.staleToken = false;
+    forgetToken();
+    toast("GitHub rejected your saved token (it was reset or has expired), so it was forgotten. Reading still works; use “GitHub…” in the header to enter a new one before you commit.", "error");
+  }
+  function githubDialog() {
+    const saved = !!app.token;
+    openForm({
+      title: "GitHub sign-in",
+      intro: "<p>Reading the taxonomy needs no sign-in. Committing does: paste a fine-grained token for this repository (Contents: read and write). " +
+        'It stays in this browser. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create a token ↗</a></p>' +
+        `<p><b>${saved ? "A token is saved in this browser." : "No token is saved."}</b></p>`,
+      fields: [
+        { key: "action", label: "What to do", type: "radio", value: "set",
+          options: [["set", "Use this token"]].concat(saved ? [["forget", "Forget the saved token (sign out)"]] : []) },
+        { key: "token", label: "New GitHub token", type: "password", value: "", show: v => v.action === "set" },
+        { key: "remember", label: "Remember the token on this device", type: "checkbox", value: true, show: v => v.action === "set" },
+      ],
+      submit: "Save",
+      submitLabel: v => v.action === "forget" ? "Forget token" : "Check and save",
+      onSubmit: async v => {
+        if (v.action === "forget") { forgetToken(); store.del("iog-editor-token"); toast("Token forgotten"); return; }
+        const token = (v.token || "").trim();
+        if (!token) throw new Error("paste a token first");
+        let login;
+        try { login = await IO.tokenUser(token); }
+        catch (e) { throw new Error(e.status === 401 ? "GitHub rejected that token (bad credentials); check that you copied all of it" : e.message); }
+        app.token = token;
+        if (v.remember) store.set("iog-editor-token", token); else { store.del("iog-editor-token"); store.set("iog-editor-token", token, true); }
+        toast("Signed in to GitHub as " + login);
+      },
+    });
   }
   async function start() {
     renderStart();
@@ -1409,6 +1449,10 @@
       recompute();
       afterCommit(res.sha, "", repo, token);
     } catch (e) {
+      if (e.status === 401) {
+        forgetToken();
+        throw new Error("GitHub rejected the token (bad credentials: it was reset or has expired). It was forgotten; use “GitHub…” in the header to enter a new one, then commit again.");
+      }
       if (e.moved && tries < 2) {
         toast("Someone committed meanwhile: replaying your changes onto theirs…");
         await rebase(() => IO.loadGitHub({ repo, branch, token }));
@@ -1687,6 +1731,7 @@
     });
     for (const b of document.querySelectorAll(".tabs button")) b.addEventListener("click", () => setTab(b.dataset.tab));
     $("#me-btn").addEventListener("click", () => askName());
+    $("#gh-btn").addEventListener("click", githubDialog);
     $("#changes-btn").addEventListener("click", () => setTab("changes"));
     $("#commit-btn").addEventListener("click", commitDialog);
     $("#src").addEventListener("click", chooseSource);

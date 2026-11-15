@@ -11,6 +11,7 @@
   // and then every file would look changed.
   const decode = buf => new TextDecoder("utf-8", { ignoreBOM: true }).decode(buf);
 
+  const state = { staleToken: false };
   function headers(token, accept) {
     const h = { Accept: accept || "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
     if (token) h.Authorization = "Bearer " + token;
@@ -18,10 +19,17 @@
   }
   async function gh(path, opts) {
     opts = opts || {};
-    const res = await fetch(API + path, {
-      method: opts.method || "GET", headers: Object.assign(headers(opts.token, opts.accept),
+    const send = token => fetch(API + path, {
+      method: opts.method || "GET", headers: Object.assign(headers(token, opts.accept),
         opts.body ? { "Content-Type": "application/json" } : {}),
       body: opts.body ? JSON.stringify(opts.body) : undefined, cache: "no-store" });
+    let res = await send(opts.token);
+    // The repository is public: a read must not fail because a saved token was reset or has
+    // expired. Retry without it, and tell the page the token is dead so it can forget it.
+    if (res.status === 401 && opts.token && (opts.method || "GET") === "GET" && path !== "/user") {
+      state.staleToken = true;
+      res = await send(undefined);
+    }
     if (opts.allow404 && res.status === 404) return null;
     if (!res.ok) {
       let msg = res.status + " " + res.statusText;
@@ -176,6 +184,6 @@
     }
   }
 
-  window.IOGIO = { loadGitHub, commitGitHub, tokenUser, rebuildStatus, localInfo, loadLocal,
+  window.IOGIO = { state, loadGitHub, commitGitHub, tokenUser, rebuildStatus, localInfo, loadLocal,
                    commitLocal, canFolder, pickFolder, loadFolder, saveFolder, loadFiles, download };
 })();
