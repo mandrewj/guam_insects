@@ -499,6 +499,38 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 .ip-flag { display: inline-block; font-size: 0.7rem; padding: 0 6px; border-radius: 999px;
   background: var(--line); color: var(--muted); }
 
+/* ---------------------------------------------------------------- polish (2026-11-15)
+   softer cards, island-colour stripes, photos that fade in, group photo strips, a sticky
+   "On this page" bar. Pure CSS apart from the .ld class set when an image has loaded. */
+:root { --radius: 14px; --shadow: 0 1px 2px rgba(20, 36, 52, .04); }
+.card, .box, .land-regions li { border-color: color-mix(in srgb, var(--line) 70%, transparent); }
+.card { position: relative; overflow: hidden; }
+.card:hover { box-shadow: 0 8px 20px rgba(20, 36, 52, .09); transform: translateY(-1px); }
+.card.has-isles::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--stripe); opacity: .85; }
+.card.has-isles { padding-bottom: 13px; }
+img.card-thumb, .quick img, .g-strip img, .ip-photo {
+  background: linear-gradient(110deg, var(--line) 30%, color-mix(in srgb, var(--line) 55%, var(--surface)) 50%, var(--line) 70%) 0 0 / 200% 100%;
+  opacity: 0; transition: opacity .35s ease, transform .35s; animation: shimmer 1.4s linear infinite; }
+img.ld { opacity: 1; animation: none; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+.g-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 0 0 16px; }
+.g-strip a { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); color: #fff; text-decoration: none; border: 1px solid var(--line); }
+.g-strip img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.g-strip a:hover img { transform: scale(1.05); }
+.g-strip a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,24,38,.9), rgba(8,24,38,.3) 55%, rgba(8,24,38,.04) 80%); }
+.g-strip .q-text { padding: 6px 8px; }
+.g-strip strong { font-size: 0.88rem; overflow-wrap: anywhere; }
+.g-strip .q-text span { font-size: 0.72rem; color: rgba(255,255,255,.9); }
+h2 { margin-top: 34px; }
+.main > :first-child h2, .main > section:first-child h2 { margin-top: 0; }
+@media (min-width: 861px) {
+  .page-nav { position: sticky; top: 56px; z-index: 5; margin: 0 0 14px; padding: 8px 0;
+    background: var(--bg); border-bottom: 1px solid var(--line); }
+  h2 { scroll-margin-top: 120px; }
+}
+@media (max-width: 860px) { .g-strip { grid-template-columns: repeat(2, 1fr); } .g-strip a:nth-child(n+5) { display: none; } }
+@media (prefers-reduced-motion: reduce) { img.card-thumb, .quick img, .g-strip img, .ip-photo { animation: none !important; } }
+
 /* ---------------------------------------------------------------- responsive
    (kept last so these override the base rules above) */
 /* Narrow screens: one column; the side panel's boxes follow the content (breadcrumbs cover
@@ -661,7 +693,7 @@ h1[tabindex="-1"]:focus { outline: none; }
 .dl-link, .checklist button.link { display: inline-flex; align-items: center; min-height: 24px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
-  .card:hover, .ip:hover, .quick:hover, .quick:hover img { transform: none !important; }
+  .card:hover, .ip:hover, .quick:hover, .quick:hover img, .g-strip a:hover img { transform: none !important; }
 }
 @media print {
   :root { --bg: #fff; --surface: #fff; --text: #000; --muted: #444; --line: #ccc; --accent: #1b5e3f; --accent-soft: #fff; }

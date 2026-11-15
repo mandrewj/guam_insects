@@ -343,6 +343,7 @@
     if (!isHome) html.push(pageNav(r));
     html.push(worldBox(r, false));
     if (!isHome) html.push(curatedNote(r));
+    if (!isHome) html.push(groupStrip(r));
     html.push(children(shown));
     html.push(checklist(r));
     html.push(sections(r));
@@ -691,6 +692,20 @@
       '<span class="cap-flag">Source</span> ' + ext(ph.page, esc(ph.source) + " ↗");
   }
 
+  // Groups with many members open with a strip of the biggest ones that have a photo, each
+  // linking to its page (the photos are the cards' own, already cached).
+  function groupStrip(r) {
+    if (r.rank === "Species" || r.rank === "Subspecies" || !r.children || r.children.length < 8) return "";
+    var top = r.children.filter(function (c) { return c.thumb && c.status !== "synonym" && !c.hidden; })
+      .sort(function (a, b) { return (b.species_count || 0) - (a.species_count || 0); }).slice(0, 5);
+    if (top.length < 4) return "";
+    return '<nav class="g-strip" aria-label="Largest groups in ' + esc(r.name) + '">' + top.map(function (c) {
+      return '<a href="' + href(c.id) + '"><img src="' + esc(c.thumb) + '" alt="" decoding="async" loading="lazy">' +
+        '<span class="q-text"><strong>' + sciName(c.rank, c.name) + "</strong><span>" +
+        (c.species_count ? plural(c.species_count, "species") : esc(c.common || "")) + "</span></span></a>";
+    }).join("") + "</nav>";
+  }
+
   function gallery(r) {
     if (!r.photos.length) return "";
     captionGroup = r.rank !== "Species" && r.rank !== "Subspecies";
@@ -816,11 +831,30 @@
     fig.querySelectorAll(".g-thumb").forEach(function (t) { t.classList.toggle("active", t === b); });
   });
 
+  // Card photos fade in over their tinted placeholder as they arrive, so a grid fills in
+  // calmly instead of popping; the class is set by the image's own load event (which does not
+  // bubble, hence the capture listener).
+  document.addEventListener("load", function (e) {
+    var t = e.target;
+    if (t && t.tagName === "IMG") t.classList.add("ld");
+  }, true);
+
   function initials(name) {
     var w = String(name).replace(/[^A-Za-z ]/g, "").split(" ").filter(Boolean);
     return (w.length > 1 && /^[A-Z]/.test(w[1]) ? w[0][0] + w[1][0] : (w[0] || "?").slice(0, 2)).toUpperCase();
   }
 
+
+  // A thin bar along the card's foot, one segment per island group the taxon is recorded from
+  // (the same colours as the island chips), so geography reads before the text does.
+  function regionStripe(regions) {
+    if (!regions || !regions.length) return "";
+    var n = regions.length, stops = regions.map(function (k, i) {
+      var col = "var(--" + String(k).replace(/[^a-z]/g, "") + ")";
+      return col + " " + (i * 100 / n) + "% " + ((i + 1) * 100 / n) + "%";
+    });
+    return ' style="--stripe:linear-gradient(90deg,' + stops.join(",") + ')"';
+  }
 
   function childCard(c, withTile) {
     var sub = [];
@@ -829,7 +863,8 @@
     if (c.status === "morphospecies") sub.push("morphospecies");
     if (c.status === "synonym") sub.push("synonym");
     if (c.est && STATUS[c.est]) sub.push('<span class="est-tag est-' + STATUS[c.est][1] + '">' + esc(STATUS[c.est][0].toLowerCase()) + "</span>");
-    return '<li><a class="card' + (c.thumb || withTile ? " has-thumb" : "") + '" href="' + href(c.id) + '">' +
+    return '<li><a class="card' + (c.thumb || withTile ? " has-thumb" : "") + (c.regions && c.regions.length ? " has-isles" : "") +
+      '" href="' + href(c.id) + '"' + regionStripe(c.regions) + ">" +
       (c.thumb ? '<img class="card-thumb" src="' + esc(c.thumb) + '" alt="" decoding="async" loading="lazy">'
                : withTile ? '<span class="card-thumb tile" aria-hidden="true">' + esc(initials(c.name)) + "</span>" : "") +
       '<span class="card-rank">' + esc(displayRank(c.rank, c.name)) +
