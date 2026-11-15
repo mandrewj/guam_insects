@@ -215,7 +215,6 @@ B65V,QXR,,Species,Agrilus occipitalis,"(Eschscholtz, 1822)",accepted,,,unknown,,
 62LMF,622HZ,,Genus,Chrysodema,"Laporte & Gory, 1837",accepted,,,unknown,,,,Buprestoidea,,,yes,4726895,Catalogue of Life,,,,,,,,,,,,,,
 gbif:4726895,,62LMF,Genus,Chrysodema,"Laporte & Gory, 1835",synonym,,,,,,,,,,no,,"same name, other author",,"GBIF Backbone, Plazi",,,,,,,,,,,,
 5YPFC,62LMF,,Species,Chrysodema ventralis,"Waterhouse, 1885",accepted,,,unknown,,,,Buprestoidea,,,yes,9249685,Catalogue of Life,,,,,,,,,,,,,,
-62P4G,622HZ,,Genus,Cryptamorpha,"Wollaston, 1854",accepted,,,unknown,,,,Buprestoidea,,,yes,1043886,Catalogue of Life,,,,,,,,,,,,,,
 3YPN,622HZ,,Genus,Cyphogastra,"Deyrolle, 1864",accepted,,,unknown,,,,Buprestoidea,,,yes,4728673,Catalogue of Life,,,,,,,,,,,,,,
 33F3T,3YPN,,Species,Cyphogastra auripennis,"Saunders, 1867",accepted,,,unknown,,,,Buprestoidea,,,yes,9416422,Catalogue of Life,,,,,,,,,,,,,,
 7LKD,622HZ,,Genus,Sponsor,"Laporte & Gory, 1839",accepted,,,unknown,,,,Buprestoidea,,,yes,4729453,Catalogue of Life,,,,,,,,,,,,,,
@@ -868,12 +867,7 @@ name-3119,L2RCN,,Species,Telsimia ephippiger,,accepted,,,unknown,,,,Coccinelloid
 TGRFS,L2RCN,,Species,Telsimia nitida,"Chapin, 1926",accepted,Lady beetle,,unknown,,,,Coccinelloidea,Coccinellinae,Telsimiini,yes,1043198,Catalogue of Life,,,,,,,,,,,,,,
 KV59R,C2L,,Family,Corylophidae,"J.L. LeConte, 1852",accepted,Minute Hooded Beetles,hooded beetles | minute fungus beetles,unknown,,,,Coccinelloidea,,,yes,3796,Catalogue of Life,,,,,,,,,,,,,,
 KTYF7,KV59R,,Genus,Arthrolips,"Wollaston, 1854",accepted,,,unknown,,,,Coccinelloidea,Corylophinae,Parmulini,yes,1044189,Catalogue of Life,,,,,,,,,,,,,,
-KV2GF,C2L,,Family,Cucujidae,"Latreille, 1802",accepted,Flat bark beetles,Flat bark beetle,unknown,,,,Cucujoidea,,,yes,7820,Catalogue of Life,,,,,,,,,,,,,,
-N273D,KV2GF,,Genus,Cryptolestes,"Ganglbauer, 1899",accepted,Animal,,unknown,,,,Cucujoidea,,,yes,1042943,Catalogue of Life,,,,,,,,,,,,,,
-N27CF,N273D,,Species,Cryptolestes ferrugineus,"(Stephens, 1831)",accepted,Rusty Grain Beetle,flat grain beetle | rust-red grain beetle,unknown,,,,Cucujoidea,,,yes,4989835,Catalogue of Life,,,,,,,,,,,,,,
-QYH6T,KV2GF,,Genus,Oryzaephilus,"Ganglbauer, 1899",accepted,,,unknown,,,,Cucujoidea,,,yes,1043869,Catalogue of Life,,,,,,,,,,,,,,
-QYHC7,QYH6T,,Species,Oryzaephilus surinamensis,"(Linnaeus, 1758)",accepted,Sawtoothed Grain Beetle,Saw-toothed Grain Beetle | saw-toothed grain beetle | sawtoothed grain beetle,unknown,,,,Cucujoidea,,,yes,1043875,Catalogue of Life,,,,,,,,,,,,,,
-gbif:7417421,,QYHC7,Species,Silvanus surinamensis,(Linnaeus),synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Oryzaephilus surinamensis,Plazi,,,,,,,,,,,,
+KV2GF,C2L,,Family,Cucujidae,"Latreille, 1802",accepted,Flat bark beetles,Flat bark beetle,unknown,,,,Cucujoidea,,,yes,7820,Catalogue of Life,,,yes,Brought in from old broad family concept - no confirmed species in Micronesia,,,,,,,,,M. Andrew Johnston,2026-11-15
 8HBQ5,C2L,,Family,Curculionidae,"Latreille, P.A., 1802",accepted,curculionids,True Weevil | True Weevils | snout beetles | true weevils | weevils,unknown,,,,Curculionoidea,,,yes,4239,Catalogue of Life,,,,,,,,,,,,,,
 8HBY9,8HBQ5,,Genus,Acalles,"Schoenherr, C.J., 1825",accepted,,,unknown,,,,Curculionoidea,,,yes,1211430,Catalogue of Life,,,,,,,,,,,,,,
 gbif:1211430,,8HBY9,Genus,Acalles,"C.J.Schoenherr, 1825",synonym,,,,,,,,,,no,,"same name, other author",,"GBIF Backbone, Plazi",,,,,,,,,,,,
@@ -1406,6 +1400,8 @@ NDM47,8VRNH,,Species,Enochrus rubrocinctus,"(Régimbart, 1903)",accepted,,,unkno
 6SB79,8VZRW,,Species,Noteropagus obscurus,"Orchymont, 1919",accepted,,,unknown,,,,Hydrophiloidea,Sphaeridiinae,Omicrini,yes,9479063,Catalogue of Life,,,,,,,,,,,,,,
 KVFTG,C2L,,Family,Laemophloeidae,"Ganglbauer, 1899",accepted,Lined Flat Bark Beetles,laemophloeid,unknown,,,,Cucujoidea,,,yes,7832,Catalogue of Life,,,,,,,,,,,,,,
 gbif:4753,,KVFTG,Family,Propalticidae,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Laemophloeidae,GBIF Backbone,,,,,,,,,,,,
+N273D,KVFTG,,Genus,Cryptolestes,"Ganglbauer, 1899",accepted,Animal,,unknown,,,,Cucujoidea,,,yes,1042943,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
+N27CF,N273D,,Species,Cryptolestes ferrugineus,"(Stephens, 1831)",accepted,Rusty Grain Beetle,flat grain beetle | rust-red grain beetle,unknown,,,,Cucujoidea,,,yes,4989835,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 KVGMX,KVFTG,,Genus,Laemophloeus,"Dejean, 1835",accepted,,,unknown,,,,Cucujoidea,,,yes,1042887,Catalogue of Life,,,,,,,,,,,,,,
 QFHRH,KVFTG,,Genus,Leptophloeus,"Casey, 1916",accepted,,,unknown,,,,Cucujoidea,,,yes,1042823,Catalogue of Life,,,,,,,,,,,,,,
 BRN,C2L,,Family,Lampyridae,"Rafinesque, 1815",accepted,Fireflies,Fireflies & Glowworms | Firefly Beetles | Lightning Beetles | Peenie Wallies | firefly | glow worms | glow-worms | lightning bugs | lightningbugs,unknown,,,,Elateroidea,,,yes,4737,Catalogue of Life,,,,,,,,,,,,,,
@@ -1429,12 +1425,12 @@ PL3,C8B,,Genus,Aegus,"Macleay, 1819",accepted,,,unknown,,,,Scarabaeoidea,Lucanin
 63387,C8B,,Genus,Dorcus,"Macleay, 1819",accepted,Stag Beetles,,unknown,,,,Scarabaeoidea,Lucaninae,Dorcini,yes,3263253,Catalogue of Life,,,,,,,,,,,,,,
 name-146,63387,,Species,Dorcus benningseni,,accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Dorcini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 62SNY,C8B,,Genus,Figulus,"Macleay, 1819",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,3263265,Catalogue of Life,,,,,,,,,,,,,,
-6HZZV,62SNY,,Species,Figulus integricollis,"Thomson, 1862",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,7971962,Catalogue of Life,,,,,,,,,,,,,,
-6HZRS,62SNY,,Species,Figulus lilliputanus,"Westwood, 1855",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,5809316,Catalogue of Life,,,,,,,,,,,,,,
-6HZS3,62SNY,,Species,Figulus luminosus,"Bomans, 2010",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,8237022,Catalogue of Life,,,,,,,,,,,,,,
-6HZRY,62SNY,,Species,Figulus lupinus,"Kriesche, 1922",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,8312784,Catalogue of Life,,,,,,,,,,,,,,
-6HZRW,62SNY,,Species,Figulus manillarum,"Hope, 1845",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,7485412,Catalogue of Life,,,,,,,,,,,,,,
-6HZVJ,62SNY,,Species,Figulus sulcicollis,"Hope, 1845",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,5809319,Catalogue of Life,,,,,,,,,,,,,,
+6HZZV,62SNY,,Species,Figulus integricollis,"Thomson, 1862",accepted,,,native,editor,editor,,Scarabaeoidea,Lucaninae,Figulini,yes,7971962,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+6HZRS,62SNY,,Species,Figulus lilliputanus,"Westwood, 1855",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,5809316,Catalogue of Life,,,,,,,,,,Revized for Australia - may not be present in Marianas Islands. Historical recordsl ikely refer to F. manillarum or another conflated name.,,,M. Andrew Johnston,2026-11-15
+6HZS3,62SNY,,Species,Figulus luminosus,"Bomans, 2010",accepted,,,native,editor,editor,,Scarabaeoidea,Lucaninae,Figulini,yes,8237022,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+6HZRY,62SNY,,Species,Figulus lupinus,"Kriesche, 1922",accepted,,,native,editor,editor,,Scarabaeoidea,Lucaninae,Figulini,yes,8312784,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,Old records of F. fissicollis were likely misidentifications of this species. See http://www.bio-nica.info/lucanidae/FIGULUS.htm,,,M. Andrew Johnston,2026-11-15
+6HZRW,62SNY,,Species,Figulus manillarum,"Hope, 1845",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,7485412,Catalogue of Life,,,,,,,,,,Likely the same taxon also recorded as F. lilliputanus.,,,M. Andrew Johnston,2026-11-15
+6HZVJ,62SNY,,Species,Figulus sulcicollis,"Hope, 1845",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Figulini,yes,5809319,Catalogue of Life,,,,,,,,,,Possibly the same taxon otherwise reported as F.  mento subspecies semperi - see http://www.bio-nica.info/lucanidae/FIGULUS.htm,,,M. Andrew Johnston,2026-11-15
 4WBP,C8B,,Genus,Heterochthes,"Westwood, 1864",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Odontolabini,yes,4736256,Catalogue of Life,,,,,,,,,,,,,,
 3L8H4,4WBP,,Species,Heterochthes brachypterus,"Westwood, 1864",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Odontolabini,yes,6957781,Catalogue of Life,,,,,,,,,,,,,,
 5QD9,C8B,,Genus,Metallactulus,"Ritsema, 1885",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Dorcini,yes,4736459,Catalogue of Life,,,,,,,,,,,,,,
@@ -1594,13 +1590,15 @@ KVQD3,C2L,,Family,Ripiphoridae,"Laporte, 1840",accepted,Wedge-shaped Beetles,,un
 QM97Q,KVQD3,,Genus,Micropelecotoides,"Pic, 1910",accepted,,,unknown,,,,Tenebrionoidea,,,yes,4763596,Catalogue of Life,,,,,,,,,,,,,,
 V9JG4,QM97Q,,Species,Micropelecotoides fulvosericans,(Fairmaire) (Fairmaire),accepted,,,unknown,,,,Tenebrionoidea,,,yes,11167411,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 KVRYX,C2L,,Family,Salpingidae,"Leach, 1815",accepted,Narrow-waisted Bark Beetles,,unknown,,,,Tenebrionoidea,,,yes,7848,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
-KVK6J,KVRYX,,Genus,Inopeplus,"F. Smith, 1851",accepted,,,unknown,,,,Tenebrionoidea,Inopeplinae,,yes,1045913,Catalogue of Life,,,,,,,,,,,,,,
-gbif:1045913,,KVK6J,Genus,Inopeplus,"Smith, 1851",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
-QP7BS,KVK6J,,Species,Inopeplus metallescens,Fairmaire,accepted,,,unknown,,,,Tenebrionoidea,Inopeplinae,,yes,7005071,Catalogue of Life,,,,,,,,,,,,,,
-DDM44,KVRYX,,Genus,Lissodema,"Curtis, 1833",accepted,,,unknown,,,,Tenebrionoidea,Salpinginae,,yes,3262761,Catalogue of Life,,,,,,,,,,,,,,
+IOG-95,KVRYX,,Genus,Euryplatus,"Motschulsky, 1859",accepted,,,unknown,,,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,Most Australasian species of Inopeplus were moved here by Slipinski et al. 2021.,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+gbif:1045913,,IOG-95,Genus,Inopeplus,"Smith, 1851",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
+KVK6J,,IOG-95,Genus,Inopeplus,"F. Smith, 1851",synonym,,,unknown,,,,Tenebrionoidea,Inopeplinae,,yes,1045913,curated merge,"This genus is still valid, but only known from southern Africa and Madagascar.",,,,,,,,,,,,M. Andrew Johnston,2026-11-15
+IOG-96,IOG-95,,Species,Euryplatus metallescens,"(Fairmaire, 1881)",accepted,,,unknown,,,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+QP7BS,,IOG-96,Species,Inopeplus metallescens,Fairmaire,synonym,,,unknown,,,,Tenebrionoidea,Inopeplinae,,yes,7005071,curated merge,Slipsinski et al. 2021,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
+DDM44,KVRYX,,Genus,Lissodema,"Curtis, 1833",accepted,,,unknown,,,,Tenebrionoidea,Salpinginae,,yes,3262761,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 PS924,DDM44,,Species,Lissodema guamense,"Blair, 1942",accepted,,,native,editor,editor,,Tenebrionoidea,Salpinginae,,yes,6956467,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
-QV537,KVRYX,,Genus,Ocholissa,"Pascoe, 1863",accepted,,,unknown,,,,Tenebrionoidea,,,yes,4720568,Catalogue of Life,,,,,,,,,,,,,,
-QV53T,QV537,,Species,Ocholissa humeralis,"(Fairmaire, 1850)",accepted,,,unknown,,,,Tenebrionoidea,,,yes,9234911,Catalogue of Life,,,,,,,,,,,,,,
+QV537,KVRYX,,Genus,Ocholissa,"Pascoe, 1863",accepted,,,unknown,,,,Tenebrionoidea,,,yes,4720568,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+QV53T,QV537,,Species,Ocholissa humeralis,"(Fairmaire, 1850)",accepted,,,introduced,editor,editor,,Tenebrionoidea,,,yes,9234911,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 T4GG5,KVRYX,,Genus,Szekessya,"Kaszab, 1955",accepted,,,native,editor,editor,,Tenebrionoidea,,,yes,4723385,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 IOG-43,T4GG5,,Species,Szekessya flavipennis,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,Type in USNM.,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 IOG-42,T4GG5,,Species,Szekessya kaszabi,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,Type in USNM.,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
@@ -1697,11 +1695,15 @@ SSCHC,KVSMC,,Species,Scirtes tinianensis,Yoshitomi,accepted,,,unknown,,,,Scirtoi
 KQNBV,,SSCHC,Species,Scirtes tigmanensis,,synonym,,,unknown,,,,Scirtoidea,Scirtinae,,yes,,curated merge,spelling variant; the better documented name,,,,,,,,new,,guaminsects match,2026-11-13,,
 KQNC2,KVSMC,,Species,Scirtes zerchei,,accepted,,,unknown,,,,Scirtoidea,Scirtinae,,yes,6948894,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 KVT7K,C2L,,Family,Silvanidae,"W. Kirby, 1837",accepted,Silvanid Flat Bark Beetles,Flat Grain Beetles | Silvanid flat bark beetle | grain beetles,unknown,,,,Cucujoidea,,,yes,7850,Catalogue of Life,,,,,,,,,,,,,,
-R6F9H,KVT7K,,Genus,Monanus,"Sharp, 1879",accepted,,,unknown,,,,Cucujoidea,Silvaninae,,yes,1043917,Catalogue of Life,,,,,,,,,,,,,,
+62P4G,KVT7K,,Genus,Cryptamorpha,"Wollaston, 1854",accepted,,,unknown,,,,Buprestoidea,,,yes,1043886,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
+R6F9H,KVT7K,,Genus,Monanus,"Sharp, 1879",accepted,,,unknown,,,,Cucujoidea,Silvaninae,,yes,1043917,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 R6FCF,R6F9H,,Species,Monanus concinnulus,"(Walker, 1858)",accepted,Beetle,,unknown,,,,Cucujoidea,Silvaninae,,yes,1043919,Catalogue of Life,,,,,,,,,,,,,,
-KVQDZ,KVT7K,,Genus,Psammoecus,"Latreille, 1829",accepted,,,unknown,,,,Cucujoidea,Brontinae,Telephanini,yes,1043929,Catalogue of Life,,,,,,,,,,,,,,
-S7NVZ,KVQDZ,,Species,Psammoecus insularis,"(Sharp, 1885)",accepted,Silvanid flat bark beetles,,unknown,,,,Cucujoidea,Brontinae,Telephanini,yes,1043932,Catalogue of Life,,,,,,,,,,,,,,
-KVT7L,KVT7K,,Genus,Silvanus,"Latreille, 1804",accepted,,,unknown,,,,Cucujoidea,Silvaninae,,yes,1043794,Catalogue of Life,,,,,,,,,,,,,,
+QYH6T,KVT7K,,Genus,Oryzaephilus,"Ganglbauer, 1899",accepted,,,unknown,,,,Cucujoidea,,,yes,1043869,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+QYHC7,QYH6T,,Species,Oryzaephilus surinamensis,"(Linnaeus, 1758)",accepted,Sawtoothed Grain Beetle,Saw-toothed Grain Beetle | saw-toothed grain beetle | sawtoothed grain beetle,introduced,editor,editor,,Cucujoidea,,,yes,1043875,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+gbif:7417421,,QYHC7,Species,Silvanus surinamensis,(Linnaeus),synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Oryzaephilus surinamensis,Plazi,,,,,,,,,,,,
+KVQDZ,KVT7K,,Genus,Psammoecus,"Latreille, 1829",accepted,,,unknown,,,,Cucujoidea,Brontinae,Telephanini,yes,1043929,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+S7NVZ,KVQDZ,,Species,Psammoecus insularis,"(Sharp, 1885)",accepted,Silvanid flat bark beetles,,introduced,editor,editor,,Cucujoidea,Brontinae,Telephanini,yes,1043932,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+KVT7L,KVT7K,,Genus,Silvanus,"Latreille, 1804",accepted,,,unknown,,,,Cucujoidea,Silvaninae,,yes,1043794,Catalogue of Life,,,yes,picked up from synonymy,,,,,,,,,M. Andrew Johnston,2026-11-15
 8VR4S,C2L,,Family,Staphylinidae,"Latreille, 1802",accepted,Rove Beetles,,unknown,,,,Staphylinoidea,,,yes,7854,Catalogue of Life,,,,,,,,,,,,,,
 8VRGY,8VR4S,,Genus,Anotylus,"Thomson, C. G., 1859",accepted,,,unknown,,,,Staphylinoidea,Oxytelinae,Oxytelini,yes,1039459,Catalogue of Life,,,,,,,,,,,,,,
 gbif:1039459,,8VRGY,Genus,Anotylus,"C.G.Thomson, 1859",synonym,,,,,,,,,,no,,"same name, other author",,GBIF Backbone,,,,,,,,,,,,
@@ -1973,12 +1975,12 @@ gbif:1161887,,THFJG,Species,Tenebroides mauritanicus,"(Linnaeus, 1758)",synonym,
 name-3216,,THFJG,Species,Trogosita mauritanica,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Tenebroides mauritanicus,,,,,,,,,,,,,
 gbif:3262852,C2L,,Genus,Xyloborus,"Kirby & Spence, 1828",accepted,,,unknown,,,,,,,no,3262852,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 KVXDQ,C2L,,Family,Zopheridae,"Solier, 1834",accepted,Ironclad beetles,,unknown,,,,Tenebrionoidea,,,yes,4766,Catalogue of Life,,,,,,,,,,,,,,
-KV2JX,KVXDQ,,Genus,Bitoma,"Herbst, 1793",accepted,,,unknown,,,,Tenebrionoidea,Colydiinae,Synchitini,yes,1045187,Catalogue of Life,,,,,,,,,,,,,,
-M3CXR,KV2JX,,Species,Bitoma siccana,"(Pascoe, 1863)",accepted,,,unknown,,,,Tenebrionoidea,Colydiinae,Synchitini,yes,8189065,Catalogue of Life,,,,,,,,,,,,,,
-MPQSL,KVXDQ,,Genus,Colobicus,"Latreille, 1807",accepted,,,unknown,,,,Tenebrionoidea,Colydiinae,Synchitini,yes,1045367,Catalogue of Life,,,,,,,,,,,,,,
-MPQV9,MPQSL,,Species,Colobicus parilis,"Pascoe, 1860",accepted,Ironclad beetle,,unknown,,,,Tenebrionoidea,Colydiinae,Synchitini,yes,1045368,Catalogue of Life,,,,,,,,,,,,,,
-QKJJ8,KVXDQ,,Genus,Neotrichus,"Sharp, 1886",accepted,,,unknown,,,,Tenebrionoidea,Colydiinae,,yes,1045264,Catalogue of Life,,,,,,,,,,,,,,
-QKJLJ,QKJJ8,,Species,Neotrichus latiusculus,"(Fairmaire, 1881)",accepted,Beetle,,unknown,,,,Tenebrionoidea,Colydiinae,,yes,1045265,Catalogue of Life,,,,,,,,,,,,,,
+KV2JX,KVXDQ,,Genus,Bitoma,"Herbst, 1793",accepted,,,unknown,,,,Tenebrionoidea,Colydiinae,Synchitini,yes,1045187,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+M3CXR,KV2JX,,Species,Bitoma siccana,"(Pascoe, 1863)",accepted,,,introduced,editor,editor,,Tenebrionoidea,Colydiinae,Synchitini,yes,8189065,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+MPQSL,KVXDQ,,Genus,Colobicus,"Latreille, 1807",accepted,,,unknown,,,,Tenebrionoidea,Colydiinae,Synchitini,yes,1045367,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+MPQV9,MPQSL,,Species,Colobicus parilis,"Pascoe, 1860",accepted,Ironclad beetle,,introduced,editor,editor,,Tenebrionoidea,Colydiinae,Synchitini,yes,1045368,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+QKJJ8,KVXDQ,,Genus,Neotrichus,"Sharp, 1886",accepted,,,unknown,,,,Tenebrionoidea,Colydiinae,,yes,1045264,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+QKJLJ,QKJJ8,,Species,Neotrichus latiusculus,"(Fairmaire, 1881)",accepted,Beetle,,unknown,,,,Tenebrionoidea,Colydiinae,,yes,1045265,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-4630,,QKJLJ,Species,Ditoma latiusculus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Ditoma latiusculus → Neotrichus latiusculus,,,,,,,,,,guaminsects match,2026-11-13,,
 name-4778,,QKJLJ,Species,Neotrichtts latiusculus,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Neotrichtts latiusculus → Neotrichus latiusculus,,,,,,,,,,guaminsects match,2026-11-13,,
 8MP8D,H6,,Order,Dermaptera,"de Geer, 1773",accepted,Earwigs,earwigs,unknown,,,,,,,yes,1224,Catalogue of Life,,,,,,,,,,,,,,
