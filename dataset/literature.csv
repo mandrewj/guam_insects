@@ -343,10 +343,9 @@ FWHR,schreiner-nafus-1997-butterflies-of-micronesia,mention,15 | 30 | 39,Appias 
 FWJG,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 FWJW,schreiner-nafus-1997-butterflies-of-micronesia,account,31,Appias paulina,GU | MP | PW | FM,Guam | Palau | Rota | Saipan | Tinian | Yap,,,,,text,machine,,,migrate,2026-11-13
 FWJW,schreiner-nafus-1997-butterflies-of-micronesia,mention,15 | 31 | 39,Appias paulina,,,,,,,text,machine,,,migrate,2026-11-13
-G48B,evenhuis-et-al-2010-pagan-island,mention,57,Araecerus fasciculatus,,,,,,,text,machine,,,migrate,2026-11-13
-G48B,iom-1-introduction,mention,242,Araecerus fasciculatus,,,,,,,text,machine,,,migrate,2026-11-13
+G48B,evenhuis-et-al-2010-pagan-island,mention,57,Araecerus fasciculatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 G48B,plazi-0f4ee0b0,checklist,,,GU,,,,,,plazi,,,,migrate,
-G49Y,evenhuis-et-al-2010-pagan-island,mention,57,Araecerus vieillardi,,,,,,,text,machine,,,migrate,2026-11-13
+G49Y,evenhuis-et-al-2010-pagan-island,mention,57,Araecerus vieillardi,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 G49Y,plazi-0f4ee0b0,checklist,,,GU,,,,,,plazi,,,,migrate,
 G4BH,plazi-0f4ee0b0,checklist,,,GU,,,,,,plazi,,,,migrate,
 G9JR,iom-8-4-psocoptera,account,84,Archipsocus dybasi,MP,Tinian,,,,,ocr,machine,,,migrate,2026-11-13
@@ -5917,9 +5916,7 @@ QSBYQ,iom-7-7-pentatomoidea,mention,3 | 45,Nezara viridula,,,,,,,text,machine,,,
 QSBYQ,nafus-1989-biological-control-activities-in-the-mariana,mention,4 | 17,Nezara viridula,,,,,,,text,machine,,,migrate,2026-11-13
 QSBYQ,sands-1991-banana-skipper-erionota-thrax-l-lepidoptera-h,mention,7,Nezara viridula,,,,,,,text,machine,,,migrate,2026-11-13
 QSCFT,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-QSCFY,swezey-1942-misc-coleoptera-guam,account,5,Melambia cordicollis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 QSCFY,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-QSCFY,swezey-1942-misc-coleoptera-guam,mention,5,Melambia cordicollis,,,,,,,text,machine,,,migrate,2026-11-13
 QTTRR,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 QTTRR,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
 QV537,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -6120,9 +6117,7 @@ TGRFS,swezey-1942-misc-coleoptera-guam,mention,11,Telsimia nitida,,,,,,,text,mac
 TGRFS,tauili-ili-1993-history-of-biological-control-in-america,account,3,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
 TGRFS,tauili-ili-1993-history-of-biological-control-in-america,mention,1 | 3,Telsimia nitida,,,,,,,text,machine,,,migrate,2026-11-13
 THB96,iom-16-3-dermestidae,account,3,Thorictodes heydeni,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
-THFJG,swezey-1942-misc-coleoptera-guam,account,5,Tenebroides mauritanicus,,,,,,,text,machine,,,migrate,2026-11-13
 THFJG,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-THFJG,swezey-1942-misc-coleoptera-guam,mention,5,Tenebroides mauritanicus,,,,,,,text,machine,,,migrate,2026-11-13
 TKFWT,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
 TLNGJ,iom-17-3-tenebrionidae,account,34,Tribolium castaneum,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 TLNGJ,iom-17-3-tenebrionidae,mention,4 | 34,Tribolium castaneum,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
