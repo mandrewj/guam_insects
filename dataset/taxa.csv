@@ -92,27 +92,31 @@ LF8ZB,C2L,,Family,Anobiidae,"Fleming, 1821",accepted,Death watch beetles,,unknow
 QSNJX,LF8ZB,,Genus,Nicobium,,accepted,,,unknown,,,,Bostrichoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 QSNK5,QSNJX,,Species,Nicobium castaneum,"(Olivier, 1790)",accepted,,,unknown,,,,Bostrichoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4479,,QSNK5,Species,Anobium castaneum,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Anobium castaneum → Nicobium castaneum,,,,,,,,,,guaminsects match,2026-11-13,,
-KTYMT,C2L,,Family,Anthicidae,"Latreille, 1819",accepted,Ant-like Flower Beetles,Ant Beetle | Broad-hipped Flower Beetles | antlike flower beetles,unknown,,,,Tenebrionoidea,,,yes,7771,Catalogue of Life,,,,,,,,,,,,,,
+KTYMT,C2L,,Family,Anthicidae,"Latreille, 1819",accepted,Ant-like Flower Beetles,Ant Beetle | Broad-hipped Flower Beetles | antlike flower beetles,unknown,,,,Tenebrionoidea,,,yes,7771,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 KTYGS,KTYMT,,Genus,Anthelephila,"Hope, 1833",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Formicomini,yes,1047042,Catalogue of Life,,,,,,,,,,,,,,
 gbif:1047041,,KTYGS,Genus,Formicomus,"LaFerté-Sénectère, 1849",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Anthelephila,Plazi,,,,,,,,,,,,
-LLBCF,KTYGS,,Species,Anthelephila imperator,"LaFerté-Sénectère, 1849",accepted,Antlike flower beetle,,unknown,,,,Tenebrionoidea,Anthicinae,Formicomini,yes,1047043,Catalogue of Life,,,,,,,,,,,,,,
+LLBCF,KTYGS,,Species,Anthelephila imperator,"LaFerté-Sénectère, 1849",accepted,Antlike flower beetle,,introduced,editor,editor,,Tenebrionoidea,Anthicinae,Formicomini,yes,1047043,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 name-4343,,LLBCF,Species,Anthelephilus imperator,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Anthelephila imperator,,,,,,,,,,,,,
 gbif:1047044,,LLBCF,Species,Formicomus imperator,"(LaFerté-Sénectère, 1849)",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Anthelephila imperator,Plazi,,,,,,,,,,,,
 name-566,KTYGS,,Species,Anthelephilus cribriceps,,accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Formicomini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-LM3CQ,KTYMT,,Genus,Anthicomorphus,"Lewis, 1895",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,4720605,Catalogue of Life,,,,,,,,,,,,,,
+LM3CQ,KTYMT,,Genus,Anthicomorphus,"Lewis, 1895",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,4720605,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-78,LM3CQ,,Species,Anthicomorphus pacificus,"Werner, 1965",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 KTYMX,KTYMT,,Genus,Anthicus,"Paykull, 1798",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,1046876,Catalogue of Life,,,,,,,,,,,,,,
-name-567,KTYMX,,Species,Anthicus carolinensis,,accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-569,KTYMX,,Species,Anthicus dybasi,,accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-LM4QF,KTYMX,,Species,Anthicus insularis,"Werner, 1965",accepted,Antlike flower beetle,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,1046963,Catalogue of Life,,,,,,,,,,,,,,
-LM6LD,KTYMX,,Species,Anthicus vexator,"Werner, 1965",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+name-567,KTYMX,,Species,Anthicus carolinensis,"Werner, 1965",accepted,,,native,editor,editor,,Tenebrionoidea,Anthicinae,Anthicini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+name-569,KTYMX,,Species,Anthicus dybasi,"Werner, 1965",accepted,,,native,editor,editor,,Tenebrionoidea,Anthicinae,Anthicini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+LM4QF,KTYMX,,Species,Anthicus insularis,"Werner, 1965",accepted,Antlike flower beetle,,native,editor,editor,,Tenebrionoidea,Anthicinae,Anthicini,yes,1046963,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 VHGJT,KTYMT,,Genus,Omonadus,,accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+IOG-81,VHGJT,,Species,Omonadus confucii,"(Marseul, 1876)",accepted,,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 RCYMJ,VHGJT,,Species,Omonadus formicarius,"(Goeze, 1777)",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4481,,RCYMJ,Species,Anthicus formicarius,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Anthicus formicarius → Omonadus formicarius,,,,,,,,,,guaminsects match,2026-11-13,,
-SP5SV,KTYMT,,Genus,Sapintus,"Casey, 1895",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,1046811,Catalogue of Life,,,,,,,,,,,,,,
-name-571,SP5SV,,Species,Anthicus oceanicus,,accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-SP5YL,SP5SV,,Species,Sapintus francoisi,"(Pic, 1902)",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,,,,,,,,,,
-T6H6D,KTYMT,,Genus,Stricticomus,,accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-T6H8B,T6H6D,,Species,Stricticomus tobias,"(Marseul, 1879)",accepted,Double-dotted Anthicid,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+SP5SV,KTYMT,,Genus,Sapintus,"Casey, 1895",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,1046811,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+SP5YL,SP5SV,,Species,Sapintus francoisi,"(Pic, 1902)",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-79,,SP5YL,Species,Anthicus pacificus guamensis,"Blair, 1942",synonym,,,,,,,,,,no,,curated merge,"Synonymy Telnov, 2024",,,,,,,,,,M. Andrew Johnston,2026-11-14,,
+name-571,SP5SV,,Species,Sapintus oceanicus,"(La Ferté-Sénectère, 1848)",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-80,,name-571,Species,Anthicus oceanicus,La Ferté-Sénectère,synonym,,,,,,,,,,no,,curated merge,,,,,,,,,,,M. Andrew Johnston,2026-11-14,,
+LM6LD,,name-571,Species,Anthicus vexator,"Werner, 1965",synonym,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,curated merge,SYnonymy Telnov 2024,,,,,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+T6H6D,KTYMT,,Genus,Stricticomus,,accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+T6H8B,T6H6D,,Species,Stricticomus tobias,"(Marseul, 1879)",accepted,Double-dotted Anthicid,,introduced,editor,editor,,Tenebrionoidea,Anthicinae,Anthicini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 name-4482,,T6H8B,Species,Anthicus tobias,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Anthicus tobias → Stricticollis tobias,,,,,,,,,,guaminsects match,2026-11-13,,
 gbif:6997654,,T6H8B,Species,Stricticollis tobias,,synonym,,,unknown,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Stricticomus tobias,,,,,,,,,,guaminsects match,2026-11-13,,
 8HBPD,C2L,,Family,Anthribidae,"Billberg, G.J., 1820",accepted,Fungus Weevils,,unknown,,,,Curculionoidea,,,yes,4206,Catalogue of Life,,,,,,,,,,,,,,

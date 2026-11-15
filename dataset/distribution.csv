@@ -88,6 +88,11 @@ LJGHG,Palau,present,,,M. Andrew Johnston,2026-11-14
 LJGHG,Rota,present,,,M. Andrew Johnston,2026-11-14
 LJGHG,Saipan,present,,,M. Andrew Johnston,2026-11-14
 LJGHG,Tinian,present,,,M. Andrew Johnston,2026-11-14
+LLBCF,Guam,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+LLBCF,Koror,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+LLBCF,Saipan,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+LLBCF,Tinian,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+LM4QF,Palau,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
 LMR23,Palau,present,,kulzer-1957,M. Andrew Johnston,2026-11-14
 M3JSM,Palau,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 M3JSM,Rota,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
@@ -110,11 +115,16 @@ RPPBJ,Yap,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 RPPBL,Guam,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 RPPCV,Guam,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 RV6YR,Palau,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
+SP5YL,CNMI,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+SP5YL,FSM,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+SP5YL,Guam,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+SP5YL,Palau,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
 SRVF2,Chuuk,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 SRVF2,Kosrae,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 SRVF2,Marshalls,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 SRVF2,Palau,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 SRVF2,Pohnpei,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
+T6H8B,Guam,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
 TLNGJ,Chuuk,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 TLNGJ,Guam,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 TLNGJ,Marshalls,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
@@ -137,6 +147,9 @@ VPSNR,Rota,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 VPSNR,Saipan,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 VPSRJ,FSM,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 VPSRJ,Tinian,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
+name-569,Palau,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+name-569,Saipan,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+name-571,Marshalls,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
 name-1677,Chuuk,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 name-1677,Pohnpei,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 name-1711,Pohnpei,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
@@ -220,3 +233,5 @@ IOG-69,Kosrae,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2
 IOG-70,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 IOG-71,Aguijan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 IOG-71,Saipan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
+IOG-78,Pohnpei,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+IOG-81,Saipan,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14

@@ -5549,12 +5549,9 @@ LKTX5,iom-17-1-chrysomelidae,account,34,Altica jussiaeae,PW | FM,Babeldaob | Kor
 LKTX5,iom-17-1-chrysomelidae,mention,3 | 34 | 35,Altica jussiaeae,,,,,,,text,machine,,,migrate,2026-11-13
 LKTX5,samuelson-1973-alticinae-oceania,account,38,Altica jussiaeae,,,,,,,text,machine,,,migrate,2026-11-13
 LKTX5,samuelson-1973-alticinae-oceania,mention,38,Altica jussiaeae,,,,,,,text,machine,,,migrate,2026-11-13
-LLBCF,iom-16-5-anthicidae,account,4,Formicomus imperator,,,,,,,text,machine,,,migrate,2026-11-13
-LLBCF,iom-16-5-anthicidae,mention,2 | 3 | 4 | 5 | 8,Formicomus,,,,,,,text,machine,,,migrate,2026-11-13
 LLBCF,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 LLSY6,plazi-9298158c,checklist,,,GU,,,,,,plazi,,,,migrate,
-LM4QF,iom-16-5-anthicidae,account,12,Anthicus insularis,FM,Kosrae,,,,,text,machine,,,migrate,2026-11-13
-LM4QF,iom-16-5-anthicidae,mention,2 | 3 | 4 | 12,Anthicus insularis,,,,,,,text,machine,,,migrate,2026-11-13
+LM4QF,iom-16-5-anthicidae,account,12,Anthicus insularis,FM,Kosrae,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 LMG6Q,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 LPXHN,crop-pests-micronesia,checklist,,,PW | FM,Palau | Yap,,,,,checklist,,,,migrate,
 LPXHN,iom-17-1-chrysomelidae,account,28,Galeruca similis,MP | PW,Koror | Palau | Saipan,,,,,text,machine,,,migrate,2026-11-13
@@ -6394,9 +6391,7 @@ name-557,kevan-1997-an-annotated-provisional-list-of-non-saltator,account,42,Ani
 name-565,iom-7-7-pentatomoidea,account,46,Antestia punctatissima,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-566,iom-16-5-anthicidae,account,5,Anthelephilus cribriceps,MP | PW,Koror | Saipan,,,,,text,machine,,,migrate,2026-11-13
 name-566,iom-16-5-anthicidae,mention,5,Anthelephilus cribriceps,,,,,,,text,machine,,,migrate,2026-11-13
-name-567,iom-16-5-anthicidae,account,13,Anthicus carolinensis,PW | FM,Babeldaob | Kosrae,,,,,text,machine,,,migrate,2026-11-13
-name-569,iom-16-5-anthicidae,account,14,Anthicus dybasi,MP | PW,Koror | Palau | Saipan,,,,,text,machine,,,migrate,2026-11-13
-name-571,iom-16-5-anthicidae,account,7,Anthicus oceanicus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+name-567,iom-16-5-anthicidae,account,13,Anthicus carolinensis,PW | FM,Babeldaob | Kosrae,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-627,iom-17-4-scarabaeidae,account,7,Aphodius matusitai,GU | MP,Guam | Pagan | Rota | Saipan | Tinian,,,,,text,machine,,,migrate,2026-11-13
 name-635,iom-17-1-chrysomelidae,account,32 | 33,Aphthona nanyoensis,GU | MP | FM,Chuuk | Guam | Saipan | Sorol | Tinian | Yap,,,,,text,machine,,,migrate,2026-11-13
 name-635,samuelson-1973-alticinae-oceania,account,46,Aphthona nanyoensis,,,,,,,text,machine,,,migrate,2026-11-13
