@@ -84,3 +84,12 @@ def test_checklist_nodes_flag_what_is_recorded_from_guam(world, tmp_path):
     assert len(flagged) == genus["gu_species"]
     for kid in genus["children"]:
         assert (kid["gu_species"] > 0) == ("gu" in (kid["regions"] or []))
+
+
+def test_a_gbif_taxon_page_link_shows_beside_the_species_link(world, tmp_path):
+    ds = dataset.load(world)
+    ds["links"].append({"taxon_id": "ORRHI", "system": "gbif_taxon", "value": "THDPS", "label": "",
+                        "confidence": "high", "note": "", "added_by": "t", "added": "2026-11-15"})
+    r = records.build_records(ds, thumbs=tmp_path)[C("ORRHI")]
+    urls = [x["url"] for x in r["links"] if x["system"] == "gbif"]
+    assert "https://www.gbif.org/taxon/THDPS" in urls and len(urls) == 2

@@ -805,3 +805,25 @@ def test_a_col_synonym_can_be_split_out_only_by_knowingly_overriding_col(page, w
     assert row["taxonomicStatus"] == "accepted" and row["parentNameUsageID"] == "ORYCT"
     assert "overrides Catalogue of Life" in row["nameMatch"] and "Smith 2020" in row["matchRemarks"]
     assert out["checks"] == []
+
+
+def test_a_gbif_taxon_page_is_kept_beside_the_species_key(page, world):
+    """gbif.org/taxon/ID (a COL XR id) is a second GBIF identifier: stored as its own link,
+    never replacing gbif_key, and a taxon with no COL link also gets one."""
+    kinds = page.evaluate("""() => ["https://www.gbif.org/taxon/THDPS", "https://www.gbif.org/species/1045843",
+      "https://www.gbif.org/en/taxon/THDPS/metrics"].map(u => IOGModel.classifyUrl(u))""")
+    assert kinds[0] == {"kind": "identify", "system": "gbif_taxon", "value": "THDPS"}
+    assert kinds[1] == {"kind": "identify", "system": "gbif", "value": "1045843"}
+    assert kinds[2]["value"] == "THDPS"
+    texts = texts_of(world)
+    out = run(page, texts, [{"type": "add", "parent": "ORYCT", "rank": "Species", "name": "Oryctes testus"}])
+    new = out["ops"][0]["newId"]
+    both = run(page, texts, [
+        {"type": "add", "parent": "ORYCT", "rank": "Species", "name": "Oryctes testus", "newId": new,
+         "gbif": "https://www.gbif.org/species/1045843"},
+        {"type": "identify", "id": new, "system": "gbif_taxon", "value": "https://www.gbif.org/taxon/THDPS"}])
+    assert both["errors"] == [None, None]
+    links = both["files"]["dataset/links.csv"]
+    assert f"{new},gbif_taxon,THDPS" in links and f"{new},col,THDPS" in links
+    assert "1045843" in both["files"]["dataset/taxa.csv"]            # the species key stays
+    assert both["checks"] == []

@@ -94,6 +94,15 @@
       (kind === "inat" ? "(https://www.inaturalist.org/taxa/47158)" : "(https://www.gbif.org/species/1234567)"));
     return m[1];
   }
+  // GBIF's newer taxon page, gbif.org/taxon/THDPS (the id is a Catalogue of Life XR id) -> THDPS.
+  // It is a different identifier from the /species/NUMBER key, and both are kept.
+  const GBIF_TAXON_RE = /^https?:\/\/(?:www\.)?gbif\.org\/(?:[a-z-]+\/)?taxon\/([0-9A-Za-z]{1,16})(?:\/[a-z_-]+)?$/;
+  function parseGbifTaxonRef(text) {
+    const t = (text || "").trim().split("?")[0].split("#")[0].replace(/\/+$/, "");
+    const m = GBIF_TAXON_RE.exec(t) || /^([0-9A-Za-z]{1,16})$/.exec(t);
+    if (!m) throw new Error(`"${text}" is not a GBIF taxon page (https://www.gbif.org/taxon/THDPS)`);
+    return m[1];
+  }
   // A Catalogue of Life taxon page (or an id typed as col:ID) -> the COL id.
   function parseColRef(text) {
     const t = (text || "").trim().split("?")[0].split("#")[0].replace(/\/+$/, "");
@@ -110,6 +119,7 @@
     if (/inaturalist\.org\/observations\/\d+$/.test(bare) || /gbif\.org\/occurrence\/\d+$/.test(bare)) return { kind: "voucher" };
     if (/inaturalist\.org\/taxa\/\d+/.test(bare)) return { kind: "identify", system: "inat", value: parseTaxonRef(t, "inat") };
     if (/gbif\.org\/(?:[a-z-]+\/)?species\/\d+(?:\/[a-z_-]+)?$/.test(bare)) return { kind: "identify", system: "gbif", value: parseTaxonRef(t, "gbif") };
+    if (GBIF_TAXON_RE.test(bare)) return { kind: "identify", system: "gbif_taxon", value: parseGbifTaxonRef(bare) };
     if (/^col:/i.test(t) || /catalogueoflife\.org\/data\/taxon\//.test(bare) || /checklistbank\.org\/dataset\/[^/]+\/taxon\//.test(bare))
       return { kind: "identify", system: "col", value: parseColRef(t.replace(/^COL:/, "col:")) };
     return { kind: "link" };
@@ -411,6 +421,23 @@
     "nativity", "nativity_source", "iucn", "superfamily", "subfamily", "tribe", "in_col", "gbif_key",
     "name_match", "match_note", "name_sources", "hidden", "hidden_reason", "note", "flag",
     "parent_id", "accepted_id", "verified"]);
+  // GBIF's /taxon/ID page is stored beside (never instead of) the /species/KEY number. Its id is
+  // a Catalogue of Life id, so a taxon with no Catalogue of Life link also gets one.
+  function identifyGbifTaxon(st, op, r) {
+    const value = parseGbifTaxonRef(op.value);
+    const dup = st.t.links.find(l => l.system === "gbif_taxon" && l.value === value && st.shownId(l.taxon_id) !== op.id);
+    need(!dup, `GBIF taxon ${value} is already linked to ${dup && (st.d.get(st.shownId(dup.taxon_id)) || {}).name}: merge the two taxa instead`);
+    st.t.links = st.t.links.filter(l => !(l.system === "gbif_taxon" && st.shownId(l.taxon_id) === op.id));
+    st.t.links.push(Object.assign(blank("links"), { taxon_id: op.id, system: "gbif_taxon", value,
+      confidence: "high", note: "", added_by: op.by, added: op.date }));
+    const hasCol = r.in_col === "yes" || st.t.links.some(l => l.system === "col" && st.shownId(l.taxon_id) === op.id);
+    const taken = st.d.has(value) || st.t.links.some(l => l.system === "col" && l.value === value);
+    if (!hasCol && !/^\d+$/.test(value) && !taken)
+      st.t.links.push(Object.assign(blank("links"), { taxon_id: op.id, system: "col", value,
+        confidence: "high", note: "same id as its GBIF taxon page", added_by: op.by, added: op.date }));
+    st.stamp(op.id, op);
+  }
+
   const OPS = {
     set(st, op) {
       let col = column(op.column);
@@ -537,7 +564,9 @@
       const p = checkParent(st, null, op.parent, op.rank);
       need(!st.children(op.parent).some(c => st.name(c) === name), `${p.name} already has ${name}`);
       // A specific iNaturalist and/or GBIF taxon: refuse one that is already a taxon here.
-      const inat = parseTaxonRef(op.inat, "inat"), gbif = parseTaxonRef(op.gbif, "gbif");
+      const gbifPage = GBIF_TAXON_RE.test((op.gbif || "").trim().split("?")[0].replace(/\/+$/, ""));
+      const gbifTaxon = gbifPage ? parseGbifTaxonRef(op.gbif) : "";
+      const inat = parseTaxonRef(op.inat, "inat"), gbif = gbifPage ? "" : parseTaxonRef(op.gbif, "gbif");
       if (gbif) {
         const dup = [...st.d.values()].find(x => x.status !== SYN && String(x.gbif_key) === gbif);
         need(!dup, `GBIF ${gbif} is already ${dup && dup.name} (${dup && dup.id}): link to it instead of adding a duplicate`);
@@ -551,6 +580,8 @@
       op.newId = id;
       st.nextIog = Math.max(st.nextIog, iogNum(id) + 1);
       if (inat) st.t.links.push(Object.assign(blank("links"), { taxon_id: id, system: "inaturalist", value: inat,
+        confidence: "high", note: "", added_by: op.by, added: op.date }));
+      if (gbifTaxon) st.t.links.push(Object.assign(blank("links"), { taxon_id: id, system: "gbif_taxon", value: gbifTaxon,
         confidence: "high", note: "", added_by: op.by, added: op.date }));
       const r = Object.assign(blank("taxa"), {
         id, parent_id: op.parent, rank: op.rank, name, authorship: op.authorship || "", status,
@@ -689,7 +720,8 @@
     identify(st, op) {
       const r = accepted(st, op.id);
       const system = op.system;
-      need(["inat", "gbif", "col"].includes(system), "an identifier is iNaturalist, GBIF or the Catalogue of Life");
+      need(["inat", "gbif", "gbif_taxon", "col"].includes(system), "an identifier is iNaturalist, GBIF or the Catalogue of Life");
+      if (system === "gbif_taxon") return identifyGbifTaxon(st, op, r);
       const value = system === "col" ? parseColRef(/^(https?:|col:)/i.test(op.value || "") ? op.value : "col:" + op.value) : parseTaxonRef(op.value, system);
       need(value, "no number or address given");
       const other = id => { const x = st.d.get(st.shownId(id)); return x ? `${x.name} (${x.id})` : "another taxon"; };
@@ -721,7 +753,7 @@
         st.setCell(op.id, "gbif_key", "");
       } else {
         const sys = op.system === "inat" ? "inaturalist" : op.system;
-        need(["inaturalist", "col"].includes(sys), "an identifier is iNaturalist, GBIF or the Catalogue of Life");
+        need(["inaturalist", "col", "gbif_taxon"].includes(sys), "an identifier is iNaturalist, GBIF or the Catalogue of Life");
         const before = st.t.links.length;
         st.t.links = st.t.links.filter(l => !(l.system === sys && st.shownId(l.taxon_id) === op.id));
         need(st.t.links.length < before, "no such link");
@@ -1156,8 +1188,8 @@
       case "voucher": return `${who}: voucher ${op.url}`;
       case "unvoucher": return `${who}: removed voucher ${op.url}`;
       case "link": return `${who}: link ${op.label ? op.label + " " : ""}${op.url}`;
-      case "identify": return `${who}: ${({ inat: "iNaturalist", gbif: "GBIF", col: "Catalogue of Life" })[op.system]} ${op.value} linked`;
-      case "unidentify": return `${who}: ${({ inat: "iNaturalist", gbif: "GBIF", col: "Catalogue of Life" })[op.system]} link removed`;
+      case "identify": return `${who}: ${({ inat: "iNaturalist", gbif: "GBIF", gbif_taxon: "GBIF taxon page", col: "Catalogue of Life" })[op.system]} ${op.value} linked`;
+      case "unidentify": return `${who}: ${({ inat: "iNaturalist", gbif: "GBIF", gbif_taxon: "GBIF taxon page", col: "Catalogue of Life" })[op.system]} link removed`;
       case "bulk": return `${op.count || (op.ids || []).length} taxa: ` + ({ nativity: `nativity → ${op.value}`, verify: "confirmed", clearFlag: "new flag cleared" })[op.action];
       case "unlink": return `${who}: removed link ${op.url}`;
       case "exclude": return `${op.id ? n(op.id) : op.name} excluded: ${op.reason}`;
@@ -1200,7 +1232,7 @@
 
   window.IOGModel = {
     makeBase, replay, applyOne, bulkEligible, check, files, describe, commitMessage, op, sortRows, tid,
-    fold: searchFold, validId, parseTaxonRef, parseColRef, classifyUrl, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
+    fold: searchFold, validId, parseTaxonRef, parseColRef, parseGbifTaxonRef, classifyUrl, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
     splitList, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
     LEGACY,
   };

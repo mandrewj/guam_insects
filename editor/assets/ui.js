@@ -600,6 +600,9 @@
     if (colId) ident("Catalogue of Life", colId, "https://www.catalogueoflife.org/data/taxon/" + colId, colId === id ? "the taxon's own id" : "", colId === id ? "" : "col");
     const gk = (st.r(id) || {}).gbif_key;
     if (gk) ident("GBIF", gk, "https://www.gbif.org/species/" + gk, "", "gbif");
+    for (const l of st.mine("links", id).filter(x => x.system === "gbif_taxon")) {
+      ident("GBIF taxon page", l.value, "https://www.gbif.org/taxon/" + l.value, "the newer GBIF page; kept beside the species key", "gbif_taxon");
+    }
     for (const l of st.mine("links", id).filter(x => x.system === "inaturalist")) {
       ident("iNaturalist", l.value, "https://www.inaturalist.org/taxa/" + l.value,
         l.confidence === "high" ? (l.note || "") : "a name match, not confirmed" + (l.note ? ": " + l.note : ""), "inat");
@@ -618,7 +621,7 @@
         `<button type="button" class="x" data-act="unlink" data-v="${esc(a.value)}" aria-label="Remove">×</button></li>`);
     }
     html += '<h3>Links and identifiers</h3>' + (rows.length ? '<ul class="plain small">' + rows.join("") + "</ul>" : '<p class="muted">None yet.</p>') +
-      '<form class="inline" data-form="addlink"><input name="url" required placeholder="Paste any address: an iNaturalist or GBIF taxon page, a Catalogue of Life page, an observation or occurrence, or any other link" aria-label="Address">' +
+      '<form class="inline" data-form="addlink"><input name="url" required placeholder="Paste any address: an iNaturalist or GBIF taxon page (/species/ or /taxon/), a Catalogue of Life page, an observation or occurrence, or any other link" aria-label="Address">' +
       '<input name="label" placeholder="Note or label (optional)" aria-label="Note">' +
       '<button type="submit">Add</button></form>' +
       '<p class="muted small">A taxon page sets the taxon\'s identifier (replacing the one there); an iNaturalist observation or GBIF occurrence becomes a voucher; anything else is a link.</p>';
@@ -774,7 +777,7 @@
                  { key: "inat", label: "iNaturalist taxon (page URL or number)", placeholder: "https://www.inaturalist.org/taxa/47158",
                    help: "Optional. Links this taxon to that iNaturalist taxon (photos and counts come from it)." },
                  { key: "gbif", label: "GBIF taxon (page URL or number)", placeholder: "https://www.gbif.org/species/1234567",
-                   help: "Optional. Sets the GBIF key (records and maps come from it)." },
+                   help: "Optional. A /species/ page or number sets the GBIF key (records and maps come from it); a newer /taxon/ page is kept as a link." },
                  { key: "note", label: "Note shown on the page", type: "textarea" },
                  { key: "reason", label: "Reason or source" }],
         extra: lookupExtra,

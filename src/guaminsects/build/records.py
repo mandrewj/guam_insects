@@ -22,6 +22,7 @@ AREA_KEYS = {a["code"]: a["code"].lower() for a in config.AREAS}
 AREA_SHORT = {"GU": "Guam", "MP": "CNMI", "PW": "Palau", "FM": "FSM", "MH": "Marshalls"}
 PHOTO_SOURCES = {"inaturalist": "iNaturalist", "commons": "Wikimedia Commons", "gbif": "GBIF"}
 GBIF_SPECIES = "https://www.gbif.org/species/"
+GBIF_TAXON = "https://www.gbif.org/taxon/"
 COL_TAXON = "https://www.catalogueoflife.org/data/taxon/"
 GBIF_RECORDS = ("https://www.gbif.org/occurrence/search?checklist_key="
                 "7ddf754f-d193-4cc9-b351-99906754a03b&" +
@@ -213,7 +214,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
 
     # --- links and iNaturalist ------------------------------------------------------------------
     by_tid: dict[str, dict[int, list[dict]]] = {s: defaultdict(list) for s in
-                                                 ("inaturalist", "col", "wikidata", "wikispecies",
+                                                 ("inaturalist", "col", "gbif_taxon", "wikidata", "wikispecies",
                                                   "bugguide", "editor")}
     for r in ds["links"]:
         tid = at(r["taxon_id"])
@@ -379,6 +380,11 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
             if t["gbif_key"]:
                 links.append({"system": "gbif", "label": "GBIF", "url": GBIF_SPECIES + t["gbif_key"],
                               "confidence": "high"})
+        # GBIF's newer taxon pages (gbif.org/taxon/ID, an id of the Catalogue of Life's XR dataset):
+        # kept beside, never instead of, the GBIF species key above.
+        for gt in by_tid["gbif_taxon"].get(tid, [])[:1]:
+            links.append({"system": "gbif", "label": "GBIF taxon page",
+                          "url": GBIF_TAXON + gt["value"], "confidence": gt["confidence"] or "high"})
         if inat_link:
             links.append({"system": "inaturalist", "label": "iNaturalist",
                           "url": INAT_TAXA + inat_link["value"], "confidence": inat_link["confidence"],

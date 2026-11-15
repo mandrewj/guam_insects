@@ -601,6 +601,7 @@ window.IOG_SPEC = {
      "enum": [
       "inaturalist",
       "col",
+      "gbif_taxon",
       "wikidata",
       "wikispecies",
       "wikipedia",
