@@ -1,5 +1,7 @@
 ﻿taxon_id,system,value,label,confidence,note,added_by,added
 gbif:5593,wikidata,Q14852127,,high,,,
+gbif:1043889,editor,https://en.wikipedia.org/wiki/Cryptamorpha_desjardinsii,Wikipedia,high,,M. Andrew Johnston,2026-11-15
+gbif:1043889,inaturalist,388069,,high,,M. Andrew Johnston,2026-11-15
 gbif:1387878,inaturalist,651023,,high,matched by name (iNaturalist),refresh inat,2026-11-14
 gbif:1387878,wikidata,Q13387882,,high,,refresh wikidata,2026-11-15
 gbif:1499012,inaturalist,1247962,,high,matched by name (iNaturalist),refresh inat,2026-11-14
