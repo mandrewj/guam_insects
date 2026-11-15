@@ -7,7 +7,9 @@
 """
 
 import json
+import re
 import shutil
+import subprocess
 from pathlib import Path
 
 from .. import config, dataset, geo
@@ -21,6 +23,32 @@ SPECIES = "Species"
 
 class BuildError(Exception):
     pass
+
+
+EDITOR_COMMIT = re.compile(r"^Editor: (\d+) changes? by ")
+
+
+def count_editor_changes(subjects: list[str]) -> int:
+    """The editor's commits are titled "Editor: N changes by NAME": the site's tally is the sum."""
+    return sum(int(m.group(1)) for s in subjects if (m := EDITOR_COMMIT.match(s)))
+
+
+def editor_changes(root: Path | None = None) -> int | None:
+    """Every change committed through the taxonomy editor, from the repository's own history (so
+    it grows with each editor push and needs no counter file). None when there is no full history
+    to read (no git, or a shallow clone): the site then shows no tally rather than a wrong one."""
+    root = root or config.ROOT
+    try:
+        shallow = subprocess.run(["git", "rev-parse", "--is-shallow-repository"], cwd=root,
+                                 capture_output=True, text=True, timeout=30)
+        log = subprocess.run(["git", "log", "--format=%s"], cwd=root, capture_output=True,
+                             text=True, timeout=60)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if shallow.returncode or log.returncode or shallow.stdout.strip() != "false":
+        return None
+    n = count_editor_changes(log.stdout.splitlines())
+    return n or None
 
 
 def home_cards(recs: dict[int, dict], root: int) -> list[dict]:
@@ -94,6 +122,7 @@ def build(ds: dataset.Dataset | None = None, out: Path | None = None, check: boo
             "not_in_col": sum(not r["in_col"] and r["origin"] != "curated" for r in species),
             "photos": sum(bool(r["photos"]) for r in recs.values()),
             "literature": sum(bool(r["literature"]) for r in species),
+            "editor_changes": editor_changes(),
         },
     }
     bundle.write_if_changed(out / "data" / "meta.js",

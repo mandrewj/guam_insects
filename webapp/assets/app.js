@@ -574,7 +574,7 @@
     var rootCard = { id: meta.root };
     var allIsles = (meta.geo ? meta.geo.islands : []).map(function (i) { return i[1]; });
     var stats = [[c.species, "species"], [c.guam, "on Guam"], [c.literature, "in the literature"],
-                 [c.photos || null, "with photos"]];
+                 [c.photos || null, "with photos"], [c.editor_changes || null, "editor changes"]];
     var h = ['<section class="landing"><div class="land-top"><div class="land-left">'];
     h.push('<h1 class="land-title">' + esc(meta.title) + ' <span class="hero-sub">' + esc(meta.subtitle) + "</span></h1>" +
       '<p class="land-lede">A free reference to the insects and other hexapods of Guam and the rest of Micronesia. ' +
@@ -1831,7 +1831,11 @@
     if (el && meta) {
       el.innerHTML = esc(meta.title + " " + meta.subtitle) + " · built " + fmtDate(meta.built_at) +
         " · Every photo, record and text carries its own credit and license; see each page's " +
-        "Sources section. · " + ext("https://github.com/mandrewj/guam_insects", "Source code") + " (MIT)";
+        "Sources section. · " + ext("https://github.com/mandrewj/guam_insects", "Source code") + " (MIT)" +
+        '<p class="foot-contact">Found a mistake, or have a record, photo or question? ' +
+        ext("https://github.com/mandrewj/guam_insects/issues", "Open an issue on the project's GitHub") +
+        " to reach us. This site is by M. Andrew Johnston, " + ext("https://insectid.org", "Insect Diversity &amp; Diagnostics Lab") +
+        ", Purdue University.</p>";
     }
   }
 })();

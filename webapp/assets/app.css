@@ -537,6 +537,8 @@ h2 { margin-top: 34px; }
 .guam-note .link { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; }
 #guam-only.on { background: var(--header-accent); color: var(--header-deep); border-color: var(--header-accent); }
 
+.foot-contact { margin: 8px 0 0; max-width: 80ch; line-height: 1.5; }
+
 /* ---------------------------------------------------------------- responsive
    (kept last so these override the base rules above) */
 /* Narrow screens: one column; the side panel's boxes follow the content (breadcrumbs cover

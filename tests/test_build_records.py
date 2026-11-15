@@ -93,3 +93,10 @@ def test_a_gbif_taxon_page_link_shows_beside_the_species_link(world, tmp_path):
     r = records.build_records(ds, thumbs=tmp_path)[C("ORRHI")]
     urls = [x["url"] for x in r["links"] if x["system"] == "gbif"]
     assert "https://www.gbif.org/taxon/THDPS" in urls and len(urls) == 2
+
+
+def test_the_editor_tally_sums_the_editor_commit_titles():
+    from guaminsects.build import count_editor_changes
+    subjects = ["Editor: 63 changes by M. Andrew Johnston", "Editor: 1 change by A. B.",
+                "Editor: a rejected token no longer blocks loading", "Data: 9 changes", "Editor: 9 changes by X"]
+    assert count_editor_changes(subjects) == 73
