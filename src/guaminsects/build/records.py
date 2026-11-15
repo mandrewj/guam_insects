@@ -194,7 +194,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
 
     # --- links and iNaturalist ------------------------------------------------------------------
     by_tid: dict[str, dict[int, list[dict]]] = {s: defaultdict(list) for s in
-                                                 ("inaturalist", "wikidata", "wikispecies",
+                                                 ("inaturalist", "col", "wikidata", "wikispecies",
                                                   "bugguide", "editor")}
     for r in ds["links"]:
         tid = at(r["taxon_id"])
@@ -353,9 +353,13 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
                           "confidence": "high"})
             links.append({"system": "gbif", "label": "GBIF records in Micronesia",
                           "url": GBIF_RECORDS + col_id, "confidence": "high"})
-        elif t["gbif_key"]:
-            links.append({"system": "gbif", "label": "GBIF", "url": GBIF_SPECIES + t["gbif_key"],
-                          "confidence": "high"})
+        else:
+            if by_tid["col"].get(tid):          # an editor linked a Catalogue of Life taxon
+                links.append({"system": "col", "label": "Catalogue of Life",
+                              "url": COL_TAXON + by_tid["col"][tid][0]["value"], "confidence": "high"})
+            if t["gbif_key"]:
+                links.append({"system": "gbif", "label": "GBIF", "url": GBIF_SPECIES + t["gbif_key"],
+                              "confidence": "high"})
         if inat_link:
             links.append({"system": "inaturalist", "label": "iNaturalist",
                           "url": INAT_TAXA + inat_link["value"], "confidence": inat_link["confidence"],

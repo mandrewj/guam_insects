@@ -203,7 +203,7 @@ Unique key: `taxon_id`, `system`, `value`
 | column | kind | |
 |---|---|---|
 | `taxon_id` | id | required; a `taxa` key |
-| `system` | str | required; one of inaturalist, wikidata, wikispecies, wikipedia, commons, bugguide, editor |
+| `system` | str | required; one of inaturalist, col, wikidata, wikispecies, wikipedia, commons, bugguide, editor |
 | `value` | str | required; an id or a URL |
 | `label` | str |  |
 | `confidence` | str | one of high, medium, review |

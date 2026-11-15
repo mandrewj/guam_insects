@@ -91,6 +91,26 @@
       (kind === "inat" ? "(https://www.inaturalist.org/taxa/47158)" : "(https://www.gbif.org/species/1234567)"));
     return m[2];
   }
+  // A Catalogue of Life taxon page (or an id typed as col:ID) -> the COL id.
+  function parseColRef(text) {
+    const t = (text || "").trim().split("?")[0].split("#")[0].replace(/\/+$/, "");
+    const m = /^(?:https?:\/\/(?:www\.)?(?:catalogueoflife\.org\/data\/taxon|checklistbank\.org\/dataset\/[^/]+\/taxon)\/|col:)([0-9A-Za-z]{1,12})$/.exec(t);
+    if (!m) throw new Error(`"${text}" is not a Catalogue of Life taxon page (https://www.catalogueoflife.org/data/taxon/ABC12)`);
+    return m[1];
+  }
+  // What a pasted address is: an observation or record (a voucher), a taxon page of
+  // iNaturalist / GBIF / the Catalogue of Life (an identifier of the taxon), or any other link.
+  function classifyUrl(text) {
+    const t = (text || "").trim();
+    if (!isUrl(t) && !/^col:/i.test(t)) throw new Error(`"${t}" is not a web address (https://...)`);
+    const bare = t.split("?")[0].split("#")[0].replace(/\/+$/, "");
+    if (/inaturalist\.org\/observations\/\d+$/.test(bare) || /gbif\.org\/occurrence\/\d+$/.test(bare)) return { kind: "voucher" };
+    if (/inaturalist\.org\/taxa\/\d+/.test(bare)) return { kind: "identify", system: "inat", value: parseTaxonRef(t, "inat") };
+    if (/gbif\.org\/(?:[a-z-]+\/)?species\/\d+$/.test(bare)) return { kind: "identify", system: "gbif", value: parseTaxonRef(t, "gbif") };
+    if (/^col:/i.test(t) || /catalogueoflife\.org\/data\/taxon\//.test(bare) || /checklistbank\.org\/dataset\/[^/]+\/taxon\//.test(bare))
+      return { kind: "identify", system: "col", value: parseColRef(t.replace(/^COL:/, "col:")) };
+    return { kind: "link" };
+  }
   const formatLink = a => a.note ? `${a.note} <${a.value}>` : a.value;
   function parseLink(text) {
     const t = text.trim();
@@ -640,6 +660,49 @@
       need(st.t.vouchers.length < before, "no such voucher");
       st.stamp(op.id, op);
     },
+    // An identifier of the taxon in iNaturalist, GBIF or the Catalogue of Life (a taxon page).
+    identify(st, op) {
+      const r = accepted(st, op.id);
+      const system = op.system;
+      need(["inat", "gbif", "col"].includes(system), "an identifier is iNaturalist, GBIF or the Catalogue of Life");
+      const value = system === "col" ? parseColRef(/^(https?:|col:)/i.test(op.value || "") ? op.value : "col:" + op.value) : parseTaxonRef(op.value, system);
+      need(value, "no number or address given");
+      const other = id => { const x = st.d.get(st.shownId(id)); return x ? `${x.name} (${x.id})` : "another taxon"; };
+      if (system === "gbif") {
+        const dup = [...st.d.values()].find(x => x.status !== SYN && x.id !== op.id && String(x.gbif_key) === value);
+        need(!dup, `GBIF ${value} is already ${dup && dup.name} (${dup && dup.id}): merge the two taxa instead`);
+        st.setCell(op.id, "gbif_key", value);
+      } else if (system === "inat") {
+        const dup = st.t.links.find(l => l.system === "inaturalist" && l.value === value && st.shownId(l.taxon_id) !== op.id);
+        need(!dup, `iNaturalist ${value} is already linked to ${dup && other(dup.taxon_id)}: merge the two taxa instead`);
+        st.t.links = st.t.links.filter(l => !(l.system === "inaturalist" && st.shownId(l.taxon_id) === op.id));
+        st.t.links.push(Object.assign(blank("links"), { taxon_id: op.id, system: "inaturalist", value,
+          confidence: "high", note: "linked by editor", added_by: op.by, added: op.date }));
+      } else {
+        const dup = st.d.get(value);
+        need(!dup || dup.id === op.id, `the Catalogue of Life id ${value} is already the taxon ${dup && dup.name}: merge the two taxa instead`);
+        const dup2 = st.t.links.find(l => l.system === "col" && l.value === value && st.shownId(l.taxon_id) !== op.id);
+        need(!dup2, `the Catalogue of Life id ${value} is already linked to ${dup2 && other(dup2.taxon_id)}`);
+        st.t.links = st.t.links.filter(l => !(l.system === "col" && st.shownId(l.taxon_id) === op.id));
+        st.t.links.push(Object.assign(blank("links"), { taxon_id: op.id, system: "col", value,
+          confidence: "high", note: "linked by editor", added_by: op.by, added: op.date }));
+      }
+      st.stamp(op.id, op);
+    },
+    unidentify(st, op) {
+      accepted(st, op.id);
+      if (op.system === "gbif") {
+        need(st.r(op.id).gbif_key, "no GBIF key to remove");
+        st.setCell(op.id, "gbif_key", "");
+      } else {
+        const sys = op.system === "inat" ? "inaturalist" : op.system;
+        need(["inaturalist", "col"].includes(sys), "an identifier is iNaturalist, GBIF or the Catalogue of Life");
+        const before = st.t.links.length;
+        st.t.links = st.t.links.filter(l => !(l.system === sys && st.shownId(l.taxon_id) === op.id));
+        need(st.t.links.length < before, "no such link");
+      }
+      st.stamp(op.id, op);
+    },
     link(st, op) {
       accepted(st, op.id);
       const url = (op.url || "").trim();
@@ -1044,6 +1107,8 @@
       case "voucher": return `${who}: voucher ${op.url}`;
       case "unvoucher": return `${who}: removed voucher ${op.url}`;
       case "link": return `${who}: link ${op.label ? op.label + " " : ""}${op.url}`;
+      case "identify": return `${who}: ${({ inat: "iNaturalist", gbif: "GBIF", col: "Catalogue of Life" })[op.system]} ${op.value} linked`;
+      case "unidentify": return `${who}: ${({ inat: "iNaturalist", gbif: "GBIF", col: "Catalogue of Life" })[op.system]} link removed`;
       case "unlink": return `${who}: removed link ${op.url}`;
       case "exclude": return `${op.id ? n(op.id) : op.name} excluded: ${op.reason}`;
       case "unexclude": return `${op.name}: no longer excluded`;
@@ -1085,7 +1150,7 @@
 
   window.IOGModel = {
     makeBase, replay, check, files, describe, commitMessage, op, sortRows, tid,
-    validId, parseTaxonRef, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
+    validId, parseTaxonRef, parseColRef, classifyUrl, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
     splitList, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
     LEGACY,
   };

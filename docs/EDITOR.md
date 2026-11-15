@@ -44,6 +44,12 @@ repository can use it; what they commit rebuilds and redeploys the site.
   box: text = contains, `=text` exact, `!text` without, `=` empty, `!` not empty, `>5`/`<5`
   numbers); filters combine, apply to the rows chosen ("the list on the left" or all), and
   "Clear filters" resets them.
+- **Records and links box** (taxon panel): one place for a taxon's island records (the editors' tags
+  and every literature row with its islands, pages and review state, each to confirm or reject,
+  or "Confirm all"), its identifiers (Catalogue of Life, GBIF, iNaturalist), vouchers and other
+  links. One address box takes any of them: an iNaturalist or GBIF taxon page or Catalogue of Life
+  page sets that identifier on the existing taxon (replacing the one there; refused when another
+  taxon already has it), an observation or occurrence becomes a voucher, anything else a link.
 - **Tree filter**: "Only what no editor has confirmed" (above the tree) hides every branch with
   nothing to confirm and shows how many unconfirmed taxa lie under each child. The worklist
   "Not confirmed by an editor" lists them flat.

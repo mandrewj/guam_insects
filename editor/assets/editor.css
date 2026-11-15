@@ -209,3 +209,7 @@ button.x { min-width: 24px; min-height: 24px; }
   button.primary, .count.bad, .dlg button.danger[type=submit], button.primary.danger { color: #0b2a43; }
   .badge.ok, .ok { color: var(--ok); }
 }
+.rbox h3 { font-size: 0.88rem; margin: 14px 0 4px; padding-top: 8px; border-top: 1px solid var(--line); }
+.rbox h3:first-of-type { border-top: 0; padding-top: 0; margin-top: 4px; }
+.rbox .rb-sub { margin: 8px 0 2px; font-size: 0.86rem; font-weight: 600; }
+.rbox form.inline input[name=url] { flex: 1 1 24em; }

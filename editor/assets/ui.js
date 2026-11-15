@@ -401,45 +401,7 @@
     if (r.excludedReason) html += `<div class="notice">Excluded: ${esc(r.excludedReason)}. <a href="#" data-restore="${esc(r.scientificName)}">Restore</a></div>`;
     html += facts(r);
 
-    // distribution
-    const tags = st.annFor(id, "distribution");
-    html += '<section class="sec"><h2>Distribution tags</h2>' +
-      (tags.length ? '<ul class="chips">' + tags.map(a =>
-        `<li class="chip st-${esc(a.status)}"><b>${esc(a.value)}</b> ${esc(a.status)}` +
-        (a.doc && app.st.lookup.documents.get(a.doc) ? ` <span class="src" title="${esc(app.st.lookup.documents.get(a.doc).citation)}">${esc(shortCite(app.st.lookup.documents.get(a.doc)))}</span>` : "") +
-        (a.source ? ` <span class="src">${M.isUrl(a.source) ? `<a href="${esc(a.source)}" target="_blank" rel="noopener">source</a>` : esc(a.source)}</span>` : "") +
-        ` <span class="by">${esc(a.added_by)} ${esc(a.added)}</span>` +
-        `<button type="button" class="x" data-act="untag" data-v="${esc(a.value)}" aria-label="Remove ${esc(a.value)}">×</button></li>`).join("") + "</ul>"
-        : '<p class="muted">None yet. Records from GBIF, iNaturalist and the literature: ' + (esc(r.recordedIn) || "none") + ".</p>") +
-      '<form class="inline" data-form="tag"><select name="place" aria-label="Place">' + placeOptions("Guam") + "</select>" +
-      '<select name="status" aria-label="Status">' + S.distributionStatus.map(s => `<option>${s}</option>`).join("") + "</select>" +
-      '<input name="source" placeholder="Note or URL (optional)" aria-label="Note">' +
-      '<div class="docpick" data-name="doc"></div>' +
-      '<button type="submit">Add tag</button></form></section>';
-
-    // vouchers
-    const occ = st.occFor(id);
-    html += '<section class="sec"><h2>Vouchers <span class="muted">iNaturalist observations, GBIF records</span></h2>' +
-      (occ.length ? '<ul class="plain">' + occ.map(e => {
-        const url = M.occurrenceUrl(e);
-        return `<li><a href="${esc(url)}" target="_blank" rel="noopener">${e.kind === "inat_observation" ? "iNaturalist" : "GBIF"} ${esc(e.ref)}</a>` +
-          (e.note ? ` <span class="muted">${esc(e.note)}</span>` : "") + ` <span class="by">${esc(e.editor)} ${esc(e.edited)}</span>` +
-          `<button type="button" class="x" data-act="unvoucher" data-v="${esc(url)}" aria-label="Remove">×</button></li>`;
-      }).join("") + "</ul>" : '<p class="muted">None yet. An unidentified iNaturalist observation can be a photo voucher.</p>') +
-      '<form class="inline" data-form="voucher"><input name="url" required placeholder="https://www.inaturalist.org/observations/…  or  https://www.gbif.org/occurrence/…" aria-label="Record URL">' +
-      '<input name="note" placeholder="Note (e.g. unidentified on iNat; photo shows the pronotum)" aria-label="Note">' +
-      '<button type="submit">Add voucher</button></form></section>';
-
-    // links
-    const links = st.annFor(id, "link");
-    html += '<section class="sec"><h2>Links</h2>' +
-      (links.length ? '<ul class="plain">' + links.map(a =>
-        `<li><a href="${esc(a.value)}" target="_blank" rel="noopener">${esc(a.note || a.value)}</a> <span class="by">${esc(a.added_by)} ${esc(a.added)}</span>` +
-        `<button type="button" class="x" data-act="unlink" data-v="${esc(a.value)}" aria-label="Remove">×</button></li>`).join("") + "</ul>"
-        : '<p class="muted">None yet.</p>') +
-      '<form class="inline" data-form="link"><input name="url" required placeholder="https://…" aria-label="URL">' +
-      '<input name="label" placeholder="Label (e.g. BOLD, a paper, a fact sheet)" aria-label="Label">' +
-      '<button type="submit">Add link</button></form></section>';
+    html += recordsBox(r);
 
     // names
     const syn = st.synonymsOf(id);
@@ -461,6 +423,77 @@
     mountDocPickers(el);
   }
 
+  // One box for everything about where a taxon occurs and where it is linked: the island
+  // records (the editors' tags and what the literature says, each to confirm or reject), the
+  // records (vouchers), the identifiers (iNaturalist, GBIF, Catalogue of Life) and other links.
+  function recordsBox(r) {
+    const st = app.st, id = r.taxonID;
+    const tags = st.annFor(id, "distribution");
+    const lit = st.mine("literature", id).filter(l => l.areas || l.islands || l.status || l.first_record_year);
+    const machineLit = lit.filter(l => l.review === "machine");
+    let html = '<section class="sec rbox"><h2>Records and links</h2>';
+
+    html += '<h3>Island records</h3>';
+    html += `<p class="muted small">Recorded in: ${esc(r.recordedIn) || "none"}. GBIF ${esc(r.gbifRecords || 0)} · iNaturalist ${esc(r.inatObservations || 0)} · literature ${esc(r.literatureRecords || 0)}.</p>`;
+    html += tags.length ? '<ul class="chips">' + tags.map(a =>
+      `<li class="chip st-${esc(a.status)}"><b>${esc(a.value)}</b> ${esc(a.status)}` +
+      (a.doc && st.lookup.documents.get(a.doc) ? ` <span class="src" title="${esc(st.lookup.documents.get(a.doc).citation)}">${esc(shortCite(st.lookup.documents.get(a.doc)))}</span>` : "") +
+      (a.source ? ` <span class="src">${M.isUrl(a.source) ? `<a href="${esc(a.source)}" target="_blank" rel="noopener">source</a>` : esc(a.source)}</span>` : "") +
+      ` <span class="by">${esc(a.added_by)} ${esc(a.added)}</span>` +
+      `<button type="button" class="x" data-act="untag" data-v="${esc(a.value)}" aria-label="Remove ${esc(a.value)}">×</button></li>`).join("") + "</ul>" : "";
+    if (lit.length) {
+      html += `<p class="rb-sub">From the literature${machineLit.length ? ` <span class="badge warn">${machineLit.length} machine-read</span> <button type="button" data-act="reviewAllLit">Confirm all ${machineLit.length}</button>` : ""}</p>` +
+        '<ul class="plain small">' + lit.map(l => {
+          const machine = l.review === "machine";
+          return `<li><b>${esc((l.islands || l.areas || "").replace(/ \| /g, ", ")) || "no island named"}</b> ` +
+            `<span class="muted">${esc(doc(l.doc_id).citation || l.doc_id)}` +
+            (l.pages ? ", p. " + esc(l.pages.replace(/ \| /g, ", ")) : "") + (l.kind ? " · " + esc(l.kind) : "") +
+            (l.status ? " · " + esc(l.status) + (l.status_area ? " in " + esc(l.status_area) : "") : "") +
+            (l.first_record_year ? " · first record " + esc(l.first_record_year) : "") + "</span> " +
+            (machine ? '<span class="badge warn">machine-read</span>' + reviewButtons("literature", { doc: l.doc_id, kind: l.kind })
+              : `<span class="badge ok">checked${l.reviewed_by ? " by " + esc(l.reviewed_by) : ""}</span>`) + "</li>";
+        }).join("") + "</ul>";
+    } else if (!tags.length) html += '<p class="muted">No island records from editors or the literature yet.</p>';
+    html += '<form class="inline" data-form="tag"><select name="place" aria-label="Place">' + placeOptions("Guam") + "</select>" +
+      '<select name="status" aria-label="Status">' + S.distributionStatus.map(x => `<option>${x}</option>`).join("") + "</select>" +
+      '<input name="source" placeholder="Note or URL (optional)" aria-label="Note">' +
+      '<div class="docpick" data-name="doc"></div>' +
+      '<button type="submit">Add island record</button></form>';
+
+    // identifiers, vouchers and other links
+    const occ = st.occFor(id), links = st.annFor(id, "link");
+    const rows = [];
+    const ident = (name, val, url, how, sys) => rows.push(`<li><b>${name}</b> <a href="${esc(url)}" target="_blank" rel="noopener">${esc(val)} ↗</a>` +
+      (how ? ` <span class="muted">${esc(how)}</span>` : "") + (sys ? `<button type="button" class="x" data-act="unidentify" data-v="${sys}" aria-label="Remove ${name} link">×</button>` : "") + "</li>");
+    const colId = r.inCatalogueOfLife === "yes" && /^[0-9A-Z]{1,7}$/.test(id) ? id : (st.mine("links", id).find(l => l.system === "col") || {}).value;
+    if (colId) ident("Catalogue of Life", colId, "https://www.catalogueoflife.org/data/taxon/" + colId, colId === id ? "the taxon's own id" : "linked by an editor", colId === id ? "" : "col");
+    const gk = (st.r(id) || {}).gbif_key;
+    if (gk) ident("GBIF", gk, "https://www.gbif.org/species/" + gk, "", "gbif");
+    for (const l of st.mine("links", id).filter(x => x.system === "inaturalist")) {
+      ident("iNaturalist", l.value, "https://www.inaturalist.org/taxa/" + l.value,
+        l.confidence === "high" ? (l.note || "") : "a name match, not confirmed" + (l.note ? ": " + l.note : ""), "inat");
+    }
+    for (const l of st.mine("links", id).filter(x => ["wikidata", "wikispecies", "bugguide"].includes(x.system))) {
+      rows.push(`<li><b>${esc(l.system)}</b> <span class="muted">${esc(l.value)} (set by a tool)</span></li>`);
+    }
+    for (const e of occ) {
+      const url = M.occurrenceUrl(e);
+      rows.push(`<li><b>${e.kind === "inat_observation" ? "iNaturalist observation" : "GBIF occurrence"}</b> <a href="${esc(url)}" target="_blank" rel="noopener">${esc(e.ref)} ↗</a>` +
+        (e.note ? ` <span class="muted">${esc(e.note)}</span>` : "") + ` <span class="by">${esc(e.editor)} ${esc(e.edited)}</span>` +
+        `<button type="button" class="x" data-act="unvoucher" data-v="${esc(url)}" aria-label="Remove">×</button></li>`);
+    }
+    for (const a of links) {
+      rows.push(`<li><b>Link</b> <a href="${esc(a.value)}" target="_blank" rel="noopener">${esc(a.note || a.value)} ↗</a> <span class="by">${esc(a.added_by)} ${esc(a.added)}</span>` +
+        `<button type="button" class="x" data-act="unlink" data-v="${esc(a.value)}" aria-label="Remove">×</button></li>`);
+    }
+    html += '<h3>Links and identifiers</h3>' + (rows.length ? '<ul class="plain small">' + rows.join("") + "</ul>" : '<p class="muted">None yet.</p>') +
+      '<form class="inline" data-form="addlink"><input name="url" required placeholder="Paste any address: an iNaturalist or GBIF taxon page, a Catalogue of Life page, an observation or occurrence, or any other link" aria-label="Address">' +
+      '<input name="label" placeholder="Note or label (optional)" aria-label="Note">' +
+      '<button type="submit">Add</button></form>' +
+      '<p class="muted small">A taxon page sets the taxon\'s identifier (replacing the one there); an iNaturalist observation or GBIF occurrence becomes a voucher; anything else is a link.</p>';
+    return html + "</section>";
+  }
+
   // What the literature tool wrote for this taxon, each row to confirm or reject.
   function reviewButtons(table, attrs) {
     const a = Object.entries(attrs).map(([k, v]) => `data-${k}="${esc(v)}"`).join(" ");
@@ -471,18 +504,6 @@
   function reviewSections(id) {
     const st = app.st;
     let html = "";
-    const lit = st.mine("literature", id);
-    if (lit.length) {
-      html += '<section class="sec"><h2>Literature</h2><ul class="plain small">' + lit.map(l => {
-        const machine = l.review === "machine";
-        return `<li>${esc(doc(l.doc_id).citation || l.doc_id)} <span class="muted">${esc(l.kind)}` +
-          (l.pages ? ", p. " + esc(l.pages.replace(/ \| /g, ", ")) : "") + (l.areas ? " · " + esc(l.areas) : "") +
-          (l.status ? " · " + esc(l.status) + (l.status_area ? " in " + esc(l.status_area) : "") : "") +
-          (l.first_record_year ? " · first record " + esc(l.first_record_year) : "") + "</span> " +
-          (machine ? '<span class="badge warn">machine-read</span>' + reviewButtons("literature", { doc: l.doc_id, kind: l.kind })
-            : `<span class="badge ok">checked${l.reviewed_by ? " by " + esc(l.reviewed_by) : ""}</span>`) + "</li>";
-      }).join("") + "</ul></section>";
-    }
     const notes = st.mine("notes", id);
     if (notes.length) {
       html += '<section class="sec"><h2>Notes <span class="muted">paraphrased, shown on the site</span></h2><ul class="plain small">' + notes.map(n =>
@@ -521,6 +542,8 @@
     if (act === "untag") return addOp("untag", { id, place: v });
     if (act === "unvoucher") return addOp("unvoucher", { id, url: v });
     if (act === "unlink") return addOp("unlink", { id, url: v });
+    if (act === "unidentify") return addOp("unidentify", { id, system: v });
+    if (act === "reviewAllLit") return addOp("review", { id, table: "literature" });
     if (act === "unhide") return addOp("unhide", { id });
     if (act === "confirmNativity") return addOp("confirmNativity", { id });
     if (act === "clearFlag") return addOp("clearFlag", { id });
@@ -661,6 +684,13 @@
     const kind = f.dataset.form, id = app.sel;
     let op = null;
     if (kind === "tag") op = addOp("tag", { id, place: v.place, status: v.status, source: v.source, doc: v.doc });
+    if (kind === "addlink") {
+      let c;
+      try { c = M.classifyUrl(v.url); } catch (err) { return toast(err.message, "error"); }
+      if (c.kind === "identify") op = addOp("identify", { id, system: c.system, value: c.value });
+      else if (c.kind === "voucher") op = addOp("voucher", { id, url: v.url, note: v.label });
+      else op = addOp("link", { id, url: v.url, label: v.label });
+    }
     if (kind === "voucher") op = addOp("voucher", { id, url: v.url, note: v.note });
     if (kind === "link") op = addOp("link", { id, url: v.url, label: v.label });
     if (op) { const again = $(`#tab-taxon form[data-form="${kind}"] input`); if (again) again.focus(); }

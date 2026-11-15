@@ -649,3 +649,29 @@ def test_filters_the_tree_to_the_unconfirmed_and_the_table_by_column(browser, wo
     pg.wait_for_function("!document.querySelector('#tbl-n').textContent.includes('filter')")
     assert not errors, errors
     pg.close()
+
+
+def test_identifiers_can_be_added_to_an_existing_taxon(page, world):
+    texts = texts_of(world)
+    ops = [
+        {"type": "identify", "id": "ORYCT", "system": "inat", "value": "https://www.inaturalist.org/taxa/4242-Oryctes"},
+        {"type": "identify", "id": "ORYCT", "system": "gbif", "value": "https://www.gbif.org/species/7777"},
+        {"type": "identify", "id": "ORYCT", "system": "col", "value": "https://www.catalogueoflife.org/data/taxon/ABC12"},
+        {"type": "identify", "id": "ORYCT", "system": "inat", "value": "1"},          # ORRHI's: refused
+        {"type": "identify", "id": "ORYCT", "system": "gbif", "value": "https://example.org/x"},
+        {"type": "unidentify", "id": "ORYCT", "system": "gbif"},
+        {"type": "identify", "id": "ORRHI", "system": "col", "value": "XY9"},          # a bare id, as the form passes it
+    ]
+    out = run(page, texts, ops)
+    assert out["errors"][:3] == [None, None, None], out["errors"]
+    assert out["errors"][3] and "already" in out["errors"][3] and out["errors"][4]
+    assert out["errors"][5] is None and out["errors"][6] is None, out["errors"]
+    links = out["files"]["dataset/links.csv"]
+    assert "ORYCT,inaturalist,4242,,high,linked by editor,T. Editor" in links
+    assert "ORYCT,col,ABC12,,high,linked by editor,T. Editor" in links
+    assert ",7777," not in out["files"]["dataset/taxa.csv"]                          # cleared again
+    kinds = page.evaluate("""() => ['https://www.inaturalist.org/observations/5', 'https://www.gbif.org/species/9',
+      'https://www.inaturalist.org/taxa/3-Foo', 'https://www.catalogueoflife.org/data/taxon/K9', 'https://x.org/y']
+      .map(u => IOGModel.classifyUrl(u).kind + ':' + (IOGModel.classifyUrl(u).system || ''))""")
+    assert kinds == ["voucher:", "identify:gbif", "identify:inat", "identify:col", "link:"]
+    assert not out["checks"], out["checks"]

@@ -600,6 +600,7 @@ window.IOG_SPEC = {
      "required": true,
      "enum": [
       "inaturalist",
+      "col",
       "wikidata",
       "wikispecies",
       "wikipedia",
