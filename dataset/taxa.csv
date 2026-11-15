@@ -238,11 +238,13 @@ IOG-69,IOG-68,,Species,Altagonum paulum,"Darlington, 1970",accepted,,,native,edi
 gbif:10663621,8KVGQ,,Species,Carabus elevatus,,accepted,,,unknown,,,,,,,no,10663621,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,new,,guaminsects match,2026-11-13,,
 8KVXG,8KTL7,,Genus,Celaenephes,"Schmidt-Goebel, 1846",accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 5XH6T,8KVXG,,Species,Celaenephes parallelus,"Schmidt-Goebel, 1846",accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,4753456,Catalogue of Life,,,,,,,,,,,,,,
-8KVJR,8KTL7,,Genus,Chlaenius,"Bonelli, 1810",accepted,Vivid Metallic Ground Beetles,,unknown,,,,,Licininae,Chlaeniini,yes,4988973,Catalogue of Life,,,,,,,,,,,,,,
-name-961,8KVJR,,Species,Chlaenius biguttatus,,accepted,,,unknown,,,,,Licininae,Chlaeniini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-69VKQ,8KVJR,,Species,Chlaenius flaviguttatus,"W.S.MacLeay, 1825",accepted,,,unknown,,,,,Licininae,Chlaeniini,yes,5810054,Catalogue of Life,,,,,,,,,,,,,,
+8KVJR,8KTL7,,Genus,Chlaenius,"Bonelli, 1810",accepted,Vivid Metallic Ground Beetles,,unknown,,,,,Licininae,Chlaeniini,yes,4988973,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+69VKQ,8KVJR,,Species,Chlaenius flaviguttatus,"W.S.MacLeay, 1825",accepted,,,introduced,editor,editor,,,Licininae,Chlaeniini,yes,5810054,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-961,,69VKQ,Species,Chlaenius biguttatus,"Macleay, 1825",synonym,,,unknown,,,,,Licininae,Chlaeniini,no,,curated merge,Not in the Catalogue of Life,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
 gbif:11167838,,69VKQ,Species,Chlaenius flaviguttatus guttatus,Eschscholtz.,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Chlaenius flaviguttatus,Plazi,,,,,,,,,,,,
-5Y7LM,8KVJR,,Species,Chlaenius tetragonoderus,"Chaudoir, 1876",accepted,,,unknown,,,,,Licininae,Chlaeniini,yes,8068710,Catalogue of Life,,,,,,,,,,,,,,
+IOG-71,8KVJR,,Species,Chlaenius marianensis,"Darlington, 1970",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+5Y7LM,8KVJR,,Species,Chlaenius tetragonoderus,"Chaudoir, 1876",accepted,,,introduced,editor,editor,,,Licininae,Chlaeniini,yes,8068710,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+IOG-70,5Y7LM,,Subspecies,Chlaenius tetragonoderus palauensis,"Darlington, 1970",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 8KVKT,8KTL7,,Genus,Clivina,"Latreille, 1802",accepted,,,unknown,,,,,Scaritinae,Clivinini,yes,1036880,Catalogue of Life,,,yes,not in micronesia proper - only Paraclivina it seems.,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 5ZB38,8KVKT,,Species,Clivina fossor,"(Linnaeus, 1758)",accepted,Digger Slope-rumped Beetle,,unknown,,,,,Scaritinae,Clivinini,yes,,Catalogue of Life,,,yes,"not in micronesia, type species of Clivina",,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 name-4915,,5ZB38,Species,Tenebrio fossor,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Tenebrio fossor → Clivina fossor,,,,,,,,,,guaminsects match,2026-11-13,,

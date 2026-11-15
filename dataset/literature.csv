@@ -3188,8 +3188,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5Y768,iom-12-5-chironomidae,account,83,Chironomus samoensis,MH,Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 5Y768,iom-12-5-chironomidae,mention,83,Chironomus samoensis,,,,,,,text,machine,,,migrate,2026-11-13
 5Y768,plazi-3efb1a4f,checklist,,,GU,,,,,,plazi,,,,migrate,
-5Y7LM,iom-15-1-carabidae-incl-cicindelinae,account,31,Chlaenius tetragonoderus palauensis,PW,Koror | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
-5Y7LM,iom-15-1-carabidae-incl-cicindelinae,mention,28 | 31,Chlaenius tetragonoderus,,,,,,,text,machine,,,migrate,2026-11-13
+5Y7LM,iom-15-1-carabidae-incl-cicindelinae,account,31,Chlaenius tetragonoderus palauensis,PW,Koror | Palau | Peleliu,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+5Y7LM,iom-15-1-carabidae-incl-cicindelinae,mention,28 | 31,Chlaenius tetragonoderus,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 5YB5V,iom-1-introduction,mention,175,Chonocephalus subglaber,,,,,,,text,machine,,,migrate,2026-11-13
 5YB5V,iom-13-7-phoridae,account,32,Chonocephalus subglaber,,,,,,,text,machine,,,migrate,2026-11-13
 5YB5V,iom-13-7-phoridae,mention,32,Chonocephalus subglaber,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3444,11 +3444,11 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 69T8Q,iom-12-5-chironomidae,account,80,Chironomus carolinense,PW | FM,Babeldaob | Palau | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 69V42,iom-12-5-chironomidae,account,81,Chironomus nigerilateralis,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 69V42,iom-12-5-chironomidae,mention,75,Chironomus nigerilateralis,,,,,,,text,machine,,,migrate,2026-11-13
-69VKQ,iom-15-1-carabidae-incl-cicindelinae,account,6 | 30,Chlaenius flaviguttatus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
-69VKQ,iom-15-1-carabidae-incl-cicindelinae,mention,6 | 30,Chlaenius flaviguttatus,,,,,,,text,machine,,,migrate,2026-11-13
-69VKQ,swezey-1942-misc-coleoptera-guam,account,1,Chlaenius flaviguttatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+69VKQ,iom-15-1-carabidae-incl-cicindelinae,account,6 | 30,Chlaenius flaviguttatus,PW,Palau,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+69VKQ,iom-15-1-carabidae-incl-cicindelinae,mention,6 | 30,Chlaenius flaviguttatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+69VKQ,swezey-1942-misc-coleoptera-guam,account,1,Chlaenius flaviguttatus,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 69VKQ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-69VKQ,swezey-1942-misc-coleoptera-guam,mention,1,Chlaenius flaviguttatus,,,,,,,text,machine,,,migrate,2026-11-13
+69VKQ,swezey-1942-misc-coleoptera-guam,mention,1,Chlaenius flaviguttatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 69XKH,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 69XKH,iom-17-2-cerambycidae,account,50,Chlorophorus annularis,GU,Guam,,,,,ocr,machine,,,migrate,2026-11-13
 69XKH,iom-17-2-cerambycidae,mention,10 | 50,Chlorophorus annularis,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -6437,7 +6437,7 @@ name-880,iom-16-4-nitidulidae,account,17,Carpophilus frivolus,PW,Palau,,,,,text,
 name-917,schreiner-1991-sources-of-new-insects-established-on-gua,account,4,Chaetocnema confmis,GU | MP | MH,Guam | Majuro | Saipan,introduced,GU,1986,4,text,machine,,,migrate,2026-11-13
 name-939,iom-7-3-aradidae,account,46,Chiastoplonia ponapensis,FM,Ngulu | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 name-940,iom-7-3-aradidae,account,46,Chiastoplonia pygmaea,FM | MH,Jaluit | Marshall Is. | Ngulu,,,,,text,machine,,,migrate,2026-11-13
-name-961,iom-15-1-carabidae-incl-cicindelinae,account,30,Chlaenius biguttatus,GU | PW,Guam | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
+name-961,iom-15-1-carabidae-incl-cicindelinae,account,30,Chlaenius biguttatus,GU | PW,Guam | Koror | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-999,bickel-1994-insects-of-micronesia-volume-13-no-8-diptera,account,23,Chrysosoma jlavipodex,GU | MP,Guam | Saipan,,,,,text,machine,,,migrate,2026-11-13
 name-1075,iom-17-1-chrysomelidae,account,7,Coenobius glochidionis,PW,Babeldaob | Koror | Malakal | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
 name-1077,iom-17-1-chrysomelidae,account,10,Coenobius subaeneus,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
