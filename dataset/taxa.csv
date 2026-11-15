@@ -1369,8 +1369,11 @@ KVVKQ,KV7GT,,Genus,Stenotarsus,"Perty, 1832",accepted,,,unknown,,,,Coccinelloide
 KVX7X,KV7GT,,Genus,Trochoideus,"Westwood, 1833",accepted,,,unknown,,,,Coccinelloidea,Pleganophorinae,,yes,1042670,Catalogue of Life,,,,,,,,,,,,,,
 TRFT3,KVX7X,,Species,Trochoideus desjardinsi,"Guérin-Méneville, 1857",accepted,,,unknown,,,,Coccinelloidea,Pleganophorinae,,yes,1042680,Catalogue of Life,,,,,,,,,,,,,,
 KV76Z,C2L,,Family,Erotylidae,"Latreille, 1802",accepted,Pleasing Fungus Beetles,,unknown,,,,Erotyloidea,,,yes,6981,Catalogue of Life,,,,,,,,,,,,,,
-KVDNS,KV76Z,,Genus,Hapalips,,accepted,,,unknown,,,,Erotyloidea,Languriinae,Hapalipini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-PKX7G,KVDNS,,Species,Hapalips taprobanae,"(Grouvelle, 1902)",accepted,,,unknown,,,,Erotyloidea,Languriinae,Hapalipini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+KVDNS,KV76Z,,Genus,Hapalips,,accepted,,,unknown,,,,Erotyloidea,Languriinae,Hapalipini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+IOG-90,KVDNS,,Species,Hapalips samoensis,"Arrow, 1927",accepted,,,unknown,,,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+PKX7G,KVDNS,,Species,Hapalips taprobanae,"(Grouvelle, 1902)",accepted,,,unknown,,,,Erotyloidea,Languriinae,Hapalipini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+IOG-91,KV76Z,,Genus,Toramus,"Grouvelle, 1916",accepted,,,unknown,,,,,,,no,4453262,,,,,,,,,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-92,IOG-91,,Species,Toramus taprobanae,"Grouvelle, 1919",accepted,,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 KV777,C2L,,Family,Eucnemidae,"Eschscholtz, 1829",accepted,False Click Beetles,False click beetle,unknown,,,,Elateroidea,,,yes,9644,Catalogue of Life,,,,,,,,,,,,,,
 KVC57,KV777,,Genus,Fornax,"Laporte, 1835",accepted,,,unknown,,,,Elateroidea,Macraulacinae,Macraulacini,yes,1162355,Catalogue of Life,,,,,,,,,,,,,,
 P9KMB,KVC57,,Species,Fornax coxalis,Fleutiaux,accepted,,,unknown,,,,Elateroidea,Macraulacinae,Macraulacini,yes,11149748,Catalogue of Life,,,,,,,,,,,,,,
@@ -1405,15 +1408,6 @@ KVFTG,C2L,,Family,Laemophloeidae,"Ganglbauer, 1899",accepted,Lined Flat Bark Bee
 gbif:4753,,KVFTG,Family,Propalticidae,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Laemophloeidae,GBIF Backbone,,,,,,,,,,,,
 KVGMX,KVFTG,,Genus,Laemophloeus,"Dejean, 1835",accepted,,,unknown,,,,Cucujoidea,,,yes,1042887,Catalogue of Life,,,,,,,,,,,,,,
 QFHRH,KVFTG,,Genus,Leptophloeus,"Casey, 1916",accepted,,,unknown,,,,Cucujoidea,,,yes,1042823,Catalogue of Life,,,,,,,,,,,,,,
-KVP8S,KVFTG,,Genus,Propalticus,"Sharp, 1879",accepted,,,unknown,,,,Cucujoidea,,,yes,1043960,Catalogue of Life,,,,,,,,,,,,,,
-RVSH7,KVP8S,,Species,Propalticus acupinctus,"(John, 1939)",accepted,,,unknown,,,,Cucujoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-RVSJW,KVP8S,,Species,Propalticus dybasi,"John, 1960",accepted,,,unknown,,,,Cucujoidea,,,yes,6993929,Catalogue of Life,,,,,,,,,,,,,,
-RVSKF,KVP8S,,Species,Propalticus insularis,"John, 1960",accepted,,,unknown,,,,Cucujoidea,,,yes,6993907,Catalogue of Life,,,,,,,,,,,,,,
-RVSLS,KVP8S,,Species,Propalticus oculatus,"Sharp, 1879",accepted,,,unknown,,,,Cucujoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-RVSM8,KVP8S,,Species,Propalticus saipanensis,"John, 1960",accepted,,,unknown,,,,Cucujoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-RVSMK,KVP8S,,Species,Propalticus sarawakensis,"John, 1960",accepted,,,unknown,,,,Cucujoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-RVSMS,KVP8S,,Species,Propalticus scriptitatus,"John, 1960",accepted,,,unknown,,,,Cucujoidea,,,yes,,Catalogue of Life,,,,,,,,,,,,,,
-RVSPK,KVP8S,,Species,Propalticus ulimanganus,"John, 1960",accepted,,,unknown,,,,Cucujoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 BRN,C2L,,Family,Lampyridae,"Rafinesque, 1815",accepted,Fireflies,Fireflies & Glowworms | Firefly Beetles | Lightning Beetles | Peenie Wallies | firefly | glow worms | glow-worms | lightning bugs | lightningbugs,unknown,,,,Elateroidea,,,yes,4737,Catalogue of Life,,,,,,,,,,,,,,
 35HM,BRN,,Genus,Atyphella,"Olliff, 1890",accepted,,,unknown,,,,Elateroidea,Luciolinae,Luciolini,yes,4756014,Catalogue of Life,,,,,,,,,,,,,,
 8NC9Y,35HM,,Species,Atyphella carolinae,"E. Olivier, 1911",accepted,,,unknown,,,,Elateroidea,Luciolinae,Luciolini,yes,8904316,Catalogue of Life,,,,,,,,,,,,,,
@@ -1468,13 +1462,14 @@ NV9Q2,KVH3H,,Genus,Glipa,"LeConte, 1859",accepted,,,unknown,,,,Tenebrionoidea,Mo
 NV9XL,NV9Q2,,Species,Glipa guamensis,"Blair, 1942",accepted,,,native,editor,editor,,Tenebrionoidea,Mordellinae,Mordellini,yes,7003189,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 KVJZZ,KVH3H,,Genus,Mordellistena,"A. Costa, 1854",accepted,,,unknown,,,,Tenebrionoidea,Mordellinae,Mordellistenini,yes,1046076,Catalogue of Life,,,yes,old combination - no confirmed species from Micronesia,,,,,,,,,M. Andrew Johnston,2026-11-14
 gbif:1046076,,KVJZZ,Genus,Mordellistena,"Costa, 1854",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
-KVH44,C2L,,Family,Mycetophagidae,"Leach, 1815",accepted,Hairy Fungus Beetles,,unknown,,,,Tenebrionoidea,,,yes,7839,Catalogue of Life,,,,,,,,,,,,,,
+KVH44,C2L,,Family,Mycetophagidae,"Leach, 1815",accepted,Hairy Fungus Beetles,,unknown,,,,Tenebrionoidea,,,yes,7839,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 PT884,KVH44,,Genus,Litargus,,accepted,,,unknown,,,,Tenebrionoidea,Mycetophaginae,Mycetophagini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-PT8LM,PT884,,Species,Litargus vestitus,"Sharp, 1879",accepted,,,unknown,,,,Tenebrionoidea,Mycetophaginae,Mycetophagini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+IOG-93,PT884,,Species,Litargus t-littera,"Grouvelle, 1903",accepted,,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+PT8LM,PT884,,Species,Litargus vestitus,"Sharp, 1879",accepted,,,introduced,editor,editor,,Tenebrionoidea,Mycetophaginae,Mycetophagini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 KVWW3,KVH44,,Genus,Typhaea,"Stephens, 1829",accepted,,,unknown,,,,Tenebrionoidea,Mycetophaginae,Typhaeini,yes,,Catalogue of Life,,,,,,,,,,,,,,
-name-3233,KVWW3,,Species,Typhaea obscura,,accepted,,,unknown,,,,Tenebrionoidea,Mycetophaginae,Typhaeini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-TNQBQ,KVWW3,,Species,Typhaea stercorea,"(Linnaeus, 1758)",accepted,Hairy Fungus Beetle,hairy fungus beetle,unknown,,,,Tenebrionoidea,Mycetophaginae,Typhaeini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+TNQBQ,KVWW3,,Species,Typhaea stercorea,"(Linnaeus, 1758)",accepted,Hairy Fungus Beetle,hairy fungus beetle,introduced,editor,editor,,Tenebrionoidea,Mycetophaginae,Typhaeini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4612,,TNQBQ,Species,Dermestes fumata,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Dermestes fumata → Typhaea stercorea,,,,,,,,,,guaminsects match,2026-11-13,,
+name-3233,,TNQBQ,Species,Typhaea obscura,,synonym,,,unknown,,,,Tenebrionoidea,Mycetophaginae,Typhaeini,no,,curated merge,Not in the Catalogue of Life,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
 name-4933,,TNQBQ,Species,Typhaea tomentosa,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Typhaea tomentosa → Typhaea stercorea,,,,,,,,,,guaminsects match,2026-11-13,,
 KVJRB,C2L,,Family,Nitidulidae,"Latreille, 1802",accepted,Sap Beetles,Fruit Beetles | Picnic Beetles | Sap-feeding Beetles | pollen beetles,unknown,,,,Nitiduloidea,,,yes,7840,Catalogue of Life,,,,,,,,,,,,,,
 gbif:4450247,,KVJRB,Family,Cybocephalidae,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Nitidulidae,GBIF Backbone,,,,,,,,,,,,
@@ -1560,6 +1555,16 @@ DDNJG,DBP8G,,Genus,Prionocerus,"Perty, 1831",accepted,,,unknown,,,,Cleroidea,,,y
 SBD8K,DDNJG,,Species,Prionocerus coeruleipennis,"Perty, 1831",accepted,,,unknown,,,,Cleroidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4833,,SBD8K,Species,Prionocerus caeruleipennis,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Prionocerus caeruleipennis → Prionocerus coeruleipennis,,,,,,,,,,guaminsects match,2026-11-13,,
 name-2518,DDNJG,,Species,Prionocerus forticornis,,accepted,,,unknown,,,,Cleroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
+IOG-94,C2L,,Family,Propalticidae,"Crowson, 1952",accepted,,,unknown,,,,,,,no,4753,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+KVP8S,IOG-94,,Genus,Propalticus,"Sharp, 1879",accepted,,,unknown,,,,Cucujoidea,,,yes,1043960,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+RVSH7,KVP8S,,Species,Propalticus acupinctus,"(John, 1939)",accepted,,,introduced,editor,editor,,Cucujoidea,,,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+RVSJW,KVP8S,,Species,Propalticus dybasi,"John, 1960",accepted,,,native,editor,editor,,Cucujoidea,,,yes,6993929,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+RVSKF,KVP8S,,Species,Propalticus insularis,"John, 1960",accepted,,,native,editor,editor,,Cucujoidea,,,yes,6993907,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+RVSLS,KVP8S,,Species,Propalticus oculatus,"Sharp, 1879",accepted,,,introduced,editor,editor,,Cucujoidea,,,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+RVSM8,KVP8S,,Species,Propalticus saipanensis,"John, 1960",accepted,,,native,editor,editor,,Cucujoidea,,,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+RVSMK,KVP8S,,Species,Propalticus sarawakensis,"John, 1960",accepted,,,introduced,editor,editor,,Cucujoidea,,,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+RVSMS,KVP8S,,Species,Propalticus scriptitatus,"John, 1960",accepted,,,native,editor,editor,,Cucujoidea,,,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+RVSPK,KVP8S,,Species,Propalticus ulimanganus,"John, 1960",accepted,,,native,editor,editor,,Cucujoidea,,,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 8VR4V,C2L,,Family,Ptiliidae,"Erichson, 1845",accepted,Feather-winged Beetles,Feather-wing Beetles | featherwing beetles,unknown,,,,Staphylinoidea,,,yes,4754,Catalogue of Life,,,,,,,,,,,,,,
 8VRFD,8VR4V,,Genus,Acrotrichis,"Motschulsky, 1848",accepted,,,unknown,,,,Staphylinoidea,Ptiliinae,Acrotrichini,yes,1039035,Catalogue of Life,,,,,,,,,,,,,,
 KVRTK,C2L,,Family,Ptilodactylidae,"Laporte, 1838",accepted,Toe-winged Beetles,Toed-winged beetles | ptilodactylid beetles,unknown,,,,Dryopoidea,,,yes,4755,Catalogue of Life,,,,,,,,,,,,,,

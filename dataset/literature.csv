@@ -6021,11 +6021,7 @@ RQQNR,iom-7-4-lygaeidae,account,26,Pachybrachius chinai,,,,,,,text,machine,,,mig
 RQQNR,iom-7-4-lygaeidae,mention,26,Pachybrachius chinai,,,,,,,text,machine,,,migrate,2026-11-13
 RQQNR,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 RV7DD,iom-16-4-nitidulidae,account,50,Prometopia quadrimaculata,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-RVSJW,iom-16-7-propalticidae,account,7,Propalticus dybasi,,,,,,,ocr,machine,,,migrate,2026-11-13
-RVSJW,iom-16-7-propalticidae,mention,2 | 7 | 8,Propalticus dybasi,,,,,,,ocr,machine,,,migrate,2026-11-13
-RVSKF,iom-16-7-propalticidae,account,5,Propalticus insularis,,,,,,,ocr,machine,,,migrate,2026-11-13
-RVSKF,iom-16-7-propalticidae,mention,3 | 4 | 5 | 6,Propalticus insularis,,,,,,,text,machine,,,migrate,2026-11-13
-RVSMS,iom-16-7-propalticidae,account,5,Propalticus scriptitatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+RVSMS,iom-16-7-propalticidae,account,5,Propalticus scriptitatus,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 RZDBS,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 RZQF7,plazi-6dc2872d,checklist,,,GU,,,,,,plazi,,,,migrate,
 S3GYK,iom-7-8-anthocoridae,account,21,Cardiastethus mundulus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6508,7 +6504,6 @@ name-3119,iom-16-5-coccinellidae,account,55,Telsimia ephippiger,PW,Babeldaob | K
 name-3135,iom-7-7-pentatomoidea,account,17,Tetrarthria linetata,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-3208,iom-6-7-coccoidea,account,32,Trionymus calceolariae,GU | MP | PW,Guam | Koror | Saipan,,,,,text,machine,,,migrate,2026-11-13
 name-3219,iom-19-3-eucoilinae-cynipoidea,account,7,Trybliographa beardsleyi,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
-name-3233,iom-16-6-cryptophagidae-mycetophagidae,account,7,Typhaea obscura,MH,Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 name-3237,iom-15-1-carabidae-incl-cicindelinae,account,20,Typhlonesiotes zwaluwenburgi,MP,Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-3256,iom-7-7-pentatomoidea,account,33,Vitellus mucronatus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-3310,iom-7-7-pentatomoidea,account,35,Zangis inornata,GU | PW,Guam | Palau,,,,,text,machine,,,migrate,2026-11-13
