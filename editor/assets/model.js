@@ -615,6 +615,18 @@
       st.setCell(op.id, "verification_source", op.on ? (op.source || "") : "");
       st.stamp(op.id, op);
     },
+    // One decision for many taxa (a worklist or a filtered table). Only taxa it would change
+    // are touched: a nativity an editor set is never overwritten (rule 7); each is credited and
+    // stamped like a single change, and the whole thing is one change in the list (one undo).
+    bulk(st, op) {
+      const ids = bulkEligible(st, op.ids || [], op.action, op.value);
+      need(["nativity", "verify", "clearFlag"].includes(op.action), "bulk: nativity, confirm or clear the new flag");
+      need(ids.length, "nothing to change among those taxa (already set, set by an editor, or not accepted)");
+      for (const id of ids) {
+        OPS[op.action](st, Object.assign({}, op, { id, on: true }));
+      }
+      op.count = ids.length;
+    },
     // A reviewed tool-made taxon no longer needs a second look.
     clearFlag(st, op) {
       need(st.r(op.id) && st.r(op.id).flag === "new", "that taxon is not flagged new");
@@ -838,8 +850,8 @@
       need(["literature", "notes", "hosts"].includes(op.table), "review literature, notes or hosts");
       let n = 0;
       st.t[op.table] = st.t[op.table].map(r => {
-        if (st.shownId(r.taxon_id) !== op.id || (op.doc && r.doc_id !== op.doc) ||
-            (op.kind && r.kind !== op.kind) || r.review !== "machine") return r;
+        if (st.shownId(r.taxon_id) !== op.id || (op.tid && r.taxon_id !== op.tid) || (op.doc && r.doc_id !== op.doc) ||
+            (op.kind && r.kind !== op.kind) || (op.topic && r.topic !== op.topic) || (op.host && r.host !== op.host) || r.review !== "machine") return r;
         n++;
         const out = Object.assign({}, r, { review: "editor" });
         if ("reviewed_by" in r) Object.assign(out, { reviewed_by: op.by, reviewed: op.date });
@@ -902,7 +914,7 @@
     },
     // Correct a literature row or a note a tool wrote; editing it confirms it.
     editLit(st, op) {
-      const i = st.t.literature.findIndex(r => st.shownId(r.taxon_id) === op.id && r.doc_id === op.doc && r.kind === op.kind);
+      const i = st.t.literature.findIndex(r => st.shownId(r.taxon_id) === op.id && (!op.tid || r.taxon_id === op.tid) && r.doc_id === op.doc && r.kind === op.kind);
       need(i >= 0, "no such literature row");
       const fields = {};
       for (const f of ["pages", "name_printed", "areas", "islands", "status", "status_area", "first_record_year", "status_page"]) {
@@ -912,7 +924,7 @@
       st.stamp(op.id, op);
     },
     editNote(st, op) {
-      const i = st.t.notes.findIndex(r => st.shownId(r.taxon_id) === op.id && r.doc_id === op.doc && r.topic === op.topic);
+      const i = st.t.notes.findIndex(r => st.shownId(r.taxon_id) === op.id && (!op.tid || r.taxon_id === op.tid) && r.doc_id === op.doc && r.topic === op.topic);
       need(i >= 0, "no such note");
       const fields = {};
       for (const f of ["note", "pages"]) if (op[f] != null) fields[f] = String(op[f]).trim();
@@ -927,7 +939,7 @@
     reject(st, op) {
       need(["literature", "notes", "hosts"].includes(op.table), "reject literature, notes or hosts");
       const before = st.t[op.table].length;
-      st.t[op.table] = st.t[op.table].filter(r => !(st.shownId(r.taxon_id) === op.id && (!op.doc || r.doc_id === op.doc) &&
+      st.t[op.table] = st.t[op.table].filter(r => !(st.shownId(r.taxon_id) === op.id && (!op.tid || r.taxon_id === op.tid) && (!op.doc || r.doc_id === op.doc) &&
         (!op.kind || r.kind === op.kind) && (!op.topic || r.topic === op.topic) && (!op.host || r.host === op.host)));
       need(st.t[op.table].length < before, "no such row");
       st.stamp(op.id, op);
@@ -977,6 +989,30 @@
     return st.annFor(id, "link").map(formatLink).join(SEP);
   }
 
+  // The taxa a bulk change would touch.
+  function bulkEligible(st, ids, action, value) {
+    const out = [];
+    for (const id of ids) {
+      const r = st.r(id);
+      if (!r || st.isSyn(r)) continue;
+      if (action === "nativity" && S.nativity.includes(value) && value !== "unknown" &&
+          (r.nativity === "unknown" || (r.nativity_review !== "editor" && r.nativity !== value))) out.push(id);
+      else if (action === "verify" && r.verified !== "yes") out.push(id);
+      else if (action === "clearFlag" && r.flag === "new") out.push(id);
+    }
+    return out;
+  }
+  // One more operation on a state already built (a click must not replay every earlier change).
+  function applyOne(st, op) {
+    const fn = OPS[op.type];
+    try {
+      if (!fn) throw new Error(`unknown operation ${op.type}`);
+      const snap = snapshot(st);
+      try { fn(st, op); op.error = null; } catch (e) { restore(st, snap); throw e; }
+    } catch (e) { op.error = e.message; }
+    st.finish();
+    return st;
+  }
   function replay(base, ops) {
     const st = new State(base);
     // A taxon added here gets a new IOG- id when its old one was taken meanwhile (someone
@@ -1109,6 +1145,7 @@
       case "link": return `${who}: link ${op.label ? op.label + " " : ""}${op.url}`;
       case "identify": return `${who}: ${({ inat: "iNaturalist", gbif: "GBIF", col: "Catalogue of Life" })[op.system]} ${op.value} linked`;
       case "unidentify": return `${who}: ${({ inat: "iNaturalist", gbif: "GBIF", col: "Catalogue of Life" })[op.system]} link removed`;
+      case "bulk": return `${op.count || (op.ids || []).length} taxa: ` + ({ nativity: `nativity → ${op.value}`, verify: "confirmed", clearFlag: "new flag cleared" })[op.action];
       case "unlink": return `${who}: removed link ${op.url}`;
       case "exclude": return `${op.id ? n(op.id) : op.name} excluded: ${op.reason}`;
       case "unexclude": return `${op.name}: no longer excluded`;
@@ -1149,7 +1186,7 @@
   EDITABLE_VIEW.parentNameUsage = "parent_id";
 
   window.IOGModel = {
-    makeBase, replay, check, files, describe, commitMessage, op, sortRows, tid,
+    makeBase, replay, applyOne, bulkEligible, check, files, describe, commitMessage, op, sortRows, tid,
     validId, parseTaxonRef, parseColRef, classifyUrl, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
     splitList, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
     LEGACY,

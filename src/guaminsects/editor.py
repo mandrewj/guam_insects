@@ -16,6 +16,7 @@ import json
 import re
 import subprocess
 import tempfile
+import time
 import urllib.parse
 from pathlib import Path
 
@@ -107,14 +108,56 @@ def validate(files: dict[str, str]) -> list[str]:
         return dataset.check(dataset.load(root)).items
 
 
-def info() -> dict:
+_last_refresh = {"at": 0.0, "result": {}}
+
+
+def refresh(max_age: float = 20.0) -> dict:
+    """Bring the clone up to date with GitHub before the editor reads it: fetch, and when the
+    clone is clean, on main and has nothing unpushed, fast-forward (never a merge, never a
+    reset). The editor then starts from the newest taxonomy, so two editors rarely collide."""
+    if time.time() - _last_refresh["at"] < max_age:
+        return _last_refresh["result"]
+    out = {"behind": 0, "updated": 0, "note": ""}
+    f = subprocess.run(["git", "fetch", "-q", "origin", BRANCH], cwd=config.ROOT, capture_output=True,
+                       text=True, timeout=60)
+    if f.returncode:
+        out["note"] = "could not reach GitHub, working from this clone as it is"
+    else:
+        try:
+            behind = int(_git("rev-list", "--count", f"HEAD..origin/{BRANCH}"))
+            ahead = int(_git("rev-list", "--count", f"origin/{BRANCH}..HEAD"))
+            out["behind"] = behind
+            dirty = subprocess.run(["git", "status", "--porcelain", "--", *FILES], cwd=config.ROOT,
+                                   capture_output=True, text=True, timeout=60).stdout.strip()
+            if not behind:
+                pass
+            elif _git("rev-parse", "--abbrev-ref", "HEAD") != BRANCH:
+                out["note"] = f"{behind} newer commits on GitHub, but this clone is not on {BRANCH}"
+            elif ahead or dirty:
+                out["note"] = (f"{behind} newer commits on GitHub, not applied: this clone has "
+                               "unpushed or uncommitted changes")
+            else:
+                m = subprocess.run(["git", "merge", "--ff-only", "-q", f"origin/{BRANCH}"],
+                                   cwd=config.ROOT, capture_output=True, text=True, timeout=120)
+                if m.returncode:
+                    out["note"] = "newer commits on GitHub could not be applied: " + (m.stderr or m.stdout).strip()
+                else:
+                    out["updated"], out["behind"] = behind, 0
+        except (RuntimeError, ValueError) as e:
+            out["note"] = str(e)
+    _last_refresh.update(at=time.time(), result=out)
+    return out
+
+
+def info(fresh: bool = False) -> dict:
+    sync = refresh() if fresh else {}
     remote = _git("remote", "get-url", "origin", check=False)
     status = subprocess.run(["git", "status", "--porcelain", "--", *FILES], cwd=config.ROOT,
                             capture_output=True, text=True, timeout=120).stdout
     dirty = [line[3:] for line in status.splitlines()]      # " M path": the status is not trimmed
     return {"mode": "local", "repo": remote, "branch": _git("rev-parse", "--abbrev-ref", "HEAD"),
             "head": _git("rev-parse", "HEAD"), "user": _git("config", "user.name", check=False),
-            "dirty": dirty}
+            "dirty": dirty, "sync": sync}
 
 
 def commit(files: dict[str, str], message: str, author: str, base: str,
@@ -160,10 +203,11 @@ def commit(files: dict[str, str], message: str, author: str, base: str,
                                   cwd=config.ROOT, capture_output=True, text=True, timeout=120)
             if pull.returncode:
                 _git("rebase", "--abort", check=False)
-                out["error"] = ("committed locally, but the push was refused and the commit "
-                                "does not replay cleanly on GitHub's main: run `git pull "
-                                "--rebase` and resolve, then `git push`")
-                return out
+                return _take_newest("someone else changed the same rows meanwhile")
+            problems = validate({})             # a clean textual merge can still break the tree
+            if problems:
+                return _take_newest("together with the newer edits on GitHub it would not pass the "
+                                    "checks (" + "; ".join(problems[:3]) + ")")
             r = subprocess.run(["git", "push", "-q", "origin", f"HEAD:{BRANCH}"],
                                cwd=config.ROOT, capture_output=True, text=True, timeout=120)
         out["pushed"] = r.returncode == 0
@@ -171,6 +215,18 @@ def commit(files: dict[str, str], message: str, author: str, base: str,
         if r.returncode:
             out["error"] = "committed locally; push failed: " + (r.stderr or r.stdout).strip()
     return out
+
+
+def _take_newest(why: str) -> dict:
+    """The commit cannot go on top of GitHub's newest: take GitHub's version of main (only when
+    the commit is ours alone), so nothing diverges. The editor still holds the changes: reload
+    and they are replayed onto the newest taxonomy."""
+    ahead = int(_git("rev-list", "--count", f"origin/{BRANCH}..HEAD", check=False) or 0)
+    if ahead == 1:
+        _git("reset", "--keep", f"origin/{BRANCH}", check=False)
+    return {"ok": False, "status": 409, "errors": [
+        f"Not published: {why}. Reload the editor: your changes are kept and replayed onto the newest taxonomy, "
+        "and anything that no longer fits is listed under Changes."]}
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -207,7 +263,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return None
         if url.path == "/api/editor/info":
             try:
-                return self._json(info())
+                return self._json(info(fresh=True))
             except RuntimeError as e:
                 return self._json({"error": str(e)}, 500)
         if not self._allowed(url.path):
@@ -246,6 +302,9 @@ def serve(port: int = 8766, push: bool = True) -> int:
         print(f"no editor at {EDITOR_DIR}")
         return 1
     Handler.push = push
+    if push:
+        r = refresh()
+        print("clone:", f"updated from GitHub ({r['updated']} new commits)" if r["updated"] else r["note"] or "up to date")
     handler = functools.partial(Handler, directory=str(config.ROOT))
     with http.server.ThreadingHTTPServer(("127.0.0.1", port), handler) as httpd:
         print(f"editor at http://localhost:{port}/editor/  (Ctrl-C to stop)"

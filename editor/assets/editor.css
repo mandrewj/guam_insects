@@ -214,3 +214,8 @@ button.x { min-width: 24px; min-height: 24px; }
 .rbox .rb-sub { margin: 8px 0 2px; font-size: 0.86rem; font-weight: 600; }
 .rbox form.inline input[name=url] { flex: 1 1 24em; }
 .toast-undo { margin-left: 8px; font: inherit; padding: 1px 10px; }
+.small-btn { font-size: 0.78rem; padding: 0 8px; margin-left: 6px; }
+.quick { margin-left: 8px; }
+.quick button { font-size: 0.76rem; padding: 0 8px; margin-right: 4px; }
+table.prog td, table.prog th { text-align: right; } table.prog td:first-child, table.prog th:first-child { text-align: left; }
+table.prog tr.tot td { border-bottom: 2px solid var(--line); }

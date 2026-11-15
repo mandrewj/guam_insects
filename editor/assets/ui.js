@@ -48,24 +48,86 @@
   // ------------------------------------------------------------ state changes
   function recompute() {
     app.st = M.replay(app.base, app.ops);
+    refreshDerived();
+    saveDraft();
+    render();
+  }
+  // Everything computed from the state, after any change.
+  function refreshDerived() {
     app.search = new Map();
     for (const r of app.st.rows) {
       app.search.set(r.taxonID, fold([r.scientificName, r.vernacularName, r.taxonID, r.scientificNameAuthorship, r.order, r.family, r.genus].join(" ")));
     }
-    saveDraft();
-    render();
+    app._via = null;
+    computeProblems();
+    updateQueueCounts();
+  }
+  // A taxon above a confirmed one counts as confirmed too: an editor who confirmed a species
+  // has looked at its genus and family. (Derived here, never written to the data.)
+  function viaSet() {
+    if (app._via) return app._via;
+    const set = new Set();
+    for (const r of app.st.rows) {
+      if (isSyn(r) || r.verificationStatus !== M.CONFIRMED) continue;
+      for (let x = r.parentNameUsageID ? row(r.parentNameUsageID) : null; x && !set.has(x.taxonID); x = x.parentNameUsageID ? row(x.parentNameUsageID) : null) set.add(x.taxonID);
+    }
+    return (app._via = set);
+  }
+  const isConfirmed = r => r.verificationStatus === M.CONFIRMED || viaSet().has(r.taxonID);
+  // Possible duplicates and slips, found in the loaded data (the worklists "Data problems").
+  function computeProblems() {
+    const st = app.st, inat = new Map(), epi = new Map(), out = { inat: new Set(), oneword: new Set(), epithet: new Set() };
+    for (const l of st.t.links) {
+      if (l.system !== "inaturalist") continue;
+      const id = st.shownId(l.taxon_id);
+      if (!inat.has(l.value)) inat.set(l.value, new Set());
+      inat.get(l.value).add(id);
+    }
+    for (const ids of inat.values()) if (ids.size > 1) for (const id of ids) out.inat.add(id);
+    for (const r of st.rows) {
+      if (isSyn(r) || r.taxonRank !== "Species") continue;
+      const parts = r.scientificName.trim().split(/\s+/);
+      if (parts.length < 2) { out.oneword.add(r.taxonID); continue; }
+      const key = (r.family || "") + "|" + parts[parts.length - 1];
+      if (!epi.has(key)) epi.set(key, new Map());
+      epi.get(key).set(parts[0], r.taxonID);
+    }
+    for (const g of epi.values()) if (g.size > 1) for (const id of g.values()) out.epithet.add(id);
+    app.problems = out;
+  }
+  function updateQueueCounts() {
+    const sel = $("#queue");
+    if (!sel || !app.st) return;
+    const un = app.st.t.unplaced || [];
+    for (const o of sel.options) {
+      const q = QUEUES.find(x => x[0] === o.value);
+      if (!q) continue;
+      let n = null;
+      if (q[2]) n = app.st.rows.reduce((a, r) => a + (q[2](r, app.st) ? 1 : 0), 0);
+      else if (q[0] === "unplaced") n = un.filter(u => u.status !== "excluded").length;
+      else if (q[0] === "excluded") n = un.filter(u => u.status === "excluded").length;
+      o.textContent = q[1] + (n == null ? "" : " (" + n.toLocaleString() + ")");
+    }
   }
   function addOp(type, fields, quiet) {
     if (!app.name) { askName(() => addOp(type, fields, quiet)); return null; }
     const op = M.op(type, fields, app.name);
+    const listed = inWorklist() ? matches() : null, at = listed ? listed.findIndex(r => r.taxonID === app.sel) : -1;
     app.ops.push(op);
-    recompute();
+    M.applyOne(app.st, op);                 // this one change only: replaying them all slows every click
     if (op.error) {
       app.ops.pop();
-      recompute();
       toast(op.error, "error");
       return null;
     }
+    refreshDerived();
+    saveDraft();
+    if (listed && at >= 0 && !matches().some(r => r.taxonID === app.sel)) {      // it left the worklist: on to the next
+      const now = new Set(matches().map(r => r.taxonID));
+      const next = listed.slice(at + 1).concat(listed.slice(0, at).reverse()).find(r => now.has(r.taxonID));
+      if (next) app.sel = next.taxonID;
+    }
+    render();
     if (!quiet) toast(M.describe(op, app.st), "", op);
     return op;
   }
@@ -102,6 +164,9 @@
     render();
     if (app.pending && !app.ops.length && !$("#dlg").open && app.name) setTimeout(() => offerDraft(app.pending), 0);
     if (res.warn) toast(res.warn, "error");
+    const sy = res.info && res.info.sync;
+    if (sy && sy.updated) toast(`Updated from GitHub: ${sy.updated} new commit${sy.updated === 1 ? "" : "s"} are in what you see`);
+    else if (sy && sy.note) toast(sy.note, "error");
     if (res.info && res.info.dirty && res.info.dirty.length) {
       toast("Uncommitted changes in " + res.info.dirty.join(", ") + ": commit or discard them with git before committing here.", "error");
     }
@@ -207,12 +272,16 @@
     ["thin", "Species on ≤ 2 GBIF records, nothing else", r => r.taxonRank === "Species" && !isSyn(r) && num(r.gbifRecords) <= 2 && !num(r.literatureRecords) && !num(r.inatObservations)],
     ["lonely", "Families with nothing under them", (r, st) => r.taxonRank === "Family" && !isSyn(r) && !st.children(r.taxonID).length],
     ["curated", "Added by hand (IOG-)", r => /^IOG-/.test(r.taxonID)],
-    ["unconfirmedall", "Not confirmed by an editor", r => !isSyn(r) && r.hidden !== "1" && r.verificationStatus !== M.CONFIRMED],
+    ["unconfirmedall", "Not confirmed by an editor", r => !isSyn(r) && r.hidden !== "1" && !isConfirmed(r)],
+    ["dupinat", "Data problem: same iNaturalist taxon on two taxa", r => app.problems && app.problems.inat.has(r.taxonID)],
+    ["oneword", "Data problem: species with a one-word name", r => app.problems && app.problems.oneword.has(r.taxonID)],
+    ["epithet", "Data problem: same epithet in a family, different genera", r => app.problems && app.problems.epithet.has(r.taxonID)],
     ["confirmed", "Editor confirmed", r => r.verificationStatus === M.CONFIRMED],
     ["introduced", "Nativity: introduced", r => !isSyn(r) && r.nativity === "introduced"],
     ["native", "Nativity: native", r => !isSyn(r) && r.nativity === "native"],
     ["hidden", "Hidden", r => r.hidden === "1" && !isSyn(r)],
   ];
+  const inWorklist = () => !!app.st && (app.queue !== "browse" || !!app.q.trim()) && app.queue !== "unplaced" && app.queue !== "excluded";
   function matches() {
     const st = app.st;
     if (!st) return [];
@@ -238,6 +307,7 @@
     if (app.tab === "table") renderTable();
     if (app.tab === "review") renderReview();
     if (app.tab === "quick") renderQuick();
+    if (app.tab === "progress") renderProgress();
     if (app.tab === "sources") renderSources();
     if (app.tab === "changes") renderChanges();
   }
@@ -253,7 +323,7 @@
   function unconfirmedCounts() {
     const st = app.st, n = new Map();
     for (const r of st.rows) {
-      if (isSyn(r) || r.hidden === "1" || r.verificationStatus === M.CONFIRMED) continue;
+      if (isSyn(r) || r.hidden === "1" || isConfirmed(r)) continue;
       const seen = new Set();
       for (let x = r; x && !seen.has(x.taxonID); x = x.parentNameUsageID ? row(x.parentNameUsageID) : null) {
         seen.add(x.taxonID);
@@ -298,10 +368,18 @@
       return;
     }
     const rows = matches(), max = 400;
-    el.innerHTML = `<p class="muted pad">${rows.length.toLocaleString()} ${rows.length === 1 ? "taxon" : "taxa"}${app.q.trim() && app.queue !== "browse" ? ` matching “${esc(app.q.trim())}” <a href="#" id="clear-q">clear search</a>` : ""}</p>` + rows.slice(0, max).map(r => item(r)).join("") +
+    el.innerHTML = `<p class="muted pad">${rows.length.toLocaleString()} ${rows.length === 1 ? "taxon" : "taxa"}${rows.length > 1 && app.queue !== "browse" ? ' <button type="button" id="bulk-list" class="small-btn">Apply to all…</button>' : ""}${app.q.trim() && app.queue !== "browse" ? ` matching “${esc(app.q.trim())}” <a href="#" id="clear-q">clear search</a>` : ""}</p>` + rows.slice(0, max).map(r => item(r)).join("") +
       (rows.length > max ? `<p class="muted pad">… ${(rows.length - max).toLocaleString()} more: narrow the search.</p>` : "");
   }
 
+  // The rows j and k step through: the list on the left, or the children of the taxon in the tree.
+  function listRows() {
+    if (inWorklist()) return matches();
+    const r = row(app.sel), st = app.st;
+    if (!r) return [];
+    const here = isSyn(r) ? r.acceptedNameUsageID : r.taxonID, p = row(here) && row(here).parentNameUsageID;
+    return p ? st.children(p).map(row) : [row(here)];
+  }
   function select(id, tab) {
     if (!row(id)) return;
     app.sel = id;
@@ -315,7 +393,7 @@
   function setTab(t) {
     app.tab = t;
     for (const b of document.querySelectorAll(".tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === t));
-    for (const k of ["taxon", "table", "review", "quick", "sources", "changes"]) $("#tab-" + k).hidden = k !== t;
+    for (const k of ["taxon", "table", "review", "quick", "progress", "sources", "changes"]) $("#tab-" + k).hidden = k !== t;
     render();
   }
 
@@ -333,7 +411,9 @@
     const f = [
       ["Common name", esc(r.vernacularName)],
       ["Nativity", esc(r.nativity) + (r.nativity !== "unknown" ? ` <span class="muted">${esc(r.nativity_review === "machine" ? "set by a tool, not yet confirmed" : "confirmed")}${r.nativity_source ? ", source: " + esc(r.nativity_source) : ""}</span>` : "") +
-        (r.nativityConflict ? ' <span class="badge warn">statements disagree</span>' : "")],
+        (r.nativityConflict ? ' <span class="badge warn">statements disagree</span>' : "") +
+        (!isSyn(r) ? ' <span class="quick">' + ["native", "introduced", "unknown"].filter(v => v !== r.nativity).map(v =>
+          `<button type="button" data-act="natq" data-v="${v}" title="Set to ${v}, source: ${esc(app.lastNatSource || "editor")}">${v}</button>`).join("") + "</span>" : "")],
       ["Recorded in", esc(r.recordedIn)], ["Islands", esc(r.islands)],
       ["Verification", esc(r.verificationStatus) + (r.verificationRemarks ? ` <span class="muted">(${esc(r.verificationRemarks)})</span>` : "") +
         (r.verifiedBy ? ` <span class="muted">by ${esc(r.verifiedBy)} ${esc(r.verifiedDate)}</span>` : "")],
@@ -371,6 +451,7 @@
     if (r.inCatalogueOfLife === "no" && !isSyn(r)) badges.push('<span class="badge warn">not in the Catalogue of Life</span>');
     if (r.hidden === "1") badges.push('<span class="badge muted">hidden</span>');
     if (r.verificationStatus === M.CONFIRMED) badges.push('<span class="badge ok">confirmed</span>');
+    else if (!isSyn(r) && viaSet().has(id)) badges.push('<span class="badge ok" title="An editor confirmed a taxon under it">confirmed through a taxon under it</span>');
     if (r.taxonomicStatus === "morphospecies" || r.taxonomicStatus === "doubtful") badges.push(`<span class="badge muted">${esc(r.taxonomicStatus)}</span>`);
     const crumbs = st.lineage(isSyn(r) ? r.acceptedNameUsageID : id);
     const siteLink = `${S.site}#/t/${encodeURIComponent(isSyn(r) ? r.acceptedNameUsageID : id)}`;
@@ -402,7 +483,7 @@
       (r.nativity !== "unknown" && r.nativity_review === "machine" ? '<button type="button" data-act="confirmNativity">Confirm nativity</button>' : "") +
       (r.flag === "new" ? '<button type="button" data-act="clearFlag">Mark reviewed</button>' : "") +
       (r.verificationStatus === M.CONFIRMED ? '<button type="button" data-act="unverify">Remove confirmation</button>'
-        : '<button type="button" data-act="verify">Confirm…</button>') +
+        : '<button type="button" data-act="verify" title="Confirms at once with the last source; Shift-click to give a source">Confirm</button>') +
       (r.hidden === "1" ? '<button type="button" data-act="unhide">Show again</button>'
         : '<button type="button" data-act="hide" class="danger">Hide (delete)…</button>') +
       '<button type="button" data-act="exclude" class="danger">Exclude…</button>' +
@@ -555,6 +636,7 @@
     if (act === "unidentify") return addOp("unidentify", { id, system: v });
     if (act === "reviewAllLit") return addOp("review", { id, table: "literature" });
     if (act === "unhide") return addOp("unhide", { id });
+    if (act === "natq") return addOp("nativity", { id, value: v, source: app.lastNatSource || "" });
     if (act === "confirmNativity") return addOp("confirmNativity", { id });
     if (act === "clearFlag") return addOp("clearFlag", { id });
     if (act === "review" || act === "reject") {
@@ -581,7 +663,7 @@
         fields: [{ key: "value", label: "Nativity", type: "select", options: S.nativity, value: r.nativity },
                  { key: "source", label: "Source (pick or create a reference; blank means “editor”)", type: "doc",
                    value: r.nativity_source !== "editor" && r.nativity_source !== "gbif" ? r.nativity_source : "" }],
-        submit: "Save", onSubmit: x => addOp("nativity", { id, value: x.value, source: x.source }) });
+        submit: "Save", onSubmit: x => { app.lastNatSource = x.source; return addOp("nativity", { id, value: x.value, source: x.source }); } });
     }
     if (act === "excludeName" || act === "unexclude" || act === "exclude") {
       if (act === "unexclude") { const u = unplacedRows()[+b.dataset.i]; return addOp("unexclude", { name: u.name }); }
@@ -614,10 +696,11 @@
     }
     if (act === "unverify") return addOp("verify", { id, on: false });
     if (act === "edit") return editFields(r);
+    if (act === "verify" && !e.shiftKey) return addOp("verify", { id, on: true, source: app.lastVerifySource || "" });
     if (act === "verify") {
       return openForm({ title: "Confirm " + r.scientificName, intro: "You confirm that this taxon occurs in Micronesia (verificationStatus: editor confirmed).",
         fields: [{ key: "source", label: "Source for the confirmation (citation, specimen, observation URL)" }],
-        submit: "Confirm", onSubmit: x => addOp("verify", { id, on: true, source: x.source }) });
+        submit: "Confirm", onSubmit: x => { app.lastVerifySource = x.source; return addOp("verify", { id, on: true, source: x.source }); } });
     }
     if (act === "synonymize") {
       return openForm({
@@ -726,6 +809,35 @@
       } });
   }
 
+  // ---- one decision for many taxa
+  function bulkDialog(rows) {
+    if (!app.name) return askName();
+    const ids = rows.map(r => r.taxonID), st = app.st;
+    const n = (a, v) => M.bulkEligible(st, ids, a, v).length;
+    openForm({
+      title: `Apply one decision to ${ids.length.toLocaleString()} taxa`,
+      intro: "Only the taxa it would change are touched, and it is one change in the list (one undo). " +
+        "A nativity an editor set is never overwritten; tool-set and unknown values are. Look at the rows first (the list or the table), then decide. " +
+        `Would change: nativity ${n("nativity", "introduced").toLocaleString()} (introduced) / ${n("nativity", "native").toLocaleString()} (native), ` +
+        `confirm ${n("verify").toLocaleString()}, new flag ${n("clearFlag").toLocaleString()}.`,
+      fields: [
+        { key: "action", label: "Decision", type: "radio", value: "nativity", options: [
+          ["nativity", "Set nativity (where it is unknown or set by a tool)"],
+          ["verify", "Confirm that they occur in Micronesia"],
+          ["clearFlag", "Clear the “new” flag (mark reviewed)"]] },
+        { key: "value", label: "Nativity", type: "select", options: ["introduced", "native"], value: "introduced", show: v => v.action === "nativity" },
+        { key: "source", label: "Source (pick or create a reference; blank means “editor”)", type: "doc", value: app.lastNatSource || "", show: v => v.action === "nativity" },
+        { key: "vsource", label: "Source for the confirmation (citation, specimen, observation URL)", value: app.lastVerifySource || "", show: v => v.action === "verify" },
+      ],
+      submitLabel: v => `Apply to ${n(v.action, v.value).toLocaleString()} taxa`,
+      onSubmit: v => {
+        if (!n(v.action, v.value)) throw new Error("Nothing would change.");
+        if (v.action === "nativity") app.lastNatSource = v.source; else if (v.action === "verify") app.lastVerifySource = v.vsource;
+        return addOp("bulk", { ids, action: v.action, value: v.value, source: v.action === "verify" ? v.vsource : v.source });
+      },
+    });
+  }
+
   // ---- the table
   const PRESETS = {
     core: ["taxonID", "scientificName", "scientificNameAuthorship", "taxonRank", "taxonomicStatus", "parentNameUsage", "vernacularName", "family", "nativity", "recordedIn", "verificationStatus", "hidden"],
@@ -775,13 +887,24 @@
         Object.keys(PRESETS).map(k => `<option value="${k}">${k}</option>`).join("") + "</select></label>" +
         '<label>Rows <select id="scope"><option value="list">the list on the left</option><option value="all">all</option></select></label>' +
         '<button type="button" id="clear-f">Clear filters</button>' +
+        '<button type="button" id="export-csv" title="Download the rows shown, with the columns shown">Export CSV</button>' +
+        '<button type="button" id="bulk-table" title="One decision for every row shown">Apply to these rows…</button>' +
         '<span id="tbl-n" class="muted"></span><span class="muted hint">Filters: text contains; =text exact; !text without; = empty; ! not empty; &gt;5 or &lt;5 numbers. ' +
         'Double-click a white cell to edit (Enter saves, Esc cancels); grey cells are computed.</span></div>' +
         '<div class="grid" tabindex="0"><div class="g-head"></div><div class="g-body"></div></div>';
       $("#preset").addEventListener("change", e => { app.preset = e.target.value; store.set("iog-editor-preset", app.preset); renderTable(); });
       $("#scope").addEventListener("change", e => { app.tableScope = e.target.value; renderTable(); });
-      $("#clear-f").addEventListener("click", () => { app.colf = {}; renderTable(); });
+      $("#clear-f").addEventListener("click", () => { app.colf = {}; app.sort = null; renderTable(); });
+      $("#bulk-table").addEventListener("click", () => bulkDialog(tableRows));
+      $("#export-csv").addEventListener("click", exportRows);
       const head = el.querySelector(".g-head");
+      head.addEventListener("click", e => {          // a heading sorts (again: the other way, a third time: off)
+        const lab = e.target.closest(".lab");
+        if (!lab) return;
+        const c = lab.parentNode.dataset.col;
+        app.sort = !app.sort || app.sort.col !== c ? { col: c, dir: 1 } : app.sort.dir === 1 ? { col: c, dir: -1 } : null;
+        renderTable();
+      });
       head.addEventListener("input", e => {
         const c = e.target.dataset.cf;
         if (!c) return;
@@ -814,20 +937,37 @@
         ? `<select data-cf="${esc(c)}" aria-label="Filter ${esc(c)}"><option value="">(any)</option>` +
           opts.map(v => `<option value="${v === "" ? "\u0002" : "\u0001" + esc(v)}"${(v === "" ? "\u0002" : "\u0001" + v) === cur ? " selected" : ""}>${v === "" ? "(empty)" : esc(v)}</option>`).join("") + "</select>"
         : `<input data-cf="${esc(c)}" value="${esc(cur)}" placeholder="filter" aria-label="Filter ${esc(c)}" spellcheck="false">`;
-      return `<div class="h${c in M.EDITABLE || M.LIST.has(c) ? "" : " ro"}" style="width:${WIDE[c] || 110}px"><div class="lab" title="${esc(c)}">${esc(c)}</div>${box}</div>`;
+      return `<div class="h${c in M.EDITABLE || M.LIST.has(c) ? "" : " ro"}" data-col="${esc(c)}" style="width:${WIDE[c] || 110}px"><div class="lab" title="${esc(c)}: click to sort">${esc(c)}${app.sort && app.sort.col === c ? (app.sort.dir === 1 ? " ▲" : " ▼") : ""}</div>${box}</div>`;
     }).join("");
     refilter();
   }
   let scopeRows = [], cfTimer = null;
   function refilter() {
     tableRows = colFilterRows(scopeRows);
-    const n = Object.keys(app.colf).length;
+    if (app.sort) {
+      const { col, dir } = app.sort, num = tableRows.every(r => r[col] === "" || r[col] == null || !isNaN(+r[col]));
+      tableRows = tableRows.slice().sort((a, b) => {
+        const x = a[col] == null ? "" : a[col], y = b[col] == null ? "" : b[col];
+        if (x === "" || y === "") return x === y ? 0 : x === "" ? 1 : -1;          // empty cells last either way
+        return dir * (num ? +x - +y : String(x).localeCompare(String(y)));
+      });
+    }
+    const n = Object.keys(app.colf).filter(c => tableCols.includes(c)).length;
     $("#tbl-n").textContent = tableRows.length.toLocaleString() + " rows" + (n ? ` (of ${scopeRows.length.toLocaleString()}; ${n} filter${n > 1 ? "s" : ""})` : "");
     const width = tableCols.reduce((s, c) => s + (WIDE[c] || 110), 0);
     const body = $("#tab-table .g-body");
     body.style.height = tableRows.length * RH + "px";
     body.style.width = width + "px";
     paintRows();
+  }
+  function exportRows() {
+    const q = v => { v = v == null ? "" : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    const text = [tableCols.map(q).join(",")].concat(tableRows.map(r => tableCols.map(c => q(r[c])).join(","))).join("\n") + "\n";
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff" + text], { type: "text/csv" }));
+    a.download = "insects-of-guam-table.csv";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   }
   function paintRows() {
     const grid = $("#tab-table .grid");
@@ -875,6 +1015,42 @@
       if (k.key === "Escape") { k.preventDefault(); finish(false); }
     });
     input.addEventListener("blur", () => finish(false));
+  }
+
+  // ---- progress: what is checked, per group, and who has done it
+  function renderProgress() {
+    const el = $("#tab-progress");
+    if (!app.st) return;
+    const st = app.st, by = app.progBy || "order", groups = new Map(), people = new Map();
+    for (const r of st.rows) {
+      if (isSyn(r)) continue;
+      for (const [who, what] of [[r.modifiedBy, "edits"], [r.verifiedBy, "confirmed"]]) {
+        if (!who || who === "build" || /^refresh|^sync|^lit|^match|^migrate/.test(who)) continue;
+        if (!people.has(who)) people.set(who, { edits: 0, confirmed: 0 });
+        people.get(who)[what]++;
+      }
+      if (r.taxonRank !== "Species" || r.hidden === "1") continue;
+      const k = r[by] || "(none)";
+      if (!groups.has(k)) groups.set(k, { n: 0, conf: 0, nat: 0, lit: 0, fresh: 0 });
+      const g = groups.get(k);
+      g.n++;
+      if (r.verificationStatus === M.CONFIRMED) g.conf++;
+      if (r.nativity !== "unknown" && r.nativity_review === "editor") g.nat++;
+      if (r.machineLit > 0 || r.machineNotes > 0) g.lit++;
+      if (r.flag === "new") g.fresh++;
+    }
+    const tot = [...groups.values()].reduce((a, g) => { for (const k in g) a[k] = (a[k] || 0) + g[k]; return a; }, {});
+    const pct = (a, n) => n ? Math.round(100 * a / n) + "%" : "";
+    const rows = [...groups.entries()].sort((a, b) => b[1].n - a[1].n);
+    el.innerHTML = `<h1>Progress</h1><p class="muted">Species only. “Nativity checked” counts values an editor set or confirmed. Unsaved changes are included.</p>` +
+      `<p><label>Group by <select id="prog-by"><option value="order"${by === "order" ? " selected" : ""}>order</option><option value="family"${by === "family" ? " selected" : ""}>family</option></select></label></p>` +
+      '<table class="rv prog"><thead><tr><th>' + esc(by) + '</th><th>Species</th><th>Confirmed</th><th>Nativity checked</th><th>Machine rows to check</th><th>New, unreviewed</th></tr></thead><tbody>' +
+      `<tr class="tot"><td><b>All</b></td><td>${tot.n || 0}</td><td>${tot.conf || 0} (${pct(tot.conf, tot.n)})</td><td>${tot.nat || 0} (${pct(tot.nat, tot.n)})</td><td>${tot.lit || 0}</td><td>${tot.fresh || 0}</td></tr>` +
+      rows.map(([k, g]) => `<tr><td>${esc(k)}</td><td>${g.n}</td><td>${g.conf} (${pct(g.conf, g.n)})</td><td>${g.nat} (${pct(g.nat, g.n)})</td><td>${g.lit}</td><td>${g.fresh}</td></tr>`).join("") + "</tbody></table>" +
+      "<h2>Editors</h2>" + (people.size ? '<table class="rv"><thead><tr><th>Name</th><th>Taxa edited (last edit)</th><th>Taxa confirmed</th></tr></thead><tbody>' +
+        [...people.entries()].sort((a, b) => b[1].edits - a[1].edits).map(([w, c]) => `<tr><td>${esc(w)}</td><td>${c.edits}</td><td>${c.confirmed}</td></tr>`).join("") + "</tbody></table>" : '<p class="muted">No editor names yet.</p>');
+    const sel = $("#prog-by");
+    if (sel) sel.addEventListener("change", () => { app.progBy = sel.value; renderProgress(); });
   }
 
   // ---- review by document: confirm everything a tool read from one document, after a spot check
@@ -936,7 +1112,7 @@
       html += '<table class="rv rv-rows"><thead><tr><th>Taxon</th><th>Row</th><th></th></tr></thead><tbody>' +
         shown.slice(app.rvPage * PAGE, (app.rvPage + 1) * PAGE).map((x, i) => {
           const r = x.r, id = st.shownId(r.taxon_id), t = st.r(id) || {};
-          const attrs = `data-table="${x.table}" data-id="${esc(id)}" data-doc="${esc(r.doc_id)}" data-kind="${esc(r.kind || "")}" data-topic="${esc(r.topic || "")}" data-host="${esc(r.host || "")}"`;
+          const attrs = `data-table="${x.table}" data-tid="${esc(r.taxon_id)}" data-id="${esc(id)}" data-doc="${esc(r.doc_id)}" data-kind="${esc(r.kind || "")}" data-topic="${esc(r.topic || "")}" data-host="${esc(r.host || "")}"`;
           let what;
           if (x.table === "literature") {
             what = `<b>${esc(r.kind)}</b>` + (r.pages ? ", p. " + esc(r.pages.replace(/ \| /g, ", ")) : "") + (r.areas ? " · " + esc(r.areas) : "") +
@@ -965,7 +1141,7 @@
     if (nx) nx.addEventListener("click", () => { app.rvPage++; renderReview(); });
     el.querySelectorAll(".rv-rows button[data-act]").forEach(b => b.addEventListener("click", () => {
       if (!app.name) return askName();
-      const d = b.dataset, base = { id: d.id, table: d.table, doc: d.doc, kind: d.kind, topic: d.topic, host: d.host };
+      const d = b.dataset, base = { id: d.id, tid: d.tid, table: d.table, doc: d.doc, kind: d.kind, topic: d.topic, host: d.host };
       if (d.act === "review" || d.act === "reject") return addOp(d.act, base);
       editRow(base);
     }));
@@ -984,7 +1160,7 @@
   function editRow(b) {
     const st = app.st;
     if (b.table === "literature") {
-      const r = st.t.literature.find(x => st.shownId(x.taxon_id) === b.id && x.doc_id === b.doc && x.kind === b.kind);
+      const r = st.t.literature.find(x => st.shownId(x.taxon_id) === b.id && (!b.tid || x.taxon_id === b.tid) && x.doc_id === b.doc && x.kind === b.kind);
       if (!r) return;
       const f = ["pages", "areas", "islands", "status", "status_area", "first_record_year", "status_page", "name_printed"];
       return openForm({ title: `Correct this ${r.kind} row for ${st.name(b.id)}`,
@@ -997,16 +1173,16 @@
                  { key: "status_page", label: "Status page", value: r.status_page },
                  { key: "name_printed", label: "Name as printed", value: r.name_printed }],
         submit: "Save and confirm",
-        onSubmit: v => { const o = { id: b.id, doc: b.doc, kind: b.kind }; for (const k of f) o[k] = v[k]; addOp("editLit", o); } });
+        onSubmit: v => { const o = { id: b.id, tid: b.tid, doc: b.doc, kind: b.kind }; for (const k of f) o[k] = v[k]; addOp("editLit", o); } });
     }
-    const n = st.t.notes.find(x => st.shownId(x.taxon_id) === b.id && x.doc_id === b.doc && x.topic === b.topic);
+    const n = st.t.notes.find(x => st.shownId(x.taxon_id) === b.id && (!b.tid || x.taxon_id === b.tid) && x.doc_id === b.doc && x.topic === b.topic);
     if (!n) return;
     openForm({ title: `Correct this note for ${st.name(b.id)}`, intro: `Your own words, at most ${S.noteMax} characters. Saving confirms it.`,
       fields: [{ key: "note", label: "Note", type: "textarea", value: n.note, required: true },
                { key: "topic", label: "Topic", type: "select", options: ["biology", "habitat", "pest", "distribution", "identification"], value: n.topic },
                { key: "pages", label: "Pages", value: n.pages }],
       submit: "Save and confirm",
-      onSubmit: v => { addOp("editNote", { id: b.id, doc: b.doc, topic: b.topic, note: v.note, newTopic: v.topic, pages: v.pages }); } });
+      onSubmit: v => { addOp("editNote", { id: b.id, tid: b.tid, doc: b.doc, topic: b.topic, note: v.note, newTopic: v.topic, pages: v.pages }); } });
   }
 
   // ---- quick review: a taxon's direct children, everything on one screen, accepted in one step
@@ -1483,6 +1659,7 @@
       t = setTimeout(() => { app.q = e.target.value; renderList(); if (app.tab === "table") renderTable(); }, 120);
     });
     $("#list").addEventListener("click", e => {
+      if (e.target.id === "bulk-list") return bulkDialog(matches());
       if (e.target.id === "clear-q") { e.preventDefault(); $("#q").value = ""; app.q = ""; renderList(); if (app.tab === "table") renderTable(); }
     });
     $("#list").addEventListener("change", e => {
@@ -1515,6 +1692,18 @@
     document.addEventListener("keydown", e => {
       if ((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.toLowerCase() === "z" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) &&
           !$("#dlg").open && app.ops.length) { e.preventDefault(); const o = app.ops[app.ops.length - 1]; undo(app.ops.length - 1); toast("Undone: " + M.describe(o, app.st)); return; }
+      const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) || $("#dlg").open || e.metaKey || e.ctrlKey || e.altKey;
+      if (!typing && app.st && (e.key === "j" || e.key === "k")) {
+        e.preventDefault();
+        const rows = listRows(), i = rows.findIndex(r => r.taxonID === app.sel), n = rows[Math.max(0, Math.min(rows.length - 1, i + (e.key === "j" ? 1 : -1)))];
+        if (n) { select(n.taxonID, app.tab === "changes" ? "taxon" : null); const el = document.querySelector(`#list [data-id="${CSS.escape(n.taxonID)}"]`); if (el) el.scrollIntoView({ block: "nearest" }); }
+        return;
+      }
+      if (!typing && app.st && app.tab === "taxon" && e.key === "c" && row(app.sel) && !isSyn(row(app.sel)) && row(app.sel).verificationStatus !== M.CONFIRMED) {
+        e.preventDefault(); if (!app.name) return askName();
+        addOp("verify", { id: app.sel, on: true, source: app.lastVerifySource || "" });
+        return;
+      }
       if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && !$("#dlg").open) { e.preventDefault(); $("#q").focus(); }
     });
     window.addEventListener("beforeunload", e => { if (app.ops.length) { e.preventDefault(); e.returnValue = ""; } });

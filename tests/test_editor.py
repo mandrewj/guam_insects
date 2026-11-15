@@ -701,3 +701,78 @@ def test_table_double_click_edits_and_undo_works_from_the_toast(browser, world):
     pg.wait_for_function("window.IOGApp.ops.length === 0")
     assert not errors, errors
     pg.close()
+
+
+def test_a_bulk_decision_is_one_change_and_never_overwrites_an_editor(page, world):
+    texts = texts_of(world)
+    ops = [
+        {"type": "nativity", "id": "ORGIG", "value": "native", "source": ""},          # an editor's value
+        {"type": "bulk", "ids": ["ORGIG", "ORRHI", "ORYCT"], "action": "nativity", "value": "introduced"},
+        {"type": "bulk", "ids": ["ORGIG"], "action": "nativity", "value": "introduced"},     # nothing left to change
+        {"type": "bulk", "ids": ["ORGIG", "ORRHI"], "action": "verify", "source": "seen"},
+        {"type": "bulk", "ids": ["ORGIG", "ORRHI"], "action": "verify", "source": "seen"},   # already confirmed
+    ]
+    out = run(page, texts, ops)
+    assert out["errors"][0] is None and out["errors"][1] is None, out["errors"]
+    assert out["errors"][2] and "nothing to change" in out["errors"][2]
+    assert out["errors"][3] is None and out["errors"][4]
+    assert out["rows"]["ORGIG"]["nativity"] == "native"                  # untouched
+    assert out["rows"]["ORRHI"]["nativity"] == "introduced"
+    assert out["rows"]["ORRHI"]["verificationStatus"] == "editor confirmed"
+    assert "taxa: nativity" in out["describe"][1] and not out["checks"]
+
+
+def test_applying_one_operation_equals_replaying_all(page, world):
+    texts = texts_of(world)
+    same = page.evaluate("""(texts) => {
+      const base = IOGModel.makeBase(texts, {kind: "files", label: "t"});
+      const ops = [IOGModel.op("verify", {id: "ORRHI", on: true, source: "a"}, "A"),
+                   IOGModel.op("nativity", {id: "ORRHI", value: "introduced"}, "A")];
+      let st = IOGModel.replay(base, []);
+      for (const o of ops) st = IOGModel.applyOne(st, o);
+      const all = IOGModel.replay(base, ops.map(o => Object.assign({}, o)));
+      return JSON.stringify(IOGModel.files(st)) === JSON.stringify(IOGModel.files(all));
+    }""", texts)
+    assert same
+
+
+def _other_pushes(tmp_path, remote, name, relpath, text):
+    other = tmp_path / name
+    git(tmp_path, "clone", "-q", str(remote), str(other))
+    git(other, "config", "user.name", "Other")
+    git(other, "config", "user.email", "o@example.org")
+    (other / relpath).parent.mkdir(parents=True, exist_ok=True)
+    (other / relpath).write_text(text, encoding="utf-8")
+    git(other, "add", relpath)
+    git(other, "commit", "-q", "-m", "other " + name)
+    git(other, "push", "-q", "origin", "HEAD:main")
+
+
+def test_the_local_editor_pulls_the_newest_taxonomy_when_opened(clone, tmp_path):
+    work, remote = clone
+    _other_pushes(tmp_path, remote, "o1", "README.md", "newer\n")
+    before = git(work, "rev-parse", "HEAD")
+    editor._last_refresh["at"] = 0
+    state = editor.info(fresh=True)
+    assert state["sync"]["updated"] == 1 and git(work, "rev-parse", "HEAD") != before
+    assert (work / "README.md").read_text() == "newer\n"
+    # a clone with its own unpushed commit is left alone (no merge, no reset), and says so
+    (work / "mine.txt").write_text("x")
+    git(work, "add", "mine.txt")
+    git(work, "commit", "-q", "-m", "mine")
+    _other_pushes(tmp_path, remote, "o2", "README2.md", "newer\n")
+    editor._last_refresh["at"] = 0
+    out = editor.info(fresh=True)["sync"]
+    assert out["updated"] == 0 and out["behind"] == 1 and "unpushed" in out["note"]
+
+
+def test_a_commit_that_no_longer_fits_the_newest_is_not_published(clone, tmp_path):
+    work, remote = clone
+    base = git(work, "rev-parse", "HEAD")
+    ann = ((work / DIST).read_text(encoding="utf-8") if (work / DIST).exists()
+           else "﻿taxon_id,place,status,source,doc_id,added_by,added\n")
+    # someone else pushes a distribution file that already has Guam for ORGIG with a bad place
+    _other_pushes(tmp_path, remote, "o3", DIST, ann + "ORGIG,Atlantis,present,,,B,2026-11-14\n")
+    out = editor.commit({DIST: ann + "ORGIG,Rota,present,,,A. Person,2026-11-14\n"}, "Editor: tag", "A. Person", base)
+    assert not out["ok"] and out["status"] == 409, out
+    assert git(work, "rev-parse", "HEAD") == git(remote, "rev-parse", "main")      # nothing diverged
