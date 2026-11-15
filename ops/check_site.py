@@ -59,6 +59,15 @@ def check(page, url: str) -> dict[str, bool]:
     r["landing download link"] = page.locator(".land-more button[data-dl=all]").count() == 1
     r["landing map and regions"] = page.locator(".land-map svg.isle-map.large").count() == 1 and \
         page.locator(".land-regions li").count() == 5
+    # the header's Guam-only toggle trims the home list in place, and turns off again
+    before = page.locator("#s-children .card").count()
+    click(page, "#guam-only")
+    page.wait_for_timeout(600)
+    r["guam only trims the list"] = page.locator("#guam-only").get_attribute("aria-pressed") == "true" and \
+        0 < page.locator("#s-children .card").count() <= before
+    click(page, "#guam-only")
+    page.wait_for_timeout(600)
+    r["guam only toggles back"] = page.locator("#s-children .card").count() == before
     r["tokenizer parity"] = all(page.evaluate("s => guaminsects.tokens(s)", s) == tokens(s)
                                 for s in TOKEN_SAMPLES)
     r["id parity"] = all(page.evaluate("s => guaminsects.ids.tidOf(s)", s) == ids.to_int(s) and

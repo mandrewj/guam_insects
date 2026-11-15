@@ -201,7 +201,15 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
             continue
         kids = [node[c] for c in sorted(children[tid], key=lambda c: taxa[c]["name"].casefold())
                 if c in node]
-        node[tid] = [tid, t["name"], RANK_CODES.get(t["rank"], "?")] + ([kids] if kids else [])
+        # [id, name, rank, children or 0, 1 when recorded from Guam]: the Guam flag is only
+        # written when true, and drives the header's "Guam only" filter.
+        item = [tid, t["name"], RANK_CODES.get(t["rank"], "?")]
+        on_guam = "gu" in (regions_of(tid) or ())
+        if kids or on_guam:
+            item.append(kids or 0)
+        if on_guam:
+            item.append(1)
+        node[tid] = item
 
     # --- links and iNaturalist ------------------------------------------------------------------
     by_tid: dict[str, dict[int, list[dict]]] = {s: defaultdict(list) for s in
@@ -411,11 +419,13 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
                          "source": t["verification_source"] or None} if t["verified"] == "yes" else None,
             "note": t["note"] or None, "curated": [],
             "species_count": n_species[tid], "genus_count": n_genera[tid],
+            "gu_species": len(species_in[tid].get("GU", ())),
             "lineage": [brief(a) for a in m.ancestors(tid)],
             "children": [{**brief(ids.to_int(k["id"])), "hidden": bool(k["hidden"]),
                           "status": k["status"],
                           "species_count": n_species[ids.to_int(k["id"])],
                           "genus_count": n_genera[ids.to_int(k["id"])],
+                          "gu_species": len(species_in[ids.to_int(k["id"])].get("GU", ())),
                           "kids": len(children[ids.to_int(k["id"])]), "map": None,
                           "regions": regions_of(ids.to_int(k["id"])),
                           "est": nativity_tag(ids.to_int(k["id"])),
@@ -423,8 +433,8 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
                                            for i in a}) or None,
                           "thumb": card_thumb(photos.get(ids.to_int(k["id"])) or [])}
                          for k in kids],
-            "checklist": node[tid][3] if t["rank"] not in SPECIES_RANKS and tid in node
-            and len(node[tid]) > 3 else [],
+            "checklist": (node[tid][3] if len(node[tid]) > 3 else []) or []
+            if t["rank"] not in SPECIES_RANKS and tid in node else [],
             "presence": presence_of(tid),
             "grid": grids.get(tid),
             "islands": [{"area": a, "label": AREA_SHORT[a],

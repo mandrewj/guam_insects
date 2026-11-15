@@ -248,6 +248,36 @@
     });
   }
 
+  // "Guam only" (header): every checklist list on every page drops the taxa that have no record
+  // from Guam; the page being read reloads in place. Remembered between visits.
+  var guamOnly = false;
+  try { guamOnly = localStorage.getItem("guamOnly") === "1"; } catch (e) { /* private mode */ }
+  var guamBtn = document.getElementById("guam-only");
+  function setGuamBtn() {
+    if (!guamBtn) return;
+    guamBtn.setAttribute("aria-pressed", guamOnly ? "true" : "false");
+    guamBtn.classList.toggle("on", guamOnly);
+  }
+  setGuamBtn();
+  if (guamBtn) guamBtn.addEventListener("click", function () {
+    guamOnly = !guamOnly;
+    try { localStorage.setItem("guamOnly", guamOnly ? "1" : "0"); } catch (e) { /* ignore */ }
+    setGuamBtn();
+    var y = window.scrollY;
+    route();
+    window.scrollTo(0, y);
+  });
+  function onGuam(c) { return !!(c.regions && c.regions.indexOf("gu") >= 0); }
+  function guamKeep(list) { return guamOnly ? list.filter(onGuam) : list; }
+  function guamNote(total, kept, what) {
+    return guamOnly && kept < total
+      ? '<p class="guam-note">Showing the ' + kept.toLocaleString() + " of " + total.toLocaleString() + " " + what +
+        ' recorded from Guam. <button type="button" class="link" data-guam="off">Show all</button></p>' : "";
+  }
+  app.addEventListener("click", function (e) {
+    if (e.target.closest && e.target.closest("button[data-guam=off]") && guamBtn) guamBtn.click();
+  });
+
   window.addEventListener("hashchange", route);
 
   app.addEventListener("click", function (e) {
@@ -527,8 +557,9 @@
     return parts.join(" · ");
   }
   function topOrders() {
-    var orders = (meta.home || []).filter(function (c) { return !c.hidden && c.status !== "synonym"; })
-      .sort(function (a, b) { return b.species_count - a.species_count; });
+    var cnt = function (c) { return guamOnly && c.gu_species != null ? c.gu_species : c.species_count; };
+    var orders = guamKeep((meta.home || []).filter(function (c) { return !c.hidden && c.status !== "synonym"; }))
+      .sort(function (a, b) { return cnt(b) - cnt(a); });
     var top = orders.slice(0, 6); top.rest = orders.slice(6);
     var beetles = orders.filter(function (c) { return c.name === "Coleoptera"; })[0];
     if (beetles) top = [beetles].concat(top.filter(function (c) { return c !== beetles; })).slice(0, 6);
@@ -558,12 +589,12 @@
     h.push('<section class="land-quick"><h2>Start with the checklist</h2>' +
       '<a class="quick quick-main" href="' + href(meta.root) + '"><span class="q-strip" aria-hidden="true">' + strip + "</span>" +
       '<span class="q-text"><strong>Hexapoda</strong><span>Every order, family and species: ' +
-      countsLine(c.genera, c.species) + "</span></span></a>" +
+      (guamOnly ? plural(c.guam, "species") + " recorded from Guam" : countsLine(c.genera, c.species)) + "</span></span></a>" +
       '<div class="quick-row">' + orders.map(function (o) {
         return '<a class="quick quick-photo' + (o.thumb ? "" : " no-photo") + '" href="' + href(o.id) + '">' +
           (o.thumb ? '<img src="' + esc(o.thumb) + '" alt="" decoding="async" loading="lazy">' : "") +
           '<span class="q-text"><strong>' + esc(o.name) + "</strong><span>" +
-          (o.common ? esc(o.common) + " · " : "") + countsLine(o.genus_count, o.species_count) + "</span>" +
+          (o.common ? esc(o.common) + " · " : "") + (guamOnly && o.gu_species != null ? plural(o.gu_species, "species") + " on Guam" : countsLine(o.genus_count, o.species_count)) + "</span>" +
           (o.name === "Coleoptera" ? "<em>first group being verified</em>" : "") + "</span></a>";
       }).join("") + "</div>" +
       '<p class="land-more"><a href="#orders" data-scroll="orders">All orders</a> · <a href="#about" data-scroll="about">About &amp; tools</a> · ' +
@@ -696,13 +727,14 @@
   // linking to its page (the photos are the cards' own, already cached).
   function groupStrip(r) {
     if (r.rank === "Species" || r.rank === "Subspecies" || !r.children || r.children.length < 8) return "";
-    var top = r.children.filter(function (c) { return c.thumb && c.status !== "synonym" && !c.hidden; })
-      .sort(function (a, b) { return (b.species_count || 0) - (a.species_count || 0); }).slice(0, 5);
+    var cnt = function (c) { return (guamOnly && c.gu_species != null ? c.gu_species : c.species_count) || 0; };
+    var top = guamKeep(r.children).filter(function (c) { return c.thumb && c.status !== "synonym" && !c.hidden; })
+      .sort(function (a, b) { return cnt(b) - cnt(a); }).slice(0, 5);
     if (top.length < 4) return "";
     return '<nav class="g-strip" aria-label="Largest groups in ' + esc(r.name) + '">' + top.map(function (c) {
       return '<a href="' + href(c.id) + '"><img src="' + esc(c.thumb) + '" alt="" decoding="async" loading="lazy">' +
         '<span class="q-text"><strong>' + sciName(c.rank, c.name) + "</strong><span>" +
-        (c.species_count ? plural(c.species_count, "species") : esc(c.common || "")) + "</span></span></a>";
+        (cnt(c) ? plural(cnt(c), "species") + (guamOnly ? " on Guam" : "") : esc(c.common || "")) + "</span></span></a>";
     }).join("") + "</nav>";
   }
 
@@ -859,7 +891,8 @@
   function childCard(c, withTile) {
     var sub = [];
     if (c.common) sub.push(esc(c.common));
-    if (c.species_count && c.rank !== "Species") sub.push(plural(c.species_count, "species"));
+    var cnt = guamOnly && c.gu_species != null ? c.gu_species : c.species_count;
+    if (cnt && c.rank !== "Species") sub.push(plural(cnt, "species") + (guamOnly ? " on Guam" : ""));
     if (c.status === "morphospecies") sub.push("morphospecies");
     if (c.status === "synonym") sub.push("synonym");
     if (c.est && STATUS[c.est]) sub.push('<span class="est-tag est-' + STATUS[c.est][1] + '">' + esc(STATUS[c.est][0].toLowerCase()) + "</span>");
@@ -880,14 +913,17 @@
   // Groups fold open and shut; every name links to its page.
   var CL_RANK = { P: "Subphylum", C: "Class", O: "Order", F: "Family", G: "Genus", S: "Species",
                   s: "Subspecies", v: "Variety", f: "Form" };
+  // A node is [id, name, rank code, children or 0, 1 if recorded from Guam]; under "Guam only"
+  // the nodes without the flag, and everything below them, are left out.
+  function clKids(n) { return guamOnly ? (n[3] || []).filter(function (k) { return k[4] === 1; }) : (n[3] || []); }
   function clCount(n) {
     if (n[2] === "S") return 1;
-    return (n[3] || []).reduce(function (a, k) { return a + clCount(k); }, 0);
+    return clKids(n).reduce(function (a, k) { return a + clCount(k); }, 0);
   }
   function clItem(n) {
-    var rank = CL_RANK[n[2]] || "", kids = n[3];
+    var rank = CL_RANK[n[2]] || "", kids = clKids(n);
     var link = '<a href="' + href(n[0]) + '" title="' + esc(rank) + '">' + sciName(rank, n[1]) + "</a>";
-    if (!kids || !kids.length) return "<li>" + link + "</li>";
+    if (!kids.length) return "<li>" + link + "</li>";
     var c = rank === "Species" ? 0 : clCount(n);
     var count = c ? ' <span class="cl-n">' + plural(c, "species") + "</span>" : "";
     return "<li><details><summary>" + link + count + "</summary><ul>" + kids.map(clItem).join("") +
@@ -895,13 +931,15 @@
   }
   function checklist(r) {
     if (!r.checklist || !r.checklist.length) return "";
-    var total = r.checklist.reduce(function (a, n) { return a + clCount(n); }, 0);
-    var nested = r.checklist.some(function (n) { return n[3] && n[3].length; });
+    var top = guamOnly ? r.checklist.filter(function (n) { return n[4] === 1; }) : r.checklist;
+    var total = top.reduce(function (a, n) { return a + clCount(n); }, 0);
+    var nested = top.some(function (n) { return clKids(n).length; });
     return '<section class="checklist" id="s-checklist"><h2>Checklist</h2><p class="cl-tools">' +
-      plural(total, "species") + " in " + sciName(r.rank, r.name) +
+      plural(total, "species") + (guamOnly ? " recorded from Guam" : "") + " in " + sciName(r.rank, r.name) +
+      (guamOnly ? ' · <button type="button" class="link" data-guam="off">Show all</button>' : "") +
       (nested ? ' · <button type="button" class="link" data-cl="open">Expand all</button>' +
         ' · <button type="button" class="link" data-cl="close">Collapse all</button>' : "") +
-      '</p><ul class="cl">' + r.checklist.map(clItem).join("") + "</ul></section>";
+      '</p><ul class="cl">' + top.map(clItem).join("") + "</ul></section>";
   }
   app.addEventListener("click", function (e) {
     var b = e.target.closest && e.target.closest("button[data-cl]");
@@ -913,8 +951,9 @@
 
   function children(r) {
     if (!r.children.length) return "";
-    var shown = r.children.filter(function (c) { return !c.hidden && c.status !== "synonym"; });
-    var hidden = r.children.filter(function (c) { return c.hidden || c.status === "synonym"; });
+    var allShown = r.children.filter(function (c) { return !c.hidden && c.status !== "synonym"; });
+    var shown = guamKeep(allShown);
+    var hidden = guamKeep(r.children.filter(function (c) { return c.hidden || c.status === "synonym"; }));
     // If any card has a photo, give the others a lettered tile so the grid lines up.
     var tiles = function (list) {
       var any = list.some(function (c) { return c.thumb; });
@@ -922,7 +961,9 @@
     };
     var out = '<section class="browse" id="s-children"><h2>' +
       (r.id === meta.root ? "Classes" : "Included taxa") + "</h2>";
+    out += guamNote(allShown.length, shown.length, "taxa");
     if (shown.length) out += '<ul class="cards">' + tiles(shown) + "</ul>";
+    else if (guamOnly && allShown.length) out += '<p class="guam-note">None of these are recorded from Guam.</p>';
     if (hidden.length) {
       out += '<details class="hidden-pages"><summary>Hidden pages and synonyms (' + hidden.length +
         ")</summary><ul class=\"cards\">" + tiles(hidden) + "</ul></details>";

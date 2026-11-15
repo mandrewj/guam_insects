@@ -72,3 +72,15 @@ def test_helpers():
     borrowed = {"thumb": "b", "w": 900, "h": 600, "of_id": 5}
     assert card_thumb([portrait, landscape]) == "l"
     assert card_thumb([portrait, borrowed]) == "p"     # never swap own for borrowed
+
+
+def test_checklist_nodes_flag_what_is_recorded_from_guam(world, tmp_path):
+    """The header's "Guam only" filter reads a trailing 1 on a checklist node and the children's
+    gu_species count; a group's count is the species under it recorded from Guam."""
+    _, r = build(world, tmp_path)
+    genus = r[C("ORYCT")]
+    assert genus["gu_species"] == 2
+    flagged = [n for n in genus["checklist"] if len(n) > 4 and n[4] == 1]
+    assert len(flagged) == genus["gu_species"]
+    for kid in genus["children"]:
+        assert (kid["gu_species"] > 0) == ("gu" in (kid["regions"] or []))
