@@ -693,11 +693,12 @@ def test_table_double_click_edits_and_undo_works_from_the_toast(browser, world):
     pg.wait_for_selector('.g-body .r .c[data-col="vernacularName"]')
     cell = pg.locator('.g-body .r .c[data-col="vernacularName"]').first
     cell.dblclick()                                   # a real double-click must open the editor
-    pg.wait_for_selector(".cell-edit")
-    pg.fill(".cell-edit", "A New Common Name")
-    pg.keyboard.press("Enter")
-    pg.wait_for_function("window.IOGApp.ops.length === 1")
-    pg.click(".toast-undo")                           # undo from the toast
+    edit = pg.locator(".cell-edit")
+    edit.wait_for()
+    edit.fill("A New Common Name")
+    edit.press("Enter")                               # to the field itself: a re-render cannot swallow it
+    pg.wait_for_function("window.IOGApp.ops.length === 1", timeout=15000)
+    pg.locator(".toast-undo").click()                 # undo from the toast
     pg.wait_for_function("window.IOGApp.ops.length === 0")
     assert not errors, errors
     pg.close()
