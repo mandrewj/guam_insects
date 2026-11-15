@@ -2017,8 +2017,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 49739,iom-19-1-trichogrammatidae-mymaridae,account,4,Oligosita hilaris,MP | FM,Saipan | Ulithi,,,,,text,machine,,,migrate,2026-11-13
 4974Q,iom-19-1-trichogrammatidae-mymaridae,account,5,Oligosita oceanica,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
 4974Q,iom-19-1-trichogrammatidae-mymaridae,mention,3 | 4 | 5 | 6 | 17,Oligosita oceanica,,,,,,,text,machine,,,migrate,2026-11-13
-49D8V,iom-15-2-rhysodidae,account,7,Omoglymmius caelatus,,,,,,,text,machine,,,migrate,2026-11-13
-49D8V,iom-15-2-rhysodidae,mention,6 | 7 | 9,Omoglymmius caelatus,,,,,,,text,machine,,,migrate,2026-11-13
 49DSR,iom-17-4-scarabaeidae,account,20 | 21,Omorgus suberosus,MP,Rota,,,,,text,machine,,,migrate,2026-11-13
 49DSR,iom-17-4-scarabaeidae,mention,2 | 3 | 5 | 20 | 21,Omorgus suberosus,,,,,,,text,machine,,,migrate,2026-11-13
 49HD8,iom-7-5-reduviidae,account,3 | 46,Oncocephalus pacificus,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
@@ -2500,8 +2498,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4SRF2,plazi-1df399c6,checklist,,,GU,,,,,,plazi,,,,migrate,
 4SXCG,iom-17-2-cerambycidae,account,74,Prosoplus oceanicus,GU | MP,Agrihan | Anatahan | Guam | Rota | Saipan | Tinian,,,,,ocr,machine,,,migrate,2026-11-13
 4SXCG,iom-17-2-cerambycidae,mention,74 | 75,Prosoplus oceanicus,,,,,,,ocr,machine,,,migrate,2026-11-13
-4SXXF,iom-15-2-rhysodidae,account,16,Rhyzodiastes maritimus,,,,,,,text,machine,,,migrate,2026-11-13
-4SXXF,iom-15-2-rhysodidae,mention,6 | 16,Rhyzodiastes maritimus,,,,,,,text,machine,,,migrate,2026-11-13
 4SXY5,iom-16-2-bostrychidae,account,2 | 3,Rhizopertha dominica,,,,,,,text,machine,,,migrate,2026-11-13
 4T526,iom-7-7-coreidae-neididae-nabidae,account,18,Riptortus saileri,,,,,,,text,machine,,,migrate,2026-11-13
 4T526,iom-7-7-coreidae-neididae-nabidae,mention,2 | 17 | 18 | 21,Riptortus saileri,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4174,8 +4170,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 749J2,crop-pests-micronesia,checklist,,,FM,Pohnpei,,,,,checklist,,,,migrate,
 749J2,iom-6-7-coccoidea,account,16 | 45,Neosimmondsia esakii,,,,,,,ocr,machine,,,migrate,2026-11-13
 749J2,iom-6-7-coccoidea,mention,16 | 45,Neosimmondsia esakii,,,,,,,ocr,machine,,,migrate,2026-11-13
-74M5W,iom-15-2-rhysodidae,account,10,Omoglymmius oceanicus,,,,,,,text,machine,,,migrate,2026-11-13
-74M5W,iom-15-2-rhysodidae,mention,5 | 6 | 8 | 10 | 12,Omoglymmius oceanicus,,,,,,,text,machine,,,migrate,2026-11-13
 74NRX,beardsley-1993-exotic-terrestrial-arthropods-in-the-hawa,mention,3,Ooencyrtus erionotae,,,,,,,text,machine,,,migrate,2026-11-13
 74NRX,nafus-1989-biological-control-activities-in-the-mariana,mention,13 | 20,Ooencyrtus erionotae,,,,,,,text,machine,,,migrate,2026-11-13
 74NRX,sands-1991-banana-skipper-erionota-thrax-l-lepidoptera-h,mention,1 | 2 | 4 | 5,Ooencyrtus erionotae,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5748,8 +5742,7 @@ NF4TC,swezey-1942-misc-coleoptera-guam,account,17,Derosphaerus rotundicollis,,,,
 NF4TC,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 NF4TC,swezey-1942-misc-coleoptera-guam,mention,17,Derosphaerus rotundicollis,,,,,,,text,machine,,,migrate,2026-11-13
 NFDDW,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
-NFDFD,iom-16-2-anobiidae,account,6,Dorcatomiella guamensis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-NFDFD,iom-16-2-anobiidae,mention,6,Dorcatomiella guamensis,,,,,,,text,machine,,,migrate,2026-11-13
+NFDFD,iom-16-2-anobiidae,account,6,Dorcatomiella guamensis,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 NFDFD,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 NFFSC,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 NJZBY,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -5876,12 +5869,8 @@ Q635Q,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 Q6ZBV,plazi-ddbdc4ea,checklist,,,GU,,,,,,plazi,,,,migrate,
 Q8Q9T,iom-7-8-anthocoridae,account,20,Lasiochilus ather,GU | FM,Guam | Yap,,,,,text,machine,,,migrate,2026-11-13
 Q8Q9T,iom-7-8-anthocoridae,mention,17 | 20 | 21,Lasiochilus ather,,,,,,,text,machine,,,migrate,2026-11-13
-Q8SGL,iom-13-2-omphralidae,mention,3,Lasioderma serricorne,,,,,,,text,machine,,,migrate,2026-11-13
-Q8SGL,iom-16-2-anobiidae,account,3,Lasioderma serricorne,GU | PW,Guam | Palau,,,,,text,machine,,,migrate,2026-11-13
-Q8SGL,iom-16-2-anobiidae,mention,1 | 2 | 3,Lasioderma serricorne,,,,,,,text,machine,,,migrate,2026-11-13
-Q8SGL,swezey-1942-misc-coleoptera-guam,account,14,Lasioderma serricorne,,,,,,,text,machine,,,migrate,2026-11-13
+Q8SGL,iom-16-2-anobiidae,account,3,Lasioderma serricorne,GU | PW,Guam | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 Q8SGL,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-Q8SGL,swezey-1942-misc-coleoptera-guam,mention,14,Lasioderma serricorne,,,,,,,text,machine,,,migrate,2026-11-13
 Q94QM,iom-12-8-tipulidae,account,32,Limonia fullawayi fullawayi,,,,,,,ocr,machine,,,migrate,2026-11-13
 Q94QM,iom-12-8-tipulidae,mention,4 | 32,Limonia fullawayi,,,,,,,text,machine,,,migrate,2026-11-13
 Q94QM,plazi-557bdb7f,checklist,,,GU,,,,,,plazi,,,,migrate,

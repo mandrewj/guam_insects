@@ -20,11 +20,17 @@
 3M7NT,Yap,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 43T23,Guam,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 43T23,Tinian,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
+49D8V,Palau,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
+49D9R,Yap,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
 4D7SP,Guam,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 4D7SP,Saipan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 4KHB7,Saipan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 4LTJQ,Pohnpei,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 4LTJR,Pohnpei,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
+4SXXF,Kosrae,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
+4SXXN,Palau,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
+4SXXN,Yap,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
+4SXXX,Chuuk,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
 4ZZKW,FSM,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 4ZZKW,Guam,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 4ZZKW,Marshalls,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
@@ -63,6 +69,9 @@
 6ZLMM,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 6ZLMM,Yap,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 73PBL,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
+74M5W,Kosrae,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
+74M5W,Palau,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
+74M5W,Pohnpei,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
 76LTV,Saipan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 76LWP,Guam,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 76LWP,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
@@ -124,6 +133,7 @@ SRVF2,Kosrae,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 SRVF2,Marshalls,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 SRVF2,Palau,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 SRVF2,Pohnpei,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
+T4GBT,Guam,present,,iom-16-2-lampyridae-cantharidae-malachiidae-prionocerida,M. Andrew Johnston,2026-11-14
 T6H8B,Guam,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
 TLNGJ,Chuuk,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
 TLNGJ,Guam,present,,iom-17-3-tenebrionidae,M. Andrew Johnston,2026-11-14
@@ -235,3 +245,10 @@ IOG-71,Aguijan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,
 IOG-71,Saipan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 IOG-78,Pohnpei,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
 IOG-81,Saipan,present,,iom-16-5-anthicidae,M. Andrew Johnston,2026-11-14
+IOG-84,Guam,present,,plazi-7700299b,M. Andrew Johnston,2026-11-14
+IOG-85,Palau,present,,iom-16-2-anobiidae,M. Andrew Johnston,2026-11-14
+IOG-85,Saipan,present,,iom-16-2-anobiidae,M. Andrew Johnston,2026-11-14
+IOG-87,Guam,present,,iom-16-2-anobiidae,M. Andrew Johnston,2026-11-14
+IOG-88,Chuuk,present,,iom-16-2-anobiidae,M. Andrew Johnston,2026-11-14
+IOG-88,Kosrae,present,,iom-16-2-anobiidae,M. Andrew Johnston,2026-11-14
+IOG-89,Palau,present,,iom-16-2-anobiidae,M. Andrew Johnston,2026-11-14

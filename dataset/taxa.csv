@@ -87,11 +87,10 @@ gbif:7371628,,53GWW,Species,Supella supellectilium,(Serville),synonym,,,,,,,,,,y
 8NP2W,8NKQX,,Genus,Nasutitermes,"Dudley, 1890",accepted,Conehead Termites,,unknown,,,,,Nasutitermitinae,,yes,5431333,Catalogue of Life,,,,,,,,,,,,,,
 45SWT,8NP2W,,Species,Nasutitermes corniger,"(Motschulsky, 1855)",accepted,Conehead Termite,Tree Termite,unknown,,,,,Nasutitermitinae,,yes,5152433,Catalogue of Life,,,,,,,,,,,,,,
 45T4R,8NP2W,,Species,Nasutitermes takasagoensis,"(Nawa, 1911)",accepted,,,unknown,,,,,Nasutitermitinae,,yes,5888327,Catalogue of Life,,,,,,,,,,,,,,
-C2L,H6,,Order,Coleoptera,,accepted,Beetles,coleopteran,unknown,,,,,,,yes,1470,Catalogue of Life,,,,,,,,,,,,,,
-LF8ZB,C2L,,Family,Anobiidae,"Fleming, 1821",accepted,Death watch beetles,,unknown,,,,Bostrichoidea,,,yes,7770,Catalogue of Life,,,,,,,,,,,,,,
-QSNJX,LF8ZB,,Genus,Nicobium,,accepted,,,unknown,,,,Bostrichoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-QSNK5,QSNJX,,Species,Nicobium castaneum,"(Olivier, 1790)",accepted,,,unknown,,,,Bostrichoidea,,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-name-4479,,QSNK5,Species,Anobium castaneum,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Anobium castaneum → Nicobium castaneum,,,,,,,,,,guaminsects match,2026-11-13,,
+C2L,H6,,Order,Coleoptera,,accepted,Beetles,coleopteran,introduced,editor,editor,,,,,yes,1470,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
+IOG-82,C2L,,Family,Aderidae,"Winkler, 1927",accepted,,,unknown,,,,,,,no,1047172,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-83,IOG-82,,Genus,Euglenes,"Westwood, 1830",accepted,,,unknown,,,,,,,no,1047215,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-84,IOG-83,,Species,Euglenes bifossicollis,"Blair, 1940",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 KTYMT,C2L,,Family,Anthicidae,"Latreille, 1819",accepted,Ant-like Flower Beetles,Ant Beetle | Broad-hipped Flower Beetles | antlike flower beetles,unknown,,,,Tenebrionoidea,,,yes,7771,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 KTYGS,KTYMT,,Genus,Anthelephila,"Hope, 1833",accepted,,,unknown,,,,Tenebrionoidea,Anthicinae,Formicomini,yes,1047042,Catalogue of Life,,,,,,,,,,,,,,
 gbif:1047041,,KTYGS,Genus,Formicomus,"LaFerté-Sénectère, 1849",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Anthelephila,Plazi,,,,,,,,,,,,
@@ -300,10 +299,10 @@ name-4692,,73PPB,Species,Harpalus monilicornis,,synonym,,,unknown,,,,,,,no,,GBIF
 name-2038,,73PBL,Species,Morion orientale,,synonym,,,,,,,,,,no,,spelling variant,spelling variant of Morion orientalis (Catalogue of Life),,,,,,,,,,,,,
 IOG-61,8KTL7,,Genus,Notagonum,"Darlington, 1952",accepted,,,unknown,,,,,,,no,4750756,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 IOG-62,IOG-61,,Species,Notagonum caritum,"Darlington, 1970",accepted,,,native,editor,editor,,,,,no,8014668,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
-8KVWW,8KTL7,,Genus,Omoglymmius,"Ganglbauer, 1891",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,1162892,Catalogue of Life,,,,,,,,,,,,,,
-49D8V,8KVWW,,Species,Omoglymmius caelatus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,7872180,Catalogue of Life,,,,,,,,,,,,,,
-49D9R,8KVWW,,Species,Omoglymmius impletus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-74M5W,8KVWW,,Species,Omoglymmius oceanicus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,7764512,Catalogue of Life,,,,,,,,,,,,,,
+8KVWW,8KTL7,,Genus,Omoglymmius,"Ganglbauer, 1891",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,1162892,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+49D8V,8KVWW,,Species,Omoglymmius caelatus,"R.T. & J.R.Bell, 1981",accepted,,,native,editor,editor,,,Rhysodinae,Omoglymmiini,yes,7872180,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+49D9R,8KVWW,,Species,Omoglymmius impletus,"R.T. & J.R.Bell, 1981",accepted,,,native,editor,editor,,,Rhysodinae,Omoglymmiini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+74M5W,8KVWW,,Species,Omoglymmius oceanicus,"R.T. & J.R.Bell, 1981",accepted,,,native,editor,editor,,,Rhysodinae,Omoglymmiini,yes,7764512,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 IOG-59,8KTL7,,Genus,Paraclivina,"Kult, 1947",accepted,,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,Formerly treated asd a subgenus of Clivina,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 5ZCG8,IOG-59,,Species,Paraclivina fasciata,"(Putzeys, 1846)",accepted,,,introduced,editor,editor,,,Scaritinae,Clivinini,yes,7674035,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 8KVXL,8KTL7,,Genus,Paraphaea,,accepted,,,introduced,editor,editor,,,Lebiinae,Lebiini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
@@ -339,10 +338,10 @@ DQN84,78J8R,,Subspecies,Pseudozaena orientalis opaca,,accepted,,,unknown,,,,,Pau
 name-4817,,DQN84,Subspecies,Pierus opaeus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Pierus opaeus → Pseudozaena tricostata opaca,,,,,,,,,,guaminsects match,2026-11-13,,
 L2M3V,,DQN84,Subspecies,Pseudozaena tricostata opaca,"(Chaudoir, 1868)",synonym,,,unknown,,,,,Paussinae,Ozaenini,yes,,curated merge,,,,,,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 8KVYY,8KTL7,,Genus,Rhyzodiastes,"Fairmaire, 1895",accepted,,,unknown,,,,,Rhysodinae,Clinidiini,yes,4747811,Catalogue of Life,,,,,,,,,,,,,,
-4SXXF,8KVYY,,Species,Rhyzodiastes maritimus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Clinidiini,yes,8361442,Catalogue of Life,,,,,,,,,,,,,,
-4SXXN,8KVYY,,Species,Rhyzodiastes polinosus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Clinidiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+4SXXF,8KVYY,,Species,Rhyzodiastes maritimus,"R.T. & J.R.Bell, 1981",accepted,,,native,editor,editor,,,Rhysodinae,Clinidiini,yes,8361442,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+4SXXN,8KVYY,,Species,Rhyzodiastes polinosus,"R.T. & J.R.Bell, 1981",accepted,,,native,editor,editor,,,Rhysodinae,Clinidiini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 name-4856,,4SXXN,Species,Rhyzodiastes pollinosus,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Rhyzodiastes pollinosus → Rhyzodiastes polinosus,,,,,,,,,,guaminsects match,2026-11-13,,
-4SXXX,8KVYY,,Species,Rhyzodiastes sulcicollis,"(Grouvelle, 1903)",accepted,,,unknown,,,,,Rhysodinae,Clinidiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+4SXXX,8KVYY,,Species,Rhyzodiastes sulcicollis,"(Grouvelle, 1903)",accepted,,,unknown,,,,,Rhysodinae,Clinidiini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 name-4569,,4SXXX,Species,Clinidium sulcicolle,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Clinidium sulcicolle → Rhyzodiastes sulcicollis,,,,,,,,,,guaminsects match,2026-11-13,,
 8KYST,8KTL7,,Genus,Scaphinotus,"Dejean, 1826",accepted,Snail Eaters,,unknown,,,,,Carabinae,Cychrini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 79THK,8KYST,,Species,Scaphinotus elevatus,"(Fabricius, 1787)",accepted,Large-thoraxed Snail-eating Beetle,,unknown,,,,,Carabinae,Cychrini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
@@ -1448,8 +1447,7 @@ name-146,63387,,Species,Dorcus benningseni,,accepted,,,unknown,,,,Scarabaeoidea,
 6RD43,5QD9,,Species,Metallactulus dublonensis,"(Arrow, 1939)",accepted,,,unknown,,,,Scarabaeoidea,Lucaninae,Dorcini,yes,7997627,Catalogue of Life,,,,,,,,,,,,,,
 KVJL2,C2L,,Family,Meloidae,"Gyllenhal, 1810",accepted,Blister Beetles,Blister Beetle | oil beetles,unknown,,,,Tenebrionoidea,,,yes,4742,Catalogue of Life,,,,,,,,,,,,,,
 KVXS6,KVJL2,,Genus,Zonitis,"Fabricius, 1775",accepted,Animal,,unknown,,,,Tenebrionoidea,Nemognathinae,Nemognathini,yes,1046247,Catalogue of Life,,,,,,,,,,,,,,
-TX4TD,KVXS6,,Species,Zonitis oceanica,Blair,accepted,,,unknown,,,,Tenebrionoidea,Nemognathinae,Nemognathini,yes,11211410,Catalogue of Life,,,,,,,,,,,,,,
-gbif:5593,C2L,,Family,Melolonthidae,,accepted,,,unknown,,,,,,,no,5593,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
+TX4TD,KVXS6,,Species,Zonitis oceanica,Blair,accepted,,,unknown,,,,Tenebrionoidea,Nemognathinae,Nemognathini,yes,11211410,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 KVJMP,C2L,,Family,Melyridae,"Leach, 1815",accepted,Soft-winged Flower Beetles,Flower Beetle | blærebiller | malachite beetles | solf-winged flower beetles,unknown,,,,Cleroidea,,,yes,7838,Catalogue of Life,,,,,,,,,,,,,,
 DDNH9,KVJMP,,Genus,Carphurus,"Erichson, 1840",accepted,,,unknown,,,,Cleroidea,Malachiinae,Carphurini,yes,4713771,Catalogue of Life,,,,,,,,,,,,,,
 DDNG7,KVJMP,,Genus,Laius,"Guérin-Méneville, 1830",accepted,,,unknown,,,,Cleroidea,Malachiinae,Malachiini,yes,4713721,Catalogue of Life,,,,,,,,,,,,,,
@@ -1464,11 +1462,11 @@ KVJSM,C2L,,Family,Monotomidae,"Laporte, 1840",accepted,Root-eating Beetles,Minut
 KVH3H,C2L,,Family,Mordellidae,"Latreille, 1802",accepted,Tumbling Flower Beetles,Pintail Beetles | Tumbling Flower Beetle,unknown,,,,Tenebrionoidea,,,yes,4746,Catalogue of Life,,,,,,,,,,,,,,
 N52KL,KVH3H,,Genus,Dellamora,"Normand, 1917",accepted,,,unknown,,,,Tenebrionoidea,Mordellinae,Mordellistenini,yes,4456626,Catalogue of Life,,,,,,,,,,,,,,
 gbif:4456626,,N52KL,Genus,Dellamora,"Normand, 1916",synonym,,,,,,,,,,no,,"same name, other author",,,,,,,,,,,,,,
-N52L9,N52KL,,Species,Dellamora castanea,"(Boheman, 1858)",accepted,,,unknown,,,,Tenebrionoidea,Mordellinae,Mordellistenini,yes,10834553,Catalogue of Life,,,,,,,,,,,,,,
+N52L9,N52KL,,Species,Dellamora castanea,"(Boheman, 1858)",accepted,,,unknown,,,,Tenebrionoidea,Mordellinae,Mordellistenini,yes,10834553,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 gbif:11268387,,N52L9,Species,Mordellistena castanea,(Boheman),synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Dellamora castanea,Plazi,,,,,,,,,,,,
 NV9Q2,KVH3H,,Genus,Glipa,"LeConte, 1859",accepted,,,unknown,,,,Tenebrionoidea,Mordellinae,Mordellini,yes,1046030,Catalogue of Life,,,,,,,,,,,,,,
-NV9XL,NV9Q2,,Species,Glipa guamensis,"Blair, 1942",accepted,,,unknown,,,,Tenebrionoidea,Mordellinae,Mordellini,yes,7003189,Catalogue of Life,,,,,,,,,,,,,,
-KVJZZ,KVH3H,,Genus,Mordellistena,"A. Costa, 1854",accepted,,,unknown,,,,Tenebrionoidea,Mordellinae,Mordellistenini,yes,1046076,Catalogue of Life,,,,,,,,,,,,,,
+NV9XL,NV9Q2,,Species,Glipa guamensis,"Blair, 1942",accepted,,,native,editor,editor,,Tenebrionoidea,Mordellinae,Mordellini,yes,7003189,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+KVJZZ,KVH3H,,Genus,Mordellistena,"A. Costa, 1854",accepted,,,unknown,,,,Tenebrionoidea,Mordellinae,Mordellistenini,yes,1046076,Catalogue of Life,,,yes,old combination - no confirmed species from Micronesia,,,,,,,,,M. Andrew Johnston,2026-11-14
 gbif:1046076,,KVJZZ,Genus,Mordellistena,"Costa, 1854",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
 KVH44,C2L,,Family,Mycetophagidae,"Leach, 1815",accepted,Hairy Fungus Beetles,,unknown,,,,Tenebrionoidea,,,yes,7839,Catalogue of Life,,,,,,,,,,,,,,
 PT884,KVH44,,Genus,Litargus,,accepted,,,unknown,,,,Tenebrionoidea,Mycetophaginae,Mycetophagini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
@@ -1565,34 +1563,44 @@ name-2518,DDNJG,,Species,Prionocerus forticornis,,accepted,,,unknown,,,,Cleroide
 8VR4V,C2L,,Family,Ptiliidae,"Erichson, 1845",accepted,Feather-winged Beetles,Feather-wing Beetles | featherwing beetles,unknown,,,,Staphylinoidea,,,yes,4754,Catalogue of Life,,,,,,,,,,,,,,
 8VRFD,8VR4V,,Genus,Acrotrichis,"Motschulsky, 1848",accepted,,,unknown,,,,Staphylinoidea,Ptiliinae,Acrotrichini,yes,1039035,Catalogue of Life,,,,,,,,,,,,,,
 KVRTK,C2L,,Family,Ptilodactylidae,"Laporte, 1838",accepted,Toe-winged Beetles,Toed-winged beetles | ptilodactylid beetles,unknown,,,,Dryopoidea,,,yes,4755,Catalogue of Life,,,,,,,,,,,,,,
-KVMJY,C2L,,Family,Ptinidae,"Latreille, 1802",accepted,"Deathwatch, Spider, and Wood-borer Beetles",Borer Beetle | Death-watch and Spider Beetles | Wood-borer beetles | spider beetles,unknown,,,,Bostrichoidea,,,yes,6987,Catalogue of Life,,,,,,,,,,,,,,
-KV2MH,KVMJY,,Genus,Caenocara,"C.G. Thomson, 1859",accepted,Puffball Beetles,,unknown,,,,Bostrichoidea,Dorcatominae,,yes,1095592,Catalogue of Life,,,,,,,,,,,,,,
+KVMJY,C2L,,Family,Ptinidae,"Latreille, 1802",accepted,"Deathwatch, Spider, and Wood-borer Beetles",Borer Beetle | Death-watch and Spider Beetles | Wood-borer beetles | spider beetles,unknown,,,,Bostrichoidea,,,yes,6987,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
+LF8ZB,,KVMJY,Family,Anobiidae,"Fleming, 1821",synonym,Death watch beetles,,unknown,,,,Bostrichoidea,,,yes,7770,curated merge,SYnonym,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
+KV2MH,KVMJY,,Genus,Caenocara,"C.G. Thomson, 1859",accepted,Puffball Beetles,,unknown,,,,Bostrichoidea,Dorcatominae,,yes,1095592,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 gbif:1095592,,KV2MH,Genus,Caenocara,"C.G.Thomson, 1859",synonym,,,,,,,,,,no,,"same name, other author",,GBIF Backbone,,,,,,,,,,,,
-NFDDW,KVMJY,,Genus,Dorcatomiella,"Blair, 1935",accepted,,,unknown,,,,Bostrichoidea,Dorcatominae,,yes,4742176,Catalogue of Life,,,,,,,,,,,,,,
+IOG-88,KV2MH,,Species,Caenocara clarkei,"Ford, 1958",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-89,KV2MH,,Species,Caenocara dybasi,"Ford, 1958",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-87,KV2MH,,Species,Caenocara mariana,"Ford, 1958",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+NFDDW,KVMJY,,Genus,Dorcatomiella,"Blair, 1935",accepted,,,unknown,,,,Bostrichoidea,Dorcatominae,,yes,4742176,Catalogue of Life,,,yes,old combination - no current species present,,,,,,,,,M. Andrew Johnston,2026-11-14
 gbif:4742176,,NFDDW,Genus,Dorcatomiella,"Blair, 1934",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
-NFDFD,NFDDW,,Species,Dorcatomiella guamensis,Blair,accepted,,,unknown,,,,Bostrichoidea,Dorcatominae,,yes,11139463,Catalogue of Life,,,,,,,,,,,,,,
-KVHSB,KVMJY,,Genus,Lasioderma,"Stephens, 1835",accepted,,,unknown,,,,Bostrichoidea,Xyletininae,Lasiodermini,yes,1095257,Catalogue of Life,,,,,,,,,,,,,,
-Q8SGL,KVHSB,,Species,Lasioderma serricorne,"Fabricius, 1792",accepted,Tobacco Beetle,cigar beetle | cigarette beetle,unknown,,,,Bostrichoidea,Xyletininae,Lasiodermini,yes,4998194,Catalogue of Life,,,,,,,,,,,,,,
-QYJXX,KVMJY,,Genus,Mirosternus,"Sharp, 1881",accepted,,,unknown,,,,Bostrichoidea,Dorcatominae,,yes,1095476,Catalogue of Life,,,,,,,,,,,,,,
+KVHSB,KVMJY,,Genus,Lasioderma,"Stephens, 1835",accepted,,,unknown,,,,Bostrichoidea,Xyletininae,Lasiodermini,yes,1095257,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+Q8SGL,KVHSB,,Species,Lasioderma serricorne,"Fabricius, 1792",accepted,Tobacco Beetle,cigar beetle | cigarette beetle,introduced,editor,editor,,Bostrichoidea,Xyletininae,Lasiodermini,yes,4998194,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+QYJXX,KVMJY,,Genus,Mirosternus,"Sharp, 1881",accepted,,,unknown,,,,Bostrichoidea,Dorcatominae,,yes,1095476,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+IOG-85,QYJXX,,Species,Mirosternus gressitti,"Ford, 1958",accepted,,,unknown,,,,,,,no,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+IOG-86,QYJXX,,Species,Mirosternus guamensis,"(Blair, 1942)",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+NFDFD,,IOG-86,Species,Dorcatomiella guamensis,Blair,synonym,,,native,editor,editor,,Bostrichoidea,Dorcatominae,,yes,11139463,curated merge,new combination per Ford 1958,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+QSNJX,KVMJY,,Genus,Nicobium,,accepted,,,unknown,,,,Bostrichoidea,,,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+QSNK5,QSNJX,,Species,Nicobium castaneum,"(Olivier, 1790)",accepted,,,unknown,,,,Bostrichoidea,,,yes,,Catalogue of Life,,,,,,,,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+name-4479,,QSNK5,Species,Anobium castaneum,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Anobium castaneum → Nicobium castaneum,,,,,,,,,,guaminsects match,2026-11-13,,
 T4GBD,KVMJY,,Genus,Stegobium,,accepted,,,unknown,,,,Bostrichoidea,Anobiinae,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-T4GBT,T4GBD,,Species,Stegobium paniceum,"(Linnaeus, 1758)",accepted,Drugstore Beetle,,unknown,,,,Bostrichoidea,Anobiinae,,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+T4GBT,T4GBD,,Species,Stegobium paniceum,"(Linnaeus, 1758)",accepted,Drugstore Beetle,,introduced,editor,editor,,Bostrichoidea,Anobiinae,,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 name-4617,,T4GBT,Species,Dermestes paniceus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Dermestes paniceus → Stegobium paniceum,,,,,,,,,,guaminsects match,2026-11-13,,
 name-4878,,T4GBT,Species,Sitodrepa panicea,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Sitodrepa panicea → Stegobium paniceum,,,,,,,,,,guaminsects match,2026-11-13,,
 KVQD3,C2L,,Family,Ripiphoridae,"Laporte, 1840",accepted,Wedge-shaped Beetles,,unknown,,,,Tenebrionoidea,,,yes,3262676,Catalogue of Life,,,,,,,,,,,,,,
 QM97Q,KVQD3,,Genus,Micropelecotoides,"Pic, 1910",accepted,,,unknown,,,,Tenebrionoidea,,,yes,4763596,Catalogue of Life,,,,,,,,,,,,,,
-V9JG4,QM97Q,,Species,Micropelecotoides fulvosericans,(Fairmaire) (Fairmaire),accepted,,,unknown,,,,Tenebrionoidea,,,yes,11167411,Catalogue of Life,,,,,,,,,,,,,,
+V9JG4,QM97Q,,Species,Micropelecotoides fulvosericans,(Fairmaire) (Fairmaire),accepted,,,unknown,,,,Tenebrionoidea,,,yes,11167411,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 KVRYX,C2L,,Family,Salpingidae,"Leach, 1815",accepted,Narrow-waisted Bark Beetles,,unknown,,,,Tenebrionoidea,,,yes,7848,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 KVK6J,KVRYX,,Genus,Inopeplus,"F. Smith, 1851",accepted,,,unknown,,,,Tenebrionoidea,Inopeplinae,,yes,1045913,Catalogue of Life,,,,,,,,,,,,,,
 gbif:1045913,,KVK6J,Genus,Inopeplus,"Smith, 1851",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
 QP7BS,KVK6J,,Species,Inopeplus metallescens,Fairmaire,accepted,,,unknown,,,,Tenebrionoidea,Inopeplinae,,yes,7005071,Catalogue of Life,,,,,,,,,,,,,,
 DDM44,KVRYX,,Genus,Lissodema,"Curtis, 1833",accepted,,,unknown,,,,Tenebrionoidea,Salpinginae,,yes,3262761,Catalogue of Life,,,,,,,,,,,,,,
-PS924,DDM44,,Species,Lissodema guamense,Blair,accepted,,,unknown,,,,Tenebrionoidea,Salpinginae,,yes,6956467,Catalogue of Life,,,,,,,,,,,,,,
+PS924,DDM44,,Species,Lissodema guamense,"Blair, 1942",accepted,,,native,editor,editor,,Tenebrionoidea,Salpinginae,,yes,6956467,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 QV537,KVRYX,,Genus,Ocholissa,"Pascoe, 1863",accepted,,,unknown,,,,Tenebrionoidea,,,yes,4720568,Catalogue of Life,,,,,,,,,,,,,,
 QV53T,QV537,,Species,Ocholissa humeralis,"(Fairmaire, 1850)",accepted,,,unknown,,,,Tenebrionoidea,,,yes,9234911,Catalogue of Life,,,,,,,,,,,,,,
 T4GG5,KVRYX,,Genus,Szekessya,"Kaszab, 1955",accepted,,,native,editor,editor,,Tenebrionoidea,,,yes,4723385,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 IOG-43,T4GG5,,Species,Szekessya flavipennis,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,Type in USNM.,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 IOG-42,T4GG5,,Species,Szekessya kaszabi,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,Type in USNM.,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
-6278C,C2L,,Family,Scarabaeidae,"Latreille, 1802",accepted,Scarabs,Grubs | Scarab Beetles | White Grubs | dung beetles,unknown,,,,Scarabaeoidea,,,yes,5840,Catalogue of Life,,,,,,,,,,,,,,
+6278C,C2L,,Family,Scarabaeidae,"Latreille, 1802",accepted,Scarabs,Grubs | Scarab Beetles | White Grubs | dung beetles,unknown,,,,Scarabaeoidea,,,yes,5840,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
+gbif:5593,,6278C,Family,Melolonthidae,,synonym,,,unknown,,,,,,,no,5593,curated merge,Subfamily,,,,,,,,,,,,M. Andrew Johnston,2026-11-14
 PCX,6278C,,Genus,Adoretus,"Dejean, 1833",accepted,,,unknown,,,,Scarabaeoidea,Rutelinae,Adoretini,yes,8847212,Catalogue of Life,,,,,,,,,,,,,,
 656B4,PCX,,Species,Adoretus kororensis,"Cartwright & Gordon, 1971",accepted,,,unknown,,,,Scarabaeoidea,Rutelinae,Adoretini,yes,5991646,Catalogue of Life,,,,,,,,,,,,,,
 8VQWS,PCX,,Species,Adoretus sinicus,"Burmeister, 1855",accepted,Chinese rose beetle,,unknown,,,,Scarabaeoidea,Rutelinae,Adoretini,yes,4293553,Catalogue of Life,,,,,,,,,,,,,,
