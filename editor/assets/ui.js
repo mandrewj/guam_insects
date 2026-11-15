@@ -5,7 +5,7 @@
   const S = window.IOG_SPEC, M = window.IOGModel, IO = window.IOGIO;
   const $ = s => document.querySelector(s);
   const esc = v => String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-  const fold = s => (s || "").toLowerCase();
+  const fold = M.fold;
   const LOW = new Set(["Genus", "Subgenus", "Species", "Subspecies", "Variety", "Form"]);
   const sci = (rank, name) => LOW.has(rank) ? `<i>${esc(name)}</i>` : esc(name);
   const store = {
@@ -557,7 +557,7 @@
     const ident = (name, val, url, how, sys) => rows.push(`<li><b>${name}</b> <a href="${esc(url)}" target="_blank" rel="noopener">${esc(val)} ↗</a>` +
       (how ? ` <span class="muted">${esc(how)}</span>` : "") + (sys ? `<button type="button" class="x" data-act="unidentify" data-v="${sys}" aria-label="Remove ${name} link">×</button>` : "") + "</li>");
     const colId = r.inCatalogueOfLife === "yes" && /^[0-9A-Z]{1,7}$/.test(id) ? id : (st.mine("links", id).find(l => l.system === "col") || {}).value;
-    if (colId) ident("Catalogue of Life", colId, "https://www.catalogueoflife.org/data/taxon/" + colId, colId === id ? "the taxon's own id" : "linked by an editor", colId === id ? "" : "col");
+    if (colId) ident("Catalogue of Life", colId, "https://www.catalogueoflife.org/data/taxon/" + colId, colId === id ? "the taxon's own id" : "", colId === id ? "" : "col");
     const gk = (st.r(id) || {}).gbif_key;
     if (gk) ident("GBIF", gk, "https://www.gbif.org/species/" + gk, "", "gbif");
     for (const l of st.mine("links", id).filter(x => x.system === "inaturalist")) {
@@ -1102,8 +1102,8 @@
       for (const r of st.t.hosts) if (r.doc_id === doc && r.review === "machine") rows.push({ table: "hosts", r });
       const key = x => (st.r(st.shownId(x.r.taxon_id)) || {}).name || "";
       rows.sort((p, q) => key(p).localeCompare(key(q)));
-      const q = (app.rvFilter || "").toLowerCase();
-      const shown = q ? rows.filter(x => (key(x) + " " + x.table + " " + Object.values(x.r).join(" ")).toLowerCase().includes(q)) : rows;
+      const q = fold(app.rvFilter || "");
+      const shown = q ? rows.filter(x => fold(key(x) + " " + x.table + " " + Object.values(x.r).join(" ")).includes(q)) : rows;
       const PAGE = 25, pages = Math.max(1, Math.ceil(shown.length / PAGE));
       app.rvPage = Math.min(app.rvPage || 0, pages - 1);
       html += `<div class="rv-bar"><input id="rv-filter" type="search" placeholder="Filter these rows (taxon, page, island, text)" value="${esc(app.rvFilter || "")}">` +

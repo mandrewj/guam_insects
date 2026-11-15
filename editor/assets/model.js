@@ -79,17 +79,20 @@
     throw new Error(`"${text}" is not an iNaturalist observation or GBIF occurrence URL ` +
                     "(https://www.inaturalist.org/observations/123, https://www.gbif.org/occurrence/123)");
   }
+  // Search text: lower case, without diacritics (Chūjō -> chujo, Müller -> muller, Søren -> soren).
+  const searchFold = s => String(s == null ? "" : s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    .replace(/ø/g, "o").replace(/ł/g, "l").replace(/đ/g, "d").replace(/ß/g, "ss").replace(/æ/g, "ae").replace(/œ/g, "oe").replace(/ı/g, "i");
   // A taxon page on iNaturalist or GBIF (or its bare number) -> the number as a string.
   function parseTaxonRef(text, kind) {
     const t = (text || "").trim().split("?")[0].split("#")[0].replace(/\/+$/, "");
     if (!t) return "";
     if (/^\d+$/.test(t)) return t;
-    const re = kind === "inat" ? /^https?:\/\/(www\.)?inaturalist\.org\/taxa\/(\d+)(-[^/]*)?$/
-                               : /^https?:\/\/(www\.)?gbif\.org\/(?:[a-z-]+\/)?species\/(\d+)$/;
+    const re = kind === "inat" ? /^https?:\/\/(?:[a-z]+\.)?inaturalist\.org\/taxa\/(\d+)(?:-[^/]*)?(?:\/[a-z_]+)?$/
+                               : /^https?:\/\/(?:www\.)?gbif\.org\/(?:[a-z-]+\/)?species\/(\d+)(?:\/[a-z_-]+)?$/;
     const m = re.exec(t);
     if (!m) throw new Error(`"${text}" is not ${kind === "inat" ? "an iNaturalist taxon" : "a GBIF species"} page or number ` +
       (kind === "inat" ? "(https://www.inaturalist.org/taxa/47158)" : "(https://www.gbif.org/species/1234567)"));
-    return m[2];
+    return m[1];
   }
   // A Catalogue of Life taxon page (or an id typed as col:ID) -> the COL id.
   function parseColRef(text) {
@@ -106,7 +109,7 @@
     const bare = t.split("?")[0].split("#")[0].replace(/\/+$/, "");
     if (/inaturalist\.org\/observations\/\d+$/.test(bare) || /gbif\.org\/occurrence\/\d+$/.test(bare)) return { kind: "voucher" };
     if (/inaturalist\.org\/taxa\/\d+/.test(bare)) return { kind: "identify", system: "inat", value: parseTaxonRef(t, "inat") };
-    if (/gbif\.org\/(?:[a-z-]+\/)?species\/\d+$/.test(bare)) return { kind: "identify", system: "gbif", value: parseTaxonRef(t, "gbif") };
+    if (/gbif\.org\/(?:[a-z-]+\/)?species\/\d+(?:\/[a-z_-]+)?$/.test(bare)) return { kind: "identify", system: "gbif", value: parseTaxonRef(t, "gbif") };
     if (/^col:/i.test(t) || /catalogueoflife\.org\/data\/taxon\//.test(bare) || /checklistbank\.org\/dataset\/[^/]+\/taxon\//.test(bare))
       return { kind: "identify", system: "col", value: parseColRef(t.replace(/^COL:/, "col:")) };
     return { kind: "link" };
@@ -538,7 +541,7 @@
       op.newId = id;
       st.nextIog = Math.max(st.nextIog, iogNum(id) + 1);
       if (inat) st.t.links.push(Object.assign(blank("links"), { taxon_id: id, system: "inaturalist", value: inat,
-        confidence: "high", note: "linked by editor", added_by: op.by, added: op.date }));
+        confidence: "high", note: "", added_by: op.by, added: op.date }));
       const r = Object.assign(blank("taxa"), {
         id, parent_id: op.parent, rank: op.rank, name, authorship: op.authorship || "", status,
         gbif_key: gbif, common_name: op.common || "", nativity: "unknown", in_col: "no", note: op.note || "",
@@ -689,7 +692,7 @@
         need(!dup, `iNaturalist ${value} is already linked to ${dup && other(dup.taxon_id)}: merge the two taxa instead`);
         st.t.links = st.t.links.filter(l => !(l.system === "inaturalist" && st.shownId(l.taxon_id) === op.id));
         st.t.links.push(Object.assign(blank("links"), { taxon_id: op.id, system: "inaturalist", value,
-          confidence: "high", note: "linked by editor", added_by: op.by, added: op.date }));
+          confidence: "high", note: "", added_by: op.by, added: op.date }));
       } else {
         const dup = st.d.get(value);
         need(!dup || dup.id === op.id, `the Catalogue of Life id ${value} is already the taxon ${dup && dup.name}: merge the two taxa instead`);
@@ -697,7 +700,7 @@
         need(!dup2, `the Catalogue of Life id ${value} is already linked to ${dup2 && other(dup2.taxon_id)}`);
         st.t.links = st.t.links.filter(l => !(l.system === "col" && st.shownId(l.taxon_id) === op.id));
         st.t.links.push(Object.assign(blank("links"), { taxon_id: op.id, system: "col", value,
-          confidence: "high", note: "linked by editor", added_by: op.by, added: op.date }));
+          confidence: "high", note: "", added_by: op.by, added: op.date }));
       }
       st.stamp(op.id, op);
     },
@@ -1187,7 +1190,7 @@
 
   window.IOGModel = {
     makeBase, replay, applyOne, bulkEligible, check, files, describe, commitMessage, op, sortRows, tid,
-    validId, parseTaxonRef, parseColRef, classifyUrl, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
+    fold: searchFold, validId, parseTaxonRef, parseColRef, classifyUrl, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
     splitList, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
     LEGACY,
   };

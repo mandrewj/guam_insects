@@ -374,8 +374,8 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
         if inat_link:
             links.append({"system": "inaturalist", "label": "iNaturalist",
                           "url": INAT_TAXA + inat_link["value"], "confidence": inat_link["confidence"],
-                          "note": inat_link["note"].replace("; matched by name", "")
-                          if inat_link["confidence"] == "high" else inat_link["note"]})
+                          "note": (inat_link["note"].replace("; matched by name", "").replace("linked by editor", "")
+                                   .strip() or None) if inat_link["confidence"] == "high" else inat_link["note"]})
         bg = by_tid["bugguide"].get(tid)
         if bg:
             links.append({"system": "bugguide", "label": "BugGuide",

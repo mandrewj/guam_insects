@@ -608,7 +608,7 @@ def test_add_a_taxon_linked_to_specific_inat_and_gbif_taxa(page, world):
     new = out["ops"][0]["newId"]
     assert out["rows"][new]["gbifKey"] == "8888" if "gbifKey" in out["rows"][new] else True
     links = out["files"]["dataset/links.csv"]
-    assert f"{new},inaturalist,999,,high,linked by editor,T. Editor" in links
+    assert f"{new},inaturalist,999,,high,,T. Editor" in links
     assert f"{new}," in out["files"]["dataset/taxa.csv"] and ",8888," in out["files"]["dataset/taxa.csv"]
 
 
@@ -667,8 +667,8 @@ def test_identifiers_can_be_added_to_an_existing_taxon(page, world):
     assert out["errors"][3] and "already" in out["errors"][3] and out["errors"][4]
     assert out["errors"][5] is None and out["errors"][6] is None, out["errors"]
     links = out["files"]["dataset/links.csv"]
-    assert "ORYCT,inaturalist,4242,,high,linked by editor,T. Editor" in links
-    assert "ORYCT,col,ABC12,,high,linked by editor,T. Editor" in links
+    assert "ORYCT,inaturalist,4242,,high,,T. Editor" in links
+    assert "ORYCT,col,ABC12,,high,,T. Editor" in links
     assert ",7777," not in out["files"]["dataset/taxa.csv"]                          # cleared again
     kinds = page.evaluate("""() => ['https://www.inaturalist.org/observations/5', 'https://www.gbif.org/species/9',
       'https://www.inaturalist.org/taxa/3-Foo', 'https://www.catalogueoflife.org/data/taxon/K9', 'https://x.org/y']
@@ -776,3 +776,16 @@ def test_a_commit_that_no_longer_fits_the_newest_is_not_published(clone, tmp_pat
     out = editor.commit({DIST: ann + "ORGIG,Rota,present,,,A. Person,2026-11-14\n"}, "Editor: tag", "A. Person", base)
     assert not out["ok"] and out["status"] == 409, out
     assert git(work, "rev-parse", "HEAD") == git(remote, "rev-parse", "main")      # nothing diverged
+
+
+def test_search_ignores_diacritics_and_links_carry_no_editor_flag(page, world):
+    got = page.evaluate("""() => ['Chūjō, M.', 'Müller', 'Søren Łukasz Đ', 'Straße', 'Ægir Œuvre'].map(IOGModel.fold)""")
+    assert got == ["chujo, m.", "muller", "soren lukasz d", "strasse", "aegir oeuvre"]
+    ok = page.evaluate("""() => ['https://www.inaturalist.org/taxa/47158-Apis-mellifera/browse_photos',
+      'https://www.gbif.org/species/1311477/metrics'].map((u, i) => IOGModel.parseTaxonRef(u, i ? 'gbif' : 'inat'))""")
+    assert ok == ["47158", "1311477"]
+    out = run(page, texts_of(world), [
+        {"type": "add", "parent": "ORYCT", "rank": "Species", "name": "Oryctes novus", "inat": "999", "gbif": "8888"},
+        {"type": "identify", "id": "ORYCT", "system": "col", "value": "ABC12"}])
+    assert out["errors"] == [None, None]
+    assert "linked by editor" not in out["files"]["dataset/links.csv"]
