@@ -1125,11 +1125,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 39KV3,iom-6-9-cicadellidae-suppl,mention,2 | 4,Empoasca yona,,,,,,,text,machine,,,migrate,2026-11-13
 39KV3,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 39RDM,iom-12-5-chironomidae,account,88,Chironomus tenuicaudus,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
-39STX,iom-15-1-carabidae-incl-cicindelinae,account,42,Plochionus pradieri,,,,,,,text,machine,,,migrate,2026-11-13
-39STX,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 42,Endynomena pradieri,,,,,,,text,machine,,,migrate,2026-11-13
-39STX,swezey-1942-misc-coleoptera-guam,account,2,Endynomena pradieri,,,,,,,text,machine,,,migrate,2026-11-13
 39STX,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-39STX,swezey-1942-misc-coleoptera-guam,mention,2,Endynomena pradieri,,,,,,,text,machine,,,migrate,2026-11-13
 3B55L,beardsley-1991-introduction-of-arthropod-pests-into-the,mention,3,Erionota thrax,,,,,,,text,machine,,,migrate,2026-11-13
 3B55L,beardsley-1993-exotic-terrestrial-arthropods-in-the-hawa,mention,3,Erionota thrax,,,,,,,text,machine,,,migrate,2026-11-13
 3B55L,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
@@ -1267,12 +1263,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 3FY3X,kevan-1997-acridoidea-and-related-orthoptera-grasshopper,mention,10,Gesonula mundata,,,,,,,text,machine,,,migrate,2026-11-13
 3FY3Z,kevan-1997-acridoidea-and-related-orthoptera-grasshopper,account,10,Racilia okinawensis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 3GGR2,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
-3GL8L,evenhuis-et-al-2010-pagan-island,mention,57,Gnathaphanus licinoides,,,,,,,text,machine,,,migrate,2026-11-13
-3GL8L,iom-15-1-carabidae-incl-cicindelinae,account,32,Gnathaphanus licinoides,,,,,,,text,machine,,,migrate,2026-11-13
-3GL8L,iom-15-1-carabidae-incl-cicindelinae,mention,3 | 4 | 28 | 32,Gnathaphanus licinoides,,,,,,,text,machine,,,migrate,2026-11-13
+3GL8L,evenhuis-et-al-2010-pagan-island,mention,57,Gnathaphanus licinoides,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 3GL8P,iom-15-1-carabidae-incl-cicindelinae,account,33,Iwosiopelus masudai,PW | FM,Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
-3GL8Y,iom-15-1-carabidae-incl-cicindelinae,account,33,Gnathaphanus picipes,MP | PW,Palau | Saipan | Tinian,,,,,text,machine,,,migrate,2026-11-13
-3GL8Y,iom-15-1-carabidae-incl-cicindelinae,mention,3 | 4 | 6 | 33,Gnathaphanus picipes,,,,,,,text,machine,,,migrate,2026-11-13
 3GM25,iom-12-3-ceratopogonidae,mention,100,Chromis erotus,,,,,,,ocr,machine,,,migrate,2026-11-13
 3GYGP,iom-5-2-dermaptera,account,19,Gonolabis insulana,,,,,,,text,machine,,,migrate,2026-11-13
 3GYGP,iom-5-2-dermaptera,mention,18 | 19,Gonolabis insulana,,,,,,,text,machine,,,migrate,2026-11-13
@@ -1377,8 +1369,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 3LVNG,nafus-1989-biological-control-activities-in-the-mariana,mention,32,Hierodula patellifera,,,,,,,text,machine,,,migrate,2026-11-13
 3LY6D,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
 3M3CC,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
-3M7NT,iom-15-1-carabidae-incl-cicindelinae,account,39,Holcoderus decolor,PW | FM,Babeldaob | Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
-3M7NT,iom-15-1-carabidae-incl-cicindelinae,mention,5 | 39 | 40,Holcoderus decolor,,,,,,,text,machine,,,migrate,2026-11-13
 3M8DD,swezey-1942-misc-coleoptera-guam,account,4,Oligota flavicornis,,,,,,,text,machine,,,migrate,2026-11-13
 3M8DD,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 3M8DD,swezey-1942-misc-coleoptera-guam,mention,4,Oligota flavicornis,,,,,,,text,machine,,,migrate,2026-11-13
@@ -1879,8 +1869,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 43FW8,iom-6-3-fulgoroidea,account,163,Mimophantia maritima,,,,,,,text,machine,,,migrate,2026-11-13
 43FW8,iom-6-3-fulgoroidea,mention,7 | 163,Mimophantia maritima,,,,,,,text,machine,,,migrate,2026-11-13
 43SRJ,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
-43T23,iom-15-1-carabidae-incl-cicindelinae,account,40,Mochtherus tetraspilotus,,,,,,,text,machine,,,migrate,2026-11-13
-43T23,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 6 | 40,Mochtherus tetraspilotus,,,,,,,text,machine,,,migrate,2026-11-13
 447MH,iom-12-3-ceratopogonidae,account,305,Monohelea albiclavatoris,,,,,,,ocr,machine,,,migrate,2026-11-13
 447Q5,iom-12-3-ceratopogonidae,account,306,Monohelea palauensis,,,,,,,ocr,machine,,,migrate,2026-11-13
 447Q5,iom-12-3-ceratopogonidae,mention,306 | 308,Monohelea palauensis,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -2575,7 +2563,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4W6D7,iom-12-7-sciaridae,account,14,Scythropochroa trispinosa,MH,Kwajalein | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 4W6D7,iom-12-7-sciaridae,mention,14,Scythropochroa trispinosa,,,,,,,text,machine,,,migrate,2026-11-13
 4W6D7,plazi-60161840,checklist,,,,,,,,,plazi,,,,migrate,
-4WDTX,iom-15-1-carabidae-incl-cicindelinae,account,35,Selenophorus pyritosus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+4WDTX,iom-15-1-carabidae-incl-cicindelinae,account,35,Selenophorus pyritosus,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 4XBBX,iom-6-3-fulgoroidea,account,94,Sikaiana palaui,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 4XBBX,iom-6-3-fulgoroidea,mention,6 | 92 | 94,Sikaiana palaui,,,,,,,text,machine,,,migrate,2026-11-13
 4XH8R,iom-12-5-simuliidae,account,2,Atractocera latipes,GU | FM,Chuuk | Guam,,,,,text,machine,,,migrate,2026-11-13
@@ -2639,9 +2627,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4ZWRY,iom-12-5-chironomidae,mention,89 | 93,Stenochironomus sabroskyi,,,,,,,text,machine,,,migrate,2026-11-13
 4ZXNY,iom-6-3-fulgoroidea,account,76,Stenocranus pacificus,,,,,,,text,machine,,,migrate,2026-11-13
 4ZXNY,iom-6-3-fulgoroidea,mention,76,Stenocranus pacificus,,,,,,,text,machine,,,migrate,2026-11-13
-4ZZKW,evenhuis-et-al-2010-pagan-island,mention,57,Stenolophus smaragdulus,,,,,,,text,machine,,,migrate,2026-11-13
-4ZZKW,iom-15-1-carabidae-incl-cicindelinae,account,36,Carabus smaragdulus,FM | MH,Kwajalein | Lamotrek | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
-4ZZKW,iom-15-1-carabidae-incl-cicindelinae,mention,5 | 29 | 35 | 36,Egadroma smaragdula,,,,,,,text,machine,,,migrate,2026-11-13
 522QL,swezey-1942-misc-coleoptera-guam,account,5,Thectura cribrum,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 522WF,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,account,28,Cirrospiloideus japonica,,,,,,,text,machine,,,migrate,2026-11-13
 522WF,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,mention,28,Cirrospiloideus japonica,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3159,8 +3144,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5XFBF,schreiner-nafus-1997-butterflies-of-micronesia,mention,15 | 31 | 39,Catopsilia pyranthe,,,,,,,text,machine,,,migrate,2026-11-13
 5XFNH,schreiner-nafus-1997-butterflies-of-micronesia,account,32,Catochrysops amasea,PW | FM,Chuuk | Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
 5XFNH,schreiner-nafus-1997-butterflies-of-micronesia,mention,19 | 32 | 39,Catochrysops amasea,,,,,,,text,machine,,,migrate,2026-11-13
-5XH6T,iom-15-1-carabidae-incl-cicindelinae,account,41,Celaenephes parallelus,PW | FM,Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
-5XH6T,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 40 | 41,Celaenephes parallelus,,,,,,,text,machine,,,migrate,2026-11-13
+5XH6T,iom-15-1-carabidae-incl-cicindelinae,account,41,Celaenephes parallelus,PW | FM,Palau | Yap,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 5XJ7T,iom-13-4-stratiomyidae-calliphoridae,account,8,Cephalochrysa gracilis,,,,,,,text,machine,,,migrate,2026-11-13
 5XJ7T,iom-13-4-stratiomyidae-calliphoridae,mention,3 | 4 | 6 | 8,Cephalochrysa gracilis,,,,,,,text,machine,,,migrate,2026-11-13
 5XJ7Z,iom-13-4-stratiomyidae-calliphoridae,account,10,Cephalochrysa nigra,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3357,8 +3341,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 66LFD,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,mention,9,Anancistrogera dubia,,,,,,,text,machine,,,migrate,2026-11-13
 66LGM,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,account,8,Anancistrogera palauensis,PW,Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
 66LGM,vickery-1999-insects-of-micronesia-volume-5-no-4-gryllac,mention,1 | 8 | 14,Anancistrogera palauensis,,,,,,,text,machine,,,migrate,2026-11-13
-66MDM,iom-15-1-carabidae-incl-cicindelinae,account,38,Aephnidius opaculus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-66MDM,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 36 | 38,Aephnidius opaculus,,,,,,,text,machine,,,migrate,2026-11-13
+66MDM,iom-15-1-carabidae-incl-cicindelinae,account,38,Aephnidius opaculus,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 672XH,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 673YW,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,92,Anochetus splendidulus,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
 673YW,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,15 | 28 | 91 | 92,Anochetus splendidulus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -3692,7 +3675,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6LXL5,iom-12-8-tipulidae,mention,4 | 7 | 8,Holorusia palauensis,,,,,,,ocr,machine,,,migrate,2026-11-13
 6M48M,kevan-1997-acridoidea-and-related-orthoptera-grasshopper,account,22,Oedipoda obscurella,,,,,,,text,machine,,,migrate,2026-11-13
 6M48M,kevan-1997-acridoidea-and-related-orthoptera-grasshopper,mention,22 | 23,Heteropternis obscurella,,,,,,,text,machine,,,migrate,2026-11-13
-6M5GF,iom-15-1-carabidae-incl-cicindelinae,account,46,Hexagonia palauensis,PW,Babeldaob | Palau,,,,,text,machine,,,migrate,2026-11-13
+6M5GF,iom-15-1-carabidae-incl-cicindelinae,account,46,Hexagonia palauensis,PW,Babeldaob | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 6M8LM,adap-2000-20-taro-hornworm-hippotion-celerio,mention,1,Hippotion celerio,,,,,,,text,machine,,,migrate,2026-11-13
 6M8LM,crop-pests-micronesia,checklist,,,PW,Palau,,,,,checklist,,,,migrate,
 6M8LM,iom-19-1-trichogrammatidae-mymaridae,mention,7,Hippotion celerio,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4069,8 +4052,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6ZKG2,iom-8-4-psocoptera,account,43,Caecilius arotellus,,,,,,,ocr,machine,,,migrate,2026-11-13
 6ZKG2,iom-8-4-psocoptera,mention,43,Caecilius arotellus,,,,,,,ocr,machine,,,migrate,2026-11-13
 6ZKG2,plazi-592c9898,checklist,,,GU,,,,,,plazi,,,,migrate,
-6ZLMM,iom-15-1-carabidae-incl-cicindelinae,account,35,Egadroma quinquepustulata,,,,,,,text,machine,,,migrate,2026-11-13
-6ZLMM,iom-15-1-carabidae-incl-cicindelinae,mention,6 | 35,Egadroma quinquepustulata,,,,,,,text,machine,,,migrate,2026-11-13
 6ZMBH,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 6ZMBH,kevan-1997-acridoidea-and-related-orthoptera-grasshopper,account,11,Gryllus splendens,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 6ZMBH,kevan-1997-acridoidea-and-related-orthoptera-grasshopper,mention,11 | 12,Stenocatantops splendens,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4265,11 +4246,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 76GN6,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 76GN6,schreiner-1993-population-increases-of-native-moths-foll,mention,1 | 3 | 5,Penicillaria jocosatrix,,,,,,,text,machine,,,migrate,2026-11-13
 76GN6,uog-pest-sheet-mango-shoot-caterpillar,mention,1,Penicillaria jocosatrix,,,,,,,ocr,machine,,,migrate,2026-11-13
-76LTV,iom-15-1-carabidae-incl-cicindelinae,account,45,Pentagonica blanda,PW | FM,Koror | Kosrae | Palau | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-76LWP,iom-15-1-carabidae-incl-cicindelinae,account,45,Pentagonica erichsoni,PW | FM,Koror | Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
-76M83,iom-15-1-carabidae-incl-cicindelinae,account,44,Pentagonica pallipes,PW | FM,Koror | Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
-76NN3,iom-15-1-carabidae-incl-cicindelinae,account,45,Pentagonica trukensis,PW | FM,Chuuk | Palau,,,,,text,machine,,,migrate,2026-11-13
-76NN3,iom-15-1-carabidae-incl-cicindelinae,mention,5 | 43 | 45 | 46,Pentagonica trukensis,,,,,,,text,machine,,,migrate,2026-11-13
+76LTV,iom-15-1-carabidae-incl-cicindelinae,account,45,Pentagonica blanda,PW | FM,Koror | Kosrae | Palau | Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+76M83,iom-15-1-carabidae-incl-cicindelinae,account,44,Pentagonica pallipes,PW | FM,Koror | Palau | Yap,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 76NPJ,miller-2019-aphidiid-parasitoids-twenty-years-post-relea,mention,5,Pentalonia caladii,,,,,,,text,machine,,,migrate,2026-11-13
 76QJ4,iom-6-3-fulgoroidea,account,99,Heronax achilles,,,,,,,text,machine,,,migrate,2026-11-13
 76QJ4,iom-6-3-fulgoroidea,mention,6 | 99,Heronax achilles,,,,,,,text,machine,,,migrate,2026-11-13
