@@ -1,0 +1,21 @@
+name: Something else
+description: Anything else: a photo, a name, a link, a bug, an idea.
+labels: ["other"]
+body:
+  - type: input
+    id: taxon
+    attributes:
+      label: Taxon
+      description: The name (and id) of the taxon, filled in when you come from a page of the site.
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The address of the page on the site.
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What did you see, and what did you expect?
+    validations:
+      required: true

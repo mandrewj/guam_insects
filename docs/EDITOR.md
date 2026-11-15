@@ -181,3 +181,27 @@ No snapshot and no restore: the repository is the whole input.
 - Firefox: the page uses nothing Chromium/WebKit-specific except the optional folder
   picker, but Playwright's Firefox does not start on the development Mac (macOS 27), so it
   is untested there.
+
+
+## Working faster (added 2026-11-14)
+
+- **Keys**: `j`/`k` next/previous in the list (or the siblings in the tree), `c` confirms the
+  taxon (with the last source), `/` searches, Ctrl/Cmd+Z undoes the last change; the toast after
+  each change has an Undo button. After a change that takes a taxon out of the worklist, the
+  next one is selected.
+- **One click**: Confirm and the native/introduced/unknown buttons in the Nativity row act at once
+  with the last source used (Shift-click Confirm to give a source).
+- **Apply to all…** (the list header, or "Apply to these rows…" in the table): nativity,
+  confirm, or clear the new flag for every taxon shown. It touches only what it would change (an
+  editor's nativity is never overwritten) and is one entry in the Changes list.
+- **Confirmed through a child**: a genus, family or order counts as confirmed once an editor has
+  confirmed a species under it (computed in the editor; nothing extra is written).
+- **Worklists** show counts; "Data problem" worklists list the same iNaturalist taxon on two
+  taxa, species with one-word names, and the same epithet in a family under different genera.
+- **Table**: click a heading to sort; Export CSV downloads the rows and columns shown.
+- **Progress** tab: species, confirmed, nativity checked and machine rows to check per order or
+  family, and who has edited and confirmed what.
+- **Local mode** (`uv run guaminsects edit`): opening the editor fetches GitHub and fast-forwards
+  the clone when it is clean (and says so); a commit that no longer fits GitHub's newest (a
+  conflicting edit, or one that would fail `dataset check`) is not published: reload and the
+  changes are replayed onto the newest taxonomy.

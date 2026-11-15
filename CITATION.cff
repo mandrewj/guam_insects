@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this checklist or its data, please cite it as below, and cite the sources named on each taxon's page."
+title: "Insects of Guam (and Micronesia)"
+type: dataset
+authors:
+  - family-names: Johnston
+    given-names: M. Andrew
+repository-code: "https://github.com/mandrewj/guam_insects"
+url: "https://insects-of-guam.vercel.app/"
+abstract: "An online checklist and identification guide to the hexapods of Guam, the Northern Mariana Islands, Palau, the Federated States of Micronesia and the Marshall Islands, built from the Catalogue of Life, GBIF, iNaturalist, Wikipedia and Wikidata, and the published literature, with editor-checked records."
+license: MIT

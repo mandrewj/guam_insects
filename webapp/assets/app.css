@@ -663,3 +663,10 @@ h1[tabindex="-1"]:focus { outline: none; }
   .ip-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .ip-map { display: none; }
 }
+
+/* Cite this page, report a problem */
+.cite { margin: 14px 0 6px; }
+.cite summary { cursor: pointer; color: var(--accent); width: fit-content; }
+.cite-text { white-space: pre-wrap; word-break: break-word; font: 0.82rem/1.45 ui-monospace, Menlo, monospace; background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 8px 0; }
+.report { margin: 12px 0 0; font-size: 0.9rem; }

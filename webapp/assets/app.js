@@ -218,8 +218,8 @@
     var id = m ? tidOf(m[1]) : meta.root;
     if (m && !id) { renderMissing(m[1]); return; }
     if (!id) { app.innerHTML = "<p>No data has been built yet. Run <code>uv run guaminsects build</code>.</p>"; return; }
-    loadRecord(id).then(live(function (rec) { renderTaxon(rec, !m); }),
-                        live(function () { renderMissing(id); }));
+    loadRecord(id).then(live(function (rec) { renderTaxon(rec, !m); noteRedirect(); }),
+                        live(function () { tryRedirect(m ? m[1] : "", function () { renderMissing(id); }); }));
   }
   // Header toggle: swaps between a taxon page and the identify grid for the same taxon, so
   // it always lands on whatever the reader is already looking at.
@@ -271,6 +271,24 @@
   });
 
 
+  // An old or alternative id (a merged name, a GBIF key): look it up and open the accepted page.
+  var redirects = null, redirectedFrom = "";
+  window.guaminsects.redirects = function (d) { redirects = d; };
+  function tryRedirect(typed, fail) {
+    var key; try { key = decodeURIComponent(typed); } catch (e) { return fail(); }
+    var go = function () {
+      var to = redirects && (redirects[key] || redirects["gbif:" + key]);
+      if (!to) return fail();
+      redirectedFrom = key;
+      location.replace("#/t/" + to);
+    };
+    if (redirects) go(); else loadScript("data/redirects.js").then(go, fail);
+  }
+  function noteRedirect() {
+    if (!redirectedFrom) return;
+    app.insertAdjacentHTML("afterbegin", '<div class="notice">“' + esc(redirectedFrom) + "” is another name or key for this taxon, so you were sent here.</div>");
+    redirectedFrom = "";
+  }
   function renderMissing(id) {
     setIdentify(false);
     var typed = (location.hash.match(/^#\/(?:t|id)\/([^/?]+)/) || [])[1];
@@ -623,6 +641,12 @@
     if (r.in_col === false && r.origin !== "curated") badges.push('<span class="badge warn" title="' +
       esc(r.match_note || "Not in the Catalogue of Life") + '">Not in Catalogue of Life</span>');
     if (r.hidden) badges.push('<span class="badge muted" title="' + esc(r.hidden_reason || "") + '">Hidden</span>');
+    if (r.status !== "synonym" && r.rank !== "Subphylum") {
+      badges.push(r.verified
+        ? '<span class="badge ok" title="An editor confirmed that this taxon occurs in Micronesia' + (r.verified.source ? " (" + esc(r.verified.source) + ")" : "") + '">Checked' +
+          (r.verified.by ? " by " + esc(r.verified.by) : "") + (r.verified.date ? ", " + fmtDate(r.verified.date) : "") + "</span>"
+        : '<span class="badge muted" title="No editor has confirmed this taxon yet; it comes from published sources and tools">Not yet checked</span>');
+    }
     if (r.origin === "curated" && r.status !== "morphospecies") badges.push('<span class="badge muted" title="Added by hand by this site\'s curator">Curated</span>');
     var commons = [];
     if (r.common) commons.push(esc(r.common));
@@ -1103,7 +1127,7 @@
     var head = "<tr><th></th>" + (higher ? '<th title="Species recorded there, any source">spp.</th>' : "") +
       '<th class="t-gbif" title="GBIF records">GBIF</th><th class="t-inat" title="iNaturalist research-grade observations">iNat</th>' +
       '<th title="' + (higher ? "Species recorded in the literature" : "Documents recording it") + '">Lit.</th>' +
-      (edCol ? '<th title="An editor\'s distribution tag">Ed.</th>' : "") + "</tr>";
+      (edCol ? '<th title="An editor\'s distribution tag">Editor</th>' : "") + "</tr>";
     // A literature count resting on machine-read records gets an asterisk.
     var machine = higher ? [] : (r.machine_lit || []);
     var body = rows.map(function (p) {
@@ -1115,8 +1139,16 @@
         cell(p.inat) + "</td><td>" + lit + "</td>" +
         (edCol ? '<td class="ed-' + esc(p.editor || "none") + '">' + (ED_MARK[p.editor] || cell(0)) + "</td>" : "") + "</tr>";
     }).join("");
-    var notes = tags.length ? '<ul class="dist-tags">' + tags.map(function (t) {
-      return '<li class="r-' + esc(t.area.toLowerCase()) + '"><b>' + esc(t.place) + "</b> " +
+    // One line per source and status, not one per island: "Guam, CNMI, Palau: present · Darlington 1970".
+    var groups = [], byKey = {};
+    tags.forEach(function (t) {
+      var k = [t.status, t.doc ? t.doc.citation : "", t.source || "", addedBy(t)].join("|");
+      if (!byKey[k]) { byKey[k] = { t: t, places: [] }; groups.push(byKey[k]); }
+      byKey[k].places.push(t.place);
+    });
+    var notes = groups.length ? '<ul class="dist-tags">' + groups.map(function (g) {
+      var t = g.t;
+      return '<li class="r-' + esc(t.area.toLowerCase()) + '"><b>' + g.places.map(esc).join(", ") + "</b> " +
         '<span class="tag-' + esc(t.status) + '">' + esc(t.status) + "</span>" +
         (t.doc ? " · " + (t.doc.url ? ext(t.doc.url, esc(stripDot(t.doc.citation))) : esc(stripDot(t.doc.citation))) : "") +
         (t.source ? " · " + (/^https?:\/\//.test(t.source) ? ext(t.source, "source") : esc(t.source)) : "") +
@@ -1231,7 +1263,46 @@
     }
     rows.push("<li><strong>This page</strong>: data built " + fmtDate(r.built_at || meta.built_at) + ".</li>");
     return '<section class="attribution" id="s-sources"><h2>Sources &amp; attribution</h2><ul>' + rows.join("") +
-      "</ul></section>";
+      "</ul>" + citeBox(r, rows) + reportBox(r) + "</section>";
+  }
+
+  // ---- how to cite this page, and everything on it
+  var SITE_URL = "https://insects-of-guam.vercel.app/", REPO_URL = "https://github.com/mandrewj/guam_insects";
+  function plainText(html) { var d = document.createElement("div"); d.innerHTML = html; return d.textContent.replace(/\s+/g, " ").trim(); }
+  function pageCitation(r) {
+    var built = meta.built_at ? new Date(meta.built_at.slice(0, 10) + "T00:00:00") : new Date();
+    var url = SITE_URL + "#/t/" + extOf(r.id), today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    return "Johnston, M. A. (" + built.getFullYear() + "). " + r.name + (r.authority ? " " + r.authority : "") + ". In: Insects of Guam (and Micronesia) " +
+      "[online checklist and identification guide; data built " + (meta.built_at || "").slice(0, 10) + "]. " + url + ". Source code and data: " + REPO_URL +
+      ". Accessed " + today + ".";
+  }
+  function citeBox(r, rows) {
+    var text = pageCitation(r) + "\n\nData on this page come from:\n" + rows.map(function (x) { return "- " + plainText(x); }).join("\n");
+    return '<details class="cite"><summary>Cite this page</summary><pre class="cite-text" id="cite-text">' + esc(text) + "</pre>" +
+      '<p><button type="button" class="dl-btn" data-copy="cite-text">Copy the citation</button> <span class="dl-status" role="status"></span></p>' +
+      '<p class="section-note">Website: <a href="' + SITE_URL + '">' + SITE_URL + '</a> · repository: ' + ext(REPO_URL, "mandrewj/guam_insects") +
+      " · author: M. Andrew Johnston. Cite the data build date above; the site changes as editors add records.</p></details>";
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest("button[data-copy]");
+    if (!b) return;
+    var el = document.getElementById(b.getAttribute("data-copy")), st = b.parentNode.querySelector(".dl-status");
+    var done = function (ok) { if (st) st.textContent = ok ? "Copied." : "Select the text and copy it."; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(el.textContent).then(function () { done(true); }, function () { done(false); });
+    else { var g = document.createRange(); g.selectNodeContents(el); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(g); done(false); }
+  });
+
+  // ---- report a problem: a GitHub issue, prefilled, of one of three kinds
+  var ISSUE_KINDS = [["taxonomy", "Taxonomy (name, rank, placement, synonym)"], ["distribution", "Distribution (islands, records)"], ["other", "Something else"]];
+  function issueUrl(kind, r) {
+    var q = new URLSearchParams({ template: kind + ".yml", title: (r ? r.name + ": " : "") + "",
+      taxon: r ? r.name + " (" + extOf(r.id) + ")" : "", page: r ? SITE_URL + "#/t/" + extOf(r.id) : SITE_URL });
+    return REPO_URL + "/issues/new?" + q.toString();
+  }
+  function reportBox(r) {
+    return '<p class="report">Something wrong or missing on this page? Report it: ' + ISSUE_KINDS.map(function (k) {
+      return '<a href="' + esc(issueUrl(k[0], r)) + '" target="_blank" rel="noopener">' + esc(k[1].split(" (")[0]) + "</a>";
+    }).join(" · ") + ' <span class="muted">(opens a GitHub issue)</span></p>';
   }
 
   // ------------------------------------------------------------------ taxonomy download

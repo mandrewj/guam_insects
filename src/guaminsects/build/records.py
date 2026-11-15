@@ -399,6 +399,8 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
             "nativity": t["nativity"] or "unknown", "nativity_source": t["nativity_source"] or None,
             "nativity_review": t["nativity_review"] or None,
             "hidden": bool(t["hidden"]), "hidden_reason": t["hidden_reason"] or None,
+            "verified": {"by": t["verified_by"] or None, "date": t["verified_date"] or None,
+                         "source": t["verification_source"] or None} if t["verified"] == "yes" else None,
             "note": t["note"] or None, "curated": [],
             "species_count": n_species[tid], "genus_count": n_genera[tid],
             "lineage": [brief(a) for a in m.ancestors(tid)],

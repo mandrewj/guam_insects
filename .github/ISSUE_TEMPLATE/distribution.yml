@@ -1,0 +1,21 @@
+name: Distribution problem
+description: An island record that is missing, wrong or doubtful.
+labels: ["distribution"]
+body:
+  - type: input
+    id: taxon
+    attributes:
+      label: Taxon
+      description: The name (and id) of the taxon, filled in when you come from a page of the site.
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The address of the page on the site.
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Which islands, present or absent, and the source (a paper, an iNaturalist observation, a specimen).
+    validations:
+      required: true

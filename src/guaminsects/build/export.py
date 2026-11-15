@@ -200,3 +200,25 @@ def site_script(table: list[dict], js_global: str = "guaminsects") -> str:
     """data/taxonomy.js for the site's download buttons: visible taxa only, as arrays."""
     body = {"columns": COLUMNS, "rows": [[r[c] for c in COLUMNS] for r in table if not r["hidden"]]}
     return f"{js_global}.taxonomy({json.dumps(body, ensure_ascii=False, separators=(',', ':'))});\n"
+
+
+def redirects(ds, recs: dict[int, dict]) -> dict[str, str]:
+    """Old and alternative ids -> the page that shows them: a merged name (synonym) or a source
+    key (a GBIF key, a printed name) opens the accepted taxon instead of a dead end."""
+    target: dict[str, str] = {}
+    for t in ds["taxa"]:
+        if t["status"] == "synonym" and t["accepted_id"]:
+            target[t["id"]] = t["accepted_id"]
+    for k in ds["keys"]:
+        if k["taxon_id"] and k["taxon_id"] != (f"gbif:{k['key']}" if k["source"] == "gbif" else None):
+            target.setdefault(f"gbif:{k['key']}" if k["source"] == "gbif" else k["key"], k["taxon_id"])
+    out = {}
+    for src, dst in target.items():
+        for _ in range(6):                       # follow a chain of merges
+            if dst in target and target[dst] != dst:
+                dst = target[dst]
+            else:
+                break
+        if ids.to_int(dst) in recs and dst != src:
+            out[src] = dst
+    return dict(sorted(out.items()))

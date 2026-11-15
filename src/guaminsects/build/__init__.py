@@ -58,6 +58,9 @@ def build(ds: dataset.Dataset | None = None, out: Path | None = None, check: boo
     table = export.rows(ds, recs)
     (out / "data").mkdir(exist_ok=True)
     bundle.write_if_changed(out / "data" / "taxonomy.js", export.site_script(table))
+    bundle.write_if_changed(out / "data" / "redirects.js", "guaminsects.redirects("
+                            + json.dumps(export.redirects(ds, recs), ensure_ascii=False,
+                                         separators=(",", ":")) + ");\n")
 
     # Thumbnails ship with the site (the one kind of image we host); photos are hotlinked.
     used = {p["thumb"].rsplit("/", 1)[1] for r in recs.values() for p in r["photos"]
