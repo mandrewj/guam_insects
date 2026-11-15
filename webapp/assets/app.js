@@ -1104,10 +1104,10 @@
     Array.prototype.forEach.call(document.querySelectorAll("path.land:not([d])"), function (p) { p.setAttribute("d", worldPath); });
   }
   function worldBox(r) {
-    if (!r.grid || (r.rank !== "Species" && r.rank !== "Subspecies")) return "";
+    if (r.rank !== "Species" && r.rank !== "Subspecies") return "";
     if (!worldPath) loadScript("assets/world.js").then(fillLand, function () {});
-    var cells = r.grid[1].split(" ").map(function (t) { return t.split(".").map(Number); });
-    var max = Math.max.apply(null, cells.map(function (c) { return c[2]; })), S = 5.625;
+    var cells = !r.grid ? [] : r.grid[1].split(" ").map(function (t) { return t.split(".").map(Number); });
+    var max = Math.max.apply(null, [1].concat(cells.map(function (c) { return c[2]; }))), S = 5.625;
     var rects = cells.map(function (c) {
       var lvl = Math.min(4, 1 + Math.floor(Math.log(c[2]) / Math.log(max + 1) * 4));
       return '<rect class="gc l' + lvl + '" x="' + (c[0] * S) + '" y="' + (c[1] * S) + '" width="' + S + '" height="' + S +
@@ -1117,15 +1117,18 @@
     if (g) dots = g.islands.filter(function (i) { return areas.has(i[0]); }).map(function (i) {
       return '<circle class="wd r-' + i[0].toLowerCase() + '" cx="' + ((i[3] + 180) * 2) + '" cy="' + ((90 - i[2]) * 2) + '" r="2.2"><title>' + esc(i[1]) + "</title></circle>";
     }).join("");
-    var n = cells.length, total = r.grid[0];
+    var n = cells.length, total = r.grid ? r.grid[0] : 0;
     return '<div class="box world-box"><h3>Worldwide records</h3>' +
       '<svg class="world-map" viewBox="0 8 720 292" role="img" aria-label="Where GBIF has records of ' + esc(r.name) + ' worldwide">' +
       '<rect class="sea" x="0" y="8" width="720" height="292" rx="6"></rect><path class="land"' + (worldPath ? ' d="' + worldPath + '"' : "") + "></path>" +
       rects + '<rect class="micro" x="' + (129 + 180) * 2 + '" y="' + (90 - 22) * 2 + '" width="' + 46 * 2 + '" height="' + 24 * 2 + '" rx="3"><title>Micronesia</title></rect>' +
       dots + "</svg>" +
-      '<p class="cs-src">' + total.toLocaleString() + " GBIF records in " + n + " cell" + (n === 1 ? "" : "s") +
-      " of 2.8°; darker cells have more. The outlined box is Micronesia, its islands in the group colors." +
-      (r.grid[2] ? " Retrieved " + esc(r.grid[2]) + " from the " + ext("https://www.gbif.org/", "GBIF") + " density map." : "") + "</p></div>";
+      '<p class="cs-src">' + (r.grid
+        ? total.toLocaleString() + " GBIF records in " + n + " cell" + (n === 1 ? "" : "s") +
+          " of 2.8°; darker cells have more. The outlined box is Micronesia, its islands in the group colors." +
+          (r.grid[2] ? " Retrieved " + esc(r.grid[2]) + " from the " + ext("https://www.gbif.org/", "GBIF") + " density map." : "")
+        : "No georeferenced GBIF records to draw for this name (none exist, or GBIF does not match it). " +
+          "The outlined box is Micronesia, with the island groups it is recorded from in color.") + "</p></div>";
   }
 
   // IUCN Red List category as Wikidata records it (P141, CC0). The assessment itself is on

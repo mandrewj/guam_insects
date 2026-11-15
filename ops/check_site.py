@@ -144,7 +144,7 @@ def check(page, url: str) -> dict[str, bool]:
     r["jump keeps route"] = page.url.endswith(f"#/t/{SPECIES}")
     r["literature listed"] = page.locator("#s-literature li").count() > 0
     r["wikipedia open by default"] = page.locator(".wiki-body[open]").count() == 1
-    r["world map drawn"] = page.locator(".world-map path.land[d]").count() == 1 or not page.locator(".world-box").count()
+    r["world map drawn"] = page.locator(".world-map path.land[d]").count() == 1
     r["nativity badge"] = page.locator(
         ".badge:has-text('Nativity unknown'), .badge:has-text('Native'), "
         ".badge:has-text('Introduced')").count() > 0
