@@ -790,3 +790,18 @@ def test_search_ignores_diacritics_and_links_carry_no_editor_flag(page, world):
         {"type": "identify", "id": "ORYCT", "system": "col", "value": "ABC12"}])
     assert out["errors"] == [None, None]
     assert "linked by editor" not in out["files"]["dataset/links.csv"]
+
+
+def test_a_col_synonym_can_be_split_out_only_by_knowingly_overriding_col(page, world):
+    texts = texts_of(world)
+    split = {"type": "split", "id": "gbif:2080570", "parent": "ORYCT"}
+    refused = run(page, texts, [split])
+    assert "overriding the Catalogue of Life" in refused["errors"][0]
+    no_reason = run(page, texts, [{**split, "overrideCol": True}])
+    assert "say why" in no_reason["errors"][0]
+    out = run(page, texts, [{**split, "overrideCol": True, "reason": "Smith 2020 revalidated it"}])
+    assert out["errors"] == [None]
+    row = out["rows"]["gbif:2080570"]
+    assert row["taxonomicStatus"] == "accepted" and row["parentNameUsageID"] == "ORYCT"
+    assert "overrides Catalogue of Life" in row["nameMatch"] and "Smith 2020" in row["matchRemarks"]
+    assert out["checks"] == []

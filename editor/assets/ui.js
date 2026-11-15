@@ -800,12 +800,23 @@
     }
     if (act === "split") {
       const acc = row(r.acceptedNameUsageID);
+      const col = r.nameMatch === "COL synonym";
       return openForm({ title: "Split out " + r.scientificName,
-        intro: `Make it its own taxon again instead of a name of ${acc ? sci(acc.taxonRank, acc.scientificName) : "its taxon"}.`,
+        intro: `Make it its own taxon again instead of a name of ${acc ? sci(acc.taxonRank, acc.scientificName) : "its taxon"}.` +
+          (col ? '<div class="warn-box"><b>This goes against the Catalogue of Life.</b> COL lists this name as a synonym of ' +
+            `${acc ? sci(acc.taxonRank, acc.scientificName) : "another taxon"}. COL is our backbone and is usually right, but not always. ` +
+            "Split it out only if you are sure it is a valid taxon, and say why below: your reason is published with the taxon, " +
+            "and no tool will merge it back.</div>" : ""),
         fields: [{ key: "parent", label: "Under", type: "taxon", value: acc && acc.parentNameUsageID,
                    filter: x => !isSyn(x) && M.rankIndex(x.taxonRank) < M.rankIndex(r.taxonRank) },
-                 { key: "reason", label: "Reason or source" }],
-        submit: "Split out", onSubmit: x => addOp("split", { id, parent: x.parent, reason: x.reason }) });
+                 { key: "reason", label: col ? "Why the Catalogue of Life is wrong here (required: a reference or your reasoning)" : "Reason or source" }]
+          .concat(col ? [{ key: "confirm", type: "checkbox", value: false,
+                           label: "I understand this overrides the Catalogue of Life, and I am sure." }] : []),
+        submit: col ? "Override COL and split out" : "Split out", danger: col,
+        onSubmit: x => {
+          if (col && !x.confirm) throw new Error("tick the box to confirm that you are overriding the Catalogue of Life");
+          addOp("split", { id, parent: x.parent, reason: x.reason, overrideCol: col });
+        } });
     }
   }
   function onTaxonSubmit(e) {

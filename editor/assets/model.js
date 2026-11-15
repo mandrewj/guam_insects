@@ -505,13 +505,23 @@
       need(r && st.isSyn(r), `${st.name(op.id)} is not a synonym`);
       const acc = st.r(r.accepted_id);
       const parent = op.parent || (acc && acc.parent_id) || "";
-      need(r.name_match !== "COL synonym", `${r.name} is a Catalogue of Life synonym; it cannot be split here`);
+      // The Catalogue of Life is the backbone but not infallible: an editor may split out a name it
+      // lists as a synonym, knowingly (op.overrideCol) and with a reason, which is recorded.
+      const col = r.name_match === "COL synonym";
+      if (col) {
+        need(op.overrideCol === true, `${r.name} is a Catalogue of Life synonym of ${st.name(r.accepted_id)}; confirm that you are overriding the Catalogue of Life to split it (use “Split out” on the name's page)`);
+        need((op.reason || "").trim(), "say why the Catalogue of Life is wrong here (a reference, or your reasoning); it is kept with the taxon");
+      }
       need(parent, "choose the parent it goes under");
       checkParent(st, op.id, parent, r.rank || (acc && acc.rank));
       st.setCell(op.id, "status", "accepted");
       st.setCell(op.id, "accepted_id", "");
       st.setCell(op.id, "parent_id", parent);
-      st.setCell(op.id, "name_match", "curated split");
+      st.setCell(op.id, "name_match", col ? "curated split (overrides Catalogue of Life)" : "curated split");
+      if (col) {
+        st.setCell(op.id, "match_note", `Overrides the Catalogue of Life, which lists it as a synonym of ${acc ? acc.name : "another taxon"}: ${op.reason.trim()}`);
+        st.setCell(op.id, "in_col", "no");
+      }
       if (!r.nativity) st.setCell(op.id, "nativity", "unknown");
       st.stamp(op.id, op);
       if (acc) st.stamp(acc.id, op);

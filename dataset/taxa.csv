@@ -218,8 +218,7 @@ gbif:4726895,,62LMF,Genus,Chrysodema,"Laporte & Gory, 1835",synonym,,,,,,,,,,no,
 3YPN,622HZ,,Genus,Cyphogastra,"Deyrolle, 1864",accepted,,,unknown,,,,Buprestoidea,,,yes,4728673,Catalogue of Life,,,,,,,,,,,,,,
 33F3T,3YPN,,Species,Cyphogastra auripennis,"Saunders, 1867",accepted,,,unknown,,,,Buprestoidea,,,yes,9416422,Catalogue of Life,,,,,,,,,,,,,,
 7LKD,622HZ,,Genus,Sponsor,"Laporte & Gory, 1839",accepted,,,unknown,,,,Buprestoidea,,,yes,4729453,Catalogue of Life,,,,,,,,,,,,,,
-4ZB9V,7LKD,,Species,Sponsor desjardinsii,"Guérin-Méneville, 1840",accepted,,,unknown,,,,Buprestoidea,,,yes,9473760,Catalogue of Life,,,,,,,,,,,,,,
-gbif:1043889,,4ZB9V,Species,Cryptamorpha desjardinsi,"(Guérin-Méneville, 1844)",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Sponsor desjardinsii,Plazi,,,,,,,,,,,,
+4ZB9V,7LKD,,Species,Sponsor desjardinsii,"Guérin-Méneville, 1840",accepted,,,unknown,,,,Buprestoidea,,,yes,9473760,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
 KV3JN,C2L,,Family,Callirhipidae,"Emden, 1924",accepted,Callirhipid Cedar Beetles,callirhipid beetles,unknown,,,,Dryopoidea,,,yes,3791,Catalogue of Life,,,,,,,,,,,,,,
 gbif:7847,,KV3JN,Family,Rhipiceridae,,synonym,,,,,,,,,,no,,same name,,GBIF Backbone,,,,,,,,,,,,
 KVR6P,,KV3JN,Family,Rhipiceridae,"Latreille, 1834",synonym,,,,,,,,,,no,,curated merge,"Micronesian records labelled Rhipiceridae are Callirhipis, placed in Rhipiceridae in the older classification (Zimmerman 1942); Rhipiceridae has no species here",GBIF,,,,,,,,,,,,
@@ -1696,6 +1695,7 @@ KQNBV,,SSCHC,Species,Scirtes tigmanensis,,synonym,,,unknown,,,,Scirtoidea,Scirti
 KQNC2,KVSMC,,Species,Scirtes zerchei,,accepted,,,unknown,,,,Scirtoidea,Scirtinae,,yes,6948894,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 KVT7K,C2L,,Family,Silvanidae,"W. Kirby, 1837",accepted,Silvanid Flat Bark Beetles,Flat Grain Beetles | Silvanid flat bark beetle | grain beetles,unknown,,,,Cucujoidea,,,yes,7850,Catalogue of Life,,,,,,,,,,,,,,
 62P4G,KVT7K,,Genus,Cryptamorpha,"Wollaston, 1854",accepted,,,unknown,,,,Buprestoidea,,,yes,1043886,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
+gbif:1043889,62P4G,,Species,Cryptamorpha desjardinsi,"(Guérin-Méneville, 1844)",accepted,,,unknown,,,,Buprestoidea,,,no,1043889,curated split (overrides Catalogue of Life),"Overrides the Catalogue of Life, which lists it as a synonym of Sponsor desjardinsii: treated as a valid species of Cryptamorpha (editor decision, M. Andrew Johnston)",Plazi,,,,,,,,,,,M. Andrew Johnston,2026-11-15
 R6F9H,KVT7K,,Genus,Monanus,"Sharp, 1879",accepted,,,unknown,,,,Cucujoidea,Silvaninae,,yes,1043917,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 R6FCF,R6F9H,,Species,Monanus concinnulus,"(Walker, 1858)",accepted,Beetle,,unknown,,,,Cucujoidea,Silvaninae,,yes,1043919,Catalogue of Life,,,,,,,,,,,,,,
 QYH6T,KVT7K,,Genus,Oryzaephilus,"Ganglbauer, 1899",accepted,,,unknown,,,,Cucujoidea,,,yes,1043869,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15

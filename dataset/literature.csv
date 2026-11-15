@@ -1,4 +1,8 @@
 ﻿taxon_id,doc_id,kind,pages,name_printed,areas,islands,status,status_area,first_record_year,status_page,method,review,reviewed_by,reviewed,added_by,added
+gbif:1043889,evenhuis-et-al-2010-pagan-island,mention,58,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
+gbif:1043889,swezey-1942-misc-coleoptera-guam,account,7,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
+gbif:1043889,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
+gbif:1043889,swezey-1942-misc-coleoptera-guam,mention,7,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
 gbif:1563531,iom-12-6-mycetophilidae,account,14,Orfelia apicalis,PW,Babeldaob | Palau,,,,,text,machine,,,migrate,2026-11-13
 gbif:1563531,iom-12-6-mycetophilidae,mention,3 | 15,Orfelia apicalis,,,,,,,text,machine,,,migrate,2026-11-13
 gbif:2054156,iom-6-8-fulgoroidea-suppl,account,9,Megamelus proserpina,,,,,,,text,machine,,,migrate,2026-11-13
@@ -2605,10 +2609,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4Z9PH,nafus-1989-biological-control-activities-in-the-mariana,mention,7 | 21,Spodoptera mauritia,,,,,,,text,machine,,,migrate,2026-11-13
 4Z9PH,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
 4Z9T8,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
-4ZB9V,evenhuis-et-al-2010-pagan-island,mention,58,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
-4ZB9V,swezey-1942-misc-coleoptera-guam,account,7,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
-4ZB9V,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-4ZB9V,swezey-1942-misc-coleoptera-guam,mention,7,Cryptamorpha desjardinsi,,,,,,,text,machine,,,migrate,2026-11-13
 4ZKX3,iom-9-1-tortricoidea,account,93,Statherotis leucaspis,FM | MH,Kosrae | Marshall Is.,,,,,ocr,machine,,,migrate,2026-11-13
 4ZKX3,iom-9-1-tortricoidea,mention,83 | 93 | 94 | 95,Statherotis leucaspis,,,,,,,ocr,machine,,,migrate,2026-11-13
 4ZLTH,kevan-1997-an-annotated-provisional-list-of-non-saltator,mention,24,Statilia nemoralis,,,,,,,text,machine,,,migrate,2026-11-13

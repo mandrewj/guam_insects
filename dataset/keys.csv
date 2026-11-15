@@ -1,5 +1,6 @@
 ﻿source,key,name,taxon_id,how
 gbif,5593,Melolonthidae,gbif:5593,
+gbif,1043889,Cryptamorpha desjardinsi,gbif:1043889,curated split
 gbif,1387878,Aprostocetus beatus,gbif:1387878,not in COL
 literature,Ootetrastichus beatus,Ootetrastichus beatus,gbif:1387878,GBIF synonym
 gbif,1499012,Tabanus tenens,gbif:1499012,
@@ -4442,7 +4443,6 @@ gbif,1886251,Spoladea recurvalis,4Z9T8,same
 gbif,9245048,Hymenia recurvalis,4Z9T8,COL synonym
 inat,Spoladea recurvalis,Spoladea recurvalis,4Z9T8,same
 col,4ZB9V,Sponsor desjardinsii,4ZB9V,
-gbif,1043889,Cryptamorpha desjardinsi,4ZB9V,COL synonym
 col,4ZKX3,Statherotis leucaspis,4ZKX3,
 gbif,1741559,Statherotis leucaspis,4ZKX3,same
 col,4ZLTH,Statilia nemoralis,4ZLTH,
