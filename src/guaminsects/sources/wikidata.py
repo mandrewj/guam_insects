@@ -139,6 +139,13 @@ def refresh(ds, taxa: list[str], http, today: str, progress=print) -> dict[str, 
             progress(f"  Wikidata {prop}: {min(i + BATCH, len(todo))}/{len(todo)}")
             time.sleep(2)
     stats = apply(ds, found, want, today)
+    seen, kept = set(), []                       # an iNaturalist link may already exist from a name match
+    for r in ds["links"]:
+        k = (r["taxon_id"], r["system"], r["value"])
+        if k not in seen:
+            seen.add(k)
+            kept.append(r)
+    ds["links"] = kept
     stats["asked"] = len(want)
     return stats
 

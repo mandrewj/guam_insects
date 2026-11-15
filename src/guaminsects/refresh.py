@@ -14,7 +14,7 @@ from .sources import col as colapi
 from .sources import gbif as gbifapi
 from .sources import gbifmap
 
-WHAT = ["wikidata", "inat", "wikipedia", "bugguide", "photos", "living", "preferred", "col", "grid", "wikidata-names"]
+WHAT = ["wikidata", "inat", "wikipedia", "bugguide", "photos", "living", "preferred", "col", "grid", "wikidata-names", "links"]
 ORDER = ["wikidata", "inat", "bugguide", "wikipedia", "photos", "col"]   # wikipedia and photos need the links
 
 
@@ -154,7 +154,7 @@ def write_grid(ds) -> None:
 
 def grid_refresh(ds, taxa: list[str], client, today: str, progress=print, redo: bool = False,
                  save=None) -> dict[str, int]:
-    """GBIF's worldwide record grid (sources/gbifmap.py) for species and subspecies. A taxon
+    """GBIF's worldwide record grid (sources/gbifmap.py) for species, subspecies, genera and families. A taxon
     that already has a row is skipped unless `redo`, so a stopped run resumes; `save` is called
     every 100 taxa so a stopped run keeps what it fetched."""
     by_id = {r["id"]: r for r in ds["taxa"] if r["status"] != "synonym"}
@@ -162,7 +162,7 @@ def grid_refresh(ds, taxa: list[str], client, today: str, progress=print, redo: 
     asked = fetched = empty = 0
     for n, t in enumerate(sorted(taxa), start=1):
         row = by_id.get(t)
-        if not row or row["rank"] not in ("Species", "Subspecies") or row["hidden"]:
+        if not row or row["rank"] not in ("Species", "Subspecies", "Genus", "Family") or row["hidden"]:
             continue
         if t in have and not redo:
             continue
@@ -192,6 +192,60 @@ def grid_refresh(ds, taxa: list[str], client, today: str, progress=print, redo: 
     if save:
         save()
     return {"asked": asked, "fetched": fetched, "no records": empty}
+
+
+LINK_RANKS = ("Species", "Subspecies", "Genus", "Family", "Order")
+
+
+def link_pass(ds, taxa: list[str], gbif_client, col_client, today: str, progress=print) -> dict[str, int]:
+    """Fill what is still unlinked, from the two big backbones, never over a value already there.
+    GBIF: a taxon with no gbif_key gets the Backbone key of the exact same name and rank (a key
+    another taxon already holds is skipped). COL: a taxon COL did not carry when it was added
+    (in_col no) and with no COL link gets one when COL now has the exact name as an accepted
+    taxon; the link is a plain `col` link, matched by name."""
+    by_id = {r["id"]: r for r in ds["taxa"] if r["status"] != "synonym"}
+    used = {r["gbif_key"] for r in ds["taxa"] if r["gbif_key"]}
+    col_taken = {r["value"] for r in ds["links"] if r["system"] == "col"} | {
+        r["id"] for r in ds["taxa"]}
+    has_col = {r["taxon_id"] for r in ds["links"] if r["system"] == "col"}
+    stats = {"gbif_asked": 0, "gbif_linked": 0, "col_asked": 0, "col_linked": 0}
+    todo = [t for t in sorted(taxa) if t in by_id and by_id[t]["rank"] in LINK_RANKS
+            and not by_id[t]["hidden"] and by_id[t]["status"] != "morphospecies"]
+    for n, t in enumerate(todo, 1):
+        row = by_id[t]
+        if not row["gbif_key"]:
+            stats["gbif_asked"] += 1
+            try:
+                d = gbifapi.backbone_match(gbif_client, row["name"], row["rank"])
+            except Exception as e:                    # retried next run
+                progress(f"  GBIF {t} {row['name']}: {e}")
+                d = None
+            key = str((d or {}).get("usageKey") or "")
+            if d and key and key not in used and d.get("rank", "").upper() == row["rank"].upper() \
+                    and (d.get("status") or "ACCEPTED") != "DOUBTFUL" \
+                    and (d.get("canonicalName") or "").lower() == row["name"].lower():
+                row["gbif_key"] = key
+                used.add(key)
+                stats["gbif_linked"] += 1
+        if row["in_col"] != "yes" and t not in has_col:
+            stats["col_asked"] += 1
+            try:
+                d = colapi.match(col_client, row["name"], row["rank"])
+            except Exception as e:
+                progress(f"  COL {t} {row['name']}: {e}")
+                d = None
+            u = (d or {}).get("usage") or {}
+            if d and colapi.match_type(d) == "EXACT" and colapi.is_hexapod(d) and u.get("key") \
+                    and u["key"] not in col_taken and not d.get("synonym") \
+                    and (u.get("name") or "").lower() == row["name"].lower():
+                ds["links"].append({"taxon_id": t, "system": "col", "value": u["key"],
+                                    "label": "", "confidence": "high", "note": "matched by name",
+                                    "added_by": "refresh links", "added": today})
+                col_taken.add(u["key"])
+                stats["col_linked"] += 1
+        if n % 200 == 0:
+            progress(f"  links: {n}/{len(todo)} ({stats['gbif_linked']} GBIF, {stats['col_linked']} COL)")
+    return stats
 
 
 def _person(name: str) -> bool:
@@ -264,6 +318,13 @@ def run(ds, what: str, taxa: list[str], today: str, progress=print, redo: bool =
             return col_info(ds, taxa, clb, today, progress)
         finally:
             clb.close()
+    if what == "links":
+        g, c = ApiClient(gbifapi.GBIF, 0.34), ApiClient("https://api.gbif.org", 0.34)
+        try:
+            return link_pass(ds, taxa, g, c, today, progress)
+        finally:
+            g.close()
+            c.close()
     if what == "grid":
         client = ApiClient(gbifmap.MAPS, 0.34)
         try:

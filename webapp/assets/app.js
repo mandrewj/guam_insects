@@ -334,13 +334,14 @@
     if (!isHome) html.push(gallery(r));
     html.push(facts(r));
     html.push(presenceBox(r));
+    html.push(worldBox(r, true));
     html.push(iucnBox(r));
     if (!isHome) html.push(classification(r));
     html.push(links(r));
     html.push(downloadBox(r, isHome));
     html.push('</aside><div class="main">');
     if (!isHome) html.push(pageNav(r));
-    html.push(worldBox(r));
+    html.push(worldBox(r, false));
     if (!isHome) html.push(curatedNote(r));
     html.push(children(shown));
     html.push(checklist(r));
@@ -1104,8 +1105,13 @@
   function fillLand() {
     Array.prototype.forEach.call(document.querySelectorAll("path.land:not([d])"), function (p) { p.setAttribute("d", worldPath); });
   }
-  function worldBox(r) {
-    if (r.rank !== "Species" && r.rank !== "Subspecies") return "";
+  // Species and subspecies: the full map in the main column. Genera and families: a small box
+  // in the left column (so it never sits between the reader and the lower taxa); nothing when
+  // GBIF has no records to draw.
+  function worldBox(r, side) {
+    var high = r.rank === "Genus" || r.rank === "Family";
+    if (side !== high || !(high || r.rank === "Species" || r.rank === "Subspecies")) return "";
+    if (high && !r.grid) return "";
     if (!worldPath) loadScript("assets/world.js").then(fillLand, function () {});
     var cells = !r.grid ? [] : r.grid[1].split(" ").map(function (t) { return t.split(".").map(Number); });
     var max = Math.max.apply(null, [1].concat(cells.map(function (c) { return c[2]; }))), S = 5.625;
@@ -1119,12 +1125,15 @@
       return '<circle class="wd r-' + i[0].toLowerCase() + '" cx="' + ((i[3] + 180) * 2) + '" cy="' + ((90 - i[2]) * 2) + '" r="2.8"><title>' + esc(i[1]) + "</title></circle>";
     }).join("");
     var n = cells.length, total = r.grid ? r.grid[0] : 0;
-    return '<div class="box world-box" id="s-worldmap"><h3>Worldwide records</h3>' +
+    return '<div class="box world-box' + (high ? " small" : "") + '"' + (high ? "" : ' id="s-worldmap"') + "><h3>Worldwide records</h3>" +
       '<svg class="world-map" viewBox="0 8 720 292" role="img" aria-label="Where GBIF has records of ' + esc(r.name) + ' worldwide">' +
       '<rect class="sea" x="0" y="8" width="720" height="292" rx="6"></rect><path class="land"' + (worldPath ? ' d="' + worldPath + '"' : "") + "></path>" +
       rects + '<rect class="micro" x="' + (129 + 180) * 2 + '" y="' + (90 - 22) * 2 + '" width="' + 46 * 2 + '" height="' + 24 * 2 + '" rx="3"><title>Micronesia</title></rect>' +
       dots + "</svg>" +
-      '<p class="cs-src">' + (r.grid
+      '<p class="cs-src">' + (high
+        ? total.toLocaleString() + " GBIF records of all its species, in " + n + " cells of 2.8°. Micronesia is outlined." +
+          (r.grid[2] ? " Retrieved " + esc(r.grid[2]) + "." : "")
+        : r.grid
         ? total.toLocaleString() + " GBIF records in " + n + " cell" + (n === 1 ? "" : "s") +
           " of 2.8°; darker cells have more. The outlined box is Micronesia, its islands in the group colors." +
           (r.grid[2] ? " Retrieved " + esc(r.grid[2]) + " from the " + ext("https://www.gbif.org/", "GBIF") + " density map." : "")

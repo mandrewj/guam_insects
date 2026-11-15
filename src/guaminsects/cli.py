@@ -338,7 +338,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--file", help="a staged sync file (default: the latest)")
     p.set_defaults(func=cmd_sync)
     p = sub.add_parser("refresh", help=cmd_refresh.__doc__)
-    p.add_argument("what", choices=["inat", "living", "preferred", "photos", "wikipedia", "wikidata", "bugguide", "col", "grid", "wikidata-names"])
+    p.add_argument("what", choices=["inat", "living", "preferred", "photos", "wikipedia", "wikidata", "bugguide", "col", "grid", "wikidata-names", "links"])
     p.add_argument("--redo", action="store_true", help="grid: fetch again taxa that have a row")
     p.add_argument("--taxa", nargs="+", default=["new"], help="new (default), all, or taxon ids")
     p.set_defaults(func=cmd_refresh)
