@@ -1014,7 +1014,9 @@
       if (k.key === "Enter" && !k.shiftKey) { k.preventDefault(); finish(true); }
       if (k.key === "Escape") { k.preventDefault(); finish(false); }
     });
-    input.addEventListener("blur", () => finish(false));
+    const born = Date.now();
+    // A blur in the first moments is the double-click settling (slow machines), not the editor leaving.
+    input.addEventListener("blur", () => { if (!done && Date.now() - born < 300) input.focus(); else finish(false); });
   }
 
   // ---- progress: what is checked, per group, and who has done it
