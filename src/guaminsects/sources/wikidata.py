@@ -22,7 +22,7 @@ from ..dataset import join, split
 SPARQL_URL = "https://query.wikidata.org/sparql"
 BATCH = 300
 QUERY = """
-SELECT ?id ?item ?name ?inat ?bg ?iucn ?image ?article ?species ?common WHERE {
+SELECT ?id ?item ?parname ?name ?inat ?bg ?iucn ?image ?article ?species ?common WHERE {
   VALUES ?id { %s }
   ?item wdt:%s ?id .
   %s
@@ -39,8 +39,9 @@ SELECT ?id ?item ?name ?inat ?bg ?iucn ?image ?article ?species ?common WHERE {
 OWN_SYSTEMS = ("wikidata", "wikispecies", "wikipedia", "commons")
 
 
-# Matching by name alone: the item must be an animal (a plant or fungus can share a genus name).
-ANIMAL = "?item wdt:P171* wd:Q729 ."
+# Matching by name alone: the item's parent taxon must be our parent (a plant or fungus can
+# share a genus name, and a path query to Animalia times out on the public endpoint).
+ANIMAL = "?item wdt:P171 ?par . ?par wdt:P225 ?parname ."
 
 
 def run_query(http, values: list[str], prop: str = "P10585", extra: str = "") -> list[dict]:
@@ -144,12 +145,14 @@ def refresh(ds, taxa: list[str], http, today: str, progress=print) -> dict[str, 
 
 def by_name(ds, taxa: list[str], http, today: str, progress=print) -> dict[str, int]:
     """Taxa with no Wikidata link yet (the COL and GBIF keys found nothing): ask for the item
-    whose taxon name (P225) is exactly ours and which sits under Animalia. A name that more than
+    whose taxon name (P225) is exactly ours and whose parent taxon is our parent. A name that more than
     one item carries is skipped (homonyms); a match is stored with the note 'matched by name', confidence
     medium, so the page links it but an editor can see how it was found."""
     linked = {r["taxon_id"] for r in ds["links"] if r["system"] == "wikidata"}
     by_id = {r["id"]: r for r in ds["taxa"] if r["status"] != "synonym" and not r["hidden"]}
-    todo = {by_id[t]["name"]: t for t in taxa if t in by_id and t not in linked}
+    todo = {by_id[t]["name"]: t for t in taxa if t in by_id and t not in linked
+            and by_id[t]["parent_id"] in by_id}
+    parent = {n: by_id[by_id[t]["parent_id"]]["name"] for n, t in todo.items()}
     names = sorted(todo)
     items: dict[str, set[str]] = {}
     rows: dict[str, dict] = {}
@@ -158,6 +161,8 @@ def by_name(ds, taxa: list[str], http, today: str, progress=print) -> dict[str, 
         for b in run_query(http, batch, "P225", ANIMAL):
             v = {f: b[f]["value"] for f in b}
             name = v["id"]
+            if v.get("parname") != parent[name]:
+                continue
             items.setdefault(name, set()).add(v["item"])
             cur = rows.setdefault(name, {"commons": set(), **v})
             if "common" in v:
@@ -177,6 +182,13 @@ def by_name(ds, taxa: list[str], http, today: str, progress=print) -> dict[str, 
     for r in ds["links"]:
         if r["taxon_id"] in found and r["system"] == "wikidata" and r["added"] == today:
             r["note"] = (r["note"] + "; " if r["note"] else "") + "matched by name"
+    seen, kept = set(), []                       # an iNaturalist link may already exist
+    for r in ds["links"]:
+        k = (r["taxon_id"], r["system"], r["value"])
+        if k not in seen:
+            seen.add(k)
+            kept.append(r)
+    ds["links"] = kept
     stats.update(asked=len(names), ambiguous=sum(len(x) > 1 for x in items.values()))
     return stats
 
