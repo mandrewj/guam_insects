@@ -6,14 +6,15 @@ and the attribution rules; API answers are cached in private.nosync/api/ (a cach
 delete). `bugguide` reads ../entobase's database read-only and nothing else (CLAUDE.md rule 1).
 """
 
-from . import config, ids
+from . import config, ids, schema
 from .http import ApiClient
 from .sources import bugguide, photos, wikidata, wikipedia
 from .sources import inat as inatapi
 from .sources import col as colapi
 from .sources import gbif as gbifapi
+from .sources import gbifmap
 
-WHAT = ["wikidata", "inat", "wikipedia", "bugguide", "photos", "living", "preferred", "col"]
+WHAT = ["wikidata", "inat", "wikipedia", "bugguide", "photos", "living", "preferred", "col", "grid", "wikidata-names"]
 ORDER = ["wikidata", "inat", "bugguide", "wikipedia", "photos", "col"]   # wikipedia and photos need the links
 
 
@@ -143,6 +144,56 @@ def inat_refresh(ds, taxa: list[str], client, today: str, progress=print,
 TOOL_NAMES = ("guaminsects", "refresh", "migrate", "build", "sync", "match", "plazi", "lit")
 
 
+def write_grid(ds) -> None:
+    """Write grid.csv alone, so a long run never rewrites tables an editor may have changed."""
+    from . import dataset
+    t = schema.BY_NAME["grid"]
+    rows = [{c: "" if r.get(c) is None else str(r.get(c)) for c in t.names} for r in ds["grid"]]
+    dataset.write_text(ds.root / t.file, dataset.to_csv(t, rows))
+
+
+def grid_refresh(ds, taxa: list[str], client, today: str, progress=print, redo: bool = False,
+                 save=None) -> dict[str, int]:
+    """GBIF's worldwide record grid (sources/gbifmap.py) for species and subspecies. A taxon
+    that already has a row is skipped unless `redo`, so a stopped run resumes; `save` is called
+    every 100 taxa so a stopped run keeps what it fetched."""
+    by_id = {r["id"]: r for r in ds["taxa"] if r["status"] != "synonym"}
+    have = {r["taxon_id"]: r for r in ds["grid"]}
+    asked = fetched = empty = 0
+    for n, t in enumerate(sorted(taxa), start=1):
+        row = by_id.get(t)
+        if not row or row["rank"] not in ("Species", "Subspecies") or row["hidden"]:
+            continue
+        if t in have and not redo:
+            continue
+        in_col = row["in_col"] == "yes" and ids.valid(t) and ids.kind(ids.to_int(t)) == "col"
+        key = t if in_col else (row["gbif_key"] or "")
+        if not key:
+            continue
+        asked += 1
+        try:
+            cells = gbifmap.species_grid(client, key, in_col)
+        except Exception as e:                       # retried next run
+            progress(f"  grid {t} {row['name']}: {e}")
+            continue
+        new = {"taxon_id": t, "records": sum(c[2] for c in cells),
+               "cells": gbifmap.encode(cells), "refreshed": today}
+        if t in have:
+            have[t].update(new)
+        else:
+            ds["grid"].append(new)
+            have[t] = new
+        fetched += 1
+        empty += not cells
+        if asked % 100 == 0:
+            progress(f"  grid {asked} species ({n}/{len(taxa)} taxa)")
+            if save:
+                save()
+    if save:
+        save()
+    return {"asked": asked, "fetched": fetched, "no records": empty}
+
+
 def _person(name: str) -> bool:
     return bool(name) and not name.lower().startswith(TOOL_NAMES)
 
@@ -153,12 +204,18 @@ def _editor_owned(row) -> bool:
     return _person(row.get("modified_by", "")) or _person(row.get("added_by", ""))
 
 
-def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:
+def run(ds, what: str, taxa: list[str], today: str, progress=print, redo: bool = False) -> dict:
     """One refresh over these taxa; returns its statistics."""
     if what == "wikidata":
         http = wikidata.client()
         try:
             return wikidata.refresh(ds, taxa, http, today, progress)
+        finally:
+            http.close()
+    if what == "wikidata-names":
+        http = wikidata.client()
+        try:
+            return wikidata.by_name(ds, taxa, http, today, progress)
         finally:
             http.close()
     if what == "inat":
@@ -207,6 +264,13 @@ def run(ds, what: str, taxa: list[str], today: str, progress=print) -> dict:
             return col_info(ds, taxa, clb, today, progress)
         finally:
             clb.close()
+    if what == "grid":
+        client = ApiClient(gbifmap.MAPS, 0.34)
+        try:
+            return grid_refresh(ds, taxa, client, today, progress, redo=redo,
+                                save=lambda: write_grid(ds))
+        finally:
+            client.close()
     raise ValueError(f"refresh what? one of {', '.join(WHAT)}")
 
 

@@ -240,6 +240,17 @@ Unique key: `taxon_id`, `kind`, `ref`
 | `added_by` | str | required |
 | `added` | date |  |
 
+## `grid.csv`: GBIF's worldwide record grid per species
+
+Unique key: `taxon_id`
+
+| column | kind | |
+|---|---|---|
+| `taxon_id` | id | required; a `taxa` key |
+| `records` | int | required; GBIF occurrences in all cells |
+| `cells` | str | the world grid GBIF draws: 'column.row.records' cells, space-separated; 128 columns from 180 W, 64 rows from 90 N, 2.8125 degrees a cell |
+| `refreshed` | date |  |
+
 ## `review/unplaced.csv`: names with records that could not be placed, and names excluded
 
 Unique key: `name`, `source`, `key`

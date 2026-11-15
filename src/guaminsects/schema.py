@@ -229,6 +229,14 @@ TABLES: list[Table] = [
         C("added_by", required=True), C("added", "date"),
     ), key=("taxon_id", "kind", "ref"), title="editors' vouchers"),
 
+    Table("grid", "grid.csv", (
+        C("taxon_id", "id", True, ref="taxa"),
+        C("records", "int", True, doc="GBIF occurrences in all cells"),
+        C("cells", doc="the world grid GBIF draws: 'column.row.records' cells, "
+          "space-separated; 128 columns from 180 W, 64 rows from 90 N, 2.8125 degrees a cell"),
+        C("refreshed", "date"),
+    ), key=("taxon_id",), title="GBIF's worldwide record grid per species"),
+
     Table("unplaced", "review/unplaced.csv", (
         C("name", required=True), C("rank"),
         C("source", enum=UNPLACED_SOURCES), C("key"),

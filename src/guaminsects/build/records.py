@@ -104,9 +104,6 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
             lit_docs[(tid, a)].add(r["doc_id"])
             if r["method"] in PDF_METHODS and r["review"] == "machine":
                 machine_lit[tid].add(a)
-    for (tid, a), d in lit_docs.items():
-        own[tid][a]["literature"] = len(d)
-
     # Editors' tags: "present" is a record of its own; "absent" and "doubtful" count for nothing.
     tags: dict[int, list[dict]] = defaultdict(list)
     tagged_isles: dict[int, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
@@ -122,11 +119,22 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
                           if d else None})
         if (r["status"] or "present") == "present":
             own[tid][area]["editor"] = 1
+            if r["doc_id"]:   # a tag resting on a document counts as that document recording it
+                lit_docs[(tid, area)].add(r["doc_id"])
             if r["place"] not in geo.GROUPS:
                 tagged_isles[tid][area].add(r["place"])
+    for (tid, a), d in lit_docs.items():
+        own[tid][a]["literature"] = len(d)
     for t in tags.values():
         t.sort(key=lambda x: (config.AREA_CODES.index(x["area"]), x["place"] not in geo.GROUPS,
                               x["place"]))
+
+    # GBIF's worldwide record grid (species and subspecies only): [records, cells, date]
+    grids: dict[int, list] = {}
+    for r in ds["grid"]:
+        tid = at(r["taxon_id"])
+        if tid is not None and r["cells"]:
+            grids[tid] = [int(r["records"] or 0), r["cells"], r["refreshed"] or None]
 
     # --- roll-ups, leaves first ---------------------------------------------------------------
     species_in: dict[int, dict[str, set[int]]] = defaultdict(lambda: defaultdict(set))
@@ -418,6 +426,7 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
             "checklist": node[tid][3] if t["rank"] not in SPECIES_RANKS and tid in node
             and len(node[tid]) > 3 else [],
             "presence": presence_of(tid),
+            "grid": grids.get(tid),
             "islands": [{"area": a, "label": AREA_SHORT[a],
                          "islands": sorted(i for i in islands[tid][a]
                                            if i not in (AREA_SHORT[a], "Palau", "Marshall Is."))}

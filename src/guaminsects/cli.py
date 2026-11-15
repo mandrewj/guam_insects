@@ -138,7 +138,11 @@ def cmd_refresh(args) -> int:
     ds = dataset.load()
     taxa = refresh.pick(ds, args.taxa[0] if args.taxa in (["new"], ["all"]) else args.taxa)
     print(f"{args.what}: {len(taxa)} taxa", file=sys.stderr)
-    stats = refresh.run(ds, args.what, taxa, _today(), lambda x: print(x, file=sys.stderr))
+    stats = refresh.run(ds, args.what, taxa, _today(), lambda x: print(x, file=sys.stderr),
+                        redo=args.redo or args.taxa not in (["new"], ["all"]))
+    if args.what == "grid":                 # only grid.csv changed; leave every other table alone
+        print(stats)
+        return 0
     problems = dataset.check(ds)
     if problems:
         print("the result does not pass dataset check; nothing written:\n"
@@ -334,7 +338,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--file", help="a staged sync file (default: the latest)")
     p.set_defaults(func=cmd_sync)
     p = sub.add_parser("refresh", help=cmd_refresh.__doc__)
-    p.add_argument("what", choices=["inat", "living", "preferred", "photos", "wikipedia", "wikidata", "bugguide", "col"])
+    p.add_argument("what", choices=["inat", "living", "preferred", "photos", "wikipedia", "wikidata", "bugguide", "col", "grid", "wikidata-names"])
+    p.add_argument("--redo", action="store_true", help="grid: fetch again taxa that have a row")
     p.add_argument("--taxa", nargs="+", default=["new"], help="new (default), all, or taxon ids")
     p.set_defaults(func=cmd_refresh)
     p = sub.add_parser("dupes", help=cmd_dupes.__doc__)

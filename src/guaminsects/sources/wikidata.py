@@ -25,6 +25,7 @@ QUERY = """
 SELECT ?id ?item ?name ?inat ?bg ?iucn ?image ?article ?species ?common WHERE {
   VALUES ?id { %s }
   ?item wdt:%s ?id .
+  %s
   OPTIONAL { ?item wdt:P225 ?name }
   OPTIONAL { ?item wdt:P3151 ?inat }
   OPTIONAL { ?item wdt:P2464 ?bg }
@@ -38,8 +39,12 @@ SELECT ?id ?item ?name ?inat ?bg ?iucn ?image ?article ?species ?common WHERE {
 OWN_SYSTEMS = ("wikidata", "wikispecies", "wikipedia", "commons")
 
 
-def run_query(http, values: list[str], prop: str = "P10585") -> list[dict]:
-    q = QUERY % (" ".join(f'"{v}"' for v in values), prop)
+# Matching by name alone: the item must be an animal (a plant or fungus can share a genus name).
+ANIMAL = "?item wdt:P171* wd:Q729 ."
+
+
+def run_query(http, values: list[str], prop: str = "P10585", extra: str = "") -> list[dict]:
+    q = QUERY % (" ".join(f'"{v}"' for v in values), prop, extra)
     for attempt in range(4):
         r = http.post(SPARQL_URL, data={"query": q},
                       headers={"Accept": "application/sparql-results+json"})
@@ -134,6 +139,45 @@ def refresh(ds, taxa: list[str], http, today: str, progress=print) -> dict[str, 
             time.sleep(2)
     stats = apply(ds, found, want, today)
     stats["asked"] = len(want)
+    return stats
+
+
+def by_name(ds, taxa: list[str], http, today: str, progress=print) -> dict[str, int]:
+    """Taxa with no Wikidata link yet (the COL and GBIF keys found nothing): ask for the item
+    whose taxon name (P225) is exactly ours and which sits under Animalia. A name that more than
+    one item carries is skipped (homonyms); a match is stored with the note 'matched by name', confidence
+    medium, so the page links it but an editor can see how it was found."""
+    linked = {r["taxon_id"] for r in ds["links"] if r["system"] == "wikidata"}
+    by_id = {r["id"]: r for r in ds["taxa"] if r["status"] != "synonym" and not r["hidden"]}
+    todo = {by_id[t]["name"]: t for t in taxa if t in by_id and t not in linked}
+    names = sorted(todo)
+    items: dict[str, set[str]] = {}
+    rows: dict[str, dict] = {}
+    for i in range(0, len(names), 100):
+        batch = names[i:i + 100]
+        for b in run_query(http, batch, "P225", ANIMAL):
+            v = {f: b[f]["value"] for f in b}
+            name = v["id"]
+            items.setdefault(name, set()).add(v["item"])
+            cur = rows.setdefault(name, {"commons": set(), **v})
+            if "common" in v:
+                cur["commons"].add(v["common"])
+        progress(f"  Wikidata by name: {min(i + 100, len(names))}/{len(names)}")
+        time.sleep(2)
+    found, want = {}, {}
+    for name, its in items.items():
+        if len(its) != 1:
+            continue
+        t = todo[name]
+        v = rows[name]
+        v["name"] = name
+        found[t] = v
+        want[t] = ("P225", name, name)
+    stats = apply(ds, found, want, today)
+    for r in ds["links"]:
+        if r["taxon_id"] in found and r["system"] == "wikidata" and r["added"] == today:
+            r["note"] = (r["note"] + "; " if r["note"] else "") + "matched by name"
+    stats.update(asked=len(names), ambiguous=sum(len(x) > 1 for x in items.values()))
     return stats
 
 

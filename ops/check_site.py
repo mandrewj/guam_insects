@@ -143,20 +143,21 @@ def check(page, url: str) -> dict[str, bool]:
     page.wait_for_timeout(300)
     r["jump keeps route"] = page.url.endswith(f"#/t/{SPECIES}")
     r["literature listed"] = page.locator("#s-literature li").count() > 0
-    r["wikipedia collapsed"] = page.locator(".wiki-body[open]").count() == 0
+    r["wikipedia open by default"] = page.locator(".wiki-body[open]").count() == 1
+    r["world map drawn"] = page.locator(".world-map path.land[d]").count() == 1 or not page.locator(".world-box").count()
     r["nativity badge"] = page.locator(
         ".badge:has-text('Nativity unknown'), .badge:has-text('Native'), "
         ".badge:has-text('Introduced')").count() > 0
-    # The article text is a separate file, loaded when the details are first opened.
-    page.evaluate("document.querySelector('.wiki-body summary').click()")
+    # The article text is a separate file, loaded as the details open (open by default).
     try:
         page.wait_for_function(
             "document.querySelector('.wiki-body .prose').textContent.trim().length > 200",
             timeout=5_000)
-        r["wikipedia loads on expand"] = True
+        r["wikipedia loads"] = True
     except PlaywrightError:
-        r["wikipedia loads on expand"] = False
+        r["wikipedia loads"] = False
     page.evaluate("document.querySelector('.wiki-body summary').click()")
+    r["wikipedia can be hidden"] = page.locator(".wiki-body[open]").count() == 0
     click(page, "button.g-main")
     page.wait_for_selector(".lightbox img", state="visible", timeout=5_000)
     r["lightbox opens"] = page.locator(".lightbox[role=dialog]").first.is_visible()

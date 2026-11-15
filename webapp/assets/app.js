@@ -114,16 +114,17 @@
     if (wikis.has(n)) return Promise.resolve(touch(wikis, n)[id] || "");
     return loadChunkScript(wikiWait, n, "w").then(function (h) { return h[id] || ""; });
   }
-  // The Wikipedia text of a chunk loads when its <details> is first opened.
-  document.addEventListener("toggle", function (e) {
-    var d = e.target;
+  // The Wikipedia text of a chunk loads when its <details> is open (shown open by default,
+  // so also right after a page renders; the toggle event covers a reader opening it).
+  function openWiki(d) {
     if (!d || !d.matches || !d.matches("details.wiki-body") || !d.open) return;
     var box = d.querySelector(".prose[data-wiki]");
     if (!box || box.getAttribute("data-loaded")) return;
     box.setAttribute("data-loaded", "1");
     loadWiki(Number(box.getAttribute("data-wiki"))).then(function (html) { box.innerHTML = html; },
       function () { box.removeAttribute("data-loaded"); box.textContent = "The article could not be loaded."; });
-  }, true);
+  }
+  document.addEventListener("toggle", function (e) { openWiki(e.target); }, true);
 
   // ------------------------------------------------------------------ helpers
   function esc(v) {
@@ -333,6 +334,7 @@
     if (!isHome) html.push(gallery(r));
     html.push(facts(r));
     html.push(presenceBox(r));
+    html.push(worldBox(r));
     html.push(iucnBox(r));
     if (!isHome) html.push(classification(r));
     html.push(links(r));
@@ -934,9 +936,9 @@
   function wikipedia(r) {
     var w = r.wikipedia;
     if (!w) return "";
-    // Collapsed to a preview: articles on widespread species run to pages about other
-    // continents, and the literature and island records are what this site adds.
-    var collapsed = true;
+    // Shown in full by default, with a button to hide it.
+    var collapsed = false;
+    setTimeout(function () { Array.prototype.forEach.call(document.querySelectorAll("details.wiki-body[open]"), openWiki); }, 0);
     return '<section class="wiki" id="s-wikipedia"><h2>From Wikipedia</h2>' +
       (collapsed && w.preview ? '<p class="wiki-preview">' + esc(w.preview) + "</p>" : "") +
       '<details class="wiki-body"' + (collapsed ? "" : " open") + "><summary>" +
@@ -1091,6 +1093,39 @@
     return '<svg class="isle-map' + (small ? " small" : "") + (large ? " large" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' +
       (areas.size ? "Recorded from " + Array.from(areas).map(function (a) { return regionLabel(a.toLowerCase()); }).join(", ") : "No records") +
       '"><rect class="sea" width="' + W + '" height="' + H + '" rx="6"></rect>' + labels + dots + "</svg>";
+  }
+
+  // Worldwide records: GBIF's density grid (2.8 degree cells, from dataset/grid.csv) over a
+  // simplified Natural Earth land path (assets/world.js, loaded on the first species page), with
+  // the Micronesian islands drawn over it in their group colors. Cell shade is log-scaled.
+  var worldPath = "";
+  window.guaminsects.world = function (d) { worldPath = d; fillLand(); };
+  function fillLand() {
+    Array.prototype.forEach.call(document.querySelectorAll("path.land:not([d])"), function (p) { p.setAttribute("d", worldPath); });
+  }
+  function worldBox(r) {
+    if (!r.grid || (r.rank !== "Species" && r.rank !== "Subspecies")) return "";
+    if (!worldPath) loadScript("assets/world.js").then(fillLand, function () {});
+    var cells = r.grid[1].split(" ").map(function (t) { return t.split(".").map(Number); });
+    var max = Math.max.apply(null, cells.map(function (c) { return c[2]; })), S = 5.625;
+    var rects = cells.map(function (c) {
+      var lvl = Math.min(4, 1 + Math.floor(Math.log(c[2]) / Math.log(max + 1) * 4));
+      return '<rect class="gc l' + lvl + '" x="' + (c[0] * S) + '" y="' + (c[1] * S) + '" width="' + S + '" height="' + S +
+        '"><title>' + c[2].toLocaleString() + " GBIF record" + (c[2] === 1 ? "" : "s") + "</title></rect>";
+    }).join("");
+    var g = meta.geo, areas = new Set((r.regions || []).map(function (k) { return k.toUpperCase(); })), dots = "";
+    if (g) dots = g.islands.filter(function (i) { return areas.has(i[0]); }).map(function (i) {
+      return '<circle class="wd r-' + i[0].toLowerCase() + '" cx="' + ((i[3] + 180) * 2) + '" cy="' + ((90 - i[2]) * 2) + '" r="2.2"><title>' + esc(i[1]) + "</title></circle>";
+    }).join("");
+    var n = cells.length, total = r.grid[0];
+    return '<div class="box world-box"><h3>Worldwide records</h3>' +
+      '<svg class="world-map" viewBox="0 8 720 292" role="img" aria-label="Where GBIF has records of ' + esc(r.name) + ' worldwide">' +
+      '<rect class="sea" x="0" y="8" width="720" height="292" rx="6"></rect><path class="land"' + (worldPath ? ' d="' + worldPath + '"' : "") + "></path>" +
+      rects + '<rect class="micro" x="' + (129 + 180) * 2 + '" y="' + (90 - 22) * 2 + '" width="' + 46 * 2 + '" height="' + 24 * 2 + '" rx="3"><title>Micronesia</title></rect>' +
+      dots + "</svg>" +
+      '<p class="cs-src">' + total.toLocaleString() + " GBIF records in " + n + " cell" + (n === 1 ? "" : "s") +
+      " of 2.8°; darker cells have more. The outlined box is Micronesia, its islands in the group colors." +
+      (r.grid[2] ? " Retrieved " + esc(r.grid[2]) + " from the " + ext("https://www.gbif.org/", "GBIF") + " density map." : "") + "</p></div>";
   }
 
   // IUCN Red List category as Wikidata records it (P141, CC0). The assessment itself is on
