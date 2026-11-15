@@ -8,6 +8,7 @@
   --muted: #5a6675;
   --line: #dde4ea;
   --accent: #1d5f8a;
+  --hit: #e0562b;
   --accent-soft: #e2eef6;
   --warn: #8a5a00;
   --warn-soft: #fbefd5;
@@ -32,7 +33,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #10161c; --surface: #18212a; --text: #e3e9ee; --muted: #9ba8b4; --line: #2a3540;
-    --accent: #7fc3e8; --accent-soft: #1b2d3b; --warn: #f0c060; --warn-soft: #3a3020;
+    --hit: #ff8a5b; --accent: #7fc3e8; --accent-soft: #1b2d3b; --warn: #f0c060; --warn-soft: #3a3020;
     --fossil: #d9b98f; --fossil-soft: #352c22; --flash: #4a4520;
     --inat: #9fcf7c; --inat-soft: #1f2c1a; --gbif: #c6a9db; --gbif-soft: #2d2437;
     --shadow: 0 1px 2px rgba(0, 0, 0, .3); --shadow-lift: 0 10px 24px rgba(0, 0, 0, .45);
@@ -412,7 +413,7 @@ ul.lit { padding-left: 1.1em; } ul.lit li { margin: 0 0 8px; } ul.lit cite { fon
 .isle-list { font-size: 0.85rem; margin: 8px 0 0; }
 .world-map { display: block; width: 100%; height: auto; margin: 0 0 8px; }
 .world-map .sea { fill: var(--accent-soft); } .world-map .land { fill: var(--surface); stroke: var(--muted); stroke-width: 0.5; stroke-opacity: 0.5; }
-.world-map .gc { fill: var(--accent); } .world-map .l1 { opacity: 0.3; } .world-map .l2 { opacity: 0.5; }
+.world-map .gc { fill: var(--hit); } .world-map .l1 { opacity: 0.4; } .world-map .l2 { opacity: 0.5; }
 .world-map .l3 { opacity: 0.75; } .world-map .l4 { opacity: 1; }
 .world-map .micro { fill: none; stroke: var(--text); stroke-width: 1; stroke-dasharray: 3 2; }
 .world-map .wd { stroke: var(--surface); stroke-width: 0.5; }

@@ -334,13 +334,13 @@
     if (!isHome) html.push(gallery(r));
     html.push(facts(r));
     html.push(presenceBox(r));
-    html.push(worldBox(r));
     html.push(iucnBox(r));
     if (!isHome) html.push(classification(r));
     html.push(links(r));
     html.push(downloadBox(r, isHome));
     html.push('</aside><div class="main">');
     if (!isHome) html.push(pageNav(r));
+    html.push(worldBox(r));
     if (!isHome) html.push(curatedNote(r));
     html.push(children(shown));
     html.push(checklist(r));
@@ -491,6 +491,7 @@
 
   function pageNav(r) {
     var items = [];
+    if (r.rank === "Species" || r.rank === "Subspecies") items.push(["s-worldmap", "World map"]);
     if (r.children.length) items.push(["s-children", "Included taxa"]);
     if (r.checklist && r.checklist.length) items.push(["s-checklist", "Checklist"]);
     r.sections.forEach(function (s) { items.push(["s-" + s.key, s.heading]); });
@@ -1115,10 +1116,10 @@
     }).join("");
     var g = meta.geo, areas = new Set((r.regions || []).map(function (k) { return k.toUpperCase(); })), dots = "";
     if (g) dots = g.islands.filter(function (i) { return areas.has(i[0]); }).map(function (i) {
-      return '<circle class="wd r-' + i[0].toLowerCase() + '" cx="' + ((i[3] + 180) * 2) + '" cy="' + ((90 - i[2]) * 2) + '" r="2.2"><title>' + esc(i[1]) + "</title></circle>";
+      return '<circle class="wd r-' + i[0].toLowerCase() + '" cx="' + ((i[3] + 180) * 2) + '" cy="' + ((90 - i[2]) * 2) + '" r="2.8"><title>' + esc(i[1]) + "</title></circle>";
     }).join("");
     var n = cells.length, total = r.grid ? r.grid[0] : 0;
-    return '<div class="box world-box"><h3>Worldwide records</h3>' +
+    return '<div class="box world-box" id="s-worldmap"><h3>Worldwide records</h3>' +
       '<svg class="world-map" viewBox="0 8 720 292" role="img" aria-label="Where GBIF has records of ' + esc(r.name) + ' worldwide">' +
       '<rect class="sea" x="0" y="8" width="720" height="292" rx="6"></rect><path class="land"' + (worldPath ? ' d="' + worldPath + '"' : "") + "></path>" +
       rects + '<rect class="micro" x="' + (129 + 180) * 2 + '" y="' + (90 - 22) * 2 + '" width="' + 46 * 2 + '" height="' + 24 * 2 + '" rx="3"><title>Micronesia</title></rect>' +
