@@ -1084,8 +1084,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 38WG3,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,mention,24,Elachertus ponapensis,,,,,,,text,machine,,,migrate,2026-11-13
 393DT,iom-13-3-empididae,account,8,Elaphropeza pollicata,FM,Kosrae,,,,,text,machine,,,migrate,2026-11-13
 393DT,iom-13-3-empididae,mention,8,Elaphropeza pollicata,,,,,,,text,machine,,,migrate,2026-11-13
-393SY,iom-15-1-carabidae-incl-cicindelinae,account,19,Tachys yunax,,,,,,,text,machine,,,migrate,2026-11-13
-393SY,iom-15-1-carabidae-incl-cicindelinae,mention,3 | 5 | 6 | 17 | 19,Tachys yunax,,,,,,,text,machine,,,migrate,2026-11-13
+393SY,iom-15-1-carabidae-incl-cicindelinae,account,19,Tachys yunax,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+393SY,iom-15-1-carabidae-incl-cicindelinae,mention,3 | 5 | 6 | 17 | 19,Tachys yunax,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 3953R,plazi-2eb23bc8,checklist,,,GU,,,,,,plazi,,,,migrate,
 3975J,plazi-5728a9af,checklist,,,GU,,,,,,plazi,,,,migrate,
 39GSF,iom-7-5-reduviidae,account,26,Emesopsis bellulus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -2748,14 +2748,14 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 53VM8,iom-16-5-coccinellidae,account,63,Catana dimidiata,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 54956,iom-13-3-tabanidae,account,2,Tabanus striatus,,,,,,,text,machine,,,migrate,2026-11-13
 54956,iom-13-3-tabanidae,mention,1 | 2,Tabanus striatus,,,,,,,text,machine,,,migrate,2026-11-13
-54DJ7,iom-15-1-carabidae-incl-cicindelinae,account,16,Tachys brachys,,,,,,,text,machine,,,migrate,2026-11-13
-54DJ7,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 16,Tachys brachys,,,,,,,text,machine,,,migrate,2026-11-13
-54DJT,iom-15-1-carabidae-incl-cicindelinae,account,15,Tachys ochrioides,PW | FM,Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
-54DJZ,iom-15-1-carabidae-incl-cicindelinae,account,15,Tachys truncatus,PW | FM,Chuuk | Peleliu | Yap,,,,,text,machine,,,migrate,2026-11-13
-54DJZ,iom-15-1-carabidae-incl-cicindelinae,mention,3 | 4 | 5 | 13 | 15,Tachys truncatus,,,,,,,text,machine,,,migrate,2026-11-13
-54DKV,iom-15-1-carabidae-incl-cicindelinae,account,14,Tachys sexguttatus,MH,Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
-54F5P,iom-15-1-carabidae-incl-cicindelinae,account,18,Tachys umbrosus,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
-54F5P,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 5 | 18 | 19,Tachys umbrosus,,,,,,,text,machine,,,migrate,2026-11-13
+54DJ7,iom-15-1-carabidae-incl-cicindelinae,account,16,Tachys brachys,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+54DJ7,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 16,Tachys brachys,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+54DJT,iom-15-1-carabidae-incl-cicindelinae,account,15,Tachys ochrioides,PW | FM,Palau | Yap,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+54DJZ,iom-15-1-carabidae-incl-cicindelinae,account,15,Tachys truncatus,PW | FM,Chuuk | Peleliu | Yap,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+54DJZ,iom-15-1-carabidae-incl-cicindelinae,mention,3 | 4 | 5 | 13 | 15,Tachys truncatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+54DKV,iom-15-1-carabidae-incl-cicindelinae,account,14,Tachys sexguttatus,MH,Marshall Is.,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+54F5P,iom-15-1-carabidae-incl-cicindelinae,account,18,Tachys umbrosus,FM,Yap,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+54F5P,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 5 | 18 | 19,Tachys umbrosus,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 54JWM,iom-6-3-fulgoroidea,account,80 | 82,Unkana formosella,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
 54JWM,iom-6-3-fulgoroidea,mention,80 | 82,Unkana formosella,,,,,,,text,machine,,,migrate,2026-11-13
 54JWM,iom-6-8-fulgoroidea-suppl,account,12,Sogata pusana,,,,,,,text,machine,,,migrate,2026-11-13
@@ -2858,7 +2858,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 563T8,iom-18-1-platypodidae-scolytidae,account,47,Thamnurgides striatus,PW,Palau,,,,,ocr,machine,,,migrate,2026-11-13
 563T8,iom-18-1-platypodidae-scolytidae,mention,47,Thamnurgides striatus,,,,,,,ocr,machine,,,migrate,2026-11-13
 56BQH,plazi-2eb23bc8,checklist,,,GU,,,,,,plazi,,,,migrate,
-56CSZ,iom-15-1-carabidae-incl-cicindelinae,account,8 | 9,Cicindela labiata,FM,Nukuoro,,,,,text,machine,,,migrate,2026-11-13
+56CSZ,iom-15-1-carabidae-incl-cicindelinae,account,8 | 9,Cicindela labiata,FM,Nukuoro,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 56CY8,crop-pests-micronesia,checklist,,,PW | FM,Chuuk | Palau | Yap,,,,,checklist,,,,migrate,
 56CYH,crop-pests-micronesia,checklist,,,PW | FM,Palau | Yap,,,,,checklist,,,,migrate,
 56CYH,plazi-2930c6b8,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -3240,8 +3240,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5Z5J9,bickel-1994-insects-of-micronesia-volume-13-no-8-diptera,mention,20 | 21 | 43,Chrysosoma ludens,,,,,,,text,machine,,,migrate,2026-11-13
 5Z5J9,iom-13-8-dolichopodidae-part-1,account,20,Chrysosoma ludens,,,,,,,text,machine,,,migrate,2026-11-13
 5Z5J9,iom-13-8-dolichopodidae-part-1,mention,20 | 39,Chrysosoma ludens,,,,,,,text,machine,,,migrate,2026-11-13
-5ZCG8,iom-15-1-carabidae-incl-cicindelinae,account,11,Clivina fasciata,GU | MP,Guam | Saipan,,,,,text,machine,,,migrate,2026-11-13
-5ZCG8,iom-15-1-carabidae-incl-cicindelinae,mention,3 | 4 | 6 | 11 | 12 | 20,Clivina fasciata,,,,,,,text,machine,,,migrate,2026-11-13
+5ZCG8,iom-15-1-carabidae-incl-cicindelinae,account,11,Clivina fasciata,GU | MP,Guam | Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+5ZCG8,iom-15-1-carabidae-incl-cicindelinae,mention,3 | 4 | 6 | 11 | 12 | 20,Clivina fasciata,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 5ZGKW,crop-pests-micronesia,checklist,,,,,,,,,checklist,,,,migrate,
 5ZGKW,iom-19-2-ichneumonidae-stephanidae-evaniidae,mention,17,Marasmia venilialis,,,,,,,text,machine,,,migrate,2026-11-13
 5ZGKW,plazi-058b438a,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -3540,8 +3540,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6DXZQ,iom-18-1-platypodidae-scolytidae,account,34,Eidophelus atomus,,,,,,,ocr,machine,,,migrate,2026-11-13
 6DXZQ,iom-18-1-platypodidae-scolytidae,mention,34,Eidophelus atomus,,,,,,,ocr,machine,,,migrate,2026-11-13
 6DY5F,iom-8-4-psocoptera,account,66,Ectopsocus speciosus,PW,Babeldaob | Palau,,,,,text,machine,,,migrate,2026-11-13
-6F3G4,iom-15-1-carabidae-incl-cicindelinae,account,16,Bembidium ceylanicum,MP | PW | FM,Chuuk | Palau | Saipan,,,,,text,machine,,,migrate,2026-11-13
-6F3G4,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 16,Tachys ceylanicus,,,,,,,text,machine,,,migrate,2026-11-13
+6F3G4,iom-15-1-carabidae-incl-cicindelinae,account,16,Bembidium ceylanicum,MP | PW | FM,Chuuk | Palau | Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+6F3G4,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 16,Tachys ceylanicus,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 6F5B5,plazi-9c8d5683,checklist,,,GU,,,,,,plazi,,,,migrate,
 6F6V3,iom-7-5-reduviidae,account,37,Empicoris tesselatus,GU,Guam,,,,,ocr,machine,,,migrate,2026-11-13
 6F6V3,iom-7-5-reduviidae,mention,37,Empicoris tesselatus,,,,,,,ocr,machine,,,migrate,2026-11-13
@@ -3934,9 +3934,9 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 6V597,iom-7-1-miridae,mention,54,Peregrinus maidis,,,,,,,text,machine,,,migrate,2026-11-13
 6V597,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 6V597,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
-6V5R6,iom-15-1-carabidae-incl-cicindelinae,account,27,Nestra ruficollis,FM,Pohnpei | Yap,,,,,text,machine,,,migrate,2026-11-13
-6V62S,iom-15-1-carabidae-incl-cicindelinae,account,28,Perigona plagiata,PW | FM,Kosrae | Palau,,,,,text,machine,,,migrate,2026-11-13
-6V62S,iom-15-1-carabidae-incl-cicindelinae,mention,28,Perigona plagiata,,,,,,,text,machine,,,migrate,2026-11-13
+6V5R6,iom-15-1-carabidae-incl-cicindelinae,account,27,Nestra ruficollis,FM,Pohnpei | Yap,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+6V62S,iom-15-1-carabidae-incl-cicindelinae,account,28,Perigona plagiata,PW | FM,Kosrae | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+6V62S,iom-15-1-carabidae-incl-cicindelinae,mention,28,Perigona plagiata,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 6VWJ7,iom-19-2-ichneumonidae-stephanidae-evaniidae,mention,2,Pristomerus incompletus,,,,,,,text,machine,,,migrate,2026-11-13
 6VXHB,evenhuis-et-al-2010-pagan-island,mention,64,Prorhinotermes inopinatus,,,,,,,text,machine,,,migrate,2026-11-13
 6VXHB,kevan-1997-an-annotated-provisional-list-of-non-saltator,mention,34 | 35,Prorhinotermes inopinatus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4163,8 +4163,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 73HL3,plazi-d0309e8b,checklist,,,GU,,,,,,plazi,,,,migrate,
 73KMB,iom-14-3-neriidae-micropezidae,account,27,Mimegralla albimana,,,,,,,text,machine,,,migrate,2026-11-13
 73KMB,iom-14-3-neriidae-micropezidae,mention,28 | 34 | 36 | 38 | 41,Taenioptera albimana,,,,,,,text,machine,,,migrate,2026-11-13
-73PBL,iom-15-1-carabidae-incl-cicindelinae,account,21,Morion orientalis,PW,Babeldaob | Palau,,,,,text,machine,,,migrate,2026-11-13
-73PBL,iom-15-1-carabidae-incl-cicindelinae,mention,21,Morion orientalis,,,,,,,text,machine,,,migrate,2026-11-13
+73PBL,iom-15-1-carabidae-incl-cicindelinae,account,21,Morion orientalis,PW,Babeldaob | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+73PBL,iom-15-1-carabidae-incl-cicindelinae,mention,21,Morion orientalis,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 73S2V,iom-6-3-fulgoroidea,account,36,Myndus fusciterminalis,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 73S2V,iom-6-3-fulgoroidea,mention,36,Myndus fusciterminalis,,,,,,,text,machine,,,migrate,2026-11-13
 73Z4X,evenhuis-et-al-2010-pagan-island,mention,59,Nocticanace peculiaris,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4422,8 +4422,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 7BD9H,iom-13-3-tabanidae,account,1,Tabanus palauensis,,,,,,,text,machine,,,migrate,2026-11-13
 7BD9H,iom-13-3-tabanidae,mention,1,Tabanus palauensis,,,,,,,text,machine,,,migrate,2026-11-13
 7BG5T,iom-15-1-carabidae-incl-cicindelinae,account,17,Tachys lutcus,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
-7BG5X,iom-15-1-carabidae-incl-cicindelinae,account,14,Tachys fasciatus,PW | FM,Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
-7BG5X,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 14,Tachys fasciatus,,,,,,,text,machine,,,migrate,2026-11-13
+7BG5X,iom-15-1-carabidae-incl-cicindelinae,account,14,Tachys fasciatus,PW | FM,Palau | Yap,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
+7BG5X,iom-15-1-carabidae-incl-cicindelinae,mention,4 | 14,Tachys fasciatus,,,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 7BLKY,schreiner-nafus-1997-butterflies-of-micronesia,account,13 | 29,Taractrocera ziclea,GU | MP | PW | FM,Guam | Koror | Kosrae | Palau | Rota | Saipan | Tinian | Yap,,,,,text,machine,,,migrate,2026-11-13
 7BLKY,schreiner-nafus-1997-butterflies-of-micronesia,mention,13 | 29 | 39,Taractrocera ziclea,,,,,,,text,machine,,,migrate,2026-11-13
 7BLRV,iom-6-5-cicadellidae,account,43,Tartessus ochraceus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -5459,7 +5459,7 @@ DBNX3,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 DDM44,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 DDPBN,zimmerman-rhipiceridae-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 DDPFV,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-DQN84,iom-15-1-carabidae-incl-cicindelinae,account,10 | 11,Pseudozaena orientalis opaca,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
+DQN84,iom-15-1-carabidae-incl-cicindelinae,account,10 | 11,Pseudozaena orientalis opaca,PW,Koror | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 FJ58D,iom-9-2-gelechioidea,account,3,Elaeonoma adeneia,,,,,,,text,machine,,,migrate,2026-11-13
 FJ58D,iom-9-2-gelechioidea,mention,3 | 4,Elaeonoma adeneia,,,,,,,text,machine,,,migrate,2026-11-13
 KPMGS,iom-1-introduction,mention,175 | 176,Chrysomyia megacephala,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6547,6 +6547,6 @@ name-3135,iom-7-7-pentatomoidea,account,17,Tetrarthria linetata,PW,Palau,,,,,tex
 name-3208,iom-6-7-coccoidea,account,32,Trionymus calceolariae,GU | MP | PW,Guam | Koror | Saipan,,,,,text,machine,,,migrate,2026-11-13
 name-3219,iom-19-3-eucoilinae-cynipoidea,account,7,Trybliographa beardsleyi,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-3233,iom-16-6-cryptophagidae-mycetophagidae,account,7,Typhaea obscura,MH,Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
-name-3237,iom-15-1-carabidae-incl-cicindelinae,account,20,Typhlonesiotes zwaluwenburgi,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
+name-3237,iom-15-1-carabidae-incl-cicindelinae,account,20,Typhlonesiotes zwaluwenburgi,MP,Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-3256,iom-7-7-pentatomoidea,account,33,Vitellus mucronatus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-3310,iom-7-7-pentatomoidea,account,35,Zangis inornata,GU | PW,Guam | Palau,,,,,text,machine,,,migrate,2026-11-13

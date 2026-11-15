@@ -230,6 +230,8 @@ M36D5,V45KP,,Species,Caccodes marquesanus,"(Blair, 1932)",accepted,,,unknown,,,,
 name-4541,,M36D5,Species,Caecodes marquesanus,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Caecodes marquesanus → Caccodes marquesanus,,,,,,,,,,guaminsects match,2026-11-13,,
 name-1928,,M36D5,Species,Maltypus marquesanus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Caccodes marquesanus,literature,,,,,,,,,,,,
 8KTL7,C2L,,Family,Carabidae,"Latreille, 1802",accepted,Ground Beetles,Carabid Beetle | Carabid Beetles | Ground beetle | Kurikuri | carabids | tiger beetles,unknown,,,,,,,yes,3792,Catalogue of Life,,,,,,,,,,,,,,
+IOG-68,8KTL7,,Genus,Altagonum,"Darlington, 1952",accepted,,,unknown,,,,,,,no,4750631,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-69,IOG-68,,Species,Altagonum paulum,"Darlington, 1970",accepted,,,native,editor,editor,,,,,no,8303266,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 8KV4F,8KTL7,,Genus,Anaulacus,"W.S.MacLeay, 1825",accepted,,,unknown,,,,,Lebiinae,Cyclosomini,yes,3259920,Catalogue of Life,,,,,,,,,,,,,,
 66MDM,8KV4F,,Species,Anaulacus opaculus,"(Zimmermann, 1832)",accepted,Harp ground beetle,,unknown,,,,,Lebiinae,Cyclosomini,yes,7806717,Catalogue of Life,,,,,,,,,,,,,,
 8KVGQ,8KTL7,,Genus,Carabus,"Linnaeus, 1758",accepted,Worm and Slug Hunters,,unknown,,,,,Carabinae,Carabini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
@@ -241,25 +243,26 @@ name-961,8KVJR,,Species,Chlaenius biguttatus,,accepted,,,unknown,,,,,Licininae,C
 69VKQ,8KVJR,,Species,Chlaenius flaviguttatus,"W.S.MacLeay, 1825",accepted,,,unknown,,,,,Licininae,Chlaeniini,yes,5810054,Catalogue of Life,,,,,,,,,,,,,,
 gbif:11167838,,69VKQ,Species,Chlaenius flaviguttatus guttatus,Eschscholtz.,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Chlaenius flaviguttatus,Plazi,,,,,,,,,,,,
 5Y7LM,8KVJR,,Species,Chlaenius tetragonoderus,"Chaudoir, 1876",accepted,,,unknown,,,,,Licininae,Chlaeniini,yes,8068710,Catalogue of Life,,,,,,,,,,,,,,
-8KVKT,8KTL7,,Genus,Clivina,"Latreille, 1802",accepted,,,unknown,,,,,Scaritinae,Clivinini,yes,1036880,Catalogue of Life,,,,,,,,,,,,,,
-5ZCG8,8KVKT,,Species,Clivina fasciata,"Putzeys, 1846",accepted,,,unknown,,,,,Scaritinae,Clivinini,yes,7674035,Catalogue of Life,,,,,,,,,,,,,,
-5ZB38,8KVKT,,Species,Clivina fossor,"(Linnaeus, 1758)",accepted,Digger Slope-rumped Beetle,,unknown,,,,,Scaritinae,Clivinini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+8KVKT,8KTL7,,Genus,Clivina,"Latreille, 1802",accepted,,,unknown,,,,,Scaritinae,Clivinini,yes,1036880,Catalogue of Life,,,yes,not in micronesia proper - only Paraclivina it seems.,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+5ZB38,8KVKT,,Species,Clivina fossor,"(Linnaeus, 1758)",accepted,Digger Slope-rumped Beetle,,unknown,,,,,Scaritinae,Clivinini,yes,,Catalogue of Life,,,yes,"not in micronesia, type species of Clivina",,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 name-4915,,5ZB38,Species,Tenebrio fossor,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Tenebrio fossor → Clivina fossor,,,,,,,,,,guaminsects match,2026-11-13,,
-8KVLV,8KTL7,,Genus,Colpodes,"W.S.MacLeay, 1825",accepted,,,unknown,,,,,Platyninae,Platynini,yes,11257337,Catalogue of Life,,,,,,,,,,,,,,
+8KVLV,8KTL7,,Genus,Colpodes,"W.S.MacLeay, 1825",accepted,,,unknown,,,,,Platyninae,Platynini,yes,11257337,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 gbif:11257337,,8KVLV,Genus,Colpodes,"Swezey, 1942",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
+IOG-66,8KVLV,,Species,Colpodes laetus,"(Erichson, 1835)",accepted,,,unknown,,,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-67,IOG-66,,Subspecies,Colpodes laetus pacificus,"Andrewes, 1927",accepted,,,unknown,,,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 8KVPC,8KTL7,,Genus,Cylindera,"Westwood, 1831",accepted,Rounded-thorax Tiger Beetles,,unknown,,,,,Cicindelinae,Cicindelini,yes,3259942,Catalogue of Life,,,,,,,,,,,,,,
 33257,8KVPC,,Species,Cylindera bonina,"(Nakane & Kurosawa, 1959)",accepted,,,unknown,,,,,Cicindelinae,Cicindelini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 name-1010,,33257,Species,Cicindela bonina,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Cylindera bonina,literature,,,,,,,,,,,,
 name-1011,,33257,Species,Cicindela bonma,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Cylindera bonina,,,,,,,,,,,,,
 6BTDL,8KVPC,,Species,Cylindera takahashii,"Cassola & Satô, 2004",accepted,,,unknown,,,,,Cicindelinae,Cicindelini,yes,7495757,Catalogue of Life,,,,,,,,,,,,,,
-8KVT6,8KTL7,,Genus,Elaphropus,"Motschulsky, 1839",accepted,Animal,,unknown,,,,,Trechinae,Bembidiini,yes,7985995,Catalogue of Life,,,,,,,,,,,,,,
-6F3G4,8KVT6,,Species,Elaphropus ceylanicus,"(Nietner, 1858)",accepted,Ground beetle,,unknown,,,,,Trechinae,Bembidiini,yes,7686481,Catalogue of Life,,,,,,,,,,,,,,
+8KVT6,8KTL7,,Genus,Elaphropus,"Motschulsky, 1839",accepted,Animal,,unknown,,,,,Trechinae,Bembidiini,yes,7985995,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+6F3G4,8KVT6,,Species,Elaphropus ceylanicus,"(Nietner, 1858)",accepted,Ground beetle,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,7686481,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-3072,,6F3G4,Species,Tacbys ceylanicus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Elaphropus ceylanicus,,,,,,,,,,,,,
-393J9,8KVT6,,Species,Elaphropus fumicatus,"(Motschulsky, 1851)",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+393J9,8KVT6,,Species,Elaphropus fumicatus,"(Motschulsky, 1851)",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4906,,393J9,Species,Tachys fumicatus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Tachys fumicatus → Elaphropus fumicatus,,,,,,,,,,guaminsects match,2026-11-13,,
-393PP,8KVT6,,Species,Elaphropus luteus,"(Andrewes, 1925)",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+393PP,8KVT6,,Species,Elaphropus luteus,"(Andrewes, 1925)",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4907,,393PP,Species,Tachys luteus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Tachys luteus → Elaphropus luteus,,,,,,,,,,guaminsects match,2026-11-13,,
-393SY,8KVT6,,Species,Elaphropus yunax,"(Darlington, 1939)",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,7372368,Catalogue of Life,,,,,,,,,,,,,,
+393SY,8KVT6,,Species,Elaphropus yunax,"(Darlington, 1939)",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,7372368,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 8KW4F,8KTL7,,Genus,Endynomena,"Chaudoir, 1873",accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,1034665,Catalogue of Life,,,,,,,,,,,,,,
 39STX,8KW4F,,Species,Endynomena pradieri,"(Fairmaire, 1849)",accepted,Ground beetle,,unknown,,,,,Lebiinae,Lebiini,yes,1034666,Catalogue of Life,,,,,,,,,,,,,,
 8KW96,8KTL7,,Genus,Gnathaphanus,"W.S.MacLeay, 1825",accepted,,,unknown,,,,,Harpalinae,Anisodactylini,yes,1036742,Catalogue of Life,,,,,,,,,,,,,,
@@ -271,7 +274,10 @@ name-1735,,3GL8P,Species,Iwosiopelus masudai,,synonym,,,,,,,,,,yes,,COL synonym,
 6M5GF,8KVTG,,Species,Hexagonia palauensis,"Darlington, 1970",accepted,,,unknown,,,,,Ctenodactylinae,Hexagoniini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 8KX8L,8KTL7,,Genus,Holcoderus,"Chaudoir, 1870",accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 3M7NT,8KX8L,,Species,Holcoderus decolor,"Darlington, 1970",accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,7423721,Catalogue of Life,,,,,,,,,,,,,,
-8KVTQ,8KTL7,,Genus,Lesticus,"Dejean, 1828",accepted,,,unknown,,,,,Pterostichinae,Pterostichini,yes,4748601,Catalogue of Life,,,,,,,,,,,,,,
+8KVTQ,8KTL7,,Genus,Lesticus,"Dejean, 1828",accepted,,,unknown,,,,,Pterostichinae,Pterostichini,yes,4748601,Catalogue of Life,,,,,,,,,,partial dead body known from Guam.,,,M. Andrew Johnston,2026-11-15
+IOG-63,8KTL7,,Genus,Loxocrepis,"Eschscholtz, 1829",accepted,,,unknown,,,,,,,no,4752098,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-64,IOG-63,,Species,Loxocrepis dentifera,"(Darlington, 1970)",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-65,,IOG-64,Species,Notagonum dentifer,"Darlington, 1970",synonym,,,,,,,,,,no,,curated merge,,,,,,,,,,,M. Andrew Johnston,2026-11-15,,
 8KX3C,8KTL7,,Genus,Metacolpodes,"Jeannel, 1948",accepted,,,unknown,,,,,Platyninae,Platynini,yes,4751750,Catalogue of Life,,,,,,,,,,,,,,
 429CC,8KX3C,,Species,Metacolpodes laetus,"(Erichson, 1834)",accepted,,,unknown,,,,,Platyninae,Platynini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 name-551,,429CC,Species,Anchomenus laetus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Metacolpodes laetus,,,,,,,,,,,,,
@@ -280,15 +286,19 @@ name-1084,,429CC,Species,Colpodes pacificus,,synonym,,,,,,,,,,yes,,COL synonym,C
 8KVVV,8KTL7,,Genus,Mochtherus,"Schmidt-Goebel, 1846",accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,3263531,Catalogue of Life,,,,,,,,,,,,,,
 43T23,8KVVV,,Species,Mochtherus tetraspilotus,"(W.S.MacLeay, 1825)",accepted,Asian ground beetle,,unknown,,,,,Lebiinae,Lebiini,yes,5809885,Catalogue of Life,,,,,,,,,,,,,,
 name-1323,,43T23,Species,Dolichoctis tetraspilotus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Mochtherus tetraspilotus,,,,,,,,,,,,,
-8KX9K,8KTL7,,Genus,Morion,"Latreille, 1810",accepted,,,unknown,,,,,Pterostichinae,Morionini,yes,1037234,Catalogue of Life,,,,,,,,,,,,,,
+8KX9K,8KTL7,,Genus,Morion,"Latreille, 1810",accepted,,,unknown,,,,,Pterostichinae,Morionini,yes,1037234,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 73PPB,8KX9K,,Species,Morion monilicornis,"(Latreille, 1805)",accepted,,,unknown,,,,,Pterostichinae,Morionini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4692,,73PPB,Species,Harpalus monilicornis,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Harpalus monilicornis → Morion monilicornis,,,,,,,,,,guaminsects match,2026-11-13,,
-73PBL,8KX9K,,Species,Morion orientalis,"Dejean, 1825",accepted,,,unknown,,,,,Pterostichinae,Morionini,yes,4748693,Catalogue of Life,,,,,,,,,,,,,,
+73PBL,8KX9K,,Species,Morion orientalis,"Dejean, 1825",accepted,,,unknown,,,,,Pterostichinae,Morionini,yes,4748693,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-2038,,73PBL,Species,Morion orientale,,synonym,,,,,,,,,,no,,spelling variant,spelling variant of Morion orientalis (Catalogue of Life),,,,,,,,,,,,,
+IOG-61,8KTL7,,Genus,Notagonum,"Darlington, 1952",accepted,,,unknown,,,,,,,no,4750756,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-62,IOG-61,,Species,Notagonum caritum,"Darlington, 1970",accepted,,,native,editor,editor,,,,,no,8014668,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 8KVWW,8KTL7,,Genus,Omoglymmius,"Ganglbauer, 1891",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,1162892,Catalogue of Life,,,,,,,,,,,,,,
 49D8V,8KVWW,,Species,Omoglymmius caelatus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,7872180,Catalogue of Life,,,,,,,,,,,,,,
 49D9R,8KVWW,,Species,Omoglymmius impletus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 74M5W,8KVWW,,Species,Omoglymmius oceanicus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Omoglymmiini,yes,7764512,Catalogue of Life,,,,,,,,,,,,,,
+IOG-59,8KTL7,,Genus,Paraclivina,"Kult, 1947",accepted,,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,Formerly treated asd a subgenus of Clivina,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
+5ZCG8,IOG-59,,Species,Paraclivina fasciata,"(Putzeys, 1846)",accepted,,,introduced,editor,editor,,,Scaritinae,Clivinini,yes,7674035,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 8KVXL,8KTL7,,Genus,Paraphaea,,accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 4D7SP,8KVXL,,Species,Paraphaea binotata,"(Dejean, 1825)",accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4478,,4D7SP,Species,Anchista binotata,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Anchista binotata → Paraphaea binotata,,,,,,,,,,guaminsects match,2026-11-13,,
@@ -304,23 +314,23 @@ name-2321,,76LWP,Species,Pentagoniea eriehsoni,,synonym,,,,,,,,,,no,,spelling va
 76M83,8KVXX,,Species,Pentagonica pallipes,"(Nietner, 1856)",accepted,,,unknown,,,,,Lebiinae,Odacanthini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 name-4369,,76M83,Species,Elliotia pallipes,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Pentagonica pallipes,literature,,,,,,,,,,,,
 76NN3,8KVXX,,Species,Pentagonica trukensis,"Darlington, 1970",accepted,,,unknown,,,,,Lebiinae,Odacanthini,yes,8004372,Catalogue of Life,,,,,,,,,,,,,,
-8KY42,8KTL7,,Genus,Perigona,"Laporte, 1835",accepted,,,unknown,,,,,Lebiinae,Perigonini,yes,1035360,Catalogue of Life,,,,,,,,,,,,,,
-76TPF,8KY42,,Species,Perigona nigriceps,"(Dejean, 1831)",accepted,,,unknown,,,,,Lebiinae,Perigonini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-6V62S,8KY42,,Species,Perigona plagiata,"Putzeys, 1875",accepted,,,unknown,,,,,Lebiinae,Perigonini,yes,4753264,Catalogue of Life,,,,,,,,,,,,,,
-6V5R6,8KY42,,Species,Perigona ruficollis,"(Motschulsky, 1851)",accepted,,,unknown,,,,,Lebiinae,Perigonini,yes,8054751,Catalogue of Life,,,,,,,,,,,,,,
+8KY42,8KTL7,,Genus,Perigona,"Laporte, 1835",accepted,,,introduced,editor,editor,,,Lebiinae,Perigonini,yes,1035360,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+76TPF,8KY42,,Species,Perigona nigriceps,"(Dejean, 1831)",accepted,,,introduced,editor,editor,,,Lebiinae,Perigonini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+6V62S,8KY42,,Species,Perigona plagiata,"Putzeys, 1875",accepted,,,introduced,editor,editor,,,Lebiinae,Perigonini,yes,4753264,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+6V5R6,8KY42,,Species,Perigona ruficollis,"(Motschulsky, 1851)",accepted,,,introduced,editor,editor,,,Lebiinae,Perigonini,yes,8054751,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-2126,,6V5R6,Species,Nestra ruficollis,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Perigona ruficollis,literature,,,,,,,,,,,,
 8KYD4,8KTL7,,Genus,Plochionus,,accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 4KHB7,8KYD4,,Species,Plochionus pallens,"(Fabricius, 1775)",accepted,,,unknown,,,,,Lebiinae,Lebiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4546,,4KHB7,Species,Carabus pallens,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Carabus pallens → Plochionus pallens,,,,,,,,,,guaminsects match,2026-11-13,,
-8KYHZ,8KTL7,,Genus,Ponapagonum,,accepted,,,unknown,,,,,Platyninae,Platynini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-4LTJQ,8KYHZ,,Species,Ponapagonum dybasi,"Darlington, 1970",accepted,,,unknown,,,,,Platyninae,Platynini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-4LTJR,8KYHZ,,Species,Ponapagonum pairoti,"Darlington, 1970",accepted,,,unknown,,,,,Platyninae,Platynini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+8KYHZ,8KTL7,,Genus,Ponapagonum,,accepted,,,native,editor,editor,,,Platyninae,Platynini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+4LTJQ,8KYHZ,,Species,Ponapagonum dybasi,"Darlington, 1970",accepted,,,native,editor,editor,,,Platyninae,Platynini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+4LTJR,8KYHZ,,Species,Ponapagonum pairoti,"Darlington, 1970",accepted,,,native,editor,editor,,,Platyninae,Platynini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4832,,4LTJR,Species,Ponapagonmn pairoti,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Ponapagonmn pairoti → Ponapagonum pairoti,,,,,,,,,,guaminsects match,2026-11-13,,
-8KYMY,8KTL7,,Genus,Pseudozaena,"Laporte, 1834",accepted,,,unknown,,,,,Paussinae,Ozaenini,yes,,Catalogue of Life,,,,,,,,,,,,,,
-DQN84,8KYMY,,Subspecies,Pseudozaena orientalis opaca,,accepted,,,unknown,,,,,Paussinae,Ozaenini,yes,,Catalogue of Life,,,,,,,,,,,,,,
-78J8R,8KYMY,,Species,Pseudozaena tricostata,,accepted,,,unknown,,,,,Paussinae,Ozaenini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-L2M3V,78J8R,,Subspecies,Pseudozaena tricostata opaca,"(Chaudoir, 1868)",accepted,,,unknown,,,,,Paussinae,Ozaenini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-name-4817,,L2M3V,Subspecies,Pierus opaeus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Pierus opaeus → Pseudozaena tricostata opaca,,,,,,,,,,guaminsects match,2026-11-13,,
+8KYMY,8KTL7,,Genus,Pseudozaena,"Laporte, 1834",accepted,,,unknown,,,,,Paussinae,Ozaenini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+78J8R,8KYMY,,Species,Pseudozaena orientalis,,accepted,,,unknown,,,,,Paussinae,Ozaenini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+DQN84,78J8R,,Subspecies,Pseudozaena orientalis opaca,,accepted,,,unknown,,,,,Paussinae,Ozaenini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+name-4817,,DQN84,Subspecies,Pierus opaeus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Pierus opaeus → Pseudozaena tricostata opaca,,,,,,,,,,guaminsects match,2026-11-13,,
+L2M3V,,DQN84,Subspecies,Pseudozaena tricostata opaca,"(Chaudoir, 1868)",synonym,,,unknown,,,,,Paussinae,Ozaenini,yes,,curated merge,,,,,,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
 8KVYY,8KTL7,,Genus,Rhyzodiastes,"Fairmaire, 1895",accepted,,,unknown,,,,,Rhysodinae,Clinidiini,yes,4747811,Catalogue of Life,,,,,,,,,,,,,,
 4SXXF,8KVYY,,Species,Rhyzodiastes maritimus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Clinidiini,yes,8361442,Catalogue of Life,,,,,,,,,,,,,,
 4SXXN,8KVYY,,Species,Rhyzodiastes polinosus,"R.T. & J.R.Bell, 1981",accepted,,,unknown,,,,,Rhysodinae,Clinidiini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
@@ -336,28 +346,29 @@ name-4569,,4SXXX,Species,Clinidium sulcicolle,,synonym,,,unknown,,,,,,,no,,GBIF 
 8KW22,8KTL7,,Genus,Stenolophus,"Dejean, 1821",accepted,Seedcorn Beetles,,unknown,,,,,Harpalinae,Stenolophini,yes,8401238,Catalogue of Life,,,,,,,,,,,,,,
 6ZLMM,8KW22,,Species,Stenolophus quinquepustulatus,"(Wiedemann, 1823)",accepted,Ground beetle,,unknown,,,,,Harpalinae,Stenolophini,yes,4988690,Catalogue of Life,,,,,,,,,,,,,,
 4ZZKW,8KW22,,Species,Stenolophus smaragdulus,"(Fabricius, 1798)",accepted,,,unknown,,,,,Harpalinae,Stenolophini,yes,5810774,Catalogue of Life,,,,,,,,,,,,,,
-8KW2D,8KTL7,,Genus,Tachys,"Dejean, 1821",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,1037691,Catalogue of Life,,,,,,,,,,,,,,
+8KW2D,8KTL7,,Genus,Tachys,"Dejean, 1821",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,1037691,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 gbif:1037691,,8KW2D,Genus,Tachys,"Stephens, 1828",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
-54DJ7,8KW2D,,Species,Tachys brachys,"Andrewes, 1925",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,7652357,Catalogue of Life,,,,,,,,,,,,,,
-7BG5X,8KW2D,,Species,Tachys fasciatus,"(Motschulsky, 1851)",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,4752140,Catalogue of Life,,,,,,,,,,,,,,
+54DJ7,8KW2D,,Species,Tachys brachys,"Andrewes, 1925",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,7652357,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+7BG5X,8KW2D,,Species,Tachys fasciatus,"(Motschulsky, 1851)",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,4752140,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 7BG5T,8KW2D,,Species,Tachys luscus,"Darlington, 1962",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,,Catalogue of Life,,,,,,,,,,,,,,
 name-3074,,7BG5T,Species,Tachys lutcus,,synonym,,,,,,,,,,no,,spelling variant,spelling variant of Tachys luscus (Catalogue of Life),literature,,,,,,,,,,,,
 name-3076,8KW2D,,Species,Tachys nigriceps,,accepted,,,unknown,,,,,Trechinae,Bembidiini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-54DJT,8KW2D,,Species,Tachys ochrioides,"Darlington, 1962",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,,Catalogue of Life,,,,,,,,,,,,,,
-54DKV,8KW2D,,Species,Tachys sexguttatus,"(Fairmaire, 1849)",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,7558963,Catalogue of Life,,,,,,,,,,,,,,
+54DJT,8KW2D,,Species,Tachys ochrioides,"Darlington, 1962",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+54DKV,8KW2D,,Species,Tachys sexguttatus,"(Fairmaire, 1849)",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,7558963,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 name-749,,54DKV,Species,Bembidium sexguttatum,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Tachys sexguttatus,,,,,,,,,,,,,
 name-3078,,54DKV,Species,Tachys quadrillum,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Tachys sexguttatus,literature,,,,,,,,,,,,
-54DJZ,8KW2D,,Species,Tachys truncatus,"(Nietner, 1858)",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,7360678,Catalogue of Life,,,,,,,,,,,,,,
+54DJZ,8KW2D,,Species,Tachys truncatus,"(Nietner, 1858)",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,7360678,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 8KZ58,8KTL7,,Genus,Tachyta,"Kirby, 1837",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,1035553,Catalogue of Life,,,,,,,,,,,,,,
-54F5P,8KZ58,,Species,Tachyta umbrosa,"(Motschulsky, 1851)",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,6131042,Catalogue of Life,,,,,,,,,,,,,,
-8KW2R,8KTL7,,Genus,Therates,"Latreille, 1816",accepted,,,unknown,,,,,Cicindelinae,Cicindelini,yes,,Catalogue of Life,,,,,,,,,,,,,,
-56CSZ,8KW2R,,Species,Therates labiatus,"(Fabricius, 1801)",accepted,,,unknown,,,,,Cicindelinae,Cicindelini,yes,,Catalogue of Life,,,,,,,,,,,,,,
+54F5P,8KZ58,,Species,Tachyta umbrosa,"(Motschulsky, 1851)",accepted,,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,6131042,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+IOG-60,,54F5P,Species,Tachys umbrosus,Motschulsky,synonym,,,,,,,,,,no,,curated merge,,,,,,,,,,,M. Andrew Johnston,2026-11-15,,
+8KW2R,8KTL7,,Genus,Therates,"Latreille, 1816",accepted,,,unknown,,,,,Cicindelinae,Cicindelini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
+56CSZ,8KW2R,,Species,Therates labiatus,"(Fabricius, 1801)",accepted,,,introduced,editor,editor,,,Cicindelinae,Cicindelini,yes,,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 name-1012,,56CSZ,Species,Cicindela labiata,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Therates labiatus,,,,,,,,,,,,,
 8KW2X,8KTL7,,Genus,Trichotichnus,,accepted,,,unknown,,,,,Harpalinae,Harpalini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 58LJK,8KW2X,,Species,Trichotichnus rasilis,"(Darlington, 1970)",accepted,,,unknown,,,,,Harpalinae,Harpalini,yes,,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4691,,58LJK,Species,Harpaloxenus rasilis,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Harpaloxenus rasilis → Trichotichnus rasilis,,,,,,,,,,guaminsects match,2026-11-13,,
-8KZDY,8KTL7,,Genus,Typhlonesiotes,"Jeannel, 1937",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,1036613,Catalogue of Life,,,,,,,,,,,,,,
-7DCTQ,8KZDY,,Species,Typhlonesiotes swaluwenbergi,"Jeannel, 1937",accepted,Blind ground beetle,,unknown,,,,,Trechinae,Bembidiini,yes,1036614,Catalogue of Life,,,,,,,,,,,,,guaminsects dupes,2026-11-14
+8KZDY,8KTL7,,Genus,Typhlonesiotes,"Jeannel, 1937",accepted,,,unknown,,,,,Trechinae,Bembidiini,yes,1036613,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+7DCTQ,8KZDY,,Species,Typhlonesiotes swaluwenbergi,"Jeannel, 1937",accepted,Blind ground beetle,,introduced,editor,editor,,,Trechinae,Bembidiini,yes,1036614,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-3237,,7DCTQ,Species,Typhlonesiotes zwaluwenburgi,,synonym,,,unknown,,,,,Trechinae,Bembidiini,no,,curated merge,"spelling variant; Catalogue of Life, GBIF Backbone",,,,,,,,,,,,,
 BJ5MR,C2L,,Family,Cerambycidae,"Latreille, 1802",accepted,Longhorn Beetles,Bycids | Cerambycids | Longhorn | Longhorn Beetle | cerambycid | long-horned beetles | longhorn beetle,unknown,,,,Chrysomeloidea,,,yes,5602,Catalogue of Life,,,,,,,,,,,,,,
 BJ7SG,BJ5MR,,Genus,Acalolepta,"Pascoe, 1858",accepted,,,unknown,,,,Chrysomeloidea,Lamiinae,Monochamini,yes,1117302,Catalogue of Life,,,,,,,,,,,,,,
