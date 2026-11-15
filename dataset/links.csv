@@ -2,6 +2,8 @@
 gbif:5593,wikidata,Q14852127,,high,,,
 gbif:1043889,editor,https://en.wikipedia.org/wiki/Cryptamorpha_desjardinsii,Wikipedia,high,,M. Andrew Johnston,2026-11-15
 gbif:1043889,inaturalist,388069,,high,,M. Andrew Johnston,2026-11-15
+gbif:1043889,wikidata,Q28368648,,high,,refresh wikidata,2026-11-15
+gbif:1043889,wikispecies,https://species.wikimedia.org/wiki/Sponsor_desjardinsii,,high,,refresh wikidata,2026-11-15
 gbif:1387878,inaturalist,651023,,high,matched by name (iNaturalist),refresh inat,2026-11-14
 gbif:1387878,wikidata,Q13387882,,high,,refresh wikidata,2026-11-15
 gbif:1499012,inaturalist,1247962,,high,matched by name (iNaturalist),refresh inat,2026-11-14
@@ -5569,8 +5571,6 @@ ZYZS,wikipedia,https://en.wikipedia.org/wiki/Cryptopone_testacea,,high,,refresh 
 4Z9T8,wikidata,Q1367637,,high,,refresh wikidata,2026-11-15
 4Z9T8,wikipedia,https://en.wikipedia.org/wiki/Spoladea_recurvalis,,high,,refresh wikidata,2026-11-15
 4Z9T8,wikispecies,https://species.wikimedia.org/wiki/Spoladea_recurvalis,,high,,refresh wikidata,2026-11-15
-4ZB9V,wikidata,Q28368648,,high,,refresh wikidata,2026-11-15
-4ZB9V,wikispecies,https://species.wikimedia.org/wiki/Sponsor_desjardinsii,,high,,refresh wikidata,2026-11-15
 4ZKX3,inaturalist,891804,,high,via Wikidata,refresh wikidata,2026-11-15
 4ZKX3,wikidata,Q13653734,,high,,refresh wikidata,2026-11-15
 4ZKX3,wikipedia,https://en.wikipedia.org/wiki/Statherotis_leucaspis,,high,,refresh wikidata,2026-11-15
