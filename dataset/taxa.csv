@@ -1724,6 +1724,8 @@ gbif:11119140,,5V8FP,Species,Homalota cribrum,(Fauvel),synonym,,,,,,,,,,yes,,COL
 5W6LW,8VRHF,,Species,Astenus horni,"Bernhauer, 1939",accepted,,,unknown,,,,Staphylinoidea,Paederinae,Lathrobiini,yes,6131690,Catalogue of Life,,,,,,,,,,,,,,
 8VRBL,8VR4S,,Genus,Atheta,"Thomson, C. G., 1858",accepted,Vexing Rove Beetles,,unknown,,,,Staphylinoidea,Aleocharinae,Athetini,yes,1040903,Catalogue of Life,,,,,,,,,,,,,,
 gbif:1040903,,8VRBL,Genus,Atheta,"C.G.Thomson, 1858",synonym,,,,,,,,,,no,,"same name, other author",,Plazi,,,,,,,,,,,,
+IOG-108,8VR4S,,Genus,Baeocera,"Erichson, 1845",accepted,,,unknown,,,,,,,no,4440715,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-109,IOG-108,,Species,Baeocera pacifica,"Löbl, 1981",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 8VRJ6,8VR4S,,Genus,Carpelimus,"Leach, 1819",accepted,,,unknown,,,,Staphylinoidea,Oxytelinae,Thinobiini,yes,1039667,Catalogue of Life,,,,,,,,,,,,,,
 RFC6,8VRJ6,,Species,Carpelimus exiguus,"(Erichson, 1839)",accepted,,,unknown,,,,Staphylinoidea,Oxytelinae,Thinobiini,yes,4440147,Catalogue of Life,,,,,,,,,,,,,,
 gbif:4440148,,RFC6,Species,Trogophloeus exiguus,"Erichson, 1839",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Carpelimus exiguus,Plazi,,,,,,,,,,,,
@@ -1791,12 +1793,15 @@ gbif:1041711,,4FKKY,Species,Leptacinus flavipennis,"Kraatz, 1859",synonym,,,,,,,
 6W9GY,8XP5B,,Species,Prorhinopsenius micronesiae,"(Seevers, 1957)",accepted,,,unknown,,,,Staphylinoidea,Aleocharinae,Trichopseniini,yes,9969492,Catalogue of Life,,,,,,,,,,,,,,
 8XPNF,8VR4S,,Genus,Rhopalocerina,"Reitter, 1909",accepted,,,unknown,,,,Staphylinoidea,Aleocharinae,Homalotini,yes,3262314,Catalogue of Life,,,,,,,,,,,,,,
 8VS35,8VR4S,,Genus,Scaphisoma,"Leach, 1815",accepted,,,unknown,,,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,1039372,Catalogue of Life,,,,,,,,,,,,,,
-6Y5BB,8VS35,,Species,Scaphisoma dybasi,"Löbl, 1981",accepted,,,unknown,,,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,10610127,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-6XSVH,8VS35,,Species,Scaphisoma perkinsi,"Scott, 1908",accepted,,,unknown,,,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,1039373,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-6XT6H,8VS35,,Species,Scaphisoma tricolor,"(Heller, 1917)",accepted,,,unknown,,,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,9129113,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-6XT6L,8VS35,,Species,Scaphisoma tridentatum,"Löbl, 1975",accepted,,,unknown,,,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,10584313,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-8W3CS,8VR4S,,Genus,Scaphobaeocera,,accepted,,,unknown,,,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,4715645,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-6XSYB,8W3CS,,Species,Scaphobaeocera remota,"Löbl, 1981",accepted,,,unknown,,,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,9960460,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+6Y5BB,8VS35,,Species,Scaphisoma dybasi,"Löbl, 1981",accepted,,,native,editor,editor,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,10610127,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+IOG-110,8VS35,,Species,Scaphisoma liliputanum,"Löbl, 1977",accepted,,,introduced,editor,editor,,,,,no,10357134,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+6XSVH,8VS35,,Species,Scaphisoma perkinsi,"Scott, 1908",accepted,,,introduced,editor,editor,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,1039373,Catalogue of Life,,,yes,Not in Micronesia,,,,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+6XT6H,8VS35,,Species,Scaphisoma tricolor,"(Heller, 1917)",accepted,,,unknown,,,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,9129113,Catalogue of Life,,,yes,Not in Micronesia,,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+6XT6L,8VS35,,Species,Scaphisoma tridentatum,"Löbl, 1975",accepted,,,introduced,editor,editor,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,10584313,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+IOG-111,8VS35,,Species,Scaphisoma yapense,"Löbl, 1981",accepted,,,native,editor,editor,,,,,no,10305064,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+8W3CS,8VR4S,,Genus,Scaphobaeocera,"Csiki, 1909",accepted,,,native,editor,editor,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,4715645,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+IOG-112,8W3CS,,Species,Scaphobaeocera ponapensis,"Löbl, 1981",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+6XSYB,8W3CS,,Species,Scaphobaeocera remota,"Löbl, 1981",accepted,,,native,editor,editor,,Staphylinoidea,Scaphidiinae,Scaphisomatini,yes,9960460,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 8VS3F,8VR4S,,Genus,Scopaeus,"Erichson, 1839",accepted,,,unknown,,,,Staphylinoidea,Paederinae,Lathrobiini,yes,4404665,Catalogue of Life,,,,,,,,,,,,,,
 8VS3P,8VR4S,,Genus,Silpha,,accepted,,,unknown,,,,Staphylinoidea,Silphinae,Silphini,yes,1038946,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 SWQ2K,8VS3P,,Species,Silpha bimaculata,"Petagna, 1786",accepted,,,unknown,,,,Staphylinoidea,Silphinae,Silphini,yes,11214129,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
