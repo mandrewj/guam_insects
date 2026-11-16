@@ -14521,9 +14521,6 @@ DDPBN,inaturalist,272571,Leaf Rake-like Antennae Beetles,high,via Wikidata,,
 DDPBN,wikidata,Q16850836,,high,,,
 DDPD9,inaturalist,359531,,high,via Wikidata,,
 DDPD9,wikidata,Q1969118,,high,,,
-DDPFV,bugguide,166872,,high,North American guide,,
-DDPFV,inaturalist,53241,,high,via Wikidata,,
-DDPFV,wikidata,Q1307419,,high,,,
 DDPJH,bugguide,104843,,high,North American guide,,
 DDPJH,inaturalist,177130,,high,via Wikidata,,
 DDPJH,wikidata,Q1948971,,high,,,
@@ -14588,7 +14585,6 @@ KV2ZJ,wikidata,Q514243,,high,,,
 KV3JN,bugguide,96011,,high,North American guide,,
 KV3JN,inaturalist,272574,Callirhipid Cedar Beetles,high,via Wikidata,,
 KV3JN,wikidata,Q756541,,high,,,
-KV3NY,inaturalist,87231,,high,matched by name (iNaturalist),refresh inat,2026-11-14
 KV3Y7,bugguide,36030,,high,North American guide,,
 KV3Y7,inaturalist,174498,Minute Bark Beetles,high,via Wikidata,,
 KV3Y7,wikidata,Q1040151,,high,,,
@@ -15442,10 +15438,6 @@ NXQTY,wikidata,Q111352427,,high,matched by name,refresh wikidata,2026-11-14
 NXQW6,bugguide,416515,,high,North American guide,,
 NXQW6,inaturalist,368139,,high,via Wikidata,,
 NXQW6,wikidata,Q21262152,,high,,,
-NXTRJ,inaturalist,1551526,,high,matched by name (iNaturalist),refresh inat,2026-11-14
-NXTRJ,wikidata,Q733773,,high,matched by name,refresh wikidata,2026-11-14
-NXTRJ,wikispecies,https://species.wikimedia.org/wiki/Gamepenthes,,high,,refresh wikidata,2026-11-14
-NXTSQ,wikidata,Q674265,,high,matched by name,refresh wikidata,2026-11-14
 NY6WR,bugguide,487944,,high,North American guide,,
 NY6WR,inaturalist,474597,,high,via Wikidata,,
 NY6WR,wikidata,Q10489569,,high,,,
@@ -15545,8 +15537,6 @@ PMC3R,wikidata,Q111591415,,high,,,
 PMH92,bugguide,869452,,high,North American guide,,
 PMH92,inaturalist,252988,,high,via Wikidata,,
 PMH92,wikidata,Q15715151,,high,,,
-PMHRP,inaturalist,1172886,,high,matched by name (iNaturalist),refresh inat,2026-11-14
-PMHRP,wikidata,Q2694672,,high,matched by name,refresh wikidata,2026-11-14
 PMMQJ,inaturalist,330226,,high,via Wikidata,,
 PMMQJ,wikidata,Q10536928,,high,,,
 PMPVX,inaturalist,1555107,,high,matched by name (iNaturalist),refresh inat,2026-11-15
@@ -16577,3 +16567,4 @@ IOG-108,inaturalist,173431,,high,,M. Andrew Johnston,2026-11-15
 IOG-114,inaturalist,704604,,high,,M. Andrew Johnston,2026-11-15
 IOG-115,inaturalist,704603,,high,,M. Andrew Johnston,2026-11-15
 IOG-118,inaturalist,784413,,high,,M. Andrew Johnston,2026-11-15
+IOG-151,inaturalist,507150,,high,,M. Andrew Johnston,2026-11-16

@@ -5407,7 +5407,6 @@ CSXTC,iom-6-2-aphididae,mention,19,Oregma bambusae carolinensis,,,,,,,ocr,machin
 DBNX3,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 DDM44,plazi-7700299b,checklist,,,GU,,,,,,plazi,,,,migrate,
 DDPBN,zimmerman-rhipiceridae-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-DDPFV,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
 DQN84,iom-15-1-carabidae-incl-cicindelinae,account,10 | 11,Pseudozaena orientalis opaca,PW,Koror | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 FJ58D,iom-9-2-gelechioidea,account,3,Elaeonoma adeneia,,,,,,,text,machine,,,migrate,2026-11-13
 FJ58D,iom-9-2-gelechioidea,mention,3 | 4,Elaeonoma adeneia,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6310,8 +6309,6 @@ name-500,iom-16-7-elateridae-suppl,account,1,Alaus depressicollis,PW,Koror | Pal
 name-501,iom-16-7-elateridae-suppl,account,1,Alaus guamensis,GU | PW,Guam | Koror | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-510,iom-6-1-aleyrodidae,account,10,Aleyrodes bergii,PW | FM,Chuuk | Lamotrek | Ngerekebesang | Nukuoro,,,,,text,machine,,,migrate,2026-11-13
 name-510,iom-6-1-aleyrodidae,mention,10,Aleyrodes bergii,,,,,,,text,machine,,,migrate,2026-11-13
-name-548,iom-16-1-elateridae,account,57,Anchastus incertus,PW,Babeldaob | Koror | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
-name-548,iom-16-1-elateridae,mention,57 | 58,Anchastus incertus,,,,,,,text,machine,,,migrate,2026-11-13
 name-557,kevan-1997-an-annotated-provisional-list-of-non-saltator,account,42,Anisolabis picea,GU | MP | PW | FM | MH,Chuuk | Enewetak | Guam | Koror | Peleliu | Pohnpei | Saipan | Tinian | Yap,,,,,text,machine,,,migrate,2026-11-13
 name-565,iom-7-7-pentatomoidea,account,46,Antestia punctatissima,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-566,iom-16-5-anthicidae,account,5,Anthelephilus cribriceps,MP | PW,Koror | Saipan,,,,,text,machine,,,migrate,2026-11-13
@@ -6330,7 +6327,6 @@ name-819,iom-17-1-chrysomelidae,account,49,Brontispa namorikia,MH,Ailuk | Arno |
 name-820,muniappan-1980-biological-control-of-the-palau-coconut-b,account,1,Brontispa palauen sis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-821,iom-17-1-chrysomelidae,account,47,Brontispa yoshinoi,PW | FM | MH,Chuuk | Jaluit | Likiep | Ngerekebesang | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-846,iom-7-3-aradidae,account,9 | 16,Calisius araklai,GU | PW,Babeldaob | Guam | Palau,,,,,text,machine,,,migrate,2026-11-13
-name-870,iom-16-1-elateridae,account,60,Cardiophorus adjutor,PW,Koror,,,,,text,machine,,,migrate,2026-11-13
 name-880,iom-16-4-nitidulidae,account,17,Carpophilus frivolus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-917,schreiner-1991-sources-of-new-insects-established-on-gua,account,4,Chaetocnema confmis,GU | MP | MH,Guam | Majuro | Saipan,introduced,GU,1986,4,text,machine,,,migrate,2026-11-13
 name-939,iom-7-3-aradidae,account,46,Chiastoplonia ponapensis,FM,Ngulu | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
@@ -6342,7 +6338,6 @@ name-1077,iom-17-1-chrysomelidae,account,10,Coenobius subaeneus,FM,Chuuk,,,,,tex
 name-1081,iom-17-1-chrysomelidae,account,21,Colasposoma rugiceps,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-1166,iom-12-1-culicidae,account,74,Culex pullus maplei,FM,Kapingamarangi | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 name-1230,iom-16-5-coccinellidae,account,1 | 29,Daulis boulardi,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-name-1313,iom-16-1-elateridae,account,61,Diploconus peregrinus,FM,Ulithi | Yap,,,,,text,machine,,,migrate,2026-11-13
 name-1444,iom-16-2-bostrychidae,account,18,Enneadesmus nicobaricus,GU | FM,Chuuk | Guam,,,,,text,machine,,,migrate,2026-11-13
 name-1449,iom-16-5-coccinellidae,account,7,Epilachna philippinensis,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 name-1473,iom-7-2-tingidae,account,13,Eteoneus yapensis,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
@@ -6358,7 +6353,6 @@ name-1648,iom-16-4-nitidulidae,account,44,Haptoncus opaculus,PW,Palau,,,,,text,m
 name-1651,iom-16-4-nitidulidae,account,45,Haptoncus sordidus,GU | MH,Arno | Guam | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
 name-1677,iom-17-3-tenebrionidae,account,25,Heterophyllus pacificus,FM,Chuuk,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-1711,iom-17-3-tenebrionidae,account,46,Hypophloeus dimidiatus,FM,Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
-name-1732,iom-16-1-elateridae,account,13,Ischiodontus hawaiiensis,FM | MH,Kapingamarangi | Marshall Is. | Pohnpei | Wotje,,,,,text,machine,,,migrate,2026-11-13
 name-1749,iom-16-6-malachiidae-suppl,account,1,Laius palauensis,PW,Babeldaob | Koror | Ngeruktabel | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-1750,iom-16-6-malachiidae-suppl,account,1,Laius yapensis,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
 name-1757,iom-7-8-anthocoridae,account,19,Lasiochilus campylus,GU | MP,Guam | Saipan,,,,,text,machine,,,migrate,2026-11-13
@@ -6381,7 +6375,6 @@ name-1979,iom-16-1-elateridae,account,44,Melanoxanthus varians,GU | FM,Guam | Po
 name-1995,iom-16-1-elateridae,account,10,Meristhus scobinula,MP,Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-2011,iom-7-3-aradidae,account,49,Mezira angularis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-2014,iom-17-1-chrysomelidae,account,35,Micrepitrix carolina,PW | FM,Babeldaob | Koror | Yap,,,,,text,machine,,,migrate,2026-11-13
-name-2102,iom-16-7-elateridae-suppl,account,6,Neodiploconus exis,PW | FM,Koror | Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
 name-2115,iom-16-5-coccinellidae,account,14,Nephus melinus,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
 name-2145,iom-17-1-chrysomelidae,account,12,Nodostoma consimile,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-2194,iom-7-5-enicocephalidae,account,12,Oncylocotis capitonis,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
