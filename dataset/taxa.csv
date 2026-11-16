@@ -1306,38 +1306,50 @@ name-496,,PVT9G,Species,Agrypnus pruinosus,,synonym,,,,,,,,,,yes,,COL synonym,Ca
 name-497,,PVT9G,Species,Agrypnus squalidus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Lacon modestus,,,,,,,,,,,,,
 Q5KLZ,KV76N,,Genus,Lanelater,"Arnett, 1952",accepted,,,unknown,,,,Elateroidea,Agrypninae,Pseudomelanactini,yes,4428973,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-232,Q5KLZ,,Species,Lanelater bifoveatus,,accepted,,,unknown,,,,Elateroidea,Agrypninae,Pseudomelanactini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
-DDPJH,KV76N,,Genus,Megapenthes,"Kiesenwetter, 1858",accepted,,,unknown,,,,Elateroidea,Elaterinae,Megapenthini,yes,4405490,Catalogue of Life,,,,,,,,,,,,,,
-name-1950,DDPJH,,Species,Megapenthes carinifrons,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Megapenthini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-QMG65,DDPJH,,Species,Megapenthes lugens,"(W. Redtenbacher, 1842)",accepted,Queen's Executioner Beetle,,unknown,,,,Elateroidea,Elaterinae,Megapenthini,yes,4429279,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-name-4646,,QMG65,Species,Elater lugens,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Elater lugens → Megapenthes lugens,,,,,,,,,,guaminsects match,2026-11-13,,
-name-1952,DDPJH,,Species,Megapenthes subinconditus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Megapenthini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-QXFXK,KV76N,,Genus,Melanoxanthus,"Dejean, 1833",accepted,,,unknown,,,,Elateroidea,,,yes,8227707,Catalogue of Life,,,,,,,,,,,,,,
+DDPJH,KV76N,,Genus,Megapenthes,"Kiesenwetter, 1858",accepted,,,unknown,,,,Elateroidea,Elaterinae,Megapenthini,yes,4405490,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-132,DDPJH,,Species,Megapenthes brunniventris,"Candeze, 1892",accepted,,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+IOG-133,,IOG-132,Species,Megapenthes bakeri,"Fleutiaux, 1934",synonym,,,,,,,,,,no,,curated merge,,,,,,,,,,,M. Andrew Johnston,2026-11-16,,
+IOG-134,,IOG-132,Species,Megapenthes usingeri,"van Zwaluwenburg, 1942",synonym,,,,,,,,,,no,,curated merge,,,,,,,,,,,M. Andrew Johnston,2026-11-16,,
+QXGX9,,IOG-132,Species,Melanoxanthus usingeri,Zwaluwinburg,synonym,,,unknown,,,,Elateroidea,,,yes,6976217,curated merge,,,,,,,,,,,,,M. Andrew Johnston,2026-11-16
+name-1950,DDPJH,,Species,Megapenthes carinifrons,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Megapenthini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-135,DDPJH,,Species,Megapenthes disjunctus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+name-1952,DDPJH,,Species,Megapenthes subinconditus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Megapenthini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+QXFXK,KV76N,,Genus,Melanoxanthus,"Dejean, 1833",accepted,,,native,editor,editor,,Elateroidea,,,yes,8227707,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
 gbif:8227707,,QXFXK,Genus,Melanoxanthus,"Eschscholtz, 1833",synonym,,,,,,,,,,no,,"same name, other author",,"GBIF Backbone, Plazi",,,,,,,,,,,,
-name-1965,QXFXK,,Species,Melanoxanthus arcuatus,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-1966,QXFXK,,Species,Melanoxanthus argus,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-1968,QXFXK,,Species,Melanoxanthus dissitus,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-QXGFZ,QXFXK,,Species,Melanoxanthus guamensis,Zwaluwinburg,accepted,,,unknown,,,,Elateroidea,,,yes,6976207,Catalogue of Life,,,,,,,,,,,,,,
-name-1971,QXFXK,,Species,Melanoxanthus lariversi,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-QXGK6,QXFXK,,Species,Melanoxanthus melanocephalus,"(Fabricius, 1781)",accepted,Click beetle,,unknown,,,,Elateroidea,,,yes,5007560,Catalogue of Life,,,,,,,,,,,,,,
+name-1965,QXFXK,,Species,Melanoxanthus arcuatus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+name-1966,QXFXK,,Species,Melanoxanthus argus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-145,QXFXK,,Species,Melanoxanthus comptus,"van Zwaluwenburg, 1928",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+QXGND,,IOG-145,Species,Melanoxanthus palustris,Zwaluwinburg,synonym,,,unknown,,,,Elateroidea,,,yes,11177054,curated merge,,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+name-2275,,IOG-145,Species,Pacificola vitiensis,,synonym,,,unknown,,,,Elateroidea,,,no,,curated merge,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-138,QXFXK,,Species,Melanoxanthus cracens,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+name-1968,QXFXK,,Species,Melanoxanthus dissitus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-136,QXFXK,,Species,Melanoxanthus divergens,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+IOG-137,QXFXK,,Species,Melanoxanthus fetivus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+QXGFZ,QXFXK,,Species,Melanoxanthus guamensis,"van Zwaluwenburg, 1942",accepted,,,native,editor,editor,,Elateroidea,,,yes,6976207,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+name-1971,QXFXK,,Species,Melanoxanthus lariversi,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-142,QXFXK,,Species,Melanoxanthus lepidus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+IOG-139,QXFXK,,Species,Melanoxanthus luteus,"van Zwaluwenburg, 1952",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+IOG-141,IOG-139,,Subspecies,Melanoxanthus luteus aquilus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+IOG-140,IOG-139,,Subspecies,Melanoxanthus luteus luteus,"van Zwaluwenburg, 1952",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+QXGK6,QXFXK,,Species,Melanoxanthus melanocephalus,"(Fabricius, 1781)",accepted,Click beetle,,introduced,editor,editor,,Elateroidea,,,yes,5007560,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
 gbif:4754707,,QXGK6,Species,Elater melanocephalus,"Fabricius, 1781",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Melanoxanthus melanocephalus,Plazi,,,,,,,,,,,,
-name-1975,QXFXK,,Species,Melanoxanthus minor,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-QXGND,QXFXK,,Species,Melanoxanthus palustris,Zwaluwinburg,accepted,,,unknown,,,,Elateroidea,,,yes,11177054,Catalogue of Life,,,,,,,,,,,,,,
-name-1977,QXFXK,,Species,Melanoxanthus silus,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-1978,QXFXK,,Species,Melanoxanthus simplex,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-QXGX9,QXFXK,,Species,Melanoxanthus usingeri,Zwaluwinburg,accepted,,,unknown,,,,Elateroidea,,,yes,6976217,Catalogue of Life,,,,,,,,,,,,,,
-name-1979,QXFXK,,Species,Melanoxanthus varians,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-2275,QXFXK,,Species,Pacificola vitiensis,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-D3SGG,KV76N,,Genus,Monocrepidius,"Eschscholtz, 1829",accepted,,,unknown,,,,Elateroidea,Agrypninae,Oophorini,yes,4754038,Catalogue of Life,,,,,,,,,,,,,,
-QHZH5,D3SGG,,Species,Monocrepidius bifoveatus,"(Palisot de Beauvois, 1807)",accepted,,,unknown,,,,Elateroidea,Agrypninae,Oophorini,yes,7368664,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-name-4645,,QHZH5,Species,Elater bifoveolatus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Elater bifoveolatus → Monocrepidius bifoveatus,,,,,,,,,,guaminsects match,2026-11-13,,
-QJ224,D3SGG,,Species,Monocrepidius pallipes,"Eschscholtz, 1829",accepted,,,unknown,,,,Elateroidea,Agrypninae,Oophorini,yes,6984448,Catalogue of Life,,,,,,,,,,,,,,
+name-1975,QXFXK,,Species,Melanoxanthus minor,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-143,QXFXK,,Species,Melanoxanthus sannio,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+name-1977,QXFXK,,Species,Melanoxanthus silus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-146,QXFXK,,Species,Melanoxanthus similis,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+name-1978,QXFXK,,Species,Melanoxanthus simplex,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+name-1979,QXFXK,,Species,Melanoxanthus varians,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+IOG-144,QXFXK,,Species,Melanoxanthus venustus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-16,,,,M. Andrew Johnston,2026-11-16,M. Andrew Johnston,2026-11-16
+D3SGG,KV76N,,Genus,Monocrepidius,"Eschscholtz, 1829",accepted,,,unknown,,,,Elateroidea,Agrypninae,Oophorini,yes,4754038,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-16,,,,,,M. Andrew Johnston,2026-11-16
+QJ224,D3SGG,,Species,Monocrepidius pallipes,"(Eschscholtz, 1829)",accepted,,,native,editor,editor,,Elateroidea,Agrypninae,Oophorini,yes,6984448,Catalogue of Life,,,,,,,,,,,,,M. Andrew Johnston,2026-11-16
+IOG-130,,QJ224,Species,Conoderus pallipes,"Eschscholtz, 1829",synonym,,,,,,,,,,no,,curated merge,,,,,,,,,,,M. Andrew Johnston,2026-11-16,,
 SBXTN,KV76N,,Genus,Priopus,"Laporte, 1840",accepted,,,unknown,,,,Elateroidea,Elaterinae,Melanotini,yes,3261316,Catalogue of Life,,,,,,,,,,,,,,
 name-1313,SBXTN,,Species,Diploconus peregrinus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Melanotini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 name-2102,SBXTN,,Species,Neodiploconus exis,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Melanotini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 6WFB,KV76N,,Genus,Prodrasterius,,accepted,,,unknown,,,,Elateroidea,,,yes,1162069,Catalogue of Life,,,,,,,,,,,,,,
 IOG-118,KV76N,,Genus,Propsephus,"Hyslop, 1921",accepted,,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 IOG-119,IOG-118,,Species,Propsephus tongaensis,"(Candeze, 1878)",accepted,,,unknown,,,,,,,no,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
-IOG-114,KV76N,,Genus,Rismethus,Fleutiaux 1947,accepted,,,unknown,,,,,,,no,4753691,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-114,KV76N,,Genus,Rismethus,Fleutiaux 1947,accepted,,,unknown,,,,,,,no,4753691,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 IOG-115,IOG-114,,Species,Rismethus scobinula,"(Candeze, 1857)",morphospecies,,,unknown,,,,,,,no,6714679,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 name-1995,,IOG-115,Species,Meristhus scobinula,"Candeze, 1857",synonym,,,introduced,editor,editor,,Elateroidea,Agrypninae,Agrypnini,no,,curated merge,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 SX4YG,KV76N,,Genus,Simodactylus,"Candèze, 1859",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,yes,1162036,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15

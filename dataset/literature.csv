@@ -5853,11 +5853,6 @@ QDGFB,iom-19-3-eucoilinae-cynipoidea,account,6,Leptolamina ponapensis,,,,,,,ocr,
 QDGFB,iom-19-3-eucoilinae-cynipoidea,mention,2 | 6,Leptolamina ponapensis,,,,,,,ocr,machine,,,migrate,2026-11-13
 QFP5R,iom-19-3-eucoilinae-cynipoidea,account,8,Micreriodes guamensis,,,,,,,ocr,machine,,,migrate,2026-11-13
 QFP5R,iom-19-3-eucoilinae-cynipoidea,mention,2 | 8 | 9,Micreriodes guamensis,,,,,,,ocr,machine,,,migrate,2026-11-13
-QJ224,evenhuis-et-al-2010-pagan-island,mention,58,Conoderus pallipes,,,,,,,text,machine,,,migrate,2026-11-13
-QJ224,iom-16-1-elateridae,account,33,Conoderus pallipes,,,,,,,text,machine,,,migrate,2026-11-13
-QJ224,iom-16-1-elateridae,mention,4 | 33,Conoderus pallipes,,,,,,,text,machine,,,migrate,2026-11-13
-QJ224,iom-16-7-elateridae-suppl,account,4,Conoderus pallipes,,,,,,,ocr,machine,,,migrate,2026-11-13
-QJ224,iom-16-7-elateridae-suppl,mention,2 | 4,Conoderus pallipes,,,,,,,ocr,machine,,,migrate,2026-11-13
 QKJJ8,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QKJLJ,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QKLXT,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
@@ -5911,13 +5906,8 @@ QWS24,swezey-1942-misc-coleoptera-guam,account,14,Necrobia rufipes,,,,,,,text,ma
 QWS24,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 QWS24,swezey-1942-misc-coleoptera-guam,mention,14,Necrobia rufipes,,,,,,,text,machine,,,migrate,2026-11-13
 QXFXK,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-QXGFZ,iom-16-1-elateridae,account,43,Melanoxanthus guamensis,GU | MP,Guam | Saipan,,,,,text,machine,,,migrate,2026-11-13
-QXGFZ,iom-16-1-elateridae,mention,43 | 44 | 47,Melanoxanthus guamensis,,,,,,,text,machine,,,migrate,2026-11-13
 QXGFZ,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-QXGK6,iom-16-1-elateridae,account,50,Melanoxanthus melanocephalus,,,,,,,text,machine,,,migrate,2026-11-13
-QXGK6,iom-16-1-elateridae,mention,40 | 50,Elater melanocephalus,,,,,,,text,machine,,,migrate,2026-11-13
 QXGK6,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-QXGND,iom-16-1-elateridae,mention,53,Melanoxanthus palustris,,,,,,,text,machine,,,migrate,2026-11-13
 QXGND,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
 QXGX9,iom-16-1-elateridae,account,36,Melanoxanthus usingeri,GU | MP | FM,Chuuk | Guam | Lamotrek | Saipan | Tinian | Ulithi,,,,,text,machine,,,migrate,2026-11-13
 QXGX9,iom-16-1-elateridae,mention,36,Melanoxanthus usingeri,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6378,17 +6368,16 @@ name-1832,iom-12-8-tipulidae,account,93,Limonia microstigma carolinensis,PW | FM
 name-1887,iom-7-7-coreidae-neididae-nabidae,account,30,Lorichius umbonatus,PW,Palau,,,,,text,machine,,,migrate,2026-11-13
 name-1919,iom-17-3-tenebrionidae,account,33,Lyphia laeviceps,FM,Yap,,,,,text,editor,M. Andrew Johnston,2026-11-14,migrate,2026-11-13
 name-1944,guam-pest-series-88-10-bean-pod-borer,account,1,Maruca caterpillar,GU | PW,Guam | Palau,,,,,text,machine,,,migrate,2026-11-13
-name-1950,iom-16-1-elateridae,account,37,Megapenthes carinifrons,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
-name-1952,iom-16-1-elateridae,account,38,Megapenthes subinconditus,,,,,,,text,machine,,,migrate,2026-11-13
-name-1952,iom-16-7-elateridae-suppl,account,6,Megapenthes subinconditus,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
-name-1965,iom-16-1-elateridae,account,49,Melanoxanthus arcuatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-name-1966,iom-16-1-elateridae,account,47,Melanoxanthus argus,FM,Kosrae,,,,,text,machine,,,migrate,2026-11-13
-name-1968,iom-16-1-elateridae,account,46,Melanoxanthus dissitus,MP | PW | FM,Palau | Pohnpei | Saipan,,,,,text,machine,,,migrate,2026-11-13
-name-1971,iom-16-1-elateridae,account,51,Melanoxanthus lariversi,MH,Arno | Marshall Is.,,,,,text,machine,,,migrate,2026-11-13
-name-1975,iom-16-1-elateridae,account,48,Melanoxanthus minor,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-name-1977,iom-16-1-elateridae,account,54,Melanoxanthus silus,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
-name-1978,iom-16-1-elateridae,account,55,Melanoxanthus simplex,FM,Kosrae | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-name-1979,iom-16-1-elateridae,account,44,Melanoxanthus varians,GU | FM,Guam | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
+name-1950,iom-16-1-elateridae,account,37,Megapenthes carinifrons,PW,Koror | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1952,iom-16-7-elateridae-suppl,account,6,Megapenthes subinconditus,PW,Koror | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1965,iom-16-1-elateridae,account,49,Melanoxanthus arcuatus,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1966,iom-16-1-elateridae,account,47,Melanoxanthus argus,FM,Kosrae,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1968,iom-16-1-elateridae,account,46,Melanoxanthus dissitus,MP | PW | FM,Palau | Pohnpei | Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1971,iom-16-1-elateridae,account,51,Melanoxanthus lariversi,MH,Arno | Marshall Is.,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1975,iom-16-1-elateridae,account,48,Melanoxanthus minor,FM,Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1977,iom-16-1-elateridae,account,54,Melanoxanthus silus,FM,Yap,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1978,iom-16-1-elateridae,account,55,Melanoxanthus simplex,FM,Kosrae | Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
+name-1979,iom-16-1-elateridae,account,44,Melanoxanthus varians,GU | FM,Guam | Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-16,migrate,2026-11-13
 name-1995,iom-16-1-elateridae,account,10,Meristhus scobinula,MP,Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-2011,iom-7-3-aradidae,account,49,Mezira angularis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-2014,iom-17-1-chrysomelidae,account,35,Micrepitrix carolina,PW | FM,Babeldaob | Koror | Yap,,,,,text,machine,,,migrate,2026-11-13
@@ -6399,7 +6388,6 @@ name-2194,iom-7-5-enicocephalidae,account,12,Oncylocotis capitonis,FM,Pohnpei,,,
 name-2259,iom-16-5-coccinellidae,account,48,Ortalia tricolor,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-2260,iom-17-1-chrysomelidae,account,23,Orthaulaca marginalis,PW,Kayangel | Koror,,,,,text,machine,,,migrate,2026-11-13
 name-2269,iom-17-1-chrysomelidae,account,55,Oxycephala pandani,PW,Babeldaob | Palau,,,,,text,machine,,,migrate,2026-11-13
-name-2275,iom-16-1-elateridae,account,52,Pacificola vitiensis,GU | PW | FM | MH,Babeldaob | Guam | Losap | Ujelang,,,,,text,machine,,,migrate,2026-11-13
 name-2355,iom-16-5-coccinellidae,account,44,Pharellus calvus,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 name-2356,iom-16-5-coccinellidae,account,47,Pharellus dybasi,GU | MP,Guam | Rota | Saipan | Tinian,,,,,text,machine,,,migrate,2026-11-13
 name-2357,iom-16-5-coccinellidae,account,46,Pharellus guamensis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
