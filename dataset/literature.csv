@@ -6324,7 +6324,7 @@ VSFGD,iom-6-5-cicadellidae,mention,87,Jamitettix guamensis,,,,,,,text,machine,,,
 VSFGD,plazi-62345736,checklist,,,GU,,,,,,plazi,,,,migrate,
 VSFK8,iom-6-5-cicadellidae,account,88,Jamitettix metcalfi,PW | FM,Palau | Peleliu | Yap,,,,,text,machine,,,migrate,2026-11-13
 VSFK8,iom-6-5-cicadellidae,mention,88 | 89,Jamitettix metcalfi,,,,,,,text,machine,,,migrate,2026-11-13
-name-67,zimmerman-rhipiceridae-guam,account,1,Callirhipis onoi,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
+name-67,zimmerman-rhipiceridae-guam,account,1,Callirhipis onoi,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-114,evenhuis-et-al-2010-pagan-island,mention,61,Coptosoma xanthogramma,,,,,,,text,machine,,,migrate,2026-11-13
 name-114,nafus-1989-biological-control-activities-in-the-mariana,mention,17,Coptosoma xanthogramma,,,,,,,text,machine,,,migrate,2026-11-13
 name-114,nafus-1991-movement-of-new-insects-into-the-carolines-an,account,4,Coptosoma xanthogramma,,,,,,,text,machine,,,migrate,2026-11-13
