@@ -54,7 +54,28 @@ def load(root: Path | None = None) -> Dataset:
     wp = root / schema.WIKIPEDIA_FILE
     if wp.exists():
         ds.wikipedia = [json.loads(line) for line in wp.read_text("utf-8").splitlines() if line]
+    prune_orphans(ds)
     return ds
+
+
+# Tables the tools write (not the editor): a row about a taxon that was deleted in the editor is
+# dropped when the dataset is loaded (and so disappears from the files at the next tool write).
+TOOL_TABLES = ("keys", "names", "records", "islands", "photos", "grid")
+
+
+def prune_orphans(ds: Dataset) -> int:
+    ids = {r["id"] for r in ds["taxa"]}
+    n = 0
+    for name in TOOL_TABLES:
+        keep = [r for r in ds[name] if r["taxon_id"] in ids]
+        if name == "photos":        # an inherited photo whose source taxon is gone goes too
+            keep = [r for r in keep if r["role"] != "inherited" or r["from_id"] in ids]
+        n += len(ds[name]) - len(keep)
+        ds[name] = keep
+    keep_w = [w for w in ds.wikipedia if w["taxon_id"] in ids]
+    n += len(ds.wikipedia) - len(keep_w)
+    ds.wikipedia = keep_w
+    return n
 
 
 # --- ordering ------------------------------------------------------------------------------

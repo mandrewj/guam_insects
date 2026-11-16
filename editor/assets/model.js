@@ -464,6 +464,24 @@
     st.stamp(op.id, op);
   }
 
+  // What deleting a taxon would remove: {ok, why, gone: Set of ids, names, below, rows: {table: n}}.
+  function deletePlan(st, id) {
+    const r = st.r(id);
+    if (!r) return { ok: false, why: `no taxon ${id}` };
+    if (r.status === SYN) return { ok: false, why: `${r.name} is a name of ${st.name(r.accepted_id)}: delete that taxon, or the name through its own page` };
+    if (!r.parent_id) return { ok: false, why: "the root of the tree cannot be deleted" };
+    const below = st.descendants(id);
+    const gone = new Set([id].concat(below));
+    for (const x of [...gone]) for (const sy of st.synonymsOf(x)) gone.add(sy);
+    const rows = {};
+    for (const name of Object.keys(st.t)) {
+      const n = st.t[name].filter(x => gone.has(x.taxon_id)).length;
+      if (n) rows[name] = n;
+    }
+    const names = [...gone].filter(x => st.d.get(x) && st.d.get(x).status === SYN).length;
+    return { ok: true, gone, below: below.length, names, rows, parent: r.parent_id };
+  }
+
   // A scientific name is a name: no authorship pasted on the end, no markup or list separators.
   function checkName(name) {
     need(!/[<>|]/.test(name), "a name cannot contain < > or |");
@@ -682,6 +700,22 @@
       for (const x of gone) { st.d.delete(x); st.removed.add(x); }
       st.order = st.order.filter(x => !gone.has(x));
       if (r.accepted_id) st.stamp(r.accepted_id, op);
+      st.structure();
+    },
+
+    // Delete a taxon from the database and the site: it, everything under it, every name that
+    // points at them, and the rows about them in the editable tables. Unlike Exclude it leaves no
+    // memory behind, so a tool may bring the name back if a source has it again; unlike Hide it is
+    // for names that were errors in the first place. (The tool-written tables, such as photos,
+    // keys and the map grid, are cleaned of rows for taxa that no longer exist when the dataset is
+    // loaded: dataset.py prune_orphans.)
+    delete(st, op) {
+      const plan = deletePlan(st, op.id);
+      need(plan.ok, plan.why);
+      for (const name of Object.keys(st.t)) st.t[name] = st.t[name].filter(x => !plan.gone.has(x.taxon_id));
+      for (const x of plan.gone) { st.d.delete(x); st.removed.add(x); }
+      st.order = st.order.filter(x => !plan.gone.has(x));
+      if (plan.parent) st.stamp(plan.parent, op);
       st.structure();
     },
 
@@ -1218,6 +1252,7 @@
       case "hide": return `${who}: hidden (deleted from the site)`;
       case "unhide": return `${who}: shown again`;
       case "remove": return `deleted ${op.id}`;
+      case "delete": return `${who}: deleted from the database${op.reason ? " (" + op.reason + ")" : ""}`;
       case "verify": return `${who}: ${op.on ? "confirmed" + (op.source ? ` (${op.source})` : "") : "confirmation removed"}`;
       case "clearFlag": return `${who}: reviewed (flag new cleared)`;
       case "tag": return `${who}: ${op.place} ${op.status || "present"}${op.doc ? ` (${op.doc})` : op.source ? ` (${op.source})` : ""}`;
@@ -1270,7 +1305,7 @@
   window.IOGModel = {
     makeBase, replay, applyOne, bulkEligible, check, files, describe, commitMessage, op, sortRows, tid,
     fold: searchFold, validId, parseTaxonRef, parseColRef, parseGbifTaxonRef, classifyUrl, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
-    splitList, cleanText, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
+    splitList, cleanText, deletePlan, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
     LEGACY,
   };
 })();

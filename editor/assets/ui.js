@@ -543,7 +543,7 @@
       (r.hidden === "1" ? '<button type="button" data-act="unhide">Show again</button>'
         : '<button type="button" data-act="hide">Hide from the site…</button>') +
       '<button type="button" data-act="exclude">Exclude (tools must not re-add it)…</button>' +
-      (isIog ? '<button type="button" data-act="remove">Delete for good</button>' : "") +
+      '<button type="button" data-act="delete" title="For names that were errors in the first place; a tool may add it again if a source has it">Delete from the database…</button>' +
       "</div></details></div>";
     if (r.excludedReason) html += `<div class="notice">Excluded: ${esc(r.excludedReason)}. <a href="#" data-restore="${esc(r.scientificName)}">Restore</a></div>`;
     html += facts(r);
@@ -819,6 +819,26 @@
         intro: `Hides it${n ? ` and the ${n} taxa under it` : ""} from the site. Nothing is deleted: <b>Show again</b> undoes it.`,
         fields: [{ key: "reason", label: "Why (e.g. a mislabelled specimen, not in Micronesia)", required: true }],
         submit: "Hide", danger: true, onSubmit: x => addOp("hide", { id, reason: x.reason }) });
+    }
+    if (act === "delete") {
+      const plan = M.deletePlan(st, id);
+      if (!plan.ok) return toast(plan.why, "error");
+      const rows = Object.entries(plan.rows).map(([t, n]) => `${n} ${t}`).join(", ");
+      return openForm({ title: "Delete " + r.scientificName + " from the database?", danger: true,
+        intro: '<div class="warn-box"><b>This removes it from the site and from the data.</b> ' +
+          (plan.below ? `<b>${plan.below} ${plan.below === 1 ? "taxon" : "taxa"} under it</b> will be deleted too. ` : "") +
+          (plan.names ? `${plan.names} synonym name${plan.names === 1 ? "" : "s"} pointing at ${plan.below ? "them" : "it"} will be deleted too. ` : "") +
+          (rows ? `Rows about them are deleted as well (${esc(rows)}). ` : "") +
+          "It is <b>not</b> excluded: a tool may add the name again if a source mentions it. " +
+          "Use this for names that were errors in the first place; use Hide for real taxa you only want out of sight, and Exclude to keep a name out for good. " +
+          "(It stays recoverable from the project's git history.)</div>",
+        fields: [{ key: "reason", label: "Why was it an error? (optional, kept in the commit message)", placeholder: "e.g. a synonym in IOM 16-2 matched to the wrong species" },
+                 { key: "confirm", type: "checkbox", value: false, label: "I understand this deletes it and everything listed above." }],
+        submit: "Delete from the database",
+        onSubmit: x => {
+          if (!x.confirm) throw new Error("tick the box to confirm the deletion");
+          if (addOp("delete", { id, reason: x.reason })) select(plan.parent);
+        } });
     }
     if (act === "remove") {
       return openForm({ title: "Delete " + r.scientificName, intro: "Deletes this hand-added entry and its tags and vouchers for good.",

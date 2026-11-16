@@ -120,6 +120,7 @@ Rows that point at a synonym keep pointing at it after a merge; the build follow
 | reject | the literature / notes / hosts row is deleted |
 | clear flag | `flag` emptied |
 | place | an unplaced name becomes a taxa.csv row; its line leaves review/unplaced.csv |
+| delete from the database | the taxon, everything under it, the names (synonyms) pointing at them and their rows in the editable tables are removed. Nothing is excluded: for names that were errors in the first place (e.g. pulled in from a synonym), which a tool may add again if a source has them. Rows in the tool-written tables (keys, names, photos, grid, records, islands, wikipedia.jsonl) are dropped when the dataset next loads (`dataset.prune_orphans`). Recoverable from git |
 | exclude | a taxon in the tree: `hidden` (reason `excluded: ...`) on it and everything under it; the name goes on the Excluded page (unplaced.csv `status excluded`, with the reason, who and when). A bare unplaced name just becomes excluded. `match`, `sync` and `lit` never add an excluded name or its species again. **Restore** undoes it |
 | merge an unplaced name | it becomes a synonym row (`IOG-n`, `accepted_id` = the valid taxon); its line leaves review/unplaced.csv. Later `sync`, `match` and `lit scan` find the name here and file its records under the valid taxon |
 | delete | the `IOG-` row and the rows that point at it go |

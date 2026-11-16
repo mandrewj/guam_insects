@@ -861,3 +861,21 @@ def test_pipes_in_tag_sources_and_link_labels_are_defused(page, world):
     assert out["errors"] == [None, None] and out["checks"] == []
     files = out["files"]
     assert "Buden / 2004" in files["dataset/distribution.csv"] and "a%7Cb" in files["dataset/links.csv"]
+
+
+def test_delete_removes_a_taxon_its_subtree_and_names_without_excluding_it(page, world):
+    """Delete is for names that were errors: gone with everything under it and every name
+    pointing at it, but nothing is written to the exclusion list (a tool may bring it back)."""
+    texts = texts_of(world)
+    out = run(page, texts, [{"type": "delete", "id": "ORYCT", "reason": "matched from a synonym"}])
+    assert out["errors"] == [None] and out["checks"] == []
+    taxa = out["files"]["dataset/taxa.csv"]
+    for gone in ("ORYCT,", "ORRHI,", "ORGIG,", "gbif:777,", "gbif:2080570,"):
+        assert "\n" + gone not in "\n" + taxa, gone
+    assert "excluded" not in out["files"].get("dataset/review/unplaced.csv", "")
+    plan = page.evaluate("""(texts) => { const st = IOGModel.replay(IOGModel.makeBase(texts, {kind: "files", label: "t"}), []);
+      const p = IOGModel.deletePlan(st, "ORYCT"); return {ok: p.ok, below: p.below, names: p.names}; }""", texts)
+    assert plan["ok"] and plan["below"] >= 2 and plan["names"] >= 1
+    root = page.evaluate("""(texts) => { const st = IOGModel.replay(IOGModel.makeBase(texts, {kind: "files", label: "t"}), []);
+      return IOGModel.deletePlan(st, st.order.find(i => !st.d.get(i).parent_id && st.d.get(i).status !== "synonym")).ok; }""", texts)
+    assert root is False                                           # the root is never deletable

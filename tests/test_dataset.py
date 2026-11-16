@@ -95,3 +95,19 @@ def test_check_flags_invisible_characters_and_control_characters(world):
     ds["taxa"][1]["note"] = "tab\there"
     msgs = " ".join(dataset.check(ds).items)
     assert "invisible character" in msgs and msgs.count("line break") >= 2
+
+
+def test_rows_about_a_deleted_taxon_are_dropped_from_the_tool_tables_on_load(world, tmp_path):
+    import shutil
+    from guaminsects import dataset
+    copy = tmp_path / "ds"
+    shutil.copytree(world, copy)
+    ds = dataset.load(copy)
+    victim = next(r["id"] for r in ds["taxa"] if r["rank"] == "Species" and r["status"] != "synonym")
+    kept_keys = [k for k in ds["keys"] if k["taxon_id"] == victim]
+    ds["keys"].append({"source": "gbif", "key": "999", "name": "ghost", "taxon_id": "NOPE9", "how": "same"})
+    dataset.write(ds, copy)
+    assert any(k["taxon_id"] == "NOPE9" for k in dataset.read_csv(copy / "keys.csv", [c.name for c in dataset.schema.table("keys").cols]))
+    again = dataset.load(copy)
+    assert not any(k["taxon_id"] == "NOPE9" for k in again["keys"])
+    assert len(again["keys"]) >= len(kept_keys)
