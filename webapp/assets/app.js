@@ -574,7 +574,7 @@
     var rootCard = { id: meta.root };
     var allIsles = (meta.geo ? meta.geo.islands : []).map(function (i) { return i[1]; });
     var stats = [[c.species, "species"], [c.guam, "on Guam"], [c.literature, "in the literature"],
-                 [c.photos || null, "with photos"], [c.editor_changes || null, "editor changes"]];
+                 [c.species_photos || null, "species with photos"], [c.editor_changes || null, "expert edits"]];
     var h = ['<section class="landing"><div class="land-top"><div class="land-left">'];
     h.push('<h1 class="land-title">' + esc(meta.title) + ' <span class="hero-sub">' + esc(meta.subtitle) + "</span></h1>" +
       '<p class="land-lede">A free reference to the insects and other hexapods of Guam and the rest of Micronesia. ' +
@@ -642,7 +642,7 @@
     var c = meta.counts, stats = [
       [c.species, "species"], [c.guam, "recorded from Guam"], [c.literature, "in digitized literature"],
       [c.not_in_col || null, "not yet in the Catalogue of Life"],
-      [c.morphospecies || null, "morphospecies"], [c.photos || null, "with photos"]];
+      [c.morphospecies || null, "morphospecies"], [c.species_photos || null, "species with photos"]];
     return '<section class="hero"><h1 class="hero-title">' + esc(meta.title) +
       ' <span class="hero-sub">' + esc(meta.subtitle) + "</span></h1>" +
       '<p class="lede">The insects and other hexapods of Guam, the Northern Mariana Islands, Palau, ' +

@@ -120,7 +120,8 @@ def build(ds: dataset.Dataset | None = None, out: Path | None = None, check: boo
             "guam": sum("gu" in (r["regions"] or []) for r in species),
             "morphospecies": sum(r["status"] == "morphospecies" for r in recs.values()),
             "not_in_col": sum(not r["in_col"] and r["origin"] != "curated" for r in species),
-            "photos": sum(bool(r["photos"]) for r in recs.values()),
+            "photos": sum(bool(r["photos"]) for r in recs.values()),          # taxa of any rank
+            "species_photos": sum(bool(r["photos"]) for r in species),
             "literature": sum(bool(r["literature"]) for r in species),
             "editor_changes": editor_changes(),
         },
