@@ -746,6 +746,13 @@
       st.stamp(op.id, op);
     },
 
+    // Several islands at once, one status and one reference or note for the lot (one change, one undo).
+    tagMany(st, op) {
+      accepted(st, op.id);
+      const places = [...new Set(Array.isArray(op.places) ? op.places : [])];
+      need(places.length, "choose at least one island");
+      for (const place of places) OPS.tag(st, Object.assign({}, op, { place }));
+    },
     tag(st, op) {
       accepted(st, op.id);
       need(PLACE.has(op.place), `"${op.place}" is not a place on the list`);
@@ -1255,6 +1262,7 @@
       case "delete": return `${who}: deleted from the database${op.reason ? " (" + op.reason + ")" : ""}`;
       case "verify": return `${who}: ${op.on ? "confirmed" + (op.source ? ` (${op.source})` : "") : "confirmation removed"}`;
       case "clearFlag": return `${who}: reviewed (flag new cleared)`;
+      case "tagMany": return `${who}: ${[...new Set(op.places || [])].length} places ${op.status || "present"} (${[...new Set(op.places || [])].join(", ")})${op.doc ? ` (${op.doc})` : op.source ? ` (${op.source})` : ""}`;
       case "tag": return `${who}: ${op.place} ${op.status || "present"}${op.doc ? ` (${op.doc})` : op.source ? ` (${op.source})` : ""}`;
       case "untag": return `${who}: removed the ${op.place} tag`;
       case "voucher": return `${who}: voucher ${op.url}`;

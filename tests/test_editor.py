@@ -879,3 +879,47 @@ def test_delete_removes_a_taxon_its_subtree_and_names_without_excluding_it(page,
     root = page.evaluate("""(texts) => { const st = IOGModel.replay(IOGModel.makeBase(texts, {kind: "files", label: "t"}), []);
       return IOGModel.deletePlan(st, st.order.find(i => !st.d.get(i).parent_id && st.d.get(i).status !== "synonym")).ok; }""", texts)
     assert root is False                                           # the root is never deletable
+
+
+def test_several_islands_share_one_status_and_one_note_as_a_single_change(page, world):
+    texts = texts_of(world)
+    out = run(page, texts, [{"type": "tagMany", "id": "ORGIG", "places": ["Saipan", "Tinian", "Rota", "Saipan"],
+                             "status": "present", "source": "Swezey 1942 | p. 7"}])
+    assert out["errors"] == [None] and out["checks"] == []
+    rows = out["files"]["dataset/distribution.csv"]
+    for place in ("Saipan", "Tinian", "Rota"):
+        assert f",{place},present," in rows
+    assert rows.count("Swezey 1942 / p. 7") == 3                  # one note for the batch, pipes defused
+    assert "3 places" in out["describe"][0]
+    none = run(page, texts, [{"type": "tagMany", "id": "ORGIG", "places": [], "status": "present"}])
+    assert "at least one island" in none["errors"][0]
+    bad = run(page, texts, [{"type": "tagMany", "id": "ORGIG", "places": ["Saipan", "Atlantis"], "status": "present"}])
+    assert bad["errors"][0] and "distribution.csv" not in bad["files"]        # all or nothing
+
+
+def test_the_island_overlay_ticks_islands_and_adds_them_in_one_go(browser, world):
+    pg = browser.new_page()
+    errors = []
+    pg.on("pageerror", lambda e: errors.append(str(e)))
+    pg.add_init_script("localStorage.setItem('iog-editor-name', 'UI Tester');")
+    pg.route("**/api.github.com/**", lambda r: r.abort())
+    pg.route("**/raw.githubusercontent.com/**", lambda r: r.abort())
+    pg.goto((config.ROOT / "editor" / "index.html").as_uri())
+    pg.wait_for_selector("#start-load", timeout=10000)
+    pg.click("#start-load")
+    pg.set_input_files(".filepick input", [str(p) for p in world.rglob("*.csv")])
+    pg.wait_for_function("window.IOGApp.st && window.IOGApp.st.rows.length > 5")
+    pg.evaluate("location.hash = '#/t/ORGIG'")
+    pg.wait_for_selector('button[data-act="tagMany"]')
+    pg.click('button[data-act="tagMany"]')
+    pg.fill(".isl-filter", "tin")                                  # the filter narrows the list
+    assert pg.locator("label.isl:not([hidden])").count() == 1
+    pg.fill(".isl-filter", "")
+    pg.check('.isl input[value="Saipan"]')
+    pg.check('.isl input[value="Tinian"]')
+    pg.fill('input[name="source"]', "one note for both")
+    pg.click("#dlg-ok")
+    pg.wait_for_function("window.IOGApp.ops.length === 1", timeout=15000)
+    assert pg.evaluate("window.IOGApp.ops[0].places.join()") == "Saipan,Tinian"
+    assert not errors, errors
+    pg.close()

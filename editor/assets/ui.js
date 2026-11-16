@@ -486,6 +486,63 @@
     }
     return html + "</optgroup>";
   }
+  // A checklist of the places, grouped by island group, in the box it is given: a filter, a
+  // "whole group" toggle per group, and each place already recorded for this taxon marked.
+  // Returns the live Set of ticked places.
+  function islandChecklist(host, existing, onChange) {
+    const picked = new Set();
+    const groups = S.areas.map(a => ({ a, places: S.places.filter(p => p[1] === a.code) })).filter(g => g.places.length);
+    host.innerHTML = '<input class="isl-filter" placeholder="Filter islands…" aria-label="Filter islands" autocomplete="off">' +
+      '<div class="isl-groups">' + groups.map(g =>
+        `<fieldset class="isl-group" data-area="${esc(g.a.code)}"><legend>${esc(g.a.name)} ` +
+        `<button type="button" class="link isl-all" data-area="${esc(g.a.code)}">tick all</button> ` +
+        `<button type="button" class="link isl-none" data-area="${esc(g.a.code)}">clear</button></legend>` +
+        g.places.map(([name, , group]) => {
+          const had = existing && existing.get(name);
+          return `<label class="isl${group ? " isl-whole" : ""}" data-name="${esc(fold(name))}"><input type="checkbox" value="${esc(name)}"> ${esc(name)}${group ? " (all)" : ""}` +
+            (had ? ` <span class="badge muted">${esc(had)}</span>` : "") + "</label>";
+        }).join("") + "</fieldset>").join("") + "</div>" +
+      '<p class="muted small isl-count">Nothing ticked yet.</p>';
+    const count = host.querySelector(".isl-count");
+    const sync = () => {
+      picked.clear();
+      host.querySelectorAll("input[type=checkbox]:checked").forEach(c => picked.add(c.value));
+      count.textContent = picked.size ? `${picked.size} ticked: ${[...picked].join(", ")}` : "Nothing ticked yet.";
+      if (onChange) onChange(picked);
+    };
+    host.addEventListener("change", sync);
+    host.addEventListener("click", e => {
+      const b = e.target.closest("button.isl-all, button.isl-none");
+      if (!b) return;
+      host.querySelectorAll(`fieldset[data-area="${b.dataset.area}"] label:not([hidden]):not(.isl-whole) input`).forEach(c => { c.checked = b.classList.contains("isl-all"); });
+      if (b.classList.contains("isl-none")) host.querySelectorAll(`fieldset[data-area="${b.dataset.area}"] .isl-whole input`).forEach(c => { c.checked = false; });
+      sync();
+    });
+    host.querySelector(".isl-filter").addEventListener("input", e => {
+      const t = fold(e.target.value).trim();
+      host.querySelectorAll("label.isl").forEach(l => { l.hidden = !!t && !l.dataset.name.includes(t); });
+    });
+    host.querySelector(".isl-filter").addEventListener("keydown", e => { if (e.key === "Enter") e.preventDefault(); });
+    return picked;
+  }
+
+  // Island records for several islands at once, with one status and one source or note.
+  function tagManyDialog(r) {
+    const id = r.taxonID, have = new Map(app.st.annFor(id, "distribution").map(a => [a.value, a.status]));
+    let picked = new Set();
+    openForm({ title: "Island records for " + r.scientificName,
+      intro: "Tick every island the same source says it is on. They are added as separate island records sharing the status, reference and note below (an island already recorded is updated to match).",
+      fields: [{ key: "status", label: "Status", type: "select", options: S.distributionStatus, value: "present" },
+               { key: "doc", label: "Reference (optional)", type: "doc" },
+               { key: "source", label: "Note or URL (optional, one for all of them)" }],
+      extra: div => { picked = islandChecklist(div, have); },
+      submit: "Add the island records",
+      onSubmit: x => {
+        if (!picked.size) throw new Error("tick at least one island");
+        addOp("tagMany", { id, places: [...picked], status: x.status, doc: x.doc, source: x.source });
+      } });
+  }
+
   function renderTaxon() {
     const el = $("#tab-taxon");
     if (!app.st) return;
@@ -605,7 +662,8 @@
       '<select name="status" aria-label="Status">' + S.distributionStatus.map(x => `<option>${x}</option>`).join("") + "</select>" +
       '<input name="source" placeholder="Note or URL (optional)" aria-label="Note">' +
       '<div class="docpick" data-name="doc"></div>' +
-      '<button type="submit">Add island record</button></form>';
+      '<button type="submit">Add island record</button></form>' +
+      '<p class="small"><button type="button" data-act="tagMany">Several islands at once…</button> <span class="muted">tick the islands, then give one status and one source or note for all of them</span></p>';
 
     // identifiers, vouchers and other links
     const occ = st.occFor(id), links = st.annFor(id, "link");
@@ -709,19 +767,28 @@
       const d = b.dataset;
       return addOp(act, { id, table: d.table, doc: d.doc || "", kind: d.kind || "", topic: d.topic || "", host: d.host || "" });
     }
+    if (act === "tagMany") return tagManyDialog(r);
     if (act === "cite") {
+      let picked = new Set();
       return openForm({ title: "Cite a source for " + r.scientificName,
         intro: "What a reference says about this taxon: it appears in the taxon's Literature section and counts as confirmed. Pick the reference, or create it.",
         fields: [{ key: "doc", label: "Reference", type: "doc", required: true },
                  { key: "kind", label: "How it treats the taxon", type: "select", options: ["account", "mention", "checklist"], value: "account" },
                  { key: "pages", label: "Pages (separated by |)" },
-                 { key: "areas", label: "Island groups it records it from (GU | MP | PW | FM | MH)" },
-                 { key: "islands", label: "Islands (separated by |)" },
                  { key: "status", label: "Native or introduced, if it says", type: "select", options: ["", "native", "introduced", "endemic", "invasive", "cryptogenic"] },
                  { key: "status_area", label: "…in (areas)" },
                  { key: "first_record_year", label: "First record (year)" }],
-        submit: "Cite", onSubmit: x => { addOp("citeSource", { id, doc: x.doc, kind: x.kind, pages: x.pages, areas: x.areas, islands: x.islands,
-          status: x.status, status_area: x.status_area, first_record_year: x.first_record_year }); } });
+        extra: div => {
+          const h = document.createElement("div");
+          h.innerHTML = '<p class="lab">Islands and island groups it records the taxon from (tick any; the island groups follow)</p><div class="isl-host"></div>';
+          div.appendChild(h);
+          picked = islandChecklist(h.querySelector(".isl-host"), null);
+        },
+        submit: "Cite", onSubmit: x => {
+          const at = [...picked].map(n => S.places.find(p => p[0] === n)).filter(Boolean);
+          addOp("citeSource", { id, doc: x.doc, kind: x.kind, pages: x.pages,
+            areas: [...new Set(at.map(p => p[1]))].join(" | "), islands: at.filter(p => !p[2]).map(p => p[0]).join(" | "),
+            status: x.status, status_area: x.status_area, first_record_year: x.first_record_year }); } });
     }
     if (act === "nativity") {
       return openForm({ title: "Nativity of " + r.scientificName,
