@@ -952,13 +952,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 36566,iom-6-3-fulgoroidea,mention,4 | 39 | 40 | 41 | 42,Dystheatias orpheus,,,,,,,text,machine,,,migrate,2026-11-13
 36568,iom-6-3-fulgoroidea,account,41,Dystheatias telamon,PW,Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 36568,iom-6-3-fulgoroidea,mention,4 | 41 | 42,Dystheatias telamon,,,,,,,text,machine,,,migrate,2026-11-13
-368XL,iom-16-2-bostrychidae,account,5 | 6,Dinoderus bifoveolatus,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-368XL,iom-16-2-bostrychidae,mention,2 | 5 | 6,Dinoderus bifoveolatus,,,,,,,text,machine,,,migrate,2026-11-13
-368XY,iom-16-2-bostrychidae,account,6,Dinoderus minutus,,,,,,,text,machine,,,migrate,2026-11-13
-368XY,iom-16-2-bostrychidae,mention,2 | 7,Dinoderus minutus,,,,,,,text,machine,,,migrate,2026-11-13
-368XY,swezey-1942-misc-coleoptera-guam,account,14,Dinoderus minutus,,,,,,,text,machine,,,migrate,2026-11-13
+368XL,iom-16-2-bostrychidae,account,5 | 6,Dinoderus bifoveolatus,GU,Guam,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 368XY,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-368XY,swezey-1942-misc-coleoptera-guam,mention,14,Dinoderus minutus,,,,,,,text,machine,,,migrate,2026-11-13
 36GP4,buden-2004-the-odonata-of-pakin-ant-mokil-and-pingelap-a,mention,1 | 6 | 7 | 8 | 9,Diplacodes bipunctata,,,,,,,text,machine,,,migrate,2026-11-13
 36GP4,buden-2008-first-records-of-odonata-from-the-republic-of,account,3,Diplacodes bipunctata,,,,,,,text,machine,,,migrate,2026-11-13
 36GP4,buden-2008-first-records-of-odonata-from-the-republic-of,mention,1 | 3 | 4 | 5,Diplacodes bipunctata,,,,,,,text,machine,,,migrate,2026-11-13
@@ -1354,7 +1349,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 3L3KS,iom-9-1-tortricoidea,mention,71 | 74 | 75,Herpystis mimica,,,,,,,text,machine,,,migrate,2026-11-13
 3L3KV,iom-9-1-tortricoidea,account,72,Herpystis theodora,,,,,,,ocr,machine,,,migrate,2026-11-13
 3L3KV,iom-9-1-tortricoidea,mention,71 | 72 | 73,Herpystis theodora,,,,,,,text,machine,,,migrate,2026-11-13
-3L7SL,iom-16-2-bostrychidae,account,9,Heterobostrychus aequalis,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
+3L7SL,iom-16-2-bostrychidae,account,9,Heterobostrychus aequalis,MP,Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 3L7W5,iom-8-4-psocoptera,account,70,Heterocaecilius minotus,PW | FM | MH,Chuuk | Ebon | Koror | Kosrae | Palau | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 3LCR8,beardsley-1991-introduction-of-arthropod-pests-into-the,mention,3,Heteropsylla cubana,,,,,,,text,machine,,,migrate,2026-11-13
 3LCR8,beardsley-1993-exotic-terrestrial-arthropods-in-the-hawa,mention,1,Heteropsylla cubana,,,,,,,text,machine,,,migrate,2026-11-13
@@ -2498,7 +2493,6 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 4SRF2,plazi-1df399c6,checklist,,,GU,,,,,,plazi,,,,migrate,
 4SXCG,iom-17-2-cerambycidae,account,74,Prosoplus oceanicus,GU | MP,Agrihan | Anatahan | Guam | Rota | Saipan | Tinian,,,,,ocr,machine,,,migrate,2026-11-13
 4SXCG,iom-17-2-cerambycidae,mention,74 | 75,Prosoplus oceanicus,,,,,,,ocr,machine,,,migrate,2026-11-13
-4SXY5,iom-16-2-bostrychidae,account,2 | 3,Rhizopertha dominica,,,,,,,text,machine,,,migrate,2026-11-13
 4T526,iom-7-7-coreidae-neididae-nabidae,account,18,Riptortus saileri,,,,,,,text,machine,,,migrate,2026-11-13
 4T526,iom-7-7-coreidae-neididae-nabidae,mention,2 | 17 | 18 | 21,Riptortus saileri,,,,,,,text,machine,,,migrate,2026-11-13
 4T9Y9,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,account,82,Rogeria stigmatica,FM,Pohnpei | Yap,,,,,text,machine,,,migrate,2026-11-13
@@ -2982,13 +2976,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 5CJC7,rabagliaetal-2020-bark-beetles-american-samoa,account,14,Xyleborus perforans,,,,,,,text,machine,,,migrate,2026-11-13
 5CJC7,rabagliaetal-2020-bark-beetles-american-samoa,mention,14 | 16 | 19,Xyleborus perforans,,,,,,,text,machine,,,migrate,2026-11-13
 5CJTM,iom-18-1-platypodidae-scolytidae,account,55,Xyleborus versicolor,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-5CMB4,evenhuis-et-al-2010-pagan-island,mention,57,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
-5CMB4,iom-16-2-bostrychidae,account,2 | 18,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
-5CMB4,iom-16-2-bostrychidae,mention,2 | 18,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
-5CMB4,iom-2-bibliography,mention,45,Xylopsocus capucinus,,,,,,,ocr,machine,,,migrate,2026-11-13
-5CMB4,swezey-1942-misc-coleoptera-guam,account,13 | 14,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
+5CMB4,evenhuis-et-al-2010-pagan-island,mention,57,Xylopsocus capucinus,,,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 5CMB4,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-5CMB4,swezey-1942-misc-coleoptera-guam,mention,13 | 14,Xylopsocus capucinus,,,,,,,text,machine,,,migrate,2026-11-13
 5CMJ9,daehler-2002-impact-of-the-black-twig-borer-an-introduce,account,18,Xylosandrus compactus,,,,,,,text,machine,,,migrate,2026-11-13
 5CMJ9,daehler-2002-impact-of-the-black-twig-borer-an-introduce,mention,1 | 18,Xylosandrus compactus,,,,,,,text,machine,,,migrate,2026-11-13
 5CMJ9,rabagliaetal-2020-bark-beetles-american-samoa,account,14,Xylosandrus compactus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4513,7 +4502,7 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 7FWYG,iom-18-1-platypodidae-scolytidae,mention,5 | 69 | 71 | 72 | 73,Xyleborus affinis,,,,,,,text,machine,,,migrate,2026-11-13
 7FWYG,rabagliaetal-2020-bark-beetles-american-samoa,account,13,Xyleborus affinis,,,,,,,text,machine,,,migrate,2026-11-13
 7FWYG,rabagliaetal-2020-bark-beetles-american-samoa,mention,13 | 18,Xyleborus affinis,,,,,,,text,machine,,,migrate,2026-11-13
-7FXYW,iom-16-2-bostrychidae,account,14 | 15,Apate flavipes,MP | FM,Saipan | Yap,,,,,text,machine,,,migrate,2026-11-13
+7FXYW,iom-16-2-bostrychidae,account,14 | 15,Apate flavipes,MP | FM,Saipan | Yap,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 7FYS6,crop-pests-micronesia,checklist,,,PW | FM,Palau | Pohnpei | Yap,,,,,checklist,,,,migrate,
 7FYS6,iom-18-1-platypodidae-scolytidae,account,56,Xyleborus fornicatus,PW,Koror,,,,,ocr,machine,,,migrate,2026-11-13
 7FYS6,iom-18-1-platypodidae-scolytidae,mention,5 | 56,Xyleborus fornicatus,,,,,,,text,machine,,,migrate,2026-11-13
@@ -4530,11 +4519,8 @@ ZYZS,clouse-2007-the-ants-of-micronesia-hymenoptera-formicida,mention,16 | 29 | 
 7G9TX,iom-6-5-cicadellidae,mention,59 | 60 | 61,Xestocephalus izzardi,,,,,,,text,machine,,,migrate,2026-11-13
 7G9TX,iom-6-9-cicadellidae-suppl,account,13,Xestocephalus izzardi sodalis,PW,Babeldaob,,,,,text,machine,,,migrate,2026-11-13
 7G9TX,iom-6-9-cicadellidae-suppl,mention,13,Xestocephalus izzardi,,,,,,,text,machine,,,migrate,2026-11-13
-7G9YW,iom-16-2-bostrychidae,account,14 | 16,Apate religiosae,GU | FM,Guam | Kosrae | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-7G9YW,iom-16-2-bostrychidae,mention,2 | 16,Xylopsocus religiosus,,,,,,,text,machine,,,migrate,2026-11-13
-7G9YW,swezey-1942-misc-coleoptera-guam,account,13,Xylothrips religiosus,,,,,,,text,machine,,,migrate,2026-11-13
+7G9YW,iom-16-2-bostrychidae,account,14 | 16,Apate religiosae,GU | FM,Guam | Kosrae | Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 7G9YW,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
-7G9YW,swezey-1942-misc-coleoptera-guam,mention,13,Xylothrips religiosus,,,,,,,text,machine,,,migrate,2026-11-13
 7GBK4,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,account,47,Anastatus kraussi,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 7GBK4,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,mention,3 | 47 | 48,Anastatus kraussi,,,,,,,text,machine,,,migrate,2026-11-13
 7GBLZ,iom-19-4-eulophidae-encyrtidae-pteromalidae-chalcidoidea,account,34,Zaischnopsis usingeri,,,,,,,text,machine,,,migrate,2026-11-13

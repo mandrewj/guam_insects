@@ -1,4 +1,8 @@
 ﻿taxon_id,place,status,source,doc_id,added_by,added
+368XY,Guam,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+368XY,Palau,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+368XY,Pohnpei,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+368XY,Saipan,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
 393J9,Chuuk,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 393J9,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 393PP,Saipan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
@@ -16,6 +20,8 @@
 3GL8L,Yap,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 3GL8Y,Saipan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 3GL8Y,Tinian,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
+3L7SL,Guam,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+3L7SL,Tinian,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
 3M7NT,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 3M7NT,Yap,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 3QQV3,Guam,present,,morimoto-2008-micronesian-weevils-coleoptera-curculionoi,M. Andrew Johnston,2026-11-15
@@ -33,6 +39,8 @@
 4SXXN,Palau,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
 4SXXN,Yap,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
 4SXXX,Chuuk,present,,iom-15-2-rhysodidae,M. Andrew Johnston,2026-11-14
+4SXY5,Guam,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+4SXY5,Yap,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
 4ZZKW,FSM,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 4ZZKW,Guam,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 4ZZKW,Marshalls,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
@@ -56,6 +64,11 @@
 54F5P,Yap,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 56CSZ,Nukuoro,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 58LJK,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
+5CMB4,Aguijan,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+5CMB4,Guam,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+5CMB4,Palau,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+5CMB4,Saipan,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+5CMB4,Tinian,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
 5ZCG8,Guam,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 69VKQ,CNMI,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 69VKQ,Guam,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
@@ -93,6 +106,11 @@
 7BG5X,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 7BG5X,Yap,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 7DCTQ,Saipan,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
+7FXYW,Guam,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+7FXYW,Palau,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+7FXYW,Tinian,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+7G9YW,Chuuk,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
+7G9YW,Palau,present,,iom-16-2-bostrychidae,M. Andrew Johnston,2026-11-15
 8KVTQ,Guam,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-15
 DQN84,Palau,present,,iom-15-1-carabidae-incl-cicindelinae,M. Andrew Johnston,2026-11-14
 L783X,FSM,present,,bremer-2004,M. Andrew Johnston,2026-11-14

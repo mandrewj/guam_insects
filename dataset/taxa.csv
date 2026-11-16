@@ -162,8 +162,8 @@ IOG-107,TXVGK,,Species,Valenfriesia nitida,"(Morimoto, 1978)",accepted,,,unknown
 IOG-105,8HBPD,,Genus,Zimmanthribus,"Morimoto, 2008",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 IOG-106,IOG-105,,Species,Zimmanthribus peleliuensis,"Morimoto, 2008",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 622G8,C2L,,Family,Bostrichidae,"Latreille, 1802",accepted,Horned Powderpost Beetles,Auger Beetles | Shothole Borers | bostrichid beetles | branch and twig borers | false powderpost beetles,introduced,editor,editor,,Bostrichoidea,,,yes,7773,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
-629Z7,622G8,,Genus,Amphicerus,,accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095710,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-CZMM,629Z7,,Species,Amphicerus cornutus,"(Pallas, 1772)",accepted,Powderpost Bostrichid,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095712,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+629Z7,622G8,,Genus,Amphicerus,,accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095710,Catalogue of Life,,,yes,"on Wake Atoll, not in Micronesia",,,,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+CZMM,629Z7,,Species,Amphicerus cornutus,"(Pallas, 1772)",accepted,Powderpost Bostrichid,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095712,Catalogue of Life,,,yes,"On Wake Atoll, not Micronesia",yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4521,,CZMM,Species,Bastrichus bicarnutus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Bastrichus bicarnutus → Amphicerus cornutus,,,,,,,,,,guaminsects match,2026-11-13,,
 name-4722,,CZMM,Species,Ligniperda cornuta,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Ligniperda cornuta → Amphicerus cornutus,,,,,,,,,,guaminsects match,2026-11-13,,
 3BSD,622G8,,Genus,Bostrichus,"Geoffroy, 1762",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,3260996,Catalogue of Life,,,,,,,,,,,,,,
@@ -172,41 +172,41 @@ name-772,,MMB4,Species,Bostrichus capuc-inus,,synonym,,,,,,,,,,no,,spelling vari
 LVJF8,3BSD,,Species,Bostrichus migrator,"Blackburn & Sharp, 1885",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,6947113,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4522,,LVJF8,Species,Bastrichus migrator,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Bastrichus migrator → Bostrichus migrator,,,,,,,,,,guaminsects match,2026-11-13,,
 45SF,622G8,,Genus,Dinoderus,"Stephens, 1830",accepted,Bamboo Post-powder Beetles,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,1095720,Catalogue of Life,,,,,,,,,,,,,,
-368XL,45SF,,Species,Dinoderus bifoveolatus,"(Wollaston, 1858)",accepted,,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,4427614,Catalogue of Life,,,,,,,,,,,,,,
+368XL,45SF,,Species,Dinoderus bifoveolatus,"(Wollaston, 1858)",accepted,,,introduced,editor,editor,,Bostrichoidea,Dinoderinae,,yes,4427614,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-2685,,368XL,Species,Rhizopertha bifoveolata,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Dinoderus bifoveolatus,,,,,,,,,,,,,
-368XY,45SF,,Species,Dinoderus minutus,"(Fabricius, 1775)",accepted,Bamboo Borer,Bamboo Powderpost Beetle | bamboo powderpost beetle,unknown,,,,Bostrichoidea,Dinoderinae,,yes,1095721,Catalogue of Life,,,,,,,,,,,,,,
+368XY,45SF,,Species,Dinoderus minutus,"(Fabricius, 1775)",accepted,Bamboo Borer,Bamboo Powderpost Beetle | bamboo powderpost beetle,introduced,editor,editor,,Bostrichoidea,Dinoderinae,,yes,1095721,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-595,,368XY,Species,Apate minuta,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Dinoderus minutus,,,,,,,,,,,,,
 4BX5,622G8,,Genus,Enneadesmus,"Mulsant, 1851",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,4405039,Catalogue of Life,,,,,,,,,,,,,,
 name-1444,4BX5,,Species,Enneadesmus nicobaricus,,accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-4W9Q,622G8,,Genus,Heterobostrychus,"Lesne, 1899",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095695,Catalogue of Life,,,,,,,,,,,,,,
-3L7SL,4W9Q,,Species,Heterobostrychus aequalis,"(Waterhouse, 1884)",accepted,lesser auger beetle,oriental wood borer,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095696,Catalogue of Life,,,,,,,,,,,,,,
+4W9Q,622G8,,Genus,Heterobostrychus,"Lesne, 1899",accepted,,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095695,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+3L7SL,4W9Q,,Species,Heterobostrychus aequalis,"(Waterhouse, 1884)",accepted,lesser auger beetle,oriental wood borer,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095696,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-769,,3L7SL,Species,Bostrichus aequalis,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Heterobostrychus aequalis,literature,,,,,,,,,,,,
-3L7SP,4W9Q,,Species,Heterobostrychus hamatipennis,"(Lesne, 1895)",accepted,,Chinese Auger Beetle | Chinese auger beetle,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,5879259,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+3L7SP,4W9Q,,Species,Heterobostrychus hamatipennis,"(Lesne, 1895)",accepted,,Chinese Auger Beetle | Chinese auger beetle,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,5879259,Catalogue of Life,,,yes,Not in Micronesia,yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4528,,3L7SP,Species,Bostrychus hamatipennis,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Bostrychus hamatipennis → Heterobostrychus hamatipennis,,,,,,,,,,guaminsects match,2026-11-13,,
-643ZB,622G8,,Genus,Rhyzopertha,"Stephens, 1830",accepted,Grain-borers,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,1095715,Catalogue of Life,,,,,,,,,,,,,,
-4SXY5,643ZB,,Species,Rhyzopertha dominica,"(Fabricius, 1792)",accepted,Lesser Grain Borer,American wheat weevil | Australian wheat weevil | Lesser Grain-borer | Lesser grain borer | Wheat Weevil | lesser grain borer,unknown,,,,Bostrichoidea,Dinoderinae,,yes,1095716,Catalogue of Life,,,,,,,,,,,,,,
+643ZB,622G8,,Genus,Rhyzopertha,"Stephens, 1830",accepted,Grain-borers,,introduced,editor,editor,,Bostrichoidea,Dinoderinae,,yes,1095715,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+4SXY5,643ZB,,Species,Rhyzopertha dominica,"(Fabricius, 1792)",accepted,Lesser Grain Borer,American wheat weevil | Australian wheat weevil | Lesser Grain-borer | Lesser grain borer | Wheat Weevil | lesser grain borer,introduced,editor,editor,,Bostrichoidea,Dinoderinae,,yes,1095716,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-2686,,4SXY5,Species,Rhizopertha dominica,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Rhyzopertha dominica,,,,,,,,,,,,,
 name-3054,,4SXY5,Species,Synodendron dominicum,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Rhyzopertha dominica,,,,,,,,,,,,,
 name-3055,,4SXY5,Species,Synodendron pusillum,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Rhyzopertha dominica,,,,,,,,,,,,,
-7N3H,622G8,,Genus,Stephanopachys,,accepted,,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,4407005,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-52CG7,7N3H,,Species,Stephanopachys substriatus,"(Paykull, 1800)",accepted,Pine Powderpost Beetle,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,4427602,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+7N3H,622G8,,Genus,Stephanopachys,,accepted,,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,4407005,Catalogue of Life,,,yes,not in micronesia,,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
+52CG7,7N3H,,Species,Stephanopachys substriatus,"(Paykull, 1800)",accepted,Pine Powderpost Beetle,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,4427602,Catalogue of Life,,,yes,not in micronesia,,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4629,,52CG7,Species,Dinoderus substriatus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Dinoderus substriatus → Stephanopachys substriatus,,,,,,,,,,guaminsects match,2026-11-13,,
 89JN,622G8,,Genus,Xylopertha,,accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,6721224,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 5CLMZ,89JN,,Species,Xylopertha retusa,"(Olivier, 1790)",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,5743454,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4492,,5CLMZ,Species,Apate sinuata,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Apate sinuata → Xylopertha retusa,,,,,,,,,,guaminsects match,2026-11-13,,
-89KG,622G8,,Genus,Xylopsocus,"Lesne, 1901",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095703,Catalogue of Life,,,,,,,,,,,,,,
-5CMB4,89KG,,Species,Xylopsocus capucinus,"(Fabricius, 1781)",accepted,False powder-post beetle,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095705,Catalogue of Life,,,,,,,,,,,,,,
+89KG,622G8,,Genus,Xylopsocus,"Lesne, 1901",accepted,,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095703,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+5CMB4,89KG,,Species,Xylopsocus capucinus,"(Fabricius, 1781)",accepted,False powder-post beetle,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095705,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-588,,5CMB4,Species,Apate capucina,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Xylopsocus capucinus,,,,,,,,,,,,,
-5CMB5,89KG,,Species,Xylopsocus castanoptera,"(Fairmaire, 1850)",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095704,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
+5CMB5,89KG,,Species,Xylopsocus castanoptera,"(Fairmaire, 1850)",accepted,,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095704,Catalogue of Life,,,yes,"near Japan, not in Micronesia",,,,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4490,,5CMB5,Species,Apate castanoptera,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Apate castanoptera → Xylopsocus castanoptera,,,,,,,,,,guaminsects match,2026-11-13,,
 name-4942,,5CMB5,Species,Xylopsocus castanopterus,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Xylopsocus castanopterus → Xylopsocus castanoptera,,,,,,,,,,guaminsects match,2026-11-13,,
-89LJ,622G8,,Genus,Xylothrips,"Lesne, 1901",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,4404801,Catalogue of Life,,,,,,,,,,,,,,
-7FXYW,89LJ,,Species,Xylothrips flavipes,"(Illiger, 1801)",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,4427547,Catalogue of Life,,,,,,,,,,,,,,
+89LJ,622G8,,Genus,Xylothrips,"Lesne, 1901",accepted,,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,4404801,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+7FXYW,89LJ,,Species,Xylothrips flavipes,"(Illiger, 1801)",accepted,,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,4427547,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-592,,7FXYW,Species,Apate dominicana,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Xylothrips flavipes,,,,,,,,,,,,,
 name-593,,7FXYW,Species,Apate flavipes,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Xylothrips flavipes,,,,,,,,,,,,,
 name-777,,7FXYW,Species,Bostrichus iracundus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Xylothrips flavipes,literature,,,,,,,,,,,,
 name-780,,7FXYW,Species,Bostrichus mutilatus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Xylothrips flavipes,,,,,,,,,,,,,
-7G9YW,89LJ,,Species,Xylothrips religiosus,"(Boisduval, 1835)",accepted,Powderpost beetle,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,6005872,Catalogue of Life,,,,,,,,,,,,,,
+7G9YW,89LJ,,Species,Xylothrips religiosus,"(Boisduval, 1835)",accepted,Powderpost beetle,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,6005872,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-591,,7G9YW,Species,Apate destruator,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Xylothrips religiosus,literature,,,,,,,,,,,,
 name-598,,7G9YW,Species,Apate religiosae,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Xylothrips religiosus,,,,,,,,,,,,,
 name-3304,,7G9YW,Species,Xylothrips religioslls,,synonym,,,,,,,,,,no,,spelling variant,spelling variant of Xylothrips religiosus (Catalogue of Life),,,,,,,,,,,,,
