@@ -162,22 +162,11 @@ IOG-107,TXVGK,,Species,Valenfriesia nitida,"(Morimoto, 1978)",accepted,,,unknown
 IOG-105,8HBPD,,Genus,Zimmanthribus,"Morimoto, 2008",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 IOG-106,IOG-105,,Species,Zimmanthribus peleliuensis,"Morimoto, 2008",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 622G8,C2L,,Family,Bostrichidae,"Latreille, 1802",accepted,Horned Powderpost Beetles,Auger Beetles | Shothole Borers | bostrichid beetles | branch and twig borers | false powderpost beetles,introduced,editor,editor,,Bostrichoidea,,,yes,7773,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
-629Z7,622G8,,Genus,Amphicerus,,accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095710,Catalogue of Life,,,yes,"on Wake Atoll, not in Micronesia",,,,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
-CZMM,629Z7,,Species,Amphicerus cornutus,"(Pallas, 1772)",accepted,Powderpost Bostrichid,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095712,Catalogue of Life,,,yes,"On Wake Atoll, not Micronesia",yes,M. Andrew Johnston,2026-11-15,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
-name-4521,,CZMM,Species,Bastrichus bicarnutus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Bastrichus bicarnutus → Amphicerus cornutus,,,,,,,,,,guaminsects match,2026-11-13,,
-name-4722,,CZMM,Species,Ligniperda cornuta,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Ligniperda cornuta → Amphicerus cornutus,,,,,,,,,,guaminsects match,2026-11-13,,
-3BSD,622G8,,Genus,Bostrichus,"Geoffroy, 1762",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,3260996,Catalogue of Life,,,,,,,,,,,,,,
-MMB4,3BSD,,Species,Bostrichus capucinus,"(Linnaeus, 1758)",accepted,Capuchin Beetle,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,5743466,Catalogue of Life,,,,,,,,,,,,,,
-name-772,,MMB4,Species,Bostrichus capuc-inus,,synonym,,,,,,,,,,no,,spelling variant,spelling variant of Bostrichus capucinus (Catalogue of Life),literature,,,,,,,,,,,,
-LVJF8,3BSD,,Species,Bostrichus migrator,"Blackburn & Sharp, 1885",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,6947113,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-name-4522,,LVJF8,Species,Bastrichus migrator,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Bastrichus migrator → Bostrichus migrator,,,,,,,,,,guaminsects match,2026-11-13,,
-45SF,622G8,,Genus,Dinoderus,"Stephens, 1830",accepted,Bamboo Post-powder Beetles,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,1095720,Catalogue of Life,,,,,,,,,,,,,,
+45SF,622G8,,Genus,Dinoderus,"Stephens, 1830",accepted,Bamboo Post-powder Beetles,,introduced,editor,editor,,Bostrichoidea,Dinoderinae,,yes,1095720,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 368XL,45SF,,Species,Dinoderus bifoveolatus,"(Wollaston, 1858)",accepted,,,introduced,editor,editor,,Bostrichoidea,Dinoderinae,,yes,4427614,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-2685,,368XL,Species,Rhizopertha bifoveolata,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Dinoderus bifoveolatus,,,,,,,,,,,,,
 368XY,45SF,,Species,Dinoderus minutus,"(Fabricius, 1775)",accepted,Bamboo Borer,Bamboo Powderpost Beetle | bamboo powderpost beetle,introduced,editor,editor,,Bostrichoidea,Dinoderinae,,yes,1095721,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-595,,368XY,Species,Apate minuta,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Dinoderus minutus,,,,,,,,,,,,,
-4BX5,622G8,,Genus,Enneadesmus,"Mulsant, 1851",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,4405039,Catalogue of Life,,,,,,,,,,,,,,
-name-1444,4BX5,,Species,Enneadesmus nicobaricus,,accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 4W9Q,622G8,,Genus,Heterobostrychus,"Lesne, 1899",accepted,,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095695,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 3L7SL,4W9Q,,Species,Heterobostrychus aequalis,"(Waterhouse, 1884)",accepted,lesser auger beetle,oriental wood borer,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Bostrichini,yes,1095696,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-769,,3L7SL,Species,Bostrichus aequalis,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Heterobostrychus aequalis,literature,,,,,,,,,,,,
@@ -188,15 +177,12 @@ name-4528,,3L7SP,Species,Bostrychus hamatipennis,,synonym,,,unknown,,,,,,,no,,GB
 name-2686,,4SXY5,Species,Rhizopertha dominica,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Rhyzopertha dominica,,,,,,,,,,,,,
 name-3054,,4SXY5,Species,Synodendron dominicum,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Rhyzopertha dominica,,,,,,,,,,,,,
 name-3055,,4SXY5,Species,Synodendron pusillum,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Rhyzopertha dominica,,,,,,,,,,,,,
-7N3H,622G8,,Genus,Stephanopachys,,accepted,,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,4407005,Catalogue of Life,,,yes,not in micronesia,,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
-52CG7,7N3H,,Species,Stephanopachys substriatus,"(Paykull, 1800)",accepted,Pine Powderpost Beetle,,unknown,,,,Bostrichoidea,Dinoderinae,,yes,4427602,Catalogue of Life,,,yes,not in micronesia,,,,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
-name-4629,,52CG7,Species,Dinoderus substriatus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Dinoderus substriatus → Stephanopachys substriatus,,,,,,,,,,guaminsects match,2026-11-13,,
-89JN,622G8,,Genus,Xylopertha,,accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,6721224,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-5CLMZ,89JN,,Species,Xylopertha retusa,"(Olivier, 1790)",accepted,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,5743454,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
-name-4492,,5CLMZ,Species,Apate sinuata,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Apate sinuata → Xylopertha retusa,,,,,,,,,,guaminsects match,2026-11-13,,
 89KG,622G8,,Genus,Xylopsocus,"Lesne, 1901",accepted,,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095703,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 5CMB4,89KG,,Species,Xylopsocus capucinus,"(Fabricius, 1781)",accepted,False powder-post beetle,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095705,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-588,,5CMB4,Species,Apate capucina,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Xylopsocus capucinus,,,,,,,,,,,,,
+name-772,,5CMB4,Species,Bostrichus capuc-inus,,synonym,,,,,,,,,,no,,spelling variant,spelling variant of Bostrichus capucinus (Catalogue of Life),literature,,,,,,,,,,,,
+MMB4,,5CMB4,Species,Bostrichus capucinus,"(Linnaeus, 1758)",synonym,Capuchin Beetle,,unknown,,,,Bostrichoidea,Bostrichinae,Bostrichini,yes,5743466,curated merge,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
+name-1444,,5CMB4,Species,Enneadesmus nicobaricus,,synonym,,,unknown,,,,Bostrichoidea,Bostrichinae,Xyloperthini,no,,curated merge,Not in the Catalogue of Life,,,,,,,,,,,,M. Andrew Johnston,2026-11-15
 5CMB5,89KG,,Species,Xylopsocus castanoptera,"(Fairmaire, 1850)",accepted,,,introduced,editor,editor,,Bostrichoidea,Bostrichinae,Xyloperthini,yes,1095704,Catalogue of Life,,,yes,"near Japan, not in Micronesia",,,,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 name-4490,,5CMB5,Species,Apate castanoptera,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Apate castanoptera → Xylopsocus castanoptera,,,,,,,,,,guaminsects match,2026-11-13,,
 name-4942,,5CMB5,Species,Xylopsocus castanopterus,,synonym,,,unknown,,,,,,,no,,spelling variant,GBIF Backbone: Xylopsocus castanopterus → Xylopsocus castanoptera,,,,,,,,,,guaminsects match,2026-11-13,,
@@ -1295,7 +1281,7 @@ gbif:1038204,,4ZV9,Genus,Hydroporus,"Schellenberg, 1806",synonym,,,,,,,,,,no,,"s
 4S3PP,642NP,,Species,Rhantus suturalis,"(W. S. MacLeay, 1825)",accepted,Cosmopolitan Diving Beetle,,unknown,,,,,Colymbetinae,Colymbetini,yes,5753539,Catalogue of Life,,,,,,,,,,,,,,
 gbif:8569377,,4S3PP,Species,Rhantus pulverosus,"(Stephens, 1828)",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Rhantus suturalis,Plazi,,,,,,,,,,,,
 gbif:5753539,,4S3PP,Species,Rhantus suturalis,"(W.S.MacLeay, 1825)",synonym,,,,,,,,,,no,,"same name, other author",,GBIF Backbone,,,,,,,,,,,,
-KV76N,C2L,,Family,Elateridae,"Leach, 1815",accepted,Click Beetle,Jacksnappers | Snap Bugs | Snapping Beetles | Spring Beetles | Wireworms | click beetles,unknown,,,,Elateroidea,,,yes,7825,Catalogue of Life,,,,,,,,,,,,,,
+KV76N,C2L,,Family,Elateridae,"Leach, 1815",accepted,Click Beetle,Jacksnappers | Snap Bugs | Snapping Beetles | Spring Beetles | Wireworms | click beetles,native,editor,editor,,Elateroidea,,,yes,7825,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 DDPFV,KV76N,,Genus,Agrypnus,"Eschscholtz, 1829",accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,4404338,Catalogue of Life,,,,,,,,,,,,,,
 L6L6P,DDPFV,,Species,Agrypnus bifoveatus,Candeze,accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,6977807,Catalogue of Life,,,,,,,,,,,,,,
 KTWT3,KV76N,,Genus,Alaus,"Eschscholtz, 1829",accepted,Eyed Click Beetles,Eyed Elaters,unknown,,,,Elateroidea,Agrypninae,Hemirhipini,yes,1162071,Catalogue of Life,,,,,,,,,,,,,,
@@ -1313,13 +1299,13 @@ P7LB9,KV76N,,Genus,Heteroderes,"Latreille, 1834",accepted,,,unknown,,,,Elateroid
 P7LDC,P7LB9,,Species,Heteroderes amplicollis,"(Gyllenhal, 1817)",accepted,Gulf Wireworm,,unknown,,,,Elateroidea,Agrypninae,Oophorini,yes,8194665,Catalogue of Life,,,,,,,,,,,,,,
 PMHRP,KV76N,,Genus,Ischiodontus,"Candèze, 1859",accepted,,,unknown,,,,Elateroidea,,,yes,4720360,Catalogue of Life,,,,,,,,,,,,,,
 name-1732,PMHRP,,Species,Ischiodontus hawaiiensis,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-KVGBX,KV76N,,Genus,Lacon,"Laporte, 1838",accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,1162067,Catalogue of Life,,,,,,,,,,,,,,
-PVT9G,KVGBX,,Species,Lacon modestus,"(Boisduval, 1835)",accepted,Click beetle,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,1162068,Catalogue of Life,,,,,,,,,,,,,,
+KVGBX,KV76N,,Genus,Lacon,"Laporte, 1838",accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,1162067,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+PVT9G,KVGBX,,Species,Lacon modestus,"(Boisduval, 1835)",accepted,Click beetle,,introduced,editor,editor,,Elateroidea,Agrypninae,Agrypnini,yes,1162068,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 name-495,,PVT9G,Species,Agrypnus nigroplagiatus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Lacon modestus,literature,,,,,,,,,,,,
 name-496,,PVT9G,Species,Agrypnus pruinosus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Lacon modestus,,,,,,,,,,,,,
 name-497,,PVT9G,Species,Agrypnus squalidus,,synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Lacon modestus,,,,,,,,,,,,,
-Q5KLZ,KV76N,,Genus,Lanelater,"Arnett, 1952",accepted,,,unknown,,,,Elateroidea,Agrypninae,Pseudomelanactini,yes,4428973,Catalogue of Life,,,,,,,,,,,,,,
-name-232,Q5KLZ,,Species,Lanelater bifoveatus,,accepted,,,unknown,,,,Elateroidea,Agrypninae,Pseudomelanactini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
+Q5KLZ,KV76N,,Genus,Lanelater,"Arnett, 1952",accepted,,,unknown,,,,Elateroidea,Agrypninae,Pseudomelanactini,yes,4428973,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-232,Q5KLZ,,Species,Lanelater bifoveatus,,accepted,,,unknown,,,,Elateroidea,Agrypninae,Pseudomelanactini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 DDPJH,KV76N,,Genus,Megapenthes,"Kiesenwetter, 1858",accepted,,,unknown,,,,Elateroidea,Elaterinae,Megapenthini,yes,4405490,Catalogue of Life,,,,,,,,,,,,,,
 name-1950,DDPJH,,Species,Megapenthes carinifrons,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Megapenthini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 QMG65,DDPJH,,Species,Megapenthes lugens,"(W. Redtenbacher, 1842)",accepted,Queen's Executioner Beetle,,unknown,,,,Elateroidea,Elaterinae,Megapenthini,yes,4429279,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
@@ -1817,9 +1803,9 @@ gbif:1039986,,8VS59,Genus,Thamiaraea,"C.G.Thomson, 1858",synonym,,,,,,,,,,no,,"s
 5632V,8VS59,,Species,Thamiaraea scapularis,"(Fairmaire, 1849)",accepted,,,unknown,,,,Staphylinoidea,Aleocharinae,Athetini,yes,9573479,Catalogue of Life,,,,,,,,,,,,,,
 gbif:7432037,,5632V,Species,Thamiaraea insigniventris,"Fauvel, 1878",synonym,,,,,,,,,,yes,,COL synonym,Catalogue of Life: a synonym of Thamiaraea scapularis,Plazi,,,,,,,,,,,,
 M3FNZ,8VR4S,,Genus,Trogophloeus,"Mannerheim, 1830",accepted,,,unknown,,,,Staphylinoidea,Oxytelinae,Thinobiini,yes,4715250,Catalogue of Life,,,,,,,,,,,,,,
-KVV3T,C2L,,Family,Tenebrionidae,"Latreille, 1802",accepted,Darkling Beetles,Tenebs,unknown,,,,Tenebrionoidea,,,yes,7857,Catalogue of Life,,,,,,,,,,,,,,
+KVV3T,C2L,,Family,Tenebrionidae,"Latreille, 1802",accepted,Darkling Beetles,Tenebs,unknown,,,,Tenebrionoidea,,,yes,7857,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 KTY3G,KVV3T,,Genus,Alphitobius,"Stephens, 1829",accepted,,,introduced,editor,editor,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045873,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
-LJGG5,KTY3G,,Species,Alphitobius diaperinus,"(Panzer, 1797)",accepted,Lesser Mealworm,lesser mealworm | lesser mealworm beetle,introduced,editor,editor,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045875,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,new,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-14
+LJGG5,KTY3G,,Species,Alphitobius diaperinus,"(Panzer, 1797)",accepted,Lesser Mealworm,lesser mealworm | lesser mealworm beetle,introduced,editor,editor,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045875,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,guaminsects match,2026-11-13,M. Andrew Johnston,2026-11-15
 IOG-3,,LJGG5,Species,Alphitobius diaperinus,"(Panzer, 1797)",synonym,Lesser Mealworm,,introduced,editor,editor,,,,,no,,curated merge,the same name twice; Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 name-4914,,LJGG5,Species,Tenebrio diaperinus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Tenebrio diaperinus → Alphitobius diaperinus,,,,,,,,,,guaminsects match,2026-11-13,,
 LJGHG,KTY3G,,Species,Alphitobius laevigatus,"(Fabricius, 1781)",accepted,Black Fungus Beetle,,introduced,editor,editor,,Tenebrionoidea,Tenebrioninae,Alphitobiini,yes,1045874,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
@@ -1895,7 +1881,7 @@ DDMB6,KVV3T,,Genus,Lagria,,accepted,,,unknown,,,,Tenebrionoidea,Lagriinae,Lagrii
 Q26J8,DDMB6,,Species,Lagria livida,"Fabricius, 1775",accepted,,,unknown,,,,Tenebrionoidea,Lagriinae,Lagriini,yes,8955130,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 PZQLN,KVV3T,,Genus,Lyphia,"Mulsant & Rey, 1859",accepted,,,unknown,,,,Tenebrionoidea,Tenebrioninae,Triboliini,yes,1045865,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
 name-1919,PZQLN,,Species,Lyphia laeviceps,"Gebien, 1922",accepted,,,native,editor,editor,,Tenebrionoidea,Tenebrioninae,Triboliini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-14,,,,,,M. Andrew Johnston,2026-11-14
-QKC88,KVV3T,,Genus,Menimus,"Sharp, 1876",accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,Gnathidiini,yes,4723522,Catalogue of Life,,,,,,,,,,,,,,
+QKC88,KVV3T,,Genus,Menimus,"Sharp, 1876",accepted,,,unknown,,,,Tenebrionoidea,Diaperinae,Gnathidiini,yes,4723522,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 IOG-30,QKC88,,Species,Menimus adamsi,"Kulzer, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 IOG-28,QKC88,,Species,Menimus blairi,"Gebien, 1925",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-14,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14
 IOG-29,QKC88,,Species,Menimus clavatus,"(Kaszab, 1939)",accepted,,,unknown,,,,,,,no,,,,,,,,,,,,,M. Andrew Johnston,2026-11-14,M. Andrew Johnston,2026-11-14

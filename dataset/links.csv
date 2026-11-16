@@ -787,7 +787,6 @@ Z8L,wikispecies,https://species.wikimedia.org/wiki/Appias,,high,,refresh wikidat
 39S4,wikispecies,https://species.wikimedia.org/wiki/Berotingis,,high,,refresh wikidata,2026-11-15
 3B5B,inaturalist,643686,,high,via Wikidata,refresh wikidata,2026-11-15
 3B5B,wikidata,Q18096268,,high,,refresh wikidata,2026-11-15
-3BSD,inaturalist,358396,,high,matched by name (iNaturalist),refresh inat,2026-11-14
 3CBR,inaturalist,781485,,high,matched by name (iNaturalist),refresh inat,2026-11-14
 3CBR,wikidata,Q9662903,,high,,,
 3CFF,bugguide,345352,,high,North American guide,,
@@ -1107,9 +1106,6 @@ Z8L,wikispecies,https://species.wikimedia.org/wiki/Appias,,high,,refresh wikidat
 4BV9,wikidata,Q14518498,,high,,refresh wikidata,2026-11-15
 4BV9,wikipedia,https://en.wikipedia.org/wiki/Enicospilus,,high,,refresh wikidata,2026-11-15
 4BV9,wikispecies,https://species.wikimedia.org/wiki/Enicospilus,,high,,refresh wikidata,2026-11-15
-4BX5,commons,Enneadesmus trispinosus.jpg,,high,,refresh wikidata,2026-11-15
-4BX5,inaturalist,567253,,high,via Wikidata,refresh wikidata,2026-11-15
-4BX5,wikidata,Q14932452,,high,,refresh wikidata,2026-11-15
 4DBJ,inaturalist,1297007,,high,matched by name (iNaturalist),refresh inat,2026-11-14
 4DBJ,wikidata,Q10486450,,high,matched by name,refresh wikidata,2026-11-14
 4DFJ,bugguide,27753,,high,North American guide,,
@@ -1875,12 +1871,6 @@ Z8L,wikispecies,https://species.wikimedia.org/wiki/Appias,,high,,refresh wikidat
 7N23,wikidata,Q10679353,,high,,refresh wikidata,2026-11-15
 7N23,wikipedia,https://en.wikipedia.org/wiki/Stephanitis,,high,,refresh wikidata,2026-11-15
 7N23,wikispecies,https://species.wikimedia.org/wiki/Stephanitis,,high,,refresh wikidata,2026-11-15
-7N3H,bugguide,242030,,high,,refresh wikidata,2026-11-14
-7N3H,commons,Stephanopachys substriatus.jpg,,high,,refresh wikidata,2026-11-15
-7N3H,inaturalist,92231,,high,matched by name (iNaturalist),refresh inat,2026-11-14
-7N3H,wikidata,Q14932406,,high,,refresh wikidata,2026-11-15
-7N3H,wikipedia,https://en.wikipedia.org/wiki/Stephanopachys,,high,,refresh wikidata,2026-11-15
-7N3H,wikispecies,https://species.wikimedia.org/wiki/Stephanopachys,,high,,refresh wikidata,2026-11-15
 7NDK,inaturalist,330161,,high,via Wikidata,refresh wikidata,2026-11-15
 7NDK,wikidata,Q10679587,,high,,refresh wikidata,2026-11-15
 7NJC,inaturalist,639310,,high,matched by name (iNaturalist),refresh inat,2026-11-14
@@ -2030,11 +2020,6 @@ Z8L,wikispecies,https://species.wikimedia.org/wiki/Appias,,high,,refresh wikidat
 89GZ,wikidata,Q1165550,,high,,refresh wikidata,2026-11-15
 89GZ,wikipedia,https://en.wikipedia.org/wiki/Carpenter_bee,,high,,refresh wikidata,2026-11-15
 89GZ,wikispecies,https://species.wikimedia.org/wiki/Xylocopa,,high,,refresh wikidata,2026-11-15
-89JN,commons,Xylopertha retusa.jpg,,high,,refresh wikidata,2026-11-15
-89JN,inaturalist,641672,,high,matched by name (iNaturalist),refresh inat,2026-11-14
-89JN,wikidata,Q266696,,high,,refresh wikidata,2026-11-15
-89JN,wikipedia,https://en.wikipedia.org/wiki/Xylopertha,,high,,refresh wikidata,2026-11-15
-89JN,wikispecies,https://species.wikimedia.org/wiki/Xylopertha,,high,,refresh wikidata,2026-11-15
 89KG,bugguide,240812,,high,North American guide,,
 89KG,commons,Xylopsocus capucinus (dorsal view).jpg,,high,,refresh wikidata,2026-11-15
 89KG,inaturalist,498963,,high,via Wikidata,refresh wikidata,2026-11-15
@@ -2202,11 +2187,6 @@ CNB7,wikidata,Q14527475,,high,,refresh wikidata,2026-11-15
 CNBW,wikidata,Q14527474,,high,,refresh wikidata,2026-11-15
 CYXV,inaturalist,1563708,,high,matched by name (iNaturalist),refresh inat,2026-11-14
 CYXV,wikidata,Q10408636,,high,,,
-CZMM,bugguide,240816,,high,,refresh wikidata,2026-11-14
-CZMM,commons,Starr 040606 0018 amphicerus cornutus.jpg,,high,,refresh wikidata,2026-11-15
-CZMM,inaturalist,361852,Powderpost Bostrichid,high,matched by name (iNaturalist),refresh inat,2026-11-14
-CZMM,wikidata,Q2692962,,high,,refresh wikidata,2026-11-15
-CZMM,wikipedia,https://en.wikipedia.org/wiki/Amphicerus_cornutus,,high,,refresh wikidata,2026-11-15
 D6C9,inaturalist,1419942,Two-spot Dung Beetle,review,iNaturalist names it Holotrichia bipunctata,,
 D6C9,wikidata,Q28860180,,high,,refresh wikidata,2026-11-15
 D6C9,wikispecies,https://species.wikimedia.org/wiki/Amphitrichia_bipunctata,,high,,refresh wikidata,2026-11-15
@@ -5611,12 +5591,6 @@ ZYZS,wikipedia,https://en.wikipedia.org/wiki/Cryptopone_testacea,,high,,refresh 
 52C79,wikidata,Q124696458,,high,matched by name,refresh wikidata,2026-11-14
 52C7N,wikidata,Q124696471,,high,matched by name,refresh wikidata,2026-11-14
 52C8Z,wikidata,Q124696514,,high,matched by name,refresh wikidata,2026-11-14
-52CG7,bugguide,494716,,high,,refresh wikidata,2026-11-14
-52CG7,commons,Stephanopachys substriatus.jpg,,high,,refresh wikidata,2026-11-15
-52CG7,inaturalist,231683,Pine Powderpost Beetle,high,matched by name (iNaturalist),refresh inat,2026-11-14
-52CG7,wikidata,Q2091220,,high,,refresh wikidata,2026-11-15
-52CG7,wikipedia,https://en.wikipedia.org/wiki/Stephanopachys_substriatus,,high,,refresh wikidata,2026-11-15
-52CG7,wikispecies,https://species.wikimedia.org/wiki/Stephanopachys_substriatus,,high,,refresh wikidata,2026-11-15
 52FKK,bugguide,897710,,high,North American guide,,
 52FKK,commons,Mango seed weevil 2.jpg,,high,,refresh wikidata,2026-11-15
 52FKK,inaturalist,516033,,high,via Wikidata,refresh wikidata,2026-11-15
@@ -6128,10 +6102,6 @@ ZYZS,wikipedia,https://en.wikipedia.org/wiki/Cryptopone_testacea,,high,,refresh 
 5CL39,wikidata,Q1926971,,high,,refresh wikidata,2026-11-15
 5CL39,wikipedia,https://en.wikipedia.org/wiki/Xylocopa_varipuncta,,high,,refresh wikidata,2026-11-15
 5CL39,wikispecies,https://species.wikimedia.org/wiki/Xylocopa_varipuncta,,high,,refresh wikidata,2026-11-15
-5CLMZ,commons,Xylopertha retusa.jpg,,high,,refresh wikidata,2026-11-15
-5CLMZ,inaturalist,876705,,high,matched by name (iNaturalist),refresh inat,2026-11-14
-5CLMZ,wikidata,Q2179557,,high,,refresh wikidata,2026-11-15
-5CLMZ,wikispecies,https://species.wikimedia.org/wiki/Xylopertha_retusa,,high,,refresh wikidata,2026-11-15
 5CMB4,bugguide,240813,,high,North American guide,,
 5CMB4,commons,Xylopsocus capucinus (lateral view).jpg,,high,,refresh wikidata,2026-11-15
 5CMB4,inaturalist,498964,,high,via Wikidata,refresh wikidata,2026-11-15
@@ -6699,11 +6669,6 @@ ZYZS,wikipedia,https://en.wikipedia.org/wiki/Cryptopone_testacea,,high,,refresh 
 629B2,inaturalist,374007,,high,via Wikidata,refresh wikidata,2026-11-15
 629B2,wikidata,Q2150614,,high,,refresh wikidata,2026-11-15
 629B2,wikispecies,https://species.wikimedia.org/wiki/Aleyrodes,,high,,refresh wikidata,2026-11-15
-629Z7,bugguide,89746,,high,,refresh wikidata,2026-11-14
-629Z7,commons,Starr 040606 0018 amphicerus cornutus.jpg,,high,,refresh wikidata,2026-11-15
-629Z7,inaturalist,173204,,high,matched by name (iNaturalist),refresh inat,2026-11-14
-629Z7,wikidata,Q4748231,,high,,refresh wikidata,2026-11-15
-629Z7,wikipedia,https://en.wikipedia.org/wiki/Amphicerus,,high,,refresh wikidata,2026-11-15
 62B8V,inaturalist,563572,,high,via Wikidata,refresh wikidata,2026-11-15
 62B8V,wikidata,Q18113267,,high,,refresh wikidata,2026-11-15
 62B8V,wikipedia,https://en.wikipedia.org/wiki/Amphitrichia,,high,,refresh wikidata,2026-11-15
