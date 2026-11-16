@@ -1284,15 +1284,15 @@ gbif:5753539,,4S3PP,Species,Rhantus suturalis,"(W.S.MacLeay, 1825)",synonym,,,,,
 KV76N,C2L,,Family,Elateridae,"Leach, 1815",accepted,Click Beetle,Jacksnappers | Snap Bugs | Snapping Beetles | Spring Beetles | Wireworms | click beetles,native,editor,editor,,Elateroidea,,,yes,7825,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 DDPFV,KV76N,,Genus,Agrypnus,"Eschscholtz, 1829",accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,4404338,Catalogue of Life,,,,,,,,,,,,,,
 L6L6P,DDPFV,,Species,Agrypnus bifoveatus,Candeze,accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,6977807,Catalogue of Life,,,,,,,,,,,,,,
-KTWT3,KV76N,,Genus,Alaus,"Eschscholtz, 1829",accepted,Eyed Click Beetles,Eyed Elaters,unknown,,,,Elateroidea,Agrypninae,Hemirhipini,yes,1162071,Catalogue of Life,,,,,,,,,,,,,,
-name-500,KTWT3,,Species,Alaus depressicollis,,accepted,,,unknown,,,,Elateroidea,Agrypninae,Hemirhipini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-501,KTWT3,,Species,Alaus guamensis,,accepted,,,unknown,,,,Elateroidea,Agrypninae,Hemirhipini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
+KTWT3,KV76N,,Genus,Alaus,"Eschscholtz, 1829",accepted,Eyed Click Beetles,Eyed Elaters,unknown,,,,Elateroidea,Agrypninae,Hemirhipini,yes,1162071,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-500,KTWT3,,Species,Alaus depressicollis,,accepted,,,native,editor,editor,,Elateroidea,Agrypninae,Hemirhipini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-501,KTWT3,,Species,Alaus guamensis,,accepted,,,native,editor,editor,,Elateroidea,Agrypninae,Hemirhipini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 LN369,KV76N,,Genus,Anchastus,"LeConte, 1853",accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,yes,1162075,Catalogue of Life,,,,,,,,,,,,,,
 name-548,LN369,,Species,Anchastus incertus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 KV3NY,KV76N,,Genus,Cardiophorus,"Eschscholtz, 1829",accepted,cardiophores,heartbearing beetles,unknown,,,,Elateroidea,Cardiophorinae,,yes,1162059,Catalogue of Life,,,,,,,,,,,,,,
 name-870,KV3NY,,Species,Cardiophorus adjutor,,accepted,,,unknown,,,,Elateroidea,Cardiophorinae,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-MVHB8,KV76N,,Genus,Compsolacon,"Reitter, 1905",accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,4428936,Catalogue of Life,,,,,,,,,,,,,,
-name-1085,MVHB8,,Species,Compsolacon cognatus,,accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
+MVHB8,KV76N,,Genus,Compsolacon,"Reitter, 1905",accepted,,,native,editor,editor,,Elateroidea,Agrypninae,Agrypnini,yes,4428936,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-1085,MVHB8,,Species,Compsolacon cognatus,,accepted,,,native,editor,editor,,Elateroidea,Agrypninae,Agrypnini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 NXTRJ,KV76N,,Genus,Gamepenthes,"Fleutiaux, 1928",accepted,,,unknown,,,,Elateroidea,,,yes,4754857,Catalogue of Life,,,,,,,,,,,,,,
 NXTSQ,NXTRJ,,Species,Gamepenthes similis,"(Lewis, 1894)",accepted,,,unknown,,,,Elateroidea,,,yes,6982573,Catalogue of Life,,,,,,,,,,,,,,
 P7LB9,KV76N,,Genus,Heteroderes,"Latreille, 1834",accepted,,,unknown,,,,Elateroidea,Agrypninae,Oophorini,yes,4408201,Catalogue of Life,,,,,,,,,,,,,,
@@ -1327,8 +1327,6 @@ name-1978,QXFXK,,Species,Melanoxanthus simplex,,accepted,,,unknown,,,,Elateroide
 QXGX9,QXFXK,,Species,Melanoxanthus usingeri,Zwaluwinburg,accepted,,,unknown,,,,Elateroidea,,,yes,6976217,Catalogue of Life,,,,,,,,,,,,,,
 name-1979,QXFXK,,Species,Melanoxanthus varians,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 name-2275,QXFXK,,Species,Pacificola vitiensis,,accepted,,,unknown,,,,Elateroidea,,,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-QMKRP,KV76N,,Genus,Meristhus,"Candèze, 1857",accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,yes,4768928,Catalogue of Life,,,,,,,,,,,,,,
-name-1995,QMKRP,,Species,Meristhus scobinula,,accepted,,,unknown,,,,Elateroidea,Agrypninae,Agrypnini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 D3SGG,KV76N,,Genus,Monocrepidius,"Eschscholtz, 1829",accepted,,,unknown,,,,Elateroidea,Agrypninae,Oophorini,yes,4754038,Catalogue of Life,,,,,,,,,,,,,,
 QHZH5,D3SGG,,Species,Monocrepidius bifoveatus,"(Palisot de Beauvois, 1807)",accepted,,,unknown,,,,Elateroidea,Agrypninae,Oophorini,yes,7368664,Catalogue of Life,,,,,,,,,new,,guaminsects match,2026-11-13,,
 name-4645,,QHZH5,Species,Elater bifoveolatus,,synonym,,,unknown,,,,,,,no,,GBIF synonym,GBIF Backbone: Elater bifoveolatus → Monocrepidius bifoveatus,,,,,,,,,,guaminsects match,2026-11-13,,
@@ -1337,20 +1335,37 @@ SBXTN,KV76N,,Genus,Priopus,"Laporte, 1840",accepted,,,unknown,,,,Elateroidea,Ela
 name-1313,SBXTN,,Species,Diploconus peregrinus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Melanotini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 name-2102,SBXTN,,Species,Neodiploconus exis,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Melanotini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
 6WFB,KV76N,,Genus,Prodrasterius,,accepted,,,unknown,,,,Elateroidea,,,yes,1162069,Catalogue of Life,,,,,,,,,,,,,,
-SX4YG,KV76N,,Genus,Simodactylus,"Candèze, 1859",accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,yes,1162036,Catalogue of Life,,,,,,,,,,,,,,
-SX4Z4,SX4YG,,Species,Simodactylus cinnamomeus,"(Boisduval, 1835)",accepted,Click beetle,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,yes,1162037,Catalogue of Life,,,,,,,,,,,,,,
-name-2793,SX4YG,,Species,Simodactylus decoratus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-2794,SX4YG,,Species,Simodactylus decumanus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-2796,SX4YG,,Species,Simodactylus fasciolatus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-2797,SX4YG,,Species,Simodactylus gressitti,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-2801,SX4YG,,Species,Simodactylus lineatus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-2803,SX4YG,,Species,Simodactylus marianorum,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-2805,SX4YG,,Species,Simodactylus palauensis,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-name-2806,SX4YG,,Species,Simodactylus pallidus,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-SX53G,SX4YG,,Species,Simodactylus tasmani,"Candèze, 1893",accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,yes,6972609,Catalogue of Life,,,,,,,,,,,,,,
-name-2811,SX4YG,,Species,Simodactylus trullensis,,accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,,,,,,,,,,
-DDPD9,KV76N,,Genus,Tetrigus,"Candèze, 1857",accepted,,,unknown,,,,Elateroidea,Agrypninae,Hemirhipini,yes,4404398,Catalogue of Life,,,,,,,,,,,,,,
+IOG-118,KV76N,,Genus,Propsephus,"Hyslop, 1921",accepted,,,introduced,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-119,IOG-118,,Species,Propsephus tongaensis,"(Candeze, 1878)",accepted,,,unknown,,,,,,,no,,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-114,KV76N,,Genus,Rismethus,Fleutiaux 1947,accepted,,,unknown,,,,,,,no,4753691,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-115,IOG-114,,Species,Rismethus scobinula,"(Candeze, 1857)",morphospecies,,,unknown,,,,,,,no,6714679,,,,,,,,,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+name-1995,,IOG-115,Species,Meristhus scobinula,"Candeze, 1857",synonym,,,introduced,editor,editor,,Elateroidea,Agrypninae,Agrypnini,no,,curated merge,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+SX4YG,KV76N,,Genus,Simodactylus,"Candèze, 1859",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,yes,1162036,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+IOG-120,SX4YG,,Species,Simodactylus beardsleyi,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+SX4Z4,SX4YG,,Species,Simodactylus cinnamomeus,"(Boisduval, 1835)",accepted,Click beetle,,introduced,editor,editor,,Elateroidea,Elaterinae,Physorhinini,yes,1162037,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,Guam records likely refer to S. pallidus (see van Zwaluwenburg 1957),,,M. Andrew Johnston,2026-11-15
+IOG-128,SX4YG,,Species,Simodactylus collinus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+name-2793,SX4YG,,Species,Simodactylus decoratus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-2794,SX4YG,,Species,Simodactylus decumanus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+IOG-126,SX4YG,,Species,Simodactylus exsul,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+name-2796,SX4YG,,Species,Simodactylus fasciolatus,"Fairmaire, 1863",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-2797,SX4YG,,Species,Simodactylus gressitti,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+IOG-123,SX4YG,,Species,Simodactylus hesperius,"van Zwaluwenburg, 1940",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-124,IOG-123,,Subspecies,Simodactylus hesperius hesperius,"van Zwaluwenburg, 1940",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-125,IOG-123,,Subspecies,Simodactylus hesperius pullus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-127,SX4YG,,Species,Simodactylus impressus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+name-2801,SX4YG,,Species,Simodactylus lineatus,"van Zwaluwenburg, 1948",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-2803,SX4YG,,Species,Simodactylus marianorum,"van Zwaluwenburg, 1948",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+IOG-122,,name-2803,Species,Simodactylus marianarum,Van Zwaluwenburg,synonym,,,,,,,,,,no,,curated merge,"unjustified emendation, van Zwaluwenburg 1957",,,,,,,,,,M. Andrew Johnston,2026-11-15,,
+IOG-121,SX4YG,,Species,Simodactylus nitens,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+name-2805,SX4YG,,Species,Simodactylus palauensis,"van Zwaluwenburg, 1940",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-2806,SX4YG,,Species,Simodactylus pallidus,"Fleutiaux, 1934",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+IOG-129,SX4YG,,Species,Simodactylus remotus,"van Zwaluwenburg, 1957",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+SX53G,SX4YG,,Species,Simodactylus tasmani,"Candèze, 1893",accepted,,,unknown,,,,Elateroidea,Elaterinae,Physorhinini,yes,6972609,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+name-2811,SX4YG,,Species,Simodactylus trukensis,"van Zwaluwenburg, 1952",accepted,,,native,editor,editor,,Elateroidea,Elaterinae,Physorhinini,no,,not in Catalogue of Life,Not in the Catalogue of Life,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
+DDPD9,KV76N,,Genus,Tetrigus,"Candèze, 1857",accepted,,,native,editor,editor,,Elateroidea,Agrypninae,Hemirhipini,yes,4404398,Catalogue of Life,,,,,yes,M. Andrew Johnston,2026-11-15,,,,,,M. Andrew Johnston,2026-11-15
 gbif:4404398,,DDPD9,Genus,Tetrigus,"Candeze, 1857",synonym,,,,,,,,,,no,,"same name, other author",,GBIF Backbone,,,,,,,,,,,,
+IOG-116,DDPD9,,Species,Tetrigus palauensis,,accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
+IOG-117,DDPD9,,Species,Tetrigus townesi,"van Zwaluwenberg, 1948",accepted,,,native,editor,editor,,,,,no,,,,,,,yes,M. Andrew Johnston,2026-11-15,,,,M. Andrew Johnston,2026-11-15,M. Andrew Johnston,2026-11-15
 KV7GT,C2L,,Family,Endomychidae,"Leach, 1815",accepted,Handsome Fungus Beetles,,unknown,,,,Coccinelloidea,,,yes,7828,Catalogue of Life,,,,,,,,,,,,,,
 ML9H9,KV7GT,,Genus,Chondria,"Gorham, 1888",accepted,,,unknown,,,,Coccinelloidea,,,yes,3263662,Catalogue of Life,,,,,,,,,,,,,,
 MZXJ7,KV7GT,,Genus,Daulis,"Erichson, 1842",accepted,,,unknown,,,,Coccinelloidea,,,yes,3263658,Catalogue of Life,,,,,,,,,,,,,,

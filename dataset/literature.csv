@@ -6061,11 +6061,8 @@ STRWD,plazi-e7ce9dca,checklist,,,GU,,,,,,plazi,,,,migrate,
 SVX83,swezey-1942-misc-coleoptera-guam,checklist,,,GU,,,,,,plazi,,,,migrate,
 SW7BY,iom-14-5-sphaeroceridae,account,17,Leptocera femorina,GU | PW,Guam | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 SX4YG,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-SX4Z4,evenhuis-et-al-2010-pagan-island,mention,58,Simodactylus cinnamomeus,,,,,,,text,machine,,,migrate,2026-11-13
-SX4Z4,iom-16-1-elateridae,account,31,Simodactylus cinnamomeus,GU | MH,Guam | Jaluit,,,,,text,machine,,,migrate,2026-11-13
-SX4Z4,iom-16-1-elateridae,mention,14 | 31 | 32,Elater cinnamomeus,,,,,,,text,machine,,,migrate,2026-11-13
 SX4Z4,plazi-13d05d68,checklist,,,GU,,,,,,plazi,,,,migrate,
-SX53G,iom-16-1-elateridae,account,30,Simodactylus tasmani,MH,Kwajalein,,,,,text,machine,,,migrate,2026-11-13
+SX53G,iom-16-1-elateridae,account,30,Simodactylus tasmani,MH,Kwajalein,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 SX8CW,iom-16-5-coccinellidae,account,18,Scymnus uncinus,MH,Jaluit | Marshall Is. | Mili,,,,,text,machine,,,migrate,2026-11-13
 T6LL7,plazi-8ddfacbb,checklist,,,GU,,,,,,plazi,,,,migrate,
 T6M9X,iom-7-7-pentatomoidea,account,17,Tetrarthria variegata,,,,,,,text,machine,,,migrate,2026-11-13
@@ -6319,10 +6316,8 @@ name-464,iom-16-5-coccinellidae,account,25,Acarinus kraussi,GU,Guam,,,,,text,mac
 name-464,iom-16-5-coccinellidae,mention,4 | 25,Acarinus kraussi,,,,,,,text,machine,,,migrate,2026-11-13
 name-465,iom-16-5-coccinellidae,account,25,Acarinus philippinensis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-489,iom-5-1-odonata,account,41,Agrion pygma eum,PW,Babeldaob,,,,,text,machine,,,migrate,2026-11-13
-name-500,iom-16-1-elateridae,mention,4,Alaus depressicollis,,,,,,,text,machine,,,migrate,2026-11-13
-name-500,iom-16-7-elateridae-suppl,account,1,Alaus depressicollis,PW,Koror | Palau,,,,,ocr,machine,,,migrate,2026-11-13
-name-500,iom-16-7-elateridae-suppl,mention,1,Alaus depressicollis,,,,,,,ocr,machine,,,migrate,2026-11-13
-name-501,iom-16-7-elateridae-suppl,account,1,Alaus guamensis,GU | PW,Guam | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
+name-500,iom-16-7-elateridae-suppl,account,1,Alaus depressicollis,PW,Koror | Palau,,,,,ocr,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+name-501,iom-16-7-elateridae-suppl,account,1,Alaus guamensis,GU | PW,Guam | Koror | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-510,iom-6-1-aleyrodidae,account,10,Aleyrodes bergii,PW | FM,Chuuk | Lamotrek | Ngerekebesang | Nukuoro,,,,,text,machine,,,migrate,2026-11-13
 name-510,iom-6-1-aleyrodidae,mention,10,Aleyrodes bergii,,,,,,,text,machine,,,migrate,2026-11-13
 name-548,iom-16-1-elateridae,account,57,Anchastus incertus,PW,Babeldaob | Koror | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
@@ -6355,7 +6350,6 @@ name-999,bickel-1994-insects-of-micronesia-volume-13-no-8-diptera,account,23,Chr
 name-1075,iom-17-1-chrysomelidae,account,7,Coenobius glochidionis,PW,Babeldaob | Koror | Malakal | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
 name-1077,iom-17-1-chrysomelidae,account,10,Coenobius subaeneus,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
 name-1081,iom-17-1-chrysomelidae,account,21,Colasposoma rugiceps,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
-name-1085,iom-16-1-elateridae,account,8,Compsolacon cognatus,PW | FM,Chuuk | Koror | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 name-1166,iom-12-1-culicidae,account,74,Culex pullus maplei,FM,Kapingamarangi | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 name-1230,iom-16-5-coccinellidae,account,1 | 29,Daulis boulardi,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-1313,iom-16-1-elateridae,account,61,Diploconus peregrinus,FM,Ulithi | Yap,,,,,text,machine,,,migrate,2026-11-13
@@ -6395,7 +6389,7 @@ name-1975,iom-16-1-elateridae,account,48,Melanoxanthus minor,FM,Pohnpei,,,,,text
 name-1977,iom-16-1-elateridae,account,54,Melanoxanthus silus,FM,Yap,,,,,text,machine,,,migrate,2026-11-13
 name-1978,iom-16-1-elateridae,account,55,Melanoxanthus simplex,FM,Kosrae | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
 name-1979,iom-16-1-elateridae,account,44,Melanoxanthus varians,GU | FM,Guam | Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-name-1995,iom-16-1-elateridae,account,10,Meristhus scobinula,MP,Saipan,,,,,text,machine,,,migrate,2026-11-13
+name-1995,iom-16-1-elateridae,account,10,Meristhus scobinula,MP,Saipan,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-2011,iom-7-3-aradidae,account,49,Mezira angularis,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-2014,iom-17-1-chrysomelidae,account,35,Micrepitrix carolina,PW | FM,Babeldaob | Koror | Yap,,,,,text,machine,,,migrate,2026-11-13
 name-2102,iom-16-7-elateridae-suppl,account,6,Neodiploconus exis,PW | FM,Koror | Palau | Yap,,,,,text,machine,,,migrate,2026-11-13
@@ -6437,16 +6431,14 @@ name-2747,iom-17-3-tenebrionidae,account,55,Schizomma neckeri,GU | MP,Guam | Rot
 name-2750,iom-17-2-cerambycidae,account,113,Sciadella subcylindrica,PW,Angaur | Babeldaob | Koror | Ngeruktabel | Palau | Peleliu,,,,,text,machine,,,migrate,2026-11-13
 name-2773,iom-16-5-coccinellidae,account,19,Scymnus ebeninus,PW,Babeldaob | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
 name-2777,iom-16-5-coccinellidae,account,18,Scymnus trukensis,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
-name-2793,iom-16-1-elateridae,account,25,Simodactylus decoratus,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-name-2794,iom-16-1-elateridae,account,26,Simodactylus decumanus,FM,Pohnpei,,,,,text,machine,,,migrate,2026-11-13
-name-2796,iom-16-1-elateridae,account,28,Simodactylus fasciolatus,MH,Ujelang,,,,,text,machine,,,migrate,2026-11-13
-name-2797,iom-16-1-elateridae,account,22,Simodactylus gressitti,PW,Babeldaob | Kayangel | Koror | Palau,,,,,text,machine,,,migrate,2026-11-13
-name-2801,iom-16-1-elateridae,account,30,Simodactylus lineatus,FM,Kosrae | Nukuoro,,,,,text,machine,,,migrate,2026-11-13
-name-2803,iom-16-1-elateridae,account,20,Simodactylus marianorum,GU | MP,Guam | Rota | Tinian,,,,,text,machine,,,migrate,2026-11-13
-name-2805,iom-16-1-elateridae,account,29,Simodactylus palauensis,PW,Babeldaob | Koror,,,,,text,machine,,,migrate,2026-11-13
-name-2806,iom-16-1-elateridae,account,31,Simodactylus pallidus,MP | PW | FM,Chuuk | Ifalik | Kayangel | Rota | Tinian,,,,,text,machine,,,migrate,2026-11-13
+name-2793,iom-16-1-elateridae,account,25,Simodactylus decoratus,FM,Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+name-2794,iom-16-1-elateridae,account,26,Simodactylus decumanus,FM,Pohnpei,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+name-2797,iom-16-1-elateridae,account,22,Simodactylus gressitti,PW,Babeldaob | Kayangel | Koror | Palau,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+name-2801,iom-16-1-elateridae,account,30,Simodactylus lineatus,FM,Kosrae | Nukuoro,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+name-2803,iom-16-1-elateridae,account,20,Simodactylus marianorum,GU | MP,Guam | Rota | Tinian,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
+name-2805,iom-16-1-elateridae,account,29,Simodactylus palauensis,PW,Babeldaob | Koror,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-2806,iom-16-7-elateridae-suppl,account,2,Simodactylus pallidus,PW | FM | MH,Chuuk | Koror | Kwajalein | Marshall Is. | Palau,,,,,text,machine,,,migrate,2026-11-13
-name-2811,iom-16-1-elateridae,account,18,Simodactylus trullensis,FM,Chuuk,,,,,text,machine,,,migrate,2026-11-13
+name-2811,iom-16-1-elateridae,account,18,Simodactylus trullensis,FM,Chuuk,,,,,text,editor,M. Andrew Johnston,2026-11-15,migrate,2026-11-13
 name-2826,iom-14-1-tephritidae,account,24,Spathulina parca,GU,Guam,,,,,text,machine,,,migrate,2026-11-13
 name-2831,iom-17-1-chrysomelidae,account,37,Sphaeroderma wedeliae,FM,Chuuk | Kosrae,,,,,text,machine,,,migrate,2026-11-13
 name-2831,samuelson-1973-alticinae-oceania,account,63,Sphaeroderma wedeliae,,,,,,,text,machine,,,migrate,2026-11-13

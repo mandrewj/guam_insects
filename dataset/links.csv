@@ -15707,9 +15707,6 @@ QMG65,commons,"Megapenthes lugens (Redtenbacher, 1842) (24890481674).png",,high,
 QMG65,inaturalist,1082081,Queen's Executioner Beetle,high,matched by name (iNaturalist),refresh inat,2026-11-14
 QMG65,wikidata,Q2676971,,high,matched by name,refresh wikidata,2026-11-14
 QMG65,wikipedia,https://en.wikipedia.org/wiki/Megapenthes_lugens,,high,,refresh wikidata,2026-11-14
-QMKRP,bugguide,452812,,high,,refresh wikidata,2026-11-14
-QMKRP,inaturalist,709650,,high,matched by name (iNaturalist),refresh inat,2026-11-14
-QMKRP,wikidata,Q1947165,,high,matched by name,refresh wikidata,2026-11-14
 QMMX8,inaturalist,1532784,,high,matched by name (iNaturalist),refresh inat,2026-11-14
 QMMX8,wikidata,Q21225877,,high,,,
 QMMXT,wikidata,Q130359385,,high,matched by name,refresh wikidata,2026-11-14
@@ -16582,3 +16579,6 @@ IOG-94,wikidata,Q914313,,high,,refresh wikidata,2026-11-15
 IOG-94,wikipedia,https://en.wikipedia.org/wiki/Propalticidae,,high,,refresh wikidata,2026-11-15
 IOG-94,wikispecies,https://species.wikimedia.org/wiki/Propalticidae,,high,,refresh wikidata,2026-11-15
 IOG-108,inaturalist,173431,,high,,M. Andrew Johnston,2026-11-15
+IOG-114,inaturalist,704604,,high,,M. Andrew Johnston,2026-11-15
+IOG-115,inaturalist,704603,,high,,M. Andrew Johnston,2026-11-15
+IOG-118,inaturalist,784413,,high,,M. Andrew Johnston,2026-11-15
