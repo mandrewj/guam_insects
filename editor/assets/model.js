@@ -25,8 +25,34 @@
   const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };   // the editor's own date
   const blank = name => Object.fromEntries(T[name].columns.map(c => [c, ""]));
   const rankIdx = r => (r in RANK ? RANK[r] : 99);
-  const fold = s => (s || "").toLowerCase();
+  const fold = s => (s || "").toLowerCase().replace(/ß/g, "ss").replace(/ſ/g, "s");
   const splitList = v => (v || "").split("|").map(x => x.trim()).filter(Boolean);
+
+  // ---- text sanitising. Everything a person types or pastes passes through cleanText before an
+  // operation sees it (applyOne and replay, so saved drafts are cleaned too): line breaks and
+  // tabs become a space, invisible and control characters (zero-width space, soft hyphen, BOM,
+  // NUL ...) go, odd spaces become plain ones, accents are composed (NFC), runs of spaces shrink.
+  const INVISIBLE = /[­​-‏⁠⁦-⁩﻿]/g;
+  const BREAKS = /[\t\n\r\v\f\u0085\u2028\u2029]+/g;
+  const CONTROL = /[\u0000-\u001f\u007f-\u009f]/g;
+  const ODD_SPACE = /[   -   　]/g;
+  const cleanText = v => typeof v !== "string" ? v : v.normalize("NFC")
+    .replace(/[ﬀ-ﬆ]/g, c => c.normalize("NFKC")).replace(INVISIBLE, "").replace(BREAKS, " ")
+    .replace(CONTROL, "").replace(ODD_SPACE, " ").replace(/ {2,}/g, " ").trim();
+  // Fields that identify rows or that tools wrote are left exactly as they are.
+  const RAW_KEYS = new Set(["type", "at", "date", "by", "id", "tid", "into", "parent", "doc", "unplacedName", "host", "topic",
+                            "kind", "table", "newId", "system", "error", "source_id"]);
+  const LIST_FIELDS = new Set(["areas", "islands", "pages"]);
+  // "GU|MP", "gu | mp" -> "GU | MP": the list separator is " | " and the items are tidy.
+  const listCell = (v, upper) => [...new Set(String(v || "").split("|").map(x => cleanText(x)).filter(Boolean)
+    .map(x => upper ? x.toUpperCase() : x))].join(SEP);
+  function cleanOp(op) {
+    for (const k of Object.keys(op)) {
+      if (RAW_KEYS.has(k) || typeof op[k] !== "string") continue;
+      op[k] = LIST_FIELDS.has(k) ? listCell(op[k], k === "areas") : cleanText(op[k]);
+    }
+    return op;
+  }
   const isUrl = v => /^https?:\/\/\S+$/.test(v || "");
 
   // ids.to_int: the order rows are filed in
@@ -438,10 +464,16 @@
     st.stamp(op.id, op);
   }
 
+  // A scientific name is a name: no authorship pasted on the end, no markup or list separators.
+  function checkName(name) {
+    need(!/[<>|]/.test(name), "a name cannot contain < > or |");
+    need(!/,\s*\d{4}\)?$/.test(name), `"${name}" seems to end with its authorship: put it (e.g. “Fabricius, 1775”) in the Authorship box`);
+  }
   const OPS = {
     set(st, op) {
       let col = column(op.column);
-      const v = (op.value == null ? "" : String(op.value)).trim();
+      let v = (op.value == null ? "" : String(op.value)).trim();
+      if (T.taxa.cols[col] && T.taxa.cols[col].kind === "list") v = listCell(v);
       const r = st.r(op.id);
       need(r, `no taxon ${op.id}`);
       if (op.column === "verificationStatus") {
@@ -558,6 +590,7 @@
     add(st, op) {
       const name = (op.name || "").trim();
       need(name, "a new taxon needs a name");
+      checkName(name);
       need(S.ranks.includes(op.rank), `rank must be one of ${S.ranks.join(", ")}`);
       const status = op.status || "accepted";
       need(["accepted", "morphospecies", "doubtful"].includes(status), "a new taxon is accepted, doubtful or a morphospecies");
@@ -599,6 +632,7 @@
       const acc = accepted(st, op.into, "accepted taxon");
       const name = (op.name || "").trim();
       need(name, "the name is empty");
+      checkName(name);
       need(![op.into].concat(st.synonymsOf(op.into)).some(x => st.name(x) === name && (st.r(x).authorship || "") === (op.authorship || "")),
            `${name} is already a name of ${acc.name}`);
       const id = op.newId && !st.d.has(op.newId) ? op.newId : st.newId();
@@ -686,7 +720,7 @@
       if (op.doc) need(st.lookup.documents.has(op.doc), "pick a reference from the list, or create one");
       const have = st.t.distribution.findIndex(a => a.place === op.place && st.shownId(a.taxon_id) === op.id);
       const row = Object.assign(blank("distribution"), { taxon_id: op.id, place: op.place, status,
-        source: (op.source || "").trim(), doc_id: op.doc || "", added_by: op.by, added: op.date });
+        source: (op.source || "").replace(/\s*\|\s*/g, " / ").trim(), doc_id: op.doc || "", added_by: op.by, added: op.date });
       if (have >= 0) {       // a tag edited without a reference keeps the one it had
         const keep = op.doc || st.t.distribution[have].doc_id;
         st.t.distribution[have] = Object.assign({}, st.t.distribution[have], row, { doc_id: keep });
@@ -762,11 +796,11 @@
     },
     link(st, op) {
       accepted(st, op.id);
-      const url = (op.url || "").trim();
+      const url = (op.url || "").trim().replace(/\|/g, "%7C");     // "|" separates list items in the tables
       need(isUrl(url), `a link needs a URL (https://...), not "${url}"`);
       const have = st.t.links.findIndex(a => a.system === "editor" && a.value === url && st.shownId(a.taxon_id) === op.id);
       const row = Object.assign(blank("links"), { taxon_id: op.id, system: "editor", value: url,
-        label: (op.label || "").trim(), confidence: "high", added_by: op.by, added: op.date });
+        label: (op.label || "").replace(/\s*\|\s*/g, " / ").trim(), confidence: "high", added_by: op.by, added: op.date });
       if (have >= 0) st.t.links[have] = Object.assign({}, st.t.links[have], row);
       else st.t.links.push(row);
       st.stamp(op.id, op);
@@ -1050,6 +1084,7 @@
   // One more operation on a state already built (a click must not replay every earlier change).
   function applyOne(st, op) {
     const fn = OPS[op.type];
+    cleanOp(op);
     try {
       if (!fn) throw new Error(`unknown operation ${op.type}`);
       const snap = snapshot(st);
@@ -1065,6 +1100,7 @@
     const remap = new Map();
     for (const op of ops) {
       const fn = OPS[op.type];
+      cleanOp(op);
       for (const f of ["id", "into", "parent", "doc", "source"]) if (remap.has(op[f])) op[f] = remap.get(op[f]);
       const before = op.newId;
       try {
@@ -1099,6 +1135,7 @@
     int: v => /^-?\d+$/.test(v), date: v => /^\d{4}-\d{2}-\d{2}$/.test(v), url: isUrl,
     bool: v => v === "yes" || v === "no", id: validId,
   };
+  const BAD_CHARS = /[\u0000-\u001f\u007f-\u009f\u00ad\u200b-\u200f\u2028\u2029\u2060\ufeff]/;
   function check(st) {
     const errors = [], taxa = new Map(st.order.map(id => [id, st.d.get(id)]));
     const tables = Object.assign({ taxa: st.order.map(id => st.d.get(id)) }, st.t);
@@ -1108,10 +1145,10 @@
         const where = `${t.file} line ${i + 2}`;
         for (const [c, spec] of Object.entries(t.cols)) {
           const v = r[c] || "";
-          if (v !== v.trim() || /\n/.test(v)) errors.push(`${where}: ${c} has stray whitespace or a newline`);
+          if (v !== v.trim() || BAD_CHARS.test(v)) errors.push(`${where}: ${c} has stray whitespace, a line break or an invisible character`);
           if (!v) { if (spec.required) errors.push(`${where}: ${c} is required`); continue; }
           if (spec.enum.length) {
-            const items = spec.kind === "list" ? splitList(v) : [v];
+            const items = spec.kind === "list" ? v.split(SEP) : [v];
             for (const it of items) if (!spec.enum.includes(it)) errors.push(`${where}: ${c} ${JSON.stringify(it)} is not one of ${spec.enum.slice(0, 8).join(", ")}`);
           }
           if (KIND[spec.kind] && !KIND[spec.kind](v)) errors.push(`${where}: ${c} ${JSON.stringify(v)} is not a valid ${spec.kind}`);
@@ -1233,7 +1270,7 @@
   window.IOGModel = {
     makeBase, replay, applyOne, bulkEligible, check, files, describe, commitMessage, op, sortRows, tid,
     fold: searchFold, validId, parseTaxonRef, parseColRef, parseGbifTaxonRef, classifyUrl, parseTag, formatTag, parseOccurrence, occurrenceUrl, parseLink, formatLink,
-    splitList, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
+    splitList, cleanText, isUrl, PLACE, CONFIRMED, rankIndex: rankIdx, EDITABLE: EDITABLE_VIEW, LIST,
     LEGACY,
   };
 })();

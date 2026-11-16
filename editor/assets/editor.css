@@ -152,7 +152,7 @@ dialog::backdrop { background: rgba(15, 30, 45, .45); }
 
 #toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); max-width: min(680px, calc(100vw - 32px));
   background: var(--header-deep); color: #fff; padding: 8px 16px; border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,.25); z-index: 20; white-space: pre-line; }
-#toast.error { background: var(--bad); }
+#toast.error { background: #a3271f; color: #fff; }
 
 /* narrow screens: the list above the work area */
 @media (max-width: 860px) {
@@ -213,9 +213,27 @@ button.x { min-width: 24px; min-height: 24px; }
 .rbox h3:first-of-type { border-top: 0; padding-top: 0; margin-top: 4px; }
 .rbox .rb-sub { margin: 8px 0 2px; font-size: 0.86rem; font-weight: 600; }
 .rbox form.inline input[name=url] { flex: 1 1 24em; }
-.toast-undo { margin-left: 8px; font: inherit; padding: 1px 10px; }
+.toast-undo { margin-left: 8px; font: inherit; padding: 1px 10px; background: transparent; color: #fff; border-color: rgba(255,255,255,.6); }
 .small-btn { font-size: 0.78rem; padding: 0 8px; margin-left: 6px; }
 .quick { margin-left: 8px; }
 .quick button { font-size: 0.76rem; padding: 0 8px; margin-right: 4px; }
 table.prog td, table.prog th { text-align: right; } table.prog td:first-child, table.prog th:first-child { text-align: left; }
 table.prog tr.tot td { border-bottom: 2px solid var(--line); }
+
+/* taxon toolbar: primary actions first, structural tools in a menu, destructive ones apart */
+.toolbar { position: sticky; top: -14px; z-index: 4; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  background: var(--bg); padding: 8px 0; margin: 8px 0; border-bottom: 1px solid var(--line); }
+.toolbar .spacer { flex: 1; }
+.toolbar .tb-sep { width: 1px; align-self: stretch; background: var(--line); margin: 2px 4px; }
+.toolbar kbd { font: 0.75em ui-monospace, Menlo, monospace; opacity: .75; border: 1px solid currentColor; border-radius: 3px; padding: 0 4px; margin-left: 3px; }
+.menu { position: relative; }
+.menu summary { list-style: none; cursor: pointer; border: 1px solid var(--line); border-radius: 7px; padding: 4px 10px; background: var(--surface); font: inherit; }
+.menu summary::-webkit-details-marker { display: none; }
+.menu .pop { position: absolute; z-index: 6; right: 0; display: flex; flex-direction: column; min-width: 230px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.18); padding: 4px 0; }
+.menu .pop button { border: 0; border-radius: 0; background: none; text-align: left; padding: 7px 14px; }
+.menu .pop button:hover { background: var(--accent-soft, rgba(0,0,0,.06)); }
+.menu.danger summary { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
+.menu.danger .pop button { color: var(--bad); }
+.dlg .docpick { flex: none; }
+.dlg .buttons { position: sticky; bottom: -18px; background: var(--surface); padding: 8px 0 18px; }

@@ -14,6 +14,8 @@
     del(k) { try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch (e) { /* storage off */ } },
   };
   const DRAFT = "iog-editor-draft";
+  // Two tabs would overwrite each other's unsaved draft: say so instead of losing work silently.
+  window.addEventListener("storage", e => { if (e.key === DRAFT && e.newValue) toast("The editor is open in another tab. Work in one tab only, or one tab's unsaved changes will be lost.", "error"); });
 
   const app = {
     reviewDoc: null, base: null, loaded: null, ops: [], st: null, sel: null, tab: "taxon", queue: "browse", q: "",
@@ -117,6 +119,7 @@
     M.applyOne(app.st, op);                 // this one change only: replaying them all slows every click
     if (op.error) {
       app.ops.pop();
+      if ($("#dlg").open) throw new Error(op.error);       // openForm shows it and keeps what was typed
       toast(op.error, "error");
       return null;
     }
@@ -219,10 +222,11 @@
     const info = await IO.localInfo();
     const ok = await load(info ? IO.loadLocal : () => IO.loadGitHub({ token: app.token }));
     const restore = ok && app.pending ? () => offerDraft(app.pending) : null;
-    if (!app.name) askName(restore);          // with a name, load() offers the draft itself
+    if (!app.name) askName(restore, restore);   // with a name, load() offers the draft itself
   }
   function offerDraft(draft) {
     openForm({
+      noEscape: true, defaultOk: true,
       title: "Restore unsaved changes?",
       intro: `${draft.ops.length} change${draft.ops.length === 1 ? "" : "s"} from ${new Date(draft.saved).toLocaleString()} ` +
         `(on ${esc(draft.source && draft.source.label)}) were not committed. Restore them onto what is loaded now?`,
@@ -273,8 +277,9 @@
   }
 
   // ------------------------------------------------------------ the name
-  function askName(then) {
+  function askName(then, onCancel) {
     openForm({
+      onCancel,
       title: "Who is editing?",
       intro: "Your name is recorded as <b>added by</b> on every change you make, and credited in the commit. " +
         "Everything added here is public.",
@@ -308,7 +313,7 @@
     ["natconflict", "Nativity in conflict", r => r.nativityConflict],
     ["unplaced", "Unplaced names (records, no taxon)", null],
     ["excluded", "Excluded names (kept out on purpose)", null],
-    ["unconfirmed", "Species: observations only", r => r.taxonRank === "Species" && !isSyn(r) && r.verificationStatus === "unconfirmed"],
+    ["unconfirmed", "Species: observations only", r => r.taxonRank === "Species" && !isSyn(r) && !!+r.inatObservations && !+r.specimenRecords && !+r.literatureRecords && !+r.gbifRecords],
     ["thin", "Species on ≤ 2 GBIF records, nothing else", r => r.taxonRank === "Species" && !isSyn(r) && num(r.gbifRecords) <= 2 && !num(r.literatureRecords) && !num(r.inatObservations)],
     ["lonely", "Families with nothing under them", (r, st) => r.taxonRank === "Family" && !isSyn(r) && !st.children(r.taxonID).length],
     ["curated", "Added by hand (IOG-)", r => /^IOG-/.test(r.taxonID)],
@@ -422,6 +427,7 @@
   }
   function select(id, tab) {
     if (!row(id)) return;
+    if (id !== app.sel) { const t = $("#tab-taxon"); if (t) t.scrollTop = 0; }
     app.sel = id;
     try { if (location.hash !== "#/t/" + id) history.pushState(null, "", "#/t/" + id); } catch (e) { /* file:// in some browsers */ }
     if (tab) setTab(tab); else render();
@@ -439,11 +445,13 @@
 
   function renderStart(err) {
     $("#tab-taxon").innerHTML = '<div class="start"><h1>Taxonomy editor</h1>' +
-      "<p>Loading the latest taxonomy from GitHub…</p>" +
-      (err ? `<p class="err">${esc(err)}</p><p><button type="button" class="primary" id="start-load">Load from somewhere else…</button></p>` : "") +
+      (err ? `<p class="err">Could not load from GitHub: ${esc(err)}</p><p><button type="button" class="primary" id="retry-load">Try again</button> ` +
+             '<button type="button" id="start-load">Load from somewhere else…</button></p>' : "<p>Loading the latest taxonomy from GitHub…</p>") +
       "</div>";
     const b = $("#start-load");
     if (b) b.addEventListener("click", chooseSource);
+    const rt = $("#retry-load");
+    if (rt) rt.addEventListener("click", () => location.reload());
   }
 
   // ---- the taxon panel
@@ -512,23 +520,31 @@
       return;
     }
     const isIog = /^IOG-/.test(id);
-    html += '<div class="toolbar">' +
-      '<button type="button" data-act="edit">Edit fields…</button>' +
-      '<button type="button" data-act="synonymize">Synonymize into…</button>' +
-      '<button type="button" data-act="move">Move…</button>' +
-      '<button type="button" data-act="add">Add a taxon under it…</button>' +
-      '<button type="button" data-act="addName">Add a name…</button>' +
-      '<button type="button" data-act="nativity">Nativity…</button>' +
+    // The toolbar reads left to right as: what you do most (confirm), what you add (source,
+    // fields, nativity), the structural tools in one menu, and the destructive ones apart on the right.
+    const confirmed = r.verificationStatus === M.CONFIRMED;
+    html += '<div class="toolbar" role="toolbar" aria-label="Actions for this taxon">' +
+      (confirmed ? '<button type="button" data-act="unverify">Remove confirmation</button>'
+        : '<button type="button" class="primary" data-act="verify" title="Confirms at once with the last source; Shift-click to give a source (shortcut: c)">Confirm <kbd>c</kbd></button>') +
+      (r.nativity !== "unknown" && r.nativity_review === "machine" ? '<button type="button" class="primary" data-act="confirmNativity" title="Keep the nativity a tool set, as confirmed by you">Confirm nativity</button>' : "") +
+      (r.flag === "new" ? '<button type="button" class="primary" data-act="clearFlag">Mark reviewed</button>' : "") +
+      '<span class="tb-sep" aria-hidden="true"></span>' +
       '<button type="button" data-act="cite">Cite a source…</button>' +
-      (r.nativity !== "unknown" && r.nativity_review === "machine" ? '<button type="button" data-act="confirmNativity">Confirm nativity</button>' : "") +
-      (r.flag === "new" ? '<button type="button" data-act="clearFlag">Mark reviewed</button>' : "") +
-      (r.verificationStatus === M.CONFIRMED ? '<button type="button" data-act="unverify">Remove confirmation</button>'
-        : '<button type="button" data-act="verify" title="Confirms at once with the last source; Shift-click to give a source">Confirm</button>') +
+      '<button type="button" data-act="nativity">Nativity…</button>' +
+      '<button type="button" data-act="edit">Edit fields…</button>' +
+      '<details class="menu"><summary>Taxonomy ▾</summary><div class="pop">' +
+        '<button type="button" data-act="add">Add a taxon under it…</button>' +
+        '<button type="button" data-act="addName">Add another name for it…</button>' +
+        '<button type="button" data-act="move">Move to another parent…</button>' +
+        '<button type="button" data-act="synonymize">Make it a synonym of…</button>' +
+      "</div></details>" +
+      '<span class="spacer"></span>' +
+      '<details class="menu danger"><summary>Remove ▾</summary><div class="pop">' +
       (r.hidden === "1" ? '<button type="button" data-act="unhide">Show again</button>'
-        : '<button type="button" data-act="hide" class="danger">Hide (delete)…</button>') +
-      '<button type="button" data-act="exclude" class="danger">Exclude…</button>' +
-      (isIog ? '<button type="button" data-act="remove" class="danger">Delete for good</button>' : "") +
-      "</div>";
+        : '<button type="button" data-act="hide">Hide from the site…</button>') +
+      '<button type="button" data-act="exclude">Exclude (tools must not re-add it)…</button>' +
+      (isIog ? '<button type="button" data-act="remove">Delete for good</button>' : "") +
+      "</div></details></div>";
     if (r.excludedReason) html += `<div class="notice">Excluded: ${esc(r.excludedReason)}. <a href="#" data-restore="${esc(r.scientificName)}">Restore</a></div>`;
     html += facts(r);
 
@@ -668,11 +684,18 @@
   }
 
   // ---- tools (buttons and inline forms on the taxon panel)
+  function closeMenus(except) {
+    document.querySelectorAll("details.menu[open]").forEach(d => { if (d !== except) d.open = false; });
+  }
+  document.addEventListener("click", e => closeMenus(e.target.closest && e.target.closest("details.menu")));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenus(); });
+
   function onTaxonClick(e) {
     const b = e.target.closest("button[data-act]");
     if (!b) return;
+    closeMenus();
     const st = app.st, id = app.sel, r = row(id), act = b.dataset.act, v = b.dataset.v;
-    if (!app.name) return askName();
+    if (!app.name) return askName(() => onTaxonClick({ target: b, shiftKey: e.shiftKey }));
     if (act === "untag") return addOp("untag", { id, place: v });
     if (act === "unvoucher") return addOp("unvoucher", { id, url: v });
     if (act === "unlink") return addOp("unlink", { id, url: v });
@@ -1465,7 +1488,7 @@
     } catch (e) {
       if (e.status === 401) {
         forgetToken();
-        throw new Error("GitHub rejected the token (bad credentials: it was reset or has expired). It was forgotten; use “GitHub…” in the header to enter a new one, then commit again.");
+        throw new Error("GitHub rejected the token (bad credentials: it was reset or has expired). It was forgotten; paste a new token in the box above and press Commit again, or use “GitHub…” in the header.");
       }
       if (e.moved && tries < 2) {
         toast("Someone committed meanwhile: replaying your changes onto theirs…");
@@ -1544,6 +1567,7 @@
         '<p class="muted">No such reference. Use “New reference…” to add it.</p>';
     };
     input.addEventListener("input", () => { hidden.value = ""; show(); });
+    pickKeys(input, hidden, picks);
     picks.addEventListener("click", e => { const b = e.target.closest("button[data-doc]"); if (b) choose(app.st.lookup.documents.get(b.dataset.doc)); });
     nbtn.addEventListener("click", () => {
       if (!nform.hidden) { nform.hidden = true; return; }
@@ -1629,26 +1653,33 @@
     if (o.extra) o.extra(form.querySelector(".buttons").parentNode.insertBefore(document.createElement("div"), form.querySelector("#dlg-err")), close);
     const cancel = form.querySelector("#dlg-cancel");
     if (cancel) cancel.addEventListener("click", () => { close(); if (o.onCancel) o.onCancel(); });
+    let busy = false;
+    dlg.oncancel = e => {                                   // Escape
+      if (o.noEscape || busy) e.preventDefault();
+      else if (o.onCancel) o.onCancel();
+    };
     form.addEventListener("submit", async e => {
       e.preventDefault();
       const v = read();
       const missing = (o.fields || []).filter(f => f.required && !(v[f.key] || "").trim() && (!f.show || f.show(v)));
       const err = form.querySelector("#dlg-err");
       if (missing.length) { err.textContent = "Needed: " + missing.map(f => f.label).join(", "); err.hidden = false; return; }
-      const ok = form.querySelector("#dlg-ok");
-      ok.disabled = true;
+      const ok = form.querySelector("#dlg-ok"), label = ok.textContent;
+      const idle = () => { busy = false; ok.disabled = false; ok.textContent = label; if (cancel) cancel.disabled = false; };
+      busy = true; ok.disabled = true; ok.textContent = "Working…"; if (cancel) cancel.disabled = true;
       try {
         const r = o.onSubmit ? await o.onSubmit(v) : true;
-        if (r === false) { ok.disabled = false; return; }
+        if (r === false) { idle(); return; }
+        busy = false;
         if (dlg.querySelector("form") === form) close();
       } catch (ex) {
-        err.textContent = ex.message; err.hidden = false; ok.disabled = false;
+        err.textContent = ex.message; err.hidden = false; idle();
       }
     });
     refresh();
     if (!dlg.open) dlg.showModal();
     const first = form.querySelector("input:not([type=hidden]):not([type=radio]):not([type=checkbox]), select, textarea");
-    if (first) first.focus();
+    (o.defaultOk ? form.querySelector("#dlg-ok") : first || form.querySelector("#dlg-ok")).focus();
   }
   // "Look up" under the iNaturalist/GBIF fields of the Add form: read the named taxon from
   // that service (both allow browser requests) and fill the name, rank, authorship and
@@ -1681,6 +1712,22 @@
       } catch (ex) { msg.textContent = ex.message; }
     });
   }
+  // Enter in a picker chooses the first match (instead of submitting an empty choice);
+  // the arrow keys walk the matches.
+  function pickKeys(input, hidden, picks) {
+    input.addEventListener("keydown", e => {
+      const first = picks.querySelector("button");
+      if (e.key === "Enter" && !hidden.value && first) { e.preventDefault(); first.click(); }
+      else if (e.key === "ArrowDown" && first) { e.preventDefault(); first.focus(); }
+    });
+    picks.addEventListener("keydown", e => {
+      const b = e.target.closest("button");
+      if (!b || (e.key !== "ArrowDown" && e.key !== "ArrowUp")) return;
+      e.preventDefault();
+      const n = e.key === "ArrowDown" ? b.nextElementSibling : b.previousElementSibling;
+      if (n && n.tagName === "BUTTON") n.focus(); else if (e.key === "ArrowUp") input.focus();
+    });
+  }
   function wirePicker(form, f) {
     const box = form.querySelector(`.field[data-key="${f.key}"]`);
     const input = box.querySelector(".picker"), hidden = box.querySelector("input[type=hidden]"), picks = box.querySelector(".picks");
@@ -1700,6 +1747,7 @@
         '<p class="muted">No match.</p>';
     };
     input.addEventListener("input", () => { hidden.value = ""; show(); });
+    pickKeys(input, hidden, picks);
     picks.addEventListener("click", e => {
       const b = e.target.closest("button[data-id]");
       if (!b) return;

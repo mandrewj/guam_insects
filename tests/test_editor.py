@@ -827,3 +827,37 @@ def test_a_gbif_taxon_page_is_kept_beside_the_species_key(page, world):
     assert f"{new},gbif_taxon,THDPS" in links and f"{new},col,THDPS" in links
     assert "1045843" in both["files"]["dataset/taxa.csv"]            # the species key stays
     assert both["checks"] == []
+
+
+def test_pasted_text_is_cleaned_before_it_reaches_a_table(page, world):
+    """Line breaks, tabs, invisible characters and odd spaces never reach a CSV cell."""
+    texts = texts_of(world)
+    hostile = "giant\r\nrhino​\tbeetle  ­x\x00"
+    out = run(page, texts, [{"type": "set", "id": "ORGIG", "column": "vernacularName", "value": hostile}])
+    assert out["errors"] == [None] and out["checks"] == []
+    assert out["rows"]["ORGIG"]["vernacularName"] == "giant rhino beetle x"
+    assert not any(c in out["files"]["dataset/taxa.csv"] for c in "​­\x00\t")
+
+
+def test_list_cells_use_the_tables_separator(page, world):
+    texts = texts_of(world)
+    out = run(page, texts, [{"type": "set", "id": "ORGIG", "column": "other_common_names", "value": "a|b |  c|| a"}])
+    assert out["errors"] == [None]
+    assert "a | b | c" in out["files"]["dataset/taxa.csv"] and out["checks"] == []
+
+
+def test_a_name_with_authorship_or_markup_is_refused(page, world):
+    texts = texts_of(world)
+    for bad in ("Oryctes boas (Fabricius, 1775)", "Oryctes <b>x</b>", "​"):
+        out = run(page, texts, [{"type": "add", "parent": "ORYCT", "rank": "Species", "name": bad}])
+        assert out["errors"][0], bad
+
+
+def test_pipes_in_tag_sources_and_link_labels_are_defused(page, world):
+    texts = texts_of(world)
+    out = run(page, texts, [
+        {"type": "tag", "id": "ORGIG", "place": "Rota", "status": "present", "source": "Buden | 2004"},
+        {"type": "link", "id": "ORRHI", "url": "https://example.org/a|b", "label": "fact | sheet"}])
+    assert out["errors"] == [None, None] and out["checks"] == []
+    files = out["files"]
+    assert "Buden / 2004" in files["dataset/distribution.csv"] and "a%7Cb" in files["dataset/links.csv"]

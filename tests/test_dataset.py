@@ -86,3 +86,12 @@ def test_a_note_must_not_copy_the_document(small):
 def test_readme_lists_every_table():
     text = schema.readme()
     assert all(f"`{t.file}`" in text for t in schema.TABLES)
+
+
+def test_check_flags_invisible_characters_and_control_characters(world):
+    from guaminsects import dataset
+    ds = dataset.load(world)
+    ds["taxa"][0]["common_name"] = "bad​name"
+    ds["taxa"][1]["note"] = "tab\there"
+    msgs = " ".join(dataset.check(ds).items)
+    assert "invisible character" in msgs and msgs.count("line break") >= 2

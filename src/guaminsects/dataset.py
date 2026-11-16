@@ -157,6 +157,10 @@ def write(ds: Dataset, root: Path | None = None) -> dict[str, bool]:
 
 # --- checking ------------------------------------------------------------------------------
 
+# control characters and invisible ones (zero-width space, soft hyphen, BOM, line/paragraph separators)
+BAD_CHARS = re.compile("[\x00-\x1f\x7f-\x9f\u00ad\u200b-\u200f\u2028\u2029\u2060\ufeff]")
+
+
 def words(text: str) -> list[str]:
     return re.findall(r"[a-z0-9]+", text.lower())
 
@@ -186,8 +190,8 @@ def check(ds: Dataset, text_of=None) -> Problems:
             where = f"{t.file}:{i}"
             for c in t.cols:
                 v = r.get(c.name, "")
-                if v != v.strip() or "\n" in v:
-                    p.add(f"{where}: {c.name} has stray whitespace or a newline")
+                if v != v.strip() or BAD_CHARS.search(v):
+                    p.add(f"{where}: {c.name} has stray whitespace, a line break or an invisible character")
                 if not v:
                     if c.required:
                         p.add(f"{where}: {c.name} is required")

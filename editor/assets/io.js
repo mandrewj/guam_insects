@@ -177,7 +177,7 @@
     for (const [path, text] of Object.entries(files)) {
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8" }));
-      a.download = path.replace("/", "_");
+      a.download = path.split("/").pop();
       document.body.appendChild(a);
       a.click();
       setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
