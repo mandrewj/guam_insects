@@ -580,7 +580,7 @@
     // The toolbar reads left to right as: what you do most (confirm), what you add (source,
     // fields, nativity), the structural tools in one menu, and the destructive ones apart on the right.
     const confirmed = r.verificationStatus === M.CONFIRMED;
-    html += '<div class="toolbar" role="toolbar" aria-label="Actions for this taxon">' +
+    html += '<div class="toolbar" role="toolbar" aria-label="Actions for this taxon"><div class="tb-row">' +
       (confirmed ? '<button type="button" data-act="unverify">Remove confirmation</button>'
         : '<button type="button" class="primary" data-act="verify" title="Confirms at once with the last source; Shift-click to give a source (shortcut: c)">Confirm <kbd>c</kbd></button>') +
       (r.nativity !== "unknown" && r.nativity_review === "machine" ? '<button type="button" class="primary" data-act="confirmNativity" title="Keep the nativity a tool set, as confirmed by you">Confirm nativity</button>' : "") +
@@ -589,19 +589,18 @@
       '<button type="button" data-act="cite">Cite a source…</button>' +
       '<button type="button" data-act="nativity">Nativity…</button>' +
       '<button type="button" data-act="edit">Edit fields…</button>' +
-      '<details class="menu"><summary>Taxonomy ▾</summary><div class="pop">' +
-        '<button type="button" data-act="add">Add a taxon under it…</button>' +
-        '<button type="button" data-act="addName">Add another name for it…</button>' +
-        '<button type="button" data-act="move">Move to another parent…</button>' +
-        '<button type="button" data-act="synonymize">Make it a synonym of…</button>' +
-      "</div></details>" +
+      '</div><div class="tb-row tb-tax"><span class="tb-label">Taxonomy</span>' +
+      '<button type="button" data-act="add">Add a taxon under it…</button>' +
+      '<button type="button" data-act="addName">Add another name…</button>' +
+      '<button type="button" data-act="move">Move…</button>' +
+      '<button type="button" data-act="synonymize">Make a synonym of…</button>' +
       '<span class="spacer"></span>' +
       '<details class="menu danger"><summary>Remove ▾</summary><div class="pop">' +
       (r.hidden === "1" ? '<button type="button" data-act="unhide">Show again</button>'
         : '<button type="button" data-act="hide">Hide from the site…</button>') +
       '<button type="button" data-act="exclude">Exclude (tools must not re-add it)…</button>' +
       '<button type="button" data-act="delete" title="For names that were errors in the first place; a tool may add it again if a source has it">Delete from the database…</button>' +
-      "</div></details></div>";
+      "</div></details></div></div>";
     if (r.excludedReason) html += `<div class="notice">Excluded: ${esc(r.excludedReason)}. <a href="#" data-restore="${esc(r.scientificName)}">Restore</a></div>`;
     html += facts(r);
 
@@ -655,7 +654,7 @@
             (l.status ? " · " + esc(l.status) + (l.status_area ? " in " + esc(l.status_area) : "") : "") +
             (l.first_record_year ? " · first record " + esc(l.first_record_year) : "") + "</span> " +
             (machine ? '<span class="badge warn">machine-read</span>' + reviewButtons("literature", { doc: l.doc_id, kind: l.kind })
-              : `<span class="badge ok">checked${l.reviewed_by ? " by " + esc(l.reviewed_by) : ""}</span>`) + "</li>";
+              : `<span class="badge ok">checked${l.reviewed_by ? " by " + esc(l.reviewed_by) : ""}</span>` + removeRow("literature", { doc: l.doc_id, kind: l.kind })) + "</li>";
         }).join("") + "</ul>";
     } else if (!tags.length) html += '<p class="muted">No island records from editors or the literature yet.</p>';
     html += '<form class="inline" data-form="tag"><select name="place" aria-label="Place">' + placeOptions("Guam") + "</select>" +
@@ -703,6 +702,11 @@
   }
 
   // What the literature tool wrote for this taxon, each row to confirm or reject.
+  // A row an editor has already checked can still be wrong: remove it (Undo is in the toast and Changes).
+  function removeRow(table, attrs) {
+    const a = Object.entries(attrs).map(([k, v]) => `data-${k}="${esc(v)}"`).join(" ");
+    return ` <button type="button" class="x" data-act="reject" data-table="${table}" ${a} title="Remove this record" aria-label="Remove this record">×</button>`;
+  }
   function reviewButtons(table, attrs) {
     const a = Object.entries(attrs).map(([k, v]) => `data-${k}="${esc(v)}"`).join(" ");
     return ` <button type="button" data-act="review" data-table="${table}" ${a}>Confirm</button>` +
@@ -717,13 +721,13 @@
       html += '<section class="sec"><h2>Notes <span class="muted">paraphrased, shown on the site</span></h2><ul class="plain small">' + notes.map(n =>
         `<li>${esc(n.note)} <span class="muted">${esc(n.topic)} · ${esc(doc(n.doc_id).citation || n.doc_id)}${n.pages ? ", p. " + esc(n.pages) : ""} · ${esc(n.written_by)}</span> ` +
         (n.review === "machine" ? '<span class="badge warn">machine-written</span>' + reviewButtons("notes", { doc: n.doc_id, topic: n.topic })
-          : '<span class="badge ok">checked</span>') + "</li>").join("") + "</ul></section>";
+          : '<span class="badge ok">checked</span>' + removeRow("notes", { doc: n.doc_id, topic: n.topic })) + "</li>").join("") + "</ul></section>";
     }
     const hosts = st.mine("hosts", id);
     if (hosts.length) {
       html += '<section class="sec"><h2>Host plants</h2><ul class="plain small">' + hosts.map(h =>
         `<li>${esc(h.host)} <span class="muted">${esc(doc(h.doc_id).citation || h.doc_id || "")}</span>` +
-        (h.review === "machine" ? ' <span class="badge warn">machine-read</span>' + reviewButtons("hosts", { doc: h.doc_id, host: h.host }) : "") + "</li>").join("") + "</ul></section>";
+        (h.review === "machine" ? ' <span class="badge warn">machine-read</span>' + reviewButtons("hosts", { doc: h.doc_id, host: h.host }) : removeRow("hosts", { doc: h.doc_id, host: h.host })) + "</li>").join("") + "</ul></section>";
     }
     return html;
   }
@@ -857,12 +861,12 @@
       const below = S.ranks.filter(k => M.rankIndex(k) > M.rankIndex(r.taxonRank));
       const def = { Order: "Family", Family: "Genus", Genus: "Species", Species: "Subspecies" }[r.taxonRank] || below[0];
       return openForm({ title: "Add a taxon under " + r.scientificName,
-        intro: "A taxon no source has: a morphospecies (e.g. <i>Oryctes</i> sp. GU-1), a genus, a species. It gets an IOG- id.",
+        intro: "A taxon no source has: a species, a genus, or (choose Status) a morphospecies such as <i>Oryctes</i> sp. GU-1. It gets an IOG- id and is added as accepted.",
         fields: [{ key: "rank", label: "Rank", type: "select", options: below, value: def },
-                 { key: "name", label: "Scientific name", required: true, placeholder: r.taxonRank === "Genus" ? r.scientificName + " sp. GU-1" : "" },
+                 { key: "name", label: "Scientific name", required: true, placeholder: r.taxonRank === "Genus" ? r.scientificName + " epithet" : "" },
                  { key: "authorship", label: "Authorship", placeholder: "Linnaeus, 1758" },
                  { key: "status", label: "Status", type: "select", options: ["accepted", "morphospecies", "doubtful"],
-                   value: r.taxonRank === "Genus" ? "morphospecies" : "accepted" },
+                   value: "accepted" },
                  { key: "common", label: "Common name (English)" },
                  { key: "inat", label: "iNaturalist taxon (page URL or number)", placeholder: "https://www.inaturalist.org/taxa/47158",
                    help: "Optional. Links this taxon to that iNaturalist taxon (photos and counts come from it)." },

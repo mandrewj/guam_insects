@@ -247,3 +247,11 @@ table.prog tr.tot td { border-bottom: 2px solid var(--line); }
 .isl { display: flex; gap: 6px; align-items: center; font-size: 0.88rem; padding: 1px 0; }
 .isl[hidden] { display: none; }
 .isl-count { margin: 4px 0 0; }
+
+/* two toolbar rows: your own work on the taxon, then the taxonomy tools in a tinted row */
+.toolbar { display: block; }
+.toolbar .tb-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.toolbar .tb-row + .tb-row { margin-top: 6px; }
+.tb-tax { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line)); border-radius: 9px; padding: 5px 8px; }
+.tb-tax .tb-label { font-size: 0.7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-right: 2px; }
+.tb-tax > button { background: var(--surface); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); color: var(--accent); }

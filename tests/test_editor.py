@@ -923,3 +923,13 @@ def test_the_island_overlay_ticks_islands_and_adds_them_in_one_go(browser, world
     assert pg.evaluate("window.IOGApp.ops[0].places.join()") == "Saipan,Tinian"
     assert not errors, errors
     pg.close()
+
+
+def test_an_already_checked_literature_row_can_be_removed(page, world):
+    texts = texts_of(world)
+    ops = [{"type": "review", "id": "ORGIG", "table": "literature", "doc": "d1", "kind": "account"},
+           {"type": "reject", "id": "ORGIG", "table": "literature", "doc": "d1", "kind": "account"}]
+    out = run(page, texts, ops)
+    assert out["errors"] == [None, None] and out["checks"] == []
+    after = run(page, texts, ops[:1])["files"]["dataset/literature.csv"]
+    assert after != out["files"]["dataset/literature.csv"]          # the removal changed the file
