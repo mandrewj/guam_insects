@@ -730,3 +730,19 @@ h1[tabindex="-1"]:focus { outline: none; }
 .cite-text { white-space: pre-wrap; word-break: break-word; font: 0.82rem/1.45 ui-monospace, Menlo, monospace; background: var(--surface);
   border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 8px 0; }
 .report { margin: 12px 0 0; font-size: 0.9rem; }
+
+/* Terminal taxa (nothing beneath them): the records and the literature get the wide column. */
+.presence-box.wide { padding: 14px 16px; }
+.presence-box.wide h3 { font-size: 0.85rem; }
+.pb-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.presence-box.wide table.presence { font-size: 1rem; }
+.presence-box.wide table.presence th, .presence-box.wide table.presence td { padding: 6px 6px; }
+.lt-scroll { overflow-x: auto; }
+table.lit-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+table.lit-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border-bottom: 2px solid var(--line); padding: 4px 8px; }
+table.lit-table td { vertical-align: top; padding: 8px; border-bottom: 1px solid var(--line); }
+table.lit-table tbody tr:nth-child(even) { background: color-mix(in srgb, var(--accent) 4%, transparent); }
+.lt-cite { min-width: 220px; } .lt-cite cite { font-style: normal; } .lt-cite div { margin-top: 3px; }
+.lt-isles { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+.lit-wide h2 .count { font: 600 0.8rem var(--sans, inherit); color: var(--muted); }
+@media (max-width: 860px) { .pb-grid { grid-template-columns: minmax(0, 1fr); } .lt-cite { min-width: 160px; } }

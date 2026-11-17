@@ -151,7 +151,7 @@ def check(page, url: str) -> dict[str, bool]:
     page.evaluate("document.querySelector(\"a.jump[data-target='s-literature']\").click()")
     page.wait_for_timeout(300)
     r["jump keeps route"] = page.url.endswith(f"#/t/{SPECIES}")
-    r["literature listed"] = page.locator("#s-literature li").count() > 0
+    r["literature listed"] = page.locator("#s-literature li, #s-literature tbody tr").count() > 0
     r["wikipedia open by default"] = page.locator(".wiki-body[open]").count() == 1
     r["world map drawn"] = page.locator(".world-map path.land[d]").count() == 1
     r["nativity badge"] = page.locator(

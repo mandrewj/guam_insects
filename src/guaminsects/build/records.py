@@ -253,6 +253,10 @@ def build_records(ds: Dataset, thumbs: Path = THUMBS) -> dict[int, dict]:
                 "areas": [a for a in config.AREA_CODES if a in areas],
                 "url": d["url"] or None, "doi": None, "source": "pdf",
                 "pages": pages[:12], "treated": "account" in kinds, "year": d["year"],
+                "islands": sorted({i for r in rows for i in split(r["islands"])}),
+                "printed": sorted({r["name_printed"] for r in rows if r["name_printed"]})[:3],
+                "stated": sorted({r["status"] for r in rows if r["status"] and r["status"] != "unknown"}),
+                "first": min((y for y in (_int(r["first_record_year"]) for r in rows) if y), default=None),
                 "machine_read": not any(r["review"] == "editor" for r in rows),
                 "kind": d["kind"], "_sort": (d["file"], pages[0] if pages else 0, "")})
     for entries in lit.values():

@@ -360,10 +360,13 @@
     if (!isHome) html.push(header(r));
     // Two columns: the photo, at-a-glance, island records and classification stay put on the
     // left while the reading column scrolls.
-    html.push('<div class="layout"><aside class="side">');
+    // A taxon with nothing under it is where the reader arrives, not where they pass through:
+    // its records and literature get the wide column and the photo and classification stay left.
+    var leaf = !isHome && !(r.children || []).length;
+    html.push('<div class="layout' + (leaf ? " leaf" : "") + '"><aside class="side">');
     if (!isHome) html.push(gallery(r));
     html.push(facts(r));
-    html.push(presenceBox(r));
+    if (!leaf) html.push(presenceBox(r));
     html.push(worldBox(r, true));
     html.push(iucnBox(r));
     if (!isHome) html.push(classification(r));
@@ -371,6 +374,7 @@
     html.push(downloadBox(r, isHome));
     html.push('</aside><div class="main">');
     if (!isHome) html.push(pageNav(r));
+    if (leaf) html.push(presenceBox(r, true));
     html.push(worldBox(r, false));
     if (!isHome) html.push(curatedNote(r));
     if (!isHome) html.push(groupStrip(r));
@@ -378,7 +382,7 @@
     html.push(checklist(r));
     html.push(sections(r));
     html.push(hostCrops(r));
-    html.push(literature(r));
+    html.push(leaf ? literatureTable(r) : literature(r));
     html.push(otherNames(r));
     html.push(evidence(r));
     html.push(wikipedia(r));
@@ -523,6 +527,7 @@
 
   function pageNav(r) {
     var items = [];
+    if (!r.children.length) items.push(["s-recorded", "Recorded from"]);
     if (r.rank === "Species" || r.rank === "Subspecies") items.push(["s-worldmap", "World map"]);
     if (r.children.length) items.push(["s-children", "Included taxa"]);
     if (r.checklist && r.checklist.length) items.push(["s-checklist", "Checklist"]);
@@ -1066,6 +1071,42 @@
       "misreading.</p></section>";
   }
 
+  // Terminal taxa: every document that records it, with what each says, as a table.
+  function literatureTable(r) {
+    if (!r.literature.length) return "";
+    var dot = function (a) {
+      return '<span class="isle r-' + esc(a.toLowerCase()) + '" title="' + esc(regionTip(a)) + '">' + esc(regionLabel(a.toLowerCase())) + "</span>";
+    };
+    var rows = r.literature.map(function (w) {
+      var pdf = w.source === "pdf";
+      var pages = pdf && w.pages && w.pages.length ? (w.pages.length > 1 ? "pp. " : "p. ") + w.pages.join(", ") : "";
+      var printed = (w.printed || []).filter(function (n) { return n !== r.name; });
+      var says = [];
+      if (w.stated && w.stated.length) says.push(w.stated.map(function (x) { return (STATUS[x] || [x])[0].toLowerCase(); }).join(", "));
+      if (w.first) says.push("first record " + w.first);
+      if (printed.length) says.push("printed as <i>" + printed.map(esc).join("</i>, <i>") + "</i>");
+      var badges = pdf ? (w.treated ? '<span class="badge" title="The document has a section on this taxon">Treated</span> ' :
+          '<span class="badge muted" title="The document mentions it without a section of its own">Mention</span> ') +
+        (w.machine_read ? '<span class="badge machine" title="Found by the name finder in the PDF text; no person has checked it yet">Machine-read</span>' : "")
+        : '<span class="badge muted">Checklist</span>';
+      var link = w.url ? ext(w.url, pdf ? "publisher's copy" : (w.source === "croppests" ? "the list online" : "checklist on GBIF")) : "";
+      if (w.doi) link += (link ? " · " : "") + ext("https://doi.org/" + w.doi, "doi:" + esc(w.doi));
+      return "<tr><td class=\"lt-cite\"><cite>" + esc(w.citation || w.title) + "</cite><div>" + badges + "</div></td>" +
+        "<td>" + esc(pages) + "</td>" +
+        "<td>" + (w.areas.length ? w.areas.map(dot).join("") : '<span class="muted">–</span>') +
+        (w.islands && w.islands.length ? '<div class="lt-isles">' + w.islands.map(esc).join(", ") + "</div>" : "") + "</td>" +
+        "<td>" + (says.length ? says.join("<br>") : '<span class="muted">–</span>') + "</td>" +
+        '<td class="ref-links">' + link + "</td></tr>";
+    }).join("");
+    return '<section class="refs lit-wide" id="s-literature"><h2>Literature <span class="count">' + r.literature.length + "</span></h2>" +
+      '<div class="lt-scroll"><table class="lit-table"><thead><tr><th>Document</th><th>Pages</th><th>Recorded from</th><th>What it says</th><th>Link</th></tr></thead><tbody>' +
+      rows + "</tbody></table></div>" +
+      '<p class="section-note">Digitized checklists come from ' + ext("https://plazi.org/", "Plazi") +
+      " (via GBIF, CC0) and the crop pest list. <em>Machine-read</em> rows were found by a name finder in the text of the " +
+      "papers and monographs listed; island groups and islands are those the document names in its account of the taxon. " +
+      "No person has checked them yet, so a mention can be a comparison or a misreading.</p></section>";
+  }
+
   // Other names shown as this taxon: COL synonyms, spelling variants, entries merged by hand.
   function otherNames(r) {
     if (!r.names || !r.names.length) return "";
@@ -1247,7 +1288,7 @@
   // column because the counts overlap (research-grade iNat observations flow into GBIF).
   var ED_MARK = { present: '<span title="present">✓</span>', doubtful: '<span title="doubtful">?</span>',
                   absent: '<span title="absent">✗</span>' };
-  function presenceBox(r) {
+  function presenceBox(r, wide) {
     var rows = r.presence || [];
     var higher = r.rank !== "Species" && r.rank !== "Subspecies";
     var tags = r.distribution || [];
@@ -1294,10 +1335,11 @@
       return '<span class="r-' + esc(x.area.toLowerCase()) + '"><b title="' + esc(regionTip(x.area)) + '">' + esc(x.label) +
         "</b> " + esc(x.islands.join(", ")) + "</span>";
     }).join("; ") + "</p>" : "";
-    return '<div class="box presence-box"><h3>Recorded from</h3>' +
-      islandMap((r.regions || []), [].concat.apply([], (r.islands || []).map(function (x) { return x.islands; }))) +
-      (rows.length ? '<table class="presence">' + head + body + "</table>" : "") + named +
-      (notes ? '<p class="dist-head">Editors\' distribution tags</p>' + notes : "") +
+    var map = islandMap((r.regions || []), [].concat.apply([], (r.islands || []).map(function (x) { return x.islands; })), false, wide);
+    var tbl = (rows.length ? '<table class="presence">' + head + body + "</table>" : "") + named +
+      (notes ? '<p class="dist-head">Editors\' distribution tags</p>' + notes : "");
+    return '<div class="box presence-box' + (wide ? " wide" : "") + '" id="s-recorded"><h3>Recorded from</h3>' +
+      (wide ? '<div class="pb-grid"><div class="pb-map">' + map + '</div><div class="pb-table">' + tbl + "</div></div>" : map + tbl) +
       '<p class="cs-src">Record counts per source, sources often overlap. ' +
       (machine.length ? "* includes literature records read by machine from the PDF library, not yet checked. " : "") +
       "Map positions are approximate.</p></div>";
